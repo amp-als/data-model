@@ -1,0 +1,73 @@
+name: main-ci
+
+on:
+
+  pull_request:   # default types: opened, synchronize, reopened
+    branches: [main]
+    paths:
+      - 'modules/**'
+      - '.github/workflows/main-ci.yml'
+  
+  workflow_dispatch:
+
+env:
+  SCHEMATIC_VERSION: 24.7.2 # please update .devcontainer as well until this can be set globally somewhere...
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+          fetch-depth: 0 # otherwise, there would be errors pushing refs to the destination repository
+
+      - name: Get skip flags
+        id: check_skip_flags
+        run: echo "HEAD_COMMIT_MESSAGE=$(git show -s --format=%s)" >> "$GITHUB_OUTPUT"
+      
+      - name: Setup custom build tools and make jsonld 
+        shell: bash
+        run: |
+          bash < <(curl -s https://raw.githubusercontent.com/babashka/babashka/master/install)
+          git clone --depth 1 https://github.com/anngvu/retold.git
+          pip install linkml==v1.8.1
+          npm install -g json-dereference-cli
+          make -B
+  
+      - name: Install tools and generate other artifacts/formats
+        run: |
+          make Dataset
+      
+      # Set up supported python.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.12' 
+      
+      - name: Setup schematic and do another convert pass
+        id: schematic-convert
+        run: |
+          pip install schematicpy==${{ env.SCHEMATIC_VERSION }}
+          pip show schematicpy
+          schematic schema convert ALS.jsonld
+    
+      - name: Commit files if there are changes
+        run: |
+          if [[ $(git diff --exit-code) ]]; then 
+            echo "Changes in src modules affect jsonld or json artifacts and will be committed"
+            git config --local user.email "nf-osi@sagebionetworks.org"
+            git config --local user.name "Github Actions[bot]"
+            git add .
+            git commit -m "Rebuild NF.jsonld, json"
+          else 
+            echo "Changes in src modules did not affect final jsonld or json artifacts"
+            echo "Note that tests will still be run in the next job"
+          fi
+    
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+         github_token: ${{ secrets.GITHUB_TOKEN }}
+         branch: ${{ github.event.pull_request.head.ref }}
