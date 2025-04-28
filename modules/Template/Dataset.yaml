@@ -2,26 +2,6 @@
 # Portal Dataset
 #######################################
 
-enum:
-  CollectionEnum:
-    description: Original collection, e.g. the consortium, that the dataset comes from.
-    permissible_values:
-      Answer ALS:
-      CReATe Consortium:
-      Genomic Translation for ALS Care (GTAC):
-      New York Genome Center ALS Consortium:
-      National Institutes of Health:
-      Project MinE:
-  SourceNode:
-    description: Source nodes within the federated network.
-    permissible_values:
-      ALS Compute:
-        description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
-      Target ALS:
-        description: targetals.org
-      Synapse:
-        description: synapse.org
-
 classes:
   Dataset:
     description: Model for dataset on the AMP-ALS portal
