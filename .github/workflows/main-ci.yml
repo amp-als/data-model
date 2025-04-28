@@ -63,7 +63,7 @@ jobs:
             git config --global user.name "github-actions[bot]"
             git config --global user.email "github-actions@users.noreply.github.com"
             git add .
-            git commit -m "Rebuild NF.jsonld, json"
+            git commit -m "Rebuild model artifacts"
           else 
             echo "Changes in src modules did not affect final jsonld or json artifacts"
             echo "Note that tests will still be run in the next job"
