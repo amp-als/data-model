@@ -12,11 +12,15 @@ enum:
       New York Genome Center ALS Consortium:
       National Institutes of Health:
       Project MinE:
-  Node:
-    description: Platform nodes within the federated network.
+  SourceNode:
+    description: Source nodes within the federated network.
     permissible_values:
       ALS Compute:
+        description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
       Target ALS:
+        description: targetals.org
+      Synapse:
+        description: synapse.org
 
 classes:
   Dataset:
@@ -50,11 +54,11 @@ classes:
         description: Institution or person responsible for collecting and managing the files and records in the dataset.
         multivalued: true
         required: false
-      studyId:
-        title: Study ID
-        range: string
-        description: Identifier for the study (project) from which the dataset was derived.
-        required: true
+      # studyId:
+      #  title: Study ID
+      #  range: string
+      #  description: Identifier for the study (project) from which the dataset was derived.
+      #  required: true
       measurementTechnique:
         title: Measurement Technique
         range: AssayEnum
@@ -141,9 +145,8 @@ classes:
       #  range: DuoEnum
       #  multivalued: true
       #  required: false
-      conditionsOfAccess:
-        title: Conditions of access
-        description: Additional requirements a user may need outside of Data Use Modifiers. This could include additional registration, updating profile information, joining a Synapse Team, or using specific authentication methods like 2FA or RAS. Omit property if not applicable/unknown.
-        range: string
-        required: false
-
+      #conditionsOfAccess:
+      #  title: Conditions of access (Access requirements)
+      #  description: Requirements needed to access resource. This could include additional registration, updating profile information, joining a Synapse Team, or using specific authentication methods like 2FA or RAS. Omit property if not applicable/unknown.
+      #  range: string
+      #  required: false
