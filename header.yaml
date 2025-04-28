@@ -1,0 +1,23 @@
+id: https://w3id.org/amp-als/
+name: amp-als
+
+default_curi_maps:
+  - semweb_context
+prefixes:
+  als: https://w3id.org/synapse/amp-als/vocab/
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  skos: http://www.w3.org/2004/02/skos/core#
+  prov: http://www.w3.org/ns/prov#
+
+default_prefix: als
+default_range: string
+
+emit_prefixes:
+  - rdf
+  - rdfs
+  - xsd
+  - skos
+imports:
+  - linkml:types
