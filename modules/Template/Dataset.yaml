@@ -2,6 +2,22 @@
 # Portal Dataset
 #######################################
 
+enum:
+  CollectionEnum:
+    description: Original collection, e.g. the consortium, that the dataset comes from.
+    permissible_values:
+      Answer ALS:
+      CReATe Consortium:
+      Genomic Translation for ALS Care (GTAC):
+      New York Genome Center ALS Consortium:
+      National Institutes of Health:
+      Project Mine USA:
+  Node:
+    description: Platform nodes within the federated network.
+    permissible_values:
+      ALS Compute:
+      Target ALS:
+
 classes:
   Dataset:
     description: Model for dataset on the AMP-ALS portal
@@ -82,10 +98,10 @@ classes:
       #  range: integer
       #  description: Number of unique specimens included in the dataset. Omit if not applicable/unknown.
       #  required: false
-      series:
-        title: Data Series
-        range: DataSeriesEnum
-        description: Datasets may belong to a curated series. Should be assigned by staff only; omit property if not applicable/unknown.
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection
         required: false
       datePublished:
         title: Date Published
@@ -108,11 +124,11 @@ classes:
         description: Origin of individuals from which data were generated. Omit if not applicable/unknown.
         multivalued: true
         required: false
-      accessType:
-        title: Access Type
-        range: AccessTypeEnum
-        description: Access type for the dataset.
-        required: true
+      #accessType:
+      #  title: Access Type
+      #  range: AccessTypeEnum
+      #  description: Access type for the dataset.
+      #  required: true
       license:
         title: License
         range: License
@@ -129,3 +145,4 @@ classes:
         description: Additional requirements a user may need outside of Data Use Modifiers. This could include additional registration, updating profile information, joining a Synapse Team, or using specific authentication methods like 2FA or RAS. Omit property if not applicable/unknown.
         range: string
         required: false
+
