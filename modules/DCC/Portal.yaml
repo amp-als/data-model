@@ -1,12 +1,16 @@
 ### AMP-ALS portal-specific enums
 
 enums:
+  AccessTypeEnum:
+    description: (Draft) Labels for how the AMP-ALS federated network defines access
+    permissible_values:
+      Federated: Authenticate with passport to provide access.
   CollectionEnum:
     description: Original collection, e.g. the consortium that the dataset comes from.
     permissible_values:
       Answer ALS:
       CReATe Consortium:
-      "Genomic Translation for ALS Care (GTAC)":
+      'Genomic Translation for ALS Care (GTAC)':
       New York Genome Center ALS Consortium:
       National Institutes of Health:
       Project MinE:

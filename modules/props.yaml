@@ -162,7 +162,7 @@ slots:
     required: false
   diagnosis:
     description: Diagnosis for the individual given signs and symptoms. Use the most specific diagnosis term that applies.
-    range: DiagnosisEnum
+    range: string
     required: true
   documentation:
     description: URL to any documentation describing the resource and its use.
@@ -253,21 +253,6 @@ slots:
     description: Optional annotation describing where the specimen ID source derived
       from, e.g. the biobank providing samples or a providing lab.
     required: false
-  specimenPreparationMethod:
-    description: Term that represents preservation of the sample before usage in,
-      e.g. sequencing
-    range: SpecimenPreparationMethodEnum
-    required: true
-  specimenType:
-    any_of:
-      - range: Tissue
-      - range: OrganismSubstance
-    description: >
-      The type of a material sample taken from a biological entity for
-      testing, diagnostic, propagation, treatment or research purposes. This
-      includes particular types of cellular molecules, cells, tissues, organs,
-      body fluids, embryos, and body excretory substances.
-    required: false
   studyId:
     description: Id of study.
     in_subset:
@@ -285,12 +270,6 @@ slots:
     in_subset:
       - portal
     range: string
-    required: true
-  studyStatus:
-    description: Status of a study.
-    in_subset:
-      - portal
-    range: StudyStatusEnum
     required: true
   summary:
     description: A short description (an abstract).

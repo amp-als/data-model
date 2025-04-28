@@ -131,7 +131,7 @@ slots:
     required: false
   diagnosis:
     description: Diagnosis for the individual given signs and symptoms. Use the most specific diagnosis term that applies.
-    range: DiagnosisEnum
+    range: string
     required: true
   documentation:
     description: URL to any documentation describing the resource and its use.
@@ -195,18 +195,6 @@ slots:
   specimenIDSource:
     description: Optional annotation describing where the specimen ID source derived from, e.g. the biobank providing samples or a providing lab.
     required: false
-  specimenPreparationMethod:
-    description: Term that represents preservation of the sample before usage in, e.g. sequencing
-    range: SpecimenPreparationMethodEnum
-    required: true
-  specimenType:
-    any_of:
-      - range: Tissue
-      - range: OrganismSubstance
-    description: >
-      The type of a material sample taken from a biological entity for testing, diagnostic, propagation, treatment or research purposes. This includes particular types of cellular molecules, cells, tissues, organs, body fluids, embryos, and body excretory substances.
-
-    required: false
   studyId:
     description: Id of study.
     range: string
@@ -218,10 +206,6 @@ slots:
   studyName:
     description: Name of a study.
     range: string
-    required: true
-  studyStatus:
-    description: Status of a study.
-    range: StudyStatusEnum
     required: true
   summary:
     description: A short description (an abstract).
@@ -1372,6 +1356,97 @@ enums:
         source: https://pubmed.ncbi.nlm.nih.gov/29286982/
       ZetaView:
         source: https://particle-metrix.com/zetaview/
+  License:
+    description: License attached to the data. If indicates UNKNOWN or RESTRICTED-USE, data may not be used without further contact for terms.
+    notes:
+      - https://libanswers.ucalgary.ca/faq/200582
+      - https://resources.data.gov/open-licenses/
+      - https://the-turing-way.netlify.app/reproducible-research/licensing/licensing-data.html
+      - https://help.figshare.com/article/what-is-the-most-appropriate-licence-for-my-research
+    permissible_values:
+      UNKNOWN:
+        description: The license for the dataset is not known.
+      RESTRICTED-USE:
+        description: Contact the data creator regarding restricted usage of the data.
+      Public Domain:
+        description: Technically not a license, the public domain mark relinquishes all rights to a dataset and dedicates the dataset to the public domain.
+        source: https://creativecommons.org/public-domain/pdm/
+      CC-0:
+        title: Creative Commons Zero
+        description: A Creative Commons license and is like a public domain dedication. The copyright holder surrenders rights in a dataset using this license.
+        source: https://creativecommons.org/publicdomain/zero/1.0/
+      ODC-PDDL:
+        title: Open Data Commons Public Domain Dedication and License
+        description: >
+          This license is one of the Open Data Commons licenses and is like a public domain dedication. The copyright holder surrenders rights in a dataset using this license.
+
+        source: https://opendatacommons.org/licenses/pddl/
+      CC-BY:
+        title: Creative Commons Attribution 4.0 International
+        description: This license is one of the open Creative Commons licenses and allows users to share and adapt the dataset so long as they give credit to the copyright holder.
+        source: https://creativecommons.org/licenses/by/4.0/
+      ODC-BY:
+        title: Open Data Commons Attribution License
+        description: This license is one of the Open Data Commons licenses and allows users to share and adapt the dataset as long as they give credit to the copyright holder.
+        source: https://opendatacommons.org/licenses/by/
+      ODC-ODbL:
+        title: Open Data Commons Open Database License
+        description: >
+          This license is one of the Open Data Commons licenses and allows users to share and adapt the dataset as long as they give credit to the copyright holder and distribute any additions, transformation or changes to the dataset.
+
+        source: https://opendatacommons.org/licenses/odbl/
+      CC BY-SA:
+        title: Creative Commons Attribution-ShareAlike 4.0 International
+        description: >
+          This license is one of the open Creative Commons licenses and allows users to share and adapt the dataset as long as they give credit to the copyright holder and distribute any additions, transformations or changes to the dataset under this same https://creativecommons.org/licenses/by/4.0/
+
+        source: https://creativecommons.org/licenses/by-nc-sa/4.0/
+      CC BY-NC:
+        title: Creative Commons Attribution-NonCommercial 4.0 International
+        description: >
+          This license is one of the Creative Commons licenses and allows users to share and adapt the dataset if they give credit to the copyright holder and do not use the dataset for any commercial purposes.
+
+        source: https://creativecommons.org/licenses/by-nc/4.0/
+      CC BY-ND:
+        title: Creative Commons Attribution-NoDerivatives 4.0 International
+        description: >
+          This license is one of the Creative Commons licenses and allows users to share the dataset if they give credit to copyright holder, but they cannot make any additions, transformations or changes to the dataset under this license.
+
+        source: https://creativecommons.org/licenses/by-nd/4.0/
+      CC BY-NC-SA:
+        title: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International
+        description: >
+          This license is one of the Creative Commons licenses and allows users to share the dataset only if they (1) give credit to the copyright holder, (2) do not use the dataset for any commercial purposes, and (3) distribute any additions, transformations or changes to the dataset under this same license.
+
+        source: https://creativecommons.org/licenses/by-nc-sa/4.0/
+      CC BY-NC-ND:
+        title: Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International
+        description: >
+          This license is one of the Creative Commons licenses and allows users to use only your unmodified dataset if they give credit to the copyright holder and do not share it for commercial purposes. Users cannot make any additions, transformations or changes to the dataset under this license.
+
+        source: https://creativecommons.org/licenses/by-nc-nd/4.0/
+  AccessTypeEnum:
+    description: (Draft) Labels for how the AMP-ALS federated network defines access
+    permissible_values:
+      Federated: Authenticate with passport to provide access.
+  CollectionEnum:
+    description: Original collection, e.g. the consortium that the dataset comes from.
+    permissible_values:
+      Answer ALS:
+      CReATe Consortium:
+      'Genomic Translation for ALS Care (GTAC)':
+      New York Genome Center ALS Consortium:
+      National Institutes of Health:
+      Project MinE:
+  SourceNode:
+    description: Source nodes within the federated network.
+    permissible_values:
+      ALS Compute:
+        description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
+      Target ALS:
+        description: targetals.org
+      Synapse:
+        description: synapse.org
   Data:
     description: What the data (file) contains.
     permissible_values:
@@ -1535,25 +1610,398 @@ enums:
     permissible_values:
       Not Applicable:
         description: Not applicable in this context
-enum:
-  CollectionEnum:
-    description: Original collection, e.g. the consortium, that the dataset comes from.
+  FileFormatEnum:
     permissible_values:
-      Answer ALS:
-      CReATe Consortium:
-      Genomic Translation for ALS Care (GTAC):
-      New York Genome Center ALS Consortium:
-      National Institutes of Health:
-      Project MinE:
-  SourceNode:
-    description: Source nodes within the federated network.
+      7z:
+        description: A compressed archive file format that supports several different data compression, encryption and pre-processing filters.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C80224
+      DICOM:
+        description: A comprehensive set of standards for communications between medical imaging devices, including handling, storing and transmitting information in medical imaging. It includes a file format definition and a network communication protocol.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C49059
+      MATLAB data:
+        description: A MATLAB formatted data file with expected extension “.mat”.
+        source: https://synapse.org
+      MATLAB script:
+        description: A MATLAB script file with expected extension “.m”. Note that files with a “.mat” extension contains MATLAB formatted data.
+        source: https://synapse.org
+      NWB:
+        description: Neurodata Without Borders (NWB) is a data standard for neurophysiology data, designed to store data including from intracellular and extracellular electrophysiology experiments, data from optical physiology experiments, and tracking and stimulus data.
+        source: https://www.nwb.org/
+      PAR:
+        description: This is yet another MRI image format generated by Philips scanners. It is an ASCII header (PAR) plus a binary blob (REC).
+        source: https://nipy.org/nibabel/reference/nibabel.parrec.html
+      Python script:
+        description: Python script with expected extension “.py”.
+        source: https://synapse.org
+      R script:
+        description: R script with expected extension “.R”.
+        source: https://synapse.org
+      RCC:
+        description: Reporter Code Count-A data file (.csv) output by the Nanostring nCounter Digital Analyzer, which contains gene sample information, probe information and probe counts.
+        meaning: http://edamontology.org/format_3580
+      RData:
+        description: The RData format (usually with extension .rdata or .rda) is a format designed for use with R, a system for statistical computation and related graphics, for storing a complete R workspace or selected 'objects' from a workspace in a form that can be loaded back by R.
+        source: https://www.loc.gov/preservation/digital/formats/fdd/fdd000470.shtml
+      REC:
+        description: This is yet another MRI image format generated by Philips scanners. It is an ASCII header (PAR) plus a binary blob (REC).
+        source: https://nipy.org/nibabel/reference/nibabel.parrec.html
+      SDAT:
+        description: Phillips MRS Data File
+        source: https://github.com/chenkonturek/MRS_MRI_libs
+      SPAR:
+        description: Phillips MRS Header File
+        source: https://github.com/chenkonturek/MRS_MRI_libs
+      Sentrix descriptor file:
+        description: A BeadScan specific file needed to perform scan setting checks for different array formats and assay type.
+        source: https://support.illumina.com/content/dam/illumina-support/documents/myillumina/dd0aff11-2664-481b-a8ce-26831a907cae/beadscan_3.0_software_addendum.pdf
+      ab1:
+        description: TAB1 binary format of raw DNA sequence reads (output of Applied Biosystems' sequencing analysis software). Contains an electropherogram and the DNA base sequence.
+        meaning: http://edamontology.org/format_3000
+      abf:
+        description: The Axon Binary File format (ABF) was created for the storage of binary experimental data.
+        source: https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf
+      ai:
+        description: Adobe Illustrator format
+        meaning: http://www.ebi.ac.uk/swo/data/SWO_3000023
+      avi:
+        description: AVI files can contain both audio and video data in a file container that allows synchronous audio-with-video playback.
+        source: https://en.wikipedia.org/wiki/Audio_Video_Interleave
+      bai:
+        description: BAM indexing format
+        meaning: http://edamontology.org/format_3327
+      bam:
+        description: BAM format, the binary, BGZF-formatted compressed version of SAM format for alignment of nucleotide sequences (e.g. sequencing reads) to (a) reference sequence(s)
+        meaning: http://edamontology.org/format_2572
+      bash script:
+        description: Bash Shell Script
+        source: https://en.wikipedia.org/wiki/Shell_script
+      bcf:
+        description: BCF, the binary version of Variant Call Format (VCF) for sequence variation (indels, polymorphisms, structural variation)
+        meaning: http://edamontology.org/format_3016
+      bed:
+        description: Browser Extensible Data (BED) format of sequence annotation track, typically to be displayed in a genome browser
+        meaning: http://edamontology.org/format_3003
+      bed broadPeak:
+        description: This format is used to provide called regions of signal enrichment based on pooled, normalized (interpreted) data. It is a BED 6+3 format.
+        source: http://genome.ucsc.edu/FAQ/FAQformat.html#format13
+      bed gappedPeak:
+        description: This format is used to provide called regions of signal enrichment based on pooled, normalized (interpreted) data where the regions may be spliced or incorporate gaps in the genomic sequence. It is a BED12+3 format.
+        source: http://genome.ucsc.edu/FAQ/FAQformat.html#format14
+      bed narrowPeak:
+        description: This format is used to provide called peaks of signal enrichment based on pooled, normalized (interpreted) data. It is a BED6+4 format.
+        source: http://genome.ucsc.edu/FAQ/FAQformat.html#format12
+      bedgraph:
+        description: Holds a tab-delimited chromosome /start /end / datavalue dataset. The bedGraph format allows display of continuous-valued data in track format. This display type is useful for probability scores and transcriptome data
+        meaning: http://edamontology.org/format_3583
+      bgzip:
+        description: Blocked GNU Zip format
+        meaning: http://edamontology.org/format_3615
+      bigwig:
+        description: bigWig format for large sequence annotation tracks that consist of a value for each sequence position
+        meaning: http://edamontology.org/format_3006
+      bmp:
+        description: Bitmap image format.
+        meaning: http://edamontology.org/format_3592
+      bpm:
+        description: A beaded pool manifest. Describe the SNP or probe content on a BeadChip or in an assay pool.
+        source: https://support.illumina.com/datafiles.html
+      cel:
+        description: Format of Affymetrix data file of information about (raw) expression levels of the individual probes
+        meaning: http://edamontology.org/format_1638
+      chp:
+        description: CHP file contains probe set analysis results generated from Affymetrix software
+      cnn:
+        description: Copy number reference profile from CNVKit pipeline.
+        source: https://cnvkit.readthedocs.io/en/stable/fileformats.html
+      cnr:
+        description: Copy number ratios from CNVKit pipeline, storing each bin's proportional weight or reliability.
+        source: https://cnvkit.readthedocs.io/en/stable/fileformats.html
+      cns:
+        description: Segmented log2 ratios from CNVKit pipeline, these represent the most relevant output describing copy number variation.
+        source: https://cnvkit.readthedocs.io/en/stable/fileformats.html
+      cram:
+        description: A CRAM file is a compressed format for storing genomic sequence data.
+        notes:
+          - ChatGPT (September 25, 2023 Version)
+      crai:
+        description: A CRAI file is an index for a CRAM file, facilitating fast data retrieval.
+        notes:
+          - ChatGPT (September 25, 2023 Version)
+      csi:
+        description: A CSI file is a compressed sequence index used for efficiently accessing genomic data in large datasets.
+        notes:
+          - ChatGPT (September 25, 2023 Version)
+      csv:
+        description: Tabular data represented as comma-separated values in a text file
+        meaning: http://edamontology.org/format_3752
+      ctab:
+        description: Gene expression counts file and a specific format of .tsv commonly part of bioinformatics workflows (Stringtie and Ballgown).
+        source: https://github.com/alyssafrazee/ballgown#ballgown-readable-expression-output
+      czi:
+        description: microscopy imaging file format that saves multidimensional images such as time lapse, Z-stacks, multiposition experiments and virtual slides, combined with relevant meta information
+        source: https://www.zeiss.com/microscopy/int/products/microscope-software/zen/czi.html
+      dat:
+        description: Format of Affymetrix data file of raw image data.
+        meaning: http://edamontology.org/format_1637
+      dna:
+        description: Propietary SnapGene file format.
+        source: https://www.snapgene.com/guides/convert-genbank-files
+      doc:
+        description: Microsoft Word document format
+      docker image:
+        description: >
+          A Docker image is a file, comprised of multiple layers, that is used to execute code in a Docker container.  An image is essentially built from the instructions for a complete and executable version of an application, which relies on the host OS kernel
+
+        meaning: http://edamontology.org/format_3973
+      dup:
+        description: output of the Picard MarkDuplicates tool.
+        source: https://software.broadinstitute.org/gatk/documentation/tooldocs/4.0.4.0/picard_sam_markduplicates_MarkDuplicates.php
+      edat3:
+        description: The .edat3 proprietary format is used to store experiment data that can be analyzed in E-DataAid.
+        source: https://support.pstnet.com/hc/en-us/articles/229354727-INFO-E-Prime-file-extensions-18091
+      excel:
+        description: Microsoft Excel spreadsheet format
+      fasta:
+        description: FASTA format is a text-based format for representing either nucleotide sequences or peptide sequences, in which nucleotides or amino acids are represented using single-letter codes
+        meaning: https://en.wikipedia.org/wiki/FASTA_format
+      fastq:
+        description: FASTQ format is a text-based format for storing both a biological sequence (usually nucleotide sequence) and its corresponding quality scores. Both the sequence letter and quality score are each encoded with a single ASCII character for brevity
+        meaning: https://en.wikipedia.org/wiki/FASTQ_format
+      fcs:
+        description: Format standard of a digital entity that is conformant with the Flow Cytometry Data File Standard
+        meaning: http://purl.obolibrary.org/obo/OBI_0000327
+      fig:
+        description: Line drawing saved in the Xfig format; stored as a vector image that may include lines, shapes, arcs, splines, arrows, and text objects; may also include images, colors, and patterns.
+        source: https://fileinfo.com/extension/fig
+      flagstat:
+        description: Output of samtools flagstat tool
+      gb:
+        description: GenBank Sequence Format (GenBank Flat File Format) consists of an annotation section and a sequence section. The start of the annotation section is marked by a line beginning with the word "LOCUS". The start of sequence section is marked by a line beginning with the word "ORIGIN" and the end of the section is marked by a line with only "//".
+        source: https://fairsharing.org/833
+      gct:
+        description: Tab-delimited text files of GenePattern that contain a column for each sample, a row for each gene, and an expression value for each gene in each sample
+        meaning: http://edamontology.org/format_3709
+      gff3:
+        description: Generic Feature Format version 3 (GFF3) of sequence features.
+        meaning: http://edamontology.org/format_1975
+      gtf:
+        description: Gene transfer format (GTF) is a file format used to hold information about gene structure
+        meaning: http://edamontology.org/format_2306
+        source: https://en.wikipedia.org/wiki/Gene_transfer_format
+      gzip:
+        description: GZipped format
+        meaning: http://purl.obolibrary.org/obo/NCIT_C80220
+      hdf5:
+        description: >
+          HDF5 is the new version, according to the HDF group, a completely different technology (https://support.hdfgroup.org/products/hdf4/ compared to HDF.   An HDF5 file appears to the user as a directed graph. The nodes of this graph are the higher-level HDF5 objects that are exposed by the HDF5 APIs:  Groups, Datasets, Named datatypes.  Currently supported by the Python MDTraj package. HDF5 is a data model, library, and file format for storing and managing data, based on Hierarchical Data Format (HDF).
+
+        meaning: http://edamontology.org/format_3590
+        notes:
+          - This file format encompasses/includes the h5ad anndata format commonly used for scRNAseq data sharing.
+      hdr:
+        description: MRI Header file, as in the NIFTI-1 Analyze 7.5 format
+        meaning: https://nifti.nimh.nih.gov/pub/dist/src/niftilib/nifti1.h
+      hic:
+        description: Hi-C contact matrix file
+        meaning: https://github.com/theaidenlab/juicer/wiki/Data
+      html:
+        description: HTML format
+        meaning: http://edamontology.org/format_2331
+      hyperlink:
+        description: A reference (link) from some point in one hypertext document to another document, another place in the same document, or a website.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C47919
+      idat:
+        description: Proprietary file format for (raw) BeadArray data used by genomewide profiling platforms from Illumina Inc. This format is output directly from the scanner and stores summary intensities for each probe-type on an array.
+        meaning: http://edamontology.org/format_3578
+      idx:
+        description: ''
+      img:
+        description: MRI Data file, as in the NIFTI-1 Analyze 7.5 format
+        meaning: https://nifti.nimh.nih.gov/pub/dist/src/niftilib/nifti1.h
+      jpg:
+        description: Joint Picture Group file format for lossy graphics file.
+        meaning: http://edamontology.org/format_3579
+      js:
+        description: File with Javascript code.
+      json:
+        description: JavaScript Object Notation format; a lightweight, text-based format to represent tree-structured data using key-value pairs.
+        meaning: http://edamontology.org/format_3464
+      lif:
+        description: Leia Image Format (LIF) images are JPEG images with metadata that may contain depth, bokeh data, and one or more images (e.g. stereo images) known as "views".
+      locs:
+        description: Illumina iScan bead location file.
+        source: https://support.illumina.com/content/dam/illumina-support/documents/documentation/system_documentation/iscan/iscan-system-guide-11313539-01.pdf
+      maf:
+        description: Multiple Alignment Format (MAF) supporting alignments of whole genomes with rearrangements, directions, multiple pieces to the alignment, and so forth
+        meaning: http://edamontology.org/format_3008
+      md:
+        description: Markdown (MD) is a lightweight markup language with plain text formatting syntax
+        source: https://en.wikipedia.org/wiki/Markdown
+      mov:
+        description: A video file format with the .mov extension
+        source: https://synapse.org
+      MPEG-4:
+        description: A digital multimedia container format most commonly used to store video and audio.
+        meaning: http://edamontology.org/format_3997
+      msf:
+        description: Proprietary mass-spectrometry format of Thermo Scientific's ProteomeDiscoverer software
+        meaning: http://edamontology.org/format_3702
+      mtx:
+        description: Matrix Market Exchange Format
+        source: https://math.nist.gov/MatrixMarket/formats.html#MMformat
+      mzML:
+        description: mzML format for raw spectrometer output data, standardised by HUPO PSI MSS.
+        meaning: http://edamontology.org/format_3244
+      nii:
+        description: NIfTI-1 can store image data from any modality such as PET, MRI, CT, EEG that produces regularly sampled 1-5D rasters.
+        source: https://nifti.nimh.nih.gov/nifti-1/documentation/faq
+      ome-tiff:
+        description: OME-TIFF is a preferred open image format
+        meaning: http://edamontology.org/format_3727
+      pdf:
+        description: Portable Document Format
+        meaning: http://edamontology.org/format_3508
+      plink:
+        description: Any Plink file format (MAP/PED/BED/BIM/FAM)
+        source: https://www.cog-genomics.org/plink2/formats
+      png:
+        description: PNG is a file format for image compression
+        meaning: http://edamontology.org/format_3603
+      powerpoint:
+        description: Microsoft Powerpoint slide format
+      pzfx:
+        description: A PZFX file is a Prism project created by GraphPad Prism, a scientific application used to analyze and graph data. It contains project data including graphs and layouts, notes, and tables.
+        source: https://fileinfo.com/extension/pzfx
+      psydat:
+        description: TrialHandler or StairHandler object that has been saved to disk with the python cPickle module, ideal for batch analysis and plotting with Python.
+        source: https://www.psychopy.org/general/dataOutputs.html
+        notes:
+          - Not in EDAM as of April 2024.
+      raw:
+        description: Proprietary file format for mass spectrometry data from Thermo Scientific
+        meaning: http://edamontology.org/format_3712
+      rds:
+        description: R binary data format similar to RData.
+        source: https://www.datafiles.samhsa.gov/get-help/format-specific-issues/how-do-i-read-data-r
+      recal:
+        description: .recal file from GATK VQSR
+        meaning: https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantrecalibration_VariantRecalibrator.php#--recal_file
+      rmd:
+        description: markdown document specific to r analyses
+        meaning: http://rmarkdown.rstudio.com/developer_document_templates.html
+      sam:
+        description: Sequence Alignment/Map (SAM) format for alignment of nucleotide sequences (e.g. sequencing reads) to (a) reference sequence(s)
+        meaning: http://edamontology.org/format_2573
+      sav:
+        description: The SPSS Statistics File Format is a proprietary binary format, developed and maintained as the native format for the SPSS statistical software application.
+        meaning: https://www.loc.gov/preservation/digital/formats/fdd/fdd000469.shtml
+      sdf:
+        description: SDF is one of a family of chemical-data file formats developed by MDL Information Systems; it is intended especially for structural information.
+        meaning: http://edamontology.org/format_3814
+      seg:
+        description: SEG file (segmented data; .seg or .cbs) is a tab-delimited text file that lists loci and associated numeric values
+        meaning: https://software.broadinstitute.org/software/igv/SEG
+      sf:
+        description: Salmon’s main output is its quantification file. This file is a plain-text, tab-separated file with a single header line (which names all of the columns).
+        meaning: https://salmon.readthedocs.io/en/latest/file_formats.html
+      sif:
+        description: SIF (simple interaction file) Format - a network/pathway format used for instance in cytoscape
+        meaning: http://edamontology.org/format_3619
+      sqlite:
+        description: Data format used by the SQLite database.
+        meaning: http://edamontology.org/format_3621
+      sra:
+        description: SRA archive format (SRA) is the archive format used for input to the NCBI Sequence Read Archive.
+        meaning: http://edamontology.org/format_3698
+      svg:
+        description: Scalable Vector Graphics (SVG) is an XML-based vector image format for two-dimensional graphics with support for interactivity and animation.
+        meaning: http://edamontology.org/format_3604
+      svs:
+        description: A single-file pyramidal tiled TIFF, with non-standard metadata and compression.
+        meaning: https://openslide.org/formats/aperio/
+      tagAlign:
+        description: Tag Alignment provides genomic mapping of short sequence tags.
+        meaning: https://genome.ucsc.edu/FAQ/FAQformat.html#format15
+      tar:
+        description: tape archive
+        meaning: https://en.wikipedia.org/wiki/Tar_(computing)
+      tbi:
+        description: A TBI file is an index for a TABIX-compressed genomic data file, enabling rapid region-based retrieval.
+        notes:
+          - ChatGPT (September 25, 2023 Version)
+      tif:
+        description: Tagged Image File Format, abbreviated TIFF or TIF, is a computer file format for storing raster graphics images
+        meaning: https://en.wikipedia.org/wiki/TIFF
+      tom:
+        description: The .tom format is a specialized 3D image export format from the Vectra medical imaging systems that can optionally preserve trimmings and/or landmarks.
+        meaning: http://canfieldupgrade.com/assets/media/VECTRA-M3-User-Guide.pdf
+      tranches:
+        description: .tranches file from GATK VQSR
+        meaning: https://software.broadinstitute.org/gatk/documentation/tooldocs/3.8-0/org_broadinstitute_gatk_tools_walkers_variantrecalibration_VariantRecalibrator.php#--tranches_file
+      tsv:
+        description: Tabular data represented as tab-separated values in a text file
+        meaning: http://edamontology.org/format_3475
+      txt:
+        description: Textual format
+        meaning: http://edamontology.org/format_2330
+      vcf:
+        description: Variant Call Format (VCF) for sequence variation (indels, polymorphisms, structural variation)
+        meaning: http://edamontology.org/format_3016
+      wiggle:
+        description: Wiggle format (WIG) of a sequence annotation track that consists of a value for each sequence position
+        meaning: http://edamontology.org/format_3005
+      xml:
+        description: eXtensible Markup Language (XML) format.
+        meaning: http://edamontology.org/format_2332
+      yaml:
+        description: YAML (YAML Ain't Markup Language) is a human-readable tree-structured data serialisation that is a superset of JSON (as of v1.2).
+        meaning: http://edamontology.org/format_3750
+      zip:
+        description: zip is a format standard of a digital entity that is conformant with the PKWARE .ZIP file format specification
+        meaning: http://purl.obolibrary.org/obo/OBI_0000325
+  SexEnum:
     permissible_values:
-      ALS Compute:
-        description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
-      Target ALS:
-        description: targetals.org
-      Synapse:
-        description: synapse.org
+      Male:
+        description: A person who belongs to the sex that normally produces sperm. The term is used to indicate biological sex distinctions, cultural gender role distinctions, or both.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C20197
+      Female:
+        description: A person who belongs to the sex that normally produces ova. The term is used to indicate biological sex distinctions, or cultural gender role distinctions, or both.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C16576
+  SpeciesEnum:
+    permissible_values:
+      Rattus norvegicus:
+        description: 'Rattus with taxonomy ID:10116 and Genbank common name: Norway rat'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=10116&lvl=3&lin=f&keep=1&srchmode=1&unlock
+      Gallus gallus:
+        description: The common domestic fowl, Chicken.
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9031
+      Pan troglodytes:
+        description: 'Pan troglodytes with taxonomy ID: 9598 and Genbank common name: chimpanzee'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9598&lvl=3&lin=f&keep=1&srchmode=1&unlock
+      Mus musculus (humanized):
+        description: 'Mus musculus with taxonomy ID: 10090 and Genbank common name: house mouse'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=10090&lvl=3&lin=f&keep=1&srchmode=1&unlock
+      Homo sapiens:
+        description: 'Homo sapiens with taxonomy ID: 9606 and Genbank common name: human'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9606&lvl=3&lin=f&keep=1&srchmode=1&unlock
+      Danio rerio:
+        description: 'Danio rerio with taxonomy ID: 7955 and Genbank common name: zebrafish'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=7955&lvl=3&lin=f&keep=1&srchmode=1&unlock
+      Drosophila melanogaster:
+        description: 'Drosophila melanogaster with taxonomy ID: 7227 and Genbank common name: fruit fly'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=7227&lvl=3&p=has_linkout&p=blast_url&p=genome_blast&p=mapview&lin=f&keep=1&srchmode=1&unlock
+      Rhesus macaque:
+        description: 'Macaca mulatta with taxonomy ID: 9544 and Genbank common name: Rhesus monkey'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9544&lvl=3&p=has_linkout&p=blast_url&p=genome_blast&p=mapview&lin=f&keep=1&srchmode=1&unlock
+      Sus scrofa:
+        description: 'Sus scrofa with taxonomy ID: 9823 and Genbank common name: pig'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9823
+      Oryctolagus cuniculus:
+        description: 'Oryctolagus cuniculus with taxonomy ID: 9986 and Genbank common name: rabbit'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9986&lvl=3&lin=f&keep=1&srchmode=1&unlock
+      Mus musculus:
+        description: 'Mus musculus with taxonomy ID: 10090 and Genbank common name: house mouse'
+        meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=10090&lvl=3&lin=f&keep=1&srchmode=1&unlock
 classes:
   Dataset:
     description: Model for dataset on the AMP-ALS portal
@@ -1621,14 +2069,14 @@ classes:
         required: false
       funder:
         title: Funder
-        range: FundingAgencyEnum
+        range: string
         multivalued: true
         required: true
-      individualCount:
-        title: Individual Count
-        range: integer
-        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
-        required: false
+      #individualCount:
+      #  title: Individual Count
+      #  range: integer
+      #  description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
+      #  required: false
       #specimenCount:
       #  title: Specimen Count
       #  range: integer
@@ -1647,7 +2095,7 @@ classes:
       includedInDataCatalog:
         title: Included In Data Catalog
         description: Link(s) to known data catalog(s) the dataset is included in.
-        range: DataCatalogEnum
+        range: string
         required: false
       citation:
         title: Citation

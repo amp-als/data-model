@@ -69,7 +69,7 @@ classes:
         required: false
       funder:
         title: Funder
-        range: FundingAgencyEnum
+        range: string
         multivalued: true
         required: true
       #individualCount:
@@ -95,7 +95,7 @@ classes:
       includedInDataCatalog:
         title: Included In Data Catalog
         description: Link(s) to known data catalog(s) the dataset is included in.
-        range: DataCatalogEnum
+        range: string
         required: false
       citation:
         title: Citation
