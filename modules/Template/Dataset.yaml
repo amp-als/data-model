@@ -116,6 +116,7 @@ classes:
       citation:
         title: Citation
         range: string
+        multivalued: true
         description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
         required: false
       countryOfOrigin:
