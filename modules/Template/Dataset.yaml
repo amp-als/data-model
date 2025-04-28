@@ -43,7 +43,7 @@ classes:
         title: Measurement Technique
         range: AssayEnum
         multivalued: true
-        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable (e.g. for curated dataset such as a list compounds from a database or text extracted from Wikipedia).
+        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
       keywords:
         title: Keywords
         range: string
@@ -67,17 +67,6 @@ classes:
         description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
         multivalued: true
         required: false # not all datasets from assays that use biological samples
-      manifestation:
-        title: Manifestation(s)
-        range: ManifestationEnum
-        description: Refers to the phenotype(s) studied in the dataset. Omit if not applicable.
-        multivalued: true
-        required: false
-      diseaseFocus:
-        title: Disease Focus
-        range: DiseaseFocusEnum
-        multivalued: true
-        required: true
       funder:
         title: Funder
         range: FundingAgencyEnum
