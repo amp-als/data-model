@@ -63,18 +63,16 @@
       "type": "string"
     },
     "funder": {
-      "items": {},
+      "items": {
+        "type": "string"
+      },
       "title": "Funder",
       "type": "array"
     },
     "includedInDataCatalog": {
       "description": "Link(s) to known data catalog(s) the dataset is included in.",
-      "title": "Included In Data Catalog"
-    },
-    "individualCount": {
-      "description": "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
-      "title": "Individual Count",
-      "type": "integer"
+      "title": "Included In Data Catalog",
+      "type": "string"
     },
     "keywords": {
       "items": {
