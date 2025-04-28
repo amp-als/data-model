@@ -36,14 +36,6 @@
       "title": "Contributor(s)",
       "type": "array"
     },
-    "countryOfOrigin": {
-      "description": "Origin of individuals from which data were generated. Omit if not applicable/unknown.",
-      "items": {
-        "type": "string"
-      },
-      "title": "Country of Origin",
-      "type": "array"
-    },
     "creator": {
       "description": "Properly formatted name of the organization or person that is creator of the dataset (e.g. \"NF-OSI\" or \"Robert Allaway\"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.",
       "items": {

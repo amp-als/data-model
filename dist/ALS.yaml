@@ -2103,22 +2103,22 @@ classes:
         multivalued: true
         description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
         required: false
-      countryOfOrigin:
-        title: Country of Origin
-        range: string
-        description: Origin of individuals from which data were generated. Omit if not applicable/unknown.
-        multivalued: true
-        required: false
-      #accessType:
-      #  title: Access Type
-      #  range: AccessTypeEnum
-      #  description: Access type for the dataset.
-      #  required: true
       license:
         title: License
         range: License
         description: Unless information for license is clear, this should default to UNKNOWN.
         required: true
+      #countryOfOrigin:
+      #  title: Country of Origin
+      #  range: string
+      #  description: Origin of individuals from which data were generated. Omit if not applicable/unknown.
+      #  multivalued: true
+      #  required: false
+      #accessType:
+      #  title: Access Type
+      #  range: AccessTypeEnum
+      #  description: Access type for the dataset.
+      #  required: true
       #dataUseModifiers:
       #  title: Data Use Modifiers
       #  description: List of data use ontology (DUO) terms that are true for dataset, which describes the allowable scope and terms for data use. Most datasets allow "General Research Use" unless otherwise specified.

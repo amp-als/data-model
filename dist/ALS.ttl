@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace skos: ;
+    sh:declare [ sh:namespace schema1: ;
+            sh:prefix "schema" ],
+        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ],
+        [ sh:namespace linkml: ;
+            sh:prefix "linkml" ],
+        [ sh:namespace skos: ;
             sh:prefix "skos" ],
         [ sh:namespace rdfs: ;
             sh:prefix "rdfs" ],
         [ sh:namespace prov: ;
-            sh:prefix "prov" ],
-        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ],
-        [ sh:namespace linkml: ;
-            sh:prefix "linkml" ] ;
+            sh:prefix "prov" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
@@ -60,7 +60,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-04-28T22:11:35"^^xsd:dateTime ;
+    linkml:generation_date "2025-04-28T22:16:13"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -93,7 +93,6 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__citation>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__collection>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__countryOfOrigin>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__creator>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
@@ -129,8 +128,8 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-04-28T22:11:34"^^xsd:dateTime ;
-    linkml:source_file_size 143717 ;
+    linkml:source_file_date "2025-04-28T22:16:12"^^xsd:dateTime ;
+    linkml:source_file_size 143723 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -2236,12 +2235,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/combination%20screen> skos:definition "" .
 
-<https://w3id.org/synapse/amp-als/vocab/countryOfOrigin> a linkml:SlotDefinition ;
-    dcterms:title "Country of Origin" ;
-    skos:definition "Origin of individuals from which data were generated. Omit if not applicable/unknown." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
 <https://w3id.org/synapse/amp-als/vocab/dataset__alternateName> a linkml:SlotDefinition ;
     dcterms:title "Alternate Name" ;
     skos:definition "An alternate name that can be used for search and discovery improvement." ;
@@ -2283,17 +2276,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/contributor> .
-
-<https://w3id.org/synapse/amp-als/vocab/dataset__countryOfOrigin> a linkml:SlotDefinition ;
-    dcterms:title "Country of Origin" ;
-    skos:definition "Origin of individuals from which data were generated. Omit if not applicable/unknown." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "countryOfOrigin" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/countryOfOrigin> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__creator> a linkml:SlotDefinition ;
     dcterms:title "Creator" ;
@@ -2790,9 +2772,9 @@
 """ ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
@@ -2906,11 +2888,11 @@
     skos:definition "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/sex> .
@@ -3299,7 +3281,6 @@
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/collection>,
         <https://w3id.org/synapse/amp-als/vocab/contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/countryOfOrigin>,
         <https://w3id.org/synapse/amp-als/vocab/creator>,
         <https://w3id.org/synapse/amp-als/vocab/datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/description>,
@@ -3318,7 +3299,6 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__citation>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__collection>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__countryOfOrigin>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__creator>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__description>,

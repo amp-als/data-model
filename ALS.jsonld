@@ -8880,9 +8880,6 @@
                     "@id": "bts:Citation"
                 },
                 {
-                    "@id": "bts:CountryOfOrigin"
-                },
-                {
                     "@id": "bts:License"
                 }
             ],
@@ -9004,23 +9001,6 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "includedInDataCatalog",
-            "sms:required": "sms:false",
-            "sms:validationRules": []
-        },
-        {
-            "@id": "bts:CountryOfOrigin",
-            "@type": "rdfs:Class",
-            "rdfs:comment": "TBD",
-            "rdfs:label": "CountryOfOrigin",
-            "rdfs:subClassOf": [
-                {
-                    "@id": "bts:Thing"
-                }
-            ],
-            "schema:isPartOf": {
-                "@id": "http://schema.biothings.io"
-            },
-            "sms:displayName": "countryOfOrigin",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
