@@ -1,0 +1,286 @@
+slots:
+  Component:
+    description: Type of metadata template; provide the same one for all items/rows.
+    required: true
+  Filename:
+    description: The name of the file.
+    required: false
+  accessRequirements:
+    description: Statement describing access requirements for an entity.
+    in_subset:
+      - portal
+    required: false
+  accessType:
+    description: Indicates access type / possible procedures needed for access to
+      the resource.
+    range: AccessTypeEnum
+    required: true
+    see_also:
+      - accessRequirements
+  acknowledgementStatements:
+    description: Statement describing how resource use should be acknowledged.
+    in_subset:
+      - portal
+    required: false
+  assay:
+    description: The technology used to generate the data in this file.
+    range: AssayEnum
+    required: true
+  assayTarget:
+    description: Target of the assay such as a HUGO gene symbol, cell type, or
+      tissue region depending on the capabilities of the assay.
+    required: false
+  author:
+    title: Author(s)
+    description: The author of the resource; preferably use an ORCID ID, GitHub
+      profile link, etc., if available and a text name if not.
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  auxiliaryAsset:
+    description: >
+      URI to supplemental asset(s), e.g. QC reports or other auxiliary
+      files to support the processing, analysis, or interpretation of the
+      current entity.
+    in_subset:
+      - portal
+    required: false
+  batchID:
+    description: Batch identifier, can be used in any context where added batch
+      information is helpful, such as different sequencing runs or collection
+      times.
+    required: false
+  benefactorId:
+    description: The id of the resource from which access control is inherited.
+    in_subset:
+      - Synapse
+    required: false
+  citation:
+    title: Citation
+    description: Citation (e.g. doi) that usage of data or resource should be cited with.
+    range: string
+    in_subset:
+      - portal
+    required: false
+  comments:
+    title: Comments
+    description: Brief free-text comments that may also be important to
+      understanding the resource.
+    range: string
+    in_subset:
+    - registered
+    required: false
+  concreteType:
+    description: Refers to the class model the data platform uses for representing
+      the resource. This is a low-level field set by the platform and is not a
+      user annotation.
+    in_subset:
+      - Synapse
+    required: false
+  contentSize:
+    description: (Files only) File size, usually calculated by the backend.
+    in_subset:
+      - Synapse
+    required: false
+  contentType:
+    description: Refers to the type of content.
+    notes:
+      - Used by schematic (entities with value = dataset) to detect which
+        folders to surface.
+    required: false
+  contributor:
+    description: An entity responsible for making contributions to the resource.
+    in_subset:
+      - portal
+    range: string
+    required: false
+    see_also: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#contributor
+  createdBy:
+    description: Refers to the user who created the resource.
+    in_subset:
+      - Synapse
+    required: false
+  createdOn:
+    description: Refers to when the resource was created.
+    in_subset:
+      - Synapse
+    required: false
+  creator:
+    description: An entity responsible for making the resource.
+    in_subset:
+      - portal
+    notes:
+      - Recommended practice is to identify the creator with a URI. If this is
+        not possible or feasible, a literal value that identifies the creator
+        may be provided.
+    range: string
+    required: true
+    see_also: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#creator
+  currentVersion:
+    description: (Versionable entities only) The current version number of the resource.
+    in_subset:
+      - Synapse
+    required: false
+    see_also: https://www.w3.org/TR/vocab-dcat-3/#Property:resource_version
+  dataStatus:
+    description: Overall status of data in a study.
+    in_subset:
+      - portal
+    range: string
+    required: true
+  dataType:
+    annotations:
+      requiresDependency: dataSubtype
+    any_of:
+      - range: Data
+      - range: Metadata
+    description: >
+      Links an entity to data types that the entity represents/contains.
+      This is closely tied to the assay property. For example, a file of
+      dataType `genomicVariants` might have an assay value of `whole genome
+      sequencing`.
+    in_subset:
+      - portal
+    required: true
+  datasetItemCount:
+    description: Count of files in dataset. Auto-calculated by Synapse.
+    in_subset:
+      - Synapse
+    required: false
+  datasetSizeInBytes:
+    description: Size of dataset entity in bytes. Auto-calculated by Synapse.
+    in_subset:
+      - Synapse
+    required: false
+  description:
+    description: Text describing a resource.
+    in_subset:
+      - portal
+    range: string
+    required: false
+  diagnosis:
+    description: Diagnosis for the individual given signs and symptoms. Use the most specific diagnosis term that applies.
+    range: string
+    required: true
+  documentation:
+    description: URL to any documentation describing the resource and its use.
+    required: false
+  doi:
+    description: Digital object identifier of the resource.
+    required: false
+  etag:
+    description: Synapse employs an Optimistic Concurrency Control (OCC) scheme to
+      handle concurrent updates. The E-Tag changes every time an entity is
+      updated it is used to detect when a client's current representation of an
+      entity is out-of-date.
+    in_subset:
+      - Synapse
+    required: false
+  experimentId:
+    description: When applicable, an optional identifier that can be used to
+      distinguish or group the experiments that generated the data; also can be
+      used to denote internal batch reference if needed.
+    required: false
+  experimentalCondition:
+    description: A free-text description of the experimental condition (e.g. 5 mM
+      doxorubicin).
+    required: false
+  fileCount:
+    description: Number of files in the resource collection.
+    in_subset:
+      - Synapse
+    notes:
+      - This is auto-generated by Synapse for datasets.
+    required: false
+  fileFormat:
+    description: Defined format of the data file, typically corresponding to
+      extension, but sometimes indicating more general group of files produced
+      by the same tool or software
+    range: FileFormatEnum
+    required: true
+  fileSize:
+    description: Size of file in bytes.
+    in_subset:
+      - Synapse
+    required: false
+  funder:
+    description: Refers to the funding organization for the generated resource. This
+      annotation is handled by the DCC.
+    in_subset:
+      - portal
+    range: string
+    required: false
+  grantDOI:
+    description: Doi of a grant (e.g. in ProposalCentral) that can be associated
+      with the entity.
+    in_subset:
+      - portal
+    range: string
+    required: false
+  license:
+    title: License
+    description: Link to a license or name of license applicable for the resource.
+    in_subset:
+      - portal
+    range: License
+    required: false
+  modifiedBy:
+    description: Refers to a user who last modified the resource on the platform.
+    in_subset:
+      - Synapse
+    required: false
+  sex:
+    any_of:
+      - range: SexEnum
+      - range: UnknownEnum
+      - range: NotApplicableEnum
+    description: Phenotypic expression of chromosomal makeup that defines a study
+      subject as male, female, or other.
+    required: false
+  species:
+    description: The name of a species (typically a taxonomic group) of organism.
+    range: SpeciesEnum
+    required: true
+  specimenID:
+    description: >
+      A unique identifier (non-PII) that represents the subspecimen
+      (subsample) from which the data came,  e.g. an ID that distinguishes
+      between different parts of the same parent tumor specimen.
+    required: true
+  specimenIDSource:
+    description: Optional annotation describing where the specimen ID source derived
+      from, e.g. the biobank providing samples or a providing lab.
+    required: false
+  studyId:
+    description: Id of study.
+    in_subset:
+      - portal
+    range: string
+    required: true
+  studyLeads:
+    description: Individuals with lead roles in a study.
+    in_subset:
+      - portal
+    multivalued: true
+    required: true
+  studyName:
+    description: Name of a study.
+    in_subset:
+      - portal
+    range: string
+    required: true
+  summary:
+    description: A short description (an abstract).
+    in_subset:
+      - portal
+    range: string
+    required: true
+  title:
+    description: Title of a resource.
+    in_subset:
+      - portal
+    range: string
+    required: true
+    see_also: https://www.w3.org/TR/vocab-dcat-3/#Property:resource_title
