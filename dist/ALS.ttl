@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ],
-        [ sh:namespace prov: ;
+    sh:declare [ sh:namespace prov: ;
             sh:prefix "prov" ],
+        [ sh:namespace skos: ;
+            sh:prefix "skos" ],
+        [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
         [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
             sh:prefix "als" ],
+        [ sh:namespace schema1: ;
+            sh:prefix "schema" ],
         [ sh:namespace linkml: ;
-            sh:prefix "linkml" ],
-        [ sh:namespace skos: ;
-            sh:prefix "skos" ] ;
+            sh:prefix "linkml" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
@@ -60,7 +60,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-04-30T16:47:32"^^xsd:dateTime ;
+    linkml:generation_date "2025-04-30T16:51:50"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -98,6 +98,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,
@@ -128,8 +129,8 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-04-30T16:47:30"^^xsd:dateTime ;
-    linkml:source_file_size 143727 ;
+    linkml:source_file_date "2025-04-30T16:51:49"^^xsd:dateTime ;
+    linkml:source_file_size 143722 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -2330,6 +2331,16 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataset__individualCount> a linkml:SlotDefinition ;
+    dcterms:title "Individual Count" ;
+    skos:definition "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "individualCount" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/individualCount> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataset__keywords> a linkml:SlotDefinition ;
     dcterms:title "Keywords" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -2408,6 +2419,11 @@
     dcterms:title "Included In Data Catalog" ;
     skos:definition "Link(s) to known data catalog(s) the dataset is included in." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
+<https://w3id.org/synapse/amp-als/vocab/individualCount> a linkml:SlotDefinition ;
+    dcterms:title "Individual Count" ;
+    skos:definition "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
 
 <https://w3id.org/synapse/amp-als/vocab/keywords> a linkml:SlotDefinition ;
     dcterms:title "Keywords" ;
@@ -2867,16 +2883,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/grantDOI> .
 
-<https://w3id.org/synapse/amp-als/vocab/integer> a linkml:TypeDefinition ;
-    skos:definition "An integer" ;
-    skos:editorialNote "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"integer\"." ;
-    skos:exactMatch schema1:Integer ;
-    skos:inScheme linkml:types ;
-    linkml:base "int" ;
-    linkml:definition_uri linkml:Integer ;
-    linkml:imported_from "linkml:types" ;
-    linkml:uri xsd:integer .
-
 <https://w3id.org/synapse/amp-als/vocab/modifiedBy> a linkml:SlotDefinition ;
     skos:definition "Refers to a user who last modified the resource on the platform." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -2888,11 +2894,11 @@
     skos:definition "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/sex> .
@@ -3242,6 +3248,16 @@
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/funder> .
 
+<https://w3id.org/synapse/amp-als/vocab/integer> a linkml:TypeDefinition ;
+    skos:definition "An integer" ;
+    skos:editorialNote "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"integer\"." ;
+    skos:exactMatch schema1:Integer ;
+    skos:inScheme linkml:types ;
+    linkml:base "int" ;
+    linkml:definition_uri linkml:Integer ;
+    linkml:imported_from "linkml:types" ;
+    linkml:uri xsd:integer .
+
 <https://w3id.org/synapse/amp-als/vocab/license> a linkml:SlotDefinition ;
     dcterms:title "License" ;
     skos:definition "Link to a license or name of license applicable for the resource.",
@@ -3286,6 +3302,7 @@
         <https://w3id.org/synapse/amp-als/vocab/description>,
         <https://w3id.org/synapse/amp-als/vocab/funder>,
         <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/license>,
         <https://w3id.org/synapse/amp-als/vocab/measurementTechnique>,
@@ -3304,6 +3321,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,

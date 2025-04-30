@@ -8868,6 +8868,9 @@
                     "@id": "bts:Funder"
                 },
                 {
+                    "@id": "bts:IndividualCount"
+                },
+                {
                     "@id": "bts:Collection"
                 },
                 {
@@ -8950,6 +8953,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "subject",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:IndividualCount",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "IndividualCount",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "individualCount",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
