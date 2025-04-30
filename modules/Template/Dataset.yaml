@@ -1,0 +1,132 @@
+#######################################
+# Portal Dataset
+#######################################
+
+classes:
+  Dataset:
+    description: Model for dataset on the AMP-ALS portal
+    notes:
+    - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+    attributes:
+      title:
+        title: Title
+        range: string
+        required: true
+      description:
+        title: Description
+        range: string
+        description: Blurb for the dataset; should be no more than 500 characters.
+        required: false
+      alternateName:
+        title: Alternate Name
+        description: An alternate name that can be used for search and discovery improvement.
+        range: string
+        required: false
+      creator:
+        title: Creator
+        range: string
+        description: Properly formatted name of the organization or person that is creator of the dataset (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
+        multivalued: true
+        required: true
+      contributor:
+        title: Contributor(s)
+        range: string
+        description: Institution or person responsible for collecting and managing the files and records in the dataset.
+        multivalued: true
+        required: false
+      # studyId:
+      #  title: Study ID
+      #  range: string
+      #  description: Identifier for the study (project) from which the dataset was derived.
+      #  required: true
+      measurementTechnique:
+        title: Measurement Technique
+        range: AssayEnum
+        multivalued: true
+        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
+      keywords:
+        title: Keywords
+        range: string
+        multivalued: true
+        required: true
+      subject:
+        title: Subject
+        range: string
+        description: Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
+        multivalued: true
+        required: false
+      #dataType:
+      #  title: Data Type
+      #  range: Data
+      #  description: Reflects the data types within the dataset.
+      #  multivalued: true
+      #  required: true
+      species:
+        title: Species
+        range: SpeciesEnum
+        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
+        multivalued: true
+        required: false
+      funder:
+        title: Funder
+        range: string
+        multivalued: true
+        required: true
+      individualCount:
+        title: Individual Count
+        range: integer
+        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
+        required: false
+      #specimenCount:
+      #  title: Specimen Count
+      #  range: integer
+      #  description: Number of unique specimens included in the dataset. Omit if not applicable/unknown.
+      #  required: false
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection
+        required: false
+      datePublished:
+        title: Date Published
+        description: Date data were published/available on Synapse.
+        range: integer
+        required: false
+      includedInDataCatalog:
+        title: Included In Data Catalog
+        description: Link(s) to known data catalog(s) the dataset is included in.
+        range: string
+        required: false
+      citation:
+        title: Citation
+        range: string
+        multivalued: true
+        description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
+        required: false
+      license:
+        title: License
+        range: License
+        description: Unless information for license is clear, this should default to UNKNOWN.
+        required: true
+      #countryOfOrigin:
+      #  title: Country of Origin
+      #  range: string
+      #  description: Origin of individuals from which data were generated. Omit if not applicable/unknown.
+      #  multivalued: true
+      #  required: false
+      #accessType:
+      #  title: Access Type
+      #  range: AccessTypeEnum
+      #  description: Access type for the dataset.
+      #  required: true
+      #dataUseModifiers:
+      #  title: Data Use Modifiers
+      #  description: List of data use ontology (DUO) terms that are true for dataset, which describes the allowable scope and terms for data use. Most datasets allow "General Research Use" unless otherwise specified.
+      #  range: DuoEnum
+      #  multivalued: true
+      #  required: false
+      #conditionsOfAccess:
+      #  title: Conditions of access (Access requirements)
+      #  description: Requirements needed to access resource. This could include additional registration, updating profile information, joining a Synapse Team, or using specific authentication methods like 2FA or RAS. Omit property if not applicable/unknown.
+      #  range: string
+      #  required: false
