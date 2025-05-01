@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace prov: ;
-            sh:prefix "prov" ],
-        [ sh:namespace skos: ;
+    sh:declare [ sh:namespace skos: ;
             sh:prefix "skos" ],
-        [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
         [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
             sh:prefix "als" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ],
+        [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
         [ sh:namespace linkml: ;
-            sh:prefix "linkml" ] ;
+            sh:prefix "linkml" ],
+        [ sh:namespace prov: ;
+            sh:prefix "prov" ],
+        [ sh:namespace schema1: ;
+            sh:prefix "schema" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
@@ -60,7 +60,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-04-30T16:51:50"^^xsd:dateTime ;
+    linkml:generation_date "2025-05-01T18:33:33"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -129,8 +129,8 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-04-30T16:51:49"^^xsd:dateTime ;
-    linkml:source_file_size 143722 ;
+    linkml:source_file_date "2025-05-01T18:33:32"^^xsd:dateTime ;
+    linkml:source_file_size 143724 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -2318,7 +2318,6 @@
     linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/funder> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__includedInDataCatalog> a linkml:SlotDefinition ;
@@ -2360,7 +2359,6 @@
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/License> ;
-    linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/license> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique> a linkml:SlotDefinition ;
@@ -3245,7 +3243,6 @@
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/funder> ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/funder> .
 
 <https://w3id.org/synapse/amp-als/vocab/integer> a linkml:TypeDefinition ;
@@ -3265,7 +3262,6 @@
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/license> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/License> ;
-    linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/license> .
 
 <https://w3id.org/synapse/amp-als/vocab/species> a linkml:SlotDefinition ;
