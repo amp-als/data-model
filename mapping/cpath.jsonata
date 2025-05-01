@@ -1,0 +1,16 @@
+{
+  "title": catalogue.title,
+  "creator": $type(catalogue.creator.creatorName) = "array" ? 
+             catalogue.creator.creatorName : 
+             [catalogue.creator.creatorName],
+  "keywords": catalogue.keyword,
+  "subject": $type(catalogue.disease.text) = "array" ? 
+             catalogue.disease.text : 
+             [catalogue.disease.text],
+  "description": catalogue.description,
+  "collection": $exists(collections[0].name) ? 
+                ($type(collections[0].name) = "array" ? 
+                 collections[0].name),
+  "publisher": catalogue.publisher.text,
+  "species": ["Homo sapiens"]
+}
