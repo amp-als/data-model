@@ -108,6 +108,7 @@ classes:
         title: Publisher
         range: string
         description: Name of the organization or person responsible for making the dataset available.
+        required: false
       license:
         title: License
         range: License
