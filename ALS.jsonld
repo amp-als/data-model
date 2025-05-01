@@ -8883,6 +8883,9 @@
                     "@id": "bts:Citation"
                 },
                 {
+                    "@id": "bts:Publisher"
+                },
+                {
                     "@id": "bts:License"
                 }
             ],
@@ -9021,6 +9024,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "includedInDataCatalog",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:Publisher",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Publisher",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "publisher",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },

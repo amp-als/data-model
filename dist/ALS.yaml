@@ -2106,6 +2106,10 @@ classes:
         multivalued: true
         description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
         required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the dataset available.
       license:
         title: License
         range: License

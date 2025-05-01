@@ -287,6 +287,11 @@
       "title": "Measurement Technique",
       "type": "array"
     },
+    "publisher": {
+      "description": "Name of the organization or person responsible for making the dataset available.",
+      "title": "Publisher",
+      "type": "string"
+    },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
       "items": {
