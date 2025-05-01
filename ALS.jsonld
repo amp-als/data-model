@@ -11303,6 +11303,23 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:ALSKnowledgePortal",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "ALSKnowledgePortal",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "ALS Knowledge Portal",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:Normalized",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
