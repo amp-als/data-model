@@ -71,7 +71,7 @@ classes:
         title: Funder
         range: string
         multivalued: true
-        required: false
+        required: true
       individualCount:
         title: Individual Count
         range: integer
@@ -85,7 +85,8 @@ classes:
       collection:
         title: Collection
         range: CollectionEnum
-        description: Associated collection
+        description: Associated collection(s)
+        multivalued: true
         required: false
       datePublished:
         title: Date Published
@@ -107,7 +108,7 @@ classes:
         title: License
         range: License
         description: Unless information for license is clear, this should default to UNKNOWN.
-        required: false
+        required: true
       #countryOfOrigin:
       #  title: Country of Origin
       #  range: string
