@@ -108,7 +108,7 @@ classes:
         title: License
         range: License
         description: Unless information for license is clear, this should default to UNKNOWN.
-        required: true
+        required: false
       #countryOfOrigin:
       #  title: Country of Origin
       #  range: string
