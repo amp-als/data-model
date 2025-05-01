@@ -1432,6 +1432,8 @@ enums:
   CollectionEnum:
     description: Original collection, e.g. the consortium that the dataset comes from.
     permissible_values:
+      ALS Knowledge Portal:
+        description: Default collection
       Answer ALS:
       CReATe Consortium:
       'Genomic Translation for ALS Care (GTAC)':
@@ -2085,7 +2087,8 @@ classes:
       collection:
         title: Collection
         range: CollectionEnum
-        description: Associated collection
+        description: Associated collection(s)
+        multivalued: true
         required: false
       datePublished:
         title: Date Published
@@ -2102,6 +2105,11 @@ classes:
         range: string
         multivalued: true
         description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
+        required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the dataset available.
         required: false
       license:
         title: License

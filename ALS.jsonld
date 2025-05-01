@@ -8883,6 +8883,9 @@
                     "@id": "bts:Citation"
                 },
                 {
+                    "@id": "bts:Publisher"
+                },
+                {
                     "@id": "bts:License"
                 }
             ],
@@ -9021,6 +9024,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "includedInDataCatalog",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:Publisher",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Publisher",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "publisher",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -11299,6 +11319,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "STAR and Salmon",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:ALSKnowledgePortal",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "ALSKnowledgePortal",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "ALS Knowledge Portal",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },

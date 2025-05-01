@@ -8,6 +8,8 @@ enums:
   CollectionEnum:
     description: Original collection, e.g. the consortium that the dataset comes from.
     permissible_values:
+      ALS Knowledge Portal:
+        description: Default collection
       Answer ALS:
       CReATe Consortium:
       'Genomic Translation for ALS Care (GTAC)':

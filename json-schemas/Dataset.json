@@ -16,17 +16,23 @@
       "type": "array"
     },
     "collection": {
-      "description": "Associated collection",
+      "description": "Associated collection(s)",
+      "items": {
+        "description": "Original collection, e.g. the consortium that the dataset comes from.",
+        "enum": [
+          "ALS Knowledge Portal",
+          "Answer ALS",
+          "CReATe Consortium",
+          "Genomic Translation for ALS Care (GTAC)",
+          "New York Genome Center ALS Consortium",
+          "National Institutes of Health",
+          "Project MinE"
+        ],
+        "title": "CollectionEnum",
+        "type": "string"
+      },
       "title": "Collection",
-      "enum": [
-        "Answer ALS",
-        "CReATe Consortium",
-        "Genomic Translation for ALS Care (GTAC)",
-        "New York Genome Center ALS Consortium",
-        "National Institutes of Health",
-        "Project MinE"
-      ],
-      "type": "string"
+      "type": "array"
     },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the dataset.",
@@ -280,6 +286,11 @@
       },
       "title": "Measurement Technique",
       "type": "array"
+    },
+    "publisher": {
+      "description": "Name of the organization or person responsible for making the dataset available.",
+      "title": "Publisher",
+      "type": "string"
     },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
