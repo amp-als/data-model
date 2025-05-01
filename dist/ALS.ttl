@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace skos: ;
-            sh:prefix "skos" ],
+    sh:declare [ sh:namespace schema1: ;
+            sh:prefix "schema" ],
+        [ sh:namespace linkml: ;
+            sh:prefix "linkml" ],
         [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
             sh:prefix "als" ],
         [ sh:namespace rdfs: ;
             sh:prefix "rdfs" ],
-        [ sh:namespace linkml: ;
-            sh:prefix "linkml" ],
         [ sh:namespace prov: ;
             sh:prefix "prov" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ] ;
+        [ sh:namespace skos: ;
+            sh:prefix "skos" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
@@ -60,7 +60,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-05-01T18:33:33"^^xsd:dateTime ;
+    linkml:generation_date "2025-05-01T22:23:03"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -102,6 +102,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__species>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__title>,
@@ -129,8 +130,8 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-05-01T18:33:32"^^xsd:dateTime ;
-    linkml:source_file_size 143724 ;
+    linkml:source_file_date "2025-05-01T22:23:02"^^xsd:dateTime ;
+    linkml:source_file_size 144011 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -188,6 +189,8 @@
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C80224> .
 
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute> skos:definition "https://anvilproject.org/news/2023/09/05/data-release-als-compute-project" .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS%20Knowledge%20Portal> skos:definition "Default collection" .
 
 <https://w3id.org/synapse/amp-als/vocab/ATAC-seq> skos:definition "Open chromatin regions measured by sequencing DNA after assay for transposase-accessible chromatin (ATAC) treatment" ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0002039> .
@@ -2227,7 +2230,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/collection> a linkml:SlotDefinition ;
     dcterms:title "Collection" ;
-    skos:definition "Associated collection" ;
+    skos:definition "Associated collection(s)" ;
+    linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/CollectionEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/combination%20library%20screen> skos:definition "",
@@ -2259,10 +2263,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__collection> a linkml:SlotDefinition ;
     dcterms:title "Collection" ;
-    skos:definition "Associated collection" ;
+    skos:definition "Associated collection(s)" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     skos:prefLabel "collection" ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/CollectionEnum> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/collection> .
@@ -2372,6 +2377,16 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/measurementTechnique> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataset__publisher> a linkml:SlotDefinition ;
+    dcterms:title "Publisher" ;
+    skos:definition "Name of the organization or person responsible for making the dataset available." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "publisher" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/publisher> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataset__species> a linkml:SlotDefinition ;
     dcterms:title "Species" ;
     skos:definition "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data." ;
@@ -2437,6 +2452,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/mitochondria> dcterms:source <https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json> ;
     skos:definition "Mitochondria only" .
+
+<https://w3id.org/synapse/amp-als/vocab/publisher> a linkml:SlotDefinition ;
+    dcterms:title "Publisher" ;
+    skos:definition "Name of the organization or person responsible for making the dataset available." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/raw> skos:definition "A data file produced by an instrument, or one with very little subsequent processing.",
         "Proprietary file format for mass spectrometry data from Thermo Scientific" ;
@@ -2786,9 +2806,9 @@
 """ ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
@@ -2892,11 +2912,11 @@
     skos:definition "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/sex> .
@@ -2953,7 +2973,8 @@
 <https://w3id.org/synapse/amp-als/vocab/CollectionEnum> skos:definition "Original collection, e.g. the consortium that the dataset comes from." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CollectionEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Answer%20ALS>,
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS%20Knowledge%20Portal>,
+        <https://w3id.org/synapse/amp-als/vocab/Answer%20ALS>,
         <https://w3id.org/synapse/amp-als/vocab/CReATe%20Consortium>,
         <https://w3id.org/synapse/amp-als/vocab/Genomic%20Translation%20for%20ALS%20Care%20%28GTAC%29>,
         <https://w3id.org/synapse/amp-als/vocab/National%20Institutes%20of%20Health>,
@@ -3302,6 +3323,7 @@
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/license>,
         <https://w3id.org/synapse/amp-als/vocab/measurementTechnique>,
+        <https://w3id.org/synapse/amp-als/vocab/publisher>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/subject>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
@@ -3321,6 +3343,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__species>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__title> .
