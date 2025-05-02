@@ -12,5 +12,6 @@
                 ($type(collections[0].name) = "array" ? 
                  collections[0].name),
   "publisher": catalogue.publisher.text,
-  "species": ["Homo sapiens"]
+  "species": ["Homo sapiens"],
+  "sameAs": "cpath:" & id
 }
