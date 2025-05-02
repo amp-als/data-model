@@ -292,6 +292,11 @@
       "title": "Publisher",
       "type": "string"
     },
+    "sameAs": {
+      "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
+      "title": "Same As",
+      "type": "string"
+    },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
       "items": {

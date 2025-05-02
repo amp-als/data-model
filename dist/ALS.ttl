@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace schema1: ;
-            sh:prefix "schema" ],
-        [ sh:namespace linkml: ;
-            sh:prefix "linkml" ],
-        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ],
-        [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace prov: ;
+    sh:declare [ sh:namespace prov: ;
             sh:prefix "prov" ],
         [ sh:namespace skos: ;
-            sh:prefix "skos" ] ;
+            sh:prefix "skos" ],
+        [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
+        [ sh:namespace linkml: ;
+            sh:prefix "linkml" ],
+        [ sh:namespace schema1: ;
+            sh:prefix "schema" ],
+        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
@@ -60,7 +60,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-05-01T22:23:03"^^xsd:dateTime ;
+    linkml:generation_date "2025-05-02T21:45:41"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -103,6 +103,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__species>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__title>,
@@ -130,8 +131,8 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-05-01T22:23:02"^^xsd:dateTime ;
-    linkml:source_file_size 144011 ;
+    linkml:source_file_date "2025-05-02T21:45:40"^^xsd:dateTime ;
+    linkml:source_file_size 144224 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -2387,6 +2388,16 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/publisher> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataset__sameAs> a linkml:SlotDefinition ;
+    dcterms:title "Same As" ;
+    skos:definition "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "sameAs" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/sameAs> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataset__species> a linkml:SlotDefinition ;
     dcterms:title "Species" ;
     skos:definition "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data." ;
@@ -2461,6 +2472,11 @@
 <https://w3id.org/synapse/amp-als/vocab/raw> skos:definition "A data file produced by an instrument, or one with very little subsequent processing.",
         "Proprietary file format for mass spectrometry data from Thermo Scientific" ;
     linkml:meaning <http://edamontology.org/format_3712> .
+
+<https://w3id.org/synapse/amp-als/vocab/sameAs> a linkml:SlotDefinition ;
+    dcterms:title "Same As" ;
+    skos:definition "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/small%20molecule%20library%20screen> skos:definition "",
         "High throughput sample analysis of small molecules for purpose such as drug discovery, or biochemical, genetic or pharmacological tests." ;
@@ -2912,11 +2928,11 @@
     skos:definition "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/sex> .
@@ -3324,6 +3340,7 @@
         <https://w3id.org/synapse/amp-als/vocab/license>,
         <https://w3id.org/synapse/amp-als/vocab/measurementTechnique>,
         <https://w3id.org/synapse/amp-als/vocab/publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/subject>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
@@ -3344,6 +3361,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__species>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__title> .

@@ -8887,6 +8887,9 @@
                 },
                 {
                     "@id": "bts:License"
+                },
+                {
+                    "@id": "bts:SameAs"
                 }
             ],
             "sms:validationRules": []
@@ -9041,6 +9044,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "publisher",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:SameAs",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "SameAs",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "sameAs",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
