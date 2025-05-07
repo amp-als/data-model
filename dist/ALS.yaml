@@ -2116,6 +2116,11 @@ classes:
         range: License
         description: Unless information for license is clear, this should default to UNKNOWN.
         required: false
+      sameAs:
+        title: Same As
+        range: string
+        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
+        required: false
       #countryOfOrigin:
       #  title: Country of Origin
       #  range: string
