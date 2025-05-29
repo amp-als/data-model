@@ -75,6 +75,12 @@
                     "@id": "bts:License"
                 },
                 {
+                    "@id": "bts:Source"
+                },
+                {
+                    "@id": "bts:Url"
+                },
+                {
                     "@id": "bts:SameAs"
                 }
             ],
@@ -442,6 +448,40 @@
                 }
             ],
             "sms:displayName": "License",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:Source",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Source",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "source",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:Url",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Url",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "url",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -10663,6 +10703,23 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:CriticalPathInstitute",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "CriticalPathInstitute",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "Critical Path Institute",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:IlluminaInfiniumMethylationEPICBeadChipv2.0(935k)",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
@@ -12291,6 +12348,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "QuantSeq FWD V2 with UDI",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:GeneExpressionOmnibus",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "GeneExpressionOmnibus",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "Gene Expression Omnibus",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
