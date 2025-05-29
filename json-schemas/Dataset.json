@@ -297,6 +297,11 @@
       "title": "Same As",
       "type": "string"
     },
+    "source": {
+      "description": "Host platform from which the dataset was sourced.",
+      "title": "Source",
+      "type": "string"
+    },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
       "items": {
@@ -331,12 +336,19 @@
     "title": {
       "title": "Title",
       "type": "string"
+    },
+    "url": {
+      "description": "URL for the original dataset location at source.",
+      "title": "URL",
+      "type": "string"
     }
   },
   "required": [
     "title",
     "creator",
-    "keywords"
+    "keywords",
+    "source",
+    "url"
   ],
   "title": "Dataset",
   "type": "object",

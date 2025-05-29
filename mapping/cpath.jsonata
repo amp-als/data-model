@@ -11,5 +11,7 @@
   "collection": [collections[0].name],
   "publisher": catalogue.publisher.text,
   "species": ["Homo sapiens"],
-  "sameAs": "cpath:" & id
+  "sameAs": "cpath:" & id,
+  "source": "Critical Path Institute",
+  "url": "https://fair.dap.c-path.org/#/data/datasets/" & code
 }
