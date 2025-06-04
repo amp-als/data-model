@@ -1443,6 +1443,10 @@ enums:
   SourceNode:
     description: Source nodes within the federated network.
     permissible_values:
+      Critical Path Institute:
+        description: https://www.c-path.org/
+      Gene Expression Omnibus:
+        description: https://www.ncbi.nlm.nih.gov/geo/
       ALS Compute:
         description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
       Target ALS:
@@ -2116,6 +2120,16 @@ classes:
         range: License
         description: Unless information for license is clear, this should default to UNKNOWN.
         required: false
+      source:
+        title: Source
+        range: string
+        description: Host platform from which the dataset was sourced.
+        required: true
+      url:
+        title: URL
+        range: string
+        description: URL for the original dataset location at source.
+        required: true
       sameAs:
         title: Same As
         range: string
