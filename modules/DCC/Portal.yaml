@@ -19,6 +19,10 @@ enums:
   SourceNode:
     description: Source nodes within the federated network.
     permissible_values:
+      Critical Path Institute:
+        description: https://www.c-path.org/
+      Gene Expression Omnibus:
+        description: https://www.ncbi.nlm.nih.gov/geo/
       ALS Compute:
         description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
       Target ALS:
