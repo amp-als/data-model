@@ -56,7 +56,8 @@
       "enum": [
         "Raw",
         "Standardized",
-        "Non-Standardized"
+        "Non-Standardized",
+        "Unknown"
       ],
       "type": "string"
     },
@@ -357,7 +358,6 @@
     "title",
     "creator",
     "keywords",
-    "curationLevel",
     "source",
     "url"
   ],
