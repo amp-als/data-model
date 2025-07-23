@@ -50,6 +50,16 @@
       "title": "Creator",
       "type": "array"
     },
+    "curationLevel": {
+      "description": "TBD",
+      "title": "Curation level",
+      "enum": [
+        "Raw",
+        "Standardized",
+        "Non-Standardized"
+      ],
+      "type": "string"
+    },
     "datePublished": {
       "description": "Date data were published/available on Synapse.",
       "title": "Date Published",
@@ -347,6 +357,7 @@
     "title",
     "creator",
     "keywords",
+    "curationLevel",
     "source",
     "url"
   ],
