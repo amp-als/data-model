@@ -88,6 +88,11 @@ classes:
         description: Associated collection(s)
         multivalued: true
         required: false
+      curationLevel:
+        title: Curation level
+        range: CurationLevelEnum
+        description: TBD
+        required: false
       datePublished:
         title: Date Published
         description: Date data were published/available on Synapse.
