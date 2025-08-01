@@ -7,6 +7,12 @@ enums:
       Standardized:
       Non-Standardized:
       Unknown:
+  StudyLevelEnum:
+    permissible_values:
+      Patient Registry Study:
+      Natural History Study: 
+      Clinical Trial:
+      Unknown:
   AccessTypeEnum:
     description: (Draft) Labels for how the AMP-ALS federated network defines access
     permissible_values:

@@ -93,6 +93,11 @@ classes:
         range: CurationLevelEnum
         description: TBD
         required: false
+      studyType:
+        title: Study type
+        range: StudyLevelEnum
+        description: Study type for dataset
+        required: false
       datePublished:
         title: Date Published
         description: Date data were published/available on Synapse.

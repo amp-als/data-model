@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace prov: ;
-            sh:prefix "prov" ],
-        [ sh:namespace skos: ;
-            sh:prefix "skos" ],
-        [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace schema1: ;
+    sh:declare [ sh:namespace schema1: ;
             sh:prefix "schema" ],
+        [ sh:namespace linkml: ;
+            sh:prefix "linkml" ],
         [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
             sh:prefix "als" ],
-        [ sh:namespace linkml: ;
-            sh:prefix "linkml" ] ;
+        [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
+        [ sh:namespace prov: ;
+            sh:prefix "prov" ],
+        [ sh:namespace skos: ;
+            sh:prefix "skos" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
@@ -34,6 +34,7 @@
         <https://w3id.org/synapse/amp-als/vocab/AssayEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ChannelEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CollectionEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum>,
         <https://w3id.org/synapse/amp-als/vocab/Data>,
         <https://w3id.org/synapse/amp-als/vocab/DataSubtypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/DrugScreen>,
@@ -60,7 +61,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-05-29T18:10:47"^^xsd:dateTime ;
+    linkml:generation_date "2025-07-31T00:04:25"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -94,6 +95,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__collection>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__contributor>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__creator>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__curationLevel>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__funder>,
@@ -133,8 +135,8 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-05-29T18:10:46"^^xsd:dateTime ;
-    linkml:source_file_size 144683 ;
+    linkml:source_file_date "2025-07-31T00:04:25"^^xsd:dateTime ;
+    linkml:source_file_size 144931 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -919,9 +921,6 @@
     skos:definition "" .
 
 <https://w3id.org/synapse/amp-als/vocab/UNKNOWN> skos:definition "The license for the dataset is not known." .
-
-<https://w3id.org/synapse/amp-als/vocab/Unknown> skos:definition "Not known, observed, recorded; or reported as unknown by the data contributor." ;
-    linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C17998> .
 
 <https://w3id.org/synapse/amp-als/vocab/Unstranded> skos:definition "Either read 1 or read 2 can align to the RNA strand." .
 
@@ -2207,6 +2206,9 @@
         <https://w3id.org/synapse/amp-als/vocab/SecondStranded>,
         <https://w3id.org/synapse/amp-als/vocab/Unstranded> .
 
+<https://w3id.org/synapse/amp-als/vocab/Unknown> skos:definition "Not known, observed, recorded; or reported as unknown by the data contributor." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C17998> .
+
 <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/CNVkit>,
@@ -2248,6 +2250,11 @@
     linkml:meaning <http://purl.obolibrary.org/obo/ERO_0001686> .
 
 <https://w3id.org/synapse/amp-als/vocab/combination%20screen> skos:definition "" .
+
+<https://w3id.org/synapse/amp-als/vocab/curationLevel> a linkml:SlotDefinition ;
+    dcterms:title "Curation level" ;
+    skos:definition "TBD" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__alternateName> a linkml:SlotDefinition ;
     dcterms:title "Alternate Name" ;
@@ -2303,6 +2310,16 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/creator> .
+
+<https://w3id.org/synapse/amp-als/vocab/dataset__curationLevel> a linkml:SlotDefinition ;
+    dcterms:title "Curation level" ;
+    skos:definition "TBD" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "curationLevel" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/curationLevel> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished> a linkml:SlotDefinition ;
     dcterms:title "Date Published" ;
@@ -2970,9 +2987,9 @@
     skos:definition "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
@@ -3038,6 +3055,13 @@
         <https://w3id.org/synapse/amp-als/vocab/National%20Institutes%20of%20Health>,
         <https://w3id.org/synapse/amp-als/vocab/New%20York%20Genome%20Center%20ALS%20Consortium>,
         <https://w3id.org/synapse/amp-als/vocab/Project%20MinE> .
+
+<https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Non-Standardized>,
+        <https://w3id.org/synapse/amp-als/vocab/Raw>,
+        <https://w3id.org/synapse/amp-als/vocab/Standardized>,
+        <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
 <https://w3id.org/synapse/amp-als/vocab/License> skos:definition "License attached to the data. If indicates UNKNOWN or RESTRICTED-USE, data may not be used without further contact for terms." ;
     skos:editorialNote "https://help.figshare.com/article/what-is-the-most-appropriate-licence-for-my-research",
@@ -3373,6 +3397,7 @@
         <https://w3id.org/synapse/amp-als/vocab/collection>,
         <https://w3id.org/synapse/amp-als/vocab/contributor>,
         <https://w3id.org/synapse/amp-als/vocab/creator>,
+        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
         <https://w3id.org/synapse/amp-als/vocab/datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/description>,
         <https://w3id.org/synapse/amp-als/vocab/funder>,
@@ -3396,6 +3421,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__collection>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__contributor>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__creator>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__curationLevel>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__funder>,

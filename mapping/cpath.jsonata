@@ -13,6 +13,7 @@
   "species": ["Homo sapiens"],
   "sameAs": "cpath:" & id,
   "curationLevel": catalogue.curationLevel? catalogue.curationLevel : "Unknown",
+  "studyType": catalogue.studyType? catalogue.studyType : "Unknown",
   "source": "Critical Path Institute",
   "url": "https://fair.dap.c-path.org/#/data/datasets/" & code
 }

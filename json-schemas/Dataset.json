@@ -336,6 +336,17 @@
       "title": "Species",
       "type": "array"
     },
+    "studyType": {
+      "description": "Study type for dataset",
+      "title": "Study type",
+      "enum": [
+        "Patient Registry Study",
+        "Natural History Study",
+        "Clinical Trial",
+        "Unknown"
+      ],
+      "type": "string"
+    },
     "subject": {
       "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
       "items": {
