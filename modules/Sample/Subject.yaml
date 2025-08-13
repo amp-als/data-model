@@ -1,0 +1,47 @@
+classes:
+  Subject:
+    description: Individual subject/participant record for various data sources
+    attributes:
+      globalSubjectId: 
+        title: Global Subject ID
+        range: string
+        description: > 
+          Globally unique identifier for a subject across all data sources. 
+          Format: {data_source_prefix}:{dataset_id}:{original_subject_id}
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$"
+      originalSubjectId: 
+        title: Original Subject ID
+        range: string
+        description: Original subject identifier provided by data source. 
+        required: false
+    
+      datasetReference: 
+        title: Dataset Reference
+        range: string
+        description: Reference to dataset this subject belongs to
+        required: false
+
+      dataSourcePrefix: 
+        title: Data Source Prefix
+        range: DataSourceEnum
+        description: Short identifier indicating the data source origin 
+        required: false
+enums:
+  DataSourceEnum:
+    permissible_values:
+      cpath:
+        description: Critical Path Institute datasets
+      als_compute: 
+        description: ALS Compute datasets
+      geo:
+        description: Gene Expression Omnibus datasets
+      sra:
+        description: Sequence Read Archive datasets
+      target_als:
+        description: Target ALS datasets
+      synapse: 
+        description: Synapse datasets
+      all_als:
+        description: ALL ALS datasets
+

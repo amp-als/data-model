@@ -10,19 +10,20 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace prov: ;
-            sh:prefix "prov" ],
+    sh:declare [ sh:namespace schema1: ;
+            sh:prefix "schema" ],
+        [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
         [ sh:namespace skos: ;
             sh:prefix "skos" ],
         [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
             sh:prefix "als" ],
         [ sh:namespace linkml: ;
             sh:prefix "linkml" ],
-        [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ] ;
-    linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+        [ sh:namespace prov: ;
+            sh:prefix "prov" ] ;
+    linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset>,
+        <https://w3id.org/synapse/amp-als/vocab/Subject> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
     linkml:default_range <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -36,6 +37,7 @@
         <https://w3id.org/synapse/amp-als/vocab/CollectionEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum>,
         <https://w3id.org/synapse/amp-als/vocab/Data>,
+        <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum>,
         <https://w3id.org/synapse/amp-als/vocab/DataSubtypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/DrugScreen>,
         <https://w3id.org/synapse/amp-als/vocab/FileFormatEnum>,
@@ -62,7 +64,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-08-01T21:20:18"^^xsd:dateTime ;
+    linkml:generation_date "2025-08-12T20:55:13"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -134,11 +136,15 @@
         <https://w3id.org/synapse/amp-als/vocab/studyId>,
         <https://w3id.org/synapse/amp-als/vocab/studyLeads>,
         <https://w3id.org/synapse/amp-als/vocab/studyName>,
+        <https://w3id.org/synapse/amp-als/vocab/subject__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/subject__datasetReference>,
+        <https://w3id.org/synapse/amp-als/vocab/subject__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subject__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-08-01T21:20:17"^^xsd:dateTime ;
-    linkml:source_file_size 145210 ;
+    linkml:source_file_date "2025-08-12T20:55:12"^^xsd:dateTime ;
+    linkml:source_file_size 146646 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -979,6 +985,10 @@
 <https://w3id.org/synapse/amp-als/vocab/ai> skos:definition "Adobe Illustrator format" ;
     linkml:meaning <http://www.ebi.ac.uk/swo/data/SWO_3000023> .
 
+<https://w3id.org/synapse/amp-als/vocab/all_als> skos:definition "ALL ALS datasets" .
+
+<https://w3id.org/synapse/amp-als/vocab/als_compute> skos:definition "ALS Compute datasets" .
+
 <https://w3id.org/synapse/amp-als/vocab/array> skos:definition "" .
 
 <https://w3id.org/synapse/amp-als/vocab/atomic%20force%20microscopy> skos:definition "Microscopy which uses a sharp spike (known as a 'tip') mounted on the end of a cantilever to scan the surface of the specimen" ;
@@ -1140,6 +1150,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/conventional%20MRI> skos:definition "Magnetic resonance imaging using standard protocols for high resolution structural and anatomic characterization, including T1 weighted, T2 weighted, fluid attenuated inversion recovery (FLAIR), and gadolinium-enhanced sequences. [  NCI  ]" ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C175525> .
+
+<https://w3id.org/synapse/amp-als/vocab/cpath> skos:definition "Critical Path Institute datasets" .
 
 <https://w3id.org/synapse/amp-als/vocab/crai> skos:definition "A CRAI file is an index for a CRAM file, facilitating fast data retrieval." ;
     skos:editorialNote "ChatGPT (September 25, 2023 Version)" .
@@ -1359,6 +1371,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/genotyping> skos:definition "The determination of the DNA sequence of an individual." ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C45447> .
+
+<https://w3id.org/synapse/amp-als/vocab/geo> skos:definition "Gene Expression Omnibus datasets" .
 
 <https://w3id.org/synapse/amp-als/vocab/gff3> skos:definition "Generic Feature Format version 3 (GFF3) of sequence features." ;
     linkml:meaning <http://edamontology.org/format_1975> .
@@ -1837,9 +1851,6 @@
 <https://w3id.org/synapse/amp-als/vocab/sqlite> skos:definition "Data format used by the SQLite database." ;
     linkml:meaning <http://edamontology.org/format_3621> .
 
-<https://w3id.org/synapse/amp-als/vocab/sra> skos:definition "SRA archive format (SRA) is the archive format used for input to the NCBI Sequence Read Archive." ;
-    linkml:meaning <http://edamontology.org/format_3698> .
-
 <https://w3id.org/synapse/amp-als/vocab/static%20histomorphometry> skos:definition "Static histomorphometry involves evaluation of bone parameters at a particular time point." .
 
 <https://w3id.org/synapse/amp-als/vocab/static%20light%20scattering> skos:definition "Static Light Scattering is a method for determining structure by measuring the total or time-averaged scattering intensity of scattered visible light as a function of angle." ;
@@ -1857,11 +1868,15 @@
 <https://w3id.org/synapse/amp-als/vocab/svs> skos:definition "A single-file pyramidal tiled TIFF, with non-standard metadata and compression." ;
     linkml:meaning <https://openslide.org/formats/aperio/> .
 
+<https://w3id.org/synapse/amp-als/vocab/synapse> skos:definition "Synapse datasets" .
+
 <https://w3id.org/synapse/amp-als/vocab/tagAlign> skos:definition "Tag Alignment provides genomic mapping of short sequence tags." ;
     linkml:meaning <https://genome.ucsc.edu/FAQ/FAQformat.html#format15> .
 
 <https://w3id.org/synapse/amp-als/vocab/tar> skos:definition "tape archive" ;
     linkml:meaning <https://en.wikipedia.org/wiki/Tar_(computing)> .
+
+<https://w3id.org/synapse/amp-als/vocab/target_als> skos:definition "Target ALS datasets" .
 
 <https://w3id.org/synapse/amp-als/vocab/targeted%20exome%20sequencing> skos:definition "Also known as Clinical Exome Sequencing, Targeted Exome Sequencing is a subset of WES as it covers a limited number of genes, typically 3000 to 6000 genes." ;
     linkml:meaning <https://labassure.com/whole-exome-sequencing-vs-clinical-exome-sequencing/> .
@@ -2255,6 +2270,16 @@
     skos:definition "TBD" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix> a linkml:SlotDefinition ;
+    dcterms:title "Data Source Prefix" ;
+    skos:definition "Short identifier indicating the data source origin" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/datasetReference> a linkml:SlotDefinition ;
+    dcterms:title "Dataset Reference" ;
+    skos:definition "Reference to dataset this subject belongs to" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataset__alternateName> a linkml:SlotDefinition ;
     dcterms:title "Alternate Name" ;
     skos:definition "An alternate name that can be used for search and discovery improvement." ;
@@ -2491,6 +2516,13 @@
     skos:definition "Date data were published/available on Synapse." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
 
+<https://w3id.org/synapse/amp-als/vocab/globalSubjectId> a linkml:SlotDefinition ;
+    dcterms:title "Global Subject ID" ;
+    skos:definition """Globally unique identifier for a subject across all data sources.  Format: {data_source_prefix}:{dataset_id}:{original_subject_id}
+""" ;
+    linkml:pattern "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
 <https://w3id.org/synapse/amp-als/vocab/immunoassay> skos:definition "Generic immunology assay",
         "Laboratory test involving interaction of antigens with specific antibodies." ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C16723> .
@@ -2520,6 +2552,11 @@
 <https://w3id.org/synapse/amp-als/vocab/mitochondria> dcterms:source <https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json> ;
     skos:definition "Mitochondria only" .
 
+<https://w3id.org/synapse/amp-als/vocab/originalSubjectId> a linkml:SlotDefinition ;
+    dcterms:title "Original Subject ID" ;
+    skos:definition "Original subject identifier provided by data source." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
 <https://w3id.org/synapse/amp-als/vocab/publisher> a linkml:SlotDefinition ;
     dcterms:title "Publisher" ;
     skos:definition "Name of the organization or person responsible for making the dataset available." ;
@@ -2544,6 +2581,10 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true .
 
+<https://w3id.org/synapse/amp-als/vocab/sra> skos:definition "SRA archive format (SRA) is the archive format used for input to the NCBI Sequence Read Archive.",
+        "Sequence Read Archive datasets" ;
+    linkml:meaning <http://edamontology.org/format_3698> .
+
 <https://w3id.org/synapse/amp-als/vocab/studyType> a linkml:SlotDefinition ;
     dcterms:title "Study type" ;
     skos:definition "Study type for dataset" ;
@@ -2554,6 +2595,48 @@
     skos:definition "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme." ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
+<https://w3id.org/synapse/amp-als/vocab/subject__dataSourcePrefix> a linkml:SlotDefinition ;
+    dcterms:title "Data Source Prefix" ;
+    skos:definition "Short identifier indicating the data source origin" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "dataSourcePrefix" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix> .
+
+<https://w3id.org/synapse/amp-als/vocab/subject__datasetReference> a linkml:SlotDefinition ;
+    dcterms:title "Dataset Reference" ;
+    skos:definition "Reference to dataset this subject belongs to" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "datasetReference" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/datasetReference> .
+
+<https://w3id.org/synapse/amp-als/vocab/subject__globalSubjectId> a linkml:SlotDefinition ;
+    dcterms:title "Global Subject ID" ;
+    skos:definition """Globally unique identifier for a subject across all data sources.  Format: {data_source_prefix}:{dataset_id}:{original_subject_id}
+""" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "globalSubjectId" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:pattern "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/globalSubjectId> .
+
+<https://w3id.org/synapse/amp-als/vocab/subject__originalSubjectId> a linkml:SlotDefinition ;
+    dcterms:title "Original Subject ID" ;
+    skos:definition "Original subject identifier provided by data source." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "originalSubjectId" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/originalSubjectId> .
 
 <https://w3id.org/synapse/amp-als/vocab/url> a linkml:SlotDefinition ;
     dcterms:title "URL" ;
@@ -3004,11 +3087,11 @@
     skos:definition "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/sex> .
@@ -3079,6 +3162,16 @@
         <https://w3id.org/synapse/amp-als/vocab/Raw>,
         <https://w3id.org/synapse/amp-als/vocab/Standardized>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
+
+<https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/all_als>,
+        <https://w3id.org/synapse/amp-als/vocab/als_compute>,
+        <https://w3id.org/synapse/amp-als/vocab/cpath>,
+        <https://w3id.org/synapse/amp-als/vocab/geo>,
+        <https://w3id.org/synapse/amp-als/vocab/sra>,
+        <https://w3id.org/synapse/amp-als/vocab/synapse>,
+        <https://w3id.org/synapse/amp-als/vocab/target_als> .
 
 <https://w3id.org/synapse/amp-als/vocab/License> skos:definition "License attached to the data. If indicates UNKNOWN or RESTRICTED-USE, data may not be used without further contact for terms." ;
     skos:editorialNote "https://help.figshare.com/article/what-is-the-most-appropriate-licence-for-my-research",
@@ -3411,6 +3504,21 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/title> .
+
+<https://w3id.org/synapse/amp-als/vocab/Subject> a linkml:ClassDefinition ;
+    skos:definition "Individual subject/participant record for various data sources" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/datasetReference>,
+        <https://w3id.org/synapse/amp-als/vocab/globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/originalSubjectId> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Subject> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/subject__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/subject__datasetReference>,
+        <https://w3id.org/synapse/amp-als/vocab/subject__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subject__originalSubjectId> .
 
 <https://w3id.org/synapse/amp-als/vocab/Dataset> a linkml:ClassDefinition ;
     skos:definition "Model for dataset on the AMP-ALS portal" ;
