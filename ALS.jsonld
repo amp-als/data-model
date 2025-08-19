@@ -610,6 +610,125 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:Biospecimen",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "Biological specimen information including sample collection, processing, and storage details",
+            "rdfs:label": "Biospecimen",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "Biospecimen",
+            "sms:required": "sms:false",
+            "sms:requiresDependency": [
+                {
+                    "@id": "bts:GlobalBiospecimenId"
+                },
+                {
+                    "@id": "bts:OriginalBiospecimenId"
+                },
+                {
+                    "@id": "bts:DataSourcePrefix"
+                },
+                {
+                    "@id": "bts:Tissue"
+                },
+                {
+                    "@id": "bts:Organ"
+                }
+            ],
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:GlobalBiospecimenId",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "GlobalBiospecimenId",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "globalBiospecimenId",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:OriginalBiospecimenId",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "OriginalBiospecimenId",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "originalBiospecimenId",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:DataSourcePrefix",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "DataSourcePrefix",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "dataSourcePrefix",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:Tissue",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Tissue",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "tissue",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:Organ",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Organ",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Thing"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "organ",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:Subject",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
@@ -688,23 +807,6 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "datasetReference",
-            "sms:required": "sms:false",
-            "sms:validationRules": []
-        },
-        {
-            "@id": "bts:DataSourcePrefix",
-            "@type": "rdfs:Class",
-            "rdfs:comment": "TBD",
-            "rdfs:label": "DataSourcePrefix",
-            "rdfs:subClassOf": [
-                {
-                    "@id": "bts:Thing"
-                }
-            ],
-            "schema:isPartOf": {
-                "@id": "http://schema.biothings.io"
-            },
-            "sms:displayName": "dataSourcePrefix",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -5569,6 +5671,12 @@
                     "@id": "bts:BrdUproliferationassay"
                 },
                 {
+                    "@id": "bts:Bru-seq"
+                },
+                {
+                    "@id": "bts:BruChase-seq"
+                },
+                {
                     "@id": "bts:CAPP-seq"
                 },
                 {
@@ -5587,6 +5695,9 @@
                     "@id": "bts:CODEX"
                 },
                 {
+                    "@id": "bts:CROP-seq"
+                },
+                {
                     "@id": "bts:Confocalmicroscopy"
                 },
                 {
@@ -5594,6 +5705,9 @@
                 },
                 {
                     "@id": "bts:Currentclampassay"
+                },
+                {
+                    "@id": "bts:DART-seq"
                 },
                 {
                     "@id": "bts:DiffusionMRI"
@@ -5642,6 +5756,9 @@
                 },
                 {
                     "@id": "bts:MIB/MS"
+                },
+                {
+                    "@id": "bts:MeRIP-seq"
                 },
                 {
                     "@id": "bts:Matrigel-basedtumorigenesisassay"
@@ -5731,6 +5848,9 @@
                     "@id": "bts:CAMP-GloMaxAssay"
                 },
                 {
+                    "@id": "bts:CAGE-seq"
+                },
+                {
                     "@id": "bts:Calciumretentioncapacityassay"
                 },
                 {
@@ -5750,6 +5870,9 @@
                 },
                 {
                     "@id": "bts:Clinicaldata"
+                },
+                {
+                    "@id": "bts:CLIP-seq"
                 },
                 {
                     "@id": "bts:CNF-Skindex"
@@ -5795,6 +5918,9 @@
                 },
                 {
                     "@id": "bts:FACE-QAppearance-relatedDistress"
+                },
+                {
+                    "@id": "bts:FACS"
                 },
                 {
                     "@id": "bts:Flowcytometry"
@@ -5857,6 +5983,9 @@
                     "@id": "bts:Jumpinglibrary"
                 },
                 {
+                    "@id": "bts:LCM"
+                },
+                {
                     "@id": "bts:Labelfreemassspectrometry"
                 },
                 {
@@ -5885,6 +6014,9 @@
                 },
                 {
                     "@id": "bts:MRNAcounts"
+                },
+                {
+                    "@id": "bts:M6Aarray"
                 },
                 {
                     "@id": "bts:Magneticresonanceangiography"
@@ -5998,6 +6130,9 @@
                     "@id": "bts:QuantitativePCR"
                 },
                 {
+                    "@id": "bts:Quant-seq"
+                },
+                {
                     "@id": "bts:Questionnaire"
                 },
                 {
@@ -6008,6 +6143,9 @@
                 },
                 {
                     "@id": "bts:Rheometry"
+                },
+                {
+                    "@id": "bts:RIP-seq"
                 },
                 {
                     "@id": "bts:Ribo-seq"
@@ -6035,6 +6173,12 @@
                 },
                 {
                     "@id": "bts:SinglecellATAC-seq"
+                },
+                {
+                    "@id": "bts:SnATAC-seq"
+                },
+                {
+                    "@id": "bts:SnRNA-seq"
                 },
                 {
                     "@id": "bts:Single-nucleusRNA-seq"
@@ -6303,6 +6447,40 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:Bru-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Bru-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "Bru-seq",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:BruChase-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "BruChase-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "BruChase-seq",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:CAPP-seq",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
@@ -6405,6 +6583,23 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:CROP-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "CROP-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "CROP-seq",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:Confocalmicroscopy",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
@@ -6452,6 +6647,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "current clamp assay",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:DART-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "DART-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "DART-seq",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -6724,6 +6936,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "MIB/MS",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:MeRIP-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "MeRIP-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "MeRIP-seq",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -7221,6 +7450,23 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:CAGE-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "CAGE-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "CAGE-seq",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:Calciumretentioncapacityassay",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
@@ -7336,6 +7582,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "clinical data",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:CLIP-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "CLIP-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "CLIP-seq",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -7591,6 +7854,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "FACE-Q Appearance-related Distress",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:FACS",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "FACS",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "FACS",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -7918,6 +8198,23 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:LCM",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "LCM",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "LCM",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:Labelfreemassspectrometry",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
@@ -8084,6 +8381,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "mRNA counts",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:M6Aarray",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "M6Aarray",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "m6A array",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -8717,6 +9031,23 @@
             "sms:validationRules": []
         },
         {
+            "@id": "bts:Quant-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "Quant-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "Quant-seq",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
             "@id": "bts:Questionnaire",
             "@type": "rdfs:Class",
             "rdfs:comment": "TBD",
@@ -8781,6 +9112,23 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "rheometry",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:RIP-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "RIP-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "RIP-seq",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
@@ -8934,6 +9282,40 @@
                 "@id": "http://schema.biothings.io"
             },
             "sms:displayName": "single cell ATAC-seq",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:SnATAC-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "SnATAC-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "snATAC-seq",
+            "sms:required": "sms:false",
+            "sms:validationRules": []
+        },
+        {
+            "@id": "bts:SnRNA-seq",
+            "@type": "rdfs:Class",
+            "rdfs:comment": "TBD",
+            "rdfs:label": "SnRNA-seq",
+            "rdfs:subClassOf": [
+                {
+                    "@id": "bts:Assay"
+                }
+            ],
+            "schema:isPartOf": {
+                "@id": "http://schema.biothings.io"
+            },
+            "sms:displayName": "snRNA-seq",
             "sms:required": "sms:false",
             "sms:validationRules": []
         },
