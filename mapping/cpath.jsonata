@@ -18,6 +18,6 @@
   "url": "https://fair.dap.c-path.org/#/data/datasets/" & code,
   "datasetReference": $string(id),
   "dataSourcePrefix": "cpath",
-  /* "globalSubjectId": dataSourcePrefix & ":" & datasetReference & ":" & subject_id, */
   /* "originalSubjectId": subject_id */
+  /* "globalSubjectId": dataSourcePrefix & ":" & datasetReference & ":" & originalSubjectId, */
 }

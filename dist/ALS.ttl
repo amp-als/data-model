@@ -10,19 +10,20 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace skos: ;
-            sh:prefix "skos" ],
+    sh:declare [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
         [ sh:namespace schema1: ;
             sh:prefix "schema" ],
-        [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ],
+        [ sh:namespace prov: ;
+            sh:prefix "prov" ],
         [ sh:namespace linkml: ;
             sh:prefix "linkml" ],
-        [ sh:namespace prov: ;
-            sh:prefix "prov" ] ;
-    linkml:classes <https://w3id.org/synapse/amp-als/vocab/Dataset>,
+        [ sh:namespace skos: ;
+            sh:prefix "skos" ],
+        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ] ;
+    linkml:classes <https://w3id.org/synapse/amp-als/vocab/Biospecimen>,
+        <https://w3id.org/synapse/amp-als/vocab/Dataset>,
         <https://w3id.org/synapse/amp-als/vocab/Subject> ;
     linkml:default_curi_maps "semweb_context" ;
     linkml:default_prefix "als" ;
@@ -64,7 +65,7 @@
         <https://w3id.org/synapse/amp-als/vocab/UnknownEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-08-13T03:56:30"^^xsd:dateTime ;
+    linkml:generation_date "2025-08-18T23:24:41"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -79,6 +80,11 @@
         <https://w3id.org/synapse/amp-als/vocab/auxiliaryAsset>,
         <https://w3id.org/synapse/amp-als/vocab/batchID>,
         <https://w3id.org/synapse/amp-als/vocab/benefactorId>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__globalBiospecimenId>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__organ>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__originalBiospecimenId>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__tissue>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/comments>,
         <https://w3id.org/synapse/amp-als/vocab/concreteType>,
@@ -143,8 +149,8 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-08-13T03:56:29"^^xsd:dateTime ;
-    linkml:source_file_size 146646 ;
+    linkml:source_file_date "2025-08-18T23:24:40"^^xsd:dateTime ;
+    linkml:source_file_size 152695 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -257,6 +263,15 @@
 <https://w3id.org/synapse/amp-als/vocab/BrdU%20proliferation%20assay> skos:definition "A cell proliferation assay in which cells are cultured in the presence of BrdU which is incorporated into newly synthesized DNA of replicating cells (during the S phase of the cell cycle)." ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0000664> .
 
+<https://w3id.org/synapse/amp-als/vocab/Bru-seq> skos:definition "Bromouridine sequencing (Bru-seq) uses bromouridine incorporation to label and isolate newly transcribed RNA, enabling genome-wide analysis of nascent transcription and real-time measurement of RNA synthesis rates." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/OBI_0002113> .
+
+<https://w3id.org/synapse/amp-als/vocab/BruChase-seq> dcterms:source <http://purl.obolibrary.org/obo/OBI_0002114> ;
+    skos:definition "BruChase sequencing extends Bru-seq with a chase period to measure both RNA synthesis and degradation rates, providing kinetic analysis of transcript turnover and RNA stability genome-wide." .
+
+<https://w3id.org/synapse/amp-als/vocab/CAGE-seq> skos:definition "Cap Analysis of Gene Expression sequencing (CAGE-seq) identifies and quantifies transcription start sites genome-wide by sequencing the 5' ends of capped mRNAs, providing precise mapping of transcriptional initiation events." ;
+    linkml:meaning <https://ontobee.org/ontology/OBI?iri=http://purl.obolibrary.org/obo/OBI_0001674> .
+
 <https://w3id.org/synapse/amp-als/vocab/CAPP-seq> dcterms:source <https://www.redjournal.org/article/S0360-3016(16)30438-2/fulltext> ;
     skos:definition "Cancer Personalized Profiling by deep sequencing (CAPP-seq) is a novel blood-based assay that uses next-generating sequencing to quantitate circulating tumor DNA (ctDNA)" ;
     linkml:meaning <http://www.ebi.ac.uk/efo/EFO_0008672> .
@@ -297,6 +312,9 @@
 <https://w3id.org/synapse/amp-als/vocab/CEL-seq> dcterms:source <https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json> ;
     skos:definition "CEL-Seq library preparation" .
 
+<https://w3id.org/synapse/amp-als/vocab/CLIP-seq> skos:definition "Cross-linking immunoprecipitation sequencing (CLIP-seq) identifies genome-wide binding sites of RNA-binding proteins by cross-linking protein-RNA complexes in vivo, followed by immunoprecipitation and sequencing of associated RNA fragments." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/OBI_0001858> .
+
 <https://w3id.org/synapse/amp-als/vocab/CNVkit> dcterms:source <https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1004873> .
 
 <https://w3id.org/synapse/amp-als/vocab/CODEX> skos:definition "CODEX imaging." .
@@ -305,6 +323,9 @@
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C17285> .
 
 <https://w3id.org/synapse/amp-als/vocab/CRISPR> skos:definition "" .
+
+<https://w3id.org/synapse/amp-als/vocab/CROP-seq> dcterms:source <https://www.nature.com/articles/nmeth.4177> ;
+    skos:definition "CRISPR droplet sequencing (CROP-seq) combines single-cell RNA sequencing with pooled CRISPR screening to assess gene function by measuring transcriptional responses to individual gene perturbations at single-cell resolution." .
 
 <https://w3id.org/synapse/amp-als/vocab/CUT%26RUN> skos:definition "Cleavage Under Targets and Release Using Nuclease (CUT&RUN) is a chromatin profiling strategy in which antibody-targeted controlled cleavage by micrococcal nuclease releases specific protein-DNA complexes into the supernatant for paired-end DNA sequencing. (doi:10.7554/eLife.21856)" .
 
@@ -349,6 +370,9 @@
 <https://w3id.org/synapse/amp-als/vocab/Cy5> skos:definition "Fluorescent dye used for the red channel on an array" ;
     linkml:meaning <http://purl.obolibrary.org/obo/FBbi_00000450> .
 
+<https://w3id.org/synapse/amp-als/vocab/DART-seq> dcterms:source <https://www.nature.com/articles/s41467-021-23239-9> ;
+    skos:definition "Digital analysis of RNA targeting sequencing (DART-seq) enables transcriptome-wide detection and quantification of adenosine-to-inosine RNA editing events through computational analysis of RNA sequencing data." .
+
 <https://w3id.org/synapse/amp-als/vocab/DESeq2> dcterms:source <https://bioconductor.org/packages/release/bioc/html/DESeq2.html> .
 
 <https://w3id.org/synapse/amp-als/vocab/DICOM> skos:definition "A comprehensive set of standards for communications between medical imaging devices, including handling, storing and transmitting information in medical imaging. It includes a file format definition and a network communication protocol." ;
@@ -385,6 +409,9 @@
 <https://w3id.org/synapse/amp-als/vocab/FACE-Q%20Appearance-related%20Distress> skos:definition """This 8-item scale measures appearance-related distress in people seeking cosmetic treatments for the body or the face.  Item ask someone to agree/disagree with statements about feelings (e.g., unhappy, stressed, down) and behaviors, such as avoiding being around people.
 """ ;
     linkml:meaning <https://qportfolio.org/wp-content/uploads/2021/11/FACE-Q-AESTHETICS-USERS-GUIDE.pdf> .
+
+<https://w3id.org/synapse/amp-als/vocab/FACS> skos:definition "Fluorescence-Activated Cell Sorting (FACS) isolates specific cell populations based on fluorescent markers using flow cytometry, often combined with downstream RNA sequencing for cell-type-specific transcriptomic analysis." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/OBI_0000916> .
 
 <https://w3id.org/synapse/amp-als/vocab/FIA-MSMS> skos:definition "Flow injection analysis - tandem mass spectrometer" ;
     linkml:meaning <https://www.ncbi.nlm.nih.gov/pubmed/28667829> .
@@ -578,6 +605,9 @@
 <https://w3id.org/synapse/amp-als/vocab/KAPA%20mRNA%20HyperPrep%20Kit> dcterms:source <https://sequencing.roche.com/global/en/products/group/kapa-rna-hyperprep-kits.html> ;
     skos:definition "The KAPA mRNA HyperPrep Kit is a highly efficient library preparation kit designed for generating stranded RNA-seq libraries with low input amounts and reduced bias." .
 
+<https://w3id.org/synapse/amp-als/vocab/LCM> skos:definition "Laser Capture Microdissection (LCM) precisely isolates specific cells or tissue regions from histological sections using laser technology, enabling spatially-resolved molecular analysis when combined with sequencing approaches." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/OBI_0001096> .
+
 <https://w3id.org/synapse/amp-als/vocab/LI-COR%20Odyssey%20CLx> dcterms:source <https://www.licor.com/bio/odyssey-clx/> ;
     skos:definition "A LI-COR Odyssey CLx imaging system" .
 
@@ -628,6 +658,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Matrigel-based%20tumorigenesis%20assay> rdfs:seeAlso <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3230200/> ;
     skos:definition "An assay in which tumor cells are loaded into a Matrigel matrix and measured for tumor formation characteristics" .
+
+<https://w3id.org/synapse/amp-als/vocab/MeRIP-seq> skos:definition "Methylated RNA immunoprecipitation sequencing (MeRIP-seq) maps N6-methyladenosine (m6A) modifications transcriptome-wide by immunoprecipitating methylated RNA fragments followed by high-throughput sequencing." ;
+    linkml:meaning <https://pubmed.ncbi.nlm.nih.gov/22608085/> .
 
 <https://w3id.org/synapse/amp-als/vocab/MudPIT> skos:definition "MudPIT is a method for rapid and large-scale protein identification by multidimensional liquid chromatography associated with tandem mass spectrometry" ;
     linkml:meaning <http://purl.obolibrary.org/obo/MI_0658> .
@@ -760,6 +793,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/QIAseq%20FX%20DNA%20Library%20Kit> dcterms:source <https://www.qiagen.com/us/products/discovery-and-translational-research/next-generation-sequencing/metagenomics/qiaseq-fx-dna-library-kit> .
 
+<https://w3id.org/synapse/amp-als/vocab/Quant-seq> skos:definition "3' end-targeted RNA sequencing (Quant-seq) provides cost-effective gene expression quantification by sequencing only the 3' terminal regions of transcripts, generating digital gene expression profiles with reduced sequencing requirements." ;
+    linkml:meaning <https://www.lexogen.com/quantseq-3mrna-seq/> .
+
 <https://w3id.org/synapse/amp-als/vocab/QuantSeq%20FWD%20V2%20with%20UDI> dcterms:source <https://www.lexogen.com/quantseq-fwd-udi-v2/> ;
     skos:definition "Prep kit for next-gen sequencing with low-abundance samples. For analysis, note that this only provides gene-level counts, not transcript-level." .
 
@@ -776,6 +812,9 @@
     skos:definition "This is yet another MRI image format generated by Philips scanners. It is an ASCII header (PAR) plus a binary blob (REC)." .
 
 <https://w3id.org/synapse/amp-als/vocab/RESTRICTED-USE> skos:definition "Contact the data creator regarding restricted usage of the data." .
+
+<https://w3id.org/synapse/amp-als/vocab/RIP-seq> skos:definition "RNA immunoprecipitation sequencing (RIP-seq) identifies RNA molecules associated with specific RNA-binding proteins through immunoprecipitation of native protein-RNA complexes followed by sequencing of bound RNAs." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/OBI_0001857> .
 
 <https://w3id.org/synapse/amp-als/vocab/RNA%20array> skos:definition "RNA measurements captured by array technology" ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0001463> .
@@ -1521,6 +1560,9 @@
 <https://w3id.org/synapse/amp-als/vocab/long%20term%20potentiation%20assay> skos:definition "A measure of the persistent robust synaptic response induced by synchronous stimulation of pre- and postsynaptic cells." ;
     linkml:meaning <http://purl.obolibrary.org/obo/VT_0002207> .
 
+<https://w3id.org/synapse/amp-als/vocab/m6A%20array> dcterms:source <https://www.arraystar.com/m6a-methylated-rna-immunoprecipitation-microarray/> ;
+    skos:definition "N6-methyladenosine array (m6A array) is a microarray-based method for detecting and quantifying m6A RNA modifications across the transcriptome using methylation-specific antibodies and array hybridization." .
+
 <https://w3id.org/synapse/amp-als/vocab/mRNA%20counts> skos:definition "A mRNA profiling assay using digital molecular barcoding technology to quantify target mRNA molecules without the need for amplification." .
 
 <https://w3id.org/synapse/amp-als/vocab/maf> skos:definition "Multiple Alignment Format (MAF) supporting alignments of whole genomes with rearrangements, directions, multiple pieces to the alignment, and so forth" ;
@@ -1827,6 +1869,12 @@
 
 <https://w3id.org/synapse/amp-als/vocab/singleEnd> skos:definition "A library preparation that results in the creation of a library of 5' ends of DNA." .
 
+<https://w3id.org/synapse/amp-als/vocab/snATAC-seq> skos:definition "Single-nucleus Assay for Transposase-Accessible Chromatin sequencing (snATAC-seq) profiles chromatin accessibility at single-cell resolution using isolated nuclei, particularly valuable for analyzing frozen tissues and complex sample types." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/OBI_0002762> .
+
+<https://w3id.org/synapse/amp-als/vocab/snRNA-seq> skos:definition "Single-nucleus RNA sequencing (snRNA-seq) profiles gene expression in individual cell nuclei, enabling transcriptomic analysis of cell types in tissues where whole-cell dissociation is challenging or introduces bias." ;
+    linkml:meaning <http://purl.obolibrary.org/obo/OBI_0003109> .
+
 <https://w3id.org/synapse/amp-als/vocab/sorbitol%20dehydrogenase%20activity%20level%20assay> skos:definition "An enzymatic activity level assay that measures the activity of sorbitol dehydrogenase in a sample." ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0003434> .
 
@@ -1845,7 +1893,7 @@
     skos:editorialNote "Note that term has no matches in OLS as of June 2022." ;
     linkml:meaning <https://doi.org/10.3390/photonics8050162> .
 
-<https://w3id.org/synapse/amp-als/vocab/spatial%20transcriptomics> skos:definition "assay that allows visualization and quantitative analysis of the transcriptome with spatial resolution in individual tissue sections" ;
+<https://w3id.org/synapse/amp-als/vocab/spatial%20transcriptomics> skos:definition "assay that allows visualization and qhttps://ontobee.org/ontology/OBI?iri=http://purl.obolibrary.org/obo/OBI_0001674uantitative analysis of the transcriptome with spatial resolution in individual tissue sections" ;
     linkml:meaning <http://www.ebi.ac.uk/efo/EFO_0008994> .
 
 <https://w3id.org/synapse/amp-als/vocab/sqlite> skos:definition "Data format used by the SQLite database." ;
@@ -2253,6 +2301,58 @@
     skos:definition "An alternate name that can be used for search and discovery improvement." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
+<https://w3id.org/synapse/amp-als/vocab/biospecimen__dataSourcePrefix> a linkml:SlotDefinition ;
+    dcterms:title "Data Source Prefix" ;
+    skos:definition "Short identifier indicating the data source origin" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "dataSourcePrefix" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix> .
+
+<https://w3id.org/synapse/amp-als/vocab/biospecimen__globalBiospecimenId> a linkml:SlotDefinition ;
+    dcterms:title "Global Biospecimen ID" ;
+    skos:definition """Globally unique identifier for a biospecimen across all data sources. Format: {data_source_prefix}:{dataset_id}:{subject_id}:{biospecimen_id}
+""" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "globalBiospecimenId" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:pattern "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/globalBiospecimenId> .
+
+<https://w3id.org/synapse/amp-als/vocab/biospecimen__organ> a linkml:SlotDefinition ;
+    dcterms:title "Organ" ;
+    skos:definition "Organ from which the biospecimen was derived" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "organ" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/organ> .
+
+<https://w3id.org/synapse/amp-als/vocab/biospecimen__originalBiospecimenId> a linkml:SlotDefinition ;
+    dcterms:title "Original Biospecimen ID" ;
+    skos:definition "The original biospecimen identifier as provided by the data source" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "originalBiospecimenId" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/originalBiospecimenId> .
+
+<https://w3id.org/synapse/amp-als/vocab/biospecimen__tissue> a linkml:SlotDefinition ;
+    dcterms:title "Tissue Type" ;
+    skos:definition "Type of tissue from which the biospecimen was derived" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "tissue" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/tissue> .
+
 <https://w3id.org/synapse/amp-als/vocab/collection> a linkml:SlotDefinition ;
     dcterms:title "Collection" ;
     skos:definition "Associated collection(s)" ;
@@ -2269,11 +2369,6 @@
     dcterms:title "Curation level" ;
     skos:definition "TBD" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> .
-
-<https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix> a linkml:SlotDefinition ;
-    dcterms:title "Data Source Prefix" ;
-    skos:definition "Short identifier indicating the data source origin" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/datasetReference> a linkml:SlotDefinition ;
     dcterms:title "Dataset Reference" ;
@@ -2516,6 +2611,13 @@
     skos:definition "Date data were published/available on Synapse." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
 
+<https://w3id.org/synapse/amp-als/vocab/globalBiospecimenId> a linkml:SlotDefinition ;
+    dcterms:title "Global Biospecimen ID" ;
+    skos:definition """Globally unique identifier for a biospecimen across all data sources. Format: {data_source_prefix}:{dataset_id}:{subject_id}:{biospecimen_id}
+""" ;
+    linkml:pattern "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
 <https://w3id.org/synapse/amp-als/vocab/globalSubjectId> a linkml:SlotDefinition ;
     dcterms:title "Global Subject ID" ;
     skos:definition """Globally unique identifier for a subject across all data sources.  Format: {data_source_prefix}:{dataset_id}:{original_subject_id}
@@ -2551,6 +2653,16 @@
 
 <https://w3id.org/synapse/amp-als/vocab/mitochondria> dcterms:source <https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json> ;
     skos:definition "Mitochondria only" .
+
+<https://w3id.org/synapse/amp-als/vocab/organ> a linkml:SlotDefinition ;
+    dcterms:title "Organ" ;
+    skos:definition "Organ from which the biospecimen was derived" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
+<https://w3id.org/synapse/amp-als/vocab/originalBiospecimenId> a linkml:SlotDefinition ;
+    dcterms:title "Original Biospecimen ID" ;
+    skos:definition "The original biospecimen identifier as provided by the data source" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/originalSubjectId> a linkml:SlotDefinition ;
     dcterms:title "Original Subject ID" ;
@@ -2637,6 +2749,11 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Subject> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/originalSubjectId> .
+
+<https://w3id.org/synapse/amp-als/vocab/tissue> a linkml:SlotDefinition ;
+    dcterms:title "Tissue Type" ;
+    skos:definition "Type of tissue from which the biospecimen was derived" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/url> a linkml:SlotDefinition ;
     dcterms:title "URL" ;
@@ -3087,9 +3204,9 @@
     skos:definition "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
@@ -3163,16 +3280,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Standardized>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
-<https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/all_als>,
-        <https://w3id.org/synapse/amp-als/vocab/als_compute>,
-        <https://w3id.org/synapse/amp-als/vocab/cpath>,
-        <https://w3id.org/synapse/amp-als/vocab/geo>,
-        <https://w3id.org/synapse/amp-als/vocab/sra>,
-        <https://w3id.org/synapse/amp-als/vocab/synapse>,
-        <https://w3id.org/synapse/amp-als/vocab/target_als> .
-
 <https://w3id.org/synapse/amp-als/vocab/License> skos:definition "License attached to the data. If indicates UNKNOWN or RESTRICTED-USE, data may not be used without further contact for terms." ;
     skos:editorialNote "https://help.figshare.com/article/what-is-the-most-appropriate-licence-for-my-research",
         "https://libanswers.ucalgary.ca/faq/200582",
@@ -3222,6 +3329,11 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/accessRequirements> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix> a linkml:SlotDefinition ;
+    dcterms:title "Data Source Prefix" ;
+    skos:definition "Short identifier indicating the data source origin" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
+
 <https://w3id.org/synapse/amp-als/vocab/AssayEnum> dcterms:title "Assay" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
@@ -3235,19 +3347,26 @@
         <https://w3id.org/synapse/amp-als/vocab/ATPase%20activity%20assay>,
         <https://w3id.org/synapse/amp-als/vocab/AlgometRx%20Nociometer>,
         <https://w3id.org/synapse/amp-als/vocab/BrdU%20proliferation%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/Bru-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/BruChase-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/CAGE-seq>,
         <https://w3id.org/synapse/amp-als/vocab/CAPP-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/CLIP-seq>,
         <https://w3id.org/synapse/amp-als/vocab/CODEX>,
+        <https://w3id.org/synapse/amp-als/vocab/CROP-seq>,
         <https://w3id.org/synapse/amp-als/vocab/CUT%26RUN>,
         <https://w3id.org/synapse/amp-als/vocab/ChIP-seq>,
         <https://w3id.org/synapse/amp-als/vocab/Child%20Behavior%20Checklist%20for%20Ages%201.5-5>,
         <https://w3id.org/synapse/amp-als/vocab/Child%20Behavior%20Checklist%20for%20Ages%206-18>,
         <https://w3id.org/synapse/amp-als/vocab/Children%27s%20Dermatology%20Life%20Quality%20Index%20Questionnaire>,
         <https://w3id.org/synapse/amp-als/vocab/Corsi%20blocks>,
+        <https://w3id.org/synapse/amp-als/vocab/DART-seq>,
         <https://w3id.org/synapse/amp-als/vocab/DNA%20optical%20mapping>,
         <https://w3id.org/synapse/amp-als/vocab/ELISA>,
         <https://w3id.org/synapse/amp-als/vocab/ERR%20bisulfite%20sequencing>,
         <https://w3id.org/synapse/amp-als/vocab/EdU%20proliferation%20assay>,
         <https://w3id.org/synapse/amp-als/vocab/FACE-Q%20Appearance-related%20Distress>,
+        <https://w3id.org/synapse/amp-als/vocab/FACS>,
         <https://w3id.org/synapse/amp-als/vocab/FIA-MSMS>,
         <https://w3id.org/synapse/amp-als/vocab/FLIPR%20high-throughput%20cellular%20screening>,
         <https://w3id.org/synapse/amp-als/vocab/FTIR%20spectroscopy>,
@@ -3257,14 +3376,18 @@
         <https://w3id.org/synapse/amp-als/vocab/HPLC>,
         <https://w3id.org/synapse/amp-als/vocab/ISO-seq>,
         <https://w3id.org/synapse/amp-als/vocab/Interview>,
+        <https://w3id.org/synapse/amp-als/vocab/LCM>,
         <https://w3id.org/synapse/amp-als/vocab/MIB/MS>,
         <https://w3id.org/synapse/amp-als/vocab/Magnetization-Prepared%20Rapid%20Gradient%20Echo%20MRI>,
         <https://w3id.org/synapse/amp-als/vocab/Matrigel-based%20tumorigenesis%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/MeRIP-seq>,
         <https://w3id.org/synapse/amp-als/vocab/MudPIT>,
         <https://w3id.org/synapse/amp-als/vocab/NIH%20Toolbox>,
         <https://w3id.org/synapse/amp-als/vocab/NOMe-seq>,
         <https://w3id.org/synapse/amp-als/vocab/NanoString%20nCounter%20Analysis%20System>,
         <https://w3id.org/synapse/amp-als/vocab/PROMIS%20Cognitive%20Function>,
+        <https://w3id.org/synapse/amp-als/vocab/Quant-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/RIP-seq>,
         <https://w3id.org/synapse/amp-als/vocab/RNA%20array>,
         <https://w3id.org/synapse/amp-als/vocab/RNA-seq>,
         <https://w3id.org/synapse/amp-als/vocab/RPPA>,
@@ -3348,6 +3471,7 @@
         <https://w3id.org/synapse/amp-als/vocab/lncRNA-seq>,
         <https://w3id.org/synapse/amp-als/vocab/local%20field%20potential%20recording>,
         <https://w3id.org/synapse/amp-als/vocab/long%20term%20potentiation%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/m6A%20array>,
         <https://w3id.org/synapse/amp-als/vocab/mRNA%20counts>,
         <https://w3id.org/synapse/amp-als/vocab/magnetic%20resonance%20angiography>,
         <https://w3id.org/synapse/amp-als/vocab/magnetic%20resonance%20spectroscopy>,
@@ -3396,6 +3520,8 @@
         <https://w3id.org/synapse/amp-als/vocab/single-cell%20RNA-seq>,
         <https://w3id.org/synapse/amp-als/vocab/single-nucleus%20RNA-seq>,
         <https://w3id.org/synapse/amp-als/vocab/small%20molecule%20library%20screen>,
+        <https://w3id.org/synapse/amp-als/vocab/snATAC-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/snRNA-seq>,
         <https://w3id.org/synapse/amp-als/vocab/sorbitol%20dehydrogenase%20activity%20level%20assay>,
         <https://w3id.org/synapse/amp-als/vocab/spatial%20frequency%20domain%20imaging>,
         <https://w3id.org/synapse/amp-als/vocab/spatial%20transcriptomics>,
@@ -3412,6 +3538,16 @@
         <https://w3id.org/synapse/amp-als/vocab/whole%20genome%20sequencing>,
         <https://w3id.org/synapse/amp-als/vocab/whole-cell%20patch%20clamp>,
         <https://w3id.org/synapse/amp-als/vocab/word%20recognition%20score> .
+
+<https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/all_als>,
+        <https://w3id.org/synapse/amp-als/vocab/als_compute>,
+        <https://w3id.org/synapse/amp-als/vocab/cpath>,
+        <https://w3id.org/synapse/amp-als/vocab/geo>,
+        <https://w3id.org/synapse/amp-als/vocab/sra>,
+        <https://w3id.org/synapse/amp-als/vocab/synapse>,
+        <https://w3id.org/synapse/amp-als/vocab/target_als> .
 
 <https://w3id.org/synapse/amp-als/vocab/citation> a linkml:SlotDefinition ;
     dcterms:title "Citation" ;
@@ -3519,6 +3655,23 @@
         <https://w3id.org/synapse/amp-als/vocab/subject__datasetReference>,
         <https://w3id.org/synapse/amp-als/vocab/subject__globalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subject__originalSubjectId> .
+
+<https://w3id.org/synapse/amp-als/vocab/Biospecimen> a linkml:ClassDefinition ;
+    skos:definition "Biological specimen information including sample collection, processing, and storage details" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/globalBiospecimenId>,
+        <https://w3id.org/synapse/amp-als/vocab/organ>,
+        <https://w3id.org/synapse/amp-als/vocab/originalBiospecimenId>,
+        <https://w3id.org/synapse/amp-als/vocab/tissue> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/biospecimen__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__globalBiospecimenId>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__organ>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__originalBiospecimenId>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__tissue> .
 
 <https://w3id.org/synapse/amp-als/vocab/Dataset> a linkml:ClassDefinition ;
     skos:definition "Model for dataset on the AMP-ALS portal" ;

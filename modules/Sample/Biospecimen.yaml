@@ -1,0 +1,50 @@
+classes:
+  Biospecimen:
+    description: Biological specimen information including sample collection, processing, and storage details
+    attributes:
+      globalBiospecimenId:
+        title: Global Biospecimen ID
+        range: string
+        description: >
+          Globally unique identifier for a biospecimen across all data sources.
+          Format: {data_source_prefix}:{dataset_id}:{subject_id}:{biospecimen_id}
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$"
+      
+      originalBiospecimenId:
+        title: Original Biospecimen ID
+        range: string
+        description: The original biospecimen identifier as provided by the data source
+        required: false
+      
+      dataSourcePrefix:
+        title: Data Source Prefix
+        range: DataSourceEnum
+        description: Short identifier indicating the data source origin
+        required: false
+      
+      # Anatomical Information
+      tissue:
+        title: Tissue Type
+        range: string 
+        description: Type of tissue from which the biospecimen was derived
+        required: false
+      
+      organ:
+        title: Organ
+        range: string 
+        description: Organ from which the biospecimen was derived
+        required: false
+      
+      #treatment:
+      #  title: Treatment 
+      #  description: 
+
+
+# # enums:
+#   TissueEnum:
+#     permissible_values:
+#        
+#   OrganEnum:
+#     permissible_values:
+
