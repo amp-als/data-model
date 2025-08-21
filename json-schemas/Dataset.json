@@ -2,6 +2,16 @@
   "additionalProperties": false,
   "description": "Model for dataset on the AMP-ALS portal",
   "properties": {
+    "FACSPopulation": {
+      "description": "FACS-sorted cell population description",
+      "title": "FACS Population",
+      "type": "string"
+    },
+    "GEOSuperSeries": {
+      "description": "GEO SuperSeries identifier",
+      "title": "GEO SuperSeries",
+      "type": "string"
+    },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
       "title": "Alternate Name",
@@ -49,6 +59,17 @@
       },
       "title": "Creator",
       "type": "array"
+    },
+    "curationLevel": {
+      "description": "TBD",
+      "title": "Curation level",
+      "enum": [
+        "Raw",
+        "Standardized",
+        "Non-Standardized",
+        "Unknown"
+      ],
+      "type": "string"
     },
     "datePublished": {
       "description": "Date data were published/available on Synapse.",
@@ -105,15 +126,19 @@
           "ATAC-seq",
           "ATPase activity assay",
           "BrdU proliferation assay",
+          "Bru-seq",
+          "BruChase-seq",
           "CAPP-seq",
           "CUT&RUN",
           "ChIP-seq",
           "Child Behavior Checklist for Ages 1.5-5",
           "Child Behavior Checklist for Ages 6-18",
           "CODEX",
+          "CROP-seq",
           "confocal microscopy",
           "Corsi blocks",
           "current clamp assay",
+          "DART-seq",
           "diffusion MRI",
           "distortion product otoacoustic emissions",
           "DNA optical mapping",
@@ -130,6 +155,7 @@
           "Interview",
           "ISO-seq",
           "MIB/MS",
+          "MeRIP-seq",
           "Matrigel-based tumorigenesis assay",
           "MudPIT",
           "NIH Toolbox",
@@ -159,6 +185,7 @@
           "bone histomorphometry",
           "brightfield microscopy",
           "cAMP-Glo Max Assay",
+          "CAGE-seq",
           "calcium retention capacity assay",
           "cell competition",
           "cell count",
@@ -166,6 +193,7 @@
           "cell proliferation",
           "cell viability assay",
           "clinical data",
+          "CLIP-seq",
           "cNF-Skindex",
           "cognitive assessment",
           "combination library screen",
@@ -181,6 +209,7 @@
           "electrophoretic light scattering",
           "elevated plus maze test",
           "FACE-Q Appearance-related Distress",
+          "FACS",
           "flow cytometry",
           "focus forming assay",
           "functional MRI",
@@ -201,6 +230,7 @@
           "in vivo bioluminescence",
           "in vivo tumor growth",
           "jumping library",
+          "LCM",
           "label free mass spectrometry",
           "laser speckle imaging",
           "light scattering assay",
@@ -211,6 +241,7 @@
           "local field potential recording",
           "long term potentiation assay",
           "mRNA counts",
+          "m6A array",
           "magnetic resonance angiography",
           "magnetic resonance spectroscopy",
           "Magnetization-Prepared Rapid Gradient Echo MRI",
@@ -248,10 +279,12 @@
           "proximity extension assay",
           "pure tone average",
           "quantitative PCR",
+          "Quant-seq",
           "questionnaire",
           "reactive oxygen species assay",
           "reporter gene assay",
           "rheometry",
+          "RIP-seq",
           "ribo-seq",
           "rotarod performance test",
           "sandwich ELISA",
@@ -261,6 +294,8 @@
           "single molecule drug screen assay",
           "single-cell RNA-seq",
           "single cell ATAC-seq",
+          "snATAC-seq",
+          "snRNA-seq",
           "single-nucleus RNA-seq",
           "small molecule library screen",
           "sorbitol dehydrogenase activity level assay",
@@ -286,6 +321,11 @@
       },
       "title": "Measurement Technique",
       "type": "array"
+    },
+    "originalSampleName": {
+      "description": "Original sample name from data source",
+      "title": "Original Sample Name",
+      "type": "string"
     },
     "publisher": {
       "description": "Name of the organization or person responsible for making the dataset available.",
@@ -324,6 +364,17 @@
       },
       "title": "Species",
       "type": "array"
+    },
+    "studyType": {
+      "description": "Study type for dataset",
+      "title": "Study type",
+      "enum": [
+        "Patient Registry Study",
+        "Natural History Study",
+        "Clinical Trial",
+        "Unknown"
+      ],
+      "type": "string"
     },
     "subject": {
       "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",

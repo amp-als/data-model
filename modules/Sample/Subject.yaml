@@ -1,0 +1,105 @@
+classes:
+  Subject:
+    description: Individual subject/participant record for various data sources
+    attributes:
+      globalSubjectId: 
+        title: Global Subject ID
+        range: string
+        description: > 
+          Globally unique identifier for a subject across all data sources. 
+          Format: {data_source_prefix}:{dataset_id}:{original_subject_id}
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$"
+      originalSubjectId: 
+        title: Original Subject ID
+        range: string
+        description: Original subject identifier provided by data source. 
+        required: false
+    
+      datasetReference: 
+        title: Dataset Reference
+        range: string
+        description: Reference to dataset this subject belongs to
+        required: false
+
+      dataSourcePrefix: 
+        title: Data Source Prefix
+        range: DataSourceEnum
+        description: Short identifier indicating the data source origin 
+        required: false
+      
+      age:
+        title: Age
+        range: integer
+        description: Age of subject
+        required: false
+      
+      diseaseDurationYears:
+        title: Disease Duration (Years)
+        range: float
+        description: Duration of disease in years
+        required: false
+      
+      ageDiseaseOnset:
+        title: Age at Disease Onset
+        range: integer
+        description: Age at disease onset
+        required: false
+      
+      race:
+        title: Race/Ethnicity
+        range: RaceEnum
+        description: Race/ethnicity of subject
+        required: false
+      
+      PMI:
+        title: Post-mortem Interval
+        range: float
+        description: Post-mortem interval in hours
+        required: false
+      
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease diagnosis
+        required: false
+enums:
+  DataSourceEnum:
+    permissible_values:
+      cpath:
+        description: Critical Path Institute datasets
+      als_compute: 
+        description: ALS Compute datasets
+      geo:
+        description: Gene Expression Omnibus datasets
+      sra:
+        description: Sequence Read Archive datasets
+      target_als:
+        description: Target ALS datasets
+      synapse: 
+        description: Synapse datasets
+      all_als:
+        description: ALL ALS datasets
+
+  DiseaseEnum:
+    permissible_values:
+      Control:
+        description: Healthy control
+      C9-ALS:
+        description: C9orf72-associated ALS
+      sporadic ALS:
+        description: Sporadic ALS
+      FTD:
+        description: Frontotemporal dementia
+      ALS-FTD:
+        description: Combined ALS and FTD
+      C9-FTD:
+        description: C9orf72-associated FTD
+
+  RaceEnum:
+    permissible_values:
+      Unknown:
+        description: Race/ethnicity unknown or not reported
+      White:
+        description: White/Caucasian
+

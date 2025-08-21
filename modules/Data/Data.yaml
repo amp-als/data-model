@@ -114,6 +114,10 @@ enums:
         meaning: http://edamontology.org/data_0955
       AggregatedData:
         description: Summary or group-level data.
+      transcriptomics (nascent):
+        description: Nascent transcriptomics data from newly transcribed RNA
+      epigenomics:
+        description: Study of heritable changes in gene expression without DNA sequence changes
       
   DataSubtypeEnum:
     permissible_values:
@@ -131,6 +135,12 @@ enums:
       representative:
         description: An activity that stands as an equivalent of something or results in an equivalent; typical of, or the same as, others in a larger group of people or things.
         meaning: http://purl.obolibrary.org/obo/NCIT_C67045
+      bulk:
+        description: Bulk sample analysis
+      single-nucleus:
+        description: Single nucleus analysis
+      single-cell:
+        description: Single cell analysis
 
   Metadata:
     description: Data that provides information about other data

@@ -37,8 +37,14 @@ enums:
         notes:
           - See also https://www.bellbrooklabs.com/atpase-activity-assay-for-drug-discovery/ for discussion
       BrdU proliferation assay:
-        description: A cell proliferation assay in which cells are cultured in the presence of BrdU which is incorporated into newly synthesized DNA of replicating cells (during the S phase of the cell cycle).
-        meaning: http://purl.obolibrary.org/obo/OBI_0000664
+         description: A cell proliferation assay in which cells are cultured in the presence of BrdU which is incorporated into newly synthesized DNA of replicating cells (during the S phase of the cell cycle).
+         meaning: http://purl.obolibrary.org/obo/OBI_0000664
+      Bru-seq:
+         description: Bromouridine sequencing (Bru-seq) uses bromouridine incorporation to label and isolate newly transcribed RNA, enabling genome-wide analysis of nascent transcription and real-time measurement of RNA synthesis rates.
+         meaning: http://purl.obolibrary.org/obo/OBI_0002113
+      BruChase-seq:
+         description: BruChase sequencing extends Bru-seq with a chase period to measure both RNA synthesis and degradation rates, providing kinetic analysis of transcript turnover and RNA stability genome-wide.
+         source: http://purl.obolibrary.org/obo/OBI_0002114
       CAPP-seq:
         description: Cancer Personalized Profiling by deep sequencing (CAPP-seq) is a novel blood-based assay that uses next-generating sequencing to quantitate circulating tumor DNA (ctDNA)
         meaning: http://www.ebi.ac.uk/efo/EFO_0008672
@@ -60,7 +66,10 @@ enums:
           It is completed by the parent/caretaker who spends the most time with the child and provides ratings for 20 competence and 120 problem items. [ NCI ]"
         meaning: http://purl.obolibrary.org/obo/NCIT_C165711
       CODEX:
-        description: CODEX imaging.
+         description: CODEX imaging.
+      CROP-seq:
+         description: CRISPR droplet sequencing (CROP-seq) combines single-cell RNA sequencing with pooled CRISPR screening to assess gene function by measuring transcriptional responses to individual gene perturbations at single-cell resolution.
+         source: https://www.nature.com/articles/nmeth.4177
       confocal microscopy:
         description: > 
           Confocal microscopy has advantages over widefield optical microscopy, including the ability to eliminate or reduce background information away from the focal plane and collect serial optical sections from thick specimens. 
@@ -72,13 +81,16 @@ enums:
           (e.g. Smyth & Scholey, 1992), children (e.g. Orsini, Schiappa, & Grossi, 1981), and patients with neuropsychological deficits. 
         meaning: https://www.cognitiveatlas.org/task/id/trm_4da881dace79c/
       current clamp assay:
-        description: >
-          The current clamp technique records the membrane potential by injecting current into a cell through the recording electrode. 
-          Unlike in the voltage clamp mode, where the membrane potential is held at a level determined by the experimenter, in "current clamp" mode the membrane potential is free to vary, 
-          and the amplifier records whatever voltage the cell generates on its own or as a result of stimulation. 
-          This technique is used to study how a cell responds when electric current enters a cell; this is important for instance for understanding how neurons respond to neurotransmitters that act
-          by opening membrane ion channels.
-        meaning: http://purl.obolibrary.org/obo/OBI_0002185
+         description: >
+           The current clamp technique records the membrane potential by injecting current into a cell through the recording electrode. 
+           Unlike in the voltage clamp mode, where the membrane potential is held at a level determined by the experimenter, in "current clamp" mode the membrane potential is free to vary, 
+           and the amplifier records whatever voltage the cell generates on its own or as a result of stimulation. 
+           This technique is used to study how a cell responds when electric current enters a cell; this is important for instance for understanding how neurons respond to neurotransmitters that act
+           by opening membrane ion channels.
+         meaning: http://purl.obolibrary.org/obo/OBI_0002185
+      DART-seq:
+         description: Digital analysis of RNA targeting sequencing (DART-seq) enables transcriptome-wide detection and quantification of adenosine-to-inosine RNA editing events through computational analysis of RNA sequencing data.
+         source: https://www.nature.com/articles/s41467-021-23239-9
       diffusion MRI: 
         description: MRI method that measure the diffusion of water in the tissue, rather than the content of water as measured in conventional MRI.
         meaning: http://purl.obolibrary.org/obo/NCIT_C20117
@@ -137,6 +149,9 @@ enums:
       MIB/MS:
         description: Kinomics assay using multiplexed kinase inhibitor beads and mass spectrometry (MIB/MS)
         meaning: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3328787/
+      MeRIP-seq:
+        description: Methylated RNA immunoprecipitation sequencing (MeRIP-seq) maps N6-methyladenosine (m6A) modifications transcriptome-wide by immunoprecipitating methylated RNA fragments followed by high-throughput sequencing.
+        meaning: https://pubmed.ncbi.nlm.nih.gov/22608085/
       Matrigel-based tumorigenesis assay:
         description: An assay in which tumor cells are loaded into a Matrigel matrix and measured for tumor formation characteristics
         see_also:
@@ -224,6 +239,9 @@ enums:
       cAMP-Glo Max Assay:
         description: The cAMP-Glo Max Assay from Promega is a bioluminescent assay used for the quantification of cyclic AMP (cAMP) in cell-based assays. It utilizes a luminescent luciferase-based detection system to detect the levels of cAMP in cell lysates, which can be used to study G protein-coupled receptor (GPCR) signaling and other intracellular signaling pathways.
         meaning: https://www.promega.com/products/cell-signaling/gpcr-signaling/camp_glo-max-assay/?catNum=V1681
+      CAGE-seq:
+        description: Cap Analysis of Gene Expression sequencing (CAGE-seq) identifies and quantifies transcription start sites genome-wide by sequencing the 5' ends of capped mRNAs, providing precise mapping of transcriptional initiation events.
+        meaning: https://ontobee.org/ontology/OBI?iri=http://purl.obolibrary.org/obo/OBI_0001674
       calcium retention capacity assay:
         description: The CRC assay assesses Ca2+-related mitochondrial functions
         see_also:
@@ -245,6 +263,9 @@ enums:
       clinical data:
         description: Data pertaining to the medical well-being or status of a patient. Category also includes clinical reports and individual patient data.
         meaning: http://purl.obolibrary.org/obo/NCIT_C15783
+      CLIP-seq:
+        description: Cross-linking immunoprecipitation sequencing (CLIP-seq) identifies genome-wide binding sites of RNA-binding proteins by cross-linking protein-RNA complexes in vivo, followed by immunoprecipitation and sequencing of associated RNA fragments.
+        meaning: http://purl.obolibrary.org/obo/OBI_0001858
       cNF-Skindex:
         description: The cNF-Skindex, validated in a French population, specifically assesses the cNF-related QOL.
         source: https://pubmed.ncbi.nlm.nih.gov/37149083/
@@ -292,6 +313,9 @@ enums:
           This 8-item scale measures appearance-related distress in people seeking cosmetic treatments for the body or the face. 
           Item ask someone to agree/disagree with statements about feelings (e.g., unhappy, stressed, down) and behaviors, such as avoiding being around people.
         meaning: https://qportfolio.org/wp-content/uploads/2021/11/FACE-Q-AESTHETICS-USERS-GUIDE.pdf
+      FACS:
+        description: Fluorescence-Activated Cell Sorting (FACS) isolates specific cell populations based on fluorescent markers using flow cytometry, often combined with downstream RNA sequencing for cell-type-specific transcriptomic analysis.
+        meaning: http://purl.obolibrary.org/obo/OBI_0000916
       flow cytometry:
         description: A cytometry assay in which an input cell population is put in solution, is passed by a laser, and optical sensors are used to detect scattering of the laser light and/or fluorescence of specific markers to count and characterize the particles in solution
         meaning: http://purl.obolibrary.org/obo/OBI_0000916
@@ -349,10 +373,13 @@ enums:
         description: The growth of a tumor measured using calipers, ruler, or another similar measurement device. See also "in vivo bioluminescence".
       jumping library:
         description: >
-          Jumping libraries are created to bypass difficult to align/map regions, such as those containing repetitive DNA sequences. Briefly, the DNA of interest is identified, cut into fragments either with restriction enzymes or by shearing. 
-          The size-selected fragments are ligated to adapters for bead-capture and circularized. After bead-capture, the DNA is linearized via restriction enzymes, and can be sequenced using adapter primers facing in outward [reverse/forward (RF)] directions. 
-          These library inserts are considered jumping because the ends originate from distal genomic DNA sequences and are ligated adjacent to one another during circularization.
+           Jumping libraries are created to bypass difficult to align/map regions, such as those containing repetitive DNA sequences. Briefly, the DNA of interest is identified, cut into fragments either with restriction enzymes or by shearing. 
+           The size-selected fragments are ligated to adapters for bead-capture and circularized. After bead-capture, the DNA is linearized via restriction enzymes, and can be sequenced using adapter primers facing in outward [reverse/forward (RF)] directions. 
+           These library inserts are considered jumping because the ends originate from distal genomic DNA sequences and are ligated adjacent to one another during circularization.
         source: https://gatk.broadinstitute.org/hc/en-us/articles/360035890751-Jumping-libraries
+      LCM:
+        description: Laser Capture Microdissection (LCM) precisely isolates specific cells or tissue regions from histological sections using laser technology, enabling spatially-resolved molecular analysis when combined with sequencing approaches.
+        meaning: http://purl.obolibrary.org/obo/OBI_0001096
       label free mass spectrometry:
         description: A mass spectrometry assay that allows for measurement for endogenous targets in live cell assays, and eliminates the need for tags, dyes, or specialized reagents or engineered cells.
         meaning: http://purl.obolibrary.org/obo/ERO_0000708
@@ -381,6 +408,9 @@ enums:
         meaning: http://purl.obolibrary.org/obo/VT_0002207
       mRNA counts:
         description: A mRNA profiling assay using digital molecular barcoding technology to quantify target mRNA molecules without the need for amplification.
+      m6A array:
+        description: N6-methyladenosine array (m6A array) is a microarray-based method for detecting and quantifying m6A RNA modifications across the transcriptome using methylation-specific antibodies and array hybridization.
+        source: https://www.arraystar.com/m6a-methylated-rna-immunoprecipitation-microarray/
       magnetic resonance angiography:
         description: Angiography using magnetic resonance imaging.
         meaning: http://purl.obolibrary.org/obo/NCIT_C190557
@@ -509,6 +539,9 @@ enums:
       quantitative PCR:
         description: Quantitative PCR (Q-PCR) is used to measure the quantity of a PCR product (commonly in real-time). It quantitatively measures starting amounts of DNA, cDNA, or RNA.
         meaning: http://purl.obolibrary.org/obo/MI_1195
+      Quant-seq:
+        description: 3' end-targeted RNA sequencing (Quant-seq) provides cost-effective gene expression quantification by sequencing only the 3' terminal regions of transcripts, generating digital gene expression profiles with reduced sequencing requirements.
+        meaning: https://www.lexogen.com/quantseq-3mrna-seq/
       questionnaire:
         description: A document with a set of printed or written questions with a choice of answers, devised for the purposes of a survey or statistical study.
         meaning: http://purl.obolibrary.org/obo/OBI_0001000
@@ -525,6 +558,9 @@ enums:
       rheometry:
         description: 'The study of the flow of fluids which cannot be defined by a single value of viscosity. Rheometry (synonym: rheology) is the measurement of the relationship between deformation and stress for these liquids. [ https://orcid.org/0000-0002-0640-0422 ]'
         meaning: http://purl.obolibrary.org/obo/CHMO_0000915
+      RIP-seq:
+        description: RNA immunoprecipitation sequencing (RIP-seq) identifies RNA molecules associated with specific RNA-binding proteins through immunoprecipitation of native protein-RNA complexes followed by sequencing of bound RNAs.
+        meaning: http://purl.obolibrary.org/obo/OBI_0001857
       ribo-seq:
         description: Ribosome profiling (Ribo-Seq).
         meaning: http://www.ebi.ac.uk/efo/EFO_0008891
@@ -551,6 +587,12 @@ enums:
       single cell ATAC-seq:
         description: A molecular genetic technique where DNA is isolated from single cell (sc) samples and amplified to create a genomic library. Then the library is subjected to ATAC-seq, which isolates and sequences regions rich in open chromatin.
         meaning: http://purl.obolibrary.org/obo/NCIT_C179458
+      snATAC-seq:
+        description: Single-nucleus Assay for Transposase-Accessible Chromatin sequencing (snATAC-seq) profiles chromatin accessibility at single-cell resolution using isolated nuclei, particularly valuable for analyzing frozen tissues and complex sample types.
+        meaning: http://purl.obolibrary.org/obo/OBI_0002762
+      snRNA-seq:
+        description: Single-nucleus RNA sequencing (snRNA-seq) profiles gene expression in individual cell nuclei, enabling transcriptomic analysis of cell types in tissues where whole-cell dissociation is challenging or introduces bias.
+        meaning: http://purl.obolibrary.org/obo/OBI_0003109
       single-nucleus RNA-seq:
         description: A method for quantifying the transcriptome of individual cells, in which transcripts isolated from single nuclei are subjected to high-throughput sequencing and mapping to a reference genome.
         meaning: http://purl.obolibrary.org/obo/FBcv_0009001
@@ -566,7 +608,7 @@ enums:
         notes:
           - Note that term has no matches in OLS as of June 2022.
       spatial transcriptomics:
-        description: assay that allows visualization and quantitative analysis of the transcriptome with spatial resolution in individual tissue sections
+        description: assay that allows visualization and qhttps://ontobee.org/ontology/OBI?iri=http://purl.obolibrary.org/obo/OBI_0001674uantitative analysis of the transcriptome with spatial resolution in individual tissue sections
         meaning: http://www.ebi.ac.uk/efo/EFO_0008994
       static histomorphometry:
         description: Static histomorphometry involves evaluation of bone parameters at a particular time point.

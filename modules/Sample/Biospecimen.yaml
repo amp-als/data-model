@@ -1,0 +1,194 @@
+classes:
+  Biospecimen:
+    description: Biological specimen information including sample collection, processing, and storage details
+    attributes:
+      globalBiospecimenId:
+        title: Global Biospecimen ID
+        range: string
+        description: >
+          Globally unique identifier for a biospecimen across all data sources.
+          Format: {data_source_prefix}:{dataset_id}:{subject_id}:{biospecimen_id}
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$"
+      
+      originalBiospecimenId:
+        title: Original Biospecimen ID
+        range: string
+        description: The original biospecimen identifier as provided by the data source
+        required: false
+      
+      dataSourcePrefix:
+        title: Data Source Prefix
+        range: DataSourceEnum
+        description: Short identifier indicating the data source origin
+        required: false
+      
+      # Anatomical Information
+      tissue:
+        title: Tissue Type
+        range: string 
+        description: Type of tissue from which the biospecimen was derived
+        required: false
+      
+      organ:
+        title: Organ
+        range: string 
+        description: Organ from which the biospecimen was derived
+        required: false
+      
+      treatment:
+        title: Treatment
+        range: TreatmentEnum
+        description: Type of treatment applied to the biospecimen
+        required: false
+      
+      cellType:
+        title: Cell Type
+        range: CellTypeEnum
+        description: Type of cell or cell line used
+        required: false
+      
+      biospecimenType:
+        title: Biospecimen Type
+        range: BiospecimenTypeEnum
+        description: Type of biological specimen
+        required: false
+      
+      isPostMortem:
+        title: Post-mortem Status
+        range: boolean
+        description: Whether specimen was collected post-mortem
+        required: false
+      
+      primaryCellSource:
+        title: Primary Cell Source
+        range: PrimaryCellSourceEnum
+        description: Source of primary cell culture
+        required: false
+      
+      biospecimenSubtype:
+        title: Biospecimen Subtype
+        range: string
+        description: More specific biospecimen classification
+        required: false
+      
+      CNSRegion:
+        title: CNS Region
+        range: CNSRegionEnum
+        description: Central nervous system region
+        required: false
+      
+      BrodmannArea:
+        title: Brodmann Area
+        range: BrodmannAreaEnum
+        description: Brodmann cortical area designation
+        required: false
+      
+      ChIPTarget:
+        title: ChIP Target
+        range: string
+        description: Target protein or histone modification for ChIP experiments
+        required: false
+
+
+enums:
+  TreatmentEnum:
+    permissible_values:
+      control:
+        description: Control or untreated condition
+      drug_treatment:
+        description: Chemical or pharmaceutical treatment
+      genetic_modification:
+        description: Genetic modification or manipulation
+      environmental_stress:
+        description: Environmental stress conditions
+      other:
+        description: Other treatment type
+        
+  CellTypeEnum:
+    permissible_values:
+      primary_cell:
+        description: Primary cells directly from tissue
+      immortalized_cell_line:
+        description: Immortalized cell line
+      stem_cell:
+        description: Stem cell culture
+      differentiated_cell:
+        description: Differentiated cell type
+      organoid:
+        description: Organoid culture
+      fibroblasts:
+        description: Fibroblast cells
+      iPSC:
+        description: Induced pluripotent stem cells
+      NeuN+ neurons:
+        description: NeuN-positive neurons
+      neurons:
+        description: Neuronal cells
+      oligodendrocyte lineage cells:
+        description: Cells of oligodendrocyte lineage
+      astrocytes:
+        description: Astrocyte glial cells
+      microglia:
+        description: Microglial cells
+      other glia:
+        description: Other types of glial cells
+      other:
+        description: Other cell type
+        
+  TissueEnum:
+    permissible_values:
+      brain:
+        description: Brain tissue
+      spinal_cord:
+        description: Spinal cord tissue
+      muscle:
+        description: Muscle tissue
+      blood:
+        description: Blood sample
+      cell_line:
+        description: Cell line culture
+      other:
+        description: Other tissue type
+        
+  OrganEnum:
+    permissible_values:
+      brain:
+        description: Brain
+      spinal_cord:
+        description: Spinal cord
+      muscle:
+        description: Muscle
+      other:
+        description: Other organ
+
+  BiospecimenTypeEnum:
+    permissible_values:
+      primary cell culture:
+        description: Cells cultured directly from tissue
+      brain tissue:
+        description: Brain tissue specimen
+
+  PrimaryCellSourceEnum:
+    permissible_values:
+      skin biopsy:
+        description: Cells derived from skin biopsy
+      fibroblasts:
+        description: Fibroblast cell source
+
+  CNSRegionEnum:
+    permissible_values:
+      middle frontal cortex:
+        description: Middle frontal cortex brain region
+      primary motor cortex:
+        description: Primary motor cortex brain region
+      dorsolateral prefrontal cortex:
+        description: Dorsolateral prefrontal cortex brain region
+
+  BrodmannAreaEnum:
+    permissible_values:
+      BA4:
+        description: Brodmann area 4 (primary motor cortex)
+      BA9:
+        description: Brodmann area 9 (dorsolateral prefrontal cortex)
+

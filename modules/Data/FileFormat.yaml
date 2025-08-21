@@ -345,6 +345,9 @@ enums:
       yaml:
         description: YAML (YAML Ain't Markup Language) is a human-readable tree-structured data serialisation that is a superset of JSON (as of v1.2).
         meaning: http://edamontology.org/format_3750
+      h5:
+        description: HDF5 format file, commonly used for single-cell data
+        meaning: http://edamontology.org/format_3590
       zip:
         description: zip is a format standard of a digital entity that is conformant with the PKWARE .ZIP file format specification
         meaning: http://purl.obolibrary.org/obo/OBI_0000325
