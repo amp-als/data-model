@@ -139,6 +139,21 @@ classes:
         range: string
         description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
         required: false
+      GEOSuperSeries:
+        title: GEO SuperSeries
+        range: string
+        description: GEO SuperSeries identifier
+        required: false
+      originalSampleName:
+        title: Original Sample Name
+        range: string
+        description: Original sample name from data source
+        required: false
+      FACSPopulation:
+        title: FACS Population
+        range: string
+        description: FACS-sorted cell population description
+        required: false
       #countryOfOrigin:
       #  title: Country of Origin
       #  range: string

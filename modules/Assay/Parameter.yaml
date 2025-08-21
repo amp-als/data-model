@@ -44,6 +44,12 @@ enums:
       GRCh37:
         description: Genome Reference Consortium Human Build 37
         source: https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.13/
+      hg19:
+        description: Human genome build 19 (GRCh37)
+        source: https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.13/
+      hg38:
+        description: Human genome build 38 (GRCh38)
+        source: https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.26
       MMUL1.0:
         description: Ensembl preliminary assembly Macaca mulatta
         source: https://jul2016.archive.ensembl.org/Macaca_mulatta/Info/Index
@@ -120,6 +126,18 @@ enums:
         source: https://www.qiagen.com/us/products/discovery-and-translational-research/next-generation-sequencing/metagenomics/qiaseq-fx-dna-library-kit
       unknown: 
         description: information not provided
+      Illumina TruSeq RNA Library Prep Kit:
+        description: Illumina TruSeq RNA library preparation kit
+      Buenrostro et al. Nat Methods 2024 ATAC-seq:
+        description: ATAC-seq protocol from Buenrostro et al. Nature Methods 2024
+      NEBNext Ultra II DNA Library Prep Kit for Illumina:
+        description: NEBNext Ultra II DNA library preparation kit for Illumina sequencing
+      10x Chromium Next GEM Single Cell ATAC:
+        description: 10x Genomics single-cell ATAC-seq library preparation
+      10x Chromium Next GEM Single Cell 3':
+        description: 10x Genomics single-cell 3' gene expression library preparation
+      Takara SMARTer Stranded Total RNA-seq Pico-Input v2:
+        description: Takara SMARTer stranded total RNA-seq library prep for low input samples
   MRISequenceEnum:
     permissible_values:
       PD-weighted:
@@ -147,6 +165,14 @@ enums:
       single nucleus:
         description: Single nuclei
         source: https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json
+      bromouridine-labeled total RNA:
+        description: Total RNA labeled with bromouridine for nascent transcription studies
+      Tn5-accessible gDNA:
+        description: Genomic DNA accessible to Tn5 transposase insertion
+      genomic DNA:
+        description: Total genomic DNA
+      nuclear RNA:
+        description: RNA extracted from cell nuclei
   ProteinExtractSourceEnum:
     permissible_values:
       cell lysate:
@@ -229,3 +255,10 @@ enums:
       micrometer:
       millimeter:
       centimeter:
+
+  LibraryLayoutEnum:
+    permissible_values:
+      single-end:
+        description: Single-end sequencing reads
+      paired-end:
+        description: Paired-end sequencing reads

@@ -27,6 +27,42 @@ classes:
         range: DataSourceEnum
         description: Short identifier indicating the data source origin 
         required: false
+      
+      age:
+        title: Age
+        range: integer
+        description: Age of subject
+        required: false
+      
+      diseaseDurationYears:
+        title: Disease Duration (Years)
+        range: float
+        description: Duration of disease in years
+        required: false
+      
+      ageDiseaseOnset:
+        title: Age at Disease Onset
+        range: integer
+        description: Age at disease onset
+        required: false
+      
+      race:
+        title: Race/Ethnicity
+        range: RaceEnum
+        description: Race/ethnicity of subject
+        required: false
+      
+      PMI:
+        title: Post-mortem Interval
+        range: float
+        description: Post-mortem interval in hours
+        required: false
+      
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease diagnosis
+        required: false
 enums:
   DataSourceEnum:
     permissible_values:
@@ -44,4 +80,26 @@ enums:
         description: Synapse datasets
       all_als:
         description: ALL ALS datasets
+
+  DiseaseEnum:
+    permissible_values:
+      Control:
+        description: Healthy control
+      C9-ALS:
+        description: C9orf72-associated ALS
+      sporadic ALS:
+        description: Sporadic ALS
+      FTD:
+        description: Frontotemporal dementia
+      ALS-FTD:
+        description: Combined ALS and FTD
+      C9-FTD:
+        description: C9orf72-associated FTD
+
+  RaceEnum:
+    permissible_values:
+      Unknown:
+        description: Race/ethnicity unknown or not reported
+      White:
+        description: White/Caucasian
 

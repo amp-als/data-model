@@ -284,3 +284,31 @@ slots:
     range: string
     required: true
     see_also: https://www.w3.org/TR/vocab-dcat-3/#Property:resource_title
+  readLength:
+    description: Length of sequencing reads in base pairs
+    range: integer
+    required: false
+  totalReads:
+    description: Total number of sequencing reads
+    range: integer
+    required: false
+  libraryLayout:
+    description: Single-end or paired-end sequencing layout
+    range: LibraryLayoutEnum
+    required: false
+  genomeReference:
+    description: Reference genome used for alignment
+    range: GenomicReferenceEnum
+    required: false
+  softwareAndVersion:
+    description: Software and version used for data processing
+    range: string
+    required: false
+  nucleicAcidSource:
+    description: Source of nucleic acid for library preparation
+    range: NucleicAcidSourceEnum
+    required: false
+  libraryPreparationMethod:
+    description: Method used for library preparation
+    range: LibraryPreparationMethodEnum
+    required: false
