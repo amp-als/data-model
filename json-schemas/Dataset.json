@@ -2,6 +2,16 @@
   "additionalProperties": false,
   "description": "Model for dataset on the AMP-ALS portal",
   "properties": {
+    "FACSPopulation": {
+      "description": "FACS-sorted cell population description",
+      "title": "FACS Population",
+      "type": "string"
+    },
+    "GEOSuperSeries": {
+      "description": "GEO SuperSeries identifier",
+      "title": "GEO SuperSeries",
+      "type": "string"
+    },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
       "title": "Alternate Name",
@@ -311,6 +321,11 @@
       },
       "title": "Measurement Technique",
       "type": "array"
+    },
+    "originalSampleName": {
+      "description": "Original sample name from data source",
+      "title": "Original Sample Name",
+      "type": "string"
     },
     "publisher": {
       "description": "Name of the organization or person responsible for making the dataset available.",
