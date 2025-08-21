@@ -3552,9 +3552,9 @@
 """ ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
