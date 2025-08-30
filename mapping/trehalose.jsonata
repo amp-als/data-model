@@ -1,0 +1,324 @@
+{
+  /* Flat Entity Structure - TREHALOSE Study */
+  
+  /* Subject entities - one per unique SubjectUID */
+  "subjects": $distinct(SubjectUID).(
+    $subjectId := $;
+    $subjectData := $$.[$$.SubjectUID = $subjectId][0];
+    {
+      "globalSubjectId": "allals" & "trehalose" & $subjectId,
+      "originalSubjectId": $subjectId,
+      "datasetReference": "trehalose",
+      "dataSourcePrefix": "all_als",
+      
+      /* Demographics */
+      "sex": $lookup({
+        "1": "Female",
+        "2": "Male", 
+        "3": "Intersex",
+        "-1": "Unknown",
+        "": "Not Reported"
+      }, $string($subjectData.Sex)),
+      
+      "race": $lookup({
+        "1": "American Indian or Alaska Native",
+        "2": "Asian", 
+        "3": "Black or African American",
+        "4": "Hispanic or Latino",
+        "5": "Middle Eastern or North African",
+        "6": "Native Hawaiian or Other Pacific Islander", 
+        "7": "White",
+        "-1": "Unknown",
+        "98": "Prefer Not to Disclose",
+        "": "Not Reported"
+      }, $string($subjectData.Race_Ethnicity)),
+      
+      "age": $subjectData.Age,
+      "birthDate": $subjectData.Birth_Date,
+      "heightCm": $subjectData.Height_cm ? $subjectData.Height_cm : ($subjectData.Height_inches * 2.54),
+      "weightKg": $subjectData.Weight_kg ? $subjectData.Weight_kg : ($subjectData.Weight_lbs / 2.205),
+      
+      /* Disease information - Treatment study focus */
+      "disease": "sporadic ALS",
+      "ageDiseaseOnset": $subjectData.Age_Symptom_Onset,
+      "diseaseDurationYears": ($subjectData.Age - $subjectData.Age_Symptom_Onset),
+      "elEscorialCriteria": $lookup({
+        "1": "Clinically Possible ALS",
+        "2": "Clinically Probable ALS - Laboratory Supported",
+        "3": "Clinically Probable ALS",
+        "4": "Clinically Definite ALS"
+      }, $string($subjectData.El_Escorial_Category)),
+      
+      /* Treatment group assignment */
+      "treatmentGroup": $lookup({
+        "A1": "Group A1 - Standard Dose",
+        "A2": "Group A2 - Modified Dose"
+      }, $subjectData.Treatment_Group),
+      
+      "screeningFailureReason": $subjectData.Screening_Failure_Reason
+    }
+  ),
+  
+  /* Visit entities - Treatment schedule with weekly infusions */
+  "visits": $[Visit_Name and Visit_Date and SubjectUID].(
+    {
+      "visitId": "all_als:trehalose:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & Visit_Date,
+      "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+      "visitName": Visit_Name,
+      "visitDate": Visit_Date,
+      "visitType": $lookup({
+        "Screening/Baseline": "Baseline",
+        "Week 1 Infusion": "Infusion",
+        "Week 2 Infusion": "Infusion",
+        "Week 3": "Follow-up",
+        "Week 3 Infusion": "Infusion",
+        "Week 4 Infusion": "Infusion",
+        "Week 5 Infusion": "Infusion",
+        "Week 6 Infusion": "Infusion",
+        "Week 7 Infusion": "Infusion",
+        "Week 8 Infusion": "Infusion",
+        "Week 9 Infusion": "Infusion",
+        "Week 10 Infusion": "Infusion",
+        "Week 11 Infusion": "Infusion",
+        "Week 12": "Follow-up",
+        "Week 12 Infusion": "Infusion",
+        "Week 13 Infusion": "Infusion",
+        "Week 14 Infusion": "Infusion",
+        "Week 15 Infusion": "Infusion",
+        "Week 16 Infusion": "Infusion",
+        "Week 17 Infusion": "Infusion",
+        "Week 18 Infusion": "Infusion",
+        "Week 19 Infusion": "Infusion",
+        "Week 20 Infusion": "Infusion",
+        "Week 21 Infusion": "Infusion",
+        "Week 22 Infusion": "Infusion",
+        "Week 23 Infusion": "Infusion",
+        "Week 24": "Follow-up",
+        "Week 24 Infusion": "Infusion",
+        "Follow-Up Safety Call": "Safety",
+        "Early Termination": "Early_Termination",
+        "Unscheduled Visit": "Unscheduled"
+      }, Visit_Name),
+      "studyWeek": $number($substringAfter($substringBefore(Visit_Name, " "), "Week ")),
+      "visitStatus": "Completed",
+      "infusionCompleted": Infusion_Completed = 1,
+      "infusionDuration": Infusion_Duration_Minutes,
+      "treatmentEmergentEvents": Treatment_Emergent_Events,
+      "earlyTermination": $contains(Visit_Name, "Early Termination"),
+      "unscheduled": $contains(Visit_Name, "Unscheduled")
+    }
+  ),
+  
+  /* Clinical Assessments - Treatment response monitoring */
+  "clinicalAssessments": $append(
+    /* ALSFRS-R Assessments - Primary endpoint */
+    $[ALSFRS_Total and SubjectUID].(
+      {
+        "assessmentId": "all_als:trehalose:" & SubjectUID & ":" & ($exists(Visit_Name) ? $replace(Visit_Name, " ", "_") : "unknown_visit") & ":ALSFRS-R:" & ALSFRS_Date,
+        "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+        "visitId": $exists(Visit_Name) ? "all_als:trehalose:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : ALSFRS_Date) : null,
+        "assessmentType": "ALSFRS-R",
+        "assessmentDate": ALSFRS_Date,
+        "alsfrsTotal": ALSFRS_Total,
+        "speech": ALSFRS_Speech,
+        "salivation": ALSFRS_Salivation,
+        "swallowing": ALSFRS_Swallowing,
+        "handwriting": ALSFRS_Handwriting,
+        "cuttingFood": ALSFRS_Cutting_Food,
+        "dressing": ALSFRS_Dressing,
+        "turningInBed": ALSFRS_Turning_Bed,
+        "walking": ALSFRS_Walking,
+        "climbingStairs": ALSFRS_Climbing_Stairs,
+        "dyspnea": ALSFRS_Dyspnea,
+        "orthopnea": ALSFRS_Orthopnea,
+        "respiratoryInsufficiency": ALSFRS_Respiratory,
+        "changeFromBaseline": ALSFRS_Change_Baseline,
+        "progressionRate": ALSFRS_Progression_Rate
+      }
+    ),
+    
+    /* Pulmonary Function - Treatment response */
+    $[(FVC_Liters or SVC_Liters) and SubjectUID].(
+      {
+        "assessmentId": "all_als:trehalose:" & SubjectUID & ":" & ($exists(Visit_Name) ? $replace(Visit_Name, " ", "_") : "unknown_visit") & ":PulmonaryFunction:" & PFT_Date,
+        "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+        "visitId": $exists(Visit_Name) ? "all_als:trehalose:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : PFT_Date) : null,
+        "assessmentType": "PulmonaryFunction",
+        "assessmentDate": PFT_Date,
+        "fvcLiters": FVC_Liters,
+        "fvcPercent": FVC_Percent_Predicted,
+        "svcLiters": SVC_Liters, 
+        "svcPercent": SVC_Percent_Predicted,
+        "changeFromBaseline": FVC_Change_Baseline,
+        "dataSource": $lookup({
+          "1": "Original Collection",
+          "2": "Medical Records",
+          "3": "Patient Reported"
+        }, $string(PFT_Data_Source))
+      }
+    )
+  ),
+  
+  /* Vital Signs - Safety monitoring during infusions */
+  "vitalSigns": $[Vitals_Date and SubjectUID].(
+    {
+      "vitalSignsId": "all_als:trehalose:" & SubjectUID & ":vitals:" & Vitals_Date & ":" & ($exists(Time_Point) ? Time_Point : $string($millis())),
+      "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+      "visitId": $exists(Visit_Name) ? "all_als:trehalose:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : Vitals_Date) : null,
+      "assessmentDate": Vitals_Date,
+      "timePoint": Time_Point,
+      "bloodPressureSystolic": BP_Systolic,
+      "bloodPressureDiastolic": BP_Diastolic,
+      "heartRate": Heart_Rate,
+      "respiratoryRate": Respiratory_Rate,
+      "temperature": Temperature,
+      "weight": Weight_kg,
+      "oxygenSaturation": O2_Saturation
+    }
+  ),
+  
+  /* Laboratory Results - Safety monitoring */
+  "laboratoryResults": $[Lab_Date and SubjectUID].(
+    {
+      "labResultId": "all_als:trehalose:" & SubjectUID & ":lab:" & Lab_Date & ":" & ($exists(Lab_Test_Name) ? $replace(Lab_Test_Name, " ", "_") : $string($millis())),
+      "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+      "visitId": $exists(Visit_Name) ? "all_als:trehalose:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : Lab_Date) : null,
+      "testDate": Lab_Date,
+      "testType": Lab_Test_Type,
+      "testName": Lab_Test_Name,
+      "result": Lab_Result,
+      "units": Lab_Units,
+      "referenceRange": Lab_Reference_Range,
+      "abnormalFlag": Lab_Abnormal_Flag,
+      "clinicallySignificant": Clinically_Significant = 1
+    }
+  ),
+  
+  /* Treatments - Trehalose specific */
+  "treatments": [{
+    "treatmentId": "all_als:trehalose:" & SubjectUID & ":treatment:trehalose:" & ($exists(Treatment_Start_Date) ? Treatment_Start_Date : $string($millis())),
+    "globalSubjectId": "all_als:trehalose:" & SubjectUID,
+    "medicationName": "Trehalose",
+    "dose": Trehalose_Dose,
+    "frequency": "Weekly",
+    "route": "Intravenous",
+    "indication": "ALS Treatment - Expanded Access",
+    "startDate": Treatment_Start_Date,
+    "endDate": Treatment_End_Date,
+    "treatmentType": "Investigational",
+    "investigational": true,
+    "treatmentGroup": $lookup({
+      "A1": "Group A1 - Standard Dose",
+      "A2": "Group A2 - Modified Dose"
+    }, Treatment_Group),
+    "doseEscalation": Dose_Escalation = 1,
+    "treatmentCompliance": Treatment_Compliance_Percent,
+    "reasonForDiscontinuation": Discontinuation_Reason
+  }][$exists(SubjectUID) and $exists(Treatment_Start_Date)],
+  
+  /* Treatment Response Assessment */
+  "treatmentResponses": $[Overall_Response and SubjectUID].(
+    {
+      "responseId": "all_als:trehalose:" & SubjectUID & ":response:" & $string($millis()),
+      "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+      "overallResponse": Overall_Response,
+      "responseCategory": $lookup({
+        "1": "Complete Response",
+        "2": "Partial Response", 
+        "3": "Stable Disease",
+        "4": "Progressive Disease"
+      }, $string(Response_Category)),
+      "timeToProgression": Time_To_Progression_Days,
+      "treatmentBenefit": Treatment_Benefit = 1,
+      "qualityOfLifeImprovement": QOL_Improvement = 1,
+      "biomarkerResponse": Biomarker_Response
+    }
+  ),
+  
+  /* Biospecimens */
+  "biospecimens": $[Sample_ID and SubjectUID].(
+    {
+      "globalBiospecimenId": "allals" & "trehalose" & SubjectUID & Sample_ID,
+      "originalBiospecimenId": Sample_ID,
+      "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+      "visitId": $exists(Visit_Name) ? "all_als:trehalose:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : Collection_Date) : null,
+      "dataSourcePrefix": "all_als",
+      "biospecimenType": $lookup({
+        "1": "Blood",
+        "2": "Serum",
+        "3": "Plasma", 
+        "4": "CSF",
+        "5": "RNA",
+        "6": "DNA"
+      }, $string(Sample_Type)),
+      "collectionDate": Collection_Date,
+      "processingDate": Processing_Date,
+      "storageTemperature": Storage_Temperature,
+      "volume": Sample_Volume,
+      "units": Volume_Units
+    }
+  ),
+  
+  /* Adverse Events - Treatment safety */
+  "adverseEvents": $[AE_Description and SubjectUID].(
+    {
+      "adverseEventId": "all_als:trehalose:" & SubjectUID & ":ae:" & AE_Date & ":" & $string($millis()),
+      "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+      "visitId": $exists(Visit_Name) ? "all_als:trehalose:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : AE_Date) : null,
+      "eventDescription": AE_Description,
+      "eventDate": AE_Date,
+      "severity": $lookup({
+        "1": "Mild",
+        "2": "Moderate",
+        "3": "Severe",
+        "4": "Life_Threatening",
+        "5": "Fatal"
+      }, $string(AE_Severity)),
+      "relationship": $lookup({
+        "1": "Not_Related",
+        "2": "Unlikely_Related",
+        "3": "Possibly_Related",
+        "4": "Probably_Related",
+        "5": "Definitely_Related"
+      }, $string(AE_Relationship)),
+      "outcome": $lookup({
+        "1": "Resolved",
+        "2": "Resolved_with_Sequelae",
+        "3": "Recovering",
+        "4": "Not_Recovered",
+        "5": "Fatal",
+        "-1": "Unknown"
+      }, $string(AE_Outcome)),
+      "serious": AE_Serious = 1,
+      "treatmentEmergent": Treatment_Emergent = 1,
+      "infusionRelated": Infusion_Related = 1,
+      "actionTaken": $lookup({
+        "1": "None",
+        "2": "Dose_Reduced",
+        "3": "Dose_Interrupted",
+        "4": "Treatment_Discontinued",
+        "5": "Other"
+      }, $string(Action_Taken))
+    }
+  ),
+  
+  /* Medical Devices */
+  "medicalDevices": $[Device_Type and SubjectUID].(
+    {
+      "deviceId": "all_als:trehalose:" & SubjectUID & ":device:" & $replace(Device_Type, " ", "_") & ":" & ($exists(Device_Start_Date) ? Device_Start_Date : $string($millis())),
+      "globalSubjectId": "allals" & "trehalose" & SubjectUID,
+      "deviceType": $lookup({
+        "NIV": "NIV",
+        "Tracheostomy": "Tracheostomy", 
+        "Feeding": "Feeding_Tube",
+        "Gastrostomy": "Gastrostomy",
+        "Central": "Central_Venous_Catheter",
+        "Diaphragm": "Diaphragm_Pacer"
+      }, Device_Type),
+      "deviceName": Device_Name,
+      "implantDate": Device_Start_Date,
+      "indication": Device_Indication,
+      "deviceStatus": "Active"
+    }
+  )
+}

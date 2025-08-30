@@ -1,0 +1,353 @@
+{
+  /* Flat Entity Structure - PREVENT Study */
+  
+  /* Subject entities - one per unique SubjectUID */
+  "subjects": $distinct(SubjectUID).(
+    $subjectId := $;
+    $subjectData := $$.[$$.SubjectUID = $subjectId][0];
+    {
+      "globalSubjectId": "allals" & "prevent" & $subjectId,
+      "originalSubjectId": $subjectId,
+      "datasetReference": "prevent",
+      "dataSourcePrefix": "all_als",
+      
+      /* Demographics */
+      "sex": $lookup({
+        "1": "Female",
+        "2": "Male", 
+        "3": "Intersex",
+        "-1": "Unknown",
+        "": "Not Reported"
+      }, $string($subjectData.Sex)),
+      
+      "race": $lookup({
+        "1": "American Indian or Alaska Native",
+        "2": "Asian", 
+        "3": "Black or African American",
+        "4": "Hispanic or Latino",
+        "5": "Middle Eastern or North African",
+        "6": "Native Hawaiian or Other Pacific Islander", 
+        "7": "White",
+        "-1": "Unknown",
+        "98": "Prefer Not to Disclose",
+        "": "Not Reported"
+      }, $string($subjectData.Race_Ethnicity)),
+      
+      "age": $subjectData.Age,
+      "birthDate": $subjectData.Birth_Date,
+      "heightCm": $subjectData.Height_cm ? $subjectData.Height_cm : ($subjectData.Height_inches * 2.54),
+      "weightKg": $subjectData.Weight_kg ? $subjectData.Weight_kg : ($subjectData.Weight_lbs / 2.205),
+      
+      "handedness": $lookup({
+        "1": "Right",
+        "2": "Left", 
+        "3": "Ambidextrous",
+        "-1": "Unknown"
+      }, $string($subjectData.Handedness)),
+      
+      "yearsEducation": $subjectData.Years_Education,
+      "occupation": $subjectData.Occupation,
+      "state": $subjectData.Participant_State,
+      "zipCode": $subjectData.ZIP_Code,
+      
+      /* Disease information - PREVENT focuses on at-risk individuals */
+      "disease": $lookup({
+        "0": "Control",
+        "1": "At-Risk",
+        "2": "Phenoconversion - ALS",
+        "3": "Phenoconversion - FTD"
+      }, $string($subjectData.Disease_Status)),
+      
+      /* Risk factors */
+      "familyHistoryALS": $subjectData.Family_History_ALS = 1,
+      "geneticRiskStatus": $lookup({
+        "1": "High Risk",
+        "2": "Moderate Risk",
+        "3": "Low Risk",
+        "0": "Unknown"
+      }, $string($subjectData.Genetic_Risk_Status))
+    }
+  ),
+  
+  /* Visit entities - PREVENT has specialized visit types */
+  "visits": $[Visit_Name and Visit_Date and SubjectUID].(
+    {
+      "visitId": "all_als:prevent:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & Visit_Date,
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "visitName": Visit_Name,
+      "visitDate": Visit_Date,
+      "visitType": $lookup({
+        "Screening": "Screening",
+        "Visit 1": "Baseline",
+        "Visit 2": "Follow-up",
+        "Visit 3": "Follow-up", 
+        "Visit 4": "Follow-up",
+        "Visit 5": "Follow-up",
+        "Visit 6": "Follow-up",
+        "Visit 7": "Follow-up",
+        "Visit 8": "Follow-up",
+        "Visit 9": "Follow-up",
+        "Visit 10": "Follow-up",
+        "Genetic Testing Sub-Study Screening Visit": "Screening",
+        "Return of Genetic Results Visit": "Results_Return",
+        "Post-Return of Results Counseling Telephone Visit": "Genetic_Counseling",
+        "Ad Hoc Genetic Counseling Visit": "Genetic_Counseling",
+        "Ad Hoc Visit for Evaluation of ALS/FTD Symptoms": "Unscheduled",
+        "Early Termination": "Early_Termination",
+        "Unscheduled Visit": "Unscheduled"
+      }, Visit_Name),
+      "studyDay": Study_Day,
+      "visitStatus": "Completed",
+      "isRemote": Remote_Visit = 1,
+      "earlyTermination": $contains(Visit_Name, "Early Termination"),
+      "unscheduled": $contains(Visit_Name, "Unscheduled") or $contains(Visit_Name, "Ad Hoc"),
+      "geneticCounseling": $contains(Visit_Name, "Genetic") or $contains(Visit_Name, "Results")
+    }
+  ),
+  
+  /* Clinical Assessments - Focus on early detection */
+  "clinicalAssessments": $append(
+    /* ECAS Cognitive Assessments - Primary endpoint for PREVENT */
+    $[ECAS_Total and SubjectUID].(
+      {
+        "assessmentId": "all_als:prevent:" & SubjectUID & ":" & ($exists(Visit_Name) ? $replace(Visit_Name, " ", "_") : "unknown_visit") & ":ECAS:" & ECAS_Date,
+        "globalSubjectId": "allals" & "prevent" & SubjectUID,
+        "visitId": $exists(Visit_Name) ? "all_als:prevent:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : ECAS_Date) : null,
+        "assessmentType": "ECAS",
+        "assessmentDate": ECAS_Date,
+        "ecasTotal": ECAS_Total,
+        "ecasSpecificTotal": ECAS_Specific_Total,
+        "ecasNonSpecificTotal": ECAS_Non_Specific_Total,
+        "languageScore": ECAS_Language,
+        "verbalFluencyScore": ECAS_Verbal_Fluency,
+        "executiveFunctionScore": ECAS_Executive,
+        "memoryScore": ECAS_Memory,
+        "visuospatialScore": ECAS_Visuospatial
+      }
+    ),
+    
+    /* ALSFRS-R Assessments - For phenoconversion monitoring */
+    $[ALSFRS_Total and SubjectUID].(
+      {
+        "assessmentId": "all_als:prevent:" & SubjectUID & ":" & ($exists(Visit_Name) ? $replace(Visit_Name, " ", "_") : "unknown_visit") & ":ALSFRS-R:" & ALSFRS_Date,
+        "globalSubjectId": "allals" & "prevent" & SubjectUID,
+        "visitId": $exists(Visit_Name) ? "all_als:prevent:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : ALSFRS_Date) : null,
+        "assessmentType": "ALSFRS-R",
+        "assessmentDate": ALSFRS_Date,
+        "alsfrsTotal": ALSFRS_Total,
+        "speech": ALSFRS_Speech,
+        "salivation": ALSFRS_Salivation,
+        "swallowing": ALSFRS_Swallowing,
+        "handwriting": ALSFRS_Handwriting,
+        "cuttingFood": ALSFRS_Cutting_Food,
+        "dressing": ALSFRS_Dressing,
+        "turningInBed": ALSFRS_Turning_Bed,
+        "walking": ALSFRS_Walking,
+        "climbingStairs": ALSFRS_Climbing_Stairs,
+        "dyspnea": ALSFRS_Dyspnea,
+        "orthopnea": ALSFRS_Orthopnea,
+        "respiratoryInsufficiency": ALSFRS_Respiratory
+      }
+    ),
+    
+    /* Neurological Assessments - Early disease detection */
+    $[Neuro_Exam_Date and SubjectUID].(
+      {
+        "assessmentId": "all_als:prevent:" & SubjectUID & ":" & ($exists(Visit_Name) ? $replace(Visit_Name, " ", "_") : "unknown_visit") & ":Neurological:" & Neuro_Exam_Date,
+        "globalSubjectId": "allals" & "prevent" & SubjectUID,
+        "visitId": $exists(Visit_Name) ? "all_als:prevent:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : Neuro_Exam_Date) : null,
+        "assessmentType": "Neurological",
+        "assessmentDate": Neuro_Exam_Date,
+        "upperMotorNeuronSigns": UMN_Signs_Present = 1,
+        "lowerMotorNeuronSigns": LMN_Signs_Present = 1,
+        "fasciculations": Fasciculations_Present = 1,
+        "muscleWeakness": Muscle_Weakness_Present = 1,
+        "bulbarSigns": Bulbar_Signs_Present = 1,
+        "reflexAbnormalities": Reflex_Abnormalities = 1,
+        "sensorySigns": Sensory_Signs_Present = 1
+      }
+    )
+  ),
+  
+  /* Genetic Profiles - Enhanced for PREVENT study */
+  "geneticProfiles": $[Previous_Genetic_Testing or Genetic_Testing_Sub_Study and SubjectUID].(
+    {
+      "geneticProfileId": "all_als:prevent:" & SubjectUID & ":genetic_profile",
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "previousGeneticTesting": Previous_Genetic_Testing = 1,
+      "testingLab": $lookup({
+        "1": "Prevention_Genetics",
+        "2": "Invitae",
+        "3": "GeneDx", 
+        "4": "Ambry",
+        "5": "Athena",
+        "6": "Other"
+      }, $string(Testing_Lab)),
+      "familyHistoryALS": Family_History_ALS = 1,
+      "familyHistoryFTD": Family_History_FTD = 1,
+      "familyHistoryDementia": Family_History_Dementia = 1,
+      "geneticCounselingReceived": Genetic_Counseling_Received = 1,
+      "consentForGeneticTesting": Consent_Genetic_Testing = 1,
+      "wantResultsReturned": Want_Results_Returned = 1,
+      "geneticTestingSubStudy": Genetic_Testing_Sub_Study = 1,
+      "riskCommunication": Risk_Communication_Preference
+    }
+  ),
+  
+  /* Genetic Variants - With risk assessment */
+  "geneticVariants": $[Gene_Name and SubjectUID].(
+    {
+      "variantId": "all_als:prevent:" & SubjectUID & ":variant:" & Gene_Name & ":" & ($exists(cDNA_Location) ? cDNA_Location : $string($millis())),
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "geneticProfileId": "all_als:prevent:" & SubjectUID & ":genetic_profile",
+      "geneName": Gene_Name,
+      "classification": $lookup({
+        "1": "Pathogenic",
+        "2": "Likely_Pathogenic",
+        "3": "VUS",
+        "4": "Likely_Benign", 
+        "5": "Benign",
+        "-1": "Not_Classified"
+      }, $string(Variant_Classification)),
+      "cdnaLocation": cDNA_Location,
+      "proteinChange": Protein_Change,
+      "testingLab": $lookup({
+        "1": "Prevention_Genetics",
+        "2": "Invitae", 
+        "3": "GeneDx",
+        "4": "Ambry",
+        "5": "Athena",
+        "6": "Other"
+      }, $string(Testing_Lab_Variant)),
+      "riskAssessment": Risk_Assessment,
+      "penetrance": Penetrance_Estimate
+    }
+  ),
+  
+  /* Family History - Detailed for PREVENT */
+  "familyHistory": $[Family_Relationship and SubjectUID].(
+    {
+      "familyHistoryId": "all_als:prevent:" & SubjectUID & ":family:" & $string(Family_Relationship) & ":" & $string($millis()),
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "relationshipToSubject": $lookup({
+        "1": "Mother", "2": "Father", "3": "Sister", "4": "Brother",
+        "5": "Daughter", "6": "Son", "7": "Grandmother", "8": "Grandfather",
+        "9": "Aunt", "10": "Uncle", "11": "Cousin", "12": "Half_Sister", "13": "Half_Brother"
+      }, $string(Family_Relationship)),
+      "hereditySide": $lookup({
+        "1": "Maternal", "2": "Paternal", "3": "Both"
+      }, $string(Heredity_Side)),
+      "affectedCondition": $lookup({
+        "1": "ALS", "2": "FTD", "3": "Alzheimer", "4": "Parkinson",
+        "5": "Other_Dementia", "6": "Psychiatric", "7": "Other"
+      }, $string(Affected_Condition)),
+      "ageAtOnset": Age_At_Onset,
+      "ageAtDeath": Age_At_Death,
+      "geneticTestingStatus": Relative_Genetic_Testing = 1
+    }
+  ),
+  
+  /* Phenoconversion Events - Key PREVENT endpoint */
+  "phenoconversionEvents": $[Phenoconversion_Date and SubjectUID].(
+    {
+      "phenoconversionId": "all_als:prevent:" & SubjectUID & ":phenoconversion:" & Phenoconversion_Date,
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "eventType": $lookup({
+        "1": "ALS Phenoconversion",
+        "2": "FTD Phenoconversion",
+        "3": "Mixed ALS-FTD"
+      }, $string(Phenoconversion_Type)),
+      "eventDate": Phenoconversion_Date,
+      "ageAtPhenoconversion": Age_At_Phenoconversion,
+      "initialSymptoms": Initial_Symptoms,
+      "diagnosisConfirmed": Diagnosis_Confirmed = 1,
+      "elEscorialCriteria": El_Escorial_Category,
+      "timeFromEnrollment": Time_From_Enrollment_Days
+    }
+  ),
+  
+  /* Biospecimens */
+  "biospecimens": $[Sample_ID and SubjectUID].(
+    {
+      "globalBiospecimenId": "allals" & "prevent" & SubjectUID & Sample_ID,
+      "originalBiospecimenId": Sample_ID,
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "visitId": $exists(Visit_Name) ? "all_als:prevent:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : Collection_Date) : null,
+      "dataSourcePrefix": "all_als",
+      "biospecimenType": $lookup({
+        "1": "Blood",
+        "2": "Serum",
+        "3": "Plasma", 
+        "4": "CSF",
+        "5": "RNA",
+        "6": "DNA"
+      }, $string(Sample_Type)),
+      "collectionDate": Collection_Date,
+      "processingDate": Processing_Date,
+      "storageTemperature": Storage_Temperature,
+      "volume": Sample_Volume,
+      "units": Volume_Units
+    }
+  ),
+  
+  /* Treatments - Minimal for PREVENT (mostly supplements/standard care) */
+  "treatments": $[Medication_Name and SubjectUID].(
+    {
+      "treatmentId": "all_als:prevent:" & SubjectUID & ":treatment:" & $replace(Medication_Name, " ", "_") & ":" & ($exists(Start_Date) ? Start_Date : $string($millis())),
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "medicationName": Medication_Name,
+      "dose": Dose,
+      "frequency": Frequency,
+      "route": $lookup({
+        "1": "Oral",
+        "2": "Intravenous",
+        "3": "Intrathecal",
+        "4": "Subcutaneous",
+        "5": "Other"
+      }, $string(Route)),
+      "indication": Indication,
+      "startDate": Start_Date,
+      "endDate": End_Date,
+      "investigational": Investigational = 1,
+      "treatmentType": $lookup({
+        "Prevention": "Prevention",
+        "Supplement": "Supplement",
+        "Standard": "Standard_Care"
+      }, Treatment_Category)
+    }
+  ),
+  
+  /* Adverse Events */
+  "adverseEvents": $[AE_Description and SubjectUID].(
+    {
+      "adverseEventId": "all_als:prevent:" & SubjectUID & ":ae:" & AE_Date & ":" & $string($millis()),
+      "globalSubjectId": "allals" & "prevent" & SubjectUID,
+      "visitId": $exists(Visit_Name) ? "all_als:prevent:" & SubjectUID & ":" & $replace(Visit_Name, " ", "_") & ":" & ($exists(Visit_Date) ? Visit_Date : AE_Date) : null,
+      "eventDescription": AE_Description,
+      "eventDate": AE_Date,
+      "severity": $lookup({
+        "1": "Mild",
+        "2": "Moderate",
+        "3": "Severe",
+        "4": "Life_Threatening",
+        "5": "Fatal"
+      }, $string(AE_Severity)),
+      "relationship": $lookup({
+        "1": "Not_Related",
+        "2": "Unlikely_Related",
+        "3": "Possibly_Related",
+        "4": "Probably_Related",
+        "5": "Definitely_Related"
+      }, $string(AE_Relationship)),
+      "outcome": $lookup({
+        "1": "Resolved",
+        "2": "Resolved_with_Sequelae",
+        "3": "Recovering",
+        "4": "Not_Recovered",
+        "5": "Fatal",
+        "-1": "Unknown"
+      }, $string(AE_Outcome)),
+      "serious": AE_Serious = 1
+    }
+  )
+}

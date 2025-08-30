@@ -2,19 +2,32 @@ classes:
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
     attributes:
+      # Core Identifiers
       globalBiospecimenId:
         title: Global Biospecimen ID
         range: string
         description: >
           Globally unique identifier for a biospecimen across all data sources.
-          Format: {data_source_prefix}:{dataset_id}:{subject_id}:{biospecimen_id}
+          Format: {data_source_prefix}{dataset_id}{subject_id}{biospecimen_id}
         required: false
-        pattern: "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$"
+        pattern: "^[a-zA-Z0-9_-]+$"
       
       originalBiospecimenId:
         title: Original Biospecimen ID
         range: string
         description: The original biospecimen identifier as provided by the data source
+        required: false
+        
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject from whom specimen was collected
+        required: false
+        
+      visitId:
+        title: Visit ID
+        range: string
+        description: Visit during which specimen was collected
         required: false
       
       dataSourcePrefix:
@@ -23,7 +36,247 @@ classes:
         description: Short identifier indicating the data source origin
         required: false
       
-      # Anatomical Information
+      # Collection Information
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when biospecimen was collected
+        required: false
+        
+      collectionTime:
+        title: Collection Time
+        range: time
+        description: Time when biospecimen was collected
+        required: false
+        
+      collectionMethod:
+        title: Collection Method
+        range: CollectionMethodEnum
+        description: Method used to collect the biospecimen
+        required: false
+        
+      collectionSite:
+        title: Collection Site
+        range: string
+        description: Anatomical site where specimen was collected
+        required: false
+        
+      collectionVolume:
+        title: Collection Volume
+        range: float
+        description: Volume of specimen collected
+        required: false
+        
+      volumeUnits:
+        title: Volume Units
+        range: VolumeUnitsEnum
+        description: Units for specimen volume
+        required: false
+        
+      collectorId:
+        title: Collector ID
+        range: string
+        description: Identifier of person who collected specimen
+        required: false
+        
+      collectionTube:
+        title: Collection Tube
+        range: CollectionTubeEnum
+        description: Type of collection tube used
+        required: false
+        
+      anticoagulant:
+        title: Anticoagulant
+        range: AnticoagulantEnum
+        description: Anticoagulant used during collection
+        required: false
+        
+      fastingStatus:
+        title: Fasting Status
+        range: FastingStatusEnum
+        description: Subject fasting status at time of collection
+        required: false
+        
+      fastingHours:
+        title: Fasting Hours
+        range: integer
+        description: Number of hours subject fasted before collection
+        required: false
+      
+      # Processing Information
+      processingDate:
+        title: Processing Date
+        range: date
+        description: Date when biospecimen was processed
+        required: false
+        
+      processingTime:
+        title: Processing Time
+        range: time
+        description: Time when biospecimen was processed
+        required: false
+        
+      processingDelay:
+        title: Processing Delay (hours)
+        range: float
+        description: Hours between collection and processing
+        required: false
+        
+      centrifugationSpeed:
+        title: Centrifugation Speed (RPM)
+        range: integer
+        description: Centrifugation speed in RPM
+        required: false
+        
+      centrifugationTime:
+        title: Centrifugation Time (minutes)
+        range: integer
+        description: Duration of centrifugation in minutes
+        required: false
+        
+      centrifugationTemperature:
+        title: Centrifugation Temperature (°C)
+        range: float
+        description: Temperature during centrifugation
+        required: false
+        
+      aliquots:
+        title: Number of Aliquots
+        range: integer
+        description: Number of aliquots created from specimen
+        required: false
+        
+      aliquotVolume:
+        title: Aliquot Volume
+        range: float
+        description: Volume of each aliquot
+        required: false
+        
+      processingNotes:
+        title: Processing Notes
+        range: string
+        description: Additional notes about specimen processing
+        required: false
+      
+      # Storage Information
+      storageDate:
+        title: Storage Date
+        range: date
+        description: Date when biospecimen was placed in storage
+        required: false
+        
+      storageTemperature:
+        title: Storage Temperature (°C)
+        range: float
+        description: Storage temperature in Celsius
+        required: false
+        
+      storageContainer:
+        title: Storage Container
+        range: StorageContainerEnum
+        description: Type of storage container
+        required: false
+        
+      freezerLocation:
+        title: Freezer Location
+        range: string
+        description: Specific freezer and location identifier
+        required: false
+        
+      rackPosition:
+        title: Rack Position
+        range: string
+        description: Rack and position within freezer
+        required: false
+        
+      freezeThawCycles:
+        title: Freeze-Thaw Cycles
+        range: integer
+        description: Number of freeze-thaw cycles
+        required: false
+        
+      storageNotes:
+        title: Storage Notes
+        range: string
+        description: Additional notes about specimen storage
+        required: false
+      
+      # Quality Control
+      qualityControlDate:
+        title: Quality Control Date
+        range: date
+        description: Date of quality control assessment
+        required: false
+        
+      qualityGrade:
+        title: Quality Grade
+        range: QualityGradeEnum
+        description: Overall quality grade of specimen
+        required: false
+        
+      hemolysisLevel:
+        title: Hemolysis Level
+        range: HemolysisEnum
+        description: Level of hemolysis in blood specimens
+        required: false
+        
+      lipemiaLevel:
+        title: Lipemia Level
+        range: LipemiaEnum
+        description: Level of lipemia in blood specimens
+        required: false
+        
+      icterusLevel:
+        title: Icterus Level
+        range: IcterusEnum
+        description: Level of icterus in blood specimens
+        required: false
+        
+      pH:
+        title: pH Level
+        range: float
+        description: pH measurement of specimen
+        required: false
+        
+      osmolality:
+        title: Osmolality
+        range: float
+        description: Osmolality measurement
+        required: false
+        
+      proteinConcentration:
+        title: Protein Concentration
+        range: float
+        description: Protein concentration measurement
+        required: false
+        
+      dnaConcentration:
+        title: DNA Concentration
+        range: float
+        description: DNA concentration measurement
+        required: false
+        
+      rnaConcentration:
+        title: RNA Concentration
+        range: float
+        description: RNA concentration measurement
+        required: false
+        
+      rin:
+        title: RNA Integrity Number (RIN)
+        range: float
+        description: RNA integrity number assessment
+        required: false
+        minimum_value: 1
+        maximum_value: 10
+        
+      qualityNotes:
+        title: Quality Notes
+        range: string
+        description: Additional quality control notes
+        required: false
+      
+      # Anatomical Information (existing)
       tissue:
         title: Tissue Type
         range: string 
@@ -168,6 +421,162 @@ enums:
         description: Cells cultured directly from tissue
       brain tissue:
         description: Brain tissue specimen
+      blood:
+        description: Whole blood specimen
+      serum:
+        description: Blood serum specimen
+      plasma:
+        description: Blood plasma specimen
+      csf:
+        description: Cerebrospinal fluid specimen
+      rna:
+        description: RNA specimen
+      dna:
+        description: DNA specimen
+      urine:
+        description: Urine specimen
+      saliva:
+        description: Saliva specimen
+      tissue:
+        description: Tissue specimen (general)
+
+  CollectionMethodEnum:
+    permissible_values:
+      Venipuncture:
+        description: Blood collection via venipuncture
+      Lumbar_Puncture:
+        description: CSF collection via lumbar puncture
+      Biopsy:
+        description: Tissue collection via biopsy
+      Surgical_Resection:
+        description: Tissue collection via surgical resection
+      Autopsy:
+        description: Post-mortem tissue collection
+      Saliva_Collection:
+        description: Saliva collection
+      Urine_Collection:
+        description: Urine collection
+      Other:
+        description: Other collection method
+
+  VolumeUnitsEnum:
+    permissible_values:
+      mL:
+        description: Milliliters
+      L:
+        description: Liters
+      uL:
+        description: Microliters
+      mg:
+        description: Milligrams
+      g:
+        description: Grams
+      Other:
+        description: Other volume unit
+
+  CollectionTubeEnum:
+    permissible_values:
+      EDTA:
+        description: EDTA tube (lavender top)
+      Heparin:
+        description: Heparin tube (green top)
+      Serum_Separator:
+        description: Serum separator tube (gold/red top)
+      Sodium_Citrate:
+        description: Sodium citrate tube (blue top)
+      Fluoride_Oxalate:
+        description: Fluoride oxalate tube (gray top)
+      Plain:
+        description: Plain tube (no additive)
+      PAXgene_RNA:
+        description: PAXgene RNA tube
+      Tempus_RNA:
+        description: Tempus RNA tube
+      Other:
+        description: Other tube type
+
+  AnticoagulantEnum:
+    permissible_values:
+      None:
+        description: No anticoagulant
+      EDTA:
+        description: EDTA anticoagulant
+      Heparin:
+        description: Heparin anticoagulant
+      Sodium_Citrate:
+        description: Sodium citrate anticoagulant
+      Other:
+        description: Other anticoagulant
+
+  FastingStatusEnum:
+    permissible_values:
+      Fasting:
+        description: Subject was fasting
+      Non_Fasting:
+        description: Subject was not fasting
+      Unknown:
+        description: Fasting status unknown
+
+  StorageContainerEnum:
+    permissible_values:
+      Cryovial:
+        description: Cryogenic storage vial
+      Microcentrifuge_Tube:
+        description: Microcentrifuge tube
+      Storage_Tube:
+        description: Storage tube
+      Tissue_Cassette:
+        description: Tissue processing cassette
+      Paraffin_Block:
+        description: Paraffin-embedded tissue block
+      Other:
+        description: Other storage container
+
+  QualityGradeEnum:
+    permissible_values:
+      Excellent:
+        description: Excellent quality specimen
+      Good:
+        description: Good quality specimen
+      Acceptable:
+        description: Acceptable quality specimen
+      Poor:
+        description: Poor quality specimen
+      Unacceptable:
+        description: Unacceptable quality specimen
+
+  HemolysisEnum:
+    permissible_values:
+      None:
+        description: No hemolysis detected
+      Slight:
+        description: Slight hemolysis
+      Moderate:
+        description: Moderate hemolysis
+      Severe:
+        description: Severe hemolysis
+
+  LipemiaEnum:
+    permissible_values:
+      None:
+        description: No lipemia detected
+      Slight:
+        description: Slight lipemia
+      Moderate:
+        description: Moderate lipemia
+      Severe:
+        description: Severe lipemia
+
+  IcterusEnum:
+    permissible_values:
+      None:
+        description: No icterus detected
+      Slight:
+        description: Slight icterus
+      Moderate:
+        description: Moderate icterus
+      Severe:
+        description: Severe icterus
 
   PrimaryCellSourceEnum:
     permissible_values:

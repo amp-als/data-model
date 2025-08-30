@@ -1,0 +1,666 @@
+classes:
+  ClinicalAssessment:
+    description: Clinical assessment and outcome measures for subjects
+    attributes:
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject this assessment belongs to
+        required: false
+        
+      assessmentDate:
+        title: Assessment Date
+        range: date
+        description: Date when the assessment was performed
+        required: false
+        
+      visitId:
+        title: Visit ID
+        range: string
+        description: Identifier for the clinical visit
+        required: false
+        
+      assessmentType:
+        title: Assessment Type
+        range: AssessmentTypeEnum
+        description: Type of clinical assessment
+        required: false
+
+  ALSFRSAssessment:
+    description: ALS Functional Rating Scale (ALSFRS-R) assessment
+    is_a: ClinicalAssessment
+    attributes:
+      alsfrsTotal:
+        title: ALSFRS-R Total Score
+        range: integer
+        description: Total ALSFRS-R score (0-48)
+        required: false
+        minimum_value: 0
+        maximum_value: 48
+        
+      speech:
+        title: Speech Score
+        range: integer
+        description: Speech function score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      salivation:
+        title: Salivation Score
+        range: integer
+        description: Salivation score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      swallowing:
+        title: Swallowing Score
+        range: integer
+        description: Swallowing score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      handwriting:
+        title: Handwriting Score
+        range: integer
+        description: Handwriting score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      cuttingFood:
+        title: Cutting Food Score
+        range: integer
+        description: Cutting food and handling utensils score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      dressing:
+        title: Dressing and Hygiene Score
+        range: integer
+        description: Dressing and hygiene score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      turningInBed:
+        title: Turning in Bed Score
+        range: integer
+        description: Turning in bed and adjusting bedclothes score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      walking:
+        title: Walking Score
+        range: integer
+        description: Walking score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      climbingStairs:
+        title: Climbing Stairs Score
+        range: integer
+        description: Climbing stairs score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      dyspnea:
+        title: Dyspnea Score
+        range: integer
+        description: Dyspnea (shortness of breath) score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      orthopnea:
+        title: Orthopnea Score
+        range: integer
+        description: Orthopnea (difficulty breathing when lying down) score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+        
+      respiratoryInsufficiency:
+        title: Respiratory Insufficiency Score
+        range: integer
+        description: Respiratory insufficiency score (0-4)
+        required: false
+        minimum_value: 0
+        maximum_value: 4
+
+  CognitiveAssessment:
+    description: Cognitive assessment including ECAS (Edinburgh Cognitive ALS Screen)
+    is_a: ClinicalAssessment
+    attributes:
+      # ECAS Total Scores
+      ecasTotal:
+        title: ECAS Total Score
+        range: integer
+        description: Total ECAS score (0-136)
+        required: false
+        minimum_value: 0
+        maximum_value: 136
+        
+      ecasSpecificTotal:
+        title: ECAS ALS-Specific Total
+        range: integer
+        description: ECAS ALS-specific functions total score (0-100)
+        required: false
+        minimum_value: 0
+        maximum_value: 100
+        
+      ecasNonSpecificTotal:
+        title: ECAS Non-Specific Total
+        range: integer
+        description: ECAS non-ALS-specific functions total score (0-36)
+        required: false
+        minimum_value: 0
+        maximum_value: 36
+      
+      # ECAS Domain Scores
+      languageScore:
+        title: Language Score
+        range: integer
+        description: Language domain score (0-28)
+        required: false
+        minimum_value: 0
+        maximum_value: 28
+        
+      verbalFluencyScore:
+        title: Verbal Fluency Score
+        range: integer
+        description: Verbal fluency score (0-24)
+        required: false
+        minimum_value: 0
+        maximum_value: 24
+        
+      executiveFunctionScore:
+        title: Executive Function Score
+        range: integer
+        description: Executive function score (0-48)
+        required: false
+        minimum_value: 0
+        maximum_value: 48
+        
+      memoryScore:
+        title: Memory Score
+        range: integer
+        description: Memory domain score (0-24)
+        required: false
+        minimum_value: 0
+        maximum_value: 24
+        
+      visuospatialScore:
+        title: Visuospatial Score
+        range: integer
+        description: Visuospatial domain score (0-12)
+        required: false
+        minimum_value: 0
+        maximum_value: 12
+      
+      # ECAS Sub-components
+      namingScore:
+        title: Naming Score
+        range: integer
+        description: Object naming sub-test score
+        required: false
+        
+      comprehensionScore:
+        title: Comprehension Score
+        range: integer
+        description: Sentence comprehension sub-test score
+        required: false
+        
+      spellingScore:
+        title: Spelling Score
+        range: integer
+        description: Spelling sub-test score
+        required: false
+        
+      repetitionScore:
+        title: Repetition Score
+        range: integer
+        description: Word repetition sub-test score
+        required: false
+        
+      # Verbal Fluency Sub-components
+      letterFluencyScore:
+        title: Letter Fluency Score
+        range: integer
+        description: Letter fluency (S words) score
+        required: false
+        
+      categoryFluencyScore:
+        title: Category Fluency Score
+        range: integer
+        description: Category fluency (animals) score
+        required: false
+        
+      # Executive Function Sub-components
+      reverseDigitSpanScore:
+        title: Reverse Digit Span Score
+        range: integer
+        description: Reverse digit span sub-test score
+        required: false
+        
+      taskSwitchingScore:
+        title: Task Switching Score
+        range: integer
+        description: Task switching sub-test score
+        required: false
+        
+      sentenceCompletionScore:
+        title: Sentence Completion Score
+        range: integer
+        description: Sentence completion sub-test score
+        required: false
+        
+      # Memory Sub-components
+      immediateRecallScore:
+        title: Immediate Recall Score
+        range: integer
+        description: Immediate word recall score
+        required: false
+        
+      delayedRecallScore:
+        title: Delayed Recall Score
+        range: integer
+        description: Delayed word recall score
+        required: false
+        
+      delayedRecognitionScore:
+        title: Delayed Recognition Score
+        range: integer
+        description: Delayed word recognition score
+        required: false
+        
+      # Visuospatial Sub-components
+      cubeDrawingScore:
+        title: Cube Drawing Score
+        range: integer
+        description: Cube drawing sub-test score
+        required: false
+        
+      numberLocationScore:
+        title: Number Location Score
+        range: integer
+        description: Number location sub-test score
+        required: false
+        
+      # Administration Details
+      ecasVersion:
+        title: ECAS Version
+        range: string
+        description: Version of ECAS administered
+        required: false
+        
+      administrationMode:
+        title: Administration Mode
+        range: AdministrationModeEnum
+        description: Mode of ECAS administration
+        required: false
+        
+      administrationDuration:
+        title: Administration Duration (minutes)
+        range: integer
+        description: Time taken to complete ECAS
+        required: false
+        
+      # Subject Characteristics
+      subjectEducationYears:
+        title: Subject Education Years
+        range: integer
+        description: Years of education for normative comparison
+        required: false
+        
+      subjectOccupation:
+        title: Subject Occupation
+        range: string
+        description: Subject's occupation for context
+        required: false
+        
+      subjectHandedness:
+        title: Subject Handedness
+        range: HandednessEnum
+        description: Subject's dominant hand
+        required: false
+        
+      # Quality Indicators
+      cognitiveImpairmentSuspected:
+        title: Cognitive Impairment Suspected
+        range: boolean
+        description: Whether cognitive impairment is suspected
+        required: false
+        
+      ftdCriteriaMet:
+        title: FTD Criteria Met
+        range: boolean
+        description: Whether FTD diagnostic criteria are met
+        required: false
+        
+      testValidityComment:
+        title: Test Validity Comment
+        range: string
+        description: Comments on test validity or limitations
+        required: false
+
+  StrengthAssessment:
+    description: Muscle strength testing using handheld dynamometry
+    is_a: ClinicalAssessment
+    attributes:
+      shoulderFlexionRight:
+        title: Right Shoulder Flexion (N)
+        range: float
+        description: Right shoulder flexion strength in Newtons
+        required: false
+        
+      shoulderFlexionLeft:
+        title: Left Shoulder Flexion (N)
+        range: float
+        description: Left shoulder flexion strength in Newtons
+        required: false
+        
+      elbowFlexionRight:
+        title: Right Elbow Flexion (N)
+        range: float
+        description: Right elbow flexion strength in Newtons
+        required: false
+        
+      elbowFlexionLeft:
+        title: Left Elbow Flexion (N)
+        range: float
+        description: Left elbow flexion strength in Newtons
+        required: false
+        
+      gripStrengthRight:
+        title: Right Grip Strength (N)
+        range: float
+        description: Right hand grip strength in Newtons
+        required: false
+        
+      gripStrengthLeft:
+        title: Left Grip Strength (N)
+        range: float
+        description: Left hand grip strength in Newtons
+        required: false
+
+  PulmonaryFunction:
+    description: Pulmonary function testing
+    is_a: ClinicalAssessment
+    attributes:
+      fvcLiters:
+        title: Forced Vital Capacity (L)
+        range: float
+        description: Forced vital capacity in liters
+        required: false
+        
+      fvcPercent:
+        title: FVC Percent Predicted
+        range: float
+        description: FVC as percentage of predicted normal
+        required: false
+        
+      svcLiters:
+        title: Slow Vital Capacity (L)
+        range: float
+        description: Slow vital capacity in liters
+        required: false
+        
+      svcPercent:
+        title: SVC Percent Predicted
+        range: float
+        description: SVC as percentage of predicted normal
+        required: false
+
+enums:
+  AssessmentTypeEnum:
+   permissible_values:
+     ALSFRS-R:
+       description: ALS Functional Rating Scale-Revised
+     ECAS:
+       description: Edinburgh Cognitive ALS Screen
+     Strength:
+       description: Muscle strength testing
+     PulmonaryFunction:
+       description: Pulmonary function testing
+     ALSAQ-40:
+       description: ALS Assessment Questionnaire-40
+     Neurological:
+       description: Neurological examination
+     HandHeldDynamometry:
+       description: Hand-held dynamometry strength testing
+     VitalSigns:
+       description: Vital signs measurement
+     PhysicalExam:
+       description: Physical examination
+     EMG:
+       description: Electromyography
+     NCS:
+       description: Nerve conduction studies
+     SuicideRisk:
+       description: Suicide risk assessment
+     Laboratory:
+       description: Laboratory testing
+     Demographics:
+       description: Demographics and baseline characteristics
+     MedicalHistory:
+       description: Medical history and disease characteristics
+     ClinicalExamination:
+       description: Clinical examination and diagnostic assessment
+     QualityOfLifeSurvey:
+       description: Quality of life assessment
+     TreatmentAdministration:
+       description: Treatment or intervention administration
+     VisitScheduling:
+       description: Visit dates and scheduling information
+     EligibilityCriteria:
+       description: Study eligibility assessment
+     StudyDisposition:
+       description: Participant completion status, early termination, or withdrawal
+     EligibilityConsent:
+       description: Documentation of consent and eligibility confirmation
+     ConcomitantMedications:
+       description: Use of concomitant medications during the study
+     CohortParticipation:
+       description: Cohort or study group assignment
+     BiomarkerSerumCollection:
+       description: Collection of serum samples for biomarker analysis
+     AdverseEventLog:
+       description: Documentation of adverse events and their outcomes
+     InformedConsentForm:
+       description: Informed consent form approval, versioning, and participant signature
+     InfusionVitalSigns:
+       description: Vital signs monitoring during study drug infusion
+     KeyDevicesProcedures:
+       description: Documentation of supportive devices and procedures
+     clinician_administered_exam:
+       description: Examination administered directly by a clinician
+     neurological_examination:
+       description: Structured neurological examination of participant
+     PermanentAssistedVentilation:
+       description: Documentation of permanent assisted ventilation initiation and status
+     PhoneCallVisit:
+       description: Remote study visit conducted via telephone call
+     Pregnancy:
+       description: Pregnancy exposure and outcomes in participants or partners
+     ProtocolDeviation:
+       description: Documentation of protocol deviations and corrective actions
+     SlowVitalCapacity (SVC):
+       description: Slow vital capacity pulmonary function testing
+     ExposureProtocolChanges:
+       description: Study treatment exposure and dosage change documentation
+     SurvivalStatus:
+       description: Documentation of participant survival, mortality, and autopsy details
+
+  AdministrationModeEnum:
+    permissible_values:
+      In_Person:
+        description: In-person administration
+      Telephone:
+        description: Telephone administration
+      Video_Call:
+        description: Video call administration
+      Self_Administered:
+        description: Self-administered
+      Caregiver_Assisted:
+        description: Caregiver-assisted administration
+      Other:
+        description: Other administration mode
+
+  HandednessEnum:
+    permissible_values:
+      Right:
+        description: Right-handed
+      Left:
+        description: Left-handed
+      Ambidextrous:
+        description: Ambidextrous
+      Unknown:
+        description: Handedness unknown
+
+  ClinicalDomainEnum:
+    permissible_values:
+      motor_function:
+        description: Motor function and muscle strength assessment
+      bulbar_function:
+        description: Speech, swallowing, and bulbar function
+      respiratory_function:
+        description: Breathing and respiratory function
+      limb_function:
+        description: Hand, arm, and leg function
+      disease_progression:
+        description: Disease progression markers and rates
+      symptom_onset:
+        description: Disease onset characteristics and patterns
+      genetic_testing:
+        description: Genetic mutations and testing results
+      diagnosis_criteria:
+        description: Diagnostic criteria and clinical signs
+      drug_administration:
+        description: Treatment and drug administration
+      drug_exposure:
+        description: Exposure to investigational or concomitant medications
+      safety_monitoring:
+        description: Safety monitoring and adverse events
+      treatment_response:
+        description: Treatment efficacy and response measures
+      treatment_modification:
+        description: Changes, interruptions, or discontinuation of study treatment
+      subject_management:
+        description: Subject demographics and study management
+      data_quality:
+        description: Data completeness and quality indicators
+      quality_of_life:
+        description: Quality of life and functional impact
+      functional_impact:
+        description: Impact on daily activities and function
+      biomarkers:
+        description: Biomarker measurements and analysis
+      biospecimen_collection:
+        description: Collection of biological specimens such as serum, plasma, CSF
+      chemistry_panels:
+        description: Clinical chemistry laboratory panels
+      hematology_panels:
+        description: Hematology and blood cell laboratory panels
+      serum_pregnancy_panels:
+        description: Serum pregnancy tests
+      urinalysis_panels:
+        description: Urine laboratory tests
+      HBA1C_panels:
+        description: HbA1c laboratory test panels
+      upper_motor_neuron:
+        description: Signs and symptoms related to upper motor neuron involvement
+      lower_motor_neuron:
+        description: Signs and symptoms related to lower motor neuron involvement
+      cervical_function:
+        description: Neurological and motor function related to the cervical region
+      thoracic_function:
+        description: Neurological and motor function related to the thoracic region
+      lumbar_function:
+        description: Neurological and motor function related to the lumbar region
+      site_of_onset:
+        description: Anatomical site where symptoms first appeared
+      physical_mobility:
+        description: Ability to move and ambulate independently
+      activities_of_daily_living:
+        description: Functional ability in daily self-care and activities
+      emotional_functioning:
+        description: Emotional wellbeing and psychological functioning
+      eating_drinking:
+        description: Ability to eat, drink, and swallow safely
+      communication:
+        description: Ability to communicate verbally or non-verbally
+      gross_motor_function:
+        description: Large muscle group movements including posture, walking, and balance
+      fine_motor_function:
+        description: Small muscle group movements including hand and finger dexterity
+      adverse_events:
+        description: Adverse events, side effects, and serious adverse events (SAEs) related to study participation
+      informed_consent:
+        description: Informed consent process and documentation
+      eligibility_criteria:
+        description: Screening inclusion and exclusion criteria
+      study_completion:
+        description: End of study disposition, early termination, or completion
+      vital_signs:
+        description: Clinical vital signs such as temperature, blood pressure, heart rate, and respiratory rate
+      supportive_interventions:
+        description: Medical devices or supportive procedures such as ventilation, feeding tubes, tracheostomy
+      medical_history:
+        description: Subject’s past and current medical history
+      neurology:
+        description: Neurological assessment and findings
+      cognitive_function:
+        description: Memory, executive function, and other aspects of cognition
+      cranial_nerves:
+        description: Assessment of cranial nerve function
+      remote_monitoring:
+        description: Data collected via phone calls or remote visits
+      physical_examination:
+        description: General physical exam across body systems
+      reproductive_health:
+        description: Reproductive health history and outcomes
+      pregnancy_exposure:
+        description: Pregnancy occurring in participants or their partners during study
+      compliance:
+        description: Adherence to protocol and treatment compliance
+      pulmonary_function_test:
+        description: Pulmonary function measures such as slow vital capacity (SVC)
+      survival:
+        description: Survival status and follow-up
+      mortality:
+        description: Death and cause of death
+      activities_of_daily_living (ADL): 
+        description: tasks like bathing, dressing, eating, and mobility that become challenging with ALS, and can be classified into basic ADLs (physical self-care) and instrumental ADLs (complex life management)
+      treatment_response: 
+        description: Physiological response to study drug infusion as measured by changes in vital signs (blood pressure, heart rate, respiratory rate) taken pre-dose, during infusion, and post-infusion to assess tolerance and acute treatment effects.
+
+  StudyPhaseEnum:
+    permissible_values:
+      screening:
+        description: Pre-treatment screening phase
+      baseline:
+        description: Baseline assessment phase
+      treatment_phase:
+        description: Active treatment phase
+      follow_up:
+        description: Post-treatment follow-up phase
+      longitudinal:
+        description: Multiple timepoints across study
+      endpoint:
+        description: Primary endpoint assessment
+
+  CompletenessLevelEnum:
+    permissible_values:
+      high:
+        description: High data completeness (>80% non-null values)
+      medium:
+        description: Medium data completeness (50-80% non-null values)
+      low:
+        description: Low data completeness (<50% non-null values)

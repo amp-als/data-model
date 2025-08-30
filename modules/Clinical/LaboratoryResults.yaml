@@ -1,0 +1,735 @@
+classes:
+  LaboratoryCollection:
+    description: Laboratory specimen collection status and details
+    attributes:
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject for this collection
+        required: false
+        
+      visitId:
+        title: Visit ID
+        range: string
+        description: Visit during which collection occurred
+        required: false
+        
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date of specimen collection
+        required: false
+        
+      # Whole Blood Collection
+      wholeBloodCollected:
+        title: Whole Blood Collected
+        range: boolean
+        description: Whether whole blood specimen was collected
+        required: false
+        
+      wholeBloodNotDoneReason:
+        title: Whole Blood Not Done Reason
+        range: CollectionNotDoneReasonEnum
+        description: Reason whole blood was not collected
+        required: false
+        
+      wholeBloodComments:
+        title: Whole Blood Comments
+        range: string
+        description: Comments about whole blood collection
+        required: false
+        
+      # Serum Collection
+      serumCollected:
+        title: Serum Collected
+        range: boolean
+        description: Whether serum specimen was collected
+        required: false
+        
+      serumNotDoneReason:
+        title: Serum Not Done Reason
+        range: CollectionNotDoneReasonEnum
+        description: Reason serum was not collected
+        required: false
+        
+      serumComments:
+        title: Serum Comments
+        range: string
+        description: Comments about serum collection
+        required: false
+        
+      # Plasma Collection
+      plasmaCollected:
+        title: Plasma Collected
+        range: boolean
+        description: Whether plasma specimen was collected
+        required: false
+        
+      plasmaNotDoneReason:
+        title: Plasma Not Done Reason
+        range: CollectionNotDoneReasonEnum
+        description: Reason plasma was not collected
+        required: false
+        
+      plasmaComments:
+        title: Plasma Comments
+        range: string
+        description: Comments about plasma collection
+        required: false
+        
+      # RNA Collection
+      rnaCollected:
+        title: RNA Collected
+        range: boolean
+        description: Whether RNA specimen was collected
+        required: false
+        
+      rnaNotDoneReason:
+        title: RNA Not Done Reason
+        range: CollectionNotDoneReasonEnum
+        description: Reason RNA was not collected
+        required: false
+        
+      rnaComments:
+        title: RNA Comments
+        range: string
+        description: Comments about RNA collection
+        required: false
+        
+      # CSF Collection
+      csfCollected:
+        title: CSF Collected
+        range: boolean
+        description: Whether CSF specimen was collected
+        required: false
+        
+      csfNotDoneReason:
+        title: CSF Not Done Reason
+        range: CollectionNotDoneReasonEnum
+        description: Reason CSF was not collected
+        required: false
+        
+      csfConsent:
+        title: CSF Collection Consent
+        range: boolean
+        description: Whether consent was obtained for CSF collection
+        required: false
+        
+      csfComments:
+        title: CSF Comments
+        range: string
+        description: Comments about CSF collection
+        required: false
+
+  LaboratoryResult:
+    description: Individual laboratory test result
+    is_a: ClinicalAssessment
+    attributes:
+      labResultId:
+        title: Laboratory Result ID
+        range: string
+        description: Unique identifier for this lab result
+        required: false
+        
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject for this result
+        required: false
+        
+      visitId:
+        title: Visit ID
+        range: string
+        description: Visit during which specimen was collected
+        required: false
+        
+      specimenType:
+        title: Specimen Type
+        range: SpecimenTypeEnum
+        description: Type of specimen analyzed
+        required: false
+        
+      testCategory:
+        title: Test Category
+        range: TestCategoryEnum
+        description: Category of laboratory test
+        required: false
+        
+      testName:
+        title: Test Name
+        range: string
+        description: Specific name of the laboratory test
+        required: false
+        
+      testCode:
+        title: Test Code
+        range: string
+        description: Laboratory test code (LOINC, CPT, etc.)
+        required: false
+        
+      result:
+        title: Result Value
+        range: string
+        description: Laboratory test result value
+        required: false
+        
+      numericResult:
+        title: Numeric Result
+        range: float
+        description: Numeric result value
+        required: false
+        
+      units:
+        title: Units
+        range: string
+        description: Units of measurement for the result
+        required: false
+        
+      referenceRange:
+        title: Reference Range
+        range: string
+        description: Normal reference range for the test
+        required: false
+        
+      abnormalFlag:
+        title: Abnormal Flag
+        range: AbnormalFlagEnum
+        description: Flag indicating abnormal result
+        required: false
+        
+      criticalValue:
+        title: Critical Value
+        range: boolean
+        description: Whether result represents a critical value
+        required: false
+        
+      reportedDate:
+        title: Reported Date
+        range: date
+        description: Date result was reported
+        required: false
+        
+      performingLab:
+        title: Performing Laboratory
+        range: string
+        description: Laboratory that performed the test
+        required: false
+        
+      methodUsed:
+        title: Method Used
+        range: string
+        description: Analytical method used for testing
+        required: false
+
+  ChemistryPanel:
+    description: Clinical chemistry laboratory results
+    is_a: LaboratoryResult
+    attributes:
+      # Basic Metabolic Panel
+      glucose:
+        title: Glucose (mg/dL)
+        range: float
+        description: Serum glucose level
+        required: false
+        
+      bun:
+        title: BUN (mg/dL)
+        range: float
+        description: Blood urea nitrogen level
+        required: false
+        
+      creatinine:
+        title: Creatinine (mg/dL)
+        range: float
+        description: Serum creatinine level
+        required: false
+        
+      sodium:
+        title: Sodium (mEq/L)
+        range: float
+        description: Serum sodium level
+        required: false
+        
+      potassium:
+        title: Potassium (mEq/L)
+        range: float
+        description: Serum potassium level
+        required: false
+        
+      chloride:
+        title: Chloride (mEq/L)
+        range: float
+        description: Serum chloride level
+        required: false
+        
+      co2:
+        title: CO2 (mEq/L)
+        range: float
+        description: Carbon dioxide level
+        required: false
+        
+      # Liver Function
+      alt:
+        title: ALT (U/L)
+        range: float
+        description: Alanine aminotransferase level
+        required: false
+        
+      ast:
+        title: AST (U/L)
+        range: float
+        description: Aspartate aminotransferase level
+        required: false
+        
+      alkalinePhosphatase:
+        title: Alkaline Phosphatase (U/L)
+        range: float
+        description: Alkaline phosphatase level
+        required: false
+        
+      totalBilirubin:
+        title: Total Bilirubin (mg/dL)
+        range: float
+        description: Total bilirubin level
+        required: false
+        
+      directBilirubin:
+        title: Direct Bilirubin (mg/dL)
+        range: float
+        description: Direct bilirubin level
+        required: false
+        
+      albumin:
+        title: Albumin (g/dL)
+        range: float
+        description: Serum albumin level
+        required: false
+        
+      totalProtein:
+        title: Total Protein (g/dL)
+        range: float
+        description: Total serum protein level
+        required: false
+
+  Hematology:
+    description: Hematology laboratory results
+    is_a: LaboratoryResult
+    attributes:
+      # Complete Blood Count
+      wbc:
+        title: White Blood Cells (×10³/μL)
+        range: float
+        description: White blood cell count
+        required: false
+        
+      rbc:
+        title: Red Blood Cells (×10⁶/μL)
+        range: float
+        description: Red blood cell count
+        required: false
+        
+      hemoglobin:
+        title: Hemoglobin (g/dL)
+        range: float
+        description: Hemoglobin level
+        required: false
+        
+      hematocrit:
+        title: Hematocrit (%)
+        range: float
+        description: Hematocrit percentage
+        required: false
+        
+      platelets:
+        title: Platelets (×10³/μL)
+        range: float
+        description: Platelet count
+        required: false
+        
+      mcv:
+        title: MCV (fL)
+        range: float
+        description: Mean corpuscular volume
+        required: false
+        
+      mch:
+        title: MCH (pg)
+        range: float
+        description: Mean corpuscular hemoglobin
+        required: false
+        
+      mchc:
+        title: MCHC (g/dL)
+        range: float
+        description: Mean corpuscular hemoglobin concentration
+        required: false
+        
+      # Differential Count
+      neutrophils:
+        title: Neutrophils (%)
+        range: float
+        description: Neutrophil percentage
+        required: false
+        
+      lymphocytes:
+        title: Lymphocytes (%)
+        range: float
+        description: Lymphocyte percentage
+        required: false
+        
+      monocytes:
+        title: Monocytes (%)
+        range: float
+        description: Monocyte percentage
+        required: false
+        
+      eosinophils:
+        title: Eosinophils (%)
+        range: float
+        description: Eosinophil percentage
+        required: false
+        
+      basophils:
+        title: Basophils (%)
+        range: float
+        description: Basophil percentage
+        required: false
+
+  Biomarkers:
+    description: Specialized biomarker measurements
+    is_a: LaboratoryResult
+    attributes:
+      # Neurofilament
+      neurofilamentLight:
+        title: Neurofilament Light Chain (pg/mL)
+        range: float
+        description: Neurofilament light chain level
+        required: false
+        
+      neurofilamentHeavy:
+        title: Neurofilament Heavy Chain (pg/mL)
+        range: float
+        description: Neurofilament heavy chain level
+        required: false
+        
+      # Other Neurological Biomarkers
+      tau:
+        title: Tau Protein (pg/mL)
+        range: float
+        description: Tau protein level
+        required: false
+        
+      phosphoTau:
+        title: Phosphorylated Tau (pg/mL)
+        range: float
+        description: Phosphorylated tau protein level
+        required: false
+        
+      abeta40:
+        title: Amyloid Beta 40 (pg/mL)
+        range: float
+        description: Amyloid beta 40 level
+        required: false
+        
+      abeta42:
+        title: Amyloid Beta 42 (pg/mL)
+        range: float
+        description: Amyloid beta 42 level
+        required: false
+        
+      # Inflammatory Markers
+      crp:
+        title: C-Reactive Protein (mg/L)
+        range: float
+        description: C-reactive protein level
+        required: false
+        
+      esr:
+        title: ESR (mm/hr)
+        range: float
+        description: Erythrocyte sedimentation rate
+        required: false
+        
+      # Other Specialized Tests
+      hba1c:
+        title: HbA1c (%)
+        range: float
+        description: Hemoglobin A1c percentage
+        required: false
+        
+      vitaminB12:
+        title: Vitamin B12 (pg/mL)
+        range: float
+        description: Vitamin B12 level
+        required: false
+        
+      folate:
+        title: Folate (ng/mL)
+        range: float
+        description: Folate level
+        required: false
+        
+      vitaminD:
+        title: Vitamin D (ng/mL)
+        range: float
+        description: 25-hydroxyvitamin D level
+        required: false
+
+  Urinalysis:
+    description: Urinalysis results
+    is_a: LaboratoryResult
+    attributes:
+      # Physical Examination
+      color:
+        title: Urine Color
+        range: UrineColorEnum
+        description: Color of urine specimen
+        required: false
+        
+      clarity:
+        title: Urine Clarity
+        range: UrineClarityEnum
+        description: Clarity of urine specimen
+        required: false
+        
+      specificGravity:
+        title: Specific Gravity
+        range: float
+        description: Urine specific gravity
+        required: false
+        
+      # Chemical Examination
+      protein:
+        title: Protein
+        range: UrineProteinEnum
+        description: Urine protein level
+        required: false
+        
+      glucose:
+        title: Glucose
+        range: UrineGlucoseEnum
+        description: Urine glucose level
+        required: false
+        
+      ketones:
+        title: Ketones
+        range: UrineKetonesEnum
+        description: Urine ketones level
+        required: false
+        
+      blood:
+        title: Blood
+        range: UrineBloodEnum
+        description: Urine blood level
+        required: false
+        
+      bilirubin:
+        title: Bilirubin
+        range: UrineBilirubinEnum
+        description: Urine bilirubin level
+        required: false
+        
+      urobilinogen:
+        title: Urobilinogen
+        range: UrineUrobilinogenEnum
+        description: Urine urobilinogen level
+        required: false
+        
+      nitrite:
+        title: Nitrite
+        range: UrineNitriteEnum
+        description: Urine nitrite test result
+        required: false
+        
+      leukocyteEsterase:
+        title: Leukocyte Esterase
+        range: UrineLeukocyteEsteraseEnum
+        description: Leukocyte esterase test result
+        required: false
+
+enums:
+  CollectionNotDoneReasonEnum:
+    permissible_values:
+      Patient_Refusal:
+        description: Patient refused specimen collection
+      Medical_Contraindication:
+        description: Medical contraindication to collection
+      Technical_Difficulty:
+        description: Technical difficulty with collection
+      Equipment_Unavailable:
+        description: Collection equipment not available
+      Insufficient_Sample:
+        description: Insufficient sample obtained
+      Other:
+        description: Other reason for not collecting
+
+  SpecimenTypeEnum:
+    permissible_values:
+      Whole_Blood:
+        description: Whole blood specimen
+      Serum:
+        description: Serum specimen
+      Plasma:
+        description: Plasma specimen
+      CSF:
+        description: Cerebrospinal fluid
+      Urine:
+        description: Urine specimen
+      RNA:
+        description: RNA specimen
+      DNA:
+        description: DNA specimen
+
+  TestCategoryEnum:
+    permissible_values:
+      Chemistry:
+        description: Clinical chemistry
+      Hematology:
+        description: Hematology
+      Biomarkers:
+        description: Specialized biomarkers
+      Urinalysis:
+        description: Urinalysis
+      Microbiology:
+        description: Microbiology
+      Immunology:
+        description: Immunology
+      Genetics:
+        description: Genetic testing
+
+  AbnormalFlagEnum:
+    permissible_values:
+      Normal:
+        description: Result within normal range
+      High:
+        description: Result above normal range
+      Low:
+        description: Result below normal range
+      Critical_High:
+        description: Critically high result
+      Critical_Low:
+        description: Critically low result
+      Abnormal:
+        description: Abnormal result (non-numeric)
+
+  UrineColorEnum:
+    permissible_values:
+      Yellow:
+        description: Yellow (normal)
+      Amber:
+        description: Amber/dark yellow
+      Red:
+        description: Red
+      Brown:
+        description: Brown
+      Clear:
+        description: Colorless/clear
+      Other:
+        description: Other color
+
+  UrineClarityEnum:
+    permissible_values:
+      Clear:
+        description: Clear
+      Slightly_Cloudy:
+        description: Slightly cloudy
+      Cloudy:
+        description: Cloudy
+      Turbid:
+        description: Turbid
+
+  UrineProteinEnum:
+    permissible_values:
+      Negative:
+        description: Negative
+      Trace:
+        description: Trace (15 mg/dL)
+      "1+":
+        description: "1+ (30 mg/dL)"
+      "2+":
+        description: "2+ (100 mg/dL)"
+      "3+":
+        description: "3+ (300 mg/dL)"
+      "4+":
+        description: "4+ (≥2000 mg/dL)"
+
+  UrineGlucoseEnum:
+    permissible_values:
+      Negative:
+        description: Negative
+      "1+":
+        description: "1+ (250 mg/dL)"
+      "2+":
+        description: "2+ (500 mg/dL)"
+      "3+":
+        description: "3+ (1000 mg/dL)"
+      "4+":
+        description: "4+ (≥2000 mg/dL)"
+
+  UrineKetonesEnum:
+    permissible_values:
+      Negative:
+        description: Negative
+      Trace:
+        description: Trace (5 mg/dL)
+      Small:
+        description: Small (15 mg/dL)
+      Moderate:
+        description: Moderate (40 mg/dL)
+      Large:
+        description: Large (≥80 mg/dL)
+
+  UrineBloodEnum:
+    permissible_values:
+      Negative:
+        description: Negative
+      Trace:
+        description: Trace
+      "1+":
+        description: "1+"
+      "2+":
+        description: "2+"
+      "3+":
+        description: "3+"
+
+  UrineBilirubinEnum:
+    permissible_values:
+      Negative:
+        description: Negative
+      "1+":
+        description: "1+"
+      "2+":
+        description: "2+"
+      "3+":
+        description: "3+"
+
+  UrineUrobilinogenEnum:
+    permissible_values:
+      Normal:
+        description: Normal (0.2-1.0 mg/dL)
+      "2+":
+        description: "2+"
+      "4+":
+        description: "4+"
+      "8+":
+        description: "8+"
+
+  UrineNitriteEnum:
+    permissible_values:
+      Negative:
+        description: Negative
+      Positive:
+        description: Positive
+
+  UrineLeukocyteEsteraseEnum:
+    permissible_values:
+      Negative:
+        description: Negative
+      Trace:
+        description: Trace
+      "1+":
+        description: "1+"
+      "2+":
+        description: "2+"
+      "3+":
+        description: "3+"

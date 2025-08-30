@@ -19,5 +19,5 @@
   "datasetReference": $string(id),
   "dataSourcePrefix": "cpath",
   /* "originalSubjectId": subject_id */
-  /* "globalSubjectId": dataSourcePrefix & ":" & datasetReference & ":" & originalSubjectId, */
+  /* "globalSubjectId": dataSourcePrefix & datasetReference & originalSubjectId, */
 }

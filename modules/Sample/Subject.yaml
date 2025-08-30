@@ -7,9 +7,9 @@ classes:
         range: string
         description: > 
           Globally unique identifier for a subject across all data sources. 
-          Format: {data_source_prefix}:{dataset_id}:{original_subject_id}
+          Format: {data_source_prefix}{dataset_id}{original_subject_id}
         required: false
-        pattern: "^[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+:[a-zA-Z0-9_-]+$"
+        pattern: "^[a-zA-Z0-9_-]+$"
       originalSubjectId: 
         title: Original Subject ID
         range: string
@@ -63,6 +63,60 @@ classes:
         range: DiseaseEnum
         description: Disease diagnosis
         required: false
+
+      sex:
+        title: Sex
+        range: SexEnum
+        description: Biological sex of subject
+        required: false
+      
+      birthDate:
+        title: Birth Date
+        range: date
+        description: Date of birth
+        required: false
+      
+      heightCm:
+        title: Height (cm)
+        range: float
+        description: Height in centimeters
+        required: false
+        
+      weightKg:
+        title: Weight (kg)
+        range: float
+        description: Weight in kilograms
+        required: false
+        
+      handedness:
+        title: Handedness
+        range: HandednessEnum
+        description: Dominant hand preference
+        required: false
+        
+      yearsEducation:
+        title: Years of Education
+        range: integer
+        description: Total years of formal education
+        required: false
+        
+      occupation:
+        title: Occupation
+        range: string
+        description: Primary occupation or job title
+        required: false
+        
+      state:
+        title: State/Province
+        range: string
+        description: State or province of residence
+        required: false
+        
+      zipCode:
+        title: ZIP/Postal Code
+        range: string
+        description: ZIP or postal code
+        required: false
 enums:
   DataSourceEnum:
     permissible_values:
@@ -102,4 +156,31 @@ enums:
         description: Race/ethnicity unknown or not reported
       White:
         description: White/Caucasian
+      "American Indian or Alaska Native":
+        description: American Indian or Alaska Native
+      Asian:
+        description: Asian
+      "Black or African American":
+        description: Black or African American
+      "Hispanic or Latino":
+        description: Hispanic or Latino
+      "Middle Eastern or North African":
+        description: Middle Eastern or North African
+      "Native Hawaiian or Other Pacific Islander":
+        description: Native Hawaiian or Other Pacific Islander
+      "Not Reported":
+        description: Race/ethnicity not reported
+      "Prefer Not to Disclose":
+        description: Subject prefers not to disclose race/ethnicity
+
+  HandednessEnum:
+    permissible_values:
+      Right:
+        description: Right-handed
+      Left:
+        description: Left-handed
+      Ambidextrous:
+        description: Ambidextrous (both hands equally dominant)
+      Unknown:
+        description: Handedness unknown or not reported
 

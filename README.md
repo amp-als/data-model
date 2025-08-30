@@ -93,7 +93,7 @@ Represents research datasets with comprehensive metadata including:
 
 #### Subject
 Individual participants or samples with multi-source identification:
-- **Global Subject ID**: Unique identifier across all data sources (`{source}:{dataset}:{subject}`)
+- **Global Subject ID**: Unique identifier across all data sources (`{source}{dataset}{subject}`)
 - **Original Subject ID**: Source-specific identifier for traceability
 - **Dataset Reference**: Links subjects to their parent datasets
 - **Data Source Prefix**: Indicates origin (cpath, als_compute, etc.)
@@ -267,7 +267,7 @@ which yq retold gen-json-schema
 2. **Create mapping file** `mapping/new_source.jsonata`:
    ```json
    {
-     "globalSubjectId": "new_source:" & dataset_id & ":" & subject_id,
+      "globalSubjectId": "new_source" & dataset_id & subject_id,
      "originalSubjectId": subject_id,
      "datasetReference": dataset_id,
      "dataSourcePrefix": "new_source"

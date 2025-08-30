@@ -1,0 +1,433 @@
+classes:
+  DataQuality:
+    description: Data quality control and audit trail information
+    attributes:
+      dataQualityId:
+        title: Data Quality ID
+        range: string
+        description: Unique identifier for this data quality record
+        required: false
+        
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject for this data quality record
+        required: false
+        
+      visitId:
+        title: Visit ID
+        range: string
+        description: Visit associated with this data quality record
+        required: false
+        
+      formName:
+        title: Form Name
+        range: string
+        description: Name of data collection form
+        required: false
+        
+      # Data Entry and Management
+      dataEntryDate:
+        title: Data Entry Date
+        range: date
+        description: Date when data was entered
+        required: false
+        
+      dataEntryUser:
+        title: Data Entry User
+        range: string
+        description: User who entered the data
+        required: false
+        
+      lastEditDate:
+        title: Last Edit Date
+        range: date
+        description: Date of last data modification
+        required: false
+        
+      lastEditUser:
+        title: Last Edit User
+        range: string
+        description: User who last modified the data
+        required: false
+        
+      # Form Status and Locking
+      formStatus:
+        title: Form Status
+        range: FormStatusEnum
+        description: Current status of the data collection form
+        required: false
+        
+      isLocked:
+        title: Form Locked
+        range: boolean
+        description: Whether the form is locked for editing
+        required: false
+        
+      lockedBy:
+        title: Locked By
+        range: string
+        description: User who locked the form
+        required: false
+        
+      lockDate:
+        title: Lock Date
+        range: date
+        description: Date when form was locked
+        required: false
+        
+      # Electronic Signatures
+      signatureRequired:
+        title: Signature Required
+        range: boolean
+        description: Whether electronic signature is required
+        required: false
+        
+      signedBy:
+        title: Signed By
+        range: string
+        description: User who electronically signed the form
+        required: false
+        
+      signDate:
+        title: Sign Date
+        range: date
+        description: Date of electronic signature
+        required: false
+        
+      signatureValid:
+        title: Signature Valid
+        range: boolean
+        description: Whether electronic signature is valid
+        required: false
+        
+      # Data Validation and Queries
+      validationStatus:
+        title: Validation Status
+        range: ValidationStatusEnum
+        description: Data validation status
+        required: false
+        
+      queriesOpen:
+        title: Open Queries
+        range: integer
+        description: Number of open data queries
+        required: false
+        
+      queriesResolved:
+        title: Resolved Queries
+        range: integer
+        description: Number of resolved data queries
+        required: false
+        
+      lastQueryDate:
+        title: Last Query Date
+        range: date
+        description: Date of most recent data query
+        required: false
+        
+      # Source Data Verification
+      sdvRequired:
+        title: SDV Required
+        range: boolean
+        description: Whether source data verification is required
+        required: false
+        
+      sdvCompleted:
+        title: SDV Completed
+        range: boolean
+        description: Whether source data verification is completed
+        required: false
+        
+      sdvDate:
+        title: SDV Date
+        range: date
+        description: Date of source data verification
+        required: false
+        
+      sdvBy:
+        title: SDV By
+        range: string
+        description: Person who performed source data verification
+        required: false
+        
+      # Data Export and Transmission
+      dataExported:
+        title: Data Exported
+        range: boolean
+        description: Whether data has been exported
+        required: false
+        
+      exportDate:
+        title: Export Date
+        range: date
+        description: Date when data was exported
+        required: false
+        
+      exportVersion:
+        title: Export Version
+        range: string
+        description: Version of data export
+        required: false
+        
+      dataTransmitted:
+        title: Data Transmitted
+        range: boolean
+        description: Whether data has been transmitted to sponsor
+        required: false
+        
+      transmissionDate:
+        title: Transmission Date
+        range: date
+        description: Date of data transmission
+        required: false
+
+  AssessmentAdministration:
+    description: Assessment administration details and metadata
+    attributes:
+      administrationId:
+        title: Administration ID
+        range: string
+        description: Unique identifier for this administration record
+        required: false
+        
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject for this administration
+        required: false
+        
+      assessmentType:
+        title: Assessment Type
+        range: string
+        description: Type of assessment administered
+        required: false
+        
+      # Administration Details
+      administrationDate:
+        title: Administration Date
+        range: date
+        description: Date when assessment was administered
+        required: false
+        
+      administrationTime:
+        title: Administration Time
+        range: time
+        description: Time when assessment was administered
+        required: false
+        
+      administrator:
+        title: Administrator
+        range: string
+        description: Person who administered the assessment
+        required: false
+        
+      administrationMode:
+        title: Administration Mode
+        range: AdministrationModeEnum
+        description: Mode of assessment administration
+        required: false
+        
+      administrationLocation:
+        title: Administration Location
+        range: AdministrationLocationEnum
+        description: Location where assessment was administered
+        required: false
+        
+      # Version and Protocol Information
+      assessmentVersion:
+        title: Assessment Version
+        range: string
+        description: Version of assessment instrument used
+        required: false
+        
+      protocolVersion:
+        title: Protocol Version
+        range: string
+        description: Version of administration protocol used
+        required: false
+        
+      language:
+        title: Language
+        range: LanguageEnum
+        description: Language in which assessment was administered
+        required: false
+        
+      # Quality and Validity
+      administrationComplete:
+        title: Administration Complete
+        range: boolean
+        description: Whether assessment administration was completed
+        required: false
+        
+      partialCompletionReason:
+        title: Partial Completion Reason
+        range: string
+        description: Reason for partial completion if applicable
+        required: false
+        
+      validityNotes:
+        title: Validity Notes
+        range: string
+        description: Notes about assessment validity or limitations
+        required: false
+        
+      administratorNotes:
+        title: Administrator Notes
+        range: string
+        description: Additional notes from administrator
+        required: false
+        
+      # Subject Cooperation and State
+      subjectCooperation:
+        title: Subject Cooperation
+        range: CooperationEnum
+        description: Level of subject cooperation during assessment
+        required: false
+        
+      subjectFatigue:
+        title: Subject Fatigue
+        range: FatigueEnum
+        description: Level of subject fatigue during assessment
+        required: false
+        
+      distractions:
+        title: Distractions Present
+        range: boolean
+        description: Whether distractions were present during assessment
+        required: false
+        
+      distractionDescription:
+        title: Distraction Description
+        range: string
+        description: Description of distractions if present
+        required: false
+        
+      # Technical Information
+      equipmentUsed:
+        title: Equipment Used
+        range: string
+        description: Equipment used during assessment
+        required: false
+        
+      softwareVersion:
+        title: Software Version
+        range: string
+        description: Version of software used for assessment
+        required: false
+        
+      calibrationDate:
+        title: Calibration Date
+        range: date
+        description: Date of last equipment calibration
+        required: false
+
+enums:
+  FormStatusEnum:
+    permissible_values:
+      New:
+        description: New form, not yet started
+      In_Progress:
+        description: Form entry in progress
+      Complete:
+        description: Form completed
+      Locked:
+        description: Form locked for editing
+      Signed:
+        description: Form electronically signed
+      Verified:
+        description: Form source data verified
+      Exported:
+        description: Form data exported
+
+  ValidationStatusEnum:
+    permissible_values:
+      Not_Validated:
+        description: Data not yet validated
+      Validation_In_Progress:
+        description: Validation in progress
+      Validation_Complete:
+        description: Validation completed successfully
+      Validation_Failed:
+        description: Validation failed with errors
+      Queries_Outstanding:
+        description: Outstanding data queries
+
+  AdministrationModeEnum:
+    permissible_values:
+      In_Person:
+        description: In-person administration
+      Telephone:
+        description: Telephone administration
+      Video_Conference:
+        description: Video conference administration
+      Self_Administered:
+        description: Self-administered by subject
+      Caregiver_Assisted:
+        description: Caregiver-assisted administration
+      Paper_Form:
+        description: Paper form administration
+      Electronic_Form:
+        description: Electronic form administration
+      Other:
+        description: Other administration mode
+
+  AdministrationLocationEnum:
+    permissible_values:
+      Clinical_Site:
+        description: Clinical research site
+      Hospital:
+        description: Hospital setting
+      Home:
+        description: Subject's home
+      Nursing_Home:
+        description: Nursing home or care facility
+      Other_Healthcare_Facility:
+        description: Other healthcare facility
+      Remote:
+        description: Remote location
+      Other:
+        description: Other location
+
+  LanguageEnum:
+    permissible_values:
+      English:
+        description: English language
+      Spanish:
+        description: Spanish language
+      French:
+        description: French language
+      German:
+        description: German language
+      Italian:
+        description: Italian language
+      Portuguese:
+        description: Portuguese language
+      Other:
+        description: Other language
+
+  CooperationEnum:
+    permissible_values:
+      Excellent:
+        description: Excellent cooperation
+      Good:
+        description: Good cooperation
+      Fair:
+        description: Fair cooperation
+      Poor:
+        description: Poor cooperation
+      Unable_to_Cooperate:
+        description: Unable to cooperate
+
+  FatigueEnum:
+    permissible_values:
+      None:
+        description: No apparent fatigue
+      Mild:
+        description: Mild fatigue
+      Moderate:
+        description: Moderate fatigue
+      Severe:
+        description: Severe fatigue affecting performance
+      Unable_to_Continue:
+        description: Too fatigued to continue
