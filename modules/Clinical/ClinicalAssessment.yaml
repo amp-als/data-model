@@ -429,6 +429,8 @@ enums:
        description: Muscle strength testing
      PulmonaryFunction:
        description: Pulmonary function testing
+     SpeechFunction: 
+       description: Speech Function testing 
      ALSAQ-40:
        description: ALS Assessment Questionnaire-40
      Neurological:
@@ -497,6 +499,14 @@ enums:
        description: Study treatment exposure and dosage change documentation
      SurvivalStatus:
        description: Documentation of participant survival, mortality, and autopsy details
+     genetic_counseling:
+       description: Clinical service providing risk assessment and guidance on genetic contributions to disease.
+     genetic_testing: 
+      description: Laboratory analysis of DNA or RNA to detect genetic variants associated with disease risk, diagnosis, or treatment response.
+     motor_assessment: 
+      description: Evaluation of motor function through standardized clinical measures of strength, coordination, and mobility.
+     cognitive_assessment: 
+      description: Targeted evaluation of mental processes such as memory, attention, language, and executive function.
 
   AdministrationModeEnum:
     permissible_values:
@@ -512,6 +522,8 @@ enums:
         description: Caregiver-assisted administration
       Other:
         description: Other administration mode
+      partner_assessment: 
+        description: Assessment completed by a patient’s partner or caregiver, typically via questionnaire or interview.
 
   HandednessEnum:
     permissible_values:
@@ -638,9 +650,14 @@ enums:
         description: Death and cause of death
       activities_of_daily_living (ADL): 
         description: tasks like bathing, dressing, eating, and mobility that become challenging with ALS, and can be classified into basic ADLs (physical self-care) and instrumental ADLs (complex life management)
-      treatment_response: 
+      treatment_response:
         description: Physiological response to study drug infusion as measured by changes in vital signs (blood pressure, heart rate, respiratory rate) taken pre-dose, during infusion, and post-infusion to assess tolerance and acute treatment effects.
-
+      speech_function: 
+        description: measuring the patient's ability to communicate across five levels, from normal speaking ability to a complete loss of useful speech
+      study_eligibility: 
+        description: Eligibility defined by neurological diagnosis, disease stage, comorbidities, functional status, and treatment history.
+      dementia_screening: 
+        description: Brief standardized evaluation to detect early signs of cognitive impairment and risk of dementia.
   StudyPhaseEnum:
     permissible_values:
       screening:

@@ -10,16 +10,16 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace skos: ;
-            sh:prefix "skos" ],
-        [ sh:namespace linkml: ;
+    sh:declare [ sh:namespace linkml: ;
             sh:prefix "linkml" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ],
         [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
             sh:prefix "als" ],
+        [ sh:namespace skos: ;
+            sh:prefix "skos" ],
+        [ sh:namespace schema1: ;
+            sh:prefix "schema" ],
+        [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
         [ sh:namespace prov: ;
             sh:prefix "prov" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
@@ -222,7 +222,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-08-29T18:00:11"^^xsd:dateTime ;
+    linkml:generation_date "2025-09-04T23:06:17"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -1080,8 +1080,8 @@
         <https://w3id.org/synapse/amp-als/vocab/vitalSigns__weight>,
         <https://w3id.org/synapse/amp-als/vocab/vitalSigns__weightLbs> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-08-29T18:00:09"^^xsd:dateTime ;
-    linkml:source_file_size 347196 ;
+    linkml:source_file_date "2025-09-04T23:06:15"^^xsd:dateTime ;
+    linkml:source_file_size 348511 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -2496,6 +2496,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Spectramax%20M%20Series> dcterms:source <https://www.moleculardevices.com/products/microplate-readers/multi-mode-readers/spectramax-m-series-readers> ;
     skos:definition "A Spectramax M Series Microplate Reader" .
 
+<https://w3id.org/synapse/amp-als/vocab/SpeechFunction> skos:definition "Speech Function testing" .
+
 <https://w3id.org/synapse/amp-als/vocab/Standard_Care> skos:definition "Standard of care treatment" .
 
 <https://w3id.org/synapse/amp-als/vocab/Standing> skos:definition "Standing upright" .
@@ -2912,6 +2914,8 @@
 <https://w3id.org/synapse/amp-als/vocab/cognitive%20assessment> skos:definition "A set of tests or assessments to determine congnitive abilities of a patient." ;
     linkml:meaning <http://purl.obolibrary.org/obo/MAXO_0009017> .
 
+<https://w3id.org/synapse/amp-als/vocab/cognitive_assessment> skos:definition "Targeted evaluation of mental processes such as memory, attention, language, and executive function." .
+
 <https://w3id.org/synapse/amp-als/vocab/cognitive_function> skos:definition "Memory, executive function, and other aspects of cognition" .
 
 <https://w3id.org/synapse/amp-als/vocab/communication> skos:definition "Ability to communicate verbally or non-verbally" .
@@ -3017,6 +3021,8 @@
     linkml:definition_uri linkml:Decimal ;
     linkml:imported_from "linkml:types" ;
     linkml:uri xsd:decimal .
+
+<https://w3id.org/synapse/amp-als/vocab/dementia_screening> skos:definition "Brief standardized evaluation to detect early signs of cognitive impairment and risk of dementia." .
 
 <https://w3id.org/synapse/amp-als/vocab/demographics> skos:definition "The statistical characterization of human populations or segments of human populations (e.g., characterization by age, sex, race, or income)." ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C16495> .
@@ -3158,9 +3164,9 @@
 <https://w3id.org/synapse/amp-als/vocab/geneExpression> skos:definition "The analysis of levels and patterns of synthesis of gene products (proteins and functional RNA) including interpretation in functional terms of gene expression data." ;
     linkml:meaning <http://edamontology.org/topic_0203> .
 
-<https://w3id.org/synapse/amp-als/vocab/genetic_modification> skos:definition "Genetic modification or manipulation" .
+<https://w3id.org/synapse/amp-als/vocab/genetic_counseling> skos:definition "Clinical service providing risk assessment and guidance on genetic contributions to disease." .
 
-<https://w3id.org/synapse/amp-als/vocab/genetic_testing> skos:definition "Genetic mutations and testing results" .
+<https://w3id.org/synapse/amp-als/vocab/genetic_modification> skos:definition "Genetic modification or manipulation" .
 
 <https://w3id.org/synapse/amp-als/vocab/genomic%20DNA> skos:definition "Total genomic DNA" .
 
@@ -3418,6 +3424,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/mortality> skos:definition "Death and cause of death" .
 
+<https://w3id.org/synapse/amp-als/vocab/motor_assessment> skos:definition "Evaluation of motor function through standardized clinical measures of strength, coordination, and mobility." .
+
 <https://w3id.org/synapse/amp-als/vocab/motor_function> skos:definition "Motor function and muscle strength assessment" .
 
 <https://w3id.org/synapse/amp-als/vocab/mov> dcterms:source <https://synapse.org> ;
@@ -3549,6 +3557,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/particle%20characterization> skos:definition "Data providing information about entities such as composition, structure and defects." ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C62317> .
+
+<https://w3id.org/synapse/amp-als/vocab/partner_assessment> skos:definition "Assessment completed by a patient’s partner or caregiver, typically via questionnaire or interview." .
 
 <https://w3id.org/synapse/amp-als/vocab/pattern%20electroretinogram> skos:definition "Pattern electroretinogram (PERG) is an electrophysiologic ophthalmologic test that provides non-invasive objective, quantitative measurement of central retinal function. PERG is the retinal response to a pattern-reversing, black-and-white checkerboard or stripped stimulus. The PERG assesses both macular and retinal ganglion cell electrical activity and can help differentiate between diseases of macular versus optic nerve dysfunction." ;
     linkml:meaning <https://www.ncbi.nlm.nih.gov/books/NBK560641> .
@@ -3767,6 +3777,8 @@
 <https://w3id.org/synapse/amp-als/vocab/spatial%20transcriptomics> skos:definition "assay that allows visualization and qhttps://ontobee.org/ontology/OBI?iri=http://purl.obolibrary.org/obo/OBI_0001674uantitative analysis of the transcriptome with spatial resolution in individual tissue sections" ;
     linkml:meaning <http://www.ebi.ac.uk/efo/EFO_0008994> .
 
+<https://w3id.org/synapse/amp-als/vocab/speech_function> skos:definition "measuring the patient's ability to communicate across five levels, from normal speaking ability to a complete loss of useful speech" .
+
 <https://w3id.org/synapse/amp-als/vocab/sporadic%20ALS> skos:definition "Sporadic ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/sprays> skos:definition "Number of sprays" .
@@ -3782,6 +3794,8 @@
 <https://w3id.org/synapse/amp-als/vocab/stem_cell> skos:definition "Stem cell culture" .
 
 <https://w3id.org/synapse/amp-als/vocab/study_completion> skos:definition "End of study disposition, early termination, or completion" .
+
+<https://w3id.org/synapse/amp-als/vocab/study_eligibility> skos:definition "Eligibility defined by neurological diagnosis, disease stage, comorbidities, functional status, and treatment history." .
 
 <https://w3id.org/synapse/amp-als/vocab/subject_management> skos:definition "Subject demographics and study management" .
 
@@ -8720,6 +8734,9 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/GeneticVariant> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/VariantTypeEnum> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/variantType> .
+
+<https://w3id.org/synapse/amp-als/vocab/genetic_testing> skos:definition "Genetic mutations and testing results",
+        "Laboratory analysis of DNA or RNA to detect genetic variants associated with disease risk, diagnosis, or treatment response." .
 
 <https://w3id.org/synapse/amp-als/vocab/globalBiospecimenId> a linkml:SlotDefinition ;
     dcterms:title "Global Biospecimen ID" ;
@@ -15728,6 +15745,7 @@
         <https://w3id.org/synapse/amp-als/vocab/compliance>,
         <https://w3id.org/synapse/amp-als/vocab/cranial_nerves>,
         <https://w3id.org/synapse/amp-als/vocab/data_quality>,
+        <https://w3id.org/synapse/amp-als/vocab/dementia_screening>,
         <https://w3id.org/synapse/amp-als/vocab/diagnosis_criteria>,
         <https://w3id.org/synapse/amp-als/vocab/disease_progression>,
         <https://w3id.org/synapse/amp-als/vocab/drug_administration>,
@@ -15759,7 +15777,9 @@
         <https://w3id.org/synapse/amp-als/vocab/safety_monitoring>,
         <https://w3id.org/synapse/amp-als/vocab/serum_pregnancy_panels>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
+        <https://w3id.org/synapse/amp-als/vocab/speech_function>,
         <https://w3id.org/synapse/amp-als/vocab/study_completion>,
+        <https://w3id.org/synapse/amp-als/vocab/study_eligibility>,
         <https://w3id.org/synapse/amp-als/vocab/subject_management>,
         <https://w3id.org/synapse/amp-als/vocab/supportive_interventions>,
         <https://w3id.org/synapse/amp-als/vocab/survival>,
@@ -16229,9 +16249,9 @@
 """ ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
@@ -16576,6 +16596,7 @@
         <https://w3id.org/synapse/amp-als/vocab/PulmonaryFunction>,
         <https://w3id.org/synapse/amp-als/vocab/QualityOfLifeSurvey>,
         <https://w3id.org/synapse/amp-als/vocab/SlowVitalCapacity%20%28SVC%29>,
+        <https://w3id.org/synapse/amp-als/vocab/SpeechFunction>,
         <https://w3id.org/synapse/amp-als/vocab/Strength>,
         <https://w3id.org/synapse/amp-als/vocab/StudyDisposition>,
         <https://w3id.org/synapse/amp-als/vocab/SuicideRisk>,
@@ -16584,6 +16605,10 @@
         <https://w3id.org/synapse/amp-als/vocab/VisitScheduling>,
         <https://w3id.org/synapse/amp-als/vocab/VitalSigns>,
         <https://w3id.org/synapse/amp-als/vocab/clinician_administered_exam>,
+        <https://w3id.org/synapse/amp-als/vocab/cognitive_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/genetic_counseling>,
+        <https://w3id.org/synapse/amp-als/vocab/genetic_testing>,
+        <https://w3id.org/synapse/amp-als/vocab/motor_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/neurological_examination> .
 
 <https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
@@ -17540,7 +17565,8 @@
         <https://w3id.org/synapse/amp-als/vocab/Self_Administered>,
         <https://w3id.org/synapse/amp-als/vocab/Telephone>,
         <https://w3id.org/synapse/amp-als/vocab/Video_Call>,
-        <https://w3id.org/synapse/amp-als/vocab/Video_Conference> .
+        <https://w3id.org/synapse/amp-als/vocab/Video_Conference>,
+        <https://w3id.org/synapse/amp-als/vocab/partner_assessment> .
 
 <https://w3id.org/synapse/amp-als/vocab/AssayEnum> dcterms:title "Assay" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -17848,11 +17874,11 @@
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
