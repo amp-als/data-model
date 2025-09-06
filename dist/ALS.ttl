@@ -10,16 +10,16 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace linkml: ;
-            sh:prefix "linkml" ],
-        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+    sh:declare [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
             sh:prefix "als" ],
-        [ sh:namespace skos: ;
-            sh:prefix "skos" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ],
         [ sh:namespace rdfs: ;
             sh:prefix "rdfs" ],
+        [ sh:namespace skos: ;
+            sh:prefix "skos" ],
+        [ sh:namespace linkml: ;
+            sh:prefix "linkml" ],
+        [ sh:namespace schema1: ;
+            sh:prefix "schema" ],
         [ sh:namespace prov: ;
             sh:prefix "prov" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
@@ -222,7 +222,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-09-04T23:06:17"^^xsd:dateTime ;
+    linkml:generation_date "2025-09-05T17:43:17"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -455,19 +455,24 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__FACSPopulation>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__GEOSuperSeries>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__assay>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__biospecimenType>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__cellType>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__citation>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__collection>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__contributor>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__creator>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__disease>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__includedInDataCatalog>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__libraryLayout>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__originalSampleName>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__sameAs>,
@@ -1080,8 +1085,8 @@
         <https://w3id.org/synapse/amp-als/vocab/vitalSigns__weight>,
         <https://w3id.org/synapse/amp-als/vocab/vitalSigns__weightLbs> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-09-04T23:06:15"^^xsd:dateTime ;
-    linkml:source_file_size 348511 ;
+    linkml:source_file_date "2025-09-05T17:43:15"^^xsd:dateTime ;
+    linkml:source_file_size 349432 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -3847,6 +3852,8 @@
 <https://w3id.org/synapse/amp-als/vocab/transcranial%20doppler%20ultrasonography> skos:definition "A diagnostic technique that uses pulsed Doppler ultrasound to measure the velocity of blood flow through the major blood vessels of the brain." ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C122930> .
 
+<https://w3id.org/synapse/amp-als/vocab/transcriptomics> skos:definition "Comprehensive analysis of RNA transcripts to study gene expression patterns and regulatory mechanisms" .
+
 <https://w3id.org/synapse/amp-als/vocab/transcriptomics%20%28nascent%29> skos:definition "Nascent transcriptomics data from newly transcribed RNA" .
 
 <https://w3id.org/synapse/amp-als/vocab/treatment_modification> skos:definition "Changes, interruptions, or discontinuation of study treatment" .
@@ -5324,11 +5331,6 @@
     skos:definition "More specific biospecimen classification" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
-<https://w3id.org/synapse/amp-als/vocab/biospecimenType> a linkml:SlotDefinition ;
-    dcterms:title "Biospecimen Type" ;
-    skos:definition "Type of biological specimen" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> .
-
 <https://w3id.org/synapse/amp-als/vocab/biospecimen__BrodmannArea> a linkml:SlotDefinition ;
     dcterms:title "Brodmann Area" ;
     skos:definition "Brodmann cortical area designation" ;
@@ -5960,11 +5962,6 @@
     dcterms:title "cDNA Location" ;
     skos:definition "Location of variant in cDNA sequence" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
-<https://w3id.org/synapse/amp-als/vocab/cellType> a linkml:SlotDefinition ;
-    dcterms:title "Cell Type" ;
-    skos:definition "Type of cell or cell line used" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/centrifugationSpeed> a linkml:SlotDefinition ;
     dcterms:title "Centrifugation Speed (RPM)" ;
@@ -7133,6 +7130,39 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/alternateName> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataset__assay> a linkml:SlotDefinition ;
+    dcterms:title "Measurement Technique" ;
+    skos:definition "What's used to generate data in dataset, typically referring to the assay. Omit if not applicable." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "assay" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assay> .
+
+<https://w3id.org/synapse/amp-als/vocab/dataset__biospecimenType> a linkml:SlotDefinition ;
+    dcterms:title "Biospecimen Type" ;
+    skos:definition "Type of biological specimen(s) in the dataset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "biospecimenType" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/biospecimenType> .
+
+<https://w3id.org/synapse/amp-als/vocab/dataset__cellType> a linkml:SlotDefinition ;
+    dcterms:title "Cell Type" ;
+    skos:definition "Type of cell or cell line used in the dataset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "cellType" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/cellType> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataset__citation> a linkml:SlotDefinition ;
     dcterms:title "Citation" ;
     skos:definition "identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself." ;
@@ -7188,6 +7218,17 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/curationLevel> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataset__dataType> a linkml:SlotDefinition ;
+    dcterms:title "Data Type" ;
+    skos:definition "Reflects the data types within the dataset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "dataType" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataType> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished> a linkml:SlotDefinition ;
     dcterms:title "Date Published" ;
     skos:definition "Date data were published/available on Synapse." ;
@@ -7207,6 +7248,16 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/description> .
+
+<https://w3id.org/synapse/amp-als/vocab/dataset__disease> a linkml:SlotDefinition ;
+    dcterms:title "Disease" ;
+    skos:definition "Disease(s) or condition(s) studied in the dataset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "disease" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/disease> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__funder> a linkml:SlotDefinition ;
     dcterms:title "Funder" ;
@@ -7249,6 +7300,17 @@
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/keywords> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataset__libraryLayout> a linkml:SlotDefinition ;
+    dcterms:title "Library Layout" ;
+    skos:definition "Single-end or paired-end sequencing layout for datasets containing sequencing data." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "libraryLayout" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/libraryLayout> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataset__license> a linkml:SlotDefinition ;
     dcterms:title "License" ;
     skos:definition "Unless information for license is clear, this should default to UNKNOWN." ;
@@ -7258,17 +7320,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/License> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/license> .
-
-<https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique> a linkml:SlotDefinition ;
-    dcterms:title "Measurement Technique" ;
-    skos:definition "What's used to generate data in dataset, typically referring to the assay. Omit if not applicable." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "measurementTechnique" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/measurementTechnique> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataset__originalSampleName> a linkml:SlotDefinition ;
     dcterms:title "Original Sample Name" ;
@@ -7478,11 +7529,6 @@
     dcterms:title "Direct Bilirubin (mg/dL)" ;
     skos:definition "Direct bilirubin level" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/float> .
-
-<https://w3id.org/synapse/amp-als/vocab/disease> a linkml:SlotDefinition ;
-    dcterms:title "Disease" ;
-    skos:definition "Disease diagnosis" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/diseaseDurationYears> a linkml:SlotDefinition ;
     dcterms:title "Disease Duration (Years)" ;
@@ -10565,12 +10611,6 @@
     dcterms:title "Mean Arterial Pressure" ;
     skos:definition "Mean arterial pressure in mmHg" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/float> .
-
-<https://w3id.org/synapse/amp-als/vocab/measurementTechnique> a linkml:SlotDefinition ;
-    dcterms:title "Measurement Technique" ;
-    skos:definition "What's used to generate data in dataset, typically referring to the assay. Omit if not applicable." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/medicalAttention> a linkml:SlotDefinition ;
     dcterms:title "Medical Attention Required" ;
@@ -15805,50 +15845,6 @@
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/Component> .
 
-<https://w3id.org/synapse/amp-als/vocab/Data> skos:definition "What the data (file) contains." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Data> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/AggregatedData>,
-        <https://w3id.org/synapse/amp-als/vocab/AlignedReads>,
-        <https://w3id.org/synapse/amp-als/vocab/AnnotatedGermlineVariants>,
-        <https://w3id.org/synapse/amp-als/vocab/AnnotatedSomaticVariants>,
-        <https://w3id.org/synapse/amp-als/vocab/CopyNumberVariants>,
-        <https://w3id.org/synapse/amp-als/vocab/GermlineVariants>,
-        <https://w3id.org/synapse/amp-als/vocab/NormalizedIntensities>,
-        <https://w3id.org/synapse/amp-als/vocab/Pharmacokinetic%20Study>,
-        <https://w3id.org/synapse/amp-als/vocab/RawIntensities>,
-        <https://w3id.org/synapse/amp-als/vocab/SomaticVariants>,
-        <https://w3id.org/synapse/amp-als/vocab/StructuralVariants>,
-        <https://w3id.org/synapse/amp-als/vocab/Volume>,
-        <https://w3id.org/synapse/amp-als/vocab/Weight>,
-        <https://w3id.org/synapse/amp-als/vocab/audio%20transcript>,
-        <https://w3id.org/synapse/amp-als/vocab/behavior%20process>,
-        <https://w3id.org/synapse/amp-als/vocab/cellularPhysiology>,
-        <https://w3id.org/synapse/amp-als/vocab/characteristic>,
-        <https://w3id.org/synapse/amp-als/vocab/chromatinActivity>,
-        <https://w3id.org/synapse/amp-als/vocab/clinical>,
-        <https://w3id.org/synapse/amp-als/vocab/dataIndex>,
-        <https://w3id.org/synapse/amp-als/vocab/demographics>,
-        <https://w3id.org/synapse/amp-als/vocab/drugCombinationScreen>,
-        <https://w3id.org/synapse/amp-als/vocab/drugScreen>,
-        <https://w3id.org/synapse/amp-als/vocab/electrophysiology>,
-        <https://w3id.org/synapse/amp-als/vocab/epigenomics>,
-        <https://w3id.org/synapse/amp-als/vocab/geneExpression>,
-        <https://w3id.org/synapse/amp-als/vocab/genomicFeatures>,
-        <https://w3id.org/synapse/amp-als/vocab/genomicVariants>,
-        <https://w3id.org/synapse/amp-als/vocab/image>,
-        <https://w3id.org/synapse/amp-als/vocab/immunoassay>,
-        <https://w3id.org/synapse/amp-als/vocab/isoformExpression>,
-        <https://w3id.org/synapse/amp-als/vocab/kinomics>,
-        <https://w3id.org/synapse/amp-als/vocab/mask%20image>,
-        <https://w3id.org/synapse/amp-als/vocab/metabolomics>,
-        <https://w3id.org/synapse/amp-als/vocab/network>,
-        <https://w3id.org/synapse/amp-als/vocab/particle%20characterization>,
-        <https://w3id.org/synapse/amp-als/vocab/proteomics>,
-        <https://w3id.org/synapse/amp-als/vocab/raw%20counts>,
-        <https://w3id.org/synapse/amp-als/vocab/surveyData>,
-        <https://w3id.org/synapse/amp-als/vocab/transcriptomics%20%28nascent%29> .
-
 <https://w3id.org/synapse/amp-als/vocab/Fair> skos:definition "Fair cooperation",
         "Fair efficacy",
         "Fair tolerability" .
@@ -16000,11 +15996,6 @@
         "Terminated due to lack of efficacy",
         "Withdrew due to lack of efficacy" .
 
-<https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/paired-end>,
-        <https://w3id.org/synapse/amp-als/vocab/single-end> .
-
 <https://w3id.org/synapse/amp-als/vocab/LibraryPreparationMethodEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/LibraryPreparationMethodEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/10x>,
@@ -16114,14 +16105,6 @@
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/acknowledgementStatements> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/acknowledgementStatements> .
-
-<https://w3id.org/synapse/amp-als/vocab/assay> a linkml:SlotDefinition ;
-    skos:definition "The technology used to generate the data in this file." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/assay> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
-    linkml:required true ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assay> .
 
 <https://w3id.org/synapse/amp-als/vocab/assayTarget> a linkml:SlotDefinition ;
     skos:definition "Target of the assay such as a HUGO gene symbol, cell type, or tissue region depending on the capabilities of the assay." ;
@@ -16244,19 +16227,6 @@
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataStatus> .
 
-<https://w3id.org/synapse/amp-als/vocab/dataType> a linkml:SlotDefinition ;
-    skos:definition """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
-""" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
-        [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataType> .
-
 <https://w3id.org/synapse/amp-als/vocab/datasetItemCount> a linkml:SlotDefinition ;
     skos:definition "Count of files in dataset. Auto-calculated by Synapse." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -16365,13 +16335,6 @@
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/keyMeasures> .
-
-<https://w3id.org/synapse/amp-als/vocab/libraryLayout> a linkml:SlotDefinition ;
-    skos:definition "Single-end or paired-end sequencing layout" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/libraryLayout> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/libraryLayout> .
 
 <https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod> a linkml:SlotDefinition ;
     skos:definition "Method used for library preparation" ;
@@ -16565,6 +16528,211 @@
         <https://w3id.org/synapse/amp-als/vocab/Increased>,
         <https://w3id.org/synapse/amp-als/vocab/No_Change> .
 
+<https://w3id.org/synapse/amp-als/vocab/AssayEnum> dcterms:title "Assay" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/2D%20AlamarBlue%20absorbance>,
+        <https://w3id.org/synapse/amp-als/vocab/2D%20AlamarBlue%20fluorescence>,
+        <https://w3id.org/synapse/amp-als/vocab/3D%20confocal%20imaging>,
+        <https://w3id.org/synapse/amp-als/vocab/3D%20electron%20microscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/3D%20imaging>,
+        <https://w3id.org/synapse/amp-als/vocab/3D%20microtissue%20viability>,
+        <https://w3id.org/synapse/amp-als/vocab/ATAC-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/ATPase%20activity%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/AlgometRx%20Nociometer>,
+        <https://w3id.org/synapse/amp-als/vocab/BrdU%20proliferation%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/Bru-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/BruChase-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/CAGE-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/CAPP-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/CLIP-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/CODEX>,
+        <https://w3id.org/synapse/amp-als/vocab/CROP-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/CUT%26RUN>,
+        <https://w3id.org/synapse/amp-als/vocab/ChIP-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/Child%20Behavior%20Checklist%20for%20Ages%201.5-5>,
+        <https://w3id.org/synapse/amp-als/vocab/Child%20Behavior%20Checklist%20for%20Ages%206-18>,
+        <https://w3id.org/synapse/amp-als/vocab/Children%27s%20Dermatology%20Life%20Quality%20Index%20Questionnaire>,
+        <https://w3id.org/synapse/amp-als/vocab/Corsi%20blocks>,
+        <https://w3id.org/synapse/amp-als/vocab/DART-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/DNA%20optical%20mapping>,
+        <https://w3id.org/synapse/amp-als/vocab/ELISA>,
+        <https://w3id.org/synapse/amp-als/vocab/ERR%20bisulfite%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/EdU%20proliferation%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/FACE-Q%20Appearance-related%20Distress>,
+        <https://w3id.org/synapse/amp-als/vocab/FACS>,
+        <https://w3id.org/synapse/amp-als/vocab/FIA-MSMS>,
+        <https://w3id.org/synapse/amp-als/vocab/FLIPR%20high-throughput%20cellular%20screening>,
+        <https://w3id.org/synapse/amp-als/vocab/FTIR%20spectroscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/Fluorescence%20In%20Situ%20Hybridization>,
+        <https://w3id.org/synapse/amp-als/vocab/Focus%20group>,
+        <https://w3id.org/synapse/amp-als/vocab/HI-C>,
+        <https://w3id.org/synapse/amp-als/vocab/HPLC>,
+        <https://w3id.org/synapse/amp-als/vocab/ISO-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/Interview>,
+        <https://w3id.org/synapse/amp-als/vocab/LCM>,
+        <https://w3id.org/synapse/amp-als/vocab/MIB/MS>,
+        <https://w3id.org/synapse/amp-als/vocab/Magnetization-Prepared%20Rapid%20Gradient%20Echo%20MRI>,
+        <https://w3id.org/synapse/amp-als/vocab/Matrigel-based%20tumorigenesis%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/MeRIP-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/MudPIT>,
+        <https://w3id.org/synapse/amp-als/vocab/NIH%20Toolbox>,
+        <https://w3id.org/synapse/amp-als/vocab/NOMe-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/NanoString%20nCounter%20Analysis%20System>,
+        <https://w3id.org/synapse/amp-als/vocab/PROMIS%20Cognitive%20Function>,
+        <https://w3id.org/synapse/amp-als/vocab/Quant-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/RIP-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/RNA%20array>,
+        <https://w3id.org/synapse/amp-als/vocab/RNA-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/RPPA>,
+        <https://w3id.org/synapse/amp-als/vocab/Riccardi%20and%20Ablon%20scales>,
+        <https://w3id.org/synapse/amp-als/vocab/SNP%20array>,
+        <https://w3id.org/synapse/amp-als/vocab/STR%20profile>,
+        <https://w3id.org/synapse/amp-als/vocab/SUSHI>,
+        <https://w3id.org/synapse/amp-als/vocab/SaferSeqS>,
+        <https://w3id.org/synapse/amp-als/vocab/Sanger%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/Skindex-16>,
+        <https://w3id.org/synapse/amp-als/vocab/Social%20Responsiveness%20Scale>,
+        <https://w3id.org/synapse/amp-als/vocab/Social%20Responsiveness%20Scale%2C%20Second%20Edition>,
+        <https://w3id.org/synapse/amp-als/vocab/T%20cell%20receptor%20repertoire%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/TIDE>,
+        <https://w3id.org/synapse/amp-als/vocab/TMT%20quantitation>,
+        <https://w3id.org/synapse/amp-als/vocab/TriKinetics%20activity%20monitoring>,
+        <https://w3id.org/synapse/amp-als/vocab/Von%20Frey%20test>,
+        <https://w3id.org/synapse/amp-als/vocab/actigraphy>,
+        <https://w3id.org/synapse/amp-als/vocab/active%20avoidance%20learning%20behavior%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/array>,
+        <https://w3id.org/synapse/amp-als/vocab/atomic%20force%20microscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/auditory%20brainstem%20response>,
+        <https://w3id.org/synapse/amp-als/vocab/autoradiography>,
+        <https://w3id.org/synapse/amp-als/vocab/bisulfite%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/blood%20chemistry%20measurement>,
+        <https://w3id.org/synapse/amp-als/vocab/blue%20native%20PAGE>,
+        <https://w3id.org/synapse/amp-als/vocab/body%20size%20trait%20measurement>,
+        <https://w3id.org/synapse/amp-als/vocab/bone%20histomorphometry>,
+        <https://w3id.org/synapse/amp-als/vocab/brightfield%20microscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/cAMP-Glo%20Max%20Assay>,
+        <https://w3id.org/synapse/amp-als/vocab/cNF-Skindex>,
+        <https://w3id.org/synapse/amp-als/vocab/calcium%20retention%20capacity%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/cell%20competition>,
+        <https://w3id.org/synapse/amp-als/vocab/cell%20count>,
+        <https://w3id.org/synapse/amp-als/vocab/cell%20painting>,
+        <https://w3id.org/synapse/amp-als/vocab/cell%20proliferation>,
+        <https://w3id.org/synapse/amp-als/vocab/cell%20viability%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/clinical%20data>,
+        <https://w3id.org/synapse/amp-als/vocab/cognitive%20assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/combination%20library%20screen>,
+        <https://w3id.org/synapse/amp-als/vocab/combination%20screen>,
+        <https://w3id.org/synapse/amp-als/vocab/complex%20II%20enzyme%20activity%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/compound%20screen>,
+        <https://w3id.org/synapse/amp-als/vocab/confocal%20microscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/contextual%20conditioning%20behavior%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/conventional%20MRI>,
+        <https://w3id.org/synapse/amp-als/vocab/current%20clamp%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/differential%20scanning%20calorimetry>,
+        <https://w3id.org/synapse/amp-als/vocab/diffusion%20MRI>,
+        <https://w3id.org/synapse/amp-als/vocab/distortion%20product%20otoacoustic%20emissions>,
+        <https://w3id.org/synapse/amp-als/vocab/dynamic%20light%20scattering>,
+        <https://w3id.org/synapse/amp-als/vocab/electrochemiluminescence>,
+        <https://w3id.org/synapse/amp-als/vocab/electrophoretic%20light%20scattering>,
+        <https://w3id.org/synapse/amp-als/vocab/elevated%20plus%20maze%20test>,
+        <https://w3id.org/synapse/amp-als/vocab/flow%20cytometry>,
+        <https://w3id.org/synapse/amp-als/vocab/focus%20forming%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/functional%20MRI>,
+        <https://w3id.org/synapse/amp-als/vocab/gait%20measurement>,
+        <https://w3id.org/synapse/amp-als/vocab/gel%20filtration%20chromatography>,
+        <https://w3id.org/synapse/amp-als/vocab/gel%20permeation%20chromatography>,
+        <https://w3id.org/synapse/amp-als/vocab/genotyping>,
+        <https://w3id.org/synapse/amp-als/vocab/high%20content%20screen>,
+        <https://w3id.org/synapse/amp-als/vocab/high%20frequency%20ultrasound>,
+        <https://w3id.org/synapse/amp-als/vocab/high-performance%20liquid%20chromatography/tandem%20mass%20spectrometry>,
+        <https://w3id.org/synapse/amp-als/vocab/immunoassay>,
+        <https://w3id.org/synapse/amp-als/vocab/immunocytochemistry>,
+        <https://w3id.org/synapse/amp-als/vocab/immunofluorescence>,
+        <https://w3id.org/synapse/amp-als/vocab/immunohistochemistry>,
+        <https://w3id.org/synapse/amp-als/vocab/in%20silico%20synthesis>,
+        <https://w3id.org/synapse/amp-als/vocab/in%20vitro%20tumorigenesis>,
+        <https://w3id.org/synapse/amp-als/vocab/in%20vivo%20PDX%20viability>,
+        <https://w3id.org/synapse/amp-als/vocab/in%20vivo%20bioluminescence>,
+        <https://w3id.org/synapse/amp-als/vocab/in%20vivo%20tumor%20growth>,
+        <https://w3id.org/synapse/amp-als/vocab/jumping%20library>,
+        <https://w3id.org/synapse/amp-als/vocab/label%20free%20mass%20spectrometry>,
+        <https://w3id.org/synapse/amp-als/vocab/laser%20speckle%20imaging>,
+        <https://w3id.org/synapse/amp-als/vocab/light%20scattering%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/liquid%20chromatography-electrochemical%20detection>,
+        <https://w3id.org/synapse/amp-als/vocab/liquid%20chromatography/mass%20spectrometry>,
+        <https://w3id.org/synapse/amp-als/vocab/liquid%20chromatography/tandem%20mass%20spectrometry>,
+        <https://w3id.org/synapse/amp-als/vocab/lncRNA-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/local%20field%20potential%20recording>,
+        <https://w3id.org/synapse/amp-als/vocab/long%20term%20potentiation%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/m6A%20array>,
+        <https://w3id.org/synapse/amp-als/vocab/mRNA%20counts>,
+        <https://w3id.org/synapse/amp-als/vocab/magnetic%20resonance%20angiography>,
+        <https://w3id.org/synapse/amp-als/vocab/magnetic%20resonance%20spectroscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/mass%20spectrometry>,
+        <https://w3id.org/synapse/amp-als/vocab/massively%20parallel%20reporter%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/metabolic%20screening>,
+        <https://w3id.org/synapse/amp-als/vocab/methylation%20array>,
+        <https://w3id.org/synapse/amp-als/vocab/miRNA%20array>,
+        <https://w3id.org/synapse/amp-als/vocab/miRNA-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/microrheology>,
+        <https://w3id.org/synapse/amp-als/vocab/multi-electrode%20array>,
+        <https://w3id.org/synapse/amp-als/vocab/n-back%20task>,
+        <https://w3id.org/synapse/amp-als/vocab/nanoparticle%20tracking%20analysis>,
+        <https://w3id.org/synapse/amp-als/vocab/neuropsychological%20assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/next%20generation%20targeted%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/novelty%20response%20behavior%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/open%20field%20test>,
+        <https://w3id.org/synapse/amp-als/vocab/optical%20coherence%20tomography>,
+        <https://w3id.org/synapse/amp-als/vocab/optical%20tomography>,
+        <https://w3id.org/synapse/amp-als/vocab/optokinetic%20reflex%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/oscillatory%20rheology>,
+        <https://w3id.org/synapse/amp-als/vocab/oxBS-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/oxygen%20consumption%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/pattern%20electroretinogram>,
+        <https://w3id.org/synapse/amp-als/vocab/perineurial%20cell%20thickness>,
+        <https://w3id.org/synapse/amp-als/vocab/pharmocokinetic%20ADME%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/phase-contrast%20microscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/photograph>,
+        <https://w3id.org/synapse/amp-als/vocab/polymerase%20chain%20reaction>,
+        <https://w3id.org/synapse/amp-als/vocab/polysomnography>,
+        <https://w3id.org/synapse/amp-als/vocab/positron%20emission%20tomography>,
+        <https://w3id.org/synapse/amp-als/vocab/proximity%20extension%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/pure%20tone%20average>,
+        <https://w3id.org/synapse/amp-als/vocab/quantitative%20PCR>,
+        <https://w3id.org/synapse/amp-als/vocab/questionnaire>,
+        <https://w3id.org/synapse/amp-als/vocab/reactive%20oxygen%20species%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/reporter%20gene%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/rheometry>,
+        <https://w3id.org/synapse/amp-als/vocab/ribo-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/rotarod%20performance%20test>,
+        <https://w3id.org/synapse/amp-als/vocab/sandwich%20ELISA>,
+        <https://w3id.org/synapse/amp-als/vocab/scCGI-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/scale>,
+        <https://w3id.org/synapse/amp-als/vocab/single%20cell%20ATAC-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/single%20molecule%20drug%20screen%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/single-cell%20RNA-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/single-nucleus%20RNA-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/small%20molecule%20library%20screen>,
+        <https://w3id.org/synapse/amp-als/vocab/snATAC-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/snRNA-seq>,
+        <https://w3id.org/synapse/amp-als/vocab/sorbitol%20dehydrogenase%20activity%20level%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/spatial%20frequency%20domain%20imaging>,
+        <https://w3id.org/synapse/amp-als/vocab/spatial%20transcriptomics>,
+        <https://w3id.org/synapse/amp-als/vocab/static%20histomorphometry>,
+        <https://w3id.org/synapse/amp-als/vocab/static%20light%20scattering>,
+        <https://w3id.org/synapse/amp-als/vocab/survival>,
+        <https://w3id.org/synapse/amp-als/vocab/targeted%20exome%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/traction%20force%20microscopy>,
+        <https://w3id.org/synapse/amp-als/vocab/transcranial%20doppler%20ultrasonography>,
+        <https://w3id.org/synapse/amp-als/vocab/twin%20spot%20assay>,
+        <https://w3id.org/synapse/amp-als/vocab/ultra%20high-performance%20liquid%20chromatography/tandem%20mass%20spectrometry>,
+        <https://w3id.org/synapse/amp-als/vocab/western%20blot>,
+        <https://w3id.org/synapse/amp-als/vocab/whole%20exome%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/whole%20genome%20sequencing>,
+        <https://w3id.org/synapse/amp-als/vocab/whole-cell%20patch%20clamp>,
+        <https://w3id.org/synapse/amp-als/vocab/word%20recognition%20score> .
+
 <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALSAQ-40>,
@@ -16611,20 +16779,6 @@
         <https://w3id.org/synapse/amp-als/vocab/motor_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/neurological_examination> .
 
-<https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/blood>,
-        <https://w3id.org/synapse/amp-als/vocab/brain%20tissue>,
-        <https://w3id.org/synapse/amp-als/vocab/csf>,
-        <https://w3id.org/synapse/amp-als/vocab/dna>,
-        <https://w3id.org/synapse/amp-als/vocab/plasma>,
-        <https://w3id.org/synapse/amp-als/vocab/primary%20cell%20culture>,
-        <https://w3id.org/synapse/amp-als/vocab/rna>,
-        <https://w3id.org/synapse/amp-als/vocab/saliva>,
-        <https://w3id.org/synapse/amp-als/vocab/serum>,
-        <https://w3id.org/synapse/amp-als/vocab/tissue>,
-        <https://w3id.org/synapse/amp-als/vocab/urine> .
-
 <https://w3id.org/synapse/amp-als/vocab/BlindingEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/BlindingEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Double_Blind>,
@@ -16656,23 +16810,6 @@
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/dorsolateral%20prefrontal%20cortex>,
         <https://w3id.org/synapse/amp-als/vocab/middle%20frontal%20cortex>,
         <https://w3id.org/synapse/amp-als/vocab/primary%20motor%20cortex> .
-
-<https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/NeuN%2B%20neurons>,
-        <https://w3id.org/synapse/amp-als/vocab/astrocytes>,
-        <https://w3id.org/synapse/amp-als/vocab/differentiated_cell>,
-        <https://w3id.org/synapse/amp-als/vocab/fibroblasts>,
-        <https://w3id.org/synapse/amp-als/vocab/iPSC>,
-        <https://w3id.org/synapse/amp-als/vocab/immortalized_cell_line>,
-        <https://w3id.org/synapse/amp-als/vocab/microglia>,
-        <https://w3id.org/synapse/amp-als/vocab/neurons>,
-        <https://w3id.org/synapse/amp-als/vocab/oligodendrocyte%20lineage%20cells>,
-        <https://w3id.org/synapse/amp-als/vocab/organoid>,
-        <https://w3id.org/synapse/amp-als/vocab/other>,
-        <https://w3id.org/synapse/amp-als/vocab/other%20glia>,
-        <https://w3id.org/synapse/amp-als/vocab/primary_cell>,
-        <https://w3id.org/synapse/amp-als/vocab/stem_cell> .
 
 <https://w3id.org/synapse/amp-als/vocab/CollectionEnum> skos:definition "Original collection, e.g. the consortium that the dataset comes from." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -16817,15 +16954,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Type_1>,
         <https://w3id.org/synapse/amp-als/vocab/Type_2>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
-
-<https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS-FTD>,
-        <https://w3id.org/synapse/amp-als/vocab/C9-ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/C9-FTD>,
-        <https://w3id.org/synapse/amp-als/vocab/Control>,
-        <https://w3id.org/synapse/amp-als/vocab/FTD>,
-        <https://w3id.org/synapse/amp-als/vocab/sporadic%20ALS> .
 
 <https://w3id.org/synapse/amp-als/vocab/DistressEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DistressEnum> ;
@@ -17014,6 +17142,11 @@
         <https://w3id.org/synapse/amp-als/vocab/3>,
         <https://w3id.org/synapse/amp-als/vocab/4>,
         <https://w3id.org/synapse/amp-als/vocab/5> .
+
+<https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/paired-end>,
+        <https://w3id.org/synapse/amp-als/vocab/single-end> .
 
 <https://w3id.org/synapse/amp-als/vocab/License> skos:definition "License attached to the data. If indicates UNKNOWN or RESTRICTED-USE, data may not be used without further contact for terms." ;
     skos:editorialNote "https://help.figshare.com/article/what-is-the-most-appropriate-licence-for-my-research",
@@ -17445,6 +17578,13 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/accessRequirements> .
 
+<https://w3id.org/synapse/amp-als/vocab/biospecimenType> a linkml:SlotDefinition ;
+    dcterms:title "Biospecimen Type" ;
+    skos:definition "Type of biological specimen",
+        "Type of biological specimen(s) in the dataset." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> .
+
 <https://w3id.org/synapse/amp-als/vocab/blood> a linkml:SlotDefinition ;
     dcterms:title "Blood" ;
     skos:definition "Blood sample",
@@ -17458,6 +17598,13 @@
         "Date of last equipment calibration" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
 
+<https://w3id.org/synapse/amp-als/vocab/cellType> a linkml:SlotDefinition ;
+    dcterms:title "Cell Type" ;
+    skos:definition "Type of cell or cell line used",
+        "Type of cell or cell line used in the dataset." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> .
+
 <https://w3id.org/synapse/amp-als/vocab/collectionDate> a linkml:SlotDefinition ;
     dcterms:title "Collection Date" ;
     skos:definition "Date of specimen collection",
@@ -17468,6 +17615,12 @@
     dcterms:title "Data Source Prefix" ;
     skos:definition "Short identifier indicating the data source origin" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/disease> a linkml:SlotDefinition ;
+    dcterms:title "Disease" ;
+    skos:definition "Disease diagnosis",
+        "Disease(s) or condition(s) studied in the dataset." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/elbowFlexionLeft> a linkml:SlotDefinition ;
     dcterms:title "Elbow Flexion - Left",
@@ -17568,210 +17721,81 @@
         <https://w3id.org/synapse/amp-als/vocab/Video_Conference>,
         <https://w3id.org/synapse/amp-als/vocab/partner_assessment> .
 
-<https://w3id.org/synapse/amp-als/vocab/AssayEnum> dcterms:title "Assay" ;
+<https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/BiospecimenTypeEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/blood>,
+        <https://w3id.org/synapse/amp-als/vocab/brain%20tissue>,
+        <https://w3id.org/synapse/amp-als/vocab/csf>,
+        <https://w3id.org/synapse/amp-als/vocab/dna>,
+        <https://w3id.org/synapse/amp-als/vocab/plasma>,
+        <https://w3id.org/synapse/amp-als/vocab/primary%20cell%20culture>,
+        <https://w3id.org/synapse/amp-als/vocab/rna>,
+        <https://w3id.org/synapse/amp-als/vocab/saliva>,
+        <https://w3id.org/synapse/amp-als/vocab/serum>,
+        <https://w3id.org/synapse/amp-als/vocab/tissue>,
+        <https://w3id.org/synapse/amp-als/vocab/urine> .
+
+<https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/NeuN%2B%20neurons>,
+        <https://w3id.org/synapse/amp-als/vocab/astrocytes>,
+        <https://w3id.org/synapse/amp-als/vocab/differentiated_cell>,
+        <https://w3id.org/synapse/amp-als/vocab/fibroblasts>,
+        <https://w3id.org/synapse/amp-als/vocab/iPSC>,
+        <https://w3id.org/synapse/amp-als/vocab/immortalized_cell_line>,
+        <https://w3id.org/synapse/amp-als/vocab/microglia>,
+        <https://w3id.org/synapse/amp-als/vocab/neurons>,
+        <https://w3id.org/synapse/amp-als/vocab/oligodendrocyte%20lineage%20cells>,
+        <https://w3id.org/synapse/amp-als/vocab/organoid>,
+        <https://w3id.org/synapse/amp-als/vocab/other>,
+        <https://w3id.org/synapse/amp-als/vocab/other%20glia>,
+        <https://w3id.org/synapse/amp-als/vocab/primary_cell>,
+        <https://w3id.org/synapse/amp-als/vocab/stem_cell> .
+
+<https://w3id.org/synapse/amp-als/vocab/Data> skos:definition "What the data (file) contains." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/2D%20AlamarBlue%20absorbance>,
-        <https://w3id.org/synapse/amp-als/vocab/2D%20AlamarBlue%20fluorescence>,
-        <https://w3id.org/synapse/amp-als/vocab/3D%20confocal%20imaging>,
-        <https://w3id.org/synapse/amp-als/vocab/3D%20electron%20microscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/3D%20imaging>,
-        <https://w3id.org/synapse/amp-als/vocab/3D%20microtissue%20viability>,
-        <https://w3id.org/synapse/amp-als/vocab/ATAC-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/ATPase%20activity%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/AlgometRx%20Nociometer>,
-        <https://w3id.org/synapse/amp-als/vocab/BrdU%20proliferation%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/Bru-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/BruChase-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/CAGE-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/CAPP-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/CLIP-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/CODEX>,
-        <https://w3id.org/synapse/amp-als/vocab/CROP-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/CUT%26RUN>,
-        <https://w3id.org/synapse/amp-als/vocab/ChIP-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/Child%20Behavior%20Checklist%20for%20Ages%201.5-5>,
-        <https://w3id.org/synapse/amp-als/vocab/Child%20Behavior%20Checklist%20for%20Ages%206-18>,
-        <https://w3id.org/synapse/amp-als/vocab/Children%27s%20Dermatology%20Life%20Quality%20Index%20Questionnaire>,
-        <https://w3id.org/synapse/amp-als/vocab/Corsi%20blocks>,
-        <https://w3id.org/synapse/amp-als/vocab/DART-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/DNA%20optical%20mapping>,
-        <https://w3id.org/synapse/amp-als/vocab/ELISA>,
-        <https://w3id.org/synapse/amp-als/vocab/ERR%20bisulfite%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/EdU%20proliferation%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/FACE-Q%20Appearance-related%20Distress>,
-        <https://w3id.org/synapse/amp-als/vocab/FACS>,
-        <https://w3id.org/synapse/amp-als/vocab/FIA-MSMS>,
-        <https://w3id.org/synapse/amp-als/vocab/FLIPR%20high-throughput%20cellular%20screening>,
-        <https://w3id.org/synapse/amp-als/vocab/FTIR%20spectroscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/Fluorescence%20In%20Situ%20Hybridization>,
-        <https://w3id.org/synapse/amp-als/vocab/Focus%20group>,
-        <https://w3id.org/synapse/amp-als/vocab/HI-C>,
-        <https://w3id.org/synapse/amp-als/vocab/HPLC>,
-        <https://w3id.org/synapse/amp-als/vocab/ISO-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/Interview>,
-        <https://w3id.org/synapse/amp-als/vocab/LCM>,
-        <https://w3id.org/synapse/amp-als/vocab/MIB/MS>,
-        <https://w3id.org/synapse/amp-als/vocab/Magnetization-Prepared%20Rapid%20Gradient%20Echo%20MRI>,
-        <https://w3id.org/synapse/amp-als/vocab/Matrigel-based%20tumorigenesis%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/MeRIP-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/MudPIT>,
-        <https://w3id.org/synapse/amp-als/vocab/NIH%20Toolbox>,
-        <https://w3id.org/synapse/amp-als/vocab/NOMe-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/NanoString%20nCounter%20Analysis%20System>,
-        <https://w3id.org/synapse/amp-als/vocab/PROMIS%20Cognitive%20Function>,
-        <https://w3id.org/synapse/amp-als/vocab/Quant-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/RIP-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/RNA%20array>,
-        <https://w3id.org/synapse/amp-als/vocab/RNA-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/RPPA>,
-        <https://w3id.org/synapse/amp-als/vocab/Riccardi%20and%20Ablon%20scales>,
-        <https://w3id.org/synapse/amp-als/vocab/SNP%20array>,
-        <https://w3id.org/synapse/amp-als/vocab/STR%20profile>,
-        <https://w3id.org/synapse/amp-als/vocab/SUSHI>,
-        <https://w3id.org/synapse/amp-als/vocab/SaferSeqS>,
-        <https://w3id.org/synapse/amp-als/vocab/Sanger%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/Skindex-16>,
-        <https://w3id.org/synapse/amp-als/vocab/Social%20Responsiveness%20Scale>,
-        <https://w3id.org/synapse/amp-als/vocab/Social%20Responsiveness%20Scale%2C%20Second%20Edition>,
-        <https://w3id.org/synapse/amp-als/vocab/T%20cell%20receptor%20repertoire%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/TIDE>,
-        <https://w3id.org/synapse/amp-als/vocab/TMT%20quantitation>,
-        <https://w3id.org/synapse/amp-als/vocab/TriKinetics%20activity%20monitoring>,
-        <https://w3id.org/synapse/amp-als/vocab/Von%20Frey%20test>,
-        <https://w3id.org/synapse/amp-als/vocab/actigraphy>,
-        <https://w3id.org/synapse/amp-als/vocab/active%20avoidance%20learning%20behavior%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/array>,
-        <https://w3id.org/synapse/amp-als/vocab/atomic%20force%20microscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/auditory%20brainstem%20response>,
-        <https://w3id.org/synapse/amp-als/vocab/autoradiography>,
-        <https://w3id.org/synapse/amp-als/vocab/bisulfite%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/blood%20chemistry%20measurement>,
-        <https://w3id.org/synapse/amp-als/vocab/blue%20native%20PAGE>,
-        <https://w3id.org/synapse/amp-als/vocab/body%20size%20trait%20measurement>,
-        <https://w3id.org/synapse/amp-als/vocab/bone%20histomorphometry>,
-        <https://w3id.org/synapse/amp-als/vocab/brightfield%20microscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/cAMP-Glo%20Max%20Assay>,
-        <https://w3id.org/synapse/amp-als/vocab/cNF-Skindex>,
-        <https://w3id.org/synapse/amp-als/vocab/calcium%20retention%20capacity%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/cell%20competition>,
-        <https://w3id.org/synapse/amp-als/vocab/cell%20count>,
-        <https://w3id.org/synapse/amp-als/vocab/cell%20painting>,
-        <https://w3id.org/synapse/amp-als/vocab/cell%20proliferation>,
-        <https://w3id.org/synapse/amp-als/vocab/cell%20viability%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/clinical%20data>,
-        <https://w3id.org/synapse/amp-als/vocab/cognitive%20assessment>,
-        <https://w3id.org/synapse/amp-als/vocab/combination%20library%20screen>,
-        <https://w3id.org/synapse/amp-als/vocab/combination%20screen>,
-        <https://w3id.org/synapse/amp-als/vocab/complex%20II%20enzyme%20activity%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/compound%20screen>,
-        <https://w3id.org/synapse/amp-als/vocab/confocal%20microscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/contextual%20conditioning%20behavior%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/conventional%20MRI>,
-        <https://w3id.org/synapse/amp-als/vocab/current%20clamp%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/differential%20scanning%20calorimetry>,
-        <https://w3id.org/synapse/amp-als/vocab/diffusion%20MRI>,
-        <https://w3id.org/synapse/amp-als/vocab/distortion%20product%20otoacoustic%20emissions>,
-        <https://w3id.org/synapse/amp-als/vocab/dynamic%20light%20scattering>,
-        <https://w3id.org/synapse/amp-als/vocab/electrochemiluminescence>,
-        <https://w3id.org/synapse/amp-als/vocab/electrophoretic%20light%20scattering>,
-        <https://w3id.org/synapse/amp-als/vocab/elevated%20plus%20maze%20test>,
-        <https://w3id.org/synapse/amp-als/vocab/flow%20cytometry>,
-        <https://w3id.org/synapse/amp-als/vocab/focus%20forming%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/functional%20MRI>,
-        <https://w3id.org/synapse/amp-als/vocab/gait%20measurement>,
-        <https://w3id.org/synapse/amp-als/vocab/gel%20filtration%20chromatography>,
-        <https://w3id.org/synapse/amp-als/vocab/gel%20permeation%20chromatography>,
-        <https://w3id.org/synapse/amp-als/vocab/genotyping>,
-        <https://w3id.org/synapse/amp-als/vocab/high%20content%20screen>,
-        <https://w3id.org/synapse/amp-als/vocab/high%20frequency%20ultrasound>,
-        <https://w3id.org/synapse/amp-als/vocab/high-performance%20liquid%20chromatography/tandem%20mass%20spectrometry>,
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Data> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/AggregatedData>,
+        <https://w3id.org/synapse/amp-als/vocab/AlignedReads>,
+        <https://w3id.org/synapse/amp-als/vocab/AnnotatedGermlineVariants>,
+        <https://w3id.org/synapse/amp-als/vocab/AnnotatedSomaticVariants>,
+        <https://w3id.org/synapse/amp-als/vocab/CopyNumberVariants>,
+        <https://w3id.org/synapse/amp-als/vocab/GermlineVariants>,
+        <https://w3id.org/synapse/amp-als/vocab/NormalizedIntensities>,
+        <https://w3id.org/synapse/amp-als/vocab/Pharmacokinetic%20Study>,
+        <https://w3id.org/synapse/amp-als/vocab/RawIntensities>,
+        <https://w3id.org/synapse/amp-als/vocab/SomaticVariants>,
+        <https://w3id.org/synapse/amp-als/vocab/StructuralVariants>,
+        <https://w3id.org/synapse/amp-als/vocab/Volume>,
+        <https://w3id.org/synapse/amp-als/vocab/Weight>,
+        <https://w3id.org/synapse/amp-als/vocab/audio%20transcript>,
+        <https://w3id.org/synapse/amp-als/vocab/behavior%20process>,
+        <https://w3id.org/synapse/amp-als/vocab/cellularPhysiology>,
+        <https://w3id.org/synapse/amp-als/vocab/characteristic>,
+        <https://w3id.org/synapse/amp-als/vocab/chromatinActivity>,
+        <https://w3id.org/synapse/amp-als/vocab/clinical>,
+        <https://w3id.org/synapse/amp-als/vocab/dataIndex>,
+        <https://w3id.org/synapse/amp-als/vocab/demographics>,
+        <https://w3id.org/synapse/amp-als/vocab/drugCombinationScreen>,
+        <https://w3id.org/synapse/amp-als/vocab/drugScreen>,
+        <https://w3id.org/synapse/amp-als/vocab/electrophysiology>,
+        <https://w3id.org/synapse/amp-als/vocab/epigenomics>,
+        <https://w3id.org/synapse/amp-als/vocab/geneExpression>,
+        <https://w3id.org/synapse/amp-als/vocab/genomicFeatures>,
+        <https://w3id.org/synapse/amp-als/vocab/genomicVariants>,
+        <https://w3id.org/synapse/amp-als/vocab/image>,
         <https://w3id.org/synapse/amp-als/vocab/immunoassay>,
-        <https://w3id.org/synapse/amp-als/vocab/immunocytochemistry>,
-        <https://w3id.org/synapse/amp-als/vocab/immunofluorescence>,
-        <https://w3id.org/synapse/amp-als/vocab/immunohistochemistry>,
-        <https://w3id.org/synapse/amp-als/vocab/in%20silico%20synthesis>,
-        <https://w3id.org/synapse/amp-als/vocab/in%20vitro%20tumorigenesis>,
-        <https://w3id.org/synapse/amp-als/vocab/in%20vivo%20PDX%20viability>,
-        <https://w3id.org/synapse/amp-als/vocab/in%20vivo%20bioluminescence>,
-        <https://w3id.org/synapse/amp-als/vocab/in%20vivo%20tumor%20growth>,
-        <https://w3id.org/synapse/amp-als/vocab/jumping%20library>,
-        <https://w3id.org/synapse/amp-als/vocab/label%20free%20mass%20spectrometry>,
-        <https://w3id.org/synapse/amp-als/vocab/laser%20speckle%20imaging>,
-        <https://w3id.org/synapse/amp-als/vocab/light%20scattering%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/liquid%20chromatography-electrochemical%20detection>,
-        <https://w3id.org/synapse/amp-als/vocab/liquid%20chromatography/mass%20spectrometry>,
-        <https://w3id.org/synapse/amp-als/vocab/liquid%20chromatography/tandem%20mass%20spectrometry>,
-        <https://w3id.org/synapse/amp-als/vocab/lncRNA-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/local%20field%20potential%20recording>,
-        <https://w3id.org/synapse/amp-als/vocab/long%20term%20potentiation%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/m6A%20array>,
-        <https://w3id.org/synapse/amp-als/vocab/mRNA%20counts>,
-        <https://w3id.org/synapse/amp-als/vocab/magnetic%20resonance%20angiography>,
-        <https://w3id.org/synapse/amp-als/vocab/magnetic%20resonance%20spectroscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/mass%20spectrometry>,
-        <https://w3id.org/synapse/amp-als/vocab/massively%20parallel%20reporter%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/metabolic%20screening>,
-        <https://w3id.org/synapse/amp-als/vocab/methylation%20array>,
-        <https://w3id.org/synapse/amp-als/vocab/miRNA%20array>,
-        <https://w3id.org/synapse/amp-als/vocab/miRNA-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/microrheology>,
-        <https://w3id.org/synapse/amp-als/vocab/multi-electrode%20array>,
-        <https://w3id.org/synapse/amp-als/vocab/n-back%20task>,
-        <https://w3id.org/synapse/amp-als/vocab/nanoparticle%20tracking%20analysis>,
-        <https://w3id.org/synapse/amp-als/vocab/neuropsychological%20assessment>,
-        <https://w3id.org/synapse/amp-als/vocab/next%20generation%20targeted%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/novelty%20response%20behavior%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/open%20field%20test>,
-        <https://w3id.org/synapse/amp-als/vocab/optical%20coherence%20tomography>,
-        <https://w3id.org/synapse/amp-als/vocab/optical%20tomography>,
-        <https://w3id.org/synapse/amp-als/vocab/optokinetic%20reflex%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/oscillatory%20rheology>,
-        <https://w3id.org/synapse/amp-als/vocab/oxBS-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/oxygen%20consumption%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/pattern%20electroretinogram>,
-        <https://w3id.org/synapse/amp-als/vocab/perineurial%20cell%20thickness>,
-        <https://w3id.org/synapse/amp-als/vocab/pharmocokinetic%20ADME%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/phase-contrast%20microscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/photograph>,
-        <https://w3id.org/synapse/amp-als/vocab/polymerase%20chain%20reaction>,
-        <https://w3id.org/synapse/amp-als/vocab/polysomnography>,
-        <https://w3id.org/synapse/amp-als/vocab/positron%20emission%20tomography>,
-        <https://w3id.org/synapse/amp-als/vocab/proximity%20extension%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/pure%20tone%20average>,
-        <https://w3id.org/synapse/amp-als/vocab/quantitative%20PCR>,
-        <https://w3id.org/synapse/amp-als/vocab/questionnaire>,
-        <https://w3id.org/synapse/amp-als/vocab/reactive%20oxygen%20species%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/reporter%20gene%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/rheometry>,
-        <https://w3id.org/synapse/amp-als/vocab/ribo-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/rotarod%20performance%20test>,
-        <https://w3id.org/synapse/amp-als/vocab/sandwich%20ELISA>,
-        <https://w3id.org/synapse/amp-als/vocab/scCGI-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/scale>,
-        <https://w3id.org/synapse/amp-als/vocab/single%20cell%20ATAC-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/single%20molecule%20drug%20screen%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/single-cell%20RNA-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/single-nucleus%20RNA-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/small%20molecule%20library%20screen>,
-        <https://w3id.org/synapse/amp-als/vocab/snATAC-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/snRNA-seq>,
-        <https://w3id.org/synapse/amp-als/vocab/sorbitol%20dehydrogenase%20activity%20level%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/spatial%20frequency%20domain%20imaging>,
-        <https://w3id.org/synapse/amp-als/vocab/spatial%20transcriptomics>,
-        <https://w3id.org/synapse/amp-als/vocab/static%20histomorphometry>,
-        <https://w3id.org/synapse/amp-als/vocab/static%20light%20scattering>,
-        <https://w3id.org/synapse/amp-als/vocab/survival>,
-        <https://w3id.org/synapse/amp-als/vocab/targeted%20exome%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/traction%20force%20microscopy>,
-        <https://w3id.org/synapse/amp-als/vocab/transcranial%20doppler%20ultrasonography>,
-        <https://w3id.org/synapse/amp-als/vocab/twin%20spot%20assay>,
-        <https://w3id.org/synapse/amp-als/vocab/ultra%20high-performance%20liquid%20chromatography/tandem%20mass%20spectrometry>,
-        <https://w3id.org/synapse/amp-als/vocab/western%20blot>,
-        <https://w3id.org/synapse/amp-als/vocab/whole%20exome%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/whole%20genome%20sequencing>,
-        <https://w3id.org/synapse/amp-als/vocab/whole-cell%20patch%20clamp>,
-        <https://w3id.org/synapse/amp-als/vocab/word%20recognition%20score> .
+        <https://w3id.org/synapse/amp-als/vocab/isoformExpression>,
+        <https://w3id.org/synapse/amp-als/vocab/kinomics>,
+        <https://w3id.org/synapse/amp-als/vocab/mask%20image>,
+        <https://w3id.org/synapse/amp-als/vocab/metabolomics>,
+        <https://w3id.org/synapse/amp-als/vocab/network>,
+        <https://w3id.org/synapse/amp-als/vocab/particle%20characterization>,
+        <https://w3id.org/synapse/amp-als/vocab/proteomics>,
+        <https://w3id.org/synapse/amp-als/vocab/raw%20counts>,
+        <https://w3id.org/synapse/amp-als/vocab/surveyData>,
+        <https://w3id.org/synapse/amp-als/vocab/transcriptomics>,
+        <https://w3id.org/synapse/amp-als/vocab/transcriptomics%20%28nascent%29> .
 
 <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> ;
@@ -17782,6 +17806,15 @@
         <https://w3id.org/synapse/amp-als/vocab/sra>,
         <https://w3id.org/synapse/amp-als/vocab/synapse>,
         <https://w3id.org/synapse/amp-als/vocab/target_als> .
+
+<https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS-FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/C9-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/C9-FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/Control>,
+        <https://w3id.org/synapse/amp-als/vocab/FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/sporadic%20ALS> .
 
 <https://w3id.org/synapse/amp-als/vocab/GeneticLabEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/GeneticLabEnum> ;
@@ -17800,6 +17833,17 @@
         <https://w3id.org/synapse/amp-als/vocab/Male>,
         <https://w3id.org/synapse/amp-als/vocab/Not%20Reported>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
+
+<https://w3id.org/synapse/amp-als/vocab/assay> a linkml:SlotDefinition ;
+    dcterms:title "Measurement Technique" ;
+    skos:definition "The technology used to generate the data in this file.",
+        "What's used to generate data in dataset, typically referring to the assay. Omit if not applicable." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/assay> ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
+    linkml:required true ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assay> .
 
 <https://w3id.org/synapse/amp-als/vocab/citation> a linkml:SlotDefinition ;
     dcterms:title "Citation" ;
@@ -17835,6 +17879,23 @@
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/creator> .
 
+<https://w3id.org/synapse/amp-als/vocab/dataType> a linkml:SlotDefinition ;
+    dcterms:title "Data Type" ;
+    skos:definition """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
+""",
+        "Reflects the data types within the dataset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:any_of [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/Data>,
+        <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:required true ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataType> .
+
 <https://w3id.org/synapse/amp-als/vocab/description> a linkml:SlotDefinition ;
     dcterms:title "Description" ;
     skos:definition "Blurb for the dataset; should be no more than 500 characters.",
@@ -17852,6 +17913,16 @@
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/funder> .
+
+<https://w3id.org/synapse/amp-als/vocab/libraryLayout> a linkml:SlotDefinition ;
+    dcterms:title "Library Layout" ;
+    skos:definition "Single-end or paired-end sequencing layout",
+        "Single-end or paired-end sequencing layout for datasets containing sequencing data." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/libraryLayout> ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/libraryLayout> .
 
 <https://w3id.org/synapse/amp-als/vocab/license> a linkml:SlotDefinition ;
     dcterms:title "License" ;
@@ -17874,11 +17945,11 @@
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -19503,64 +19574,6 @@
         <https://w3id.org/synapse/amp-als/vocab/vitalSigns__weight>,
         <https://w3id.org/synapse/amp-als/vocab/vitalSigns__weightLbs> .
 
-<https://w3id.org/synapse/amp-als/vocab/Dataset> a linkml:ClassDefinition ;
-    skos:definition "Model for dataset on the AMP-ALS portal" ;
-    skos:editorialNote "There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
-        <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
-        <https://w3id.org/synapse/amp-als/vocab/alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/citation>,
-        <https://w3id.org/synapse/amp-als/vocab/collection>,
-        <https://w3id.org/synapse/amp-als/vocab/contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/creator>,
-        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/description>,
-        <https://w3id.org/synapse/amp-als/vocab/funder>,
-        <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
-        <https://w3id.org/synapse/amp-als/vocab/keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/license>,
-        <https://w3id.org/synapse/amp-als/vocab/measurementTechnique>,
-        <https://w3id.org/synapse/amp-als/vocab/originalSampleName>,
-        <https://w3id.org/synapse/amp-als/vocab/publisher>,
-        <https://w3id.org/synapse/amp-als/vocab/sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/source>,
-        <https://w3id.org/synapse/amp-als/vocab/species>,
-        <https://w3id.org/synapse/amp-als/vocab/studyType>,
-        <https://w3id.org/synapse/amp-als/vocab/subject>,
-        <https://w3id.org/synapse/amp-als/vocab/title>,
-        <https://w3id.org/synapse/amp-als/vocab/url> ;
-    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/dataset__FACSPopulation>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__GEOSuperSeries>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__citation>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__collection>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__creator>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__funder>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__individualCount>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__measurementTechnique>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__originalSampleName>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__publisher>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__source>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__species>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__studyType>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__subject>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__title>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset__url> .
-
 <https://w3id.org/synapse/amp-als/vocab/SuicideRiskAssessment> a linkml:ClassDefinition ;
     skos:definition "Columbia Suicide Severity Rating Scale (C-SSRS) assessment" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -19691,6 +19704,74 @@
         <https://w3id.org/synapse/amp-als/vocab/dataQuality__transmissionDate>,
         <https://w3id.org/synapse/amp-als/vocab/dataQuality__validationStatus>,
         <https://w3id.org/synapse/amp-als/vocab/dataQuality__visitId> .
+
+<https://w3id.org/synapse/amp-als/vocab/Dataset> a linkml:ClassDefinition ;
+    skos:definition "Model for dataset on the AMP-ALS portal" ;
+    skos:editorialNote "There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
+        <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
+        <https://w3id.org/synapse/amp-als/vocab/alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/assay>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimenType>,
+        <https://w3id.org/synapse/amp-als/vocab/cellType>,
+        <https://w3id.org/synapse/amp-als/vocab/citation>,
+        <https://w3id.org/synapse/amp-als/vocab/collection>,
+        <https://w3id.org/synapse/amp-als/vocab/contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/creator>,
+        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/datePublished>,
+        <https://w3id.org/synapse/amp-als/vocab/description>,
+        <https://w3id.org/synapse/amp-als/vocab/disease>,
+        <https://w3id.org/synapse/amp-als/vocab/funder>,
+        <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
+        <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/libraryLayout>,
+        <https://w3id.org/synapse/amp-als/vocab/license>,
+        <https://w3id.org/synapse/amp-als/vocab/originalSampleName>,
+        <https://w3id.org/synapse/amp-als/vocab/publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/source>,
+        <https://w3id.org/synapse/amp-als/vocab/species>,
+        <https://w3id.org/synapse/amp-als/vocab/studyType>,
+        <https://w3id.org/synapse/amp-als/vocab/subject>,
+        <https://w3id.org/synapse/amp-als/vocab/title>,
+        <https://w3id.org/synapse/amp-als/vocab/url> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/dataset__FACSPopulation>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__GEOSuperSeries>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__assay>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__biospecimenType>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__cellType>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__citation>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__collection>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__creator>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__datePublished>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__description>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__funder>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__individualCount>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__libraryLayout>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__license>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__originalSampleName>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__source>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__species>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__studyType>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__subject>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__title>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset__url> .
 
 <https://w3id.org/synapse/amp-als/vocab/CognitiveAssessment> a linkml:ClassDefinition ;
     skos:definition "Cognitive assessment including ECAS (Edinburgh Cognitive ALS Screen)" ;
