@@ -120,7 +120,12 @@ enums:
         description: Nascent transcriptomics data from newly transcribed RNA
       epigenomics:
         description: Study of heritable changes in gene expression without DNA sequence changes
-      
+      CorrelationAnalysis:
+        description: statistical outputs from correlation based analysis like Pearson's R, etc. 
+      Normalized Protein Expression (NPX): 
+        description: relative quanitification unit usied in Olink proteomic assays that are calculated from assay's raw protein signal. 
+      GeneSetEnrichmentAnalysis: 
+        description: a statistical method that determines whether predefined set sof proteins/genes, e.g. pathways, show statistically significant differences relative to a phenytype.
   DataSubtypeEnum:
     permissible_values:
       normalized:

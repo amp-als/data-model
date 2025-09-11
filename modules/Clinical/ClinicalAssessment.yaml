@@ -420,7 +420,7 @@ classes:
 
 enums:
   AssessmentTypeEnum:
-   permissible_values:
+   permissible_values: 
      ALSFRS-R:
        description: ALS Functional Rating Scale-Revised
      ECAS:
@@ -535,7 +535,12 @@ enums:
         description: Ambidextrous
       Unknown:
         description: Handedness unknown
-
+  BiologicalAnnotationsEnum: 
+    permissible_values:
+      GO_pathways:
+        description: Gene Ontology pathways 
+      KEGG_pathways:
+        description: Kyoto Encylopedia of Genes and Genomes
   ClinicalDomainEnum:
     permissible_values:
       motor_function:

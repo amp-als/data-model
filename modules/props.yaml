@@ -320,7 +320,7 @@ slots:
     description: The primary clinical domain or area of focus for the data
     range: ClinicalDomainEnum
     multivalued: true
-    required: false
+    required: false 
   administrationMode:
     description: The method by which the assessment or data collection was performed
     range: AdministrationModeEnum
