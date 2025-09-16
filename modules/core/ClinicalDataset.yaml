@@ -1,0 +1,113 @@
+#######################################
+# Clinical Dataset Schema
+# For subject-level longitudinal clinical data
+#######################################
+
+classes:
+  ClinicalDataset:
+    is_a: BaseDataset
+    description: Dataset containing subject-level longitudinal clinical data where each file contains aggregate level subject data across multiple timepoints
+    attributes:
+      studyType:
+        title: Study type
+        range: StudyLevelEnum
+        description: Study type for dataset (longitudinal, cross-sectional, etc.)
+        required: false
+      # Clinical-specific data types
+      dataType:
+        title: Data Type
+        range: ClinicalDataTypeEnum
+        description: Clinical data types (assessments, treatments, medical history, etc.)
+        multivalued: true
+        required: false
+      # Study design attributes
+      studyDesign:
+        title: Study Design
+        range: StudyDesignEnum
+        description: Type of clinical study design
+        required: false
+      followUpDuration:
+        title: Follow-up Duration
+        range: float
+        description: Study follow-up period in months
+        required: false
+      primaryOutcome:
+        title: Primary Outcome Measure
+        range: string
+        description: Primary clinical endpoint or outcome measure
+        required: false
+      # Assessment types included in dataset
+      assessmentTypes:
+        title: Assessment Types
+        range: AssessmentTypeEnum
+        description: Types of clinical assessments included in the dataset
+        multivalued: true
+        required: false
+      # Visit-based data structure
+      visitSchedule:
+        title: Visit Schedule
+        range: string
+        description: Description of visit schedule (e.g., "Baseline, 3, 6, 12 months")
+        required: false
+
+enums:
+  ClinicalDataTypeEnum:
+    permissible_values:
+      clinical_assessment:
+        description: Clinical assessment data
+      treatment:
+        description: Treatment and medication data
+      medical_history:
+        description: Medical history data
+      laboratory_results:
+        description: Laboratory test results
+      vital_signs:
+        description: Vital signs measurements
+      neurological_assessment:
+        description: Neurological examination data
+      psychiatric_assessment:
+        description: Psychiatric evaluation data
+      electrophysiology:
+        description: Electrophysiology assessment data
+      hand_held_dynamometry:
+        description: Hand-held dynamometry measurements
+      genetic_profile:
+        description: Genetic testing results
+      study_management:
+        description: Study management metadata
+      data_management:
+        description: Data management and quality metrics
+
+  StudyDesignEnum:
+    permissible_values:
+      longitudinal:
+        description: Longitudinal study with repeated measures
+      cross_sectional:
+        description: Cross-sectional study at single timepoint
+      case_control:
+        description: Case-control study design
+      cohort:
+        description: Cohort study design
+      interventional:
+        description: Interventional clinical trial
+      observational:
+        description: Observational study
+
+  AssessmentTypeEnum:
+    permissible_values:
+      alsfrs_r:
+        description: ALS Functional Rating Scale - Revised
+      neurological_exam:
+        description: Neurological examination
+      psychiatric_eval:
+        description: Psychiatric evaluation
+      vital_signs:
+        description: Vital signs assessment
+      laboratory:
+        description: Laboratory assessments
+      electrophysiology:
+        description: Electrophysiology testing
+      dynamometry:
+        description: Hand-held dynamometry testing
+      genetic_testing:
+        description: Genetic profiling

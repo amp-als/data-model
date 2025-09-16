@@ -588,9 +588,9 @@ classes:
 enums:
   BreakHoldEnum:
     permissible_values:
-      Yes:
+      "Yes":
         description: Patient able to break the hold
-      No:
+      "No":
         description: Patient unable to break the hold
       Partial:
         description: Patient partially able to break the hold

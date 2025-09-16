@@ -1,0 +1,124 @@
+#######################################
+# Common Enums Shared Across All Modules
+#######################################
+
+enums:
+  # Access and permissions
+  AccessTypeEnum:
+    permissible_values:
+      open:
+        description: Open access, no restrictions
+      controlled:
+        description: Controlled access, authorization required
+      private:
+        description: Private access, restricted to specific users
+      embargo:
+        description: Under embargo, restricted until release date
+
+  # Data governance
+  CurationLevelEnum:
+    permissible_values:
+      tier1:
+        description: Tier 1 - Raw data, minimal curation
+      tier2:
+        description: Tier 2 - Validated data with quality control
+      tier3:
+        description: Tier 3 - Analysis-ready data with comprehensive metadata
+      unknown:
+        description: Curation level unknown
+
+  # Study classifications
+  StudyLevelEnum:
+    permissible_values:
+      individual:
+        description: Individual-level data
+      aggregate:
+        description: Aggregate population-level data
+      summary:
+        description: Summary statistics
+      meta_analysis:
+        description: Meta-analysis results
+
+  # Data collections
+  CollectionEnum:
+    permissible_values:
+      amp_als:
+        description: AMP-ALS Knowledge Portal
+      target_als:
+        description: Target ALS consortium
+      all_als:
+        description: ALL ALS consortium
+      c_path:
+        description: Critical Path Institute
+      alsdb:
+        description: ALS Database
+      geo:
+        description: Gene Expression Omnibus
+      sra:
+        description: Sequence Read Archive
+
+  # Library layouts for sequencing
+  LibraryLayoutEnum:
+    permissible_values:
+      single:
+        description: Single-end sequencing
+      paired:
+        description: Paired-end sequencing
+
+  # Disease classifications
+  DiseaseEnum:
+    permissible_values:
+      als:
+        description: Amyotrophic Lateral Sclerosis
+      ftd:
+        description: Frontotemporal Dementia
+      control:
+        description: Healthy control
+      unknown:
+        description: Disease status unknown
+
+  # Cell types
+  CellTypeEnum:
+    permissible_values:
+      motor_neuron:
+        description: Motor neurons
+      astrocyte:
+        description: Astrocytes
+      microglia:
+        description: Microglia
+      oligodendrocyte:
+        description: Oligodendrocytes
+      fibroblast:
+        description: Fibroblasts
+      pbmc:
+        description: Peripheral blood mononuclear cells
+      whole_blood:
+        description: Whole blood
+      unknown:
+        description: Cell type unknown
+
+  # Biospecimen types
+  BiospecimenTypeEnum:
+    permissible_values:
+      blood:
+        description: Blood sample
+      plasma:
+        description: Blood plasma
+      serum:
+        description: Blood serum
+      csf:
+        description: Cerebrospinal fluid
+      brain_tissue:
+        description: Brain tissue
+      spinal_cord:
+        description: Spinal cord tissue
+      muscle:
+        description: Muscle tissue
+      fibroblast:
+        description: Cultured fibroblasts
+      ipsc:
+        description: Induced pluripotent stem cells
+      motor_neuron:
+        description: Cultured motor neurons
+      unknown:
+        description: Biospecimen type unknown

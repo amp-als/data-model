@@ -172,9 +172,9 @@ enums:
 
   FamilyHistoryEnum:
     permissible_values:
-      Yes:
+      "Yes":
         description: Positive family history
-      No:
+      "No":
         description: No known family history
       Unknown:
         description: Family history unknown

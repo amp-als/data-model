@@ -62,41 +62,16 @@ classes:
         description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
         multivalued: true
         required: false
-      funder:
-        title: Funder
-        range: string
-        multivalued: true
-        required: false
       individualCount:
         title: Individual Count
         range: integer
         description: Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
         required: false
-      #specimenCount:
-      #  title: Specimen Count
-      #  range: integer
-      #  description: Number of unique specimens included in the file. Omit if not applicable/unknown.
-      #  required: false
       collection:
         title: Collection
         range: CollectionEnum
         description: Associated collection(s)
         multivalued: true
-        required: false
-      curationLevel:
-        title: Curation level
-        range: CurationLevelEnum
-        description: TBD
-        required: false
-      studyType:
-        title: Study type
-        range: StudyLevelEnum
-        description: Study type for file
-        required: false
-      datePublished:
-        title: Date Published
-        description: Date data were published/available on Synapse.
-        range: integer
         required: false
       includedInDataCatalog:
         title: Included In Data Catalog

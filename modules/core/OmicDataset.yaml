@@ -1,0 +1,131 @@
+#######################################
+# Omic Dataset Schema  
+# For sample-level omic data where each file represents individual samples
+#######################################
+
+classes:
+  OmicDataset:
+    is_a: BaseDataset
+    description: Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata
+    attributes:
+      assay:
+        title: Measurement Technique
+        range: AssayEnum
+        multivalued: true
+        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
+        required: false
+      # Omic-specific data types
+      dataType:
+        title: Data Type
+        range: OmicDataTypeEnum
+        description: Omic data types (genomics, transcriptomics, proteomics, etc.)
+        multivalued: true
+        required: false
+      # Sequencing and platform metadata
+      libraryLayout:
+        title: Library Layout
+        range: LibraryLayoutEnum
+        description: Single-end or paired-end sequencing layout for datasets containing sequencing data
+        multivalued: true
+        required: false
+      platform:
+        title: Platform
+        range: PlatformEnum
+        description: Sequencing or analysis platform used
+        required: false
+      libraryStrategy:
+        title: Library Strategy
+        range: LibraryStrategyEnum
+        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
+        required: false
+      # Sample-specific attributes
+      biospecimenType:
+        title: Biospecimen Type
+        range: BiospecimenTypeEnum
+        description: Type of biological specimen(s) in the dataset
+        multivalued: true
+        required: false
+      cellType:
+        title: Cell Type
+        range: CellTypeEnum
+        description: Type of cell or cell line used in the dataset
+        multivalued: true
+        required: false
+      # GEO and external references
+      GEOSuperSeries:
+        title: GEO SuperSeries
+        range: string
+        description: GEO SuperSeries identifier
+        required: false
+      originalSampleName:
+        title: Original Sample Name
+        range: string
+        description: Original sample name from data source
+        required: false
+      FACSPopulation:
+        title: FACS Population
+        range: string
+        description: FACS-sorted cell population description
+        required: false
+      # Processing information
+      processingLevel:
+        title: Processing Level
+        range: ProcessingLevelEnum
+        description: Level of data processing (raw, processed, analyzed)
+        required: false
+      dataFormat:
+        title: Data Format
+        range: Data
+        description: File format of the omic data
+        multivalued: true
+        required: false
+
+enums:
+  OmicDataTypeEnum:
+    permissible_values:
+      genomics:
+        description: Genomic sequencing data
+      transcriptomics:
+        description: Gene expression data
+      proteomics:
+        description: Protein expression data
+      metabolomics:
+        description: Metabolite profiling data
+      epigenomics:
+        description: Epigenetic modification data
+      metagenomics:
+        description: Metagenomic sequencing data
+      single_cell:
+        description: Single-cell analysis data
+      multi_omics:
+        description: Multi-omic integrated data
+
+  LibraryStrategyEnum:
+    permissible_values:
+      RNA_seq:
+        description: RNA sequencing
+      WGS:
+        description: Whole genome sequencing
+      WES:
+        description: Whole exome sequencing
+      ChIP_seq:
+        description: Chromatin immunoprecipitation sequencing
+      ATAC_seq:
+        description: Assay for transposase-accessible chromatin
+      bisulfite_seq:
+        description: Bisulfite sequencing
+      amplicon_seq:
+        description: Amplicon sequencing
+      targeted_seq:
+        description: Targeted sequencing panel
+
+  ProcessingLevelEnum:
+    permissible_values:
+      raw:
+        description: Raw, unprocessed data
+      processed:
+        description: Processed data (aligned, normalized)
+      analyzed:
+        description: Analyzed data with statistical results
+      integrated:
+        description: Integrated multi-sample analysis
