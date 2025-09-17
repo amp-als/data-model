@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace linkml: ;
-            sh:prefix "linkml" ],
-        [ sh:namespace schema1: ;
-            sh:prefix "schema" ],
+    sh:declare [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ],
+        [ sh:namespace prov: ;
+            sh:prefix "prov" ],
         [ sh:namespace skos: ;
             sh:prefix "skos" ],
-        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ],
         [ sh:namespace rdfs: ;
             sh:prefix "rdfs" ],
-        [ sh:namespace prov: ;
-            sh:prefix "prov" ] ;
+        [ sh:namespace linkml: ;
+            sh:prefix "linkml" ],
+        [ sh:namespace schema1: ;
+            sh:prefix "schema" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -181,7 +181,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-09-12T12:22:36"^^xsd:dateTime ;
+    linkml:generation_date "2025-09-15T23:21:26"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -518,12 +518,9 @@
         <https://w3id.org/synapse/amp-als/vocab/file__collection>,
         <https://w3id.org/synapse/amp-als/vocab/file__contributor>,
         <https://w3id.org/synapse/amp-als/vocab/file__creator>,
-        <https://w3id.org/synapse/amp-als/vocab/file__curationLevel>,
         <https://w3id.org/synapse/amp-als/vocab/file__dataType>,
-        <https://w3id.org/synapse/amp-als/vocab/file__datePublished>,
         <https://w3id.org/synapse/amp-als/vocab/file__description>,
         <https://w3id.org/synapse/amp-als/vocab/file__disease>,
-        <https://w3id.org/synapse/amp-als/vocab/file__funder>,
         <https://w3id.org/synapse/amp-als/vocab/file__includedInDataCatalog>,
         <https://w3id.org/synapse/amp-als/vocab/file__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/file__keywords>,
@@ -534,7 +531,6 @@
         <https://w3id.org/synapse/amp-als/vocab/file__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/file__source>,
         <https://w3id.org/synapse/amp-als/vocab/file__species>,
-        <https://w3id.org/synapse/amp-als/vocab/file__studyType>,
         <https://w3id.org/synapse/amp-als/vocab/file__subject>,
         <https://w3id.org/synapse/amp-als/vocab/file__title>,
         <https://w3id.org/synapse/amp-als/vocab/file__url>,
@@ -797,8 +793,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-09-12T12:22:34"^^xsd:dateTime ;
-    linkml:source_file_size 296095 ;
+    linkml:source_file_date "2025-09-15T23:21:23"^^xsd:dateTime ;
+    linkml:source_file_size 295345 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -7367,16 +7363,6 @@
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/creator> .
 
-<https://w3id.org/synapse/amp-als/vocab/file__curationLevel> a linkml:SlotDefinition ;
-    dcterms:title "Curation level" ;
-    skos:definition "TBD" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "curationLevel" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/curationLevel> .
-
 <https://w3id.org/synapse/amp-als/vocab/file__dataType> a linkml:SlotDefinition ;
     dcterms:title "Data Type" ;
     skos:definition "Reflects the data types within the file." ;
@@ -7387,16 +7373,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/File> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataType> .
-
-<https://w3id.org/synapse/amp-als/vocab/file__datePublished> a linkml:SlotDefinition ;
-    dcterms:title "Date Published" ;
-    skos:definition "Date data were published/available on Synapse." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "datePublished" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/datePublished> .
 
 <https://w3id.org/synapse/amp-als/vocab/file__description> a linkml:SlotDefinition ;
     dcterms:title "Description" ;
@@ -7417,16 +7393,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/File> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/disease> .
-
-<https://w3id.org/synapse/amp-als/vocab/file__funder> a linkml:SlotDefinition ;
-    dcterms:title "Funder" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "funder" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/funder> .
 
 <https://w3id.org/synapse/amp-als/vocab/file__includedInDataCatalog> a linkml:SlotDefinition ;
     dcterms:title "Included In Data Catalog" ;
@@ -7531,16 +7497,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/File> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SpeciesEnum> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/species> .
-
-<https://w3id.org/synapse/amp-als/vocab/file__studyType> a linkml:SlotDefinition ;
-    dcterms:title "Study type" ;
-    skos:definition "Study type for file" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "studyType" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/studyType> .
 
 <https://w3id.org/synapse/amp-als/vocab/file__subject> a linkml:SlotDefinition ;
     dcterms:title "Subject" ;
@@ -12781,10 +12737,20 @@
         "Date when biospecimen was collected" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
 
+<https://w3id.org/synapse/amp-als/vocab/curationLevel> a linkml:SlotDefinition ;
+    dcterms:title "Curation level" ;
+    skos:definition "TBD" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> .
+
 <https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix> a linkml:SlotDefinition ;
     dcterms:title "Data Source Prefix" ;
     skos:definition "Short identifier indicating the data source origin" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/datePublished> a linkml:SlotDefinition ;
+    dcterms:title "Date Published" ;
+    skos:definition "Date data were published/available on Synapse." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
 
 <https://w3id.org/synapse/amp-als/vocab/glucose> a linkml:SlotDefinition ;
     dcterms:title "Glucose",
@@ -12805,6 +12771,12 @@
     skos:definition "Date result was reported",
         "Date when deviation was reported" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
+
+<https://w3id.org/synapse/amp-als/vocab/studyType> a linkml:SlotDefinition ;
+    dcterms:title "Study type" ;
+    skos:definition "Study type for dataset",
+        "Study type for dataset (longitudinal, cross-sectional, etc.)" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/summary> a linkml:SlotDefinition ;
     skos:definition "A short description (an abstract).",
@@ -12842,6 +12814,17 @@
         <https://w3id.org/synapse/amp-als/vocab/Video_Conference>,
         <https://w3id.org/synapse/amp-als/vocab/partner_assessment> .
 
+<https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Non-Standardized>,
+        <https://w3id.org/synapse/amp-als/vocab/Raw>,
+        <https://w3id.org/synapse/amp-als/vocab/Standardized>,
+        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
+        <https://w3id.org/synapse/amp-als/vocab/tier1>,
+        <https://w3id.org/synapse/amp-als/vocab/tier2>,
+        <https://w3id.org/synapse/amp-als/vocab/tier3>,
+        <https://w3id.org/synapse/amp-als/vocab/unknown> .
+
 <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/all_als>,
@@ -12876,6 +12859,17 @@
         <https://w3id.org/synapse/amp-als/vocab/Not%20Reported>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
+<https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Clinical%20Trial>,
+        <https://w3id.org/synapse/amp-als/vocab/Natural%20History%20Study>,
+        <https://w3id.org/synapse/amp-als/vocab/Patient%20Registry%20Study>,
+        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
+        <https://w3id.org/synapse/amp-als/vocab/aggregate>,
+        <https://w3id.org/synapse/amp-als/vocab/individual>,
+        <https://w3id.org/synapse/amp-als/vocab/meta_analysis>,
+        <https://w3id.org/synapse/amp-als/vocab/summary> .
+
 <https://w3id.org/synapse/amp-als/vocab/other> skos:definition "Other cell type",
         "Other organ",
         "Other tissue type",
@@ -12888,11 +12882,11 @@
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -13193,17 +13187,6 @@
         <https://w3id.org/synapse/amp-als/vocab/sra>,
         <https://w3id.org/synapse/amp-als/vocab/target_als> .
 
-<https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Non-Standardized>,
-        <https://w3id.org/synapse/amp-als/vocab/Raw>,
-        <https://w3id.org/synapse/amp-als/vocab/Standardized>,
-        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
-        <https://w3id.org/synapse/amp-als/vocab/tier1>,
-        <https://w3id.org/synapse/amp-als/vocab/tier2>,
-        <https://w3id.org/synapse/amp-als/vocab/tier3>,
-        <https://w3id.org/synapse/amp-als/vocab/unknown> .
-
 <https://w3id.org/synapse/amp-als/vocab/FACSPopulation> a linkml:SlotDefinition ;
     dcterms:title "FACS Population" ;
     skos:definition "FACS-sorted cell population description" ;
@@ -13297,17 +13280,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Rhesus%20macaque>,
         <https://w3id.org/synapse/amp-als/vocab/Sus%20scrofa> .
 
-<https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Clinical%20Trial>,
-        <https://w3id.org/synapse/amp-als/vocab/Natural%20History%20Study>,
-        <https://w3id.org/synapse/amp-als/vocab/Patient%20Registry%20Study>,
-        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
-        <https://w3id.org/synapse/amp-als/vocab/aggregate>,
-        <https://w3id.org/synapse/amp-als/vocab/individual>,
-        <https://w3id.org/synapse/amp-als/vocab/meta_analysis>,
-        <https://w3id.org/synapse/amp-als/vocab/summary> .
-
 <https://w3id.org/synapse/amp-als/vocab/alternateName> a linkml:SlotDefinition ;
     dcterms:title "Alternate Name" ;
     skos:definition "An alternate name that can be used for search and discovery improvement." ;
@@ -13338,16 +13310,6 @@
     skos:definition "Associated collection(s)" ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/CollectionEnum> .
-
-<https://w3id.org/synapse/amp-als/vocab/curationLevel> a linkml:SlotDefinition ;
-    dcterms:title "Curation level" ;
-    skos:definition "TBD" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> .
-
-<https://w3id.org/synapse/amp-als/vocab/datePublished> a linkml:SlotDefinition ;
-    dcterms:title "Date Published" ;
-    skos:definition "Date data were published/available on Synapse." ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
 
 <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog> a linkml:SlotDefinition ;
     dcterms:title "Included In Data Catalog" ;
@@ -13557,13 +13519,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true .
 
-<https://w3id.org/synapse/amp-als/vocab/studyType> a linkml:SlotDefinition ;
-    dcterms:title "Study type" ;
-    skos:definition "Study type for dataset",
-        "Study type for dataset (longitudinal, cross-sectional, etc.)",
-        "Study type for file" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> .
-
 <https://w3id.org/synapse/amp-als/vocab/subject> a linkml:SlotDefinition ;
     dcterms:title "Subject" ;
     skos:definition "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
@@ -13666,6 +13621,15 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assessmentType> .
+
+<https://w3id.org/synapse/amp-als/vocab/funder> a linkml:SlotDefinition ;
+    dcterms:title "Funder" ;
+    skos:definition "Refers to the funding organization for the generated resource. This annotation is handled by the DCC." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/funder> ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/funder> .
 
 <https://w3id.org/synapse/amp-als/vocab/time> a linkml:TypeDefinition ;
     skos:definition "A time object represents a (local) time of day, independent of any particular day" ;
@@ -13833,15 +13797,6 @@
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/description> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/description> .
-
-<https://w3id.org/synapse/amp-als/vocab/funder> a linkml:SlotDefinition ;
-    dcterms:title "Funder" ;
-    skos:definition "Refers to the funding organization for the generated resource. This annotation is handled by the DCC." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/funder> ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/funder> .
 
 <https://w3id.org/synapse/amp-als/vocab/libraryLayout> a linkml:SlotDefinition ;
     dcterms:title "Library Layout" ;
@@ -14948,6 +14903,66 @@
         <https://w3id.org/synapse/amp-als/vocab/eligibility__screenFailureReason>,
         <https://w3id.org/synapse/amp-als/vocab/eligibility__stratificationFactors> .
 
+<https://w3id.org/synapse/amp-als/vocab/File> a linkml:ClassDefinition ;
+    skos:definition "Model for file on the AMP-ALS portal" ;
+    skos:editorialNote "There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
+        <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
+        <https://w3id.org/synapse/amp-als/vocab/alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/assay>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimenType>,
+        <https://w3id.org/synapse/amp-als/vocab/cellType>,
+        <https://w3id.org/synapse/amp-als/vocab/citation>,
+        <https://w3id.org/synapse/amp-als/vocab/collection>,
+        <https://w3id.org/synapse/amp-als/vocab/contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/creator>,
+        <https://w3id.org/synapse/amp-als/vocab/dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/description>,
+        <https://w3id.org/synapse/amp-als/vocab/disease>,
+        <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
+        <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/libraryLayout>,
+        <https://w3id.org/synapse/amp-als/vocab/license>,
+        <https://w3id.org/synapse/amp-als/vocab/originalSampleName>,
+        <https://w3id.org/synapse/amp-als/vocab/publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/source>,
+        <https://w3id.org/synapse/amp-als/vocab/species>,
+        <https://w3id.org/synapse/amp-als/vocab/subject>,
+        <https://w3id.org/synapse/amp-als/vocab/title>,
+        <https://w3id.org/synapse/amp-als/vocab/url> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/File> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/File> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/file__FACSPopulation>,
+        <https://w3id.org/synapse/amp-als/vocab/file__GEOSuperSeries>,
+        <https://w3id.org/synapse/amp-als/vocab/file__alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/file__assay>,
+        <https://w3id.org/synapse/amp-als/vocab/file__biospecimenType>,
+        <https://w3id.org/synapse/amp-als/vocab/file__cellType>,
+        <https://w3id.org/synapse/amp-als/vocab/file__citation>,
+        <https://w3id.org/synapse/amp-als/vocab/file__collection>,
+        <https://w3id.org/synapse/amp-als/vocab/file__contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/file__creator>,
+        <https://w3id.org/synapse/amp-als/vocab/file__dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/file__description>,
+        <https://w3id.org/synapse/amp-als/vocab/file__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/file__includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/file__individualCount>,
+        <https://w3id.org/synapse/amp-als/vocab/file__keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/file__libraryLayout>,
+        <https://w3id.org/synapse/amp-als/vocab/file__license>,
+        <https://w3id.org/synapse/amp-als/vocab/file__originalSampleName>,
+        <https://w3id.org/synapse/amp-als/vocab/file__publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/file__sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/file__source>,
+        <https://w3id.org/synapse/amp-als/vocab/file__species>,
+        <https://w3id.org/synapse/amp-als/vocab/file__subject>,
+        <https://w3id.org/synapse/amp-als/vocab/file__title>,
+        <https://w3id.org/synapse/amp-als/vocab/file__url> .
+
 <https://w3id.org/synapse/amp-als/vocab/DataQuality> a linkml:ClassDefinition ;
     skos:definition "Data quality control and audit trail information" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -15081,74 +15096,6 @@
         <https://w3id.org/synapse/amp-als/vocab/dataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__title>,
         <https://w3id.org/synapse/amp-als/vocab/dataset__url> .
-
-<https://w3id.org/synapse/amp-als/vocab/File> a linkml:ClassDefinition ;
-    skos:definition "Model for file on the AMP-ALS portal" ;
-    skos:editorialNote "There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
-        <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
-        <https://w3id.org/synapse/amp-als/vocab/alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/assay>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimenType>,
-        <https://w3id.org/synapse/amp-als/vocab/cellType>,
-        <https://w3id.org/synapse/amp-als/vocab/citation>,
-        <https://w3id.org/synapse/amp-als/vocab/collection>,
-        <https://w3id.org/synapse/amp-als/vocab/contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/creator>,
-        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/dataType>,
-        <https://w3id.org/synapse/amp-als/vocab/datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/description>,
-        <https://w3id.org/synapse/amp-als/vocab/disease>,
-        <https://w3id.org/synapse/amp-als/vocab/funder>,
-        <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
-        <https://w3id.org/synapse/amp-als/vocab/keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/libraryLayout>,
-        <https://w3id.org/synapse/amp-als/vocab/license>,
-        <https://w3id.org/synapse/amp-als/vocab/originalSampleName>,
-        <https://w3id.org/synapse/amp-als/vocab/publisher>,
-        <https://w3id.org/synapse/amp-als/vocab/sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/source>,
-        <https://w3id.org/synapse/amp-als/vocab/species>,
-        <https://w3id.org/synapse/amp-als/vocab/studyType>,
-        <https://w3id.org/synapse/amp-als/vocab/subject>,
-        <https://w3id.org/synapse/amp-als/vocab/title>,
-        <https://w3id.org/synapse/amp-als/vocab/url> ;
-    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/File> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/file__FACSPopulation>,
-        <https://w3id.org/synapse/amp-als/vocab/file__GEOSuperSeries>,
-        <https://w3id.org/synapse/amp-als/vocab/file__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/file__assay>,
-        <https://w3id.org/synapse/amp-als/vocab/file__biospecimenType>,
-        <https://w3id.org/synapse/amp-als/vocab/file__cellType>,
-        <https://w3id.org/synapse/amp-als/vocab/file__citation>,
-        <https://w3id.org/synapse/amp-als/vocab/file__collection>,
-        <https://w3id.org/synapse/amp-als/vocab/file__contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/file__creator>,
-        <https://w3id.org/synapse/amp-als/vocab/file__curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/file__dataType>,
-        <https://w3id.org/synapse/amp-als/vocab/file__datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/file__description>,
-        <https://w3id.org/synapse/amp-als/vocab/file__disease>,
-        <https://w3id.org/synapse/amp-als/vocab/file__funder>,
-        <https://w3id.org/synapse/amp-als/vocab/file__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/file__individualCount>,
-        <https://w3id.org/synapse/amp-als/vocab/file__keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/file__libraryLayout>,
-        <https://w3id.org/synapse/amp-als/vocab/file__license>,
-        <https://w3id.org/synapse/amp-als/vocab/file__originalSampleName>,
-        <https://w3id.org/synapse/amp-als/vocab/file__publisher>,
-        <https://w3id.org/synapse/amp-als/vocab/file__sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/file__source>,
-        <https://w3id.org/synapse/amp-als/vocab/file__species>,
-        <https://w3id.org/synapse/amp-als/vocab/file__studyType>,
-        <https://w3id.org/synapse/amp-als/vocab/file__subject>,
-        <https://w3id.org/synapse/amp-als/vocab/file__title>,
-        <https://w3id.org/synapse/amp-als/vocab/file__url> .
 
 <https://w3id.org/synapse/amp-als/vocab/CognitiveAssessment> a linkml:ClassDefinition ;
     skos:definition "Cognitive assessment including ECAS (Edinburgh Cognitive ALS Screen)" ;

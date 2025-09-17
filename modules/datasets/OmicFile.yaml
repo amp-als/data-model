@@ -1,0 +1,47 @@
+#######################################
+# Omic File Schema  
+# For omic data files (genomics, transcriptomics, etc.)
+#######################################
+
+classes:
+  OmicFile:
+    is_a: BaseFile
+    mixins: [OmicFileMixin]
+    description: File containing omic data such as sequencing, expression, or proteomics data
+    attributes:
+      # Omic-specific data types
+      dataType:
+        title: Data Type
+        range: Data  # Could be specialized to OmicDataTypeEnum in future
+        description: Omic data types (genomics, transcriptomics, proteomics, etc.)
+        multivalued: true
+        required: false
+      # Sequencing and platform metadata
+      platform:
+        title: Platform
+        range: PlatformEnum
+        description: Sequencing or analysis platform used
+        required: false
+      libraryStrategy:
+        title: Library Strategy
+        range: LibraryStrategyEnum
+        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
+        required: false
+      # Processing information
+      processingLevel:
+        title: Processing Level
+        range: ProcessingLevelEnum
+        description: Level of data processing (raw, processed, analyzed)
+        required: false
+      # File format details
+      fileFormat:
+        title: File Format
+        range: string
+        description: Format of the omic data file (FASTQ, BAM, VCF, etc.)
+        required: false
+      # Sample tracking
+      sampleIdColumn:
+        title: Sample ID Column
+        range: string
+        description: Name of the column containing sample identifiers
+        required: false

@@ -1,13 +1,12 @@
-
 #######################################
-# Portal File
+# Base File Schema
+# Common attributes shared by all file types
 #######################################
 
 classes:
-  File:
-    description: Model for file on the AMP-ALS portal
-    notes:
-    - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+  BaseFile:
+    abstract: true
+    description: Base schema for all file types with common metadata attributes
     attributes:
       title:
         title: Title
@@ -35,16 +34,6 @@ classes:
         description: Institution or person responsible for collecting and managing the files and records in the file.
         multivalued: true
         required: false
-      # studyId:
-      #  title: Study ID
-      #  range: string
-      #  description: Identifier for the study (project) from which the file was derived.
-      #  required: true
-      assay:
-        title: Measurement Technique
-        range: AssayEnum
-        multivalued: true
-        description: What's used to generate data in file, typically referring to the assay. Omit if not applicable.
       keywords:
         title: Keywords
         range: string
@@ -109,51 +98,14 @@ classes:
         range: string
         description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
         required: false
-      GEOSuperSeries:
-        title: GEO SuperSeries
-        range: string
-        description: GEO SuperSeries identifier
-        required: false
-      originalSampleName:
-        title: Original Sample Name
-        range: string
-        description: Original sample name from data source
-        required: false
-      FACSPopulation:
-        title: FACS Population
-        range: string
-        description: FACS-sorted cell population description
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease(s) or condition(s) studied in the file.
         required: false
       dataType:
         title: Data Type
         range: Data
         description: Reflects the data types within the file.
         multivalued: true
-        required: false
-
-      libraryLayout:
-        title: Library Layout
-        range: LibraryLayoutEnum
-        description: Single-end or paired-end sequencing layout for files containing sequencing data.
-        multivalued: true
-        required: false
-
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen(s) in the file.
-        multivalued: true
-        required: false
-
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used in the file.
-        multivalued: true
-        required: false
-
-      disease:
-        title: Disease
-        range: DiseaseEnum
-        description: Disease(s) or condition(s) studied in the file.
         required: false

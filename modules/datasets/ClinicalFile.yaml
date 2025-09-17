@@ -1,0 +1,36 @@
+#######################################
+# Clinical File Schema
+# For clinical data files (assessments, visits, etc.)
+#######################################
+
+classes:
+  ClinicalFile:
+    is_a: BaseFile
+    mixins: [ClinicalFileMixin]
+    description: File containing clinical data such as assessments, visits, treatments, or medical history
+    attributes:
+      # Clinical-specific data types
+      clinicalDomain:
+        description: The primary clinical domain or area of focus for the data
+        range: ClinicalDomainEnum
+        multivalued: true
+        required: false 
+      dataType:
+        title: Data Type
+        range: Data  # Could be specialized to ClinicalDataTypeEnum in future
+        description: Clinical data types (assessments, treatments, medical history, etc.)
+        multivalued: true
+        required: false
+      # Assessment-specific attributes
+      assessmentType:
+        title: Assessment Type
+        range: AssessmentTypeEnum
+        description: Type of clinical assessment contained in the file
+        multivalued: true
+        required: false
+      # Subject tracking
+      subjectIdColumn:
+        title: Subject ID Column
+        range: string
+        description: Name of the column containing subject identifiers
+        required: false

@@ -1,0 +1,73 @@
+#######################################
+# Dataset Mixins
+# Reusable attribute groups for different dataset types
+#######################################
+
+classes:
+  ClinicalDatasetMixin:
+    mixin: true
+    description: Mixin for clinical dataset specific attributes
+    attributes:
+      studyType:
+        title: Study type
+        range: StudyLevelEnum
+        description: Study type for dataset
+        required: false
+      # Clinical-specific data types using union enum
+      dataType:
+        title: Data Type
+        range: Data
+        description: Reflects the data types within the dataset.
+        multivalued: true
+        required: false
+
+  OmicDatasetMixin:
+    mixin: true
+    description: Mixin for omic dataset specific attributes  
+    attributes:
+      assay:
+        title: Measurement Technique
+        range: AssayEnum
+        multivalued: true
+        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
+        required: false
+      libraryLayout:
+        title: Library Layout
+        range: LibraryLayoutEnum
+        description: Single-end or paired-end sequencing layout for datasets containing sequencing data.
+        multivalued: true
+        required: false
+      biospecimenType:
+        title: Biospecimen Type
+        range: BiospecimenTypeEnum
+        description: Type of biological specimen(s) in the dataset.
+        multivalued: true
+        required: false
+      cellType:
+        title: Cell Type
+        range: CellTypeEnum
+        description: Type of cell or cell line used in the dataset.
+        multivalued: true
+        required: false
+      GEOSuperSeries:
+        title: GEO SuperSeries
+        range: string
+        description: GEO SuperSeries identifier
+        required: false
+      originalSampleName:
+        title: Original Sample Name
+        range: string
+        description: Original sample name from data source
+        required: false
+      FACSPopulation:
+        title: FACS Population
+        range: string
+        description: FACS-sorted cell population description
+        required: false
+      # Override dataType for omic datasets if needed
+      dataType:
+        title: Data Type
+        range: Data
+        description: Reflects the data types within the dataset.
+        multivalued: true
+        required: false

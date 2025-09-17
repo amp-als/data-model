@@ -1,0 +1,67 @@
+#######################################
+# File Mixins
+# Reusable attribute groups for different file types
+#######################################
+
+classes:
+  ClinicalFileMixin:
+    mixin: true
+    description: Mixin for clinical file specific attributes
+    attributes:
+      # Future clinical file-specific attributes can be added here
+      # Examples: assessmentType, visitId, subjectId, etc.
+      # For now, clinical files primarily use base attributes
+      studyPhase:
+        title: Study Phase
+        range: string
+        description: Phase or stage of the clinical study when file was generated
+        required: false
+      visitType:
+        title: Visit Type
+        range: string
+        description: Type of clinical visit (baseline, follow-up, etc.)
+        required: false
+
+  OmicFileMixin:
+    mixin: true
+    description: Mixin for omic file specific attributes  
+    attributes:
+      assay:
+        title: Measurement Technique
+        range: AssayEnum
+        multivalued: true
+        description: What's used to generate data in file, typically referring to the assay. Omit if not applicable.
+        required: false
+      GEOSuperSeries:
+        title: GEO SuperSeries
+        range: string
+        description: GEO SuperSeries identifier
+        required: false
+      originalSampleName:
+        title: Original Sample Name
+        range: string
+        description: Original sample name from data source
+        required: false
+      FACSPopulation:
+        title: FACS Population
+        range: string
+        description: FACS-sorted cell population description
+        required: false
+      libraryLayout:
+        title: Library Layout
+        range: LibraryLayoutEnum
+        description: Single-end or paired-end sequencing layout for files containing sequencing data.
+        multivalued: true
+        required: false
+      biospecimenType:
+        title: Biospecimen Type
+        range: BiospecimenTypeEnum
+        description: Type of biological specimen(s) in the file.
+        multivalued: true
+        required: false
+      cellType:
+        title: Cell Type
+        range: CellTypeEnum
+        description: Type of cell or cell line used in the file.
+        multivalued: true
+        required: false
