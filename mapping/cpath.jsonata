@@ -15,9 +15,5 @@
   "curationLevel": catalogue.curationLevel? catalogue.curationLevel : "Unknown",
   "studyType": catalogue.studyType? catalogue.studyType : "Unknown",
   "source": "Critical Path Institute",
-  "url": "https://fair.dap.c-path.org/#/data/datasets/" & code,
-  "datasetReference": $string(id),
-  "dataSourcePrefix": "cpath",
-  /* "originalSubjectId": subject_id */
-  /* "globalSubjectId": dataSourcePrefix & ":" & datasetReference & ":" & originalSubjectId, */
+  "url": "https://fair.dap.c-path.org/#/data/datasets/" & code
 }
