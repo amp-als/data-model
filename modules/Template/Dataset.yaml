@@ -98,6 +98,7 @@ classes:
         range: StudyLevelEnum
         description: Study type for dataset
         required: false
+        multivalued: true
       datePublished:
         title: Date Published
         description: Date data were published/available on Synapse.
