@@ -8,7 +8,7 @@
              catalogue.disease.text : 
              [catalogue.disease.text],
   "description": catalogue.description,
-  "collection": [collections[0].name],
+  "collection": [collections[1].name],
   "publisher": catalogue.publisher.text,
   "species": ["Homo sapiens"],
   "sameAs": "cpath:" & id,
