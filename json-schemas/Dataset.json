@@ -367,14 +367,19 @@
     },
     "studyType": {
       "description": "Study type for dataset",
+      "items": {
+        "description": "",
+        "enum": [
+          "Patient Registry Study",
+          "Natural History Study",
+          "Clinical Trial",
+          "Unknown"
+        ],
+        "title": "StudyLevelEnum",
+        "type": "string"
+      },
       "title": "Study type",
-      "enum": [
-        "Patient Registry Study",
-        "Natural History Study",
-        "Clinical Trial",
-        "Unknown"
-      ],
-      "type": "string"
+      "type": "array"
     },
     "subject": {
       "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
