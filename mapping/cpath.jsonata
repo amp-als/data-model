@@ -8,7 +8,22 @@
              catalogue.disease.text : 
              [catalogue.disease.text],
   "description": catalogue.description,
-  "collection": [collections[1].name],
+  "collection": [
+      (
+        $names := collections[name and name != ""].name;
+        $allowed := $ALLOWED_COLLECTIONS;
+
+        /* case-insensitive match with graceful fallback */
+        $names_l := $map($names, function($n){$lowercase($n)});
+        $allowed_l := $allowed ? $map($ALLOWED_COLLECTIONS, function($a){$lowercase($a)}) : [];
+
+        $pick := $count($allowed_l) > 0
+          ? $names[$lowercase($) in $allowed_l][0]
+          : $names[0];
+
+        $pick ? $pick : "Unknown"
+      )
+  ],
   "publisher": catalogue.publisher.text,
   "species": ["Homo sapiens"],
   "sameAs": "cpath:" & id,
