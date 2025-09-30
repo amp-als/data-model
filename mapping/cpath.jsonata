@@ -11,17 +11,19 @@
   "collection": [
       (
         $names := collections[name and name != ""].name;
-        $allowed := $ALLOWED_COLLECTIONS;
+        $codes := collections[code and code != ""].code;
 
-        /* case-insensitive match with graceful fallback */
-        $names_l := $map($names, function($n){$lowercase($n)});
-        $allowed_l := $allowed ? $map($ALLOWED_COLLECTIONS, function($a){$lowercase($a)}) : [];
+        $names_l := $map($names, function($n){ $lowercase($trim($n)) });
+        $codes_l := $map($codes, function($c){ $lowercase($trim($c)) });
 
-        $pick := $count($allowed_l) > 0
-          ? $names[$lowercase($) in $allowed_l][0]
-          : $names[0];
+        $pick :=
+          ("als knowledge portal" in $names_l) ?
+            "ALS Knowledge Portal" :
+          ("als-kp" in $codes_l) ?
+            "ALS Knowledge Portal" :
+            "Unknown";
 
-        $pick ? $pick : "Unknown"
+        $pick
       )
   ],
   "publisher": catalogue.publisher.text,
