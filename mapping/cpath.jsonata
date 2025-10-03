@@ -33,4 +33,8 @@
   "studyType": catalogue.studyType? catalogue.studyType : "Unknown",
   "source": "Critical Path Institute",
   "url": "https://fair.dap.c-path.org/#/data/datasets/" & code
+  "contributor": $type(catalogue.creator.creatorName) = "array" ? 
+             catalogue.creator.creatorName : 
+             [catalogue.creator.creatorName],
+
 }
