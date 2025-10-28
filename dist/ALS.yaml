@@ -123,7 +123,7 @@ enums:
         description: Individual-level data
       aggregate:
         description: Aggregate population-level data
-      summary:
+      summary_level:
         description: Summary statistics
       meta_analysis:
         description: Meta-analysis results
@@ -815,11 +815,11 @@ enums:
     permissible_values:
       Chemistry:
         description: Clinical chemistry
-      Hematology:
+      HematologyPanel:
         description: Hematology
-      Biomarkers:
+      BiomarkersPanel:
         description: Specialized biomarkers
-      Urinalysis:
+      UrinalysisPanel:
         description: Urinalysis
       Microbiology:
         description: Microbiology

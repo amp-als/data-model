@@ -6063,17 +6063,6 @@
     "sms:displayName" : "Microcentrifuge_Tube",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:Urinalysis",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Urinalysis",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Urinalysis",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:low",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -6160,6 +6149,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "json",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:UrinalysisPanel",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "UrinalysisPanel",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "UrinalysisPanel",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:pharmocokineticADMEassay",
@@ -7436,17 +7436,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Comatose",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:Biomarkers",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Biomarkers",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Biomarkers",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:gaitmeasurement",
@@ -9603,6 +9592,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "single-nucleus",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:summary_level",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "summary_level",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "summary_level",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:symptom_onset",
@@ -11772,17 +11772,6 @@
     "sms:displayName" : "Nanostring GeoMx",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:summary",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "summary",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "summary",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:differential_expression",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13211,6 +13200,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "remote_monitoring",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:HematologyPanel",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "HematologyPanel",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "HematologyPanel",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:HitachiOasis1.2T",
@@ -14828,17 +14828,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "uL",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:Hematology",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Hematology",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Hematology",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Diaphragm_Pacer",
@@ -17270,6 +17259,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "ELISA",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:BiomarkersPanel",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "BiomarkersPanel",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "BiomarkersPanel",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:SpectramaxMSeries",

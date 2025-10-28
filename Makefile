@@ -3,7 +3,9 @@ all: ALS.jsonld dist/ALS.yaml ALS.ttl
 ALS.jsonld: dist/ALS.yaml
 	bb ./retold/retold as-jsonld --dir modules --out ALS.jsonld
 
-dist/ALS.yaml:
+SOURCES = header.yaml $(shell find modules -type f -name '*.yaml')
+
+dist/ALS.yaml: $(SOURCES)
 	yq eval-all '. as $$item ireduce ({}; . * $$item )' header.yaml modules/shared/*.yaml modules/**/*.yaml > merged.yaml
 	yq 'del(.. | select(has("annotations")).annotations)' merged.yaml > merged_no_extra_meta.yaml
 	yq 'del(.. | select(has("enum_range")).enum_range)' merged_no_extra_meta.yaml > merged_no_inlined_range.yaml

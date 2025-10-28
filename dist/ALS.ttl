@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ],
+    sh:declare [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ],
         [ sh:namespace schema1: ;
             sh:prefix "schema" ],
-        [ sh:namespace linkml: ;
-            sh:prefix "linkml" ],
-        [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
         [ sh:namespace prov: ;
             sh:prefix "prov" ],
+        [ sh:namespace linkml: ;
+            sh:prefix "linkml" ],
         [ sh:namespace skos: ;
-            sh:prefix "skos" ] ;
+            sh:prefix "skos" ],
+        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -191,7 +191,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-10-28T15:33:54"^^xsd:dateTime ;
+    linkml:generation_date "2025-10-28T16:06:25"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -802,8 +802,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-10-28T15:33:52"^^xsd:dateTime ;
-    linkml:source_file_size 305254 ;
+    linkml:source_file_date "2025-10-28T16:06:23"^^xsd:dateTime ;
+    linkml:source_file_size 305275 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -975,6 +975,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Benign> skos:definition "Benign variant" .
 
 <https://w3id.org/synapse/amp-als/vocab/BiomarkerSerumCollection> skos:definition "Collection of serum samples for biomarker analysis" .
+
+<https://w3id.org/synapse/amp-als/vocab/BiomarkersPanel> skos:definition "Specialized biomarkers" .
 
 <https://w3id.org/synapse/amp-als/vocab/Bionano%20Irys> dcterms:source <https://bionanogenomics.com/products/irys/> ;
     skos:definition "Performs whole genome mapping in a nanoscale fluidic environment enabling the structure of the genome to be imaged and then analyzed at the single molecule level" .
@@ -1399,6 +1401,8 @@
 <https://w3id.org/synapse/amp-als/vocab/HandHeldDynamometry> skos:definition "Hand-held dynamometry strength testing" .
 
 <https://w3id.org/synapse/amp-als/vocab/Heavy> skos:definition "Heavy use (> 14 drinks/week)" .
+
+<https://w3id.org/synapse/amp-als/vocab/HematologyPanel> skos:definition "Hematology" .
 
 <https://w3id.org/synapse/amp-als/vocab/Hispanic%20or%20Latino> skos:definition "Hispanic or Latino" .
 
@@ -2262,6 +2266,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Unscheduled> skos:definition "Unscheduled or ad-hoc visit" .
 
 <https://w3id.org/synapse/amp-als/vocab/Unstranded> skos:definition "Either read 1 or read 2 can align to the RNA strand." .
+
+<https://w3id.org/synapse/amp-als/vocab/UrinalysisPanel> skos:definition "Urinalysis" .
 
 <https://w3id.org/synapse/amp-als/vocab/Urine> skos:definition "Urine specimen" .
 
@@ -3560,6 +3566,8 @@
 <https://w3id.org/synapse/amp-als/vocab/study_report> skos:definition "Study Report given by testing services. Generally a summary report of all services carried out including methods and results." .
 
 <https://w3id.org/synapse/amp-als/vocab/subject_management> skos:definition "Subject demographics and study management" .
+
+<https://w3id.org/synapse/amp-als/vocab/summary_level> skos:definition "Summary statistics" .
 
 <https://w3id.org/synapse/amp-als/vocab/summary_statistics> skos:definition "Summary statistics and aggregate measures" .
 
@@ -11554,6 +11562,14 @@
     linkml:required true ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/studyName> .
 
+<https://w3id.org/synapse/amp-als/vocab/summary> a linkml:SlotDefinition ;
+    skos:definition "A short description (an abstract)." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/summary> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:required true ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/summary> .
+
 <https://w3id.org/synapse/amp-als/vocab/tissue> a linkml:SlotDefinition ;
     dcterms:title "Tissue Type" ;
     skos:definition "Tissue specimen (general)",
@@ -12018,13 +12034,13 @@
 
 <https://w3id.org/synapse/amp-als/vocab/TestCategoryEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/TestCategoryEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Biomarkers>,
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/BiomarkersPanel>,
         <https://w3id.org/synapse/amp-als/vocab/Chemistry>,
         <https://w3id.org/synapse/amp-als/vocab/Genetics>,
-        <https://w3id.org/synapse/amp-als/vocab/Hematology>,
+        <https://w3id.org/synapse/amp-als/vocab/HematologyPanel>,
         <https://w3id.org/synapse/amp-als/vocab/Immunology>,
         <https://w3id.org/synapse/amp-als/vocab/Microbiology>,
-        <https://w3id.org/synapse/amp-als/vocab/Urinalysis> .
+        <https://w3id.org/synapse/amp-als/vocab/UrinalysisPanel> .
 
 <https://w3id.org/synapse/amp-als/vocab/TolerabilityEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/TolerabilityEnum> ;
@@ -12438,15 +12454,6 @@
         "Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme." ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
-<https://w3id.org/synapse/amp-als/vocab/summary> a linkml:SlotDefinition ;
-    skos:definition "A short description (an abstract).",
-        "Summary statistics" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/summary> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/summary> .
 
 <https://w3id.org/synapse/amp-als/vocab/testingLab> a linkml:SlotDefinition ;
     dcterms:title "Testing Laboratory" ;
@@ -12893,7 +12900,7 @@
         <https://w3id.org/synapse/amp-als/vocab/aggregate>,
         <https://w3id.org/synapse/amp-als/vocab/individual>,
         <https://w3id.org/synapse/amp-als/vocab/meta_analysis>,
-        <https://w3id.org/synapse/amp-als/vocab/summary> .
+        <https://w3id.org/synapse/amp-als/vocab/summary_level> .
 
 <https://w3id.org/synapse/amp-als/vocab/baseDataset__alternateName> a linkml:SlotDefinition ;
     dcterms:title "Alternate Name" ;
@@ -13354,11 +13361,11 @@
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -14556,9 +14563,9 @@
         "Reflects the data types within the file." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum>,
@@ -14724,8 +14731,7 @@
         <https://w3id.org/synapse/amp-als/vocab/geneticProfile__wantResultsReturned> .
 
 <https://w3id.org/synapse/amp-als/vocab/Urinalysis> a linkml:ClassDefinition ;
-    skos:definition "Urinalysis",
-        "Urinalysis results" ;
+    skos:definition "Urinalysis results" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/bilirubin>,
         <https://w3id.org/synapse/amp-als/vocab/blood>,
@@ -14771,6 +14777,56 @@
         <https://w3id.org/synapse/amp-als/vocab/urinalysis__protein>,
         <https://w3id.org/synapse/amp-als/vocab/urinalysis__specificGravity>,
         <https://w3id.org/synapse/amp-als/vocab/urinalysis__urobilinogen> .
+
+<https://w3id.org/synapse/amp-als/vocab/Biomarkers> a linkml:ClassDefinition ;
+    skos:definition "Specialized biomarker measurements" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/abeta40>,
+        <https://w3id.org/synapse/amp-als/vocab/abeta42>,
+        <https://w3id.org/synapse/amp-als/vocab/crp>,
+        <https://w3id.org/synapse/amp-als/vocab/esr>,
+        <https://w3id.org/synapse/amp-als/vocab/folate>,
+        <https://w3id.org/synapse/amp-als/vocab/hba1c>,
+        <https://w3id.org/synapse/amp-als/vocab/neurofilamentHeavy>,
+        <https://w3id.org/synapse/amp-als/vocab/neurofilamentLight>,
+        <https://w3id.org/synapse/amp-als/vocab/phosphoTau>,
+        <https://w3id.org/synapse/amp-als/vocab/tau>,
+        <https://w3id.org/synapse/amp-als/vocab/vitaminB12>,
+        <https://w3id.org/synapse/amp-als/vocab/vitaminD> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/Biomarkers> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Biomarkers> ;
+    linkml:is_a <https://w3id.org/synapse/amp-als/vocab/LaboratoryResult> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/biomarkers__abeta40>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__abeta42>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__crp>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__esr>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__folate>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__hba1c>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__neurofilamentHeavy>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__neurofilamentLight>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__phosphoTau>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__tau>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__vitaminB12>,
+        <https://w3id.org/synapse/amp-als/vocab/biomarkers__vitaminD>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__abnormalFlag>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__criticalValue>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__labResultId>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__methodUsed>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__numericResult>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__performingLab>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__referenceRange>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__reportedDate>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__result>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__specimenType>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__testCategory>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__testCode>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__testName>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__units>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__visitId> .
 
 <https://w3id.org/synapse/amp-als/vocab/OmicDataset> a linkml:ClassDefinition ;
     skos:definition "Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata" ;
@@ -14825,57 +14881,6 @@
         <https://w3id.org/synapse/amp-als/vocab/omicDataset__platform>,
         <https://w3id.org/synapse/amp-als/vocab/omicDataset__processingLevel> .
 
-<https://w3id.org/synapse/amp-als/vocab/Biomarkers> a linkml:ClassDefinition ;
-    skos:definition "Specialized biomarker measurements",
-        "Specialized biomarkers" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/abeta40>,
-        <https://w3id.org/synapse/amp-als/vocab/abeta42>,
-        <https://w3id.org/synapse/amp-als/vocab/crp>,
-        <https://w3id.org/synapse/amp-als/vocab/esr>,
-        <https://w3id.org/synapse/amp-als/vocab/folate>,
-        <https://w3id.org/synapse/amp-als/vocab/hba1c>,
-        <https://w3id.org/synapse/amp-als/vocab/neurofilamentHeavy>,
-        <https://w3id.org/synapse/amp-als/vocab/neurofilamentLight>,
-        <https://w3id.org/synapse/amp-als/vocab/phosphoTau>,
-        <https://w3id.org/synapse/amp-als/vocab/tau>,
-        <https://w3id.org/synapse/amp-als/vocab/vitaminB12>,
-        <https://w3id.org/synapse/amp-als/vocab/vitaminD> ;
-    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/Biomarkers> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Biomarkers> ;
-    linkml:is_a <https://w3id.org/synapse/amp-als/vocab/LaboratoryResult> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/biomarkers__abeta40>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__abeta42>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__crp>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__esr>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__folate>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__hba1c>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__neurofilamentHeavy>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__neurofilamentLight>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__phosphoTau>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__tau>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__vitaminB12>,
-        <https://w3id.org/synapse/amp-als/vocab/biomarkers__vitaminD>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__abnormalFlag>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__criticalValue>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__globalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__labResultId>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__methodUsed>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__numericResult>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__performingLab>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__referenceRange>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__reportedDate>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__result>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__specimenType>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__testCategory>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__testCode>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__testName>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__units>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__visitId> .
-
 <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment> a linkml:ClassDefinition ;
     skos:definition "ALS Functional Rating Scale (ALSFRS-R) assessment" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -14915,8 +14920,7 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__visitId> .
 
 <https://w3id.org/synapse/amp-als/vocab/Hematology> a linkml:ClassDefinition ;
-    skos:definition "Hematology",
-        "Hematology laboratory results" ;
+    skos:definition "Hematology laboratory results" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/basophils>,
         <https://w3id.org/synapse/amp-als/vocab/eosinophils>,
