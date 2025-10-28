@@ -8,9 +8,12 @@ classes:
     mixin: true
     description: Mixin for clinical file specific attributes
     attributes:
-      # Future clinical file-specific attributes can be added here
-      # Examples: assessmentType, visitId, subjectId, etc.
-      # For now, clinical files primarily use base attributes
+      clinicalDomain:
+        title: Clinical Domain
+        description: The primary clinical domain or area of focus for the data
+        range: ClinicalDomainEnum
+        multivalued: true
+        required: false
       studyPhase:
         title: Study Phase
         range: string
@@ -20,6 +23,18 @@ classes:
         title: Visit Type
         range: string
         description: Type of clinical visit (baseline, follow-up, etc.)
+        required: false
+      analysisTypes:
+        title: Analysis Types
+        range: AnalysisMethodEnum
+        description: Computational and statistical analysis methods applied to the data
+        multivalued: true
+        required: false
+      annotations:
+        title: Biological Annotations
+        range: AnnotationTypeEnum
+        description: Types of biological databases and annotations referenced in this file
+        multivalued: true
         required: false
 
   OmicFileMixin:
@@ -63,5 +78,17 @@ classes:
         title: Cell Type
         range: CellTypeEnum
         description: Type of cell or cell line used in the file.
+        multivalued: true
+        required: false
+      annotations:
+        title: Biological Annotations
+        range: AnnotationTypeEnum
+        description: Types of biological databases and annotations referenced in this file
+        multivalued: true
+        required: false
+      analysisTypes:
+        title: Analysis Types
+        range: AnalysisMethodEnum
+        description: Computational and statistical analysis methods applied to the data
         multivalued: true
         required: false

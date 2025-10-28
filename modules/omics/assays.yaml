@@ -650,7 +650,15 @@ enums:
       STR profile:
         description: The analysis of all of the short tandem repeats in the genome of a biological sample.
         meaning: http://purl.obolibrary.org/obo/NCIT_C129889
-  
+      Extension control 1:
+        description: Spike-in QC to monitor the oligo‑extension/proximity step; used to normalize technical variation in the NPX workflow for this plate/run.
+      Incubation control 1:
+        description: Spike-in QC added before antibody incubation to track sample handling and incubation efficiency; supports within-plate normalization of NPX values.
+      Amplification control 1:
+        description: Spike-in QC for the PCR/enzymatic amplification and detection stage; used to assess amplification performance and correct technical drift.
+      Protein target assay: 
+        description: Experimental method designed to detect, measure, or quantify the presence and activity of a specific protein within a biological sample.
+        
   DrugScreen:
     description: This is a subset of Assay enum above.
     permissible_values:

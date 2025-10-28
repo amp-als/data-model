@@ -49,38 +49,110 @@ make ALS.ttl       # Turtle RDF format
 
 ## Project Structure
 
+The project follows a hierarchical module organization that reflects the logical relationships between schemas:
+
 ```
-├── modules/                    # Source schema definitions
-│   ├── Assay/                 # Assay-related schemas
-│   │   ├── Assay.yaml
-│   │   ├── Parameter.yaml
-│   │   └── Platform.yaml
-│   ├── Data/                  # Data type definitions
-│   │   ├── Data.yaml
-│   │   └── FileFormat.yaml
-│   ├── DCC/                   # Data governance schemas
-│   │   ├── License.yaml
-│   │   └── Portal.yaml
-│   ├── Sample/                # Subject and sample schemas
-│   │   ├── Sex.yaml
-│   │   ├── Species.yaml
-│   │   └── Subject.yaml       # Multi-source subject identification
-│   ├── Template/              # Main entity templates
-│   │   └── Dataset.yaml       # Dataset metadata schema
-│   └── props.yaml             # Shared properties and slots
-├── mapping/                   # Data transformation mappings
-│   ├── als_compute.jsonata    # ALS Compute transformations
-│   ├── cpath.jsonata          # Critical Path Institute mappings
-│   ├── requirements.txt       # Python dependencies
-│   └── transform_cpath.py     # Mapping execution script
-├── json-schemas/              # Generated JSON schemas
-├── dist/                      # Compiled artifacts
-├── header.yaml               # Schema metadata
-├── Makefile                  # Build automation
-└── README.md                 # This file
+├── modules/                           # Source schema definitions (hierarchical organization)
+│   ├── portal/                        # 🎯 TOP LEVEL: Portal schemas for AMP-ALS
+│   │   ├── Dataset.yaml              # Main dataset schema (inherits BaseDataset + mixins)
+│   │   └── File.yaml                 # Main file schema
+│   │
+│   ├── base/                          # 🏗️ FOUNDATION: Abstract base classes
+│   │   └── BaseDataset.yaml          # Abstract base for all dataset types
+│   │
+│   ├── mixins/                        # 🧩 COMPONENTS: Reusable attribute mixins
+│   │   └── DatasetMixins.yaml        # ClinicalDatasetMixin + OmicDatasetMixin
+│   │
+│   ├── datasets/                      # 📊 DATASET TYPES: Domain-specific datasets
+│   │   ├── ClinicalDataset.yaml      # Clinical dataset (BaseDataset + ClinicalMixin)
+│   │   └── OmicDataset.yaml          # Omic dataset (BaseDataset + OmicMixin)
+│   │
+│   ├── entities/                      # 🗂️ CORE ENTITIES: Primary domain objects
+│   │   ├── Subject.yaml              # Multi-source subject identification
+│   │   ├── Biospecimen.yaml          # Biological specimen metadata
+│   │   ├── ClinicalAssessment.yaml   # Clinical assessment data
+│   │   └── AllDatasets.yaml          # Legacy combined datasets file
+│   │
+│   ├── clinical/                      # 🏥 CLINICAL DOMAIN: Clinical-specific modules
+│   │   ├── assessments/              # Clinical assessment types
+│   │   │   ├── dynamometry.yaml
+│   │   │   ├── electrophysiology.yaml
+│   │   │   ├── neurological.yaml
+│   │   │   ├── psychiatric.yaml
+│   │   │   └── vital-signs-physical.yaml
+│   │   ├── data-management.yaml      # Clinical data management
+│   │   ├── genetic-profile.yaml      # Genetic testing profiles
+│   │   ├── laboratory.yaml           # Laboratory assessments
+│   │   ├── medical-history.yaml      # Medical history data
+│   │   ├── study-management.yaml     # Clinical study management
+│   │   ├── treatments.yaml           # Treatment and medication data
+│   │   └── visits.yaml               # Clinical visit schemas
+│   │
+│   ├── omics/                         # 🧬 OMICS DOMAIN: Omics-specific modules
+│   │   ├── assays.yaml               # Measurement techniques and assays
+│   │   ├── parameters.yaml           # Omics parameters and protocols
+│   │   └── platforms.yaml            # Sequencing and analysis platforms
+│   │
+│   ├── reference/                     # 📚 REFERENCE DATA: Standard enums and types
+│   │   ├── data-types.yaml           # Standard data type definitions
+│   │   ├── file-formats.yaml         # File format specifications
+│   │   ├── sex.yaml                  # Biological sex enumerations
+│   │   └── species.yaml              # Species classifications
+│   │
+│   ├── governance/                    # ⚖️ GOVERNANCE: Policies and compliance
+│   │   ├── licenses.yaml             # Data licensing terms
+│   │   └── portals.yaml              # Data portal classifications
+│   │
+│   └── shared/                        # 🔧 SHARED UTILITIES: Common properties
+│       ├── props.yaml                # Shared slot definitions (with portal subset)
+│       └── common-enums.yaml         # Common enumeration values
+│
+├── mapping/                           # Data transformation mappings
+│   ├── als_compute.jsonata           # ALS Compute transformations
+│   ├── cpath.jsonata                 # Critical Path Institute mappings
+│   ├── requirements.txt              # Python dependencies
+│   └── transform_cpath.py            # Mapping execution script
+├── json-schemas/                      # Generated JSON schemas for Synapse
+├── dist/                              # Compiled artifacts (ALS.yaml, ALS.ttl, etc.)
+├── header.yaml                       # Schema metadata and prefixes
+├── Makefile                          # Build automation
+└── README.md                         # This file
 ```
 
 ## Data Model Architecture
+
+### Hierarchical Design Philosophy
+
+The ALS data model uses a **hierarchical inheritance architecture** that promotes code reuse, maintainability, and semantic clarity:
+
+```
+🎯 portal/Dataset.yaml (Final Portal Schema)
+├── inherits from: 🏗️ base/BaseDataset.yaml (Foundation)
+├── uses mixins: 🧩 mixins/ClinicalDatasetMixin + OmicDatasetMixin (Components)
+├── references: 🗂️ entities/* + 🏥 clinical/* + 🧬 omics/* (Domain Data)
+└── builds with: 🔧 shared/* + 📚 reference/* + ⚖️ governance/* (Utilities)
+```
+
+#### Key Architectural Principles:
+
+1. **Single Source of Truth**: `base/BaseDataset.yaml` defines common attributes once
+2. **Composition over Duplication**: Mixins provide reusable attribute groups
+3. **Clear Separation**: Each layer has a distinct responsibility
+4. **Semantic Hierarchy**: Structure reflects logical relationships
+5. **Extensibility**: Easy to add new dataset types or portal schemas
+
+#### Inheritance Flow:
+
+```yaml
+# portal/Dataset.yaml (Top Level)
+classes:
+  Dataset:
+    is_a: BaseDataset              # ← Inherits foundation attributes
+    mixins: [ClinicalDatasetMixin, OmicDatasetMixin]  # ← Adds domain-specific features
+    description: Union dataset for AMP-ALS portal
+```
+
+This approach eliminates code duplication while maintaining the flat JSON schema output required by downstream systems.
 
 ### Core Entities
 
@@ -110,13 +182,71 @@ Experimental methodology details:
 - Instrument information
 - Version tracking for reproducibility
 
-### Schema Organization
+### Module Organization Guide
 
-The modular design allows for:
-- **Separation of concerns** with focused schema files
-- **Reusable components** through shared properties
-- **Easy extension** by adding new modules
-- **Version control** friendly structure
+#### 🎯 **portal/** - Final Portal Schemas
+- **Purpose**: Consumer-facing schemas for the AMP-ALS portal
+- **Content**: Main entry points that combine base classes with mixins
+- **Usage**: Referenced in Makefile targets for JSON schema generation
+- **Examples**: `Dataset.yaml` (main portal dataset), `File.yaml` (portal file)
+
+#### 🏗️ **base/** - Foundation Layer  
+- **Purpose**: Abstract base classes providing common attributes
+- **Content**: Core class definitions marked as `abstract: true`
+- **Inheritance**: Extended by dataset types using `is_a: BaseDataset`
+- **Examples**: `BaseDataset.yaml` (common dataset attributes)
+
+#### 🧩 **mixins/** - Reusable Components
+- **Purpose**: Composable attribute groups for specific domains
+- **Content**: Classes marked as `mixin: true` with focused attribute sets
+- **Usage**: Combined in portal schemas using `mixins: [MixinName]`
+- **Examples**: `ClinicalDatasetMixin`, `OmicDatasetMixin`
+
+#### 📊 **datasets/** - Domain Dataset Types
+- **Purpose**: Specific dataset implementations for different domains
+- **Content**: Concrete classes that inherit from base + use mixins
+- **Pattern**: `is_a: BaseDataset` + domain-specific attributes
+- **Examples**: `ClinicalDataset.yaml`, `OmicDataset.yaml`
+
+#### 🗂️ **entities/** - Core Domain Objects
+- **Purpose**: Primary business entities and data structures
+- **Content**: Subject, Biospecimen, Assessment schemas
+- **Usage**: Referenced across multiple dataset types
+- **Examples**: `Subject.yaml` (multi-source subjects), `Biospecimen.yaml`
+
+#### 🏥 **clinical/** - Clinical Domain
+- **Purpose**: Clinical research specific schemas and enumerations
+- **Content**: Assessment types, medical procedures, study management
+- **Organization**: Grouped by functional area (assessments/, treatments.yaml, etc.)
+
+#### 🧬 **omics/** - Omics Domain  
+- **Purpose**: Genomics, transcriptomics, and multi-omics schemas
+- **Content**: Assays, platforms, protocols, processing levels
+- **Usage**: Referenced by omic dataset types and mixins
+
+#### 📚 **reference/** - Standard Reference Data
+- **Purpose**: Standardized enumerations and data type definitions
+- **Content**: Species, sex, file formats, data types
+- **Scope**: Used across multiple domains and dataset types
+
+#### ⚖️ **governance/** - Data Governance
+- **Purpose**: Compliance, licensing, and data management policies  
+- **Content**: License types, portal classifications, access controls
+- **Usage**: Applied to datasets for compliance and access management
+
+#### 🔧 **shared/** - Common Utilities
+- **Purpose**: Shared properties and cross-cutting enumerations
+- **Content**: `props.yaml` (portal subset slots), `common-enums.yaml`
+- **Special**: `props.yaml` uses `in_subset: [portal]` for build filtering
+
+### Benefits of This Organization
+
+- **Clear Hierarchy**: Easy to understand relationships and dependencies
+- **Semantic Clarity**: Folder names clearly indicate purpose and scope
+- **Maintainability**: Changes propagate correctly through inheritance
+- **Extensibility**: Simple to add new domains, mixins, or portal schemas  
+- **Build Efficiency**: Makefile can precisely target required modules
+- **Developer Experience**: Intuitive navigation and component discovery
 
 ## Multi-Source Support
 

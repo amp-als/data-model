@@ -35,6 +35,33 @@
       "title": "Citation",
       "type": "array"
     },
+    "clinicalDomain": {
+      "description": "The primary clinical domain or area of focus for the data",
+      "items": {
+        "description": "Primary clinical domains for ALS research and assessment",
+        "enum": [
+          "motor_function",
+          "bulbar_function",
+          "respiratory_function",
+          "limb_function",
+          "disease_progression",
+          "symptom_onset",
+          "genetic_testing",
+          "diagnosis_criteria",
+          "drug_administration",
+          "drug_exposure",
+          "biomarkers",
+          "neuroimaging",
+          "cognitive_assessment",
+          "quality_of_life",
+          "functional_assessment"
+        ],
+        "title": "ClinicalDomainEnum",
+        "type": "string"
+      },
+      "title": "Clinical Domain",
+      "type": "array"
+    },
     "collection": {
       "description": "Associated collection(s)",
       "items": {
@@ -227,7 +254,7 @@
       "type": "string"
     },
     "studyType": {
-      "description": "Study type for dataset (longitudinal, cross-sectional, etc.)",
+      "description": "Study type for dataset",
       "title": "Study type",
       "enum": [
         "Patient Registry Study",

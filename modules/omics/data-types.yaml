@@ -1,0 +1,128 @@
+#######################################
+# Omics Data Types
+# Specific data types for omic files
+#######################################
+
+enums:
+  OmicDataTypeEnum:
+    description: Types of omic data contained in files
+    permissible_values:
+      # Genomics Data Types
+      raw_sequencing:
+        description: Raw sequencing data (FASTQ, BCL)
+      aligned_reads:
+        description: Aligned sequencing reads (BAM, SAM, CRAM)
+      variant_calls:
+        description: Variant calling results (VCF, BCF)
+      genome_annotation:
+        description: Genome annotation data (GFF, GTF)
+      
+      # Transcriptomics Data Types
+      gene_expression:
+        description: Gene expression quantification data
+      transcript_counts:
+        description: Transcript-level count data
+      differential_expression:
+        description: Differential gene expression results
+      splice_variants:
+        description: Alternative splicing analysis results
+      
+      # Epigenomics Data Types
+      methylation:
+        description: DNA methylation data
+      chromatin_accessibility:
+        description: Chromatin accessibility data (ATAC-seq, FAIRE-seq)
+      histone_modification:
+        description: Histone modification ChIP-seq data
+      
+      # Proteomics Data Types
+      protein_abundance:
+        description: Protein abundance quantification
+      peptide_identification:
+        description: Peptide identification results
+      protein_modification:
+        description: Post-translational modification data
+      
+      # Metabolomics Data Types
+      metabolite_abundance:
+        description: Metabolite abundance quantification
+      metabolic_pathways:
+        description: Metabolic pathway analysis results
+      
+      # Multi-omics Data Types
+      integrated_omics:
+        description: Multi-omics integration results
+      network_analysis:
+        description: Molecular network analysis results
+      
+      # Processing Levels
+      raw_data:
+        description: Unprocessed raw data
+      processed_data:
+        description: Processed and normalized data
+      analyzed_results:
+        description: Analysis results and interpretations
+      
+      # Migrated from reference/data-types.yaml - Broad Omics Fields
+      proteomics:
+        description: Protein and peptide identification, especially in the study of whole proteomes of organisms.
+        meaning: http://edamontology.org/topic_0121
+      geneExpression:
+        description: The analysis of levels and patterns of synthesis of gene products (proteins and functional RNA) including interpretation in functional terms of gene expression data.
+        meaning: http://edamontology.org/topic_0203
+      transcriptomics:
+        description: Comprehensive analysis of RNA transcripts to study gene expression patterns and regulatory mechanisms
+      transcriptomics_nascent:
+        description: Nascent transcriptomics data from newly transcribed RNA
+      epigenomics:
+        description: Study of heritable changes in gene expression without DNA sequence changes
+      metabolomics:
+        description: The systematic study of metabolites, the chemical processes they are involved, and the chemical fingerprints of specific cellular processes in a whole cell, tissue, organ or organism.
+        meaning: http://edamontology.org/topic_3172
+      kinomics:
+        description: Kinomics is the study of protein kinases and protein kinase signaling.
+        source: http://www.kinomecore.com/what-is-kinomics/
+      
+      # Migrated from reference/data-types.yaml - Specific Data Types
+      isoformExpression:
+        description: Expression of protein isoforms formed from alternative splicings or other post-translational modifications of a single gene through RNA splicing mechanisms.
+        source: https://en.wikipedia.org/wiki/Protein_isoform
+      chromatinActivity:
+        description: Chromatin activity that allow access of condensed genomic DNA and potentially control gene expression.
+        meaning: https://en.wikipedia.org/wiki/Chromatin_remodeling
+      AlignedReads:
+        description: Aligned reads output from alignment workflows
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=aligned_reads
+      genomicVariants:
+        description: >
+          Genomic alterations, including single nucleotide polymorphisms, short indels and structural variants.
+          Use more specific term if possible, esp. if data is only of one specific subset.
+        meaning: http://edamontology.org/operation_3227
+      genomicFeatures:
+        description: Data of sequence feature (continuous extent of biological sequence) that is of genomic origin.
+        meaning: http://purl.obolibrary.org/obo/GENO_0000481
+        see_also: https://en.wikipedia.org/wiki/General_feature_format
+      SomaticVariants:
+        description: Called somatic variants
+        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_somatic_mutation
+      GermlineVariants:
+        description: Called germline variants
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_germline_variation
+      CopyNumberVariants:
+        description: Copy number variants
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=copy_number_variation
+      StructuralVariants:
+        description: Genomic variants data that covers deletions, duplications, CNVs, insertions, inversions, and translocations, which may be derived from specialized variant calling workflows.
+        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=structural_variation
+      AnnotatedSomaticVariants:
+        description: Somatic variants annotated with some annotation workflow
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=annotated_somatic_mutation
+      AnnotatedGermlineVariants:
+        description: Germline variants annotated with some annotation workflow
+      raw_counts:
+        description: The number or amount of something.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C25463
+      RawIntensities:
+        description: Raw intensity values from the instrument.
+      NormalizedIntensities:
+        description: Normalized intensity values from the instrument/machine.

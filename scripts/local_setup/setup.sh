@@ -1,10 +1,10 @@
 #!/bin/bash
 
 ENV_NAME="amp-als"
-conda env create -f environment.yml -n ${ENV_NAME}
-mamba activate ${ENV_NAME}
-mamba install python=3.10 
-mamba install pip nodejs
+micromamba env create -f environment.yml -n ${ENV_NAME}
+micromamba activate ${ENV_NAME}
+micromamba install python=3.10 
+micromamba install pip nodejs
 pip install schematicpy linkml==v1.8.1 jsonata-python 
 npm install -g json-dereference-cli
 

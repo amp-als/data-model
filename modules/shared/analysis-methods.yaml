@@ -1,0 +1,38 @@
+#######################################
+# Analysis Methods
+# Computational and statistical analysis methods for both omics and clinical data
+#######################################
+
+enums:
+  AnalysisMethodEnum:
+    description: Computational and statistical analysis methods applied to the data
+    permissible_values:
+      # Omics analysis methods 
+      Normalized Protein Expression (NPX): 
+        description: relative quanitification unit usied in Olink proteomic assays that are calculated from assay's raw protein signal. 
+      GeneSetEnrichmentAnalysis: 
+        description: a statistical method that determines whether predefined set sof proteins/genes, e.g. pathways, show statistically significant differences relative to a phenytype.
+      differential_expression:
+        description: Differential gene expression analysis
+      pathway_enrichment:
+        description: Pathway enrichment analysis
+      network_analysis:
+        description: Protein-protein interaction network analysis
+      proteomics_analysis:
+        description: Proteomics data analysis methods
+      metabolomics_analysis:
+        description: Metabolomics data analysis methods
+       
+      # Statistical analysis methods
+      longitudinal_analysis:
+        description: Longitudinal statistical analysis
+      survival_analysis:
+        description: Survival analysis methods
+      meta_analysis:
+        description: Meta-analysis across studies
+      correlation_analysis:
+        description: Correlation and association analysis
+      multivariate_analysis:
+        description: Multivariate statistical analysis
+      machine_learning:
+        description: Machine learning and predictive modeling

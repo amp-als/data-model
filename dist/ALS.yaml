@@ -22,6 +22,72 @@ emit_prefixes:
 imports:
   - linkml:types
 enums:
+  AnalysisMethodEnum:
+    description: Computational and statistical analysis methods applied to the data
+    permissible_values:
+      # Omics analysis methods 
+      Normalized Protein Expression (NPX):
+        description: relative quanitification unit usied in Olink proteomic assays that are calculated from assay's raw protein signal.
+      GeneSetEnrichmentAnalysis:
+        description: a statistical method that determines whether predefined set sof proteins/genes, e.g. pathways, show statistically significant differences relative to a phenytype.
+      differential_expression:
+        description: Differential gene expression analysis
+      pathway_enrichment:
+        description: Pathway enrichment analysis
+      network_analysis:
+        description: Protein-protein interaction network analysis
+      proteomics_analysis:
+        description: Proteomics data analysis methods
+      metabolomics_analysis:
+        description: Metabolomics data analysis methods
+      # Statistical analysis methods
+      longitudinal_analysis:
+        description: Longitudinal statistical analysis
+      survival_analysis:
+        description: Survival analysis methods
+      meta_analysis:
+        description: Meta-analysis across studies
+      correlation_analysis:
+        description: Correlation and association analysis
+      multivariate_analysis:
+        description: Multivariate statistical analysis
+      machine_learning:
+        description: Machine learning and predictive modeling
+  AnnotationTypeEnum:
+    description: Types of biological databases and annotation references
+    permissible_values:
+      # Pathway Databases (migrated from PathwayTypeEnum)
+      KEGG:
+        description: KEGG (Kyoto Encyclopedia of Genes and Genomes) pathways
+      GO:
+        description: Gene Ontology pathways (biological process, molecular function, cellular component)
+      # Genomic and Protein Databases
+      UniProt:
+        description: Universal Protein Resource
+      Ensembl:
+        description: Ensembl genome database
+      HGNC:
+        description: HUGO Gene Nomenclature Committee
+      RefSeq:
+        description: Reference Sequence database
+      # Disease and Clinical Databases
+      MONDO:
+        description: Mondo Disease Ontology
+      HPO:
+        description: Human Phenotype Ontology
+      SNOMED:
+        description: SNOMED Clinical Terms
+      ICD:
+        description: International Classification of Diseases
+      # Pathway Analysis Types
+      pathway_enrichment:
+        description: General pathway enrichment analysis
+      protein_pathway:
+        description: Protein-level pathway analysis
+      metabolic_pathway:
+        description: Metabolic pathway analysis
+      signaling_pathway:
+        description: Cell signaling pathway analysis
   # Access and permissions
   AccessTypeEnum:
     permissible_values:
@@ -315,6 +381,250 @@ enums:
         description: Severe fatigue affecting performance
       Unable_to_Continue:
         description: Too fatigued to continue
+  ClinicalDataTypeEnum:
+    description: Types of clinical data contained in files
+    permissible_values:
+      # Assessment Data Types
+      motor_assessment:
+        description: Motor function assessment data
+      cognitive_assessment:
+        description: Cognitive function assessment data
+      respiratory_assessment:
+        description: Respiratory function assessment data
+      bulbar_assessment:
+        description: Bulbar function assessment data
+      functional_assessment:
+        description: Functional capacity assessment data
+      quality_of_life:
+        description: Quality of life assessment data
+      # Medical History Data Types
+      medical_history:
+        description: Medical history data
+      family_history:
+        description: Family medical history data
+      medication_history:
+        description: Medication and treatment history
+      disease_progression:
+        description: Disease progression tracking data
+      # Diagnostic Data Types
+      diagnostic_criteria:
+        description: Diagnostic criteria and classification data
+      symptom_onset:
+        description: Disease symptom onset data
+      genetic_testing:
+        description: Genetic testing and counseling data
+      biomarker_data:
+        description: Clinical biomarker measurements
+      # Treatment Data Types
+      drug_administration:
+        description: Drug administration and dosing data
+      therapy_sessions:
+        description: Physical or occupational therapy data
+      intervention_response:
+        description: Treatment response and efficacy data
+      adverse_events:
+        description: Adverse event and safety data
+      # Visit and Study Data Types
+      screening_visit:
+        description: Screening and enrollment visit data
+      baseline_visit:
+        description: Baseline visit assessment data
+      followup_visit:
+        description: Follow-up visit data
+      study_completion:
+        description: Study completion and withdrawal data
+      # Laboratory Data Types
+      laboratory_results:
+        description: Laboratory test results
+      vital_signs:
+        description: Vital signs measurements
+      neuroimaging:
+        description: Neuroimaging and brain scan data
+      electrophysiology:
+        description: Electrophysiology assessment data
+      # Data Processing Levels
+      raw_clinical_data:
+        description: Raw, unprocessed clinical data
+      processed_clinical_data:
+        description: Processed and cleaned clinical data
+      derived_scores:
+        description: Calculated scores and derived measures
+      summary_statistics:
+        description: Summary statistics and aggregate measures
+      # Migrated from reference/data-types.yaml - General Clinical Data Types
+      clinical:
+        description: Data related to patient diagnosis, demographics, exposures, laboratory tests, and family relationships
+        source: https://docs.gdc.cancer.gov/Encyclopedia/pages/Clinical_Data
+      demographics:
+        description: The statistical characterization of human populations or segments of human populations (e.g., characterization by age, sex, race, or income).
+        meaning: http://purl.obolibrary.org/obo/NCIT_C16495
+      immunoassay:
+        description: Laboratory test involving interaction of antigens with specific antibodies.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C16723
+      behavior_process:
+        description: The action, reaction, or performance of an organism in response to external or internal stimuli.
+      surveyData:
+        description: A data set that contains the outcome of a survey.
+        meaning: http://purl.obolibrary.org/obo/OMIABIS_0000060
+      Pharmacokinetic_Study:
+        description: A study of the process by which a drug is absorbed, distributed, metabolized, and eliminated by the body.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C49663
+      drugScreen:
+        description: Information on drug sensitivity and molecular markers of drug response
+        source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3531057/
+      drugCombinationScreen:
+        description: Information on drug sensitivity of more than one compound
+        source: https://www.ncbi.nlm.nih.gov/pubmed/29344898
+      image:
+        description: Biological or biomedical data that has been rendered into an image.
+        meaning: http://edamontology.org/data_2968
+      audio_transcript:
+        description: Audio transcript data (e.g., clinical interviews)
+      cellularPhysiology:
+        description: Cellular physiology assessment data
+      clinical_assessment:
+        description: Clinical assessment data
+      treatment:
+        description: Treatment and medication data
+      neurological_assessment:
+        description: Neurological examination data
+      psychiatric_assessment:
+        description: Psychiatric evaluation data
+      hand_held_dynamometry:
+        description: Hand-held dynamometry measurements
+      genetic_profile:
+        description: Genetic testing results
+      study_management:
+        description: Study management metadata
+      data_management:
+        description: Data management and quality metrics
+  ClinicalDomainEnum:
+    description: Primary clinical domains for ALS research and assessment
+    permissible_values:
+      motor_function:
+        description: Motor function and muscle strength assessment
+      bulbar_function:
+        description: Speech, swallowing, and bulbar function
+      respiratory_function:
+        description: Breathing and respiratory function
+      limb_function:
+        description: Hand, arm, and leg function
+      disease_progression:
+        description: Disease progression markers and rates
+      symptom_onset:
+        description: Disease onset characteristics and patterns
+      genetic_testing:
+        description: Genetic mutations and testing results
+      diagnosis_criteria:
+        description: Diagnostic criteria and clinical signs
+      drug_administration:
+        description: Treatment and drug administration
+      drug_exposure:
+        description: Exposure to investigational or concomitant medications
+      biomarkers:
+        description: Biomarker measurements and analysis
+      neuroimaging:
+        description: Brain and spinal cord imaging
+      cognitive_assessment:
+        description: Cognitive function evaluation
+      quality_of_life:
+        description: Quality of life and functional impact
+      functional_assessment:
+        description: Overall functional capacity assessment
+      safety_monitoring:
+        description: Safety monitoring and adverse events
+      treatment_response:
+        description: Physiological response to study drug infusion as measured by changes in vital signs (blood pressure, heart rate, respiratory rate) taken pre-dose, during infusion, and post-infusion to assess tolerance and acute treatment effects.
+      treatment_modification:
+        description: Changes, interruptions, or discontinuation of study treatment
+      subject_management:
+        description: Subject demographics and study management
+      data_quality:
+        description: Data completeness and quality indicators
+      functional_impact:
+        description: Impact on daily activities and function
+      biospecimen_collection:
+        description: Collection of biological specimens such as serum, plasma, CSF
+      chemistry_panels:
+        description: Clinical chemistry laboratory panels
+      hematology_panels:
+        description: Hematology and blood cell laboratory panels
+      serum_pregnancy_panels:
+        description: Serum pregnancy tests
+      urinalysis_panels:
+        description: Urine laboratory tests
+      HBA1C_panels:
+        description: HbA1c laboratory test panels
+      upper_motor_neuron:
+        description: Signs and symptoms related to upper motor neuron involvement
+      lower_motor_neuron:
+        description: Signs and symptoms related to lower motor neuron involvement
+      cervical_function:
+        description: Neurological and motor function related to the cervical region
+      thoracic_function:
+        description: Neurological and motor function related to the thoracic region
+      lumbar_function:
+        description: Neurological and motor function related to the lumbar region
+      site_of_onset:
+        description: Anatomical site where symptoms first appeared
+      physical_mobility:
+        description: Ability to move and ambulate independently
+      activities_of_daily_living:
+        description: Functional ability in daily self-care and activities
+      emotional_functioning:
+        description: Emotional wellbeing and psychological functioning
+      eating_drinking:
+        description: Ability to eat, drink, and swallow safely
+      communication:
+        description: Ability to communicate verbally or non-verbally
+      gross_motor_function:
+        description: Large muscle group movements including posture, walking, and balance
+      fine_motor_function:
+        description: Small muscle group movements including hand and finger dexterity
+      adverse_events:
+        description: Adverse events, side effects, and serious adverse events (SAEs) related to study participation
+      informed_consent:
+        description: Informed consent process and documentation
+      eligibility_criteria:
+        description: Screening inclusion and exclusion criteria
+      study_completion:
+        description: End of study disposition, early termination, or completion
+      vital_signs:
+        description: Clinical vital signs such as temperature, blood pressure, heart rate, and respiratory rate
+      supportive_interventions:
+        description: Medical devices or supportive procedures such as ventilation, feeding tubes, tracheostomy
+      medical_history:
+        description: Subject’s past and current medical history
+      neurology:
+        description: Neurological assessment and findings
+      cognitive_function:
+        description: Memory, executive function, and other aspects of cognition
+      cranial_nerves:
+        description: Assessment of cranial nerve function
+      remote_monitoring:
+        description: Data collected via phone calls or remote visits
+      physical_examination:
+        description: General physical exam across body systems
+      reproductive_health:
+        description: Reproductive health history and outcomes
+      pregnancy_exposure:
+        description: Pregnancy occurring in participants or their partners during study
+      compliance:
+        description: Adherence to protocol and treatment compliance
+      pulmonary_function_test:
+        description: Pulmonary function measures such as slow vital capacity (SVC)
+      survival:
+        description: Survival status and follow-up
+      mortality:
+        description: Death and cause of death
+      activities_of_daily_living (ADL):
+        description: tasks like bathing, dressing, eating, and mobility that become challenging with ALS, and can be classified into basic ADLs (physical self-care) and instrumental ADLs (complex life management)
+      speech_function:
+        description: measuring the patient's ability to communicate across five levels, from normal speaking ability to a complete loss of useful speech
+      study_eligibility:
+        description: Eligibility defined by neurological diagnosis, disease stage, comorbidities, functional status, and treatment history.
+      dementia_screening:
+        description: Brief standardized evaluation to detect early signs of cognitive impairment and risk of dementia.
   GeneticLabEnum:
     permissible_values:
       Prevention_Genetics:
@@ -1051,32 +1361,6 @@ enums:
         description: Visit was cancelled
       In_Progress:
         description: Visit is currently in progress
-  ClinicalDataTypeEnum:
-    permissible_values:
-      clinical_assessment:
-        description: Clinical assessment data
-      treatment:
-        description: Treatment and medication data
-      medical_history:
-        description: Medical history data
-      laboratory_results:
-        description: Laboratory test results
-      vital_signs:
-        description: Vital signs measurements
-      neurological_assessment:
-        description: Neurological examination data
-      psychiatric_assessment:
-        description: Psychiatric evaluation data
-      electrophysiology:
-        description: Electrophysiology assessment data
-      hand_held_dynamometry:
-        description: Hand-held dynamometry measurements
-      genetic_profile:
-        description: Genetic testing results
-      study_management:
-        description: Study management metadata
-      data_management:
-        description: Data management and quality metrics
   StudyDesignEnum:
     permissible_values:
       longitudinal:
@@ -1198,19 +1482,123 @@ enums:
       genomics:
         description: Genomic sequencing data
       transcriptomics:
-        description: Gene expression data
+        description: Comprehensive analysis of RNA transcripts to study gene expression patterns and regulatory mechanisms
+      # Migrated from reference/data-types.yaml - Broad Omics Fields
       proteomics:
-        description: Protein expression data
+        description: Protein and peptide identification, especially in the study of whole proteomes of organisms.
+        meaning: http://edamontology.org/topic_0121
       metabolomics:
-        description: Metabolite profiling data
+        description: The systematic study of metabolites, the chemical processes they are involved, and the chemical fingerprints of specific cellular processes in a whole cell, tissue, organ or organism.
+        meaning: http://edamontology.org/topic_3172
       epigenomics:
-        description: Epigenetic modification data
+        description: Study of heritable changes in gene expression without DNA sequence changes
       metagenomics:
         description: Metagenomic sequencing data
       single_cell:
         description: Single-cell analysis data
       multi_omics:
         description: Multi-omic integrated data
+      # Genomics Data Types
+      raw_sequencing:
+        description: Raw sequencing data (FASTQ, BCL)
+      aligned_reads:
+        description: Aligned sequencing reads (BAM, SAM, CRAM)
+      variant_calls:
+        description: Variant calling results (VCF, BCF)
+      genome_annotation:
+        description: Genome annotation data (GFF, GTF)
+      # Transcriptomics Data Types
+      gene_expression:
+        description: Gene expression quantification data
+      transcript_counts:
+        description: Transcript-level count data
+      differential_expression:
+        description: Differential gene expression results
+      splice_variants:
+        description: Alternative splicing analysis results
+      # Epigenomics Data Types
+      methylation:
+        description: DNA methylation data
+      chromatin_accessibility:
+        description: Chromatin accessibility data (ATAC-seq, FAIRE-seq)
+      histone_modification:
+        description: Histone modification ChIP-seq data
+      # Proteomics Data Types
+      protein_abundance:
+        description: Protein abundance quantification
+      peptide_identification:
+        description: Peptide identification results
+      protein_modification:
+        description: Post-translational modification data
+      # Metabolomics Data Types
+      metabolite_abundance:
+        description: Metabolite abundance quantification
+      metabolic_pathways:
+        description: Metabolic pathway analysis results
+      # Multi-omics Data Types
+      integrated_omics:
+        description: Multi-omics integration results
+      network_analysis:
+        description: Molecular network analysis results
+      # Processing Levels
+      raw_data:
+        description: Unprocessed raw data
+      processed_data:
+        description: Processed and normalized data
+      analyzed_results:
+        description: Analysis results and interpretations
+      geneExpression:
+        description: The analysis of levels and patterns of synthesis of gene products (proteins and functional RNA) including interpretation in functional terms of gene expression data.
+        meaning: http://edamontology.org/topic_0203
+      transcriptomics_nascent:
+        description: Nascent transcriptomics data from newly transcribed RNA
+      kinomics:
+        description: Kinomics is the study of protein kinases and protein kinase signaling.
+        source: http://www.kinomecore.com/what-is-kinomics/
+      # Migrated from reference/data-types.yaml - Specific Data Types
+      isoformExpression:
+        description: Expression of protein isoforms formed from alternative splicings or other post-translational modifications of a single gene through RNA splicing mechanisms.
+        source: https://en.wikipedia.org/wiki/Protein_isoform
+      chromatinActivity:
+        description: Chromatin activity that allow access of condensed genomic DNA and potentially control gene expression.
+        meaning: https://en.wikipedia.org/wiki/Chromatin_remodeling
+      AlignedReads:
+        description: Aligned reads output from alignment workflows
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=aligned_reads
+      genomicVariants:
+        description: >
+          Genomic alterations, including single nucleotide polymorphisms, short indels and structural variants. Use more specific term if possible, esp. if data is only of one specific subset.
+
+        meaning: http://edamontology.org/operation_3227
+      genomicFeatures:
+        description: Data of sequence feature (continuous extent of biological sequence) that is of genomic origin.
+        meaning: http://purl.obolibrary.org/obo/GENO_0000481
+        see_also: https://en.wikipedia.org/wiki/General_feature_format
+      SomaticVariants:
+        description: Called somatic variants
+        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_somatic_mutation
+      GermlineVariants:
+        description: Called germline variants
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_germline_variation
+      CopyNumberVariants:
+        description: Copy number variants
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=copy_number_variation
+      StructuralVariants:
+        description: Genomic variants data that covers deletions, duplications, CNVs, insertions, inversions, and translocations, which may be derived from specialized variant calling workflows.
+        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=structural_variation
+      AnnotatedSomaticVariants:
+        description: Somatic variants annotated with some annotation workflow
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=annotated_somatic_mutation
+      AnnotatedGermlineVariants:
+        description: Germline variants annotated with some annotation workflow
+      raw_counts:
+        description: The number or amount of something.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C25463
+      RawIntensities:
+        description: Raw intensity values from the instrument.
+      NormalizedIntensities:
+        description: Normalized intensity values from the instrument/machine.
+    description: Types of omic data contained in files
   LibraryStrategyEnum:
     permissible_values:
       RNA_seq:
@@ -1439,126 +1827,6 @@ enums:
         description: Gene Ontology pathways
       KEGG_pathways:
         description: Kyoto Encylopedia of Genes and Genomes
-  ClinicalDomainEnum:
-    permissible_values:
-      motor_function:
-        description: Motor function and muscle strength assessment
-      bulbar_function:
-        description: Speech, swallowing, and bulbar function
-      respiratory_function:
-        description: Breathing and respiratory function
-      limb_function:
-        description: Hand, arm, and leg function
-      disease_progression:
-        description: Disease progression markers and rates
-      symptom_onset:
-        description: Disease onset characteristics and patterns
-      genetic_testing:
-        description: Genetic mutations and testing results
-      diagnosis_criteria:
-        description: Diagnostic criteria and clinical signs
-      drug_administration:
-        description: Treatment and drug administration
-      drug_exposure:
-        description: Exposure to investigational or concomitant medications
-      safety_monitoring:
-        description: Safety monitoring and adverse events
-      treatment_response:
-        description: Physiological response to study drug infusion as measured by changes in vital signs (blood pressure, heart rate, respiratory rate) taken pre-dose, during infusion, and post-infusion to assess tolerance and acute treatment effects.
-      treatment_modification:
-        description: Changes, interruptions, or discontinuation of study treatment
-      subject_management:
-        description: Subject demographics and study management
-      data_quality:
-        description: Data completeness and quality indicators
-      quality_of_life:
-        description: Quality of life and functional impact
-      functional_impact:
-        description: Impact on daily activities and function
-      biomarkers:
-        description: Biomarker measurements and analysis
-      biospecimen_collection:
-        description: Collection of biological specimens such as serum, plasma, CSF
-      chemistry_panels:
-        description: Clinical chemistry laboratory panels
-      hematology_panels:
-        description: Hematology and blood cell laboratory panels
-      serum_pregnancy_panels:
-        description: Serum pregnancy tests
-      urinalysis_panels:
-        description: Urine laboratory tests
-      HBA1C_panels:
-        description: HbA1c laboratory test panels
-      upper_motor_neuron:
-        description: Signs and symptoms related to upper motor neuron involvement
-      lower_motor_neuron:
-        description: Signs and symptoms related to lower motor neuron involvement
-      cervical_function:
-        description: Neurological and motor function related to the cervical region
-      thoracic_function:
-        description: Neurological and motor function related to the thoracic region
-      lumbar_function:
-        description: Neurological and motor function related to the lumbar region
-      site_of_onset:
-        description: Anatomical site where symptoms first appeared
-      physical_mobility:
-        description: Ability to move and ambulate independently
-      activities_of_daily_living:
-        description: Functional ability in daily self-care and activities
-      emotional_functioning:
-        description: Emotional wellbeing and psychological functioning
-      eating_drinking:
-        description: Ability to eat, drink, and swallow safely
-      communication:
-        description: Ability to communicate verbally or non-verbally
-      gross_motor_function:
-        description: Large muscle group movements including posture, walking, and balance
-      fine_motor_function:
-        description: Small muscle group movements including hand and finger dexterity
-      adverse_events:
-        description: Adverse events, side effects, and serious adverse events (SAEs) related to study participation
-      informed_consent:
-        description: Informed consent process and documentation
-      eligibility_criteria:
-        description: Screening inclusion and exclusion criteria
-      study_completion:
-        description: End of study disposition, early termination, or completion
-      vital_signs:
-        description: Clinical vital signs such as temperature, blood pressure, heart rate, and respiratory rate
-      supportive_interventions:
-        description: Medical devices or supportive procedures such as ventilation, feeding tubes, tracheostomy
-      medical_history:
-        description: Subject’s past and current medical history
-      neurology:
-        description: Neurological assessment and findings
-      cognitive_function:
-        description: Memory, executive function, and other aspects of cognition
-      cranial_nerves:
-        description: Assessment of cranial nerve function
-      remote_monitoring:
-        description: Data collected via phone calls or remote visits
-      physical_examination:
-        description: General physical exam across body systems
-      reproductive_health:
-        description: Reproductive health history and outcomes
-      pregnancy_exposure:
-        description: Pregnancy occurring in participants or their partners during study
-      compliance:
-        description: Adherence to protocol and treatment compliance
-      pulmonary_function_test:
-        description: Pulmonary function measures such as slow vital capacity (SVC)
-      survival:
-        description: Survival status and follow-up
-      mortality:
-        description: Death and cause of death
-      activities_of_daily_living (ADL):
-        description: tasks like bathing, dressing, eating, and mobility that become challenging with ALS, and can be classified into basic ADLs (physical self-care) and instrumental ADLs (complex life management)
-      speech_function:
-        description: measuring the patient's ability to communicate across five levels, from normal speaking ability to a complete loss of useful speech
-      study_eligibility:
-        description: Eligibility defined by neurological diagnosis, disease stage, comorbidities, functional status, and treatment history.
-      dementia_screening:
-        description: Brief standardized evaluation to detect early signs of cognitive impairment and risk of dementia.
   StudyPhaseEnum:
     permissible_values:
       screening:
@@ -2340,6 +2608,14 @@ enums:
       STR profile:
         description: The analysis of all of the short tandem repeats in the genome of a biological sample.
         meaning: http://purl.obolibrary.org/obo/NCIT_C129889
+      Extension control 1:
+        description: Spike-in QC to monitor the oligo‑extension/proximity step; used to normalize technical variation in the NPX workflow for this plate/run.
+      Incubation control 1:
+        description: Spike-in QC added before antibody incubation to track sample handling and incubation efficiency; supports within-plate normalization of NPX values.
+      Amplification control 1:
+        description: Spike-in QC for the PCR/enzymatic amplification and detection stage; used to assess amplification performance and correct technical drift.
+      Protein target assay:
+        description: Experimental method designed to detect, measure, or quantify the presence and activity of a specific protein within a biological sample.
   DrugScreen:
     description: This is a subset of Assay enum above.
     permissible_values:
@@ -2908,133 +3184,46 @@ enums:
         source: https://pubmed.ncbi.nlm.nih.gov/29286982/
       ZetaView:
         source: https://particle-metrix.com/zetaview/
-  Data:
-    description: What the data (file) contains.
+  CrossDomainDataTypeEnum:
+    description: Cross-cutting data types that don't fit into specific clinical or omic domains
     permissible_values:
-      immunoassay:
-        description: Laboratory test involving interaction of antigens with specific antibodies.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C16723
-      behavior process:
-        description: The action, reaction, or performance of an organism in response to external or internal stimuli.
-      clinical:
-        description: Data related to patient diagnosis, demographics, exposures, laboratory tests, and family relationships
-        source: https://docs.gdc.cancer.gov/Encyclopedia/pages/Clinical_Data
-      demographics:
-        description: The statistical characterization of human populations or segments of human populations (e.g., characterization by age, sex, race, or income).
-        meaning: http://purl.obolibrary.org/obo/NCIT_C16495
-      particle characterization:
-        description: Data providing information about entities such as composition, structure and defects.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C62317
-      drugCombinationScreen:
-        description: Information on drug sensitivity of more than one compound
-        source: https://www.ncbi.nlm.nih.gov/pubmed/29344898
-      isoformExpression:
-        description: Expression of protein isoforms formed from alternative splicings or other post-translational modifications of a single gene through RNA splicing mechanisms.
-        source: https://en.wikipedia.org/wiki/Protein_isoform
-      proteomics:
-        description: Protein and peptide identification, especially in the study of whole proteomes of organisms.
-        meaning: http://edamontology.org/topic_0121
-      surveyData:
-        description: A data set that contains the outcome of a survey.
-        meaning: http://purl.obolibrary.org/obo/OMIABIS_0000060
-      kinomics:
-        description: Kinomics is the study of protein kinases and protein kinase signaling.
-        source: http://www.kinomecore.com/what-is-kinomics/
-      SomaticVariants:
-        description: Called somatic variants
-        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_somatic_mutation
-      Volume:
-        description: The amount of three dimensional space occupied by an object or the capacity of a space or container.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C25335
-      characteristic:
-        description: Broad data type for measures that can encompass volume, weight, brightness, color, capacity, etc.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C25447
-      drugScreen:
-        description: Information on drug sensitivity and molecular markers of drug response
-        source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3531057/
-      geneExpression:
-        description: The analysis of levels and patterns of synthesis of gene products (proteins and functional RNA) including interpretation in functional terms of gene expression data.
-        meaning: http://edamontology.org/topic_0203
-      AlignedReads:
-        description: Aligned reads output from alignment workflows
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=aligned_reads
-      genomicFeatures:
-        description: Data of sequence feature (continuous extent of biological sequence) that is of genomic origin.
-        meaning: http://purl.obolibrary.org/obo/GENO_0000481
-        see_also: https://en.wikipedia.org/wiki/General_feature_format
-      genomicVariants:
-        description: >
-          Genomic alterations, including single nucleotide polymorphisms, short indels and structural variants. Use more specific term if possible, esp. if data is only of one specific subset.
-
-        meaning: http://edamontology.org/operation_3227
-      raw counts:
-        description: The number or amount of something.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C25463
-      RawIntensities:
-        description: Raw intensity values from the instrument.
-      NormalizedIntensities:
-        description: Normalized intensity values from the instrument/machine.
-      Pharmacokinetic Study:
-        description: A study of the process by which a drug is absorbed, distributed, metabolized, and eliminated by the body.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C49663
-      mask image:
-        description: Image used as the mask for an image processing operation, such as subtraction.
-        meaning: http://dicom.nema.org/resources/ontology/DCM/121321
-      chromatinActivity:
-        description: Chromatin activity that allow access of condensed genomic DNA and potentially control gene expression.
-        meaning: https://en.wikipedia.org/wiki/Chromatin_remodeling
-      StructuralVariants:
-        description: Genomic variants data that covers deletions, duplications, CNVs, insertions, inversions, and translocations, which may be derived from specialized variant calling workflows.
-        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=structural_variation
-      GermlineVariants:
-        description: Called germline variants
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_germline_variation
-      CopyNumberVariants:
-        description: Copy number variants
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=copy_number_variation
-      image:
-        description: Biological or biomedical data that has been rendered into an image.
-        meaning: http://edamontology.org/data_2968
-      network:
-        description: Network data represents connections between entities and are often in graphical format.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C61377
-      cellularPhysiology:
-        description: ''
-      metabolomics:
-        description: The systematic study of metabolites, the chemical processes they are involved, and the chemical fingerprints of specific cellular processes in a whole cell, tissue, organ or organism.
-        meaning: http://edamontology.org/topic_3172
-      AnnotatedSomaticVariants:
-        description: Somatic variants annotated with some annotation workflow
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=annotated_somatic_mutation
-      AnnotatedGermlineVariants:
-        description: Germline variants annotated with some annotation workflow
-      Weight:
-        description: The vertical force exerted by a mass as a result of gravity.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C25208
-      electrophysiology:
-        description: Data generated from an electrophysiology assay.
-        notes:
-          - ERO has been deprecated and direct URIs no longer work.
-        source: https://bioportal.bioontology.org/ontologies/ERO/?p=classes&conceptid=http%3A%2F%2Fpurl.obolibrary.org%2Fobo%2FERO_0000564&jump_to_nav=true
-      audio transcript:
-        description: ''
+      # Technical and Index Data
       dataIndex:
         description: A data index is information used to help with retrieval of some other data, especially large-scale data that would benefit from such an index. Very common formats are .bai and .tbi.
         meaning: http://edamontology.org/data_0955
+      mask_image:
+        description: Image used as the mask for an image processing operation, such as subtraction.
+        meaning: http://dicom.nema.org/resources/ontology/DCM/121321
+      # Cross-Domain Analysis Types
+      network:
+        description: Network data represents connections between entities and are often in graphical format.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C61377
+      study_report:
+        description: Study Report given by testing services. Generally a summary report of all services carried out including methods and results.
       AggregatedData:
         description: Summary or group-level data.
-      transcriptomics:
-        description: Comprehensive analysis of RNA transcripts to study gene expression patterns and regulatory mechanisms
-      transcriptomics (nascent):
-        description: Nascent transcriptomics data from newly transcribed RNA
-      epigenomics:
-        description: Study of heritable changes in gene expression without DNA sequence changes
       CorrelationAnalysis:
         description: statistical outputs from correlation based analysis like Pearson's R, etc.
-      Normalized Protein Expression (NPX):
-        description: relative quanitification unit usied in Olink proteomic assays that are calculated from assay's raw protein signal.
-      GeneSetEnrichmentAnalysis:
-        description: a statistical method that determines whether predefined set sof proteins/genes, e.g. pathways, show statistically significant differences relative to a phenytype.
+      # General Physical Measurements
+      particle_characterization:
+        description: Data providing information about entities such as composition, structure and defects.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C62317
+      Volume:
+        description: The amount of three dimensional space occupied by an object or the capacity of a space or container.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C25335
+      Weight:
+        description: The vertical force exerted by a mass as a result of gravity.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C25208
+      characteristic:
+        description: Broad data type for measures that can encompass volume, weight, brightness, color, capacity, etc.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C25447
+  # Keep Data enum for backward compatibility (deprecated - use domain-specific enums)
+  Data:
+    description: "[DEPRECATED] Use domain-specific enums (OmicDataTypeEnum, ClinicalDataTypeEnum, CrossDomainDataTypeEnum) instead"
+    permissible_values:
+      # Kept for backward compatibility only - new schemas should use domain-specific enums
+      deprecated_use_domain_specific:
+        description: This enum is deprecated. Use OmicDataTypeEnum, ClinicalDataTypeEnum, or CrossDomainDataTypeEnum instead.
   DataSubtypeEnum:
     permissible_values:
       normalized:
@@ -3859,6 +4048,111 @@ classes:
         title: Disease
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the dataset.
+        required: false
+  BaseFile:
+    abstract: true
+    description: Base schema for all file types with common metadata attributes
+    attributes:
+      title:
+        title: Title
+        range: string
+        required: true
+      description:
+        title: Description
+        range: string
+        description: Blurb for the file; should be no more than 500 characters.
+        required: false
+      alternateName:
+        title: Alternate Name
+        description: An alternate name that can be used for search and discovery improvement.
+        range: string
+        required: false
+      creator:
+        title: Creator
+        range: string
+        description: Properly formatted name of the organization or person that is creator of the file (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
+        multivalued: true
+        required: true
+      contributor:
+        title: Contributor(s)
+        range: string
+        description: Institution or person responsible for collecting and managing the files and records in the file.
+        multivalued: true
+        required: false
+      keywords:
+        title: Keywords
+        range: string
+        multivalued: true
+        required: true
+      subject:
+        title: Subject
+        range: string
+        description: Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
+        multivalued: true
+        required: false
+      species:
+        title: Species
+        range: SpeciesEnum
+        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
+        multivalued: true
+        required: false
+      individualCount:
+        title: Individual Count
+        range: integer
+        description: Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
+        required: false
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection(s)
+        multivalued: true
+        required: false
+      includedInDataCatalog:
+        title: Included In Data Catalog
+        description: Link(s) to known data catalog(s) the file is included in.
+        range: string
+        required: false
+      citation:
+        title: Citation
+        range: string
+        multivalued: true
+        description: identifies academic articles that are recommended by the data provider be cited in addition to the file itself.
+        required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the file available.
+        required: false
+      license:
+        title: License
+        range: License
+        description: Unless information for license is clear, this should default to UNKNOWN.
+        required: false
+      source:
+        title: Source
+        range: string
+        description: Host platform from which the file was sourced.
+        required: true
+      url:
+        title: URL
+        range: string
+        description: URL for the original file location at source.
+        required: true
+      sameAs:
+        title: Same As
+        range: string
+        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
+        required: false
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease(s) or condition(s) studied in the file.
+        required: false
+      dataType:
+        title: Data Type
+        range: Data
+        description: Reflects the data types within the file.
+        multivalued: true
         required: false
   DataQuality:
     description: Data quality control and audit trail information
@@ -5560,14 +5854,10 @@ classes:
         required: false
   ClinicalDataset:
     is_a: BaseDataset
+    mixins: [ClinicalDatasetMixin]
     description: Dataset containing subject-level longitudinal clinical data where each file contains aggregate level subject data across multiple timepoints
     attributes:
-      studyType:
-        title: Study type
-        range: StudyLevelEnum
-        description: Study type for dataset (longitudinal, cross-sectional, etc.)
-        required: false
-      # Clinical-specific data types
+      # Override dataType with more specific clinical enum
       dataType:
         title: Data Type
         range: ClinicalDataTypeEnum
@@ -5602,6 +5892,60 @@ classes:
         title: Visit Schedule
         range: string
         description: Description of visit schedule (e.g., "Baseline, 3, 6, 12 months")
+        required: false
+      studyType:
+        title: Study type
+        range: StudyLevelEnum
+        description: Study type for dataset (longitudinal, cross-sectional, etc.)
+        required: false
+  ClinicalFile:
+    is_a: BaseFile
+    mixins: [ClinicalFileMixin]
+    description: File containing clinical data such as assessments, visits, treatments, or medical history
+    attributes:
+      # Clinical-specific data types
+      dataType:
+        title: Data Type
+        range: ClinicalDataTypeEnum
+        description: Clinical data types (assessments, treatments, medical history, etc.)
+        multivalued: true
+        required: false
+      # Assessment-specific attributes
+      assessmentType:
+        title: Assessment Type
+        range: AssessmentTypeEnum
+        description: Type of clinical assessment contained in the file
+        multivalued: true
+        required: false
+      # Key outcome measures
+      keyMeasures:
+        title: Key Measures
+        range: string
+        description: Primary outcome measures or endpoints captured in this data
+        multivalued: true
+        required: false
+      # Data collection methodology
+      administrationMode:
+        title: Administration Mode
+        range: AdministrationModeEnum
+        description: The method by which the assessment or data collection was performed
+        required: false
+      studyPhase:
+        title: Study Phase
+        range: StudyPhaseEnum
+        description: The phase or timepoint in the study when the data was collected
+        required: false
+      # Data characteristics
+      hasLongitudinalData:
+        title: Has Longitudinal Data
+        range: boolean
+        description: Indicates whether the data contains multiple timepoints per subject
+        required: false
+      # Subject tracking
+      subjectIdColumn:
+        title: Subject ID Column
+        range: string
+        description: Name of the column containing subject identifiers
         required: false
   OmicDataset:
     is_a: BaseDataset
@@ -5677,6 +6021,47 @@ classes:
         range: Data
         description: File format of the omic data
         multivalued: true
+        required: false
+  OmicFile:
+    is_a: BaseFile
+    mixins: [OmicFileMixin]
+    description: File containing omic data such as sequencing, expression, or proteomics data
+    attributes:
+      # Omic-specific data types
+      dataType:
+        title: Data Type
+        range: OmicDataTypeEnum
+        description: Omic data types (genomics, transcriptomics, proteomics, etc.)
+        multivalued: true
+        required: false
+      # Sequencing and platform metadata
+      platform:
+        title: Platform
+        range: PlatformEnum
+        description: Sequencing or analysis platform used
+        required: false
+      libraryStrategy:
+        title: Library Strategy
+        range: LibraryStrategyEnum
+        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
+        required: false
+      # Processing information
+      processingLevel:
+        title: Processing Level
+        range: ProcessingLevelEnum
+        description: Level of data processing (raw, processed, analyzed)
+        required: false
+      # File format details
+      fileFormat:
+        title: File Format
+        range: string
+        description: Format of the omic data file (FASTQ, BAM, VCF, etc.)
+        required: false
+      # Sample tracking
+      sampleIdColumn:
+        title: Sample ID Column
+        range: string
+        description: Name of the column containing sample identifiers
         required: false
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
@@ -6433,6 +6818,12 @@ classes:
     mixin: true
     description: Mixin for clinical dataset specific attributes
     attributes:
+      clinicalDomain:
+        title: Clinical Domain
+        description: The primary clinical domain or area of focus for the data
+        range: ClinicalDomainEnum
+        multivalued: true
+        required: false
       studyType:
         title: Study type
         range: StudyLevelEnum
@@ -6495,118 +6886,41 @@ classes:
         description: Reflects the data types within the dataset.
         multivalued: true
         required: false
-  Dataset:
-    is_a: BaseDataset
-    mixins: [ClinicalDatasetMixin, OmicDatasetMixin]
-    description: Model for dataset on the AMP-ALS portal - union of clinical and omic dataset types
-    notes:
-      - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
-      - This schema inherits from BaseDataset and combines attributes from both clinical and omic dataset types for backward compatibility
-      - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy
-  File:
-    description: Model for file on the AMP-ALS portal
-    notes:
-      - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+  ClinicalFileMixin:
+    mixin: true
+    description: Mixin for clinical file specific attributes
     attributes:
-      title:
-        title: Title
-        range: string
-        required: true
-      description:
-        title: Description
-        range: string
-        description: Blurb for the file; should be no more than 500 characters.
-        required: false
-      alternateName:
-        title: Alternate Name
-        description: An alternate name that can be used for search and discovery improvement.
-        range: string
-        required: false
-      creator:
-        title: Creator
-        range: string
-        description: Properly formatted name of the organization or person that is creator of the file (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
-        multivalued: true
-        required: true
-      contributor:
-        title: Contributor(s)
-        range: string
-        description: Institution or person responsible for collecting and managing the files and records in the file.
+      clinicalDomain:
+        title: Clinical Domain
+        description: The primary clinical domain or area of focus for the data
+        range: ClinicalDomainEnum
         multivalued: true
         required: false
-      # studyId:
-      #  title: Study ID
-      #  range: string
-      #  description: Identifier for the study (project) from which the file was derived.
-      #  required: true
+      studyPhase:
+        title: Study Phase
+        range: string
+        description: Phase or stage of the clinical study when file was generated
+        required: false
+      visitType:
+        title: Visit Type
+        range: string
+        description: Type of clinical visit (baseline, follow-up, etc.)
+        required: false
+      analysisTypes:
+        title: Analysis Types
+        range: AnalysisMethodEnum
+        description: Computational and statistical analysis methods applied to the data
+        multivalued: true
+        required: false
+  OmicFileMixin:
+    mixin: true
+    description: Mixin for omic file specific attributes
+    attributes:
       assay:
         title: Measurement Technique
         range: AssayEnum
         multivalued: true
         description: What's used to generate data in file, typically referring to the assay. Omit if not applicable.
-      keywords:
-        title: Keywords
-        range: string
-        multivalued: true
-        required: true
-      subject:
-        title: Subject
-        range: string
-        description: Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
-        multivalued: true
-        required: false
-      species:
-        title: Species
-        range: SpeciesEnum
-        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
-        multivalued: true
-        required: false
-      individualCount:
-        title: Individual Count
-        range: integer
-        description: Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
-        required: false
-      collection:
-        title: Collection
-        range: CollectionEnum
-        description: Associated collection(s)
-        multivalued: true
-        required: false
-      includedInDataCatalog:
-        title: Included In Data Catalog
-        description: Link(s) to known data catalog(s) the file is included in.
-        range: string
-        required: false
-      citation:
-        title: Citation
-        range: string
-        multivalued: true
-        description: identifies academic articles that are recommended by the data provider be cited in addition to the file itself.
-        required: false
-      publisher:
-        title: Publisher
-        range: string
-        description: Name of the organization or person responsible for making the file available.
-        required: false
-      license:
-        title: License
-        range: License
-        description: Unless information for license is clear, this should default to UNKNOWN.
-        required: false
-      source:
-        title: Source
-        range: string
-        description: Host platform from which the file was sourced.
-        required: true
-      url:
-        title: URL
-        range: string
-        description: URL for the original file location at source.
-        required: true
-      sameAs:
-        title: Same As
-        range: string
-        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
         required: false
       GEOSuperSeries:
         title: GEO SuperSeries
@@ -6622,12 +6936,6 @@ classes:
         title: FACS Population
         range: string
         description: FACS-sorted cell population description
-        required: false
-      dataType:
-        title: Data Type
-        range: Data
-        description: Reflects the data types within the file.
-        multivalued: true
         required: false
       libraryLayout:
         title: Library Layout
@@ -6647,8 +6955,25 @@ classes:
         description: Type of cell or cell line used in the file.
         multivalued: true
         required: false
-      disease:
-        title: Disease
-        range: DiseaseEnum
-        description: Disease(s) or condition(s) studied in the file.
+      analysisTypes:
+        title: Analysis Types
+        range: AnalysisMethodEnum
+        description: Computational and statistical analysis methods applied to the data
+        multivalued: true
         required: false
+  Dataset:
+    is_a: BaseDataset
+    mixins: [ClinicalDatasetMixin, OmicDatasetMixin]
+    description: Model for dataset on the AMP-ALS portal - union of clinical and omic dataset types
+    notes:
+      - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+      - This schema inherits from BaseDataset and combines attributes from both clinical and omic dataset types for backward compatibility
+      - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy
+  File:
+    is_a: BaseFile
+    mixins: [ClinicalFileMixin, OmicFileMixin]
+    description: Model for file on the AMP-ALS portal - union of clinical and omic file types
+    notes:
+      - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+      - This schema inherits from BaseFile and combines attributes from both clinical and omic file types for backward compatibility
+      - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy

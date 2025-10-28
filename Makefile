@@ -32,7 +32,7 @@ Dataset:
 ClinicalDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/datasets/ClinicalDataset.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/DatasetMixins.yaml modules/clinical/domains.yaml modules/datasets/ClinicalDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".ClinicalDataset | ."$$id"="https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset"' tmp.json > json-schemas/ClinicalDataset.json
@@ -52,7 +52,7 @@ OmicDataset:
 File:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/FileMixins.yaml modules/portal/File.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/portal/File.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".File | ."$$id"="https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file"' tmp.json > json-schemas/File.json
@@ -62,7 +62,7 @@ File:
 ClinicalFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/FileMixins.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".ClinicalFile | ."$$id"="https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file"' tmp.json > json-schemas/ClinicalFile.json
@@ -72,7 +72,7 @@ ClinicalFile:
 OmicFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/FileMixins.yaml modules/datasets/OmicFile.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".OmicFile | ."$$id"="https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file"' tmp.json > json-schemas/OmicFile.json

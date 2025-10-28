@@ -12,7 +12,7 @@ classes:
       # Omic-specific data types
       dataType:
         title: Data Type
-        range: Data  # Could be specialized to OmicDataTypeEnum in future
+        range: OmicDataTypeEnum
         description: Omic data types (genomics, transcriptomics, proteomics, etc.)
         multivalued: true
         required: false

@@ -8,6 +8,12 @@ classes:
     mixin: true
     description: Mixin for clinical dataset specific attributes
     attributes:
+      clinicalDomain:
+        title: Clinical Domain
+        description: The primary clinical domain or area of focus for the data
+        range: ClinicalDomainEnum
+        multivalued: true
+        required: false
       studyType:
         title: Study type
         range: StudyLevelEnum

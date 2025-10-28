@@ -6,14 +6,10 @@
 classes:
   ClinicalDataset:
     is_a: BaseDataset
+    mixins: [ClinicalDatasetMixin]
     description: Dataset containing subject-level longitudinal clinical data where each file contains aggregate level subject data across multiple timepoints
     attributes:
-      studyType:
-        title: Study type
-        range: StudyLevelEnum
-        description: Study type for dataset (longitudinal, cross-sectional, etc.)
-        required: false
-      # Clinical-specific data types
+      # Override dataType with more specific clinical enum
       dataType:
         title: Data Type
         range: ClinicalDataTypeEnum

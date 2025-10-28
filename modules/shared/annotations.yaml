@@ -1,0 +1,44 @@
+#######################################
+# Biological Annotations
+# Database references and annotation types for omics and clinical data
+#######################################
+
+enums:
+  AnnotationTypeEnum:
+    description: Types of biological databases and annotation references
+    permissible_values:
+      # Pathway Databases (migrated from PathwayTypeEnum)
+      KEGG:
+        description: KEGG (Kyoto Encyclopedia of Genes and Genomes) pathways
+      GO:
+        description: Gene Ontology pathways (biological process, molecular function, cellular component)
+      
+      # Genomic and Protein Databases
+      UniProt:
+        description: Universal Protein Resource
+      Ensembl:
+        description: Ensembl genome database
+      HGNC:
+        description: HUGO Gene Nomenclature Committee
+      RefSeq:
+        description: Reference Sequence database
+      
+      # Disease and Clinical Databases
+      MONDO:
+        description: Mondo Disease Ontology
+      HPO:
+        description: Human Phenotype Ontology
+      SNOMED:
+        description: SNOMED Clinical Terms
+      ICD:
+        description: International Classification of Diseases
+      
+      # Pathway Analysis Types
+      pathway_enrichment:
+        description: General pathway enrichment analysis
+      protein_pathway:
+        description: Protein-level pathway analysis
+      metabolic_pathway:
+        description: Metabolic pathway analysis
+      signaling_pathway:
+        description: Cell signaling pathway analysis
