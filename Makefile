@@ -1,17 +1,16 @@
-all: ALS.jsonld ALS.yaml ALS.ttl
+all: ALS.jsonld dist/ALS.yaml ALS.ttl
 
-ALS.jsonld:
+ALS.jsonld: dist/ALS.yaml
 	bb ./retold/retold as-jsonld --dir modules --out ALS.jsonld
 
-ALS.yaml:
+dist/ALS.yaml:
 	yq eval-all '. as $$item ireduce ({}; . * $$item )' header.yaml modules/shared/*.yaml modules/**/*.yaml > merged.yaml
 	yq 'del(.. | select(has("annotations")).annotations)' merged.yaml > merged_no_extra_meta.yaml
 	yq 'del(.. | select(has("enum_range")).enum_range)' merged_no_extra_meta.yaml > merged_no_inlined_range.yaml
 	yq 'del(.. | select(has("in_subset")).in_subset)' merged_no_inlined_range.yaml > dist/ALS.yaml
 	rm -f merged*.yaml
 
-ALS.ttl:
-	make dist/ALS.yaml
+ALS.ttl: dist/ALS.yaml
 	gen-rdf dist/ALS.yaml > dist/ALS.ttl
 
 linkml_jsonld:
