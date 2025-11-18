@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace rdfs: ;
+    sh:declare [ sh:namespace prov: ;
+            sh:prefix "prov" ],
+        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ],
+        [ sh:namespace rdfs: ;
             sh:prefix "rdfs" ],
         [ sh:namespace schema1: ;
             sh:prefix "schema" ],
-        [ sh:namespace prov: ;
-            sh:prefix "prov" ],
         [ sh:namespace linkml: ;
             sh:prefix "linkml" ],
         [ sh:namespace skos: ;
-            sh:prefix "skos" ],
-        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ] ;
+            sh:prefix "skos" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -53,6 +53,7 @@
         <https://w3id.org/synapse/amp-als/vocab/OmicDatasetMixin>,
         <https://w3id.org/synapse/amp-als/vocab/OmicFile>,
         <https://w3id.org/synapse/amp-als/vocab/OmicFileMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/Phenoconversion>,
         <https://w3id.org/synapse/amp-als/vocab/ProtocolDeviation>,
         <https://w3id.org/synapse/amp-als/vocab/PulmonaryFunction>,
         <https://w3id.org/synapse/amp-als/vocab/StrengthAssessment>,
@@ -69,6 +70,7 @@
         "skos",
         "xsd" ;
     linkml:enums <https://w3id.org/synapse/amp-als/vocab/ALSGeneEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/ALSSiteOfOnsetEnum>,
         <https://w3id.org/synapse/amp-als/vocab/AbnormalFlagEnum>,
         <https://w3id.org/synapse/amp-als/vocab/AccessTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum>,
@@ -88,6 +90,7 @@
         <https://w3id.org/synapse/amp-als/vocab/ChannelEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ClinicalDomainEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/ClinicalPhenotypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CollectionEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CollectionMethodEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CollectionNotDoneReasonEnum>,
@@ -111,6 +114,7 @@
         <https://w3id.org/synapse/amp-als/vocab/DoseUnitsEnum>,
         <https://w3id.org/synapse/amp-als/vocab/DrugScreen>,
         <https://w3id.org/synapse/amp-als/vocab/EfficacyEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/FTDPrimarySyndromeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/FamilyConditionEnum>,
         <https://w3id.org/synapse/amp-als/vocab/FamilyHistoryEnum>,
         <https://w3id.org/synapse/amp-als/vocab/FastingStatusEnum>,
@@ -141,6 +145,7 @@
         <https://w3id.org/synapse/amp-als/vocab/OmicDataTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/OrganEnum>,
         <https://w3id.org/synapse/amp-als/vocab/OutcomeEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/PhenoconversionStatusEnum>,
         <https://w3id.org/synapse/amp-als/vocab/PlatformEnum>,
         <https://w3id.org/synapse/amp-als/vocab/PrimaryCellSourceEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ProcessingLevelEnum>,
@@ -191,7 +196,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2025-10-28T16:06:25"^^xsd:dateTime ;
+    linkml:generation_date "2025-11-10T20:04:38"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -671,6 +676,17 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__platform>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__processingLevel>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__sampleIdColumn>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsDiagnosisDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsOnsetDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsSiteOfOnset>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__clinicalPhenotype>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__evaluatorInitials>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdDiagnosisDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdOnsetDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdPrimarySyndrome>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionRationale>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionStatus>,
         <https://w3id.org/synapse/amp-als/vocab/protocolDeviation__correctiveAction>,
         <https://w3id.org/synapse/amp-als/vocab/protocolDeviation__deviationCategory>,
         <https://w3id.org/synapse/amp-als/vocab/protocolDeviation__deviationDate>,
@@ -802,8 +818,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2025-10-28T16:06:23"^^xsd:dateTime ;
-    linkml:source_file_size 305275 ;
+    linkml:source_file_date "2025-11-10T20:04:37"^^xsd:dateTime ;
+    linkml:source_file_size 308712 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -866,13 +882,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/8%2B> skos:definition "8+" .
 
-<https://w3id.org/synapse/amp-als/vocab/ALS> skos:definition "Amyotrophic lateral sclerosis" .
-
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute> skos:definition "https://anvilproject.org/news/2023/09/05/data-release-als-compute-project" .
 
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Knowledge%20Portal> skos:definition "Default collection" .
-
-<https://w3id.org/synapse/amp-als/vocab/ALS-FTD> skos:definition "Combined ALS and FTD" .
 
 <https://w3id.org/synapse/amp-als/vocab/ALSAQ-40> skos:definition "ALS Assessment Questionnaire-40" .
 
@@ -972,6 +984,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Baseline> skos:definition "Baseline visit before treatment/intervention" .
 
+<https://w3id.org/synapse/amp-als/vocab/Behavioral%20Variant%20FTD%20%28bvFTD%29> skos:definition "Behavioral Variant FTD (bvFTD)" .
+
+<https://w3id.org/synapse/amp-als/vocab/Behavioral%20Variant%20FTD%20with%20Motor%20Neuron%20Disease%20%28bFTD-MND%29> skos:definition "Behavioral Variant FTD with Motor Neuron Disease (bFTD-MND)" .
+
 <https://w3id.org/synapse/amp-als/vocab/Benign> skos:definition "Benign variant" .
 
 <https://w3id.org/synapse/amp-als/vocab/BiomarkerSerumCollection> skos:definition "Collection of serum samples for biomarker analysis" .
@@ -1001,6 +1017,8 @@
     skos:definition "BruChase sequencing extends Bru-seq with a chase period to measure both RNA synthesis and degradation rates, providing kinetic analysis of transcript turnover and RNA stability genome-wide." .
 
 <https://w3id.org/synapse/amp-als/vocab/Buenrostro%20et%20al.%20Nat%20Methods%202024%20ATAC-seq> skos:definition "ATAC-seq protocol from Buenrostro et al. Nature Methods 2024" .
+
+<https://w3id.org/synapse/amp-als/vocab/Bulbar> skos:definition "Bulbar onset" .
 
 <https://w3id.org/synapse/amp-als/vocab/Burden_of_Participation> skos:definition "Withdrew due to burden of participation" .
 
@@ -1146,6 +1164,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Corsi%20blocks> skos:definition """A visuospatial counterpart to the verbal-memory span task (Milner, 1971). Over the years, it has frequently been used to assess visuospatial short-term memory performance in adults  (e.g. Smyth & Scholey, 1992), children (e.g. Orsini, Schiappa, & Grossi, 1981), and patients with neuropsychological deficits. 
 """ ;
     linkml:meaning <https://www.cognitiveatlas.org/task/id/trm_4da881dace79c/> .
+
+<https://w3id.org/synapse/amp-als/vocab/Corticobasal%20Syndrome%20%28CBS%29> skos:definition "Corticobasal Syndrome (CBS)" .
 
 <https://w3id.org/synapse/amp-als/vocab/Cost> skos:definition "Changed due to cost considerations" .
 
@@ -1360,6 +1380,8 @@
 <https://w3id.org/synapse/amp-als/vocab/GeneDx> skos:definition "GeneDx genetic testing laboratory" .
 
 <https://w3id.org/synapse/amp-als/vocab/GeneSetEnrichmentAnalysis> skos:definition "a statistical method that determines whether predefined set sof proteins/genes, e.g. pathways, show statistically significant differences relative to a phenytype." .
+
+<https://w3id.org/synapse/amp-als/vocab/Generalized> skos:definition "Generalized onset" .
 
 <https://w3id.org/synapse/amp-als/vocab/Genetic_Counseling> skos:definition "Genetic counseling visit" .
 
@@ -1616,6 +1638,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Likely_Pathogenic> skos:definition "Likely pathogenic variant" .
 
+<https://w3id.org/synapse/amp-als/vocab/Limb> skos:definition "Limb onset" .
+
 <https://w3id.org/synapse/amp-als/vocab/Locked> skos:definition "Form locked for editing" .
 
 <https://w3id.org/synapse/amp-als/vocab/Lost_to_Follow_up> skos:definition "Lost to follow-up" .
@@ -1754,6 +1778,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Non_Compliance> skos:definition "Terminated due to non-compliance" .
 
 <https://w3id.org/synapse/amp-als/vocab/Non_Fasting> skos:definition "Subject was not fasting" .
+
+<https://w3id.org/synapse/amp-als/vocab/Nonfluent%20Variant%20Primary%20Progressive%20Aphasia> skos:definition "Nonfluent Variant Primary Progressive Aphasia" .
 
 <https://w3id.org/synapse/amp-als/vocab/Normalized%20Protein%20Expression%20%28NPX%29> skos:definition "relative quanitification unit usied in Olink proteomic assays that are calculated from assay's raw protein signal." .
 
@@ -1919,6 +1945,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Procedure_Timing> skos:definition "Study procedure timing deviation" .
 
+<https://w3id.org/synapse/amp-als/vocab/Progressive%20Supranuclear%20Palsy> skos:definition "Progressive Supranuclear Palsy" .
+
 <https://w3id.org/synapse/amp-als/vocab/Promega%20GloMax%20Discover> dcterms:source <https://www.promega.com/products/microplate-readers-fluorometers-luminometers/microplate-readers/glomax-discover-system/?catNum=GM3000> ;
     skos:definition "(From vendor) Microplate reader with high-performance luminescence, fluorescence, UV-Visible absorbance, BRET and FRET, two-color filtered luminescence and kinetic measurement capabilities." .
 
@@ -2007,6 +2035,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Resolved_with_Sequelae> skos:definition "Resolved with lasting effects" .
 
+<https://w3id.org/synapse/amp-als/vocab/Respiratory> skos:definition "Respiratory onset" .
+
 <https://w3id.org/synapse/amp-als/vocab/Results_Return> skos:definition "Visit for returning genetic test results" .
 
 <https://w3id.org/synapse/amp-als/vocab/Rhesus%20macaque> skos:definition "Macaca mulatta with taxonomy ID: 9544 and Genbank common name: Rhesus monkey" ;
@@ -2066,6 +2096,8 @@
 <https://w3id.org/synapse/amp-als/vocab/SecondStranded> skos:definition "Sequences of read 2 align to the RNA strand, \"reverse stranded\"." .
 
 <https://w3id.org/synapse/amp-als/vocab/Self_Administered> skos:definition "Self-administered" .
+
+<https://w3id.org/synapse/amp-als/vocab/Semantic%20Variant%20Primary%20Progressive%20Aphasia> skos:definition "Semantic Variant Primary Progressive Aphasia" .
 
 <https://w3id.org/synapse/amp-als/vocab/Sentrix%20descriptor%20file> dcterms:source <https://support.illumina.com/content/dam/illumina-support/documents/myillumina/dd0aff11-2664-481b-a8ce-26831a907cae/beadscan_3.0_software_addendum.pdf> ;
     skos:definition "A BeadScan specific file needed to perform scan setting checks for different array formats and assay type." .
@@ -2341,8 +2373,6 @@
     skos:definition "measures real time kinetic of the media flux in live cellular environment to determine in vitro oxygen consumption rate (OCR), and extracellular acidification rate (ECAR), in order to assess cellular metabolic functions such as oxidative phosphorylation, glycolysis, and fatty acid oxidation. XFe-24 assays apply to all fields of biomedical research." .
 
 <https://w3id.org/synapse/amp-als/vocab/Yellow> skos:definition "Yellow (normal)" .
-
-<https://w3id.org/synapse/amp-als/vocab/Yes> skos:definition "Positive family history" .
 
 <https://w3id.org/synapse/amp-als/vocab/Zeiss%20LSM> skos:definition "Zeiss Confocal Microscope -- use when model number is not important." .
 
@@ -3715,6 +3745,12 @@
 <https://w3id.org/synapse/amp-als/vocab/zip> skos:definition "zip is a format standard of a digital entity that is conformant with the PKWARE .ZIP file format specification" ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0000325> .
 
+<https://w3id.org/synapse/amp-als/vocab/ALS> skos:definition "Amyotrophic Lateral Sclerosis",
+        "Amyotrophic lateral sclerosis" .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS-FTD> skos:definition "Amyotrophic Lateral Sclerosis with Frontotemporal Dementia",
+        "Combined ALS and FTD" .
+
 <https://w3id.org/synapse/amp-als/vocab/Active> skos:definition "Condition is currently active",
         "Device is currently active/in use" .
 
@@ -3810,8 +3846,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Early_Termination> skos:definition "Early study termination visit",
         "Early termination from study" .
-
-<https://w3id.org/synapse/amp-als/vocab/FTD> skos:definition "Frontotemporal dementia" .
 
 <https://w3id.org/synapse/amp-als/vocab/Fatal> skos:definition "Event resulted in death",
         "Fatal" .
@@ -3959,6 +3993,9 @@
         <https://w3id.org/synapse/amp-als/vocab/micrometer>,
         <https://w3id.org/synapse/amp-als/vocab/millimeter>,
         <https://w3id.org/synapse/amp-als/vocab/nanometer> .
+
+<https://w3id.org/synapse/amp-als/vocab/Yes> skos:definition "Phenoconversion performed",
+        "Positive family history" .
 
 <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__alsfrsTotal> a linkml:SlotDefinition ;
     dcterms:title "ALSFRS-R Total Score" ;
@@ -4306,6 +4343,21 @@
     dcterms:title "Allergy Details" ;
     skos:definition "Details of drug allergies and reactions" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
+<https://w3id.org/synapse/amp-als/vocab/alsDiagnosisDate> a linkml:SlotDefinition ;
+    dcterms:title "ALS Diagnosis Date" ;
+    skos:definition "Date of ALS diagnosis." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
+
+<https://w3id.org/synapse/amp-als/vocab/alsOnsetDate> a linkml:SlotDefinition ;
+    dcterms:title "ALS Onset Date" ;
+    skos:definition "Date of ALS onset." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
+
+<https://w3id.org/synapse/amp-als/vocab/alsSiteOfOnset> a linkml:SlotDefinition ;
+    dcterms:title "ALS Site of Onset" ;
+    skos:definition "Site of ALS onset." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/ALSSiteOfOnsetEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/alsfrsTotal> a linkml:SlotDefinition ;
     dcterms:title "ALSFRS-R Total Score" ;
@@ -5653,6 +5705,11 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalFile> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/subjectIdColumn> .
+
+<https://w3id.org/synapse/amp-als/vocab/clinicalPhenotype> a linkml:SlotDefinition ;
+    dcterms:title "Clinical Phenotype" ;
+    skos:definition "The clinical phenotype after conversion." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalPhenotypeEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/co2> a linkml:SlotDefinition ;
     dcterms:title "CO2 (mEq/L)" ;
@@ -7068,6 +7125,11 @@
     skos:definition "Erythrocyte sedimentation rate" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/float> .
 
+<https://w3id.org/synapse/amp-als/vocab/evaluatorInitials> a linkml:SlotDefinition ;
+    dcterms:title "Evaluator Initials" ;
+    skos:definition "Initials of the evaluator recording the phenoconversion." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
 <https://w3id.org/synapse/amp-als/vocab/eventDate> a linkml:SlotDefinition ;
     dcterms:title "Event Date" ;
     skos:definition "Date when adverse event occurred" ;
@@ -7260,6 +7322,21 @@
     dcterms:title "FTD Criteria Met" ;
     skos:definition "Whether FTD diagnostic criteria are met" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
+
+<https://w3id.org/synapse/amp-als/vocab/ftdDiagnosisDate> a linkml:SlotDefinition ;
+    dcterms:title "FTD Diagnosis Date" ;
+    skos:definition "Date of FTD diagnosis." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
+
+<https://w3id.org/synapse/amp-als/vocab/ftdOnsetDate> a linkml:SlotDefinition ;
+    dcterms:title "FTD Onset Date" ;
+    skos:definition "Date of FTD onset." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
+
+<https://w3id.org/synapse/amp-als/vocab/ftdPrimarySyndrome> a linkml:SlotDefinition ;
+    dcterms:title "FTD Primary Syndrome" ;
+    skos:definition "Primary FTD syndrome." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/FTDPrimarySyndromeEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/functionalStatusEligible> a linkml:SlotDefinition ;
     dcterms:title "Functional Status Eligible" ;
@@ -8821,6 +8898,131 @@
     dcterms:title "Peripheral Neuropathy" ;
     skos:definition "History of peripheral neuropathy" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversionDate> a linkml:SlotDefinition ;
+    dcterms:title "Phenoconversion Date" ;
+    skos:definition "The date phenoconversion was recorded." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversionRationale> a linkml:SlotDefinition ;
+    dcterms:title "Rationale for Phenoconversion" ;
+    skos:definition "Description of the rationale for phenoconversion." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversionStatus> a linkml:SlotDefinition ;
+    dcterms:title "Phenoconversion Status" ;
+    skos:definition "Whether a phenoconversion event was recorded." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/PhenoconversionStatusEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsDiagnosisDate> a linkml:SlotDefinition ;
+    dcterms:title "ALS Diagnosis Date" ;
+    skos:definition "Date of ALS diagnosis." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "alsDiagnosisDate" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/alsDiagnosisDate> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsOnsetDate> a linkml:SlotDefinition ;
+    dcterms:title "ALS Onset Date" ;
+    skos:definition "Date of ALS onset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "alsOnsetDate" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/alsOnsetDate> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsSiteOfOnset> a linkml:SlotDefinition ;
+    dcterms:title "ALS Site of Onset" ;
+    skos:definition "Site of ALS onset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "alsSiteOfOnset" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/ALSSiteOfOnsetEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/alsSiteOfOnset> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__clinicalPhenotype> a linkml:SlotDefinition ;
+    dcterms:title "Clinical Phenotype" ;
+    skos:definition "The clinical phenotype after conversion." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "clinicalPhenotype" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalPhenotypeEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/clinicalPhenotype> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__evaluatorInitials> a linkml:SlotDefinition ;
+    dcterms:title "Evaluator Initials" ;
+    skos:definition "Initials of the evaluator recording the phenoconversion." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "evaluatorInitials" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/evaluatorInitials> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdDiagnosisDate> a linkml:SlotDefinition ;
+    dcterms:title "FTD Diagnosis Date" ;
+    skos:definition "Date of FTD diagnosis." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "ftdDiagnosisDate" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/ftdDiagnosisDate> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdOnsetDate> a linkml:SlotDefinition ;
+    dcterms:title "FTD Onset Date" ;
+    skos:definition "Date of FTD onset." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "ftdOnsetDate" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/ftdOnsetDate> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdPrimarySyndrome> a linkml:SlotDefinition ;
+    dcterms:title "FTD Primary Syndrome" ;
+    skos:definition "Primary FTD syndrome." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "ftdPrimarySyndrome" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/FTDPrimarySyndromeEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/ftdPrimarySyndrome> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionDate> a linkml:SlotDefinition ;
+    dcterms:title "Phenoconversion Date" ;
+    skos:definition "The date phenoconversion was recorded." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "phenoconversionDate" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/phenoconversionDate> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionRationale> a linkml:SlotDefinition ;
+    dcterms:title "Rationale for Phenoconversion" ;
+    skos:definition "Description of the rationale for phenoconversion." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "phenoconversionRationale" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/phenoconversionRationale> .
+
+<https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionStatus> a linkml:SlotDefinition ;
+    dcterms:title "Phenoconversion Status" ;
+    skos:definition "Whether a phenoconversion event was recorded." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "phenoconversionStatus" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/PhenoconversionStatusEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/phenoconversionStatus> .
 
 <https://w3id.org/synapse/amp-als/vocab/phosphoTau> a linkml:SlotDefinition ;
     dcterms:title "Phosphorylated Tau (pg/mL)" ;
@@ -10865,6 +11067,9 @@
         <https://w3id.org/synapse/amp-als/vocab/omicDatasetMixin__libraryLayout>,
         <https://w3id.org/synapse/amp-als/vocab/omicDatasetMixin__originalSampleName> .
 
+<https://w3id.org/synapse/amp-als/vocab/FTD> skos:definition "Frontotemporal Dementia",
+        "Frontotemporal dementia" .
+
 <https://w3id.org/synapse/amp-als/vocab/Fair> skos:definition "Fair cooperation",
         "Fair efficacy",
         "Fair tolerability" .
@@ -11092,9 +11297,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Statistical%20Metadata>,
         <https://w3id.org/synapse/amp-als/vocab/Structural%20Metadata>,
         <https://w3id.org/synapse/amp-als/vocab/Workflow%20Metadata> .
-
-<https://w3id.org/synapse/amp-als/vocab/Not%20Applicable> skos:definition "",
-        "Not applicable in this context" .
 
 <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ;
@@ -11615,6 +11817,13 @@
         <https://w3id.org/synapse/amp-als/vocab/VAPB>,
         <https://w3id.org/synapse/amp-als/vocab/VCP> .
 
+<https://w3id.org/synapse/amp-als/vocab/ALSSiteOfOnsetEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/ALSSiteOfOnsetEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Bulbar>,
+        <https://w3id.org/synapse/amp-als/vocab/Generalized>,
+        <https://w3id.org/synapse/amp-als/vocab/Limb>,
+        <https://w3id.org/synapse/amp-als/vocab/Respiratory> .
+
 <https://w3id.org/synapse/amp-als/vocab/AbnormalFlagEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/AbnormalFlagEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Abnormal>,
@@ -11668,6 +11877,12 @@
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/dorsolateral%20prefrontal%20cortex>,
         <https://w3id.org/synapse/amp-als/vocab/middle%20frontal%20cortex>,
         <https://w3id.org/synapse/amp-als/vocab/primary%20motor%20cortex> .
+
+<https://w3id.org/synapse/amp-als/vocab/ClinicalPhenotypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/ClinicalPhenotypeEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS-FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/FTD> .
 
 <https://w3id.org/synapse/amp-als/vocab/CollectionMethodEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CollectionMethodEnum> ;
@@ -11810,6 +12025,15 @@
         "Excellent quality specimen",
         "Excellent tolerability" .
 
+<https://w3id.org/synapse/amp-als/vocab/FTDPrimarySyndromeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/FTDPrimarySyndromeEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Behavioral%20Variant%20FTD%20%28bvFTD%29>,
+        <https://w3id.org/synapse/amp-als/vocab/Behavioral%20Variant%20FTD%20with%20Motor%20Neuron%20Disease%20%28bFTD-MND%29>,
+        <https://w3id.org/synapse/amp-als/vocab/Corticobasal%20Syndrome%20%28CBS%29>,
+        <https://w3id.org/synapse/amp-als/vocab/Nonfluent%20Variant%20Primary%20Progressive%20Aphasia>,
+        <https://w3id.org/synapse/amp-als/vocab/Progressive%20Supranuclear%20Palsy>,
+        <https://w3id.org/synapse/amp-als/vocab/Semantic%20Variant%20Primary%20Progressive%20Aphasia> .
+
 <https://w3id.org/synapse/amp-als/vocab/FamilyConditionEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/FamilyConditionEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS>,
@@ -11901,6 +12125,10 @@
         <https://w3id.org/synapse/amp-als/vocab/Severe>,
         <https://w3id.org/synapse/amp-als/vocab/Slight> .
 
+<https://w3id.org/synapse/amp-als/vocab/Not%20Applicable> skos:definition "",
+        "Not applicable in this context",
+        "Phenoconversion not applicable" .
+
 <https://w3id.org/synapse/amp-als/vocab/OutcomeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/OutcomeEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Fatal>,
@@ -11909,6 +12137,11 @@
         <https://w3id.org/synapse/amp-als/vocab/Resolved>,
         <https://w3id.org/synapse/amp-als/vocab/Resolved_with_Sequelae>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
+
+<https://w3id.org/synapse/amp-als/vocab/PhenoconversionStatusEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/PhenoconversionStatusEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Not%20Applicable>,
+        <https://w3id.org/synapse/amp-als/vocab/Yes> .
 
 <https://w3id.org/synapse/amp-als/vocab/Poor> skos:definition "Poor cooperation",
         "Poor efficacy",
@@ -13361,11 +13594,11 @@
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -13683,26 +13916,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Severe>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
-<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__globalSubjectId> a linkml:SlotDefinition ;
-    dcterms:title "Global Subject ID" ;
-    skos:definition "Reference to subject this assessment belongs to" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "globalSubjectId" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/globalSubjectId> .
-
-<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__visitId> a linkml:SlotDefinition ;
-    dcterms:title "Visit ID" ;
-    skos:definition "Identifier for the clinical visit" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "visitId" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/visitId> .
-
 <https://w3id.org/synapse/amp-als/vocab/disease> a linkml:SlotDefinition ;
     dcterms:title "Disease" ;
     skos:definition "Disease diagnosis",
@@ -14001,6 +14214,26 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/citation> .
 
+<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__globalSubjectId> a linkml:SlotDefinition ;
+    dcterms:title "Global Subject ID" ;
+    skos:definition "Reference to subject this assessment belongs to" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "globalSubjectId" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/globalSubjectId> .
+
+<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__visitId> a linkml:SlotDefinition ;
+    dcterms:title "Visit ID" ;
+    skos:definition "Identifier for the clinical visit" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "visitId" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/visitId> .
+
 <https://w3id.org/synapse/amp-als/vocab/clinicalDomain> a linkml:SlotDefinition ;
     dcterms:title "Clinical Domain" ;
     skos:definition "The primary clinical domain or area of focus for the data" ;
@@ -14205,26 +14438,6 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalDatasetMixin__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalDatasetMixin__studyType> .
 
-<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate> a linkml:SlotDefinition ;
-    dcterms:title "Assessment Date" ;
-    skos:definition "Date when the assessment was performed" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "assessmentDate" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assessmentDate> .
-
-<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType> a linkml:SlotDefinition ;
-    dcterms:title "Assessment Type" ;
-    skos:definition "Type of clinical assessment" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "assessmentType" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assessmentType> .
-
 <https://w3id.org/synapse/amp-als/vocab/CollectionNotDoneReasonEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/CollectionNotDoneReasonEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Equipment_Unavailable>,
@@ -14253,6 +14466,26 @@
         <https://w3id.org/synapse/amp-als/vocab/pulmonaryFunction__fvcPercent>,
         <https://w3id.org/synapse/amp-als/vocab/pulmonaryFunction__svcLiters>,
         <https://w3id.org/synapse/amp-als/vocab/pulmonaryFunction__svcPercent> .
+
+<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate> a linkml:SlotDefinition ;
+    dcterms:title "Assessment Date" ;
+    skos:definition "Date when the assessment was performed" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "assessmentDate" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assessmentDate> .
+
+<https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType> a linkml:SlotDefinition ;
+    dcterms:title "Assessment Type" ;
+    skos:definition "Type of clinical assessment" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "assessmentType" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/assessmentType> .
 
 <https://w3id.org/synapse/amp-als/vocab/ClinicalFileMixin> a linkml:ClassDefinition ;
     skos:definition "Mixin for clinical file specific attributes" ;
@@ -14379,21 +14612,6 @@
         <https://w3id.org/synapse/amp-als/vocab/strengthAssessment__shoulderFlexionLeft>,
         <https://w3id.org/synapse/amp-als/vocab/strengthAssessment__shoulderFlexionRight> .
 
-<https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> a linkml:ClassDefinition ;
-    skos:definition "Clinical assessment and outcome measures for subjects" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/assessmentDate>,
-        <https://w3id.org/synapse/amp-als/vocab/assessmentType>,
-        <https://w3id.org/synapse/amp-als/vocab/globalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/visitId> ;
-    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__globalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__visitId> .
-
 <https://w3id.org/synapse/amp-als/vocab/visitId> a linkml:SlotDefinition ;
     dcterms:title "Visit ID" ;
     skos:definition "Identifier for the clinical visit",
@@ -14425,6 +14643,21 @@
         <https://w3id.org/synapse/amp-als/vocab/adverseEvent__relationship>,
         <https://w3id.org/synapse/amp-als/vocab/adverseEvent__serious>,
         <https://w3id.org/synapse/amp-als/vocab/adverseEvent__severity> .
+
+<https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> a linkml:ClassDefinition ;
+    skos:definition "Clinical assessment and outcome measures for subjects" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/assessmentDate>,
+        <https://w3id.org/synapse/amp-als/vocab/assessmentType>,
+        <https://w3id.org/synapse/amp-als/vocab/globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/visitId> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__visitId> .
 
 <https://w3id.org/synapse/amp-als/vocab/ClinicalDataset> a linkml:ClassDefinition ;
     skos:definition "Dataset containing subject-level longitudinal clinical data where each file contains aggregate level subject data across multiple timepoints" ;
@@ -14563,9 +14796,9 @@
         "Reflects the data types within the file." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum>,
@@ -14729,6 +14962,40 @@
         <https://w3id.org/synapse/amp-als/vocab/geneticProfile__testType>,
         <https://w3id.org/synapse/amp-als/vocab/geneticProfile__testingLab>,
         <https://w3id.org/synapse/amp-als/vocab/geneticProfile__wantResultsReturned> .
+
+<https://w3id.org/synapse/amp-als/vocab/Phenoconversion> a linkml:ClassDefinition ;
+    skos:definition "Records the conversion of a subject's clinical phenotype, for example from asymptomatic to symptomatic." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/alsDiagnosisDate>,
+        <https://w3id.org/synapse/amp-als/vocab/alsOnsetDate>,
+        <https://w3id.org/synapse/amp-als/vocab/alsSiteOfOnset>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalPhenotype>,
+        <https://w3id.org/synapse/amp-als/vocab/evaluatorInitials>,
+        <https://w3id.org/synapse/amp-als/vocab/ftdDiagnosisDate>,
+        <https://w3id.org/synapse/amp-als/vocab/ftdOnsetDate>,
+        <https://w3id.org/synapse/amp-als/vocab/ftdPrimarySyndrome>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversionDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversionRationale>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversionStatus> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
+    linkml:is_a <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__visitId>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsDiagnosisDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsOnsetDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__alsSiteOfOnset>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__clinicalPhenotype>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__evaluatorInitials>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdDiagnosisDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdOnsetDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__ftdPrimarySyndrome>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionDate>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionRationale>,
+        <https://w3id.org/synapse/amp-als/vocab/phenoconversion__phenoconversionStatus> .
 
 <https://w3id.org/synapse/amp-als/vocab/Urinalysis> a linkml:ClassDefinition ;
     skos:definition "Urinalysis results" ;
@@ -15678,18 +15945,6 @@
         <https://w3id.org/synapse/amp-als/vocab/treatment__treatmentType>,
         <https://w3id.org/synapse/amp-als/vocab/treatment__visitId> .
 
-<https://w3id.org/synapse/amp-als/vocab/date> a linkml:TypeDefinition ;
-    skos:definition "a date (year, month and day) in an idealized calendar" ;
-    skos:editorialNote "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"date\".",
-        "URI is dateTime because OWL reasoners don't work with straight date or time" ;
-    skos:exactMatch schema1:Date ;
-    skos:inScheme linkml:types ;
-    linkml:base "XSDDate" ;
-    linkml:definition_uri linkml:Date ;
-    linkml:imported_from "linkml:types" ;
-    linkml:repr "str" ;
-    linkml:uri xsd:date .
-
 <https://w3id.org/synapse/amp-als/vocab/MedicalHistory> a linkml:ClassDefinition ;
     skos:definition "Medical history and comorbidity tracking",
         "Medical history and disease characteristics" ;
@@ -15765,6 +16020,18 @@
         <https://w3id.org/synapse/amp-als/vocab/medicalHistory__stroke>,
         <https://w3id.org/synapse/amp-als/vocab/medicalHistory__surgicalDetails>,
         <https://w3id.org/synapse/amp-als/vocab/medicalHistory__thyroidDisease> .
+
+<https://w3id.org/synapse/amp-als/vocab/date> a linkml:TypeDefinition ;
+    skos:definition "a date (year, month and day) in an idealized calendar" ;
+    skos:editorialNote "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"date\".",
+        "URI is dateTime because OWL reasoners don't work with straight date or time" ;
+    skos:exactMatch schema1:Date ;
+    skos:inScheme linkml:types ;
+    linkml:base "XSDDate" ;
+    linkml:definition_uri linkml:Date ;
+    linkml:imported_from "linkml:types" ;
+    linkml:repr "str" ;
+    linkml:uri xsd:date .
 
 <https://w3id.org/synapse/amp-als/vocab/integer> a linkml:TypeDefinition ;
     skos:definition "An integer" ;

@@ -58,6 +58,43 @@
     } ],
     "sms:displayName" : "ElectrophysiologyAssessment"
   }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:ClinicalAssessment"
+    } ],
+    "@id" : "bts:Phenoconversion",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "Phenoconversion",
+    "rdfs:comment" : "Records the conversion of a subject's clinical phenotype, for example from asymptomatic to symptomatic.",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:phenoconversionStatus"
+    }, {
+      "@id" : "bts:phenoconversionDate"
+    }, {
+      "@id" : "bts:evaluatorInitials"
+    }, {
+      "@id" : "bts:clinicalPhenotype"
+    }, {
+      "@id" : "bts:alsOnsetDate"
+    }, {
+      "@id" : "bts:alsDiagnosisDate"
+    }, {
+      "@id" : "bts:alsSiteOfOnset"
+    }, {
+      "@id" : "bts:ftdOnsetDate"
+    }, {
+      "@id" : "bts:ftdDiagnosisDate"
+    }, {
+      "@id" : "bts:ftdPrimarySyndrome"
+    }, {
+      "@id" : "bts:phenoconversionRationale"
+    } ],
+    "sms:displayName" : "Phenoconversion"
+  }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:Eligibility",
     "schema:isPartOf" : {
@@ -1019,6 +1056,289 @@
       "@id" : "bts:annotations"
     } ],
     "sms:displayName" : "ClinicalFileMixin"
+  }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:ClinicalAssessment"
+    } ],
+    "@id" : "bts:SymptomQuestionnaire",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "SymptomQuestionnaire",
+    "rdfs:comment" : "A questionnaire about various symptoms a participant may be experiencing.",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:performed"
+    }, {
+      "@id" : "bts:reasonNotDone"
+    }, {
+      "@id" : "bts:date"
+    }, {
+      "@id" : "bts:muscleWeakness"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftArmShoulder"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftArmShoulderType"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftArmShoulderSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftHandFingers"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftHandFingersType"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftHandFingersSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftHipKnee"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftHipKneeType"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftHipKneeSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftFootAnkle"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftFootAnkleType"
+    }, {
+      "@id" : "bts:muscleWeaknessLeftFootAnkleSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessRightArmShoulder"
+    }, {
+      "@id" : "bts:muscleWeaknessRightArmShoulderType"
+    }, {
+      "@id" : "bts:muscleWeaknessRightArmShoulderSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessRightHandFingers"
+    }, {
+      "@id" : "bts:muscleWeaknessRightHandFingersType"
+    }, {
+      "@id" : "bts:muscleWeaknessRightHandFingersSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessRightHipKnee"
+    }, {
+      "@id" : "bts:muscleWeaknessRightHipKneeType"
+    }, {
+      "@id" : "bts:muscleWeaknessRightHipKneeSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessRightFootAnkle"
+    }, {
+      "@id" : "bts:muscleWeaknessRightFootAnkleType"
+    }, {
+      "@id" : "bts:muscleWeaknessRightFootAnkleSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessFaceLipsTongue"
+    }, {
+      "@id" : "bts:muscleWeaknessFaceLipsTongueType"
+    }, {
+      "@id" : "bts:muscleWeaknessFaceLipsTongueSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessNeck"
+    }, {
+      "@id" : "bts:muscleWeaknessNeckType"
+    }, {
+      "@id" : "bts:muscleWeaknessNeckSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessTrunkCore"
+    }, {
+      "@id" : "bts:muscleWeaknessTrunkCoreType"
+    }, {
+      "@id" : "bts:muscleWeaknessTrunkCoreSensation"
+    }, {
+      "@id" : "bts:muscleWeaknessOther"
+    }, {
+      "@id" : "bts:muscleWeaknessOtherSpecify"
+    }, {
+      "@id" : "bts:muscleWeaknessOtherType"
+    }, {
+      "@id" : "bts:muscleWeaknessOtherSensation"
+    }, {
+      "@id" : "bts:muscleAtrophy"
+    }, {
+      "@id" : "bts:muscleAtrophyLeftChest"
+    }, {
+      "@id" : "bts:muscleAtrophyLeftUpperArmShoulder"
+    }, {
+      "@id" : "bts:muscleAtrophyLeftForearm"
+    }, {
+      "@id" : "bts:muscleAtrophyLeftHandFingers"
+    }, {
+      "@id" : "bts:muscleAtrophyLeftThighHip"
+    }, {
+      "@id" : "bts:muscleAtrophyLeftAnkleCalf"
+    }, {
+      "@id" : "bts:muscleAtrophyLeftFootToes"
+    }, {
+      "@id" : "bts:muscleAtrophyRightChest"
+    }, {
+      "@id" : "bts:muscleAtrophyRightUpperArmShoulder"
+    }, {
+      "@id" : "bts:muscleAtrophyRightForearm"
+    }, {
+      "@id" : "bts:muscleAtrophyRightHandFingers"
+    }, {
+      "@id" : "bts:muscleAtrophyRightThighHip"
+    }, {
+      "@id" : "bts:muscleAtrophyRightAnkleCalf"
+    }, {
+      "@id" : "bts:muscleAtrophyRightFootToes"
+    }, {
+      "@id" : "bts:muscleAtrophyFaceHead"
+    }, {
+      "@id" : "bts:muscleAtrophyNeck"
+    }, {
+      "@id" : "bts:muscleAtrophyAbdomen"
+    }, {
+      "@id" : "bts:muscleAtrophyOther"
+    }, {
+      "@id" : "bts:muscleAtrophyOtherSpecify"
+    }, {
+      "@id" : "bts:muscleCramping"
+    }, {
+      "@id" : "bts:muscleCrampingLeftChest"
+    }, {
+      "@id" : "bts:muscleCrampingLeftUpperArmShoulder"
+    }, {
+      "@id" : "bts:muscleCrampingLeftForearm"
+    }, {
+      "@id" : "bts:muscleCrampingLeftHandFingers"
+    }, {
+      "@id" : "bts:muscleCrampingLeftThighHip"
+    }, {
+      "@id" : "bts:muscleCrampingLeftAnkleCalf"
+    }, {
+      "@id" : "bts:muscleCrampingLeftFootToes"
+    }, {
+      "@id" : "bts:muscleCrampingRightChest"
+    }, {
+      "@id" : "bts:muscleCrampingRightUpperArmShoulder"
+    }, {
+      "@id" : "bts:muscleCrampingRightForearm"
+    }, {
+      "@id" : "bts:muscleCrampingRightHandFingers"
+    }, {
+      "@id" : "bts:muscleCrampingRightThighHip"
+    }, {
+      "@id" : "bts:muscleCrampingRightAnkleCalf"
+    }, {
+      "@id" : "bts:muscleCrampingRightFootToes"
+    }, {
+      "@id" : "bts:muscleCrampingFaceHead"
+    }, {
+      "@id" : "bts:muscleCrampingNeck"
+    }, {
+      "@id" : "bts:muscleCrampingAbdomen"
+    }, {
+      "@id" : "bts:muscleCrampingOther"
+    }, {
+      "@id" : "bts:muscleCrampingOtherSpecify"
+    }, {
+      "@id" : "bts:muscleTwitching"
+    }, {
+      "@id" : "bts:muscleTwitchingLeftChest"
+    }, {
+      "@id" : "bts:muscleTwitchingLeftUpperArmShoulder"
+    }, {
+      "@id" : "bts:muscleTwitchingLeftForearm"
+    }, {
+      "@id" : "bts:muscleTwitchingLeftHandFingers"
+    }, {
+      "@id" : "bts:muscleTwitchingLeftThighHip"
+    }, {
+      "@id" : "bts:muscleTwitchingLeftAnkleCalf"
+    }, {
+      "@id" : "bts:muscleTwitchingLeftFootToes"
+    }, {
+      "@id" : "bts:muscleTwitchingRightChest"
+    }, {
+      "@id" : "bts:muscleTwitchingRightUpperArmShoulder"
+    }, {
+      "@id" : "bts:muscleTwitchingRightForearm"
+    }, {
+      "@id" : "bts:muscleTwitchingRightHandFingers"
+    }, {
+      "@id" : "bts:muscleTwitchingRightThighHip"
+    }, {
+      "@id" : "bts:muscleTwitchingRightAnkleCalf"
+    }, {
+      "@id" : "bts:muscleTwitchingRightFootToes"
+    }, {
+      "@id" : "bts:muscleTwitchingFaceHead"
+    }, {
+      "@id" : "bts:muscleTwitchingNeck"
+    }, {
+      "@id" : "bts:muscleTwitchingAbdomen"
+    }, {
+      "@id" : "bts:muscleTwitchingOther"
+    }, {
+      "@id" : "bts:muscleTwitchingOtherSpecify"
+    }, {
+      "@id" : "bts:walkingGaitProblems"
+    }, {
+      "@id" : "bts:walkingGaitLeftFootDrop"
+    }, {
+      "@id" : "bts:walkingGaitRightFootDrop"
+    }, {
+      "@id" : "bts:walkingGaitDecreasedBalance"
+    }, {
+      "@id" : "bts:walkingGaitFrequentTripping"
+    }, {
+      "@id" : "bts:walkingGaitFalls"
+    }, {
+      "@id" : "bts:walkingGaitOther"
+    }, {
+      "@id" : "bts:walkingGaitOtherSpecify"
+    }, {
+      "@id" : "bts:speechProblems"
+    }, {
+      "@id" : "bts:speechSlurred"
+    }, {
+      "@id" : "bts:speechSofterVolume"
+    }, {
+      "@id" : "bts:speechHoarseStrained"
+    }, {
+      "@id" : "bts:speechWordFinding"
+    }, {
+      "@id" : "bts:speechUnderstanding"
+    }, {
+      "@id" : "bts:speechOther"
+    }, {
+      "@id" : "bts:speechOtherSpecify"
+    }, {
+      "@id" : "bts:swallowingProblems"
+    }, {
+      "@id" : "bts:swallowingMoveFood"
+    }, {
+      "@id" : "bts:swallowingCoughingChoking"
+    }, {
+      "@id" : "bts:swallowingChewingFatigue"
+    }, {
+      "@id" : "bts:swallowingSpilling"
+    }, {
+      "@id" : "bts:swallowingSaliva"
+    }, {
+      "@id" : "bts:swallowingOther"
+    }, {
+      "@id" : "bts:swallowingOtherSpecify"
+    }, {
+      "@id" : "bts:breathingProblems"
+    }, {
+      "@id" : "bts:breathingShortnessOfBreathExertion"
+    }, {
+      "@id" : "bts:breathingShortnessOfBreathLightExertion"
+    }, {
+      "@id" : "bts:breathingShortnessOfBreathTalkingEating"
+    }, {
+      "@id" : "bts:breathingShortnessOfBreathLyingFlat"
+    }, {
+      "@id" : "bts:breathingShortnessOfBreathAtRest"
+    }, {
+      "@id" : "bts:breathingOther"
+    }, {
+      "@id" : "bts:breathingOtherSpecify"
+    }, {
+      "@id" : "bts:pbaProblems"
+    } ],
+    "sms:displayName" : "SymptomQuestionnaire"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:ClinicalDatasetMixin",
@@ -2440,6 +2760,17 @@
     "sms:displayName" : "DiseaseEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:ClinicalPhenotypeEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ClinicalPhenotypeEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ClinicalPhenotypeEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:UnknownEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -2937,7 +3268,7 @@
   }, {
     "@id" : "bts:OmicDataTypeEnum",
     "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
+    "rdfs:comment" : "Types of omic data contained in files",
     "rdfs:label" : "OmicDataTypeEnum",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
@@ -3562,6 +3893,17 @@
     "sms:displayName" : "BiospecimenTypeEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:FTDPrimarySyndromeEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "FTDPrimarySyndromeEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "FTDPrimarySyndromeEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:GenomicReferenceEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -3947,6 +4289,17 @@
     "sms:displayName" : "ClinicalDomainEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:PhenoconversionStatusEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PhenoconversionStatusEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "PhenoconversionStatusEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:UrineKetonesEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -4079,6 +4432,17 @@
     "sms:displayName" : "ReflexEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:ALSSiteOfOnsetEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ALSSiteOfOnsetEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ALSSiteOfOnsetEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:LipemiaEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -4165,6 +4529,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "PrimaryCellSourceEnum",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:WeaknessTypeEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "WeaknessTypeEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "WeaknessTypeEnum",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:CellTypeEnum",
@@ -4351,21 +4726,91 @@
     "sms:required" : "sms:false",
     "sms:validationRules" : [ ],
     "schema:rangeIncludes" : [ {
-      "@id" : "bts:alsfrs_r"
+      "@id" : "bts:ALSFRS-R"
     }, {
-      "@id" : "bts:neurological_exam"
+      "@id" : "bts:ECAS"
     }, {
-      "@id" : "bts:psychiatric_eval"
+      "@id" : "bts:Strength"
     }, {
-      "@id" : "bts:vital_signs"
+      "@id" : "bts:PulmonaryFunction"
     }, {
-      "@id" : "bts:laboratory"
+      "@id" : "bts:SpeechFunction"
     }, {
-      "@id" : "bts:electrophysiology"
+      "@id" : "bts:ALSAQ-40"
     }, {
-      "@id" : "bts:dynamometry"
+      "@id" : "bts:Neurological"
+    }, {
+      "@id" : "bts:HandHeldDynamometry"
+    }, {
+      "@id" : "bts:VitalSigns"
+    }, {
+      "@id" : "bts:PhysicalExam"
+    }, {
+      "@id" : "bts:EMG"
+    }, {
+      "@id" : "bts:NCS"
+    }, {
+      "@id" : "bts:SuicideRisk"
+    }, {
+      "@id" : "bts:Laboratory"
+    }, {
+      "@id" : "bts:Demographics"
+    }, {
+      "@id" : "bts:MedicalHistory"
+    }, {
+      "@id" : "bts:ClinicalExamination"
+    }, {
+      "@id" : "bts:QualityOfLifeSurvey"
+    }, {
+      "@id" : "bts:TreatmentAdministration"
+    }, {
+      "@id" : "bts:VisitScheduling"
+    }, {
+      "@id" : "bts:EligibilityCriteria"
+    }, {
+      "@id" : "bts:StudyDisposition"
+    }, {
+      "@id" : "bts:EligibilityConsent"
+    }, {
+      "@id" : "bts:ConcomitantMedications"
+    }, {
+      "@id" : "bts:CohortParticipation"
+    }, {
+      "@id" : "bts:BiomarkerSerumCollection"
+    }, {
+      "@id" : "bts:AdverseEventLog"
+    }, {
+      "@id" : "bts:InformedConsentForm"
+    }, {
+      "@id" : "bts:InfusionVitalSigns"
+    }, {
+      "@id" : "bts:KeyDevicesProcedures"
+    }, {
+      "@id" : "bts:clinician_administered_exam"
+    }, {
+      "@id" : "bts:neurological_examination"
+    }, {
+      "@id" : "bts:PermanentAssistedVentilation"
+    }, {
+      "@id" : "bts:PhoneCallVisit"
+    }, {
+      "@id" : "bts:Pregnancy"
+    }, {
+      "@id" : "bts:ProtocolDeviation"
+    }, {
+      "@id" : "bts:SlowVitalCapacity(SVC)"
+    }, {
+      "@id" : "bts:ExposureProtocolChanges"
+    }, {
+      "@id" : "bts:SurvivalStatus"
+    }, {
+      "@id" : "bts:genetic_counseling"
     }, {
       "@id" : "bts:genetic_testing"
+    }, {
+      "@id" : "bts:motor_assessment"
+    }, {
+      "@id" : "bts:cognitive_assessment"
     } ],
     "rdfs:label" : "assessmentType",
     "rdfs:comment" : "The specific type of clinical assessment or data collection method used",
@@ -6184,17 +6629,6 @@
     "sms:displayName" : "plink",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:dynamometry",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "dynamometry",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "dynamometry",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:ANG",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -6248,6 +6682,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Serum_Separator",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Limb",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Limb",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Limb",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:VUS",
@@ -6305,6 +6750,28 @@
     "sms:displayName" : "physical_examination",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:raw_data",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "raw_data",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "raw_data",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:metabolic_pathways",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "metabolic_pathways",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "metabolic_pathways",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:csi",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -6360,17 +6827,6 @@
     "sms:displayName" : "GeneDx",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:astrocytes",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "astrocytes",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "astrocytes",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:study_completion",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -6380,6 +6836,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "study_completion",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:ftd",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ftd",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ftd",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:NWB",
@@ -6479,17 +6946,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Tympanic",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:sporadicALS",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "sporadicALS",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "sporadic ALS",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Data_Entry",
@@ -6712,17 +7168,6 @@
     "sms:displayName" : "Moderate_Atrophy",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:stem_cell",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "stem_cell",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "stem_cell",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:CCBY-ND",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -6833,6 +7278,17 @@
     "sms:displayName" : "Siemens Magnetom Verio 3T",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:transcript_counts",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "transcript_counts",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "transcript_counts",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Diminished",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -6875,6 +7331,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Possible_ALS",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:cognitive_assessment",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "cognitive_assessment",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "cognitive_assessment",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:complexIIenzymeactivityassay",
@@ -6952,6 +7419,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "local field potential recording",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:clinician_administered_exam",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "clinician_administered_exam",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "clinician_administered_exam",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Left_Lateral",
@@ -7152,17 +7630,6 @@
     "sms:displayName" : "Extension control 1",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:organoid",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "organoid",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "organoid",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:Active",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -7273,17 +7740,6 @@
     "sms:displayName" : "pairedEnd",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:primary_cell",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "primary_cell",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "primary_cell",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:Plasma",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -7337,17 +7793,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Sentrix descriptor file",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:C9-ALS",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "C9-ALS",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "C9-ALS",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:eligibility_criteria",
@@ -7471,6 +7916,17 @@
     "sms:displayName" : "Siemens Magnetom Trio 3T",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:PermanentAssistedVentilation",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PermanentAssistedVentilation",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "PermanentAssistedVentilation",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:gelpermeationchromatography",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -7504,6 +7960,17 @@
     "sms:displayName" : "REC",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Generalized",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Generalized",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Generalized",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:invivoPDXviability",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -7513,17 +7980,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "in vivo PDX viability",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:immortalized_cell_line",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "immortalized_cell_line",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "immortalized_cell_line",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:CC-0",
@@ -7612,17 +8068,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Signed",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:C9-FTD",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "C9-FTD",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "C9-FTD",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Drosophilamelanogaster",
@@ -7790,6 +8235,17 @@
     "sms:displayName" : "GATK BaseRecalibration",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:chromatin_accessibility",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "chromatin_accessibility",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "chromatin_accessibility",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:FACE-QAppearance-relatedDistress",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -7876,6 +8332,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "BA4",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:SlowVitalCapacity(SVC)",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "SlowVitalCapacity(SVC)",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "SlowVitalCapacity (SVC)",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:bgzip",
@@ -7986,6 +8453,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "TriKinetics activity monitoring",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:brain_tissue",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "brain_tissue",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "brain_tissue",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:SaferSeqS",
@@ -8217,6 +8695,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Serum",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Constant",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Constant",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Constant",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:tagAlign",
@@ -8604,6 +9093,17 @@
     "sms:displayName" : "FreeBayes",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:variant_calls",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "variant_calls",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "variant_calls",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:VCP",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -8646,6 +9146,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "cnn",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:histone_modification",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "histone_modification",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "histone_modification",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Inhalation",
@@ -8734,6 +9245,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "integrated",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:ECAS",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ECAS",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ECAS",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Screen_Failure",
@@ -8945,6 +9467,17 @@
     "sms:displayName" : "Danio rerio",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:peptide_identification",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "peptide_identification",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "peptide_identification",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Patient_Report",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -9009,6 +9542,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Chronic_Stable",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:ClinicalExamination",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ClinicalExamination",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ClinicalExamination",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:8+",
@@ -9352,6 +9896,17 @@
     "sms:displayName" : "bedgraph",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:genetic_counseling",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "genetic_counseling",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "genetic_counseling",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Homosapiens",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -9418,6 +9973,17 @@
     "sms:displayName" : "safety_monitoring",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:genomicVariants",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "genomicVariants",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "genomicVariants",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:lightscatteringassay",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -9449,6 +10015,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "tar",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:EligibilityConsent",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "EligibilityConsent",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "EligibilityConsent",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:CNV",
@@ -9528,6 +10105,17 @@
     "sms:displayName" : "treatment_modification",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:CohortParticipation",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "CohortParticipation",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "CohortParticipation",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:ultrahigh-performanceliquidchromatography/tandemmassspectrometry",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -9548,28 +10136,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "cranial_nerves",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:multi_omics",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "multi_omics",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "multi_omics",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:genomics",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "genomics",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "genomics",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:RNAarray",
@@ -9781,6 +10347,17 @@
     "sms:displayName" : "liquid chromatography/tandem mass spectrometry",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:SuicideRisk",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "SuicideRisk",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "SuicideRisk",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:csf",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -9856,6 +10433,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Drowsy",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:chromatinActivity",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "chromatinActivity",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "chromatinActivity",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Once_Daily",
@@ -10045,17 +10633,6 @@
     "sms:displayName" : "bulk cell",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:urine",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "urine",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "urine",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:BA9",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -10065,17 +10642,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "BA9",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:primarycellculture",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "primarycellculture",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "primary cell culture",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:snRNA-seq",
@@ -10342,6 +10908,17 @@
     "sms:displayName" : "Chromium X",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:protein_modification",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "protein_modification",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "protein_modification",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:physical_mobility",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -10362,6 +10939,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Current",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:methylation",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "methylation",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "methylation",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:GESignaPremier3T",
@@ -10518,17 +11106,6 @@
     "sms:displayName" : "Magnetization-Prepared Rapid Gradient Echo MRI",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:single_cell",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "single_cell",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "single_cell",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:MMUL1.0",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -10595,6 +11172,17 @@
     "sms:displayName" : "Time_Constraints",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:pbmc",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "pbmc",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "pbmc",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Sodium_Citrate",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -10659,17 +11247,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "sprays",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:rna",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "rna",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "rna",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:IlluminaNovaSeqX",
@@ -10749,6 +11326,17 @@
     "sms:displayName" : "STR profile",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:metabolite_abundance",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "metabolite_abundance",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "metabolite_abundance",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:MudPIT",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -10791,17 +11379,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Diplopia",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:Control",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Control",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Control",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:clinicaldata",
@@ -11044,6 +11621,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "laser speckle imaging",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Intermittent",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Intermittent",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Intermittent",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Severe",
@@ -11299,6 +11887,17 @@
     "sms:displayName" : "Monthly",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:NCS",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "NCS",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "NCS",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:ODC-BY",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -11396,6 +11995,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Cool",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:ConcomitantMedications",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ConcomitantMedications",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ConcomitantMedications",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:cellpainting",
@@ -11682,6 +12292,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "spatial transcriptomics",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:als",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "als",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "als",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:transcriptomics",
@@ -12047,6 +12668,17 @@
     "sms:displayName" : "Philips FEI Tecnai 12",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:analyzed_results",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "analyzed_results",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "analyzed_results",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:proteomics",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -12067,6 +12699,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Illumina Infinium MethylationEPIC BeadChip v1.0 (850k)",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:PhoneCallVisit",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PhoneCallVisit",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "PhoneCallVisit",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:StructuralMetadata",
@@ -12300,6 +12943,17 @@
     "sms:displayName" : "HPLC",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:HandHeldDynamometry",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "HandHeldDynamometry",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "HandHeldDynamometry",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:LegalMetadata",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -12421,17 +13075,6 @@
     "sms:displayName" : "DESeq2",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:iPSC",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "iPSC",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "iPSC",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:Rscript",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -12476,6 +13119,17 @@
     "sms:displayName" : "neurology",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:genome_annotation",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "genome_annotation",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "genome_annotation",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Resolved_with_Sequelae",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -12498,6 +13152,17 @@
     "sms:displayName" : "Oriented_x3",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:AnnotatedGermlineVariants",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "AnnotatedGermlineVariants",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "AnnotatedGermlineVariants",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:ODC-ODbL",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -12509,15 +13174,15 @@
     "sms:displayName" : "ODC-ODbL",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:otherglia",
+    "@id" : "bts:raw_counts",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
-    "rdfs:label" : "otherglia",
+    "rdfs:label" : "raw_counts",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
     },
-    "sms:displayName" : "other glia",
+    "sms:displayName" : "raw_counts",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:GO",
@@ -12553,15 +13218,15 @@
     "sms:displayName" : "Sarek",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:neurological_exam",
+    "@id" : "bts:processed_data",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
-    "rdfs:label" : "neurological_exam",
+    "rdfs:label" : "processed_data",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
     },
-    "sms:displayName" : "neurological_exam",
+    "sms:displayName" : "processed_data",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:dat",
@@ -12652,15 +13317,15 @@
     "sms:displayName" : "proteomics_analysis",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:braintissue",
+    "@id" : "bts:splice_variants",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
-    "rdfs:label" : "braintissue",
+    "rdfs:label" : "splice_variants",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
     },
-    "sms:displayName" : "brain tissue",
+    "sms:displayName" : "splice_variants",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:locs",
@@ -12916,6 +13581,17 @@
     "sms:displayName" : "HBA1C_panels",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Demographics",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Demographics",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Demographics",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:polyAselection",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -12980,6 +13656,28 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "ome-tiff",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:ALSAQ-40",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ALSAQ-40",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ALSAQ-40",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:whole_blood",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "whole_blood",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "whole_blood",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Resolved",
@@ -13279,6 +13977,17 @@
     "sms:displayName" : "ATAC-seq",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:ipsc",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ipsc",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ipsc",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:PhilipsAchieva1.5T",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13455,6 +14164,17 @@
     "sms:displayName" : "environmental_stress",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:SpeechFunction",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "SpeechFunction",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "SpeechFunction",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:pulmonary_function_test",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13488,6 +14208,17 @@
     "sms:displayName" : "lif",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:QualityOfLifeSurvey",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "QualityOfLifeSurvey",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "QualityOfLifeSurvey",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:High",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13510,6 +14241,17 @@
     "sms:displayName" : "Parkinson",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:transcriptomics_nascent",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "transcriptomics_nascent",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "transcriptomics_nascent",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:French",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13519,6 +14261,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "French",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:kinomics",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "kinomics",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "kinomics",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Large",
@@ -13541,17 +14294,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Lack_of_Efficacy",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:saliva",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "saliva",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "saliva",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:sorbitoldehydrogenaseactivitylevelassay",
@@ -13686,6 +14428,17 @@
     "sms:displayName" : "Former_User",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:geneExpression",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "geneExpression",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "geneExpression",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Acute_Denervation",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13695,6 +14448,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Acute_Denervation",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:KeyDevicesProcedures",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "KeyDevicesProcedures",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "KeyDevicesProcedures",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Immunology",
@@ -14036,6 +14800,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "control",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:StructuralVariants",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "StructuralVariants",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "StructuralVariants",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:QExativeHF",
@@ -14412,17 +15187,6 @@
     "sms:displayName" : "Siemens Magnetom Prisma Fit 3T",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:laboratory",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "laboratory",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "laboratory",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:liquidchromatography/massspectrometry",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -14575,6 +15339,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Hypertrophy",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:aligned_reads",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "aligned_reads",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "aligned_reads",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:EDTA",
@@ -14742,6 +15517,17 @@
     "sms:displayName" : "dataMatrix",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:CorticobasalSyndrome(CBS)",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "CorticobasalSyndrome(CBS)",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Corticobasal Syndrome (CBS)",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:GeneSetEnrichmentAnalysis",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -14762,6 +15548,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Cherry Imaging TRACE Platform",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:EligibilityCriteria",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "EligibilityCriteria",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "EligibilityCriteria",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:metabolicscreening",
@@ -14839,6 +15636,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Diaphragm_Pacer",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:motor_assessment",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "motor_assessment",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "motor_assessment",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:AffymetrixHumanGenomeU133Plus2.0Array",
@@ -14962,6 +15770,17 @@
     "sms:displayName" : "Atrial_Flutter",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:PhysicalExam",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PhysicalExam",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "PhysicalExam",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:tom",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -14971,6 +15790,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "tom",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:BehavioralVariantFTDwithMotorNeuronDisease(bFTD-MND)",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "BehavioralVariantFTDwithMotorNeuronDisease(bFTD-MND)",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Behavioral Variant FTD with Motor Neuron Disease (bFTD-MND)",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:unknown",
@@ -15072,6 +15902,17 @@
     "sms:displayName" : "Consent_Issues",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Neurological",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Neurological",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Neurological",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:SiemensAvantoFit1.5T",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15081,6 +15922,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Siemens Avanto Fit 1.5T",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:ProgressiveSupranuclearPalsy",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ProgressiveSupranuclearPalsy",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Progressive Supranuclear Palsy",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:cAMP-GloMaxAssay",
@@ -15160,17 +16012,6 @@
     "sms:displayName" : "genetic_modification",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:oligodendrocytelineagecells",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "oligodendrocytelineagecells",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "oligodendrocyte lineage cells",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:Surgical_Resection",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15235,6 +16076,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "chemistry_panels",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:neurological_examination",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "neurological_examination",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "neurological_examination",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Autopsy",
@@ -15303,6 +16155,17 @@
     "sms:displayName" : "Replaced",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:ALSFRS-R",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ALSFRS-R",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ALSFRS-R",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Intravenous",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15358,17 +16221,6 @@
     "sms:displayName" : "KAPA RNA HyperPrep Kit with RiboErase (HMR)",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:metagenomics",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "metagenomics",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "metagenomics",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:ZetaView",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15400,6 +16252,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "1",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Strength",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Strength",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Strength",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:embargo",
@@ -15499,6 +16362,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "tablets",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Laboratory",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Laboratory",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Laboratory",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:tranches",
@@ -15655,17 +16529,6 @@
     "sms:displayName" : "subject_management",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:neurons",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "neurons",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "neurons",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:Unable_to_Cooperate",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15820,6 +16683,17 @@
     "sms:displayName" : "drug_administration",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:isoformExpression",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "isoformExpression",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "isoformExpression",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:epigenomics",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15842,6 +16716,17 @@
     "sms:displayName" : "Well_Appearing",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:StudyDisposition",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "StudyDisposition",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "StudyDisposition",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:IlluminaHiSeqX",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15862,6 +16747,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Infusion",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Respiratory",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Respiratory",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Respiratory",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:As_Needed",
@@ -16227,6 +17123,17 @@
     "sms:displayName" : "dynamic light scattering",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:oligodendrocyte",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "oligodendrocyte",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "oligodendrocyte",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:TMTquantitation",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16258,6 +17165,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "CSF",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:VitalSigns",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "VitalSigns",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "VitalSigns",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:BlackorAfricanAmerican",
@@ -16293,6 +17211,17 @@
     "sms:displayName" : "Not Reported",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:BiomarkerSerumCollection",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "BiomarkerSerumCollection",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "BiomarkerSerumCollection",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:cel",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16302,6 +17231,28 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "cel",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:AlignedReads",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "AlignedReads",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "AlignedReads",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:CopyNumberVariants",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "CopyNumberVariants",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "CopyNumberVariants",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:LeicaAperioAT2",
@@ -16546,17 +17497,6 @@
     "sms:displayName" : "millimeter",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:NeuN+neurons",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "NeuN+neurons",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "NeuN+ neurons",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:IlluminaNextSeq500",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16645,6 +17585,17 @@
     "sms:displayName" : "bam",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:NormalizedIntensities",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "NormalizedIntensities",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "NormalizedIntensities",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:LTQOrbitrapXL",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16711,6 +17662,17 @@
     "sms:displayName" : "follow_up",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:ProtocolDeviation",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ProtocolDeviation",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ProtocolDeviation",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Crackles",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16764,17 +17726,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Low",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:differentiated_cell",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "differentiated_cell",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "differentiated_cell",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Smart-seq2",
@@ -16876,17 +17827,6 @@
     "sms:displayName" : "nuclear extract",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:psychiatric_eval",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "psychiatric_eval",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "psychiatric_eval",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:longitudinal_analysis",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16898,6 +17838,17 @@
     "sms:displayName" : "longitudinal_analysis",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MedicalHistory",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MedicalHistory",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MedicalHistory",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:hg19",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16907,6 +17858,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "hg19",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:SemanticVariantPrimaryProgressiveAphasia",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "SemanticVariantPrimaryProgressiveAphasia",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Semantic Variant Primary Progressive Aphasia",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:T1-weighted",
@@ -16964,6 +17926,17 @@
     "sms:displayName" : "Open_Label",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:protein_abundance",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "protein_abundance",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "protein_abundance",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:SocialResponsivenessScale",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -16975,15 +17948,15 @@
     "sms:displayName" : "Social Responsiveness Scale",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:tissue",
+    "@id" : "bts:BehavioralVariantFTD(bvFTD)",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
-    "rdfs:label" : "tissue",
+    "rdfs:label" : "BehavioralVariantFTD(bvFTD)",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
     },
-    "sms:displayName" : "tissue",
+    "sms:displayName" : "Behavioral Variant FTD (bvFTD)",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:amplicon_seq",
@@ -17028,6 +18001,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Completed",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Bulbar",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Bulbar",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Bulbar",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:KEGG",
@@ -17162,6 +18146,28 @@
     "sms:displayName" : "serum_pregnancy_panels",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:motor_neuron",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "motor_neuron",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "motor_neuron",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:RawIntensities",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "RawIntensities",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "RawIntensities",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Disoriented",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17173,6 +18179,17 @@
     "sms:displayName" : "Disoriented",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:AnnotatedSomaticVariants",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "AnnotatedSomaticVariants",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "AnnotatedSomaticVariants",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:skinbiopsy",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17182,6 +18199,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "skin biopsy",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:astrocyte",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "astrocyte",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "astrocyte",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:PhilipsInteraAchieva3T",
@@ -17283,6 +18311,17 @@
     "sms:displayName" : "Spectramax M Series",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:integrated_omics",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "integrated_omics",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "integrated_omics",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:open",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17325,6 +18364,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "compound screen",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:genomicFeatures",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "genomicFeatures",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "genomicFeatures",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:seg",
@@ -17415,6 +18465,17 @@
     "sms:displayName" : "Buenrostro et al. Nat Methods 2024 ATAC-seq",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:ExposureProtocolChanges",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "ExposureProtocolChanges",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ExposureProtocolChanges",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:2",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17446,6 +18507,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Yes",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:InformedConsentForm",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "InformedConsentForm",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "InformedConsentForm",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:gross_motor_function",
@@ -17690,17 +18762,6 @@
     "sms:displayName" : "Video_Call",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:alsfrs_r",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "alsfrs_r",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "alsfrs_r",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:Amplificationcontrol1",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17754,6 +18815,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "CAPP-seq",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:PulmonaryFunction",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PulmonaryFunction",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "PulmonaryFunction",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:functional_impact",
@@ -17822,6 +18894,17 @@
     "sms:displayName" : "BrdU proliferation assay",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:InfusionVitalSigns",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "InfusionVitalSigns",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "InfusionVitalSigns",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Rhonchi",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17888,6 +18971,28 @@
     "sms:displayName" : "Oxford Nanopore Direct RNA Sequencing Kit",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:raw_sequencing",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "raw_sequencing",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "raw_sequencing",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:GermlineVariants",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "GermlineVariants",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "GermlineVariants",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:TBK1",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17932,6 +19037,17 @@
     "sms:displayName" : "Type_1",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:SurvivalStatus",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "SurvivalStatus",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "SurvivalStatus",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Other",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17974,6 +19090,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "LCM",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Pregnancy",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Pregnancy",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Pregnancy",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:LifeVizInfinitySystem",
@@ -18062,6 +19189,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "spinal_cord",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:TreatmentAdministration",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "TreatmentAdministration",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "TreatmentAdministration",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:data_quality",
@@ -18205,6 +19343,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Workflow Metadata",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:fibroblast",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "fibroblast",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "fibroblast",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Mutect2",
@@ -18537,6 +19686,17 @@
     "sms:displayName" : "Intolerable",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:gene_expression",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "gene_expression",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "gene_expression",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:BDFACSymphony",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -18645,6 +19805,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "HPO",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:AdverseEventLog",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "AdverseEventLog",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "AdverseEventLog",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Temporal",
@@ -18845,6 +20016,28 @@
     "sms:displayName" : "Supine",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:VisitScheduling",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "VisitScheduling",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "VisitScheduling",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:EMG",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "EMG",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "EMG",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:puretoneaverage",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -18876,6 +20069,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "dorsolateral prefrontal cortex",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:NonfluentVariantPrimaryProgressiveAphasia",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "NonfluentVariantPrimaryProgressiveAphasia",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Nonfluent Variant Primary Progressive Aphasia",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:OlympusIX73",
@@ -18931,6 +20135,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "target_als",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:SomaticVariants",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "SomaticVariants",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "SomaticVariants",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Twice_Daily",
