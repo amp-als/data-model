@@ -7,67 +7,56 @@ classes:
         range: string
         description: Reference to subject this genetic profile belongs to
         required: false
-        
       previousGeneticTesting:
         title: Previous Genetic Testing
         range: boolean
         description: Whether subject has had previous genetic testing
         required: false
-        
       testingLab:
         title: Testing Laboratory
         range: GeneticLabEnum
         description: Laboratory that performed genetic testing
         required: false
-        
       testType:
         title: Test Type
         range: string
         description: Specific genetic test or panel performed
         required: false
-        
       testDate:
         title: Test Date
         range: date
         description: Date when genetic testing was performed
         required: false
-        
       familyHistoryALS:
         title: Family History of ALS
         range: FamilyHistoryEnum
         description: Family history of ALS
         required: false
-        
       familyHistoryFTD:
         title: Family History of FTD
         range: FamilyHistoryEnum
         description: Family history of frontotemporal dementia
         required: false
-        
       familyHistoryDementia:
         title: Family History of Dementia
         range: FamilyHistoryEnum
         description: Family history of other dementia
         required: false
-        
       geneticCounselingReceived:
         title: Genetic Counseling Received
         range: boolean
         description: Whether subject received genetic counseling
         required: false
-        
       consentForGeneticTesting:
         title: Consent for Genetic Testing
         range: boolean
         description: Whether subject consented to genetic testing
         required: false
-        
       wantResultsReturned:
         title: Want Results Returned
         range: boolean
         description: Whether subject wants genetic test results returned
         required: false
-
   GeneticVariant:
     description: Specific genetic variant found in testing
     attributes:
@@ -76,43 +65,36 @@ classes:
         range: string
         description: Reference to subject this variant belongs to
         required: false
-        
       geneName:
         title: Gene Name
         range: ALSGeneEnum
         description: Name of the gene containing the variant
         required: false
-        
       variantType:
         title: Variant Type
         range: VariantTypeEnum
         description: Type of genetic variant
         required: false
-        
       cdnaLocation:
         title: cDNA Location
         range: string
         description: Location of variant in cDNA sequence
         required: false
-        
       proteinChange:
         title: Protein Change
         range: string
         description: Amino acid change caused by variant
         required: false
-        
       classification:
         title: Variant Classification
         range: VariantClassificationEnum
         description: Clinical significance classification
         required: false
-        
       testingLab:
         title: Testing Laboratory
         range: GeneticLabEnum
         description: Laboratory that identified this variant
         required: false
-
   FamilyHistory:
     description: Detailed family history information
     attributes:
@@ -121,37 +103,206 @@ classes:
         range: string
         description: Reference to subject this family history belongs to
         required: false
-        
+      detailedFamilyHistoryObtained:
+        title: Detailed Family History Obtained
+        range: boolean
+        description: A detailed family history was obtained.
+        required: false
+      whoObtainedFamilyHistory:
+        title: Who Obtained Family History
+        range: FamilyHistoryObtainedByEnum
+        description: Who obtained the family history.
+        required: false
+      whoObtainedFamilyHistoryOther:
+        title: Who Obtained Family History Other
+        range: string
+        description: Other person who obtained the family history.
+        required: false
+      numberOfBiologicalSiblings:
+        title: Number of Biological Siblings
+        range: integer
+        description: Number of biological siblings.
+        required: false
+      numberOfBiologicalSiblingsUnknown:
+        title: Number of Biological Siblings Unknown
+        range: boolean
+        description: Whether the number of biological siblings is unknown.
+        required: false
+      numberOfHalfSiblings:
+        title: Number of Half-Siblings
+        range: integer
+        description: Number of half-siblings, living or deceased.
+        required: false
+      numberOfHalfSiblingsUnknown:
+        title: Number of Half-Siblings Unknown
+        range: boolean
+        description: Whether the number of half-siblings is unknown.
+        required: false
+      numberOfBiologicalChildren:
+        title: Number of Biological Children
+        range: integer
+        description: Number of biological children, living or deceased.
+        required: false
+      numberOfBiologicalChildrenUnknown:
+        title: Number of Biological Children Unknown
+        range: boolean
+        description: Whether the number of biological children is unknown.
+        required: false
       relationshipToSubject:
         title: Relationship to Subject
         range: RelationshipEnum
         description: Family member's relationship to subject
         required: false
-        
+      relationshipToSubjectOther:
+        title: Relationship to Subject Other
+        range: string
+        description: Other relationship to subject.
+        required: false
       hereditySide:
         title: Heredity Side
         range: HereditySideEnum
         description: Paternal or maternal side of family
         required: false
-        
-      affectedCondition:
-        title: Affected Condition
-        range: FamilyConditionEnum
-        description: Medical condition affecting this family member
+      familyHistoryOfALS:
+        title: Family History of ALS
+        range: boolean
+        description: Family history of Amyotrophic Lateral Sclerosis.
         required: false
-        
+      familyHistoryOfFTD:
+        title: Family History of FTD
+        range: boolean
+        description: Family history of Frontotemporal Dementia.
+        required: false
+      familyHistoryOfAlzheimers:
+        title: Family History of Alzheimer's
+        range: boolean
+        description: Family history of Alzheimer's disease.
+        required: false
+      familyHistoryOfOtherDementia:
+        title: Family History of Other Dementia
+        range: boolean
+        description: Family history of other dementia syndrome.
+        required: false
+      familyHistoryOfPD:
+        title: Family History of PD
+        range: boolean
+        description: Family history of Parkinson's Disease.
+        required: false
+      familyHistoryOfHD:
+        title: Family History of HD
+        range: boolean
+        description: Family history of Huntington's Disease.
+        required: false
+      familyHistoryOfPsychiatricDisorder:
+        title: Family History of Psychiatric Disorder
+        range: boolean
+        description: Family history of psychiatric disorder.
+        required: false
+      familyHistoryOfPsychiatricDisorderSpecify:
+        title: Family History of Psychiatric Disorder Specify
+        range: string
+        description: Specify the psychiatric disorder.
+        required: false
+      familyHistoryOfPagetsDisease:
+        title: Family History of Paget's Disease
+        range: boolean
+        description: Family history of Paget's Disease of the Bone.
+        required: false
+      familyHistoryOfMyopathy:
+        title: Family History of Myopathy
+        range: boolean
+        description: Family history of myopathy.
+        required: false
+      familyHistoryOfOtherDisease:
+        title: Family History of Other Disease
+        range: boolean
+        description: Family history of other disease.
+        required: false
+      familyHistoryOfOtherDiseaseSpecify:
+        title: Family History of Other Disease Specify
+        range: string
+        description: Specify the other disease.
+        required: false
+      familyMemberGeneticTestingPerformed:
+        title: Family Member Genetic Testing Performed
+        range: boolean
+        description: Genetic testing performed on the family member.
+        required: false
+      familyMemberTestedPositive:
+        title: Family Member Tested Positive
+        range: boolean
+        description: Family member tested positive for variant(s).
+        required: false
+      familyMemberHasC9orf72:
+        title: Family Member Has C9orf72
+        range: boolean
+        description: Family member has C9ORF72 mutation.
+        required: false
+      familyMemberHasSod1:
+        title: Family Member Has SOD1
+        range: boolean
+        description: Family member has SOD1 mutation.
+        required: false
+      familyMemberHasFus:
+        title: Family Member Has FUS
+        range: boolean
+        description: Family member has FUS mutation.
+        required: false
+      familyMemberHasTardbp:
+        title: Family Member Has TARDBP
+        range: boolean
+        description: Family member has TARDBP mutation.
+        required: false
+      familyMemberHasAnxa11:
+        title: Family Member Has ANXA11
+        range: boolean
+        description: Family member has ANXA11 mutation.
+        required: false
+      familyMemberHasTbk1:
+        title: Family Member Has TBK1
+        range: boolean
+        description: Family member has TBK1 mutation.
+        required: false
+      familyMemberHasCfap410:
+        title: Family Member Has CFAP410
+        range: boolean
+        description: Family member has CFAP410 mutation.
+        required: false
+      familyMemberHasChchd10:
+        title: Family Member Has CHCHD10
+        range: boolean
+        description: Family member has CHCHD10 mutation.
+        required: false
+      familyMemberHasAtxn2:
+        title: Family Member Has ATXN2
+        range: boolean
+        description: Family member has ATXN2 mutation.
+        required: false
+      familyMemberHasVcp:
+        title: Family Member Has VCP
+        range: boolean
+        description: Family member has VCP mutation.
+        required: false
+      familyMemberHasOtherGene:
+        title: Family Member Has Other Gene
+        range: boolean
+        description: Family member has other gene mutation.
+        required: false
+      familyMemberHasOtherGeneSpecify:
+        title: Family Member Has Other Gene Specify
+        range: string
+        description: Specify other ALS mutation identified in the family member.
+        required: false
       ageAtOnset:
         title: Age at Onset
         range: integer
         description: Age when condition symptoms began
         required: false
-        
       ageAtDeath:
         title: Age at Death
         range: integer
         description: Age at death if deceased
         required: false
-
 enums:
   GeneticLabEnum:
     permissible_values:
@@ -169,7 +320,6 @@ enums:
         description: Other genetic testing laboratory
       Unknown:
         description: Testing laboratory unknown
-
   FamilyHistoryEnum:
     permissible_values:
       "Yes":
@@ -178,7 +328,6 @@ enums:
         description: No known family history
       Unknown:
         description: Family history unknown
-
   ALSGeneEnum:
     permissible_values:
       C9ORF72:
@@ -219,7 +368,6 @@ enums:
         description: VAMP associated protein B and C gene
       VCP:
         description: Valosin containing protein gene
-
   VariantTypeEnum:
     permissible_values:
       SNV:
@@ -232,7 +380,6 @@ enums:
         description: Repeat expansion (e.g., C9orf72)
       Other:
         description: Other variant type
-
   VariantClassificationEnum:
     permissible_values:
       Pathogenic:
@@ -247,7 +394,6 @@ enums:
         description: Benign variant
       Not_Classified:
         description: Not classified
-
   RelationshipEnum:
     permissible_values:
       Mother:
@@ -276,7 +422,6 @@ enums:
         description: Half sister
       Half_Brother:
         description: Half brother
-
   HereditySideEnum:
     permissible_values:
       Maternal:
@@ -285,7 +430,6 @@ enums:
         description: Paternal side of family
       Both:
         description: Both sides of family
-
   FamilyConditionEnum:
     permissible_values:
       ALS:
@@ -306,3 +450,15 @@ enums:
         description: Myopathy
       Paget:
         description: Paget's disease
+  FamilyHistoryObtainedByEnum:
+    permissible_values:
+      "Genetic Counselor":
+        description: "Genetic Counselor"
+      "Site Investigator":
+        description: "Site Investigator"
+      "Study Coordinator":
+        description: "Study Coordinator"
+      "Chart Review":
+        description: "Chart Review"
+      "Other":
+        description: "Other"

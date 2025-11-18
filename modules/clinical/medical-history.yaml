@@ -1,4 +1,28 @@
 classes:
+  MedicalHistoryCollection:
+    description: "Information about the collection of medical history."
+    attributes:
+      obtained:
+        title: Obtained
+        range: boolean
+        description: "Was medical history obtained?"
+        required: false
+      reasonNotDone:
+        title: Reason Not Done
+        range: string
+        description: "Reason medical history was not obtained."
+        required: false
+      date:
+        title: Date
+        range: date
+        description: "Date of medical history collection."
+        required: false
+      eventsReported:
+        title: Events Reported
+        range: boolean
+        description: "Were any medical history events reported?"
+        required: false
+
   MedicalHistory:
     description: Medical history and comorbidity tracking
     attributes:
@@ -7,206 +31,173 @@ classes:
         range: string
         description: Unique identifier for this medical history record
         required: false
-        
       globalSubjectId:
         title: Global Subject ID
         range: string
         description: Reference to subject for this medical history
         required: false
-        
       # Significant Medical Conditions
       diabetes:
         title: Diabetes Mellitus
         range: boolean
         description: History of diabetes mellitus
         required: false
-        
       diabetesType:
         title: Diabetes Type
         range: DiabetesTypeEnum
         description: Type of diabetes mellitus
         required: false
-        
       hypertension:
         title: Hypertension
         range: boolean
         description: History of hypertension
         required: false
-        
       coronaryArteryDisease:
         title: Coronary Artery Disease
         range: boolean
         description: History of coronary artery disease
         required: false
-        
       myocardialInfarction:
         title: Myocardial Infarction
         range: boolean
         description: History of myocardial infarction
         required: false
-        
       stroke:
         title: Stroke/CVA
         range: boolean
         description: History of stroke or cerebrovascular accident
         required: false
-        
       cancer:
         title: Cancer History
         range: boolean
         description: History of cancer
         required: false
-        
       cancerType:
         title: Cancer Type
         range: string
         description: Type of cancer if present
         required: false
-        
       thyroidDisease:
         title: Thyroid Disease
         range: boolean
         description: History of thyroid disease
         required: false
-        
       kidneyDisease:
         title: Kidney Disease
         range: boolean
         description: History of kidney disease
         required: false
-        
       liverDisease:
         title: Liver Disease
         range: boolean
         description: History of liver disease
         required: false
-        
       pulmonaryDisease:
         title: Pulmonary Disease
         range: boolean
         description: History of significant pulmonary disease
         required: false
-        
       # Neurological History
       priorNeurologicalDisease:
         title: Prior Neurological Disease
         range: boolean
         description: History of other neurological conditions
         required: false
-        
       parkinsonsDisease:
         title: Parkinson's Disease
         range: boolean
         description: History of Parkinson's disease
         required: false
-        
       dementia:
         title: Dementia
         range: boolean
         description: History of dementia
         required: false
-        
       epilepsy:
         title: Epilepsy/Seizure Disorder
         range: boolean
         description: History of epilepsy or seizure disorder
         required: false
-        
       multipleSclerosis:
         title: Multiple Sclerosis
         range: boolean
         description: History of multiple sclerosis
         required: false
-        
       peripheralNeuropathy:
         title: Peripheral Neuropathy
         range: boolean
         description: History of peripheral neuropathy
         required: false
-        
       # Psychiatric History
       depression:
         title: Depression
         range: boolean
         description: History of depression
         required: false
-        
       anxiety:
         title: Anxiety Disorder
         range: boolean
         description: History of anxiety disorder
         required: false
-        
       psychosis:
         title: Psychotic Disorder
         range: boolean
         description: History of psychotic disorder
         required: false
-        
       bipolarDisorder:
         title: Bipolar Disorder
         range: boolean
         description: History of bipolar disorder
         required: false
-        
       # Substance Use History
       smokingHistory:
         title: Smoking History
         range: SmokingStatusEnum
         description: Smoking history status
         required: false
-        
       packYears:
         title: Pack Years
         range: float
         description: Pack-years of smoking history
         required: false
-        
       alcoholUse:
         title: Alcohol Use
         range: AlcoholUseEnum
         description: Alcohol use status
         required: false
-        
       drugsOfAbuse:
         title: Drugs of Abuse
         range: boolean
         description: History of illicit drug use
         required: false
-        
       # Surgical History
       majorSurgeries:
         title: Major Surgeries
         range: boolean
         description: History of major surgical procedures
         required: false
-        
       surgicalDetails:
         title: Surgical Details
         range: string
         description: Details of surgical procedures
         required: false
-        
       # Allergies and Adverse Reactions
       drugAllergies:
         title: Drug Allergies
         range: boolean
         description: History of drug allergies
         required: false
-        
       allergyDetails:
         title: Allergy Details
         range: string
         description: Details of drug allergies and reactions
         required: false
-        
       # Family History
       familyHistorySignificant:
         title: Significant Family History
         range: boolean
         description: Significant family medical history present
         required: false
-        
       familyHistoryDetails:
         title: Family History Details
         range: string
@@ -221,55 +212,61 @@ classes:
         range: string
         description: Unique identifier for this comorbidity record
         required: false
-        
       globalSubjectId:
         title: Global Subject ID
         range: string
         description: Reference to subject for this comorbidity
         required: false
-        
       conditionName:
         title: Condition Name
         range: string
         description: Name of the comorbid condition
         required: false
-        
       icdCode:
         title: ICD Code
         range: string
         description: ICD-10 or ICD-11 code for the condition
         required: false
-        
       diagnosisDate:
         title: Diagnosis Date
         range: date
         description: Date when condition was diagnosed
         required: false
-        
+      yearStarted:
+        title: Year Started
+        range: string
+        description: Year the condition started.
+        required: false
+      ongoing:
+        title: Ongoing
+        range: boolean
+        description: Whether the condition is ongoing.
+        required: false
+      yearEnded:
+        title: Year Ended
+        range: string
+        description: Year the condition ended.
+        required: false
       severity:
         title: Severity
         range: SeverityEnum
         description: Severity of the condition
         required: false
-        
       status:
         title: Condition Status
         range: ConditionStatusEnum
         description: Current status of the condition
         required: false
-        
       treatment:
         title: Treatment for Condition
         range: string
         description: Current treatment for this condition
         required: false
-        
       impact:
         title: Impact on Study
         range: ImpactEnum
         description: Impact of condition on study participation
         required: false
-        
       notes:
         title: Additional Notes
         range: string
