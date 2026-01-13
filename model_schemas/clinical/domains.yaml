@@ -1,0 +1,39 @@
+#######################################
+# Clinical Domains
+# Primary clinical domains and areas of focus for ALS research
+#######################################
+
+enums:
+  ClinicalDomainEnum:
+    description: Primary clinical domains for ALS research and assessment
+    permissible_values:
+      motor_function:
+        description: Motor function and muscle strength assessment
+      bulbar_function:
+        description: Speech, swallowing, and bulbar function
+      respiratory_function:
+        description: Breathing and respiratory function
+      limb_function:
+        description: Hand, arm, and leg function
+      disease_progression:
+        description: Disease progression markers and rates
+      symptom_onset:
+        description: Disease onset characteristics and patterns
+      genetic_testing:
+        description: Genetic mutations and testing results
+      diagnosis_criteria:
+        description: Diagnostic criteria and clinical signs
+      drug_administration:
+        description: Treatment and drug administration
+      drug_exposure:
+        description: Drug exposure and pharmacokinetics
+      biomarkers:
+        description: Biomarker analysis and discovery
+      neuroimaging:
+        description: Brain and spinal cord imaging
+      cognitive_assessment:
+        description: Cognitive function evaluation
+      quality_of_life:
+        description: Quality of life measures
+      functional_assessment:
+        description: Overall functional capacity assessment

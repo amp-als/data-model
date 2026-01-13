@@ -1,0 +1,344 @@
+#######################################
+# All Dataset Schemas Combined
+# Base, Clinical, and Omic dataset definitions
+#######################################
+
+classes:
+  BaseDataset:
+    abstract: true
+    description: Base schema for all dataset types with common metadata attributes
+    attributes:
+      title:
+        title: Title
+        range: string
+        required: true
+      description:
+        title: Description
+        range: string
+        description: Blurb for the dataset; should be no more than 500 characters.
+        required: false
+      alternateName:
+        title: Alternate Name
+        description: An alternate name that can be used for search and discovery improvement.
+        range: string
+        required: false
+      creator:
+        title: Creator
+        range: string
+        description: Properly formatted name of the organization or person that is creator of the dataset (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
+        multivalued: true
+        required: true
+      contributor:
+        title: Contributor(s)
+        range: string
+        description: Institution or person responsible for collecting and managing the files and records in the dataset.
+        multivalued: true
+        required: false
+      keywords:
+        title: Keywords
+        range: string
+        multivalued: true
+        required: true
+      subject:
+        title: Subject
+        range: string
+        description: Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
+        multivalued: true
+        required: false
+      species:
+        title: Species
+        range: SpeciesEnum
+        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
+        multivalued: true
+        required: false
+      funder:
+        title: Funder
+        range: string
+        multivalued: true
+        required: false
+      individualCount:
+        title: Individual Count
+        range: integer
+        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
+        required: false
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection(s)
+        multivalued: true
+        required: false
+      curationLevel:
+        title: Curation level
+        range: CurationLevelEnum
+        description: TBD
+        required: false
+      datePublished:
+        title: Date Published
+        description: Date data were published/available on Synapse.
+        range: integer
+        required: false
+      includedInDataCatalog:
+        title: Included In Data Catalog
+        description: Link(s) to known data catalog(s) the dataset is included in.
+        range: string
+        required: false
+      citation:
+        title: Citation
+        range: string
+        multivalued: true
+        description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
+        required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the dataset available.
+        required: false
+      license:
+        title: License
+        range: License
+        description: Unless information for license is clear, this should default to UNKNOWN.
+        required: false
+      source:
+        title: Source
+        range: string
+        description: Host platform from which the dataset was sourced.
+        required: true
+      url: 
+        title: URL
+        range: string
+        description: URL for the original dataset location at source. 
+        required: true
+      sameAs:
+        title: Same As
+        range: string
+        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
+        required: false
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease(s) or condition(s) studied in the dataset.
+        required: false
+
+  ClinicalDataset:
+    is_a: BaseDataset
+    description: Dataset containing subject-level longitudinal clinical data where each file contains aggregate level subject data across multiple timepoints
+    attributes:
+      studyType:
+        title: Study type
+        range: StudyLevelEnum
+        description: Study type for dataset (longitudinal, cross-sectional, etc.)
+        required: false
+      dataType:
+        title: Data Type
+        range: ClinicalDataTypeEnum
+        description: Clinical data types (assessments, treatments, medical history, etc.)
+        multivalued: true
+        required: false
+      studyDesign:
+        title: Study Design
+        range: StudyDesignEnum
+        description: Type of clinical study design
+        required: false
+      followUpDuration:
+        title: Follow-up Duration
+        range: float
+        description: Study follow-up period in months
+        required: false
+      primaryOutcome:
+        title: Primary Outcome Measure
+        range: string
+        description: Primary clinical endpoint or outcome measure
+        required: false
+      assessmentTypes:
+        title: Assessment Types
+        range: AssessmentTypeEnum
+        description: Types of clinical assessments included in the dataset
+        multivalued: true
+        required: false
+      visitSchedule:
+        title: Visit Schedule
+        range: string
+        description: Description of visit schedule (e.g., "Baseline, 3, 6, 12 months")
+        required: false
+
+  OmicDataset:
+    is_a: BaseDataset
+    description: Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata
+    attributes:
+      assay:
+        title: Measurement Technique
+        range: AssayEnum
+        multivalued: true
+        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
+        required: false
+      dataType:
+        title: Data Type
+        range: OmicDataTypeEnum
+        description: Omic data types (genomics, transcriptomics, proteomics, etc.)
+        multivalued: true
+        required: false
+      libraryLayout:
+        title: Library Layout
+        range: LibraryLayoutEnum
+        description: Single-end or paired-end sequencing layout for datasets containing sequencing data
+        multivalued: true
+        required: false
+      platform:
+        title: Platform
+        range: PlatformEnum
+        description: Sequencing or analysis platform used
+        required: false
+      libraryStrategy:
+        title: Library Strategy
+        range: LibraryStrategyEnum
+        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
+        required: false
+      biospecimenType:
+        title: Biospecimen Type
+        range: BiospecimenTypeEnum
+        description: Type of biological specimen(s) in the dataset
+        multivalued: true
+        required: false
+      cellType:
+        title: Cell Type
+        range: CellTypeEnum
+        description: Type of cell or cell line used in the dataset
+        multivalued: true
+        required: false
+      GEOSuperSeries:
+        title: GEO SuperSeries
+        range: string
+        description: GEO SuperSeries identifier
+        required: false
+      originalSampleName:
+        title: Original Sample Name
+        range: string
+        description: Original sample name from data source
+        required: false
+      FACSPopulation:
+        title: FACS Population
+        range: string
+        description: FACS-sorted cell population description
+        required: false
+      processingLevel:
+        title: Processing Level
+        range: ProcessingLevelEnum
+        description: Level of data processing (raw, processed, analyzed)
+        required: false
+      dataFormat:
+        title: Data Format
+        range: Data
+        description: File format of the omic data
+        multivalued: true
+        required: false
+
+enums:
+  ClinicalDataTypeEnum:
+    permissible_values:
+      clinical_assessment:
+        description: Clinical assessment data
+      treatment:
+        description: Treatment and medication data
+      medical_history:
+        description: Medical history data
+      laboratory_results:
+        description: Laboratory test results
+      vital_signs:
+        description: Vital signs measurements
+      neurological_assessment:
+        description: Neurological examination data
+      psychiatric_assessment:
+        description: Psychiatric evaluation data
+      electrophysiology:
+        description: Electrophysiology assessment data
+      hand_held_dynamometry:
+        description: Hand-held dynamometry measurements
+      genetic_profile:
+        description: Genetic testing results
+      study_management:
+        description: Study management metadata
+      data_management:
+        description: Data management and quality metrics
+
+  StudyDesignEnum:
+    permissible_values:
+      longitudinal:
+        description: Longitudinal study with repeated measures
+      cross_sectional:
+        description: Cross-sectional study at single timepoint
+      case_control:
+        description: Case-control study design
+      cohort:
+        description: Cohort study design
+      interventional:
+        description: Interventional clinical trial
+      observational:
+        description: Observational study
+
+  AssessmentTypeEnum:
+    permissible_values:
+      alsfrs_r:
+        description: ALS Functional Rating Scale - Revised
+      neurological_exam:
+        description: Neurological examination
+      psychiatric_eval:
+        description: Psychiatric evaluation
+      vital_signs:
+        description: Vital signs assessment
+      laboratory:
+        description: Laboratory assessments
+      electrophysiology:
+        description: Electrophysiology testing
+      dynamometry:
+        description: Hand-held dynamometry testing
+      genetic_testing:
+        description: Genetic profiling
+
+  OmicDataTypeEnum:
+    permissible_values:
+      genomics:
+        description: Genomic sequencing data
+      transcriptomics:
+        description: Gene expression data
+      proteomics:
+        description: Protein expression data
+      metabolomics:
+        description: Metabolite profiling data
+      epigenomics:
+        description: Epigenetic modification data
+      metagenomics:
+        description: Metagenomic sequencing data
+      single_cell:
+        description: Single-cell analysis data
+      multi_omics:
+        description: Multi-omic integrated data
+
+  LibraryStrategyEnum:
+    permissible_values:
+      RNA_seq:
+        description: RNA sequencing
+      WGS:
+        description: Whole genome sequencing
+      WES:
+        description: Whole exome sequencing
+      ChIP_seq:
+        description: Chromatin immunoprecipitation sequencing
+      ATAC_seq:
+        description: Assay for transposase-accessible chromatin
+      bisulfite_seq:
+        description: Bisulfite sequencing
+      amplicon_seq:
+        description: Amplicon sequencing
+      targeted_seq:
+        description: Targeted sequencing panel
+
+  ProcessingLevelEnum:
+    permissible_values:
+      raw:
+        description: Raw, unprocessed data
+      processed:
+        description: Processed data (aligned, normalized)
+      analyzed:
+        description: Analyzed data with statistical results
+      integrated:
+        description: Integrated multi-sample analysis

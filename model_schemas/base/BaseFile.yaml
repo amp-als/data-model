@@ -1,0 +1,112 @@
+#######################################
+# Base File Schema
+# Common attributes shared by all file types
+#######################################
+
+classes:
+  BaseFile:
+    abstract: true
+    description: Base schema for all file types with common metadata attributes
+    attributes:
+      title:
+        title: Title
+        range: string
+        required: true
+      description:
+        title: Description
+        range: string
+        description: Blurb for the file; should be no more than 500 characters.
+        required: false
+      alternateName:
+        title: Alternate Name
+        description: An alternate name that can be used for search and discovery improvement.
+        range: string
+        required: false
+      creator:
+        title: Creator
+        range: string
+        description: Properly formatted name of the organization or person that is creator of the file (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
+        multivalued: true
+        required: false
+      contributor:
+        title: Contributor(s)
+        range: string
+        description: Institution or person responsible for collecting and managing the files and records in the file.
+        multivalued: true
+        required: false
+      keywords:
+        title: Keywords
+        range: string
+        multivalued: true
+        required: true
+      subject:
+        title: Subject
+        range: string
+        description: Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
+        multivalued: true
+        required: false
+      species:
+        title: Species
+        range: SpeciesEnum
+        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
+        multivalued: true
+        required: false
+      individualCount:
+        title: Individual Count
+        range: integer
+        description: Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
+        required: false
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection(s)
+        multivalued: true
+        required: false
+      includedInDataCatalog:
+        title: Included In Data Catalog
+        description: Link(s) to known data catalog(s) the file is included in.
+        range: string
+        required: false
+      citation:
+        title: Citation
+        range: string
+        multivalued: true
+        description: identifies academic articles that are recommended by the data provider be cited in addition to the file itself.
+        required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the file available.
+        required: false
+      license:
+        title: License
+        range: License
+        description: Unless information for license is clear, this should default to UNKNOWN.
+        required: false
+      source:
+        title: Source
+        range: string
+        description: Host platform from which the file was sourced.
+        required: true
+      url:
+        title: URL
+        range: string
+        description: URL for the original file location at source.
+        required: false
+      sameAs:
+        title: Same As
+        range: string
+        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
+        required: false
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease(s) or condition(s) studied in the file.
+        required: false
+      dataType:
+        title: Data Type
+        range: Data
+        description: Reflects the data types within the file.
+        multivalued: true
+        required: false
+

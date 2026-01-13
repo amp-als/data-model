@@ -1,0 +1,98 @@
+classes:
+  Visit:
+    description: Clinical visit or encounter information for longitudinal studies
+    attributes:
+      visitId:
+        title: Visit ID
+        range: string
+        description: Unique identifier for the visit
+        required: false
+        
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject this visit belongs to
+        required: false
+        
+      visitName:
+        title: Visit Name
+        range: string
+        description: Name or label of the visit (e.g., Screening, Visit 1, Week 12)
+        required: false
+        
+      visitDate:
+        title: Visit Date
+        range: date
+        description: Date when the visit occurred
+        required: false
+        
+      visitType:
+        title: Visit Type
+        range: VisitTypeEnum
+        description: Type or category of visit
+        required: false
+        
+      studyDay:
+        title: Study Day
+        range: integer
+        description: Day relative to study enrollment or baseline
+        required: false
+        
+      visitStatus:
+        title: Visit Status
+        range: VisitStatusEnum
+        description: Status of the visit
+        required: false
+        
+      isRemote:
+        title: Remote Visit
+        range: boolean
+        description: Whether this was a remote/virtual visit
+        required: false
+        
+      earlyTermination:
+        title: Early Termination
+        range: boolean
+        description: Whether this visit was an early termination
+        required: false
+        
+      unscheduled:
+        title: Unscheduled Visit
+        range: boolean
+        description: Whether this was an unscheduled visit
+        required: false
+
+enums:
+  VisitTypeEnum:
+    permissible_values:
+      Screening:
+        description: Screening visit to determine eligibility
+      Baseline:
+        description: Baseline visit before treatment/intervention
+      Follow-up:
+        description: Regular follow-up visit
+      Infusion:
+        description: Treatment infusion visit
+      Safety:
+        description: Safety monitoring visit
+      Genetic_Counseling:
+        description: Genetic counseling visit
+      Results_Return:
+        description: Visit for returning genetic test results
+      Early_Termination:
+        description: Early study termination visit
+      Unscheduled:
+        description: Unscheduled or ad-hoc visit
+
+  VisitStatusEnum:
+    permissible_values:
+      Scheduled:
+        description: Visit is scheduled but not completed
+      Completed:
+        description: Visit completed successfully
+      Missed:
+        description: Visit was missed/not attended
+      Cancelled:
+        description: Visit was cancelled
+      In_Progress:
+        description: Visit is currently in progress

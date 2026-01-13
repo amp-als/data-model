@@ -1,0 +1,114 @@
+#######################################
+# Clinical Data Types
+# Specific data types for clinical files
+#######################################
+
+enums:
+  ClinicalDataTypeEnum:
+    description: Types of clinical data contained in files
+    permissible_values:
+      # Assessment Data Types
+      motor_assessment:
+        description: Motor function assessment data
+      cognitive_assessment:
+        description: Cognitive function assessment data
+      respiratory_assessment:
+        description: Respiratory function assessment data
+      bulbar_assessment:
+        description: Bulbar function assessment data
+      functional_assessment:
+        description: Functional capacity assessment data
+      quality_of_life:
+        description: Quality of life assessment data
+      
+      # Medical History Data Types
+      medical_history:
+        description: Patient medical history data
+      family_history:
+        description: Family medical history data
+      medication_history:
+        description: Medication and treatment history
+      disease_progression:
+        description: Disease progression tracking data
+      
+      # Diagnostic Data Types
+      diagnostic_criteria:
+        description: Diagnostic criteria and classification data
+      symptom_onset:
+        description: Disease symptom onset data
+      genetic_testing:
+        description: Genetic testing and counseling data
+      biomarker_data:
+        description: Clinical biomarker measurements
+      
+      # Treatment Data Types
+      drug_administration:
+        description: Drug administration and dosing data
+      therapy_sessions:
+        description: Physical or occupational therapy data
+      intervention_response:
+        description: Treatment response and efficacy data
+      adverse_events:
+        description: Adverse event and safety data
+      
+      # Visit and Study Data Types
+      screening_visit:
+        description: Screening and enrollment visit data
+      baseline_visit:
+        description: Baseline visit assessment data
+      followup_visit:
+        description: Follow-up visit data
+      study_completion:
+        description: Study completion and withdrawal data
+      
+      # Laboratory Data Types
+      laboratory_results:
+        description: Clinical laboratory test results
+      vital_signs:
+        description: Vital signs and physical measurements
+      neuroimaging:
+        description: Neuroimaging and brain scan data
+      electrophysiology:
+        description: Electrophysiological test data
+      
+      # Data Processing Levels
+      raw_clinical_data:
+        description: Raw, unprocessed clinical data
+      processed_clinical_data:
+        description: Processed and cleaned clinical data
+      derived_scores:
+        description: Calculated scores and derived measures
+      summary_statistics:
+        description: Summary statistics and aggregate measures
+      
+      # Migrated from reference/data-types.yaml - General Clinical Data Types
+      clinical:
+        description: Data related to patient diagnosis, demographics, exposures, laboratory tests, and family relationships
+        source: https://docs.gdc.cancer.gov/Encyclopedia/pages/Clinical_Data
+      demographics:
+        description: The statistical characterization of human populations or segments of human populations (e.g., characterization by age, sex, race, or income).
+        meaning: http://purl.obolibrary.org/obo/NCIT_C16495
+      immunoassay:
+        description: Laboratory test involving interaction of antigens with specific antibodies.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C16723
+      behavior_process:
+        description: The action, reaction, or performance of an organism in response to external or internal stimuli.
+      surveyData:
+        description: A data set that contains the outcome of a survey.
+        meaning: http://purl.obolibrary.org/obo/OMIABIS_0000060
+      Pharmacokinetic_Study:
+        description: A study of the process by which a drug is absorbed, distributed, metabolized, and eliminated by the body.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C49663
+      drugScreen:
+        description: Information on drug sensitivity and molecular markers of drug response
+        source: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3531057/
+      drugCombinationScreen:
+        description: Information on drug sensitivity of more than one compound
+        source: https://www.ncbi.nlm.nih.gov/pubmed/29344898
+      image:
+        description: Biological or biomedical data that has been rendered into an image.
+        meaning: http://edamontology.org/data_2968
+      audio_transcript:
+        description: Audio transcript data (e.g., clinical interviews)
+      cellularPhysiology:
+        description: Cellular physiology assessment data

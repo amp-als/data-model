@@ -1,0 +1,2746 @@
+{
+  "syn68905755": {
+    "Adverse Event (AE) Log": {
+      "title": "Adverse Event (AE) Log",
+      "description": "Documentation of adverse events and their outcomes",
+      "alternateName": "v_ALLALS_AS_ASSEAELOG",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "adverse_event_occurrence",
+        "clinical",
+        "severity_assessment",
+        "safety_monitoring",
+        "AdverseEventLog",
+        "adverse_event_outcome"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 451,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "safety_monitoring"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Unscheduled",
+      "analysisTypes": [
+        "longitudinal_analysis",
+        "safety_event_review"
+      ],
+      "annotations": [
+        "SNOMED",
+        "ICD"
+      ],
+      "assessmentType": [
+        "AdverseEventLog"
+      ],
+      "keyMeasures": [
+        "adverse_event_occurrence",
+        "severity_assessment",
+        "adverse_event_outcome"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEAELOG"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        253
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "low"
+      ]
+    }
+  },
+  "syn68905760": {
+    "ALSFRS-R": {
+      "title": "ALSFRS-R",
+      "description": "ALS Functional Rating Scale (ALSFRS-R) assessment",
+      "alternateName": "v_ALLALS_AS_ASSEALSFRSR",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "limb_function",
+        "ALSFRS-R",
+        "ALSFRS_total_score",
+        "speech_score",
+        "swallowing_score",
+        "walking_score",
+        "breathing_score"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 541,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "limb_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "longitudinal_analysis",
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "ALSFRS-R"
+      ],
+      "keyMeasures": [
+        "ALSFRS_total_score",
+        "speech_score",
+        "swallowing_score",
+        "walking_score",
+        "breathing_score"
+      ],
+      "administrationMode": [
+        "In_Person",
+        "Telephone"
+      ],
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEALSFRSR"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        1364
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905758": {
+    "ALSFRS-R and Speech Anchor Questions": {
+      "title": "ALSFRS-R and Speech Anchor Questions",
+      "description": "ALS Functional Rating Scale (ALSFRS-R) assessment",
+      "alternateName": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "limb_function",
+        "ALSFRS-R",
+        "ALSFRS_total_score",
+        "speech_score",
+        "swallowing_score",
+        "walking_score",
+        "breathing_score"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 438,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "limb_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "longitudinal_analysis",
+        "speech_monitoring"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "ALSFRS-R"
+      ],
+      "keyMeasures": [
+        "ALSFRS_total_score",
+        "speech_score",
+        "swallowing_score",
+        "walking_score",
+        "breathing_score"
+      ],
+      "administrationMode": [
+        "In_Person",
+        "Telephone"
+      ],
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEALSFRSRSAQ"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        232
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905759": {
+    "ALS History": {
+      "title": "ALS History",
+      "description": "Medical history and comorbidity tracking",
+      "alternateName": "v_ALLALS_AS_ASSEALSHIST",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "MedicalHistory",
+        "als_history",
+        "disease_progression",
+        "clinical",
+        "site_of_onset",
+        "diagnosis_criteria",
+        "symptom_onset_characteristics"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 535,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Familial ALS",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "site_of_onset",
+        "disease_progression",
+        "diagnosis_criteria"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "subject_profile_review"
+      ],
+      "annotations": [
+        "HPO",
+        "MONDO"
+      ],
+      "assessmentType": [
+        "MedicalHistory"
+      ],
+      "keyMeasures": [
+        "als_history",
+        "symptom_onset_characteristics"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEALSHIST"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        369
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905767": {
+    "Blood Collection (ASSESS)": {
+      "title": "Blood Collection (ASSESS)",
+      "description": "Laboratory specimen collection status and details",
+      "alternateName": "v_ALLALS_AS_ASSEBLDCOL",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "sample_processing",
+        "safety_monitoring",
+        "collection_location",
+        "biospecimen_collection",
+        "Laboratory",
+        "blood_collection_status"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 671,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "safety_monitoring"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "biospecimen_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "Laboratory"
+      ],
+      "keyMeasures": [
+        "blood_collection_status",
+        "sample_processing",
+        "collection_location"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEBLDCOL"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        485
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905761": {
+    "Concomitant Medication Log": {
+      "title": "Concomitant Medication Log",
+      "description": "Use of concomitant medications during the study",
+      "alternateName": "v_ALLALS_AS_ASSECONMD",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "medication_history",
+        "dosage_metrics",
+        "concomitant_medications",
+        "clinical",
+        "safety_monitoring",
+        "ConcomitantMedications",
+        "drug_exposure"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 689,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "drug_exposure",
+        "safety_monitoring"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "longitudinal_analysis",
+        "medication_tracking"
+      ],
+      "annotations": [
+        "SNOMED",
+        "ICD"
+      ],
+      "assessmentType": [
+        "ConcomitantMedications"
+      ],
+      "keyMeasures": [
+        "concomitant_medications",
+        "medication_history",
+        "dosage_metrics"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSECONMD"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        3290
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905756": {
+    "Cerebral Spinal Fluid (CSF) Collection": {
+      "title": "Cerebral Spinal Fluid (CSF) Collection",
+      "description": "Laboratory testing",
+      "alternateName": "v_ALLALS_AS_ASSECSFCO",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "biomarkers",
+        "clinical",
+        "lumbar_puncture_success",
+        "biospecimen_collection",
+        "Laboratory",
+        "csf_collection_status"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 99,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "biomarkers"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "biospecimen_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "Laboratory"
+      ],
+      "keyMeasures": [
+        "csf_collection_status",
+        "lumbar_puncture_success"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSECSFCO"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        72
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905757": {
+    "Demographics": {
+      "title": "Demographics",
+      "description": "Demographics and baseline characteristics",
+      "alternateName": "v_ALLALS_AS_ASSEDEMOG",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "subject_characteristics",
+        "Demographics",
+        "subject_management",
+        "demographics_characteristics"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 421,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "subject_profile_review"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "Demographics"
+      ],
+      "keyMeasures": [
+        "demographics_characteristics",
+        "subject_characteristics"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEDEMOG"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        418
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905762": {
+    "Digital Speech Assessment": {
+      "title": "Digital Speech Assessment",
+      "description": "Digital speech assessment sessions and results",
+      "alternateName": "v_ALLALS_AS_ASSEDSA",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "digital_speech",
+        "clinical",
+        "SpeechFunction",
+        "speech_function",
+        "safety_monitoring"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 714,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "safety_monitoring",
+        "speech_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "speech_monitoring",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "SpeechFunction"
+      ],
+      "keyMeasures": [
+        "ftstat",
+        "dsadat"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEDSA"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        723
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905764": {
+    "Digital Speech Assessment User Information": {
+      "title": "Digital Speech Assessment User Information",
+      "description": "Speech Function testing",
+      "alternateName": "v_ALLALS_AS_ASSEDSAUI",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "dsa_performed",
+        "clinical",
+        "SpeechFunction",
+        "safety_monitoring",
+        "speech_function"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 706,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "safety_monitoring",
+        "speech_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "device_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "SpeechFunction"
+      ],
+      "keyMeasures": [
+        "dsa_performed"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEDSAUI"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        390
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905772": {
+    "ECAS (Edinburgh Cognitive and Behavioral ALS Screen)": {
+      "title": "ECAS (Edinburgh Cognitive and Behavioral ALS Screen)",
+      "description": "Edinburgh Cognitive ALS Screen",
+      "alternateName": "v_ALLALS_AS_ASSEECAS",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "visuospatial_scores",
+        "cognitive_screening_scores",
+        "clinical",
+        "language_scores",
+        "diagnosis_criteria",
+        "memory_scores",
+        "functional_impact",
+        "executive_function_scores",
+        "ALS_non_specific_scores",
+        "ECAS"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 708,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "functional_impact",
+        "diagnosis_criteria"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "ECAS"
+      ],
+      "keyMeasures": [
+        "cognitive_screening_scores",
+        "executive_function_scores",
+        "language_scores",
+        "memory_scores",
+        "visuospatial_scores",
+        "ALS_non_specific_scores"
+      ],
+      "administrationMode": "",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEECAS"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        409
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905765": {
+    "ECAS (Edinburgh Cognitive and Behavioral ALS Screen) - Caregiver Interview": {
+      "title": "ECAS (Edinburgh Cognitive and Behavioral ALS Screen) - Caregiver Interview",
+      "description": "Edinburgh Cognitive ALS Screen",
+      "alternateName": "v_ALLALS_AS_ASSEECASCGI",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "visuospatial_scores",
+        "cognitive_screening_scores",
+        "clinical",
+        "language_scores",
+        "diagnosis_criteria",
+        "memory_scores",
+        "functional_impact",
+        "executive_function_scores",
+        "ALS_non_specific_scores",
+        "ECAS"
+      ],
+      "subject": [
+        "Caregivers"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 714,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "functional_impact",
+        "diagnosis_criteria"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "ECAS"
+      ],
+      "keyMeasures": [
+        "cognitive_screening_scores",
+        "executive_function_scores",
+        "language_scores",
+        "memory_scores",
+        "visuospatial_scores",
+        "ALS_non_specific_scores"
+      ],
+      "administrationMode": "",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEECASCGI"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        403
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905763": {
+    "Lumbar Puncture Eligibility Confirmation": {
+      "title": "Lumbar Puncture Eligibility Confirmation",
+      "description": "Documentation of consent and eligibility confirmation",
+      "alternateName": "v_ALLALS_AS_ASSEELCONLMP",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "lumbar_function",
+        "lumbar_puncture_consent",
+        "subject_management",
+        "EligibilityConsent"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 119,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "lumbar_function"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "keyMeasures": [
+        "lumbar_puncture_consent"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEELCONLMP"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        56
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905766": {
+    "Enrollment Confirmation": {
+      "title": "Enrollment Confirmation",
+      "description": "Documentation of consent and eligibility confirmation",
+      "alternateName": "v_ALLALS_AS_ASSEELCONREG",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "eligibility_confirmation",
+        "clinical",
+        "consent_confirmation",
+        "subject_management",
+        "EligibilityConsent"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 766,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "enrollment_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "keyMeasures": [
+        "eligibility_confirmation",
+        "consent_confirmation"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEELCONREG"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        411
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905770": {
+    "Eligibility Criteria (ASSESS Control)": {
+      "title": "Eligibility Criteria (ASSESS Control)",
+      "description": "Study eligibility assessment",
+      "alternateName": "v_ALLALS_AS_ASSEELIGCRITREG",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "EligibilityCriteria",
+        "clinical",
+        "diagnosis_criteria",
+        "subject_management",
+        "inclusion_exclusion_criteria",
+        "regulatory_eligibility"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 118,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "ALS control",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "diagnosis_criteria"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "keyMeasures": [
+        "regulatory_eligibility",
+        "inclusion_exclusion_criteria"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEELIGCRITREG"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        99
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905771": {
+    "Eligibility Criteria (ASSESS Symptomatic)": {
+      "title": "Eligibility Criteria (ASSESS Symptomatic)",
+      "description": "Study eligibility assessment",
+      "alternateName": "v_ALLALS_AS_ASSEELIGCRITSYM",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "EligibilityCriteria",
+        "symptom_eligibility",
+        "clinical",
+        "exclusion_criteria",
+        "diagnosis_criteria",
+        "subject_management",
+        "inclusion_criteria"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 390,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "ALS symptomatic",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "diagnosis_criteria"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "keyMeasures": [
+        "inclusion_criteria",
+        "exclusion_criteria",
+        "symptom_eligibility"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEELIGCRITSYM"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        299
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905777": {
+    "Lumbar Puncture Eligibility Criteria": {
+      "title": "Lumbar Puncture Eligibility Criteria",
+      "description": "Study eligibility assessment",
+      "alternateName": "v_ALLALS_AS_ASSEELIGCRITLMP",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "lumbar_puncture_eligibility",
+        "EligibilityCriteria",
+        "clinical",
+        "lumbar_function",
+        "subject_management"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 121,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "lumbar_function"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "keyMeasures": [
+        "lumbar_puncture_eligibility"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEELIGCRITLMP"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        57
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905773": {
+    "Family History": {
+      "title": "Family History",
+      "description": "Medical history and comorbidity tracking",
+      "alternateName": "v_ALLALS_AS_ASSEFAMHIST",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "genetic_counseling",
+        "MedicalHistory",
+        "clinical",
+        "family_history_als",
+        "subject_management",
+        "genetic_testing"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 743,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Familial ALS",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "subject_management"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "subject_profile_review"
+      ],
+      "annotations": [
+        "HPO",
+        "MONDO"
+      ],
+      "assessmentType": [
+        "MedicalHistory"
+      ],
+      "keyMeasures": [
+        "family_history_als",
+        "genetic_counseling"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEFAMHIST"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        767
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905775": {
+    "Modified Hand-Held Dynamometry (HHD)": {
+      "title": "Modified Hand-Held Dynamometry (HHD)",
+      "description": "Hand-held dynamometry strength measurements with multiple trials per muscle group",
+      "alternateName": "v_ALLALS_AS_ASSEHHD",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "muscle_strength_measurements",
+        "motor_function",
+        "limb_function",
+        "grip_strength",
+        "HandHeldDynamometry"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 490,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "limb_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "HandHeldDynamometry"
+      ],
+      "keyMeasures": [
+        "muscle_strength_measurements",
+        "grip_strength"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEHHD"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        387
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905774": {
+    "Informed Consent Log": {
+      "title": "Informed Consent Log",
+      "description": "Informed consent approvals, versions, and future-use choices for the ASSESS study",
+      "alternateName": "v_ALLALS_AS_ASSEICF",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "InformedConsentForm",
+        "clinical",
+        "subject_management",
+        "consent_version",
+        "consent_status",
+        "future_use"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 756,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "consent_management"
+      ],
+      "annotations": [
+        "SNOMED",
+        "ICD"
+      ],
+      "assessmentType": [
+        "InformedConsentForm"
+      ],
+      "keyMeasures": [
+        "dsicf",
+        "icfapdat_suppds",
+        "icfvers_suppds",
+        "dsicfdat",
+        "dsfutyn"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEICF"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        1023
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905785": {
+    "Key Devices and Procedures Log": {
+      "title": "Key Devices and Procedures Log",
+      "description": "Documentation of supportive devices and procedures",
+      "alternateName": "v_ALLALS_AS_ASSEKEYDEV",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "KeyDevicesProcedures",
+        "assistive_devices",
+        "subject_management",
+        "medical_procedures",
+        "treatment_response"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 566,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "treatment_response"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "device_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "KeyDevicesProcedures"
+      ],
+      "keyMeasures": [
+        "assistive_devices",
+        "medical_procedures"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEKEYDEV"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        371
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905782": {
+    "Medical History": {
+      "title": "Medical History",
+      "description": "Medical history and comorbidity tracking",
+      "alternateName": "v_ALLALS_AS_ASSEMEDHX",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "medical_history",
+        "MedicalHistory",
+        "clinical",
+        "NA"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 706,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "medical_history"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "subject_profile_review"
+      ],
+      "annotations": [
+        "SNOMED",
+        "HPO"
+      ],
+      "assessmentType": [
+        "MedicalHistory"
+      ],
+      "keyMeasures": [
+        "NA"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEMEDHX"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        3106
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905778": {
+    "ASSESS Participant Final Disposition": {
+      "title": "ASSESS Participant Final Disposition",
+      "description": "Study completion, termination, and final disposition information",
+      "alternateName": "v_ALLALS_AS_ASSEPARTFINDI",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "study_completion_status",
+        "clinical",
+        "StudyDisposition",
+        "subject_management",
+        "participant_disposition"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 122,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "studyPhase": "endpoint",
+      "visitType": "Key Study Events",
+      "analysisTypes": [
+        "study_disposition_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "StudyDisposition"
+      ],
+      "keyMeasures": [
+        "participant_disposition",
+        "study_completion_status"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEPARTFINDI"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        63
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905779": {
+    "Protocol Deviation Log": {
+      "title": "Protocol Deviation Log",
+      "description": "Protocol deviations and violations tracking",
+      "alternateName": "v_ALLALS_AS_ASSEPDEVAD",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "corrective_actions",
+        "ProtocolDeviation",
+        "data_quality",
+        "subject_management",
+        "protocol_deviations"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 488,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "data_quality"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "protocol_deviation_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "ProtocolDeviation"
+      ],
+      "keyMeasures": [
+        "protocol_deviations",
+        "corrective_actions"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEPDEVAD"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        309
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "low"
+      ]
+    }
+  },
+  "syn68905780": {
+    "Prior ALS Genetic Testing": {
+      "title": "Prior ALS Genetic Testing",
+      "description": "Laboratory testing",
+      "alternateName": "v_ALLALS_AS_ASSEPRALSGENTST",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "als_gene_variants",
+        "biomarkers",
+        "clinical",
+        "genetic_test_results",
+        "gene_panels",
+        "Laboratory",
+        "genetic_testing"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 531,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "C9-ALS",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "biomarkers"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "genetic_risk_assessment"
+      ],
+      "annotations": [
+        "HGNC",
+        "MONDO"
+      ],
+      "assessmentType": [
+        "Laboratory"
+      ],
+      "keyMeasures": [
+        "genetic_test_results",
+        "als_gene_variants",
+        "gene_panels"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEPRALSGENTST"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        314
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "low"
+      ]
+    }
+  },
+  "syn68905781": {
+    "Vital Capacity (VC)": {
+      "title": "Vital Capacity (VC)",
+      "description": "Pulmonary function testing",
+      "alternateName": "v_ALLALS_AS_ASSEVC",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "respiratory_function",
+        "vital_capacity",
+        "PulmonaryFunction",
+        "respiratory_function_measures"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 475,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "respiratory_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "respiratory_monitoring",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "PulmonaryFunction"
+      ],
+      "keyMeasures": [
+        "vital_capacity",
+        "respiratory_function_measures"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEVC"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        381
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn68905783": {
+    "Visit Type": {
+      "title": "Visit Type",
+      "description": "Visit dates and scheduling information",
+      "alternateName": "v_ALLALS_AS_ASSEVISTYPE",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "subject_management",
+        "VisitScheduling",
+        "visit_types",
+        "clinical"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 767,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "visit_scheduling"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "VisitScheduling"
+      ],
+      "keyMeasures": [
+        "visit_types"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEVISTYPE"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        1187
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn68905784": {
+    "Vital Signs (ASSESS)": {
+      "title": "Vital Signs (ASSESS)",
+      "description": "Vital signs measurements including blood pressure, heart rate, temperature, and respiratory parameters",
+      "alternateName": "v_ALLALS_AS_ASSEVITSIGN",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "VitalSigns",
+        "clinical",
+        "safety_monitoring",
+        "vital_signs",
+        "weight"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 741,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "vital_signs",
+        "safety_monitoring"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "VitalSigns"
+      ],
+      "keyMeasures": [
+        "weight"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEVITSIGN"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        436
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
+  "syn71824528": {
+    "Informed Consent Log: CSF Collection": {
+      "title": "Informed Consent Log: CSF Collection",
+      "description": "Informed consent form approval, versioning, and participant signature",
+      "alternateName": "v_ALLALS_AS_ASSEICFCSF",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "InformedConsentForm",
+        "clinical",
+        "subject_management",
+        "consent_version",
+        "consent_status"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 732,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "biospecimen_collection",
+        "biomarkers"
+      ],
+      "studyPhase": "screening",
+      "visitType": "Screening",
+      "analysisTypes": [
+        "consent_management"
+      ],
+      "annotations": [
+        "SNOMED",
+        "ICD"
+      ],
+      "assessmentType": [
+        "InformedConsentForm"
+      ],
+      "keyMeasures": [
+        "consent_status",
+        "consent_version"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": false,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEICFCSF"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        773
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
+    }
+  },
+  "syn71824537": {
+    "Enrollment in NeuroPRO": {
+      "title": "Enrollment in NeuroPRO",
+      "description": "Enrollment status for NeuroPRO registry captured during ASSESS key study events",
+      "alternateName": "v_ALLALS_AS_NPROREGASSESS",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "NeuroPRO",
+        "registry_enrollment",
+        "subject_management",
+        "CohortParticipation",
+        "clinical"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "individualCount": 767,
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "UNKNOWN",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Key Study Events",
+      "analysisTypes": [
+        "enrollment_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "CohortParticipation"
+      ],
+      "keyMeasures": [
+        "npro_enroll",
+        "nprodat"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_NPROREGASSESS"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        767
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  }
+}

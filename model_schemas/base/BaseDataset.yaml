@@ -1,0 +1,121 @@
+#######################################
+# Base Dataset Schema
+# Common attributes shared by all dataset types
+#######################################
+
+classes:
+  BaseDataset:
+    abstract: true
+    description: Base schema for all dataset types with common metadata attributes
+    attributes:
+      title:
+        title: Title
+        range: string
+        required: true
+      description:
+        title: Description
+        range: string
+        description: Blurb for the dataset; should be no more than 500 characters.
+        required: false
+      alternateName:
+        title: Alternate Name
+        description: An alternate name that can be used for search and discovery improvement.
+        range: string
+        required: false
+      creator:
+        title: Creator
+        range: string
+        description: Properly formatted name of the organization or person that is creator of the dataset (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
+        multivalued: true
+        required: false
+      contributor:
+        title: Contributor(s)
+        range: string
+        description: Institution or person responsible for collecting and managing the files and records in the dataset.
+        multivalued: true
+        required: false
+      keywords:
+        title: Keywords
+        range: string
+        multivalued: true
+        required: true
+      subject:
+        title: Subject
+        range: string
+        description: Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
+        multivalued: true
+        required: false
+      species:
+        title: Species
+        range: SpeciesEnum
+        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
+        multivalued: true
+        required: false
+      funder:
+        title: Funder
+        range: string
+        multivalued: true
+        required: false
+      individualCount:
+        title: Individual Count
+        range: integer
+        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
+        required: false
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection(s)
+        multivalued: true
+        required: false
+      curationLevel:
+        title: Curation level
+        range: CurationLevelEnum
+        description: TBD
+        required: false
+      datePublished:
+        title: Date Published
+        description: Date data were published/available on Synapse.
+        range: integer
+        required: false
+      includedInDataCatalog:
+        title: Included In Data Catalog
+        description: Link(s) to known data catalog(s) the dataset is included in.
+        range: string
+        required: false
+      citation:
+        title: Citation
+        range: string
+        multivalued: true
+        description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
+        required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the dataset available.
+        required: false
+      license:
+        title: License
+        range: License
+        description: Unless information for license is clear, this should default to UNKNOWN.
+        required: false
+      source:
+        title: Source
+        range: string
+        description: Host platform from which the dataset was sourced.
+        required: true
+      url:
+        title: URL
+        range: string
+        description: URL for the original dataset location at source.
+        required: false
+      sameAs:
+        title: Same As
+        range: string
+        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
+        required: false
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease(s) or condition(s) studied in the dataset.
+        required: false
+
