@@ -222,7 +222,11 @@
           "whole genome sequencing",
           "whole-cell patch clamp",
           "word recognition score",
-          "STR profile"
+          "STR profile",
+          "Extension control 1",
+          "Incubation control 1",
+          "Amplification control 1",
+          "Protein target assay"
         ],
         "title": "Assay",
         "type": "string"
@@ -279,6 +283,12 @@
         "type": "string"
       },
       "title": "Citation",
+      "type": "array"
+    },
+    "clinicalDomain": {
+      "description": "The primary clinical domain or area of focus for the data",
+      "items": {},
+      "title": "Clinical Domain",
       "type": "array"
     },
     "collection": {
@@ -341,52 +351,9 @@
     "dataType": {
       "description": "Reflects the data types within the dataset.",
       "items": {
-        "description": "What the data (file) contains.",
+        "description": "[DEPRECATED] Use domain-specific enums (OmicDataTypeEnum, ClinicalDataTypeEnum, CrossDomainDataTypeEnum) instead",
         "enum": [
-          "immunoassay",
-          "behavior process",
-          "clinical",
-          "demographics",
-          "particle characterization",
-          "drugCombinationScreen",
-          "isoformExpression",
-          "proteomics",
-          "surveyData",
-          "kinomics",
-          "SomaticVariants",
-          "Volume",
-          "characteristic",
-          "drugScreen",
-          "geneExpression",
-          "AlignedReads",
-          "genomicFeatures",
-          "genomicVariants",
-          "raw counts",
-          "RawIntensities",
-          "NormalizedIntensities",
-          "Pharmacokinetic Study",
-          "mask image",
-          "chromatinActivity",
-          "StructuralVariants",
-          "GermlineVariants",
-          "CopyNumberVariants",
-          "image",
-          "network",
-          "cellularPhysiology",
-          "metabolomics",
-          "AnnotatedSomaticVariants",
-          "AnnotatedGermlineVariants",
-          "Weight",
-          "electrophysiology",
-          "audio transcript",
-          "dataIndex",
-          "AggregatedData",
-          "transcriptomics",
-          "transcriptomics (nascent)",
-          "epigenomics",
-          "CorrelationAnalysis",
-          "Normalized Protein Expression (NPX)",
-          "GeneSetEnrichmentAnalysis"
+          "deprecated_use_domain_specific"
         ],
         "title": "Data",
         "type": "string"
@@ -502,20 +469,18 @@
     },
     "studyType": {
       "description": "Study type for dataset",
-      "items": {
-        "description": "",
-        "enum": [
-          "Patient Registry Study",
-          "Natural History Study",
-          "Clinical Trial",
-          "Observational Study",
-          "Unknown"
-        ],
-        "title": "StudyLevelEnum",
-        "type": "string"
-      },
       "title": "Study type",
-      "type": "array"
+      "enum": [
+        "Patient Registry Study",
+        "Natural History Study",
+        "Clinical Trial",
+        "Unknown",
+        "individual",
+        "aggregate",
+        "summary_level",
+        "meta_analysis"
+      ],
+      "type": "string"
     },
     "subject": {
       "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",

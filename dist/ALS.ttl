@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ],
-        [ sh:namespace prov: ;
-            sh:prefix "prov" ],
+    sh:declare [ sh:namespace skos: ;
+            sh:prefix "skos" ],
         [ sh:namespace linkml: ;
             sh:prefix "linkml" ],
         [ sh:namespace schema1: ;
             sh:prefix "schema" ],
+        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ],
         [ sh:namespace rdfs: ;
             sh:prefix "rdfs" ],
-        [ sh:namespace skos: ;
-            sh:prefix "skos" ] ;
+        [ sh:namespace prov: ;
+            sh:prefix "prov" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -198,7 +198,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-01-20T19:13:21"^^xsd:dateTime ;
+    linkml:generation_date "2026-01-21T01:24:13"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -273,6 +273,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__species>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__studyType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__title>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__url>,
@@ -872,8 +873,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-01-20T19:09:22"^^xsd:dateTime ;
-    linkml:source_file_size 318284 ;
+    linkml:source_file_date "2026-01-21T01:24:11"^^xsd:dateTime ;
+    linkml:source_file_size 318451 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -5634,6 +5635,16 @@
     linkml:maximum_value "4"^^<https://w3id.org/linkml/@id> ;
     linkml:minimum_value "0"^^<https://w3id.org/linkml/@id> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
+
+<https://w3id.org/synapse/amp-als/vocab/clinicalDatasetMixin__studyType> a linkml:SlotDefinition ;
+    dcterms:title "Study type" ;
+    skos:definition "Study type for dataset" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "studyType" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/studyType> .
 
 <https://w3id.org/synapse/amp-als/vocab/clinicalDataset__assessmentTypes> a linkml:SlotDefinition ;
     dcterms:title "Assessment Types" ;
@@ -11877,12 +11888,12 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__species>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__studyType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__title>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__url>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalDatasetMixin__clinicalDomain>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalDatasetMixin__dataType>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalDatasetMixin__studyType>,
         <https://w3id.org/synapse/amp-als/vocab/omicDatasetMixin__FACSPopulation>,
         <https://w3id.org/synapse/amp-als/vocab/omicDatasetMixin__GEOSuperSeries>,
         <https://w3id.org/synapse/amp-als/vocab/omicDatasetMixin__assay>,
@@ -12221,16 +12232,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/dataType> .
-
-<https://w3id.org/synapse/amp-als/vocab/clinicalDatasetMixin__studyType> a linkml:SlotDefinition ;
-    dcterms:title "Study type" ;
-    skos:definition "Study type for dataset" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "studyType" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/studyType> .
 
 <https://w3id.org/synapse/amp-als/vocab/clinicalFileMixin__studyPhase> a linkml:SlotDefinition ;
     dcterms:title "Study Phase" ;
@@ -13276,6 +13277,17 @@
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AnalysisMethodEnum> .
 
+<https://w3id.org/synapse/amp-als/vocab/baseDataset__studyType> a linkml:SlotDefinition ;
+    dcterms:title "Study type" ;
+    skos:definition "Study type for dataset" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "studyType" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/studyType> .
+
 <https://w3id.org/synapse/amp-als/vocab/blood> a linkml:SlotDefinition ;
     dcterms:title "Blood" ;
     skos:definition "Blood sample",
@@ -13498,12 +13510,6 @@
         "Host platform from which the file was sourced." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true .
-
-<https://w3id.org/synapse/amp-als/vocab/studyType> a linkml:SlotDefinition ;
-    dcterms:title "Study type" ;
-    skos:definition "Study type for dataset",
-        "Study type for dataset (longitudinal, cross-sectional, etc.)" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/subject> a linkml:SlotDefinition ;
     dcterms:title "Subject" ;
@@ -13947,17 +13953,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Rattus%20norvegicus>,
         <https://w3id.org/synapse/amp-als/vocab/Rhesus%20macaque>,
         <https://w3id.org/synapse/amp-als/vocab/Sus%20scrofa> .
-
-<https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Clinical%20Trial>,
-        <https://w3id.org/synapse/amp-als/vocab/Natural%20History%20Study>,
-        <https://w3id.org/synapse/amp-als/vocab/Patient%20Registry%20Study>,
-        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
-        <https://w3id.org/synapse/amp-als/vocab/aggregate>,
-        <https://w3id.org/synapse/amp-als/vocab/individual>,
-        <https://w3id.org/synapse/amp-als/vocab/meta_analysis>,
-        <https://w3id.org/synapse/amp-als/vocab/summary_level> .
 
 <https://w3id.org/synapse/amp-als/vocab/baseDataset__alternateName> a linkml:SlotDefinition ;
     dcterms:title "Alternate Name" ;
@@ -14429,9 +14424,9 @@
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -14749,6 +14744,17 @@
         <https://w3id.org/synapse/amp-als/vocab/Severe>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
+<https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Clinical%20Trial>,
+        <https://w3id.org/synapse/amp-als/vocab/Natural%20History%20Study>,
+        <https://w3id.org/synapse/amp-als/vocab/Patient%20Registry%20Study>,
+        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
+        <https://w3id.org/synapse/amp-als/vocab/aggregate>,
+        <https://w3id.org/synapse/amp-als/vocab/individual>,
+        <https://w3id.org/synapse/amp-als/vocab/meta_analysis>,
+        <https://w3id.org/synapse/amp-als/vocab/summary_level> .
+
 <https://w3id.org/synapse/amp-als/vocab/disease> a linkml:SlotDefinition ;
     dcterms:title "Disease" ;
     skos:definition "Disease diagnosis",
@@ -14927,6 +14933,13 @@
         "Severity level of the deviation",
         "Severity of the condition" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SeverityEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/studyType> a linkml:SlotDefinition ;
+    dcterms:title "Study type" ;
+    skos:definition "Study type for dataset",
+        "Study type for dataset (longitudinal, cross-sectional, etc.)" ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/StudyLevelEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> ;
@@ -15625,9 +15638,9 @@
         "Reflects the data types within the file." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/dataType> ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum>,
@@ -15935,6 +15948,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__species>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__studyType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__subject>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__title>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__url>,
@@ -16468,56 +16482,6 @@
         <https://w3id.org/synapse/amp-als/vocab/assessmentAdministration__subjectFatigue>,
         <https://w3id.org/synapse/amp-als/vocab/assessmentAdministration__validityNotes> .
 
-<https://w3id.org/synapse/amp-als/vocab/BaseDataset> a linkml:ClassDefinition ;
-    skos:definition "Base schema for all dataset types with common metadata attributes" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:abstract true ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/citation>,
-        <https://w3id.org/synapse/amp-als/vocab/collection>,
-        <https://w3id.org/synapse/amp-als/vocab/contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/creator>,
-        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/description>,
-        <https://w3id.org/synapse/amp-als/vocab/disease>,
-        <https://w3id.org/synapse/amp-als/vocab/funder>,
-        <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
-        <https://w3id.org/synapse/amp-als/vocab/keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/license>,
-        <https://w3id.org/synapse/amp-als/vocab/publisher>,
-        <https://w3id.org/synapse/amp-als/vocab/sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/source>,
-        <https://w3id.org/synapse/amp-als/vocab/species>,
-        <https://w3id.org/synapse/amp-als/vocab/subject>,
-        <https://w3id.org/synapse/amp-als/vocab/title>,
-        <https://w3id.org/synapse/amp-als/vocab/url> ;
-    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseDataset__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__citation>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__collection>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__creator>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__description>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__disease>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__license>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__species>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__subject>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__title>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__url> .
-
 <https://w3id.org/synapse/amp-als/vocab/Eligibility> a linkml:ClassDefinition ;
     skos:definition "Study eligibility criteria and enrollment information" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -16570,6 +16534,58 @@
         <https://w3id.org/synapse/amp-als/vocab/eligibility__screenFailureDetails>,
         <https://w3id.org/synapse/amp-als/vocab/eligibility__screenFailureReason>,
         <https://w3id.org/synapse/amp-als/vocab/eligibility__stratificationFactors> .
+
+<https://w3id.org/synapse/amp-als/vocab/BaseDataset> a linkml:ClassDefinition ;
+    skos:definition "Base schema for all dataset types with common metadata attributes" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:abstract true ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/citation>,
+        <https://w3id.org/synapse/amp-als/vocab/collection>,
+        <https://w3id.org/synapse/amp-als/vocab/contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/creator>,
+        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/datePublished>,
+        <https://w3id.org/synapse/amp-als/vocab/description>,
+        <https://w3id.org/synapse/amp-als/vocab/disease>,
+        <https://w3id.org/synapse/amp-als/vocab/funder>,
+        <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
+        <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/license>,
+        <https://w3id.org/synapse/amp-als/vocab/publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/source>,
+        <https://w3id.org/synapse/amp-als/vocab/species>,
+        <https://w3id.org/synapse/amp-als/vocab/studyType>,
+        <https://w3id.org/synapse/amp-als/vocab/subject>,
+        <https://w3id.org/synapse/amp-als/vocab/title>,
+        <https://w3id.org/synapse/amp-als/vocab/url> ;
+    linkml:class_uri <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseDataset__alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__citation>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__collection>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__creator>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__description>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__license>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__species>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__studyType>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__subject>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__title>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__url> .
 
 <https://w3id.org/synapse/amp-als/vocab/DataQuality> a linkml:ClassDefinition ;
     skos:definition "Data quality control and audit trail information" ;
