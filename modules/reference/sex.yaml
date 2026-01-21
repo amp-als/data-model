@@ -10,3 +10,8 @@ enums:
       Unknown:
         description: Sex not reported or unknown
         meaning: http://purl.obolibrary.org/obo/NCIT_C17998
+      Intersex:
+        description: A person with variations in sex characteristics that do not fit typical binary notions of male or female bodies
+        meaning: http://purl.obolibrary.org/obo/NCIT_C45908
+      "Not Reported":
+        description: Sex not reported by participant

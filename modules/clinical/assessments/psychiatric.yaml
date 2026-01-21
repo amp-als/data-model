@@ -1,0 +1,419 @@
+classes:
+  SuicideRiskAssessment:
+    description: Columbia Suicide Severity Rating Scale (C-SSRS) assessment
+    is_a: ClinicalAssessment
+    attributes:
+      # Suicidal Ideation (Questions 1-5)
+      wishToBeDead:
+        title: Wish to be Dead
+        range: SuicidalIdeationEnum
+        description: "Subject has wished to be dead or thought they would be better off dead"
+        required: false
+        
+      suicidalThoughts:
+        title: Suicidal Thoughts
+        range: SuicidalIdeationEnum
+        description: "Subject has had thoughts of killing themselves"
+        required: false
+        
+      suicidalThoughtsWithMethod:
+        title: Suicidal Thoughts with Method
+        range: SuicidalIdeationEnum
+        description: "Subject has thought about how they might kill themselves"
+        required: false
+        
+      suicidalIntent:
+        title: Suicidal Intent
+        range: SuicidalIdeationEnum
+        description: "Subject has had suicidal thoughts and some intent to act"
+        required: false
+        
+      suicidalIntentWithPlan:
+        title: Suicidal Intent with Plan
+        range: SuicidalIdeationEnum
+        description: "Subject has had suicidal thoughts with specific plan and intent"
+        required: false
+      
+      # Intensity of Ideation (If any ideation present)
+      frequency:
+        title: Frequency of Suicidal Thoughts
+        range: FrequencyIntensityEnum
+        description: "How often have you had these thoughts?"
+        required: false
+        
+      duration:
+        title: Duration of Suicidal Thoughts
+        range: DurationIntensityEnum
+        description: "When you have the thoughts, how long do they last?"
+        required: false
+        
+      controllability:
+        title: Controllability
+        range: ControllabilityEnum
+        description: "How much control do you have over these thoughts?"
+        required: false
+        
+      deterrents:
+        title: Deterrents to Attempt
+        range: DeterrentsEnum
+        description: "Would anything prevent you from acting on thoughts?"
+        required: false
+        
+      reasonsForIdeation:
+        title: Reasons for Ideation
+        range: string
+        description: "What sort of reasons did you have for thinking about wanting to die or killing yourself?"
+        required: false
+      
+      # Suicidal Behavior (Lifetime)
+      actualAttempt:
+        title: Actual Suicide Attempt
+        range: boolean
+        description: "Has subject made an actual suicide attempt?"
+        required: false
+        
+      interruptedAttempt:
+        title: Interrupted Attempt
+        range: boolean
+        description: "Has subject had an interrupted suicide attempt?"
+        required: false
+        
+      abortedAttempt:
+        title: Aborted Attempt
+        range: boolean
+        description: "Has subject had an aborted suicide attempt?"
+        required: false
+        
+      preparatoryBehavior:
+        title: Preparatory Acts or Behavior
+        range: boolean
+        description: "Has subject engaged in preparatory acts toward making a suicide attempt?"
+        required: false
+      
+      # Most Recent Attempt Details (if applicable)
+      attemptDate:
+        title: Most Recent Attempt Date
+        range: date
+        description: "Date of most recent suicide attempt"
+        required: false
+        
+      attemptMethod:
+        title: Attempt Method
+        range: string
+        description: "Method used in most recent attempt"
+        required: false
+        
+      attemptLethality:
+        title: Lethality of Attempt
+        range: LethalityEnum
+        description: "Medical lethality of most recent attempt"
+        required: false
+        
+      attemptIntent:
+        title: Intent to Die
+        range: IntentEnum
+        description: "Intent to die during most recent attempt"
+        required: false
+        
+      medicalAttention:
+        title: Medical Attention Required
+        range: boolean
+        description: "Did the attempt require medical attention?"
+        required: false
+      
+      # Non-Suicidal Self-Injury
+      selfInjuryBehavior:
+        title: Non-Suicidal Self-Injury
+        range: boolean
+        description: "Has subject engaged in non-suicidal self-injurious behavior?"
+        required: false
+        
+      selfInjuryMethod:
+        title: Self-Injury Method
+        range: string
+        description: "Method of non-suicidal self-injury"
+        required: false
+        
+      selfInjuryFrequency:
+        title: Self-Injury Frequency
+        range: string
+        description: "Frequency of non-suicidal self-injury episodes"
+        required: false
+      
+      # Risk Assessment Summary
+      riskLevel:
+        title: Overall Risk Level
+        range: RiskLevelEnum
+        description: "Clinician assessment of overall suicide risk level"
+        required: false
+        
+      interventionRequired:
+        title: Intervention Required
+        range: boolean
+        description: "Is immediate intervention required?"
+        required: false
+        
+      safetyPlan:
+        title: Safety Plan Developed
+        range: boolean
+        description: "Was a safety plan developed with the subject?"
+        required: false
+        
+      referralMade:
+        title: Mental Health Referral
+        range: boolean
+        description: "Was a mental health referral made?"
+        required: false
+        
+      additionalNotes:
+        title: Additional Clinical Notes
+        range: string
+        description: "Additional clinical notes about suicide risk assessment"
+        required: false
+
+  PsychiatricHistory:
+    description: Psychiatric and mental health history assessment
+    is_a: ClinicalAssessment
+    attributes:
+      # Current Mental Health Status
+      currentDepression:
+        title: Current Depression
+        range: SeverityEnum
+        description: "Current depression severity"
+        required: false
+        
+      currentAnxiety:
+        title: Current Anxiety
+        range: SeverityEnum
+        description: "Current anxiety severity"
+        required: false
+        
+      currentPsychosis:
+        title: Current Psychosis
+        range: boolean
+        description: "Current psychotic symptoms present"
+        required: false
+        
+      sleepDisturbance:
+        title: Sleep Disturbance
+        range: SeverityEnum
+        description: "Sleep disturbance severity"
+        required: false
+        
+      appetiteChanges:
+        title: Appetite Changes
+        range: AppetiteChangeEnum
+        description: "Changes in appetite"
+        required: false
+        
+      energyLevel:
+        title: Energy Level
+        range: EnergyLevelEnum
+        description: "Current energy level"
+        required: false
+        
+      concentrationDifficulty:
+        title: Concentration Difficulty
+        range: SeverityEnum
+        description: "Difficulty with concentration"
+        required: false
+        
+      # Psychiatric History
+      priorPsychiatricTreatment:
+        title: Prior Psychiatric Treatment
+        range: boolean
+        description: "History of psychiatric treatment"
+        required: false
+        
+      priorHospitalization:
+        title: Prior Psychiatric Hospitalization
+        range: boolean
+        description: "History of psychiatric hospitalization"
+        required: false
+        
+      priorSuicideAttempt:
+        title: Prior Suicide Attempt
+        range: boolean
+        description: "History of suicide attempts"
+        required: false
+        
+      familyPsychiatricHistory:
+        title: Family Psychiatric History
+        range: boolean
+        description: "Family history of psychiatric conditions"
+        required: false
+        
+      # Current Medications
+      currentAntidepressant:
+        title: Current Antidepressant Use
+        range: boolean
+        description: "Currently taking antidepressant medication"
+        required: false
+        
+      antidepressantName:
+        title: Antidepressant Name
+        range: string
+        description: "Name of antidepressant medication"
+        required: false
+        
+      currentAnxiolytic:
+        title: Current Anxiolytic Use
+        range: boolean
+        description: "Currently taking anxiolytic medication"
+        required: false
+        
+      anxiolyticName:
+        title: Anxiolytic Name
+        range: string
+        description: "Name of anxiolytic medication"
+        required: false
+        
+      currentAntipsychotic:
+        title: Current Antipsychotic Use
+        range: boolean
+        description: "Currently taking antipsychotic medication"
+        required: false
+        
+      antipsychoticName:
+        title: Antipsychotic Name
+        range: string
+        description: "Name of antipsychotic medication"
+        required: false
+
+enums:
+  SuicidalIdeationEnum:
+    permissible_values:
+      "0":
+        description: "Not at all"
+      "1":
+        description: "Yes"
+      "Not_Assessed":
+        description: "Not assessed"
+
+  FrequencyIntensityEnum:
+    permissible_values:
+      "1":
+        description: "Less than once a week"
+      "2":
+        description: "Once a week"
+      "3":
+        description: "2-5 times in week"
+      "4":
+        description: "Daily or almost daily"
+      "5":
+        description: "Many times each day"
+
+  DurationIntensityEnum:
+    permissible_values:
+      "1":
+        description: "Fleeting - few seconds or minutes"
+      "2":
+        description: "Less than 1 hour"
+      "3":
+        description: "1-4 hours"
+      "4":
+        description: "4-8 hours"
+      "5":
+        description: "More than 8 hours"
+
+  ControllabilityEnum:
+    permissible_values:
+      "1":
+        description: "Easily able to control thoughts"
+      "2":
+        description: "Can control thoughts with little difficulty"
+      "3":
+        description: "Can control thoughts with some difficulty"
+      "4":
+        description: "Can control thoughts with a lot of difficulty"
+      "5":
+        description: "Unable to control thoughts"
+
+  DeterrentsEnum:
+    permissible_values:
+      "1":
+        description: "Deterrents definitely stopped you"
+      "2":
+        description: "Deterrents probably stopped you"
+      "3":
+        description: "Uncertain that deterrents stopped you"
+      "4":
+        description: "Deterrents probably did not stop you"
+      "5":
+        description: "Deterrents definitely did not stop you"
+      "0":
+        description: "Does not apply"
+
+  LethalityEnum:
+    permissible_values:
+      "0":
+        description: "No physical damage or very minor physical damage"
+      "1":
+        description: "Minor physical damage"
+      "2":
+        description: "Moderate physical damage"
+      "3":
+        description: "Moderately severe physical damage"
+      "4":
+        description: "Severe physical damage"
+      "5":
+        description: "Extreme physical damage (death)"
+
+  IntentEnum:
+    permissible_values:
+      "0":
+        description: "No intent to die"
+      "1":
+        description: "Somewhat ambivalent to die, didn't care if died"
+      "2":
+        description: "Moderate intent to die"
+      "3":
+        description: "Strong intent to die"
+
+  RiskLevelEnum:
+    permissible_values:
+      Low:
+        description: "Low risk for suicide"
+      Moderate:
+        description: "Moderate risk for suicide"
+      High:
+        description: "High risk for suicide"
+      Imminent:
+        description: "Imminent risk for suicide"
+
+  SeverityEnum:
+    permissible_values:
+      None:
+        description: "None/not present"
+      Mild:
+        description: "Mild severity"
+      Moderate:
+        description: "Moderate severity"
+      Severe:
+        description: "Severe"
+      Very_Severe:
+        description: "Very severe"
+
+  AppetiteChangeEnum:
+    permissible_values:
+      No_Change:
+        description: "No change in appetite"
+      Decreased:
+        description: "Decreased appetite"
+      Increased:
+        description: "Increased appetite"
+      Fluctuating:
+        description: "Fluctuating appetite"
+
+  EnergyLevelEnum:
+    permissible_values:
+      Normal:
+        description: "Normal energy level"
+      Decreased:
+        description: "Decreased energy"
+      Very_Low:
+        description: "Very low energy"
+      Increased:
+        description: "Increased energy"
+      Manic:
+        description: "Manic energy level"

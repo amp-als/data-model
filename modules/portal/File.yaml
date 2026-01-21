@@ -1,0 +1,16 @@
+
+#######################################
+# Portal File Union Schema
+# Uses inheritance and mixins for clean code organization
+# Maintains backward compatibility while supporting both clinical and omic files
+#######################################
+
+classes:
+  File:
+    is_a: BaseFile
+    mixins: [ClinicalFileMixin, OmicFileMixin]
+    description: Model for file on the AMP-ALS portal - union of clinical and omic file types
+    notes:
+    - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+    - This schema inherits from BaseFile and combines attributes from both clinical and omic file types for backward compatibility
+    - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy

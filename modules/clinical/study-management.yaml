@@ -1,0 +1,484 @@
+classes:
+  StudyDisposition:
+    description: Study completion, termination, and final disposition information
+    attributes:
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject this disposition belongs to
+        required: false
+        
+      studyCompletionStatus:
+        title: Study Completion Status
+        range: CompletionStatusEnum
+        description: Final study completion status
+        required: false
+        
+      completionDate:
+        title: Completion Date
+        range: date
+        description: Date of study completion or termination
+        required: false
+        
+      reasonForTermination:
+        title: Reason for Termination
+        range: TerminationReasonEnum
+        description: Primary reason for early study termination
+        required: false
+        
+      terminationDetails:
+        title: Termination Details
+        range: string
+        description: Additional details about study termination
+        required: false
+        
+      withdrawalDate:
+        title: Withdrawal Date
+        range: date
+        description: Date of subject withdrawal from study
+        required: false
+        
+      withdrawalReason:
+        title: Withdrawal Reason
+        range: WithdrawalReasonEnum
+        description: Reason for subject withdrawal
+        required: false
+        
+      protocolCompliant:
+        title: Protocol Compliant
+        range: boolean
+        description: Whether subject was protocol compliant
+        required: false
+        
+      treatmentCompliance:
+        title: Treatment Compliance (%)
+        range: float
+        description: Overall treatment compliance percentage
+        required: false
+        minimum_value: 0
+        maximum_value: 100
+        
+      finalVisitCompleted:
+        title: Final Visit Completed
+        range: boolean
+        description: Whether final study visit was completed
+        required: false
+        
+      finalVisitDate:
+        title: Final Visit Date
+        range: date
+        description: Date of final study visit
+        required: false
+        
+      followUpRequired:
+        title: Follow-up Required
+        range: boolean
+        description: Whether additional follow-up is required
+        required: false
+        
+      followUpReason:
+        title: Follow-up Reason
+        range: string
+        description: Reason follow-up is required
+        required: false
+        
+      deathDuringStudy:
+        title: Death During Study
+        range: boolean
+        description: Whether subject died during study period
+        required: false
+        
+      dateOfDeath:
+        title: Date of Death
+        range: date
+        description: Date of death if occurred during study
+        required: false
+        
+      causeOfDeath:
+        title: Cause of Death
+        range: string
+        description: Cause of death if occurred during study
+        required: false
+        
+      studyRelatedDeath:
+        title: Study Related Death
+        range: boolean
+        description: Whether death was related to study procedures
+        required: false
+
+  Eligibility:
+    description: Study eligibility criteria and enrollment information
+    attributes:
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject this eligibility assessment belongs to
+        required: false
+        
+      eligibilityDate:
+        title: Eligibility Assessment Date
+        range: date
+        description: Date when eligibility was assessed
+        required: false
+        
+      overallEligible:
+        title: Overall Eligible
+        range: boolean
+        description: Whether subject meets overall eligibility criteria
+        required: false
+        
+      # Inclusion Criteria
+      ageEligible:
+        title: Age Eligible
+        range: boolean
+        description: Meets age inclusion criteria
+        required: false
+        
+      diagnosisEligible:
+        title: Diagnosis Eligible
+        range: boolean
+        description: Meets diagnosis inclusion criteria
+        required: false
+        
+      diseaseStageEligible:
+        title: Disease Stage Eligible
+        range: boolean
+        description: Meets disease stage inclusion criteria
+        required: false
+        
+      functionalStatusEligible:
+        title: Functional Status Eligible
+        range: boolean
+        description: Meets functional status inclusion criteria
+        required: false
+        
+      consentCapable:
+        title: Consent Capable
+        range: boolean
+        description: Subject capable of providing informed consent
+        required: false
+        
+      consentObtained:
+        title: Consent Obtained
+        range: boolean
+        description: Informed consent obtained
+        required: false
+        
+      consentDate:
+        title: Consent Date
+        range: date
+        description: Date informed consent was obtained
+        required: false
+        
+      assent:
+        title: Assent Required/Obtained
+        range: boolean
+        description: Assent required and obtained (for minors)
+        required: false
+        
+      # Exclusion Criteria
+      pregnantExcluded:
+        title: Pregnancy Exclusion
+        range: boolean
+        description: Excluded due to pregnancy
+        required: false
+        
+      comorbidityExcluded:
+        title: Comorbidity Exclusion
+        range: boolean
+        description: Excluded due to significant comorbidity
+        required: false
+        
+      medicationExcluded:
+        title: Medication Exclusion
+        range: boolean
+        description: Excluded due to prohibited medications
+        required: false
+        
+      priorStudyExcluded:
+        title: Prior Study Exclusion
+        range: boolean
+        description: Excluded due to prior study participation
+        required: false
+        
+      labValueExcluded:
+        title: Lab Value Exclusion
+        range: boolean
+        description: Excluded due to abnormal laboratory values
+        required: false
+        
+      # Screen Failures
+      screenFailure:
+        title: Screen Failure
+        range: boolean
+        description: Subject failed screening
+        required: false
+        
+      screenFailureReason:
+        title: Screen Failure Reason
+        range: ScreenFailureReasonEnum
+        description: Primary reason for screening failure
+        required: false
+        
+      screenFailureDetails:
+        title: Screen Failure Details
+        range: string
+        description: Additional details about screening failure
+        required: false
+        
+      # Enrollment
+      enrolled:
+        title: Enrolled
+        range: boolean
+        description: Subject enrolled in study
+        required: false
+        
+      enrollmentDate:
+        title: Enrollment Date
+        range: date
+        description: Date of study enrollment
+        required: false
+        
+      randomizationGroup:
+        title: Randomization Group
+        range: string
+        description: Treatment group assignment (if applicable)
+        required: false
+        
+      stratificationFactors:
+        title: Stratification Factors
+        range: string
+        description: Factors used for randomization stratification
+        required: false
+
+  ProtocolDeviation:
+    description: Protocol deviations and violations tracking
+    attributes:
+      deviationId:
+        title: Deviation ID
+        range: string
+        description: Unique identifier for the protocol deviation
+        required: false
+        
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: Reference to subject with protocol deviation
+        required: false
+        
+      visitId:
+        title: Visit ID
+        range: string
+        description: Visit where deviation occurred
+        required: false
+        
+      deviationDate:
+        title: Deviation Date
+        range: date
+        description: Date when protocol deviation occurred
+        required: false
+        
+      reportedDate:
+        title: Reported Date
+        range: date
+        description: Date when deviation was reported
+        required: false
+        
+      deviationType:
+        title: Deviation Type
+        range: DeviationTypeEnum
+        description: Type of protocol deviation
+        required: false
+        
+      deviationCategory:
+        title: Deviation Category
+        range: DeviationCategoryEnum
+        description: Category of protocol deviation
+        required: false
+        
+      deviationDescription:
+        title: Deviation Description
+        range: string
+        description: Detailed description of the protocol deviation
+        required: false
+        
+      severity:
+        title: Severity
+        range: SeverityEnum
+        description: Severity level of the deviation
+        required: false
+        
+      rootCause:
+        title: Root Cause
+        range: string
+        description: Root cause analysis of the deviation
+        required: false
+        
+      correctiveAction:
+        title: Corrective Action
+        range: string
+        description: Corrective action taken
+        required: false
+        
+      preventiveAction:
+        title: Preventive Action
+        range: string
+        description: Preventive action to avoid future deviations
+        required: false
+        
+      impactOnSubject:
+        title: Impact on Subject
+        range: ImpactEnum
+        description: Impact of deviation on subject safety/data
+        required: false
+        
+      impactOnStudy:
+        title: Impact on Study
+        range: ImpactEnum
+        description: Impact of deviation on study integrity
+        required: false
+        
+      reviewedBy:
+        title: Reviewed By
+        range: string
+        description: Person who reviewed the deviation
+        required: false
+        
+      reviewDate:
+        title: Review Date
+        range: date
+        description: Date of deviation review
+        required: false
+        
+      resolved:
+        title: Resolved
+        range: boolean
+        description: Whether deviation has been resolved
+        required: false
+        
+      resolutionDate:
+        title: Resolution Date
+        range: date
+        description: Date when deviation was resolved
+        required: false
+
+enums:
+  CompletionStatusEnum:
+    permissible_values:
+      Completed:
+        description: Study completed per protocol
+      Early_Termination:
+        description: Early termination from study
+      Withdrawal:
+        description: Subject withdrew from study
+      Lost_to_Follow_up:
+        description: Lost to follow-up
+      Death:
+        description: Death during study period
+      Screen_Failure:
+        description: Failed screening
+
+  TerminationReasonEnum:
+    permissible_values:
+      Adverse_Event:
+        description: Terminated due to adverse event
+      Disease_Progression:
+        description: Terminated due to disease progression
+      Lack_of_Efficacy:
+        description: Terminated due to lack of efficacy
+      Protocol_Violation:
+        description: Terminated due to protocol violation
+      Physician_Decision:
+        description: Terminated by physician decision
+      Subject_Decision:
+        description: Terminated by subject decision
+      Non_Compliance:
+        description: Terminated due to non-compliance
+      Other:
+        description: Other reason for termination
+
+  WithdrawalReasonEnum:
+    permissible_values:
+      Adverse_Event:
+        description: Withdrew due to adverse event
+      Lack_of_Efficacy:
+        description: Withdrew due to lack of efficacy
+      Personal_Reasons:
+        description: Withdrew for personal reasons
+      Burden_of_Participation:
+        description: Withdrew due to burden of participation
+      Geographic_Relocation:
+        description: Withdrew due to geographic relocation
+      Physician_Recommendation:
+        description: Withdrew on physician recommendation
+      Other:
+        description: Other withdrawal reason
+
+  ScreenFailureReasonEnum:
+    permissible_values:
+      Age_Criteria:
+        description: Failed age inclusion criteria
+      Diagnosis_Criteria:
+        description: Failed diagnosis criteria
+      Disease_Stage:
+        description: Failed disease stage criteria
+      Laboratory_Values:
+        description: Failed laboratory value criteria
+      Comorbidities:
+        description: Failed due to comorbidities
+      Medications:
+        description: Failed due to prohibited medications
+      Consent_Issues:
+        description: Failed to obtain proper consent
+      Other:
+        description: Other screening failure reason
+
+  DeviationTypeEnum:
+    permissible_values:
+      Major:
+        description: Major protocol deviation
+      Minor:
+        description: Minor protocol deviation
+      Violation:
+        description: Protocol violation
+
+  DeviationCategoryEnum:
+    permissible_values:
+      Inclusion_Exclusion:
+        description: Inclusion/exclusion criteria deviation
+      Consent_Process:
+        description: Informed consent process deviation
+      Visit_Window:
+        description: Visit window deviation
+      Procedure_Timing:
+        description: Study procedure timing deviation
+      Medication_Dosing:
+        description: Study medication dosing deviation
+      Assessment_Missing:
+        description: Required assessment missing
+      Data_Entry:
+        description: Data entry error
+      Other:
+        description: Other deviation category
+
+  SeverityEnum:
+    permissible_values:
+      Low:
+        description: Low severity - minimal impact
+      Medium:
+        description: Medium severity - moderate impact
+      High:
+        description: High severity - significant impact
+      Critical:
+        description: Critical severity - major impact
+
+  ImpactEnum:
+    permissible_values:
+      None:
+        description: No impact
+      Minimal:
+        description: Minimal impact
+      Moderate:
+        description: Moderate impact
+      Significant:
+        description: Significant impact

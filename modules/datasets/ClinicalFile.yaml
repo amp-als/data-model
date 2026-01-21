@@ -1,0 +1,55 @@
+#######################################
+# Clinical File Schema
+# For clinical data files (assessments, visits, etc.)
+#######################################
+
+classes:
+  ClinicalFile:
+    is_a: BaseFile
+    mixins: [ClinicalFileMixin]
+    description: File containing clinical data such as assessments, visits, treatments, or medical history
+    attributes:
+      # Clinical-specific data types
+      dataType:
+        title: Data Type
+        range: ClinicalDataTypeEnum
+        description: Clinical data types (assessments, treatments, medical history, etc.)
+        multivalued: true
+        required: false
+      # Assessment-specific attributes
+      assessmentType:
+        title: Assessment Type
+        range: AssessmentTypeEnum
+        description: Type of clinical assessment contained in the file
+        multivalued: true
+        required: false
+      # Key outcome measures
+      keyMeasures:
+        title: Key Measures
+        range: string
+        description: Primary outcome measures or endpoints captured in this data
+        multivalued: true
+        required: false
+      # Data collection methodology
+      administrationMode:
+        title: Administration Mode
+        range: AdministrationModeEnum
+        description: The method by which the assessment or data collection was performed
+        required: false
+      studyPhase:
+        title: Study Phase
+        range: StudyPhaseEnum
+        description: The phase or timepoint in the study when the data was collected
+        required: false
+      # Data characteristics
+      hasLongitudinalData:
+        title: Has Longitudinal Data
+        range: boolean
+        description: Indicates whether the data contains multiple timepoints per subject
+        required: false
+      # Subject tracking
+      subjectIdColumn:
+        title: Subject ID Column
+        range: string
+        description: Name of the column containing subject identifiers
+        required: false

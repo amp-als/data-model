@@ -1,0 +1,100 @@
+classes:
+  Phenoconversion:
+    is_a: ClinicalAssessment
+    description: Records the conversion of a subject's clinical phenotype, for example from asymptomatic to symptomatic.
+    attributes:
+      phenoconversionStatus:
+        title: Phenoconversion Status
+        range: PhenoconversionStatusEnum
+        description: Whether a phenoconversion event was recorded.
+        required: false
+      phenoconversionDate:
+        title: Phenoconversion Date
+        range: date
+        description: The date phenoconversion was recorded.
+        required: false
+      evaluatorInitials:
+        title: Evaluator Initials
+        range: string
+        description: Initials of the evaluator recording the phenoconversion.
+        required: false
+      clinicalPhenotype:
+        title: Clinical Phenotype
+        range: ClinicalPhenotypeEnum
+        description: The clinical phenotype after conversion.
+        required: false
+      alsOnsetDate:
+        title: ALS Onset Date
+        range: date
+        description: Date of ALS onset.
+        required: false
+      alsDiagnosisDate:
+        title: ALS Diagnosis Date
+        range: date
+        description: Date of ALS diagnosis.
+        required: false
+      alsSiteOfOnset:
+        title: ALS Site of Onset
+        range: ALSSiteOfOnsetEnum
+        description: Site of ALS onset.
+        required: false
+      ftdOnsetDate:
+        title: FTD Onset Date
+        range: date
+        description: Date of FTD onset.
+        required: false
+      ftdDiagnosisDate:
+        title: FTD Diagnosis Date
+        range: date
+        description: Date of FTD diagnosis.
+        required: false
+      ftdPrimarySyndrome:
+        title: FTD Primary Syndrome
+        range: FTDPrimarySyndromeEnum
+        description: Primary FTD syndrome.
+        required: false
+      phenoconversionRationale:
+        title: Rationale for Phenoconversion
+        range: string
+        description: Description of the rationale for phenoconversion.
+        required: false
+
+enums:
+  PhenoconversionStatusEnum:
+    permissible_values:
+      "Yes":
+        description: "Phenoconversion performed"
+      "Not Applicable":
+        description: "Phenoconversion not applicable"
+  ClinicalPhenotypeEnum:
+    permissible_values:
+      ALS:
+        description: "Amyotrophic Lateral Sclerosis"
+      FTD:
+        description: "Frontotemporal Dementia"
+      ALS-FTD:
+        description: "Amyotrophic Lateral Sclerosis with Frontotemporal Dementia"
+  ALSSiteOfOnsetEnum:
+    permissible_values:
+      Bulbar:
+        description: "Bulbar onset"
+      Limb:
+        description: "Limb onset"
+      Respiratory:
+        description: "Respiratory onset"
+      Generalized:
+        description: "Generalized onset"
+  FTDPrimarySyndromeEnum:
+    permissible_values:
+      "Behavioral Variant FTD (bvFTD)":
+        description: "Behavioral Variant FTD (bvFTD)"
+      "Behavioral Variant FTD with Motor Neuron Disease (bFTD-MND)":
+        description: "Behavioral Variant FTD with Motor Neuron Disease (bFTD-MND)"
+      "Semantic Variant Primary Progressive Aphasia":
+        description: "Semantic Variant Primary Progressive Aphasia"
+      "Nonfluent Variant Primary Progressive Aphasia":
+        description: "Nonfluent Variant Primary Progressive Aphasia"
+      "Corticobasal Syndrome (CBS)":
+        description: "Corticobasal Syndrome (CBS)"
+      "Progressive Supranuclear Palsy":
+        description: "Progressive Supranuclear Palsy"

@@ -1,0 +1,304 @@
+{
+  "additionalProperties": false,
+  "description": "Dataset containing subject-level longitudinal clinical data where each file contains aggregate level subject data across multiple timepoints",
+  "properties": {
+    "alternateName": {
+      "description": "An alternate name that can be used for search and discovery improvement.",
+      "title": "Alternate Name",
+      "type": "string"
+    },
+    "assessmentTypes": {
+      "description": "Types of clinical assessments included in the dataset",
+      "items": {
+        "description": "",
+        "enum": [
+          "alsfrs_r",
+          "neurological_exam",
+          "psychiatric_eval",
+          "vital_signs",
+          "laboratory",
+          "electrophysiology",
+          "dynamometry",
+          "genetic_testing"
+        ],
+        "title": "AssessmentTypeEnum",
+        "type": "string"
+      },
+      "title": "Assessment Types",
+      "type": "array"
+    },
+    "citation": {
+      "description": "identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Citation",
+      "type": "array"
+    },
+    "clinicalDomain": {
+      "description": "The primary clinical domain or area of focus for the data",
+      "items": {
+        "description": "Primary clinical domains for ALS research and assessment",
+        "enum": [
+          "motor_function",
+          "bulbar_function",
+          "respiratory_function",
+          "limb_function",
+          "disease_progression",
+          "symptom_onset",
+          "genetic_testing",
+          "diagnosis_criteria",
+          "drug_administration",
+          "drug_exposure",
+          "biomarkers",
+          "neuroimaging",
+          "cognitive_assessment",
+          "quality_of_life",
+          "functional_assessment"
+        ],
+        "title": "ClinicalDomainEnum",
+        "type": "string"
+      },
+      "title": "Clinical Domain",
+      "type": "array"
+    },
+    "collection": {
+      "description": "Associated collection(s)",
+      "items": {
+        "description": "Original collection, e.g. the consortium that the dataset comes from.",
+        "enum": [
+          "ALS Knowledge Portal",
+          "Answer ALS",
+          "CReATe Consortium",
+          "Genomic Translation for ALS Care (GTAC)",
+          "New York Genome Center ALS Consortium",
+          "National Institutes of Health",
+          "Project MinE",
+          "amp_als",
+          "target_als",
+          "all_als",
+          "c_path",
+          "alsdb",
+          "geo",
+          "sra"
+        ],
+        "title": "CollectionEnum",
+        "type": "string"
+      },
+      "title": "Collection",
+      "type": "array"
+    },
+    "contributor": {
+      "description": "Institution or person responsible for collecting and managing the files and records in the dataset.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Contributor(s)",
+      "type": "array"
+    },
+    "creator": {
+      "description": "Properly formatted name of the organization or person that is creator of the dataset (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Creator",
+      "type": "array"
+    },
+    "curationLevel": {
+      "description": "TBD",
+      "title": "Curation level",
+      "enum": [
+        "Raw",
+        "Standardized",
+        "Non-Standardized",
+        "Unknown",
+        "tier1",
+        "tier2",
+        "tier3",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "dataType": {
+      "description": "Clinical data types (assessments, treatments, medical history, etc.)",
+      "items": {
+        "description": "",
+        "enum": [
+          "clinical_assessment",
+          "treatment",
+          "medical_history",
+          "laboratory_results",
+          "vital_signs",
+          "neurological_assessment",
+          "psychiatric_assessment",
+          "electrophysiology",
+          "hand_held_dynamometry",
+          "genetic_profile",
+          "study_management",
+          "data_management"
+        ],
+        "title": "ClinicalDataTypeEnum",
+        "type": "string"
+      },
+      "title": "Data Type",
+      "type": "array"
+    },
+    "datePublished": {
+      "description": "Date data were published/available on Synapse.",
+      "title": "Date Published",
+      "type": "integer"
+    },
+    "description": {
+      "description": "Blurb for the dataset; should be no more than 500 characters.",
+      "title": "Description",
+      "type": "string"
+    },
+    "disease": {
+      "description": "Disease(s) or condition(s) studied in the dataset.",
+      "title": "Disease",
+      "enum": [
+        "als",
+        "ftd",
+        "control",
+        "unknown"
+      ],
+      "type": "string"
+    },
+    "followUpDuration": {
+      "description": "Study follow-up period in months",
+      "title": "Follow-up Duration",
+      "type": "number"
+    },
+    "funder": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Funder",
+      "type": "array"
+    },
+    "includedInDataCatalog": {
+      "description": "Link(s) to known data catalog(s) the dataset is included in.",
+      "title": "Included In Data Catalog",
+      "type": "string"
+    },
+    "individualCount": {
+      "description": "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
+      "title": "Individual Count",
+      "type": "integer"
+    },
+    "keywords": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Keywords",
+      "type": "array"
+    },
+    "license": {
+      "description": "Unless information for license is clear, this should default to UNKNOWN.",
+      "title": "License"
+    },
+    "primaryOutcome": {
+      "description": "Primary clinical endpoint or outcome measure",
+      "title": "Primary Outcome Measure",
+      "type": "string"
+    },
+    "publisher": {
+      "description": "Name of the organization or person responsible for making the dataset available.",
+      "title": "Publisher",
+      "type": "string"
+    },
+    "sameAs": {
+      "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
+      "title": "Same As",
+      "type": "string"
+    },
+    "source": {
+      "description": "Host platform from which the dataset was sourced.",
+      "title": "Source",
+      "type": "string"
+    },
+    "species": {
+      "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
+      "items": {
+        "description": "",
+        "enum": [
+          "Rattus norvegicus",
+          "Gallus gallus",
+          "Pan troglodytes",
+          "Mus musculus (humanized)",
+          "Homo sapiens",
+          "Danio rerio",
+          "Drosophila melanogaster",
+          "Rhesus macaque",
+          "Sus scrofa",
+          "Oryctolagus cuniculus",
+          "Mus musculus"
+        ],
+        "title": "SpeciesEnum",
+        "type": "string"
+      },
+      "title": "Species",
+      "type": "array"
+    },
+    "studyDesign": {
+      "description": "Type of clinical study design",
+      "title": "Study Design",
+      "enum": [
+        "longitudinal",
+        "cross_sectional",
+        "case_control",
+        "cohort",
+        "interventional",
+        "observational"
+      ],
+      "type": "string"
+    },
+    "studyType": {
+      "description": "Study type for dataset",
+      "title": "Study type",
+      "enum": [
+        "Patient Registry Study",
+        "Natural History Study",
+        "Clinical Trial",
+        "Unknown",
+        "individual",
+        "aggregate",
+        "summary",
+        "meta_analysis"
+      ],
+      "type": "string"
+    },
+    "subject": {
+      "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Subject",
+      "type": "array"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "url": {
+      "description": "URL for the original dataset location at source.",
+      "title": "URL",
+      "type": "string"
+    },
+    "visitSchedule": {
+      "description": "Description of visit schedule (e.g., \"Baseline, 3, 6, 12 months\")",
+      "title": "Visit Schedule",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "creator",
+    "keywords",
+    "source",
+    "url"
+  ],
+  "title": "ClinicalDataset",
+  "type": "object",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset"
+}

@@ -1,0 +1,598 @@
+classes:
+  HandHeldDynamometry:
+    description: Hand-held dynamometry strength measurements with multiple trials per muscle group
+    is_a: ClinicalAssessment
+    attributes:
+      # Equipment and Setup
+      dynamometerModel:
+        title: Dynamometer Model
+        range: string
+        description: Model of hand-held dynamometer used
+        required: false
+        
+      calibrationDate:
+        title: Calibration Date
+        range: date
+        description: Date of last dynamometer calibration
+        required: false
+        
+      examinerInitials:
+        title: Examiner Initials
+        range: string
+        description: Initials of person performing assessment
+        required: false
+      
+      # Upper Extremity - Shoulder Flexion
+      shoulderFlexionLeftT1:
+        title: Shoulder Flexion Left - Trial 1 (N)
+        range: float
+        description: Left shoulder flexion strength trial 1 in Newtons
+        required: false
+        
+      shoulderFlexionLeftT2:
+        title: Shoulder Flexion Left - Trial 2 (N)
+        range: float
+        description: Left shoulder flexion strength trial 2 in Newtons
+        required: false
+        
+      shoulderFlexionLeftT3:
+        title: Shoulder Flexion Left - Trial 3 (N)
+        range: float
+        description: Left shoulder flexion strength trial 3 in Newtons
+        required: false
+        
+      shoulderFlexionLeftMean:
+        title: Shoulder Flexion Left - Mean (N)
+        range: float
+        description: Mean left shoulder flexion strength across trials
+        required: false
+        
+      shoulderFlexionLeftBreakHold:
+        title: Shoulder Flexion Left - Break Hold
+        range: BreakHoldEnum
+        description: Ability to break the hold during left shoulder flexion
+        required: false
+        
+      shoulderFlexionRightT1:
+        title: Shoulder Flexion Right - Trial 1 (N)
+        range: float
+        description: Right shoulder flexion strength trial 1 in Newtons
+        required: false
+        
+      shoulderFlexionRightT2:
+        title: Shoulder Flexion Right - Trial 2 (N)
+        range: float
+        description: Right shoulder flexion strength trial 2 in Newtons
+        required: false
+        
+      shoulderFlexionRightT3:
+        title: Shoulder Flexion Right - Trial 3 (N)
+        range: float
+        description: Right shoulder flexion strength trial 3 in Newtons
+        required: false
+        
+      shoulderFlexionRightMean:
+        title: Shoulder Flexion Right - Mean (N)
+        range: float
+        description: Mean right shoulder flexion strength across trials
+        required: false
+        
+      shoulderFlexionRightBreakHold:
+        title: Shoulder Flexion Right - Break Hold
+        range: BreakHoldEnum
+        description: Ability to break the hold during right shoulder flexion
+        required: false
+      
+      # Upper Extremity - Elbow Flexion
+      elbowFlexionLeftT1:
+        title: Elbow Flexion Left - Trial 1 (N)
+        range: float
+        description: Left elbow flexion strength trial 1 in Newtons
+        required: false
+        
+      elbowFlexionLeftT2:
+        title: Elbow Flexion Left - Trial 2 (N)
+        range: float
+        description: Left elbow flexion strength trial 2 in Newtons
+        required: false
+        
+      elbowFlexionLeftT3:
+        title: Elbow Flexion Left - Trial 3 (N)
+        range: float
+        description: Left elbow flexion strength trial 3 in Newtons
+        required: false
+        
+      elbowFlexionLeftMean:
+        title: Elbow Flexion Left - Mean (N)
+        range: float
+        description: Mean left elbow flexion strength across trials
+        required: false
+        
+      elbowFlexionLeftBreakHold:
+        title: Elbow Flexion Left - Break Hold
+        range: BreakHoldEnum
+        description: Ability to break the hold during left elbow flexion
+        required: false
+        
+      elbowFlexionRightT1:
+        title: Elbow Flexion Right - Trial 1 (N)
+        range: float
+        description: Right elbow flexion strength trial 1 in Newtons
+        required: false
+        
+      elbowFlexionRightT2:
+        title: Elbow Flexion Right - Trial 2 (N)
+        range: float
+        description: Right elbow flexion strength trial 2 in Newtons
+        required: false
+        
+      elbowFlexionRightT3:
+        title: Elbow Flexion Right - Trial 3 (N)
+        range: float
+        description: Right elbow flexion strength trial 3 in Newtons
+        required: false
+        
+      elbowFlexionRightMean:
+        title: Elbow Flexion Right - Mean (N)
+        range: float
+        description: Mean right elbow flexion strength across trials
+        required: false
+        
+      elbowFlexionRightBreakHold:
+        title: Elbow Flexion Right - Break Hold
+        range: BreakHoldEnum
+        description: Ability to break the hold during right elbow flexion
+        required: false
+      
+      # Upper Extremity - Elbow Extension
+      elbowExtensionLeftT1:
+        title: Elbow Extension Left - Trial 1 (N)
+        range: float
+        description: Left elbow extension strength trial 1 in Newtons
+        required: false
+        
+      elbowExtensionLeftT2:
+        title: Elbow Extension Left - Trial 2 (N)
+        range: float
+        description: Left elbow extension strength trial 2 in Newtons
+        required: false
+        
+      elbowExtensionLeftT3:
+        title: Elbow Extension Left - Trial 3 (N)
+        range: float
+        description: Left elbow extension strength trial 3 in Newtons
+        required: false
+        
+      elbowExtensionLeftMean:
+        title: Elbow Extension Left - Mean (N)
+        range: float
+        description: Mean left elbow extension strength across trials
+        required: false
+        
+      elbowExtensionRightT1:
+        title: Elbow Extension Right - Trial 1 (N)
+        range: float
+        description: Right elbow extension strength trial 1 in Newtons
+        required: false
+        
+      elbowExtensionRightT2:
+        title: Elbow Extension Right - Trial 2 (N)
+        range: float
+        description: Right elbow extension strength trial 2 in Newtons
+        required: false
+        
+      elbowExtensionRightT3:
+        title: Elbow Extension Right - Trial 3 (N)
+        range: float
+        description: Right elbow extension strength trial 3 in Newtons
+        required: false
+        
+      elbowExtensionRightMean:
+        title: Elbow Extension Right - Mean (N)
+        range: float
+        description: Mean right elbow extension strength across trials
+        required: false
+      
+      # Upper Extremity - Wrist Extension
+      wristExtensionLeftT1:
+        title: Wrist Extension Left - Trial 1 (N)
+        range: float
+        description: Left wrist extension strength trial 1 in Newtons
+        required: false
+        
+      wristExtensionLeftT2:
+        title: Wrist Extension Left - Trial 2 (N)
+        range: float
+        description: Left wrist extension strength trial 2 in Newtons
+        required: false
+        
+      wristExtensionLeftT3:
+        title: Wrist Extension Left - Trial 3 (N)
+        range: float
+        description: Left wrist extension strength trial 3 in Newtons
+        required: false
+        
+      wristExtensionLeftMean:
+        title: Wrist Extension Left - Mean (N)
+        range: float
+        description: Mean left wrist extension strength across trials
+        required: false
+        
+      wristExtensionRightT1:
+        title: Wrist Extension Right - Trial 1 (N)
+        range: float
+        description: Right wrist extension strength trial 1 in Newtons
+        required: false
+        
+      wristExtensionRightT2:
+        title: Wrist Extension Right - Trial 2 (N)
+        range: float
+        description: Right wrist extension strength trial 2 in Newtons
+        required: false
+        
+      wristExtensionRightT3:
+        title: Wrist Extension Right - Trial 3 (N)
+        range: float
+        description: Right wrist extension strength trial 3 in Newtons
+        required: false
+        
+      wristExtensionRightMean:
+        title: Wrist Extension Right - Mean (N)
+        range: float
+        description: Mean right wrist extension strength across trials
+        required: false
+      
+      # Hand Muscles - First Dorsal Interosseus (FDI)
+      fdiLeftT1:
+        title: FDI Left - Trial 1 (N)
+        range: float
+        description: Left first dorsal interosseus strength trial 1 in Newtons
+        required: false
+        
+      fdiLeftT2:
+        title: FDI Left - Trial 2 (N)
+        range: float
+        description: Left first dorsal interosseus strength trial 2 in Newtons
+        required: false
+        
+      fdiLeftT3:
+        title: FDI Left - Trial 3 (N)
+        range: float
+        description: Left first dorsal interosseus strength trial 3 in Newtons
+        required: false
+        
+      fdiLeftMean:
+        title: FDI Left - Mean (N)
+        range: float
+        description: Mean left first dorsal interosseus strength across trials
+        required: false
+        
+      fdiRightT1:
+        title: FDI Right - Trial 1 (N)
+        range: float
+        description: Right first dorsal interosseus strength trial 1 in Newtons
+        required: false
+        
+      fdiRightT2:
+        title: FDI Right - Trial 2 (N)
+        range: float
+        description: Right first dorsal interosseus strength trial 2 in Newtons
+        required: false
+        
+      fdiRightT3:
+        title: FDI Right - Trial 3 (N)
+        range: float
+        description: Right first dorsal interosseus strength trial 3 in Newtons
+        required: false
+        
+      fdiRightMean:
+        title: FDI Right - Mean (N)
+        range: float
+        description: Mean right first dorsal interosseus strength across trials
+        required: false
+      
+      # Hand Muscles - Abductor Pollicis Brevis (APB)
+      apbLeftT1:
+        title: APB Left - Trial 1 (N)
+        range: float
+        description: Left abductor pollicis brevis strength trial 1 in Newtons
+        required: false
+        
+      apbLeftT2:
+        title: APB Left - Trial 2 (N)
+        range: float
+        description: Left abductor pollicis brevis strength trial 2 in Newtons
+        required: false
+        
+      apbLeftT3:
+        title: APB Left - Trial 3 (N)
+        range: float
+        description: Left abductor pollicis brevis strength trial 3 in Newtons
+        required: false
+        
+      apbLeftMean:
+        title: APB Left - Mean (N)
+        range: float
+        description: Mean left abductor pollicis brevis strength across trials
+        required: false
+        
+      apbRightT1:
+        title: APB Right - Trial 1 (N)
+        range: float
+        description: Right abductor pollicis brevis strength trial 1 in Newtons
+        required: false
+        
+      apbRightT2:
+        title: APB Right - Trial 2 (N)
+        range: float
+        description: Right abductor pollicis brevis strength trial 2 in Newtons
+        required: false
+        
+      apbRightT3:
+        title: APB Right - Trial 3 (N)
+        range: float
+        description: Right abductor pollicis brevis strength trial 3 in Newtons
+        required: false
+        
+      apbRightMean:
+        title: APB Right - Mean (N)
+        range: float
+        description: Mean right abductor pollicis brevis strength across trials
+        required: false
+      
+      # Hand Muscles - Abductor Digiti Minimi (ADM)
+      admLeftT1:
+        title: ADM Left - Trial 1 (N)
+        range: float
+        description: Left abductor digiti minimi strength trial 1 in Newtons
+        required: false
+        
+      admLeftT2:
+        title: ADM Left - Trial 2 (N)
+        range: float
+        description: Left abductor digiti minimi strength trial 2 in Newtons
+        required: false
+        
+      admLeftT3:
+        title: ADM Left - Trial 3 (N)
+        range: float
+        description: Left abductor digiti minimi strength trial 3 in Newtons
+        required: false
+        
+      admLeftMean:
+        title: ADM Left - Mean (N)
+        range: float
+        description: Mean left abductor digiti minimi strength across trials
+        required: false
+        
+      admRightT1:
+        title: ADM Right - Trial 1 (N)
+        range: float
+        description: Right abductor digiti minimi strength trial 1 in Newtons
+        required: false
+        
+      admRightT2:
+        title: ADM Right - Trial 2 (N)
+        range: float
+        description: Right abductor digiti minimi strength trial 2 in Newtons
+        required: false
+        
+      admRightT3:
+        title: ADM Right - Trial 3 (N)
+        range: float
+        description: Right abductor digiti minimi strength trial 3 in Newtons
+        required: false
+        
+      admRightMean:
+        title: ADM Right - Mean (N)
+        range: float
+        description: Mean right abductor digiti minimi strength across trials
+        required: false
+      
+      # Lower Extremity - Hip Flexion
+      hipFlexionLeftT1:
+        title: Hip Flexion Left - Trial 1 (N)
+        range: float
+        description: Left hip flexion strength trial 1 in Newtons
+        required: false
+        
+      hipFlexionLeftT2:
+        title: Hip Flexion Left - Trial 2 (N)
+        range: float
+        description: Left hip flexion strength trial 2 in Newtons
+        required: false
+        
+      hipFlexionLeftT3:
+        title: Hip Flexion Left - Trial 3 (N)
+        range: float
+        description: Left hip flexion strength trial 3 in Newtons
+        required: false
+        
+      hipFlexionLeftMean:
+        title: Hip Flexion Left - Mean (N)
+        range: float
+        description: Mean left hip flexion strength across trials
+        required: false
+        
+      hipFlexionRightT1:
+        title: Hip Flexion Right - Trial 1 (N)
+        range: float
+        description: Right hip flexion strength trial 1 in Newtons
+        required: false
+        
+      hipFlexionRightT2:
+        title: Hip Flexion Right - Trial 2 (N)
+        range: float
+        description: Right hip flexion strength trial 2 in Newtons
+        required: false
+        
+      hipFlexionRightT3:
+        title: Hip Flexion Right - Trial 3 (N)
+        range: float
+        description: Right hip flexion strength trial 3 in Newtons
+        required: false
+        
+      hipFlexionRightMean:
+        title: Hip Flexion Right - Mean (N)
+        range: float
+        description: Mean right hip flexion strength across trials
+        required: false
+      
+      # Lower Extremity - Knee Flexion
+      kneeFlexionLeftT1:
+        title: Knee Flexion Left - Trial 1 (N)
+        range: float
+        description: Left knee flexion strength trial 1 in Newtons
+        required: false
+        
+      kneeFlexionLeftT2:
+        title: Knee Flexion Left - Trial 2 (N)
+        range: float
+        description: Left knee flexion strength trial 2 in Newtons
+        required: false
+        
+      kneeFlexionLeftT3:
+        title: Knee Flexion Left - Trial 3 (N)
+        range: float
+        description: Left knee flexion strength trial 3 in Newtons
+        required: false
+        
+      kneeFlexionLeftMean:
+        title: Knee Flexion Left - Mean (N)
+        range: float
+        description: Mean left knee flexion strength across trials
+        required: false
+        
+      kneeFlexionRightT1:
+        title: Knee Flexion Right - Trial 1 (N)
+        range: float
+        description: Right knee flexion strength trial 1 in Newtons
+        required: false
+        
+      kneeFlexionRightT2:
+        title: Knee Flexion Right - Trial 2 (N)
+        range: float
+        description: Right knee flexion strength trial 2 in Newtons
+        required: false
+        
+      kneeFlexionRightT3:
+        title: Knee Flexion Right - Trial 3 (N)
+        range: float
+        description: Right knee flexion strength trial 3 in Newtons
+        required: false
+        
+      kneeFlexionRightMean:
+        title: Knee Flexion Right - Mean (N)
+        range: float
+        description: Mean right knee flexion strength across trials
+        required: false
+      
+      # Lower Extremity - Knee Extension
+      kneeExtensionLeftT1:
+        title: Knee Extension Left - Trial 1 (N)
+        range: float
+        description: Left knee extension strength trial 1 in Newtons
+        required: false
+        
+      kneeExtensionLeftT2:
+        title: Knee Extension Left - Trial 2 (N)
+        range: float
+        description: Left knee extension strength trial 2 in Newtons
+        required: false
+        
+      kneeExtensionLeftT3:
+        title: Knee Extension Left - Trial 3 (N)
+        range: float
+        description: Left knee extension strength trial 3 in Newtons
+        required: false
+        
+      kneeExtensionLeftMean:
+        title: Knee Extension Left - Mean (N)
+        range: float
+        description: Mean left knee extension strength across trials
+        required: false
+        
+      kneeExtensionRightT1:
+        title: Knee Extension Right - Trial 1 (N)
+        range: float
+        description: Right knee extension strength trial 1 in Newtons
+        required: false
+        
+      kneeExtensionRightT2:
+        title: Knee Extension Right - Trial 2 (N)
+        range: float
+        description: Right knee extension strength trial 2 in Newtons
+        required: false
+        
+      kneeExtensionRightT3:
+        title: Knee Extension Right - Trial 3 (N)
+        range: float
+        description: Right knee extension strength trial 3 in Newtons
+        required: false
+        
+      kneeExtensionRightMean:
+        title: Knee Extension Right - Mean (N)
+        range: float
+        description: Mean right knee extension strength across trials
+        required: false
+      
+      # Lower Extremity - Ankle Dorsiflexion
+      ankleDorsiflexionLeftT1:
+        title: Ankle Dorsiflexion Left - Trial 1 (N)
+        range: float
+        description: Left ankle dorsiflexion strength trial 1 in Newtons
+        required: false
+        
+      ankleDorsiflexionLeftT2:
+        title: Ankle Dorsiflexion Left - Trial 2 (N)
+        range: float
+        description: Left ankle dorsiflexion strength trial 2 in Newtons
+        required: false
+        
+      ankleDorsiflexionLeftT3:
+        title: Ankle Dorsiflexion Left - Trial 3 (N)
+        range: float
+        description: Left ankle dorsiflexion strength trial 3 in Newtons
+        required: false
+        
+      ankleDorsiflexionLeftMean:
+        title: Ankle Dorsiflexion Left - Mean (N)
+        range: float
+        description: Mean left ankle dorsiflexion strength across trials
+        required: false
+        
+      ankleDorsiflexionRightT1:
+        title: Ankle Dorsiflexion Right - Trial 1 (N)
+        range: float
+        description: Right ankle dorsiflexion strength trial 1 in Newtons
+        required: false
+        
+      ankleDorsiflexionRightT2:
+        title: Ankle Dorsiflexion Right - Trial 2 (N)
+        range: float
+        description: Right ankle dorsiflexion strength trial 2 in Newtons
+        required: false
+        
+      ankleDorsiflexionRightT3:
+        title: Ankle Dorsiflexion Right - Trial 3 (N)
+        range: float
+        description: Right ankle dorsiflexion strength trial 3 in Newtons
+        required: false
+        
+      ankleDorsiflexionRightMean:
+        title: Ankle Dorsiflexion Right - Mean (N)
+        range: float
+        description: Mean right ankle dorsiflexion strength across trials
+        required: false
+
+enums:
+  BreakHoldEnum:
+    permissible_values:
+      "Yes":
+        description: Patient able to break the hold
+      "No":
+        description: Patient unable to break the hold
+      Partial:
+        description: Patient partially able to break the hold
+      Unable_to_Test:
+        description: Unable to perform test

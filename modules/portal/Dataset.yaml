@@ -1,0 +1,15 @@
+#######################################
+# Dataset Union Schema
+# Uses inheritance and mixins for clean code organization
+# Maintains backward compatibility while supporting both clinical and omic datasets
+#######################################
+
+classes:
+  Dataset:
+    is_a: BaseDataset
+    mixins: [ClinicalDatasetMixin, OmicDatasetMixin]
+    description: Model for dataset on the AMP-ALS portal - union of clinical and omic dataset types
+    notes:
+    - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+    - This schema inherits from BaseDataset and combines attributes from both clinical and omic dataset types for backward compatibility
+    - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy

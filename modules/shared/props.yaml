@@ -312,3 +312,33 @@ slots:
     description: Method used for library preparation
     range: LibraryPreparationMethodEnum
     required: false
+  assessmentType:
+    description: The specific type of clinical assessment or data collection method used
+    range: AssessmentTypeEnum
+    required: false
+  clinicalDomain:
+    description: The primary clinical domain or area of focus for the data
+    range: ClinicalDomainEnum
+    multivalued: true
+    required: false 
+  administrationMode:
+    description: The method by which the assessment or data collection was performed
+    range: AdministrationModeEnum
+    required: false
+  studyPhase:
+    description: The phase or timepoint in the study when the data was collected
+    range: StudyPhaseEnum
+    required: false
+  keyMeasures:
+    description: Primary outcome measures or endpoints captured in this data
+    range: string
+    multivalued: true
+    required: false
+  hasLongitudinalData:
+    description: Indicates whether the data contains multiple timepoints per subject
+    range: boolean
+    required: false
+  completenessLevel:
+    description: General assessment of data completeness based on non-null values
+    range: CompletenessLevelEnum
+    required: false
