@@ -1,6 +1,6 @@
 {
   "additionalProperties": false,
-  "description": "Model for dataset on the AMP-ALS portal - union of clinical and omic dataset types",
+  "description": "Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata",
   "properties": {
     "FACSPopulation": {
       "description": "FACS-sorted cell population description",
@@ -222,11 +222,7 @@
           "whole genome sequencing",
           "whole-cell patch clamp",
           "word recognition score",
-          "STR profile",
-          "Extension control 1",
-          "Incubation control 1",
-          "Amplification control 1",
-          "Protein target assay"
+          "STR profile"
         ],
         "title": "Assay",
         "type": "string"
@@ -235,7 +231,7 @@
       "type": "array"
     },
     "biospecimenType": {
-      "description": "Type of biological specimen(s) in the dataset.",
+      "description": "Type of biological specimen(s) in the dataset",
       "items": {
         "description": "",
         "enum": [
@@ -258,7 +254,7 @@
       "type": "array"
     },
     "cellType": {
-      "description": "Type of cell or cell line used in the dataset.",
+      "description": "Type of cell or cell line used in the dataset",
       "items": {
         "description": "",
         "enum": [
@@ -283,12 +279,6 @@
         "type": "string"
       },
       "title": "Citation",
-      "type": "array"
-    },
-    "clinicalDomain": {
-      "description": "The primary clinical domain or area of focus for the data",
-      "items": {},
-      "title": "Clinical Domain",
       "type": "array"
     },
     "collection": {
@@ -348,14 +338,77 @@
       ],
       "type": "string"
     },
-    "dataType": {
-      "description": "Reflects the data types within the dataset.",
+    "dataFormat": {
+      "description": "File format of the omic data",
       "items": {
-        "description": "[DEPRECATED] Use domain-specific enums (OmicDataTypeEnum, ClinicalDataTypeEnum, CrossDomainDataTypeEnum) instead",
+        "description": "What the data (file) contains.",
         "enum": [
-          "deprecated_use_domain_specific"
+          "immunoassay",
+          "behavior process",
+          "clinical",
+          "demographics",
+          "particle characterization",
+          "drugCombinationScreen",
+          "isoformExpression",
+          "proteomics",
+          "surveyData",
+          "kinomics",
+          "SomaticVariants",
+          "Volume",
+          "characteristic",
+          "drugScreen",
+          "geneExpression",
+          "AlignedReads",
+          "genomicFeatures",
+          "genomicVariants",
+          "raw counts",
+          "RawIntensities",
+          "NormalizedIntensities",
+          "Pharmacokinetic Study",
+          "mask image",
+          "chromatinActivity",
+          "StructuralVariants",
+          "GermlineVariants",
+          "CopyNumberVariants",
+          "image",
+          "network",
+          "cellularPhysiology",
+          "metabolomics",
+          "AnnotatedSomaticVariants",
+          "AnnotatedGermlineVariants",
+          "Weight",
+          "electrophysiology",
+          "audio transcript",
+          "dataIndex",
+          "AggregatedData",
+          "transcriptomics",
+          "transcriptomics (nascent)",
+          "epigenomics",
+          "CorrelationAnalysis",
+          "Normalized Protein Expression (NPX)",
+          "GeneSetEnrichmentAnalysis"
         ],
         "title": "Data",
+        "type": "string"
+      },
+      "title": "Data Format",
+      "type": "array"
+    },
+    "dataType": {
+      "description": "Omic data types (genomics, transcriptomics, proteomics, etc.)",
+      "items": {
+        "description": "",
+        "enum": [
+          "genomics",
+          "transcriptomics",
+          "proteomics",
+          "metabolomics",
+          "epigenomics",
+          "metagenomics",
+          "single_cell",
+          "multi_omics"
+        ],
+        "title": "OmicDataTypeEnum",
         "type": "string"
       },
       "title": "Data Type",
@@ -407,7 +460,7 @@
       "type": "array"
     },
     "libraryLayout": {
-      "description": "Single-end or paired-end sequencing layout for datasets containing sequencing data.",
+      "description": "Single-end or paired-end sequencing layout for datasets containing sequencing data",
       "items": {
         "description": "",
         "enum": [
@@ -420,6 +473,21 @@
       "title": "Library Layout",
       "type": "array"
     },
+    "libraryStrategy": {
+      "description": "Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)",
+      "title": "Library Strategy",
+      "enum": [
+        "RNA_seq",
+        "WGS",
+        "WES",
+        "ChIP_seq",
+        "ATAC_seq",
+        "bisulfite_seq",
+        "amplicon_seq",
+        "targeted_seq"
+      ],
+      "type": "string"
+    },
     "license": {
       "description": "Unless information for license is clear, this should default to UNKNOWN.",
       "title": "License"
@@ -427,6 +495,138 @@
     "originalSampleName": {
       "description": "Original sample name from data source",
       "title": "Original Sample Name",
+      "type": "string"
+    },
+    "platform": {
+      "description": "Sequencing or analysis platform used",
+      "title": "Platform",
+      "enum": [
+        "7T Bruker Biospec",
+        "10x Visium Spatial Gene Expression",
+        "2D CellTiter-Glo",
+        "2D Incucyte",
+        "Affymetrix Genome-Wide Human SNP 5.0 Array",
+        "Affymetrix Genome-Wide Human SNP 6.0 Array",
+        "Affymetrix Human Gene 1.0 ST Array",
+        "Affymetrix Human Genome U133 Plus 2.0 Array",
+        "Affymetrix U133AB",
+        "Agilent 44Karray",
+        "BD FACS Calibur",
+        "BD FACSymphony",
+        "BGISEQ-500",
+        "Bionano Irys",
+        "Caliper",
+        "Cherry Imaging FACE Platform",
+        "Cherry Imaging TRACE Platform",
+        "Chromium X",
+        "EnVision 2103 Multiplate Reader",
+        "GE Discovery MR750 3T",
+        "GE Optima MR450W 1.5T",
+        "GE Signa HDxt 1.5T",
+        "GE Signa Genesis 1.5T",
+        "GE Signa HDxt 3T",
+        "GE Signa Premier 3T",
+        "GE Signa Excite 1.5T",
+        "Hitachi Echelon 1.5T",
+        "Hitachi Oasis 1.2T",
+        "IVIS Spectrum In Vivo Imaging System",
+        "Illumina 1M",
+        "Illumina Genome Analyzer IIx",
+        "Illumina HiSeq 2000",
+        "Illumina HiSeq 2500",
+        "Illumina HiSeq 3000",
+        "Illumina HiSeq 4000",
+        "Illumina HiSeq X",
+        "Illumina Human660W-Quad v1.0 BeadChip",
+        "Illumina HumanHap300",
+        "Illumina HumanMethylation450",
+        "Illumina HumanOmni1-Quadv1.0",
+        "Illumina HumanOmniExpress-24 v1.0 BeadChip",
+        "Illumina HumanOmniExpress-24 v1.2 BeadChip",
+        "Illumina Infinium MethylationEPIC BeadChip v1.0 (850k)",
+        "Illumina Infinium MethylationEPIC BeadChip v2.0 (935k)",
+        "Illumina MiSeq",
+        "Illumina MouseWG-6 v2.0 expression beadchip",
+        "Illumina NextSeq 1000",
+        "Illumina NextSeq 2000",
+        "Illumina NextSeq 500",
+        "Illumina NextSeq 550",
+        "Illumina NovaSeq 6000",
+        "Illumina NovaSeq X",
+        "Illumina NovaSeq X Plus",
+        "Illumina Omni2pt5M",
+        "Illumina Omni5M",
+        "Illumina WholeGenome DASL",
+        "Illumina h650",
+        "Infinium HumanOmniExpressExome",
+        "LI-COR Odyssey CLx",
+        "LTQ Orbitrap XL",
+        "Leica Aperio AT2",
+        "Leica MZ16",
+        "Leica S9 Stereomicroscope",
+        "LifeViz Infinity System",
+        "LifeViz Micro System",
+        "MGI T-series",
+        "Malvern Zetasizer",
+        "NanoFCM",
+        "NanoString Human nCounter PanCancer IO360 Panel",
+        "Nanostring Counter",
+        "Nanostring GeoMx",
+        "Not Applicable",
+        "Olympus DP80",
+        "Olympus IX73",
+        "Orbitrap Fusion Lumos Tribrid",
+        "Other Platform",
+        "Oxford Nanopore",
+        "PacBio RS II",
+        "PacBio Sequel II System",
+        "PacBio Sequel IIe System",
+        "Pannoramic 250 Flash",
+        "Perlegen 300Karray",
+        "Philips Achieva 1.5T",
+        "Philips Achieva 3T",
+        "Philips FEI Tecnai 12",
+        "Philips Intera Achieva 3T",
+        "Philips Ingenia 1.5T",
+        "Philips Ingenia 3T",
+        "Philips Panorama 1.0T",
+        "Promega GloMax Discover",
+        "Q Exative HF",
+        "Scale",
+        "Siemens Avanto 1.5T",
+        "Siemens Avanto Fit 1.5T",
+        "Siemens Magnetom Aera 1.5T",
+        "Siemens Magnetom Espree 1.5T",
+        "Siemens Magnetom Prisma 3T",
+        "Siemens Magnetom Skyra 3T",
+        "Siemens Magnetom Trio 3T",
+        "Siemens Magnetom Verio 3T",
+        "Siemens Magnetom Prisma Fit 3T",
+        "Spectramax M Series",
+        "TOOsonix System ONE-M",
+        "Toshiba Vantage Titan 1.5T",
+        "Varioskan LUX",
+        "Vectra H1 3D Imaging System",
+        "Ventana Benchmark XT",
+        "Vevo 3100 Imaging System",
+        "XF24 Extracellular Flux Analyzer",
+        "Zeiss LSM",
+        "Zeiss LSM 700",
+        "Zeiss LSM 980",
+        "Zeno Electronic Walkway",
+        "ZetaView"
+      ],
+      "type": "string"
+    },
+    "processingLevel": {
+      "description": "Level of data processing (raw, processed, analyzed)",
+      "title": "Processing Level",
+      "enum": [
+        "raw",
+        "processed",
+        "analyzed",
+        "integrated"
+      ],
       "type": "string"
     },
     "publisher": {
@@ -467,21 +667,6 @@
       "title": "Species",
       "type": "array"
     },
-    "studyType": {
-      "description": "Study type for dataset",
-      "title": "Study type",
-      "enum": [
-        "Patient Registry Study",
-        "Natural History Study",
-        "Clinical Trial",
-        "Unknown",
-        "individual",
-        "aggregate",
-        "summary_level",
-        "meta_analysis"
-      ],
-      "type": "string"
-    },
     "subject": {
       "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
       "items": {
@@ -507,7 +692,7 @@
     "source",
     "url"
   ],
-  "title": "Dataset",
+  "title": "OmicDataset",
   "type": "object",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-dataset"
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset"
 }

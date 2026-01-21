@@ -3,9 +3,18 @@
   "description": "File containing clinical data such as assessments, visits, treatments, or medical history",
   "properties": {
     "administrationMode": {
-      "$ref": "#/$defs/AdministrationModeEnum",
       "description": "The method by which the assessment or data collection was performed",
-      "title": "Administration Mode"
+      "title": "Administration Mode",
+      "enum": [
+        "In_Person",
+        "Telephone",
+        "Video_Call",
+        "Self_Administered",
+        "Caregiver_Assisted",
+        "Other",
+        "partner_assessment"
+      ],
+      "type": "string"
     },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
@@ -14,20 +23,106 @@
     },
     "analysisTypes": {
       "description": "Computational and statistical analysis methods applied to the data",
-      "items": {},
+      "items": {
+        "description": "Computational and statistical analysis methods applied to the data",
+        "enum": [
+          "Normalized Protein Expression (NPX)",
+          "GeneSetEnrichmentAnalysis",
+          "differential_expression",
+          "pathway_enrichment",
+          "network_analysis",
+          "proteomics_analysis",
+          "metabolomics_analysis",
+          "longitudinal_analysis",
+          "survival_analysis",
+          "meta_analysis",
+          "correlation_analysis",
+          "multivariate_analysis",
+          "machine_learning"
+        ],
+        "title": "AnalysisMethodEnum",
+        "type": "string"
+      },
       "title": "Analysis Types",
       "type": "array"
     },
     "annotations": {
       "description": "Types of biological databases and annotations referenced in this file",
-      "items": {},
+      "items": {
+        "description": "Types of biological databases and annotation references",
+        "enum": [
+          "KEGG",
+          "GO",
+          "UniProt",
+          "Ensembl",
+          "HGNC",
+          "RefSeq",
+          "MONDO",
+          "HPO",
+          "SNOMED",
+          "ICD",
+          "pathway_enrichment",
+          "protein_pathway",
+          "metabolic_pathway",
+          "signaling_pathway"
+        ],
+        "title": "AnnotationTypeEnum",
+        "type": "string"
+      },
       "title": "Biological Annotations",
       "type": "array"
     },
     "assessmentType": {
       "description": "Type of clinical assessment contained in the file",
       "items": {
-        "$ref": "#/$defs/AssessmentTypeEnum"
+        "description": "",
+        "enum": [
+          "ALSFRS-R",
+          "ECAS",
+          "Strength",
+          "PulmonaryFunction",
+          "SpeechFunction",
+          "ALSAQ-40",
+          "Neurological",
+          "HandHeldDynamometry",
+          "VitalSigns",
+          "PhysicalExam",
+          "EMG",
+          "NCS",
+          "SuicideRisk",
+          "Laboratory",
+          "Demographics",
+          "MedicalHistory",
+          "ClinicalExamination",
+          "QualityOfLifeSurvey",
+          "TreatmentAdministration",
+          "VisitScheduling",
+          "EligibilityCriteria",
+          "StudyDisposition",
+          "EligibilityConsent",
+          "ConcomitantMedications",
+          "CohortParticipation",
+          "BiomarkerSerumCollection",
+          "AdverseEventLog",
+          "InformedConsentForm",
+          "InfusionVitalSigns",
+          "KeyDevicesProcedures",
+          "clinician_administered_exam",
+          "neurological_examination",
+          "PermanentAssistedVentilation",
+          "PhoneCallVisit",
+          "Pregnancy",
+          "ProtocolDeviation",
+          "SlowVitalCapacity (SVC)",
+          "ExposureProtocolChanges",
+          "SurvivalStatus",
+          "genetic_counseling",
+          "genetic_testing",
+          "motor_assessment",
+          "cognitive_assessment"
+        ],
+        "title": "AssessmentTypeEnum",
+        "type": "string"
       },
       "title": "Assessment Type",
       "type": "array"
@@ -43,7 +138,73 @@
     "clinicalDomain": {
       "description": "The primary clinical domain or area of focus for the data",
       "items": {
-        "$ref": "#/$defs/ClinicalDomainEnum"
+        "description": "Primary clinical domains for ALS research and assessment",
+        "enum": [
+          "motor_function",
+          "bulbar_function",
+          "respiratory_function",
+          "limb_function",
+          "disease_progression",
+          "symptom_onset",
+          "genetic_testing",
+          "diagnosis_criteria",
+          "drug_administration",
+          "drug_exposure",
+          "biomarkers",
+          "neuroimaging",
+          "cognitive_assessment",
+          "quality_of_life",
+          "functional_assessment",
+          "safety_monitoring",
+          "treatment_response",
+          "treatment_modification",
+          "subject_management",
+          "data_quality",
+          "functional_impact",
+          "biospecimen_collection",
+          "chemistry_panels",
+          "hematology_panels",
+          "serum_pregnancy_panels",
+          "urinalysis_panels",
+          "HBA1C_panels",
+          "upper_motor_neuron",
+          "lower_motor_neuron",
+          "cervical_function",
+          "thoracic_function",
+          "lumbar_function",
+          "site_of_onset",
+          "physical_mobility",
+          "activities_of_daily_living",
+          "emotional_functioning",
+          "eating_drinking",
+          "communication",
+          "gross_motor_function",
+          "fine_motor_function",
+          "adverse_events",
+          "informed_consent",
+          "eligibility_criteria",
+          "study_completion",
+          "vital_signs",
+          "supportive_interventions",
+          "medical_history",
+          "neurology",
+          "cognitive_function",
+          "cranial_nerves",
+          "remote_monitoring",
+          "physical_examination",
+          "reproductive_health",
+          "pregnancy_exposure",
+          "compliance",
+          "pulmonary_function_test",
+          "survival",
+          "mortality",
+          "activities_of_daily_living (ADL)",
+          "speech_function",
+          "study_eligibility",
+          "dementia_screening"
+        ],
+        "title": "ClinicalDomainEnum",
+        "type": "string"
       },
       "title": "Clinical Domain",
       "type": "array"
@@ -51,7 +212,25 @@
     "collection": {
       "description": "Associated collection(s)",
       "items": {
-        "$ref": "#/$defs/CollectionEnum"
+        "description": "Original collection, e.g. the consortium that the dataset comes from.",
+        "enum": [
+          "ALS Knowledge Portal",
+          "Answer ALS",
+          "CReATe Consortium",
+          "Genomic Translation for ALS Care (GTAC)",
+          "New York Genome Center ALS Consortium",
+          "National Institutes of Health",
+          "Project MinE",
+          "amp_als",
+          "target_als",
+          "all_als",
+          "c_path",
+          "alsdb",
+          "geo",
+          "sra"
+        ],
+        "title": "CollectionEnum",
+        "type": "string"
       },
       "title": "Collection",
       "type": "array"
@@ -75,7 +254,52 @@
     "dataType": {
       "description": "Clinical data types (assessments, treatments, medical history, etc.)",
       "items": {
-        "$ref": "#/$defs/ClinicalDataTypeEnum"
+        "description": "Types of clinical data contained in files",
+        "enum": [
+          "motor_assessment",
+          "cognitive_assessment",
+          "respiratory_assessment",
+          "bulbar_assessment",
+          "functional_assessment",
+          "quality_of_life",
+          "medical_history",
+          "family_history",
+          "medication_history",
+          "disease_progression",
+          "diagnostic_criteria",
+          "symptom_onset",
+          "genetic_testing",
+          "biomarker_data",
+          "drug_administration",
+          "therapy_sessions",
+          "intervention_response",
+          "adverse_events",
+          "screening_visit",
+          "baseline_visit",
+          "followup_visit",
+          "study_completion",
+          "laboratory_results",
+          "vital_signs",
+          "neuroimaging",
+          "electrophysiology",
+          "raw_clinical_data",
+          "processed_clinical_data",
+          "derived_scores",
+          "summary_statistics",
+          "clinical",
+          "demographics",
+          "immunoassay",
+          "behavior_process",
+          "surveyData",
+          "Pharmacokinetic_Study",
+          "drugScreen",
+          "drugCombinationScreen",
+          "image",
+          "audio_transcript",
+          "cellularPhysiology"
+        ],
+        "title": "ClinicalDataTypeEnum",
+        "type": "string"
       },
       "title": "Data Type",
       "type": "array"
@@ -86,9 +310,15 @@
       "type": "string"
     },
     "disease": {
-      "$ref": "#/$defs/DiseaseEnum",
       "description": "Disease(s) or condition(s) studied in the file.",
-      "title": "Disease"
+      "title": "Disease",
+      "enum": [
+        "als",
+        "ftd",
+        "control",
+        "unknown"
+      ],
+      "type": "string"
     },
     "hasLongitudinalData": {
       "description": "Indicates whether the data contains multiple timepoints per subject",
@@ -121,7 +351,6 @@
       "type": "array"
     },
     "license": {
-      "$ref": "#/$defs/License",
       "description": "Unless information for license is clear, this should default to UNKNOWN.",
       "title": "License"
     },
@@ -143,15 +372,38 @@
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
       "items": {
-        "$ref": "#/$defs/SpeciesEnum"
+        "description": "",
+        "enum": [
+          "Rattus norvegicus",
+          "Gallus gallus",
+          "Pan troglodytes",
+          "Mus musculus (humanized)",
+          "Homo sapiens",
+          "Danio rerio",
+          "Drosophila melanogaster",
+          "Rhesus macaque",
+          "Sus scrofa",
+          "Oryctolagus cuniculus",
+          "Mus musculus"
+        ],
+        "title": "SpeciesEnum",
+        "type": "string"
       },
       "title": "Species",
       "type": "array"
     },
     "studyPhase": {
-      "$ref": "#/$defs/StudyPhaseEnum",
       "description": "The phase or timepoint in the study when the data was collected",
-      "title": "Study Phase"
+      "title": "Study Phase",
+      "enum": [
+        "screening",
+        "baseline",
+        "treatment_phase",
+        "follow_up",
+        "longitudinal",
+        "endpoint"
+      ],
+      "type": "string"
     },
     "subject": {
       "description": "Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
@@ -183,10 +435,12 @@
   },
   "required": [
     "title",
+    "creator",
     "keywords",
-    "source"
+    "source",
+    "url"
   ],
   "title": "ClinicalFile",
   "type": "object",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinicalfile"
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file"
 }
