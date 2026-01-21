@@ -3,12 +3,31 @@
   "creator": $type(catalogue.creator.creatorName) = "array" ? 
              catalogue.creator.creatorName : 
              [catalogue.creator.creatorName],
-  "keywords": catalogue.keyword,
+  "keywords": $type(catalogue.keyword) = "string" ?
+      $map($split(catalogue.keyword, ","), function($v) { $trim($v) }) :
+      catalogue.keyword,
   "subject": $type(catalogue.disease.text) = "array" ? 
              catalogue.disease.text : 
              [catalogue.disease.text],
   "description": catalogue.description,
-  "collection": [collections[0].name],
+  "collection": [
+      (
+        $names := collections[name and name != ""].name;
+        $codes := collections[code and code != ""].code;
+
+        $names_l := $map($names, function($n){ $lowercase($trim($n)) });
+        $codes_l := $map($codes, function($c){ $lowercase($trim($c)) });
+
+        $pick :=
+          ("als knowledge portal" in $names_l) ?
+            "ALS Knowledge Portal" :
+          ("als-kp" in $codes_l) ?
+            "ALS Knowledge Portal" :
+            "Unknown";
+
+        $pick
+      )
+  ],
   "publisher": catalogue.publisher.text,
   "species": ["Homo sapiens"],
   "sameAs": "cpath:" & id,
@@ -16,8 +35,7 @@
   "studyType": catalogue.studyType? catalogue.studyType : "Unknown",
   "source": "Critical Path Institute",
   "url": "https://fair.dap.c-path.org/#/data/datasets/" & code,
-  "datasetReference": $string(id),
-  "dataSourcePrefix": "cpath",
-  /* "originalSubjectId": subject_id */
-  /* "globalSubjectId": dataSourcePrefix & datasetReference & originalSubjectId, */
+  "contributor": $type(catalogue.creator.creatorName) = "array" ? 
+             catalogue.creator.creatorName : 
+             [catalogue.creator.creatorName]
 }
