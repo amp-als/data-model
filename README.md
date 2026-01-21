@@ -51,23 +51,45 @@ make ALS.ttl       # Turtle RDF format
 
 ```
 ├── modules/                    # Source schema definitions
-│   ├── Assay/                 # Assay-related schemas
-│   │   ├── Assay.yaml
-│   │   ├── Parameter.yaml
-│   │   └── Platform.yaml
-│   ├── Data/                  # Data type definitions
-│   │   ├── Data.yaml
-│   │   └── FileFormat.yaml
-│   ├── DCC/                   # Data governance schemas
-│   │   ├── License.yaml
-│   │   └── Portal.yaml
-│   ├── Sample/                # Subject and sample schemas
-│   │   ├── Sex.yaml
-│   │   ├── Species.yaml
-│   │   └── Subject.yaml       # Multi-source subject identification
-│   ├── Template/              # Main entity templates
-│   │   └── Dataset.yaml       # Dataset metadata schema
-│   └── props.yaml             # Shared properties and slots
+│   ├── base/                   # Base dataset/file templates
+│   │   ├── BaseDataset.yaml
+│   │   └── BaseFile.yaml
+│   ├── clinical/               # Clinical domain schemas
+│   │   ├── assessments/        # Assessment schemas
+│   │   └── *.yaml
+│   ├── datasets/               # Dataset/file specializations
+│   │   ├── ClinicalDataset.yaml
+│   │   ├── ClinicalFile.yaml
+│   │   ├── OmicDataset.yaml
+│   │   └── OmicFile.yaml
+│   ├── entities/               # Core entities
+│   │   ├── Subject.yaml
+│   │   ├── Biospecimen.yaml
+│   │   ├── ClinicalAssessment.yaml
+│   │   └── AllDatasets.yaml
+│   ├── governance/             # Licensing and portal vocab
+│   │   ├── licenses.yaml
+│   │   └── portals.yaml
+│   ├── mixins/                 # Reusable mixins
+│   │   ├── DatasetMixins.yaml
+│   │   └── FileMixins.yaml
+│   ├── omics/                  # Omics vocab and enums
+│   │   ├── assays.yaml
+│   │   ├── parameters.yaml
+│   │   └── platforms.yaml
+│   ├── portal/                 # Portal-facing schemas
+│   │   ├── Dataset.yaml
+│   │   └── File.yaml
+│   ├── reference/              # Reference vocabularies
+│   │   ├── data-types.yaml
+│   │   ├── file-formats.yaml
+│   │   ├── sex.yaml
+│   │   └── species.yaml
+│   └── shared/                 # Shared slots and enums
+│       ├── props.yaml
+│       ├── common-enums.yaml
+│       ├── annotations.yaml
+│       └── analysis-methods.yaml
 ├── mapping/                   # Data transformation mappings
 │   ├── als_compute.jsonata    # ALS Compute transformations
 │   ├── cpath.jsonata          # Critical Path Institute mappings
@@ -256,7 +278,7 @@ which yq retold gen-json-schema
 
 ### Adding New Data Sources
 
-1. **Add source to enum** in `modules/Sample/Subject.yaml`:
+1. **Add source to enum** in `modules/entities/Subject.yaml`:
    ```yaml
    DataSourceEnum:
      permissible_values:
