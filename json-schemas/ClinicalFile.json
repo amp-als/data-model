@@ -1,0 +1,192 @@
+{
+  "additionalProperties": false,
+  "description": "File containing clinical data such as assessments, visits, treatments, or medical history",
+  "properties": {
+    "administrationMode": {
+      "$ref": "#/$defs/AdministrationModeEnum",
+      "description": "The method by which the assessment or data collection was performed",
+      "title": "Administration Mode"
+    },
+    "alternateName": {
+      "description": "An alternate name that can be used for search and discovery improvement.",
+      "title": "Alternate Name",
+      "type": "string"
+    },
+    "analysisTypes": {
+      "description": "Computational and statistical analysis methods applied to the data",
+      "items": {},
+      "title": "Analysis Types",
+      "type": "array"
+    },
+    "annotations": {
+      "description": "Types of biological databases and annotations referenced in this file",
+      "items": {},
+      "title": "Biological Annotations",
+      "type": "array"
+    },
+    "assessmentType": {
+      "description": "Type of clinical assessment contained in the file",
+      "items": {
+        "$ref": "#/$defs/AssessmentTypeEnum"
+      },
+      "title": "Assessment Type",
+      "type": "array"
+    },
+    "citation": {
+      "description": "identifies academic articles that are recommended by the data provider be cited in addition to the file itself.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Citation",
+      "type": "array"
+    },
+    "clinicalDomain": {
+      "description": "The primary clinical domain or area of focus for the data",
+      "items": {
+        "$ref": "#/$defs/ClinicalDomainEnum"
+      },
+      "title": "Clinical Domain",
+      "type": "array"
+    },
+    "collection": {
+      "description": "Associated collection(s)",
+      "items": {
+        "$ref": "#/$defs/CollectionEnum"
+      },
+      "title": "Collection",
+      "type": "array"
+    },
+    "contributor": {
+      "description": "Institution or person responsible for collecting and managing the files and records in the file.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Contributor(s)",
+      "type": "array"
+    },
+    "creator": {
+      "description": "Properly formatted name of the organization or person that is creator of the file (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Creator",
+      "type": "array"
+    },
+    "dataType": {
+      "description": "Clinical data types (assessments, treatments, medical history, etc.)",
+      "items": {
+        "$ref": "#/$defs/ClinicalDataTypeEnum"
+      },
+      "title": "Data Type",
+      "type": "array"
+    },
+    "description": {
+      "description": "Blurb for the file; should be no more than 500 characters.",
+      "title": "Description",
+      "type": "string"
+    },
+    "disease": {
+      "$ref": "#/$defs/DiseaseEnum",
+      "description": "Disease(s) or condition(s) studied in the file.",
+      "title": "Disease"
+    },
+    "hasLongitudinalData": {
+      "description": "Indicates whether the data contains multiple timepoints per subject",
+      "title": "Has Longitudinal Data",
+      "type": "boolean"
+    },
+    "includedInDataCatalog": {
+      "description": "Link(s) to known data catalog(s) the file is included in.",
+      "title": "Included In Data Catalog",
+      "type": "string"
+    },
+    "individualCount": {
+      "description": "Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
+      "title": "Individual Count",
+      "type": "integer"
+    },
+    "keyMeasures": {
+      "description": "Primary outcome measures or endpoints captured in this data",
+      "items": {
+        "type": "string"
+      },
+      "title": "Key Measures",
+      "type": "array"
+    },
+    "keywords": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Keywords",
+      "type": "array"
+    },
+    "license": {
+      "$ref": "#/$defs/License",
+      "description": "Unless information for license is clear, this should default to UNKNOWN.",
+      "title": "License"
+    },
+    "publisher": {
+      "description": "Name of the organization or person responsible for making the file available.",
+      "title": "Publisher",
+      "type": "string"
+    },
+    "sameAs": {
+      "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
+      "title": "Same As",
+      "type": "string"
+    },
+    "source": {
+      "description": "Host platform from which the file was sourced.",
+      "title": "Source",
+      "type": "string"
+    },
+    "species": {
+      "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
+      "items": {
+        "$ref": "#/$defs/SpeciesEnum"
+      },
+      "title": "Species",
+      "type": "array"
+    },
+    "studyPhase": {
+      "$ref": "#/$defs/StudyPhaseEnum",
+      "description": "The phase or timepoint in the study when the data was collected",
+      "title": "Study Phase"
+    },
+    "subject": {
+      "description": "Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Subject",
+      "type": "array"
+    },
+    "subjectIdColumn": {
+      "description": "Name of the column containing subject identifiers",
+      "title": "Subject ID Column",
+      "type": "string"
+    },
+    "title": {
+      "title": "Title",
+      "type": "string"
+    },
+    "url": {
+      "description": "URL for the original file location at source.",
+      "title": "URL",
+      "type": "string"
+    },
+    "visitType": {
+      "description": "Type of clinical visit (baseline, follow-up, etc.)",
+      "title": "Visit Type",
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "keywords",
+    "source"
+  ],
+  "title": "ClinicalFile",
+  "type": "object",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinicalfile"
+}

@@ -1,6 +1,6 @@
 {
   "additionalProperties": false,
-  "description": "Model for dataset on the AMP-ALS portal - union of clinical and omic dataset types",
+  "description": "Model for file on the AMP-ALS portal - union of clinical and omic file types",
   "properties": {
     "FACSPopulation": {
       "description": "FACS-sorted cell population description",
@@ -17,8 +17,20 @@
       "title": "Alternate Name",
       "type": "string"
     },
+    "analysisTypes": {
+      "description": "Computational and statistical analysis methods applied to the data",
+      "items": {},
+      "title": "Analysis Types",
+      "type": "array"
+    },
+    "annotations": {
+      "description": "Types of biological databases and annotations referenced in this file",
+      "items": {},
+      "title": "Biological Annotations",
+      "type": "array"
+    },
     "assay": {
-      "description": "What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.",
+      "description": "What's used to generate data in file, typically referring to the assay. Omit if not applicable.",
       "items": {
         "$ref": "#/$defs/AssayEnum"
       },
@@ -26,7 +38,7 @@
       "type": "array"
     },
     "biospecimenType": {
-      "description": "Type of biological specimen(s) in the dataset.",
+      "description": "Type of biological specimen(s) in the file.",
       "items": {
         "$ref": "#/$defs/BiospecimenTypeEnum"
       },
@@ -34,7 +46,7 @@
       "type": "array"
     },
     "cellType": {
-      "description": "Type of cell or cell line used in the dataset.",
+      "description": "Type of cell or cell line used in the file.",
       "items": {
         "$ref": "#/$defs/CellTypeEnum"
       },
@@ -42,7 +54,7 @@
       "type": "array"
     },
     "citation": {
-      "description": "identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.",
+      "description": "identifies academic articles that are recommended by the data provider be cited in addition to the file itself.",
       "items": {
         "type": "string"
       },
@@ -64,7 +76,7 @@
       "type": "array"
     },
     "contributor": {
-      "description": "Institution or person responsible for collecting and managing the files and records in the dataset.",
+      "description": "Institution or person responsible for collecting and managing the files and records in the file.",
       "items": {
         "type": "string"
       },
@@ -72,55 +84,38 @@
       "type": "array"
     },
     "creator": {
-      "description": "Properly formatted name of the organization or person that is creator of the dataset (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.",
+      "description": "Properly formatted name of the organization or person that is creator of the file (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.",
       "items": {
         "type": "string"
       },
       "title": "Creator",
       "type": "array"
     },
-    "curationLevel": {
-      "$ref": "#/$defs/CurationLevelEnum",
-      "description": "TBD",
-      "title": "Curation level"
-    },
     "dataType": {
-      "description": "Reflects the data types within the dataset.",
+      "description": "Reflects the data types within the file.",
       "items": {
         "$ref": "#/$defs/Data"
       },
       "title": "Data Type",
       "type": "array"
     },
-    "datePublished": {
-      "description": "Date data were published/available on Synapse.",
-      "title": "Date Published",
-      "type": "integer"
-    },
     "description": {
-      "description": "Blurb for the dataset; should be no more than 500 characters.",
+      "description": "Blurb for the file; should be no more than 500 characters.",
       "title": "Description",
       "type": "string"
     },
     "disease": {
       "$ref": "#/$defs/DiseaseEnum",
-      "description": "Disease(s) or condition(s) studied in the dataset.",
+      "description": "Disease(s) or condition(s) studied in the file.",
       "title": "Disease"
     },
-    "funder": {
-      "items": {
-        "type": "string"
-      },
-      "title": "Funder",
-      "type": "array"
-    },
     "includedInDataCatalog": {
-      "description": "Link(s) to known data catalog(s) the dataset is included in.",
+      "description": "Link(s) to known data catalog(s) the file is included in.",
       "title": "Included In Data Catalog",
       "type": "string"
     },
     "individualCount": {
-      "description": "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
+      "description": "Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
       "title": "Individual Count",
       "type": "integer"
     },
@@ -132,7 +127,7 @@
       "type": "array"
     },
     "libraryLayout": {
-      "description": "Single-end or paired-end sequencing layout for datasets containing sequencing data.",
+      "description": "Single-end or paired-end sequencing layout for files containing sequencing data.",
       "items": {
         "$ref": "#/$defs/LibraryLayoutEnum"
       },
@@ -150,7 +145,7 @@
       "type": "string"
     },
     "publisher": {
-      "description": "Name of the organization or person responsible for making the dataset available.",
+      "description": "Name of the organization or person responsible for making the file available.",
       "title": "Publisher",
       "type": "string"
     },
@@ -160,7 +155,7 @@
       "type": "string"
     },
     "source": {
-      "description": "Host platform from which the dataset was sourced.",
+      "description": "Host platform from which the file was sourced.",
       "title": "Source",
       "type": "string"
     },
@@ -172,13 +167,13 @@
       "title": "Species",
       "type": "array"
     },
-    "studyType": {
-      "$ref": "#/$defs/StudyLevelEnum",
-      "description": "Study type for dataset",
-      "title": "Study type"
+    "studyPhase": {
+      "description": "Phase or stage of the clinical study when file was generated",
+      "title": "Study Phase",
+      "type": "string"
     },
     "subject": {
-      "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
+      "description": "Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
       "items": {
         "type": "string"
       },
@@ -190,8 +185,13 @@
       "type": "string"
     },
     "url": {
-      "description": "URL for the original dataset location at source.",
+      "description": "URL for the original file location at source.",
       "title": "URL",
+      "type": "string"
+    },
+    "visitType": {
+      "description": "Type of clinical visit (baseline, follow-up, etc.)",
+      "title": "Visit Type",
       "type": "string"
     }
   },
@@ -200,7 +200,7 @@
     "keywords",
     "source"
   ],
-  "title": "Dataset",
+  "title": "File",
   "type": "object",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-dataset"
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file"
 }

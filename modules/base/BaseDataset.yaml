@@ -1,12 +1,12 @@
 #######################################
-# Portal Dataset
+# Base Dataset Schema
+# Common attributes shared by all dataset types
 #######################################
 
 classes:
-  Dataset:
-    description: Model for dataset on the AMP-ALS portal
-    notes:
-    - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
+  BaseDataset:
+    abstract: true
+    description: Base schema for all dataset types with common metadata attributes
     attributes:
       title:
         title: Title
@@ -34,16 +34,6 @@ classes:
         description: Institution or person responsible for collecting and managing the files and records in the dataset.
         multivalued: true
         required: false
-      # studyId:
-      #  title: Study ID
-      #  range: string
-      #  description: Identifier for the study (project) from which the dataset was derived.
-      #  required: true
-      assay:
-        title: Measurement Technique
-        range: AssayEnum
-        multivalued: true
-        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
       keywords:
         title: Keywords
         range: string
@@ -71,11 +61,6 @@ classes:
         range: integer
         description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
         required: false
-      #specimenCount:
-      #  title: Specimen Count
-      #  range: integer
-      #  description: Number of unique specimens included in the dataset. Omit if not applicable/unknown.
-      #  required: false
       collection:
         title: Collection
         range: CollectionEnum
@@ -92,6 +77,7 @@ classes:
         range: StudyLevelEnum
         description: Study type for dataset
         required: false
+        multivalued: true
       datePublished:
         title: Date Published
         description: Date data were published/available on Synapse.
@@ -133,73 +119,8 @@ classes:
         range: string
         description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
         required: false
-      GEOSuperSeries:
-        title: GEO SuperSeries
-        range: string
-        description: GEO SuperSeries identifier
-        required: false
-      originalSampleName:
-        title: Original Sample Name
-        range: string
-        description: Original sample name from data source
-        required: false
-      FACSPopulation:
-        title: FACS Population
-        range: string
-        description: FACS-sorted cell population description
-        required: false
-      dataType:
-        title: Data Type
-        range: Data
-        description: Reflects the data types within the dataset.
-        multivalued: true
-        required: false
-
-      libraryLayout:
-        title: Library Layout
-        range: LibraryLayoutEnum
-        description: Single-end or paired-end sequencing layout for datasets containing sequencing data.
-        multivalued: true
-        required: false
-
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen(s) in the dataset.
-        multivalued: true
-        required: false
-
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used in the dataset.
-        multivalued: true
-        required: false
-
       disease:
         title: Disease
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the dataset.
         required: false
-      #countryOfOrigin:
-      #  title: Country of Origin
-      #  range: string
-      #  description: Origin of individuals from which data were generated. Omit if not applicable/unknown.
-      #  multivalued: true
-      #  required: false
-      #accessType:
-      #  title: Access Type
-      #  range: AccessTypeEnum
-      #  description: Access type for the dataset.
-      #  required: true
-      #dataUseModifiers:
-      #  title: Data Use Modifiers
-      #  description: List of data use ontology (DUO) terms that are true for dataset, which describes the allowable scope and terms for data use. Most datasets allow "General Research Use" unless otherwise specified.
-      #  range: DuoEnum
-      #  multivalued: true
-      #  required: false
-      #conditionsOfAccess:
-      #  title: Conditions of access (Access requirements)
-      #  description: Requirements needed to access resource. This could include additional registration, updating profile information, joining a Synapse Team, or using specific authentication methods like 2FA or RAS. Omit property if not applicable/unknown.
-      #  range: string
-      #  required: false
