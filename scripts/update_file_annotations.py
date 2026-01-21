@@ -49,7 +49,7 @@ def get_description_from_schema(schemas, assessment_type):
 def main():
     annotations_file = 'annotations/all_als/assess_file_annotations.json'
     data_dir = 'data/ALL_ALS/v3-DEC/ASSESS/files'
-    schema_dir = 'model_schemas'
+    schema_dir = 'modules'
 
     # Load annotations
     with open(annotations_file, 'r') as f:
