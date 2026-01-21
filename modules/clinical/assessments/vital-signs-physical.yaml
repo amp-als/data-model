@@ -3,125 +3,141 @@ classes:
     description: Vital signs measurements including blood pressure, heart rate, temperature, and respiratory parameters
     is_a: ClinicalAssessment
     attributes:
+      performed:
+        title: Performed
+        range: boolean
+        description: "Was the vital signs assessment performed?"
+        required: false
+      reasonNotDone:
+        title: Reason Not Done
+        range: string
+        description: "Reason the vital signs assessment was not performed."
+        required: false
       # Blood Pressure
       systolicBP:
         title: Systolic Blood Pressure
         range: integer
         description: Systolic blood pressure in mmHg
         required: false
-        
       diastolicBP:
         title: Diastolic Blood Pressure
         range: integer
         description: Diastolic blood pressure in mmHg
         required: false
-        
       meanArterialPressure:
         title: Mean Arterial Pressure
         range: float
         description: Mean arterial pressure in mmHg
         required: false
-      
+      bloodPressureNotDoneReason:
+        title: Blood Pressure Not Done Reason
+        range: string
+        description: "Reason blood pressure was not measured."
+        required: false
       # Heart Rate and Rhythm
       heartRate:
         title: Heart Rate
         range: integer
         description: Heart rate in beats per minute
         required: false
-        
       heartRhythm:
         title: Heart Rhythm
         range: HeartRhythmEnum
         description: Heart rhythm assessment
         required: false
-        
       pulseRegularity:
         title: Pulse Regularity
         range: PulseRegularityEnum
         description: Pulse regularity assessment
         required: false
-      
+      pulseNotDoneReason:
+        title: Pulse Not Done Reason
+        range: string
+        description: "Reason pulse was not measured."
+        required: false
       # Temperature
       temperatureCelsius:
         title: Temperature (°C)
         range: float
         description: Body temperature in degrees Celsius
         required: false
-        
       temperatureFahrenheit:
         title: Temperature (°F)
         range: float
         description: Body temperature in degrees Fahrenheit
         required: false
-        
       temperatureSite:
         title: Temperature Site
         range: TemperatureSiteEnum
         description: Site where temperature was measured
         required: false
-      
+      temperatureNotDoneReason:
+        title: Temperature Not Done Reason
+        range: string
+        description: "Reason temperature was not measured."
+        required: false
       # Respiratory
       respiratoryRate:
         title: Respiratory Rate
         range: integer
         description: Respiratory rate in breaths per minute
         required: false
-        
+      respiratoryRateNotDoneReason:
+        title: Respiratory Rate Not Done Reason
+        range: string
+        description: "Reason respiratory rate was not measured."
+        required: false
       oxygenSaturation:
         title: Oxygen Saturation (%)
         range: float
         description: Oxygen saturation percentage
         required: false
-        
       supplementalOxygen:
         title: Supplemental Oxygen
         range: boolean
         description: Whether patient is on supplemental oxygen
         required: false
-        
       oxygenFlowRate:
         title: Oxygen Flow Rate (L/min)
         range: float
         description: Oxygen flow rate in liters per minute
         required: false
-      
       # Physical Measurements
       weight:
         title: Weight (kg)
         range: float
         description: Body weight in kilograms
         required: false
-        
       weightLbs:
         title: Weight (lbs)
         range: float
         description: Body weight in pounds
         required: false
-        
+      weightNotDoneReason:
+        title: Weight Not Done Reason
+        range: string
+        description: "Reason weight was not measured."
+        required: false
       height:
         title: Height (cm)
         range: float
         description: Height in centimeters
         required: false
-        
       heightInches:
         title: Height (inches)
         range: float
         description: Height in inches
         required: false
-        
       bmi:
         title: Body Mass Index
         range: float
         description: Body mass index (kg/m²)
         required: false
-        
       headCircumference:
         title: Head Circumference (cm)
         range: float
         description: Head circumference in centimeters
         required: false
-      
       # Pain Assessment
       painScore:
         title: Pain Score
@@ -130,26 +146,22 @@ classes:
         required: false
         minimum_value: 0
         maximum_value: 10
-        
       painLocation:
         title: Pain Location
         range: string
         description: Location of reported pain
         required: false
-      
       # General Assessment
       positionDuringAssessment:
         title: Position During Assessment
         range: PositionEnum
         description: Patient position during vital signs assessment
         required: false
-        
       assessmentTime:
         title: Assessment Time
         range: time
         description: Time when vital signs were assessed
         required: false
-        
       equipmentUsed:
         title: Equipment Used
         range: string
@@ -166,242 +178,203 @@ classes:
         range: GeneralAppearanceEnum
         description: Overall general appearance assessment
         required: false
-        
       levelOfConsciousness:
         title: Level of Consciousness
         range: ConsciousnessEnum
         description: Level of consciousness assessment
         required: false
-        
       orientation:
         title: Orientation
         range: OrientationEnum
         description: Orientation to person, place, time
         required: false
-        
       distress:
         title: Distress Level
         range: DistressEnum
         description: Level of apparent distress
         required: false
-      
       # Head, Eyes, Ears, Nose, Throat (HEENT)
       heentNormal:
         title: HEENT Normal
         range: boolean
         description: Head, eyes, ears, nose, throat examination normal
         required: false
-        
       heentAbnormal:
         title: HEENT Abnormal Findings
         range: string
         description: Description of abnormal HEENT findings
         required: false
-        
       pupilsEqual:
         title: Pupils Equal
         range: boolean
         description: Pupils equal, round, reactive to light
         required: false
-        
       extraocularMovements:
         title: Extraocular Movements
         range: EOMEnum
         description: Extraocular movements assessment
         required: false
-      
       # Cardiovascular
       cardiovascularNormal:
         title: Cardiovascular Normal
         range: boolean
         description: Cardiovascular examination normal
         required: false
-        
       cardiovascularAbnormal:
         title: Cardiovascular Abnormal Findings
         range: string
         description: Description of abnormal cardiovascular findings
         required: false
-        
       heartSounds:
         title: Heart Sounds
         range: HeartSoundsEnum
         description: Heart sounds assessment
         required: false
-        
       murmurs:
         title: Murmurs Present
         range: boolean
         description: Cardiac murmurs present
         required: false
-        
       murmurmDescription:
         title: Murmur Description
         range: string
         description: Description of cardiac murmur
         required: false
-        
       peripheralPulses:
         title: Peripheral Pulses
         range: PeripheralPulsesEnum
         description: Peripheral pulses assessment
         required: false
-        
       edema:
         title: Edema Present
         range: boolean
         description: Peripheral edema present
         required: false
-        
       edemaLocation:
         title: Edema Location
         range: string
         description: Location and description of edema
         required: false
-      
       # Pulmonary/Respiratory
       pulmonaryNormal:
         title: Pulmonary Normal
         range: boolean
         description: Pulmonary examination normal
         required: false
-        
       pulmonaryAbnormal:
         title: Pulmonary Abnormal Findings
         range: string
         description: Description of abnormal pulmonary findings
         required: false
-        
       breathSounds:
         title: Breath Sounds
         range: BreathSoundsEnum
         description: Breath sounds assessment
         required: false
-        
       adventitialSounds:
         title: Adventitial Sounds
         range: AdventitialSoundsEnum
         description: Adventitial breath sounds
         required: false
-        
       respiratoryEffort:
         title: Respiratory Effort
         range: RespiratoryEffortEnum
         description: Assessment of respiratory effort
         required: false
-      
       # Abdominal
       abdominalNormal:
         title: Abdominal Normal
         range: boolean
         description: Abdominal examination normal
         required: false
-        
       abdominalAbnormal:
         title: Abdominal Abnormal Findings
         range: string
         description: Description of abnormal abdominal findings
         required: false
-        
       bowelSounds:
         title: Bowel Sounds
         range: BowelSoundsEnum
         description: Bowel sounds assessment
         required: false
-        
       abdominalTenderness:
         title: Abdominal Tenderness
         range: boolean
         description: Abdominal tenderness present
         required: false
-        
       organomegaly:
         title: Organomegaly
         range: boolean
         description: Hepatomegaly or splenomegaly present
         required: false
-      
       # Musculoskeletal
       musculoskeletalNormal:
         title: Musculoskeletal Normal
         range: boolean
         description: Musculoskeletal examination normal
         required: false
-        
       musculoskeletalAbnormal:
         title: Musculoskeletal Abnormal Findings
         range: string
         description: Description of abnormal musculoskeletal findings
         required: false
-        
       jointSwelling:
         title: Joint Swelling
         range: boolean
         description: Joint swelling present
         required: false
-        
       jointDeformity:
         title: Joint Deformity
         range: boolean
         description: Joint deformity present
         required: false
-        
       rangeOfMotionLimited:
         title: Range of Motion Limited
         range: boolean
         description: Limited range of motion present
         required: false
-      
       # Skin
       skinNormal:
         title: Skin Normal
         range: boolean
         description: Skin examination normal
         required: false
-        
       skinAbnormal:
         title: Skin Abnormal Findings
         range: string
         description: Description of abnormal skin findings
         required: false
-        
       skinColor:
         title: Skin Color
         range: SkinColorEnum
         description: Skin color assessment
         required: false
-        
       skinTemperature:
         title: Skin Temperature
         range: SkinTemperatureEnum
         description: Skin temperature assessment
         required: false
-        
       skinMoisture:
         title: Skin Moisture
         range: SkinMoistureEnum
         description: Skin moisture assessment
         required: false
-        
       rashes:
         title: Rashes Present
         range: boolean
         description: Skin rashes present
         required: false
-        
       rashDescription:
         title: Rash Description
         range: string
         description: Description of skin rash
         required: false
-      
       # Lymphatic
       lymphadenopathy:
         title: Lymphadenopathy
         range: boolean
         description: Lymphadenopathy present
         required: false
-        
       lymphNodeLocations:
         title: Lymph Node Locations
         range: string

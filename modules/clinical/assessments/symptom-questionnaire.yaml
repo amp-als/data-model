@@ -1,0 +1,683 @@
+classes:
+  SymptomQuestionnaire:
+    is_a: ClinicalAssessment
+    description: A questionnaire about various symptoms a participant may be experiencing.
+    attributes:
+      performed:
+        title: Performed
+        range: boolean
+        description: Was the symptom questionnaire performed?
+        required: false
+      reasonNotDone:
+        title: Reason Not Done
+        range: string
+        description: Reason the symptom questionnaire was not performed.
+        required: false
+      date:
+        title: Date
+        range: date
+        description: Date the symptom questionnaire was performed.
+        required: false
+      muscleWeakness:
+        title: Weakness in Muscles
+        range: boolean
+        description: "Has the participant experienced weakness in muscles?"
+        required: false
+      muscleWeaknessLeftArmShoulder:
+        title: Muscle Weakness - Left Arm/Shoulder
+        range: boolean
+        description: "Muscle weakness in left arm/shoulder."
+        required: false
+      muscleWeaknessLeftArmShoulderType:
+        title: Muscle Weakness - Left Arm/Shoulder Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in left arm/shoulder."
+        required: false
+      muscleWeaknessLeftArmShoulderSensation:
+        title: Muscle Weakness - Left Arm/Shoulder Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in left arm/shoulder."
+        required: false
+      muscleWeaknessLeftHandFingers:
+        title: Muscle Weakness - Left Hand/Fingers
+        range: boolean
+        description: "Muscle weakness in left hand/fingers."
+        required: false
+      muscleWeaknessLeftHandFingersType:
+        title: Muscle Weakness - Left Hand/Fingers Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in left hand/fingers."
+        required: false
+      muscleWeaknessLeftHandFingersSensation:
+        title: Muscle Weakness - Left Hand/Fingers Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in left hand/fingers."
+        required: false
+      muscleWeaknessLeftHipKnee:
+        title: Muscle Weakness - Left Hip/Knee
+        range: boolean
+        description: "Muscle weakness in left hip/knee."
+        required: false
+      muscleWeaknessLeftHipKneeType:
+        title: Muscle Weakness - Left Hip/Knee Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in left hip/knee."
+        required: false
+      muscleWeaknessLeftHipKneeSensation:
+        title: Muscle Weakness - Left Hip/Knee Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in left hip/knee."
+        required: false
+      muscleWeaknessLeftFootAnkle:
+        title: Muscle Weakness - Left Foot/Ankle
+        range: boolean
+        description: "Muscle weakness in left foot/ankle."
+        required: false
+      muscleWeaknessLeftFootAnkleType:
+        title: Muscle Weakness - Left Foot/Ankle Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in left foot/ankle."
+        required: false
+      muscleWeaknessLeftFootAnkleSensation:
+        title: Muscle Weakness - Left Foot/Ankle Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in left foot/ankle."
+        required: false
+      muscleWeaknessRightArmShoulder:
+        title: Muscle Weakness - Right Arm/Shoulder
+        range: boolean
+        description: "Muscle weakness in right arm/shoulder."
+        required: false
+      muscleWeaknessRightArmShoulderType:
+        title: Muscle Weakness - Right Arm/Shoulder Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in right arm/shoulder."
+        required: false
+      muscleWeaknessRightArmShoulderSensation:
+        title: Muscle Weakness - Right Arm/Shoulder Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in right arm/shoulder."
+        required: false
+      muscleWeaknessRightHandFingers:
+        title: Muscle Weakness - Right Hand/Fingers
+        range: boolean
+        description: "Muscle weakness in right hand/fingers."
+        required: false
+      muscleWeaknessRightHandFingersType:
+        title: Muscle Weakness - Right Hand/Fingers Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in right hand/fingers."
+        required: false
+      muscleWeaknessRightHandFingersSensation:
+        title: Muscle Weakness - Right Hand/Fingers Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in right hand/fingers."
+        required: false
+      muscleWeaknessRightHipKnee:
+        title: Muscle Weakness - Right Hip/Knee
+        range: boolean
+        description: "Muscle weakness in right hip/knee."
+        required: false
+      muscleWeaknessRightHipKneeType:
+        title: Muscle Weakness - Right Hip/Knee Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in right hip/knee."
+        required: false
+      muscleWeaknessRightHipKneeSensation:
+        title: Muscle Weakness - Right Hip/Knee Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in right hip/knee."
+        required: false
+      muscleWeaknessRightFootAnkle:
+        title: Muscle Weakness - Right Foot/Ankle
+        range: boolean
+        description: "Muscle weakness in right foot/ankle."
+        required: false
+      muscleWeaknessRightFootAnkleType:
+        title: Muscle Weakness - Right Foot/Ankle Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in right foot/ankle."
+        required: false
+      muscleWeaknessRightFootAnkleSensation:
+        title: Muscle Weakness - Right Foot/Ankle Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in right foot/ankle."
+        required: false
+      muscleWeaknessFaceLipsTongue:
+        title: Muscle Weakness - Face/Lips/Tongue
+        range: boolean
+        description: "Muscle weakness in face/lips/tongue."
+        required: false
+      muscleWeaknessFaceLipsTongueType:
+        title: Muscle Weakness - Face/Lips/Tongue Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in face/lips/tongue."
+        required: false
+      muscleWeaknessFaceLipsTongueSensation:
+        title: Muscle Weakness - Face/Lips/Tongue Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in face/lips/tongue."
+        required: false
+      muscleWeaknessNeck:
+        title: Muscle Weakness - Neck
+        range: boolean
+        description: "Muscle weakness in neck."
+        required: false
+      muscleWeaknessNeckType:
+        title: Muscle Weakness - Neck Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in neck."
+        required: false
+      muscleWeaknessNeckSensation:
+        title: Muscle Weakness - Neck Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in neck."
+        required: false
+      muscleWeaknessTrunkCore:
+        title: Muscle Weakness - Trunk/Core
+        range: boolean
+        description: "Muscle weakness in trunk/core muscles."
+        required: false
+      muscleWeaknessTrunkCoreType:
+        title: Muscle Weakness - Trunk/Core Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in trunk/core muscles."
+        required: false
+      muscleWeaknessTrunkCoreSensation:
+        title: Muscle Weakness - Trunk/Core Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in trunk/core muscles."
+        required: false
+      muscleWeaknessOther:
+        title: Muscle Weakness - Other
+        range: boolean
+        description: "Muscle weakness in other specified area."
+        required: false
+      muscleWeaknessOtherSpecify:
+        title: Muscle Weakness - Other Specify
+        range: string
+        description: "Specify other area of muscle weakness."
+        required: false
+      muscleWeaknessOtherType:
+        title: Muscle Weakness - Other Type
+        range: WeaknessTypeEnum
+        description: "Type of muscle weakness in other specified area."
+        required: false
+      muscleWeaknessOtherSensation:
+        title: Muscle Weakness - Other Pain/Sensation
+        range: boolean
+        description: "Pain or sensation changes in other specified area."
+        required: false
+      muscleAtrophy:
+        title: Muscle Atrophy
+        range: boolean
+        description: "Has the participant noticed muscle atrophy?"
+        required: false
+      muscleAtrophyLeftChest:
+        title: Muscle Atrophy - Left Chest
+        range: boolean
+        description: "Muscle atrophy in left chest."
+        required: false
+      muscleAtrophyLeftUpperArmShoulder:
+        title: Muscle Atrophy - Left Upper Arm/Shoulder
+        range: boolean
+        description: "Muscle atrophy in left upper arm/shoulder."
+        required: false
+      muscleAtrophyLeftForearm:
+        title: Muscle Atrophy - Left Forearm
+        range: boolean
+        description: "Muscle atrophy in left forearm."
+        required: false
+      muscleAtrophyLeftHandFingers:
+        title: Muscle Atrophy - Left Hand/Fingers
+        range: boolean
+        description: "Muscle atrophy in left hand/fingers."
+        required: false
+      muscleAtrophyLeftThighHip:
+        title: Muscle Atrophy - Left Thigh/Hip
+        range: boolean
+        description: "Muscle atrophy in left thigh/hip."
+        required: false
+      muscleAtrophyLeftAnkleCalf:
+        title: Muscle Atrophy - Left Ankle/Calf
+        range: boolean
+        description: "Muscle atrophy in left ankle/calf."
+        required: false
+      muscleAtrophyLeftFootToes:
+        title: Muscle Atrophy - Left Foot/Toes
+        range: boolean
+        description: "Muscle atrophy in left foot/toes."
+        required: false
+      muscleAtrophyRightChest:
+        title: Muscle Atrophy - Right Chest
+        range: boolean
+        description: "Muscle atrophy in right chest."
+        required: false
+      muscleAtrophyRightUpperArmShoulder:
+        title: Muscle Atrophy - Right Upper Arm/Shoulder
+        range: boolean
+        description: "Muscle atrophy in right upper arm/shoulder."
+        required: false
+      muscleAtrophyRightForearm:
+        title: Muscle Atrophy - Right Forearm
+        range: boolean
+        description: "Muscle atrophy in right forearm."
+        required: false
+      muscleAtrophyRightHandFingers:
+        title: Muscle Atrophy - Right Hand/Fingers
+        range: boolean
+        description: "Muscle atrophy in right hand/fingers."
+        required: false
+      muscleAtrophyRightThighHip:
+        title: Muscle Atrophy - Right Thigh/Hip
+        range: boolean
+        description: "Muscle atrophy in right thigh/hip."
+        required: false
+      muscleAtrophyRightAnkleCalf:
+        title: Muscle Atrophy - Right Ankle/Calf
+        range: boolean
+        description: "Muscle atrophy in right ankle/calf."
+        required: false
+      muscleAtrophyRightFootToes:
+        title: Muscle Atrophy - Right Foot/Toes
+        range: boolean
+        description: "Muscle atrophy in right foot/toes."
+        required: false
+      muscleAtrophyFaceHead:
+        title: Muscle Atrophy - Face/Head
+        range: boolean
+        description: "Muscle atrophy in face/head."
+        required: false
+      muscleAtrophyNeck:
+        title: Muscle Atrophy - Neck
+        range: boolean
+        description: "Muscle atrophy in neck."
+        required: false
+      muscleAtrophyAbdomen:
+        title: Muscle Atrophy - Abdomen
+        range: boolean
+        description: "Muscle atrophy in abdomen."
+        required: false
+      muscleAtrophyOther:
+        title: Muscle Atrophy - Other
+        range: boolean
+        description: "Muscle atrophy in other specified area."
+        required: false
+      muscleAtrophyOtherSpecify:
+        title: Muscle Atrophy - Other Specify
+        range: string
+        description: "Specify other area of muscle atrophy."
+        required: false
+      muscleCramping:
+        title: Muscle Cramping
+        range: boolean
+        description: "Has the participant experienced muscle cramping?"
+        required: false
+      muscleCrampingLeftChest:
+        title: Muscle Cramping - Left Chest
+        range: boolean
+        description: "Muscle cramping in left chest."
+        required: false
+      muscleCrampingLeftUpperArmShoulder:
+        title: Muscle Cramping - Left Upper Arm/Shoulder
+        range: boolean
+        description: "Muscle cramping in left upper arm/shoulder."
+        required: false
+      muscleCrampingLeftForearm:
+        title: Muscle Cramping - Left Forearm
+        range: boolean
+        description: "Muscle cramping in left forearm."
+        required: false
+      muscleCrampingLeftHandFingers:
+        title: Muscle Cramping - Left Hand/Fingers
+        range: boolean
+        description: "Muscle cramping in left hand/fingers."
+        required: false
+      muscleCrampingLeftThighHip:
+        title: Muscle Cramping - Left Thigh/Hip
+        range: boolean
+        description: "Muscle cramping in left thigh/hip."
+        required: false
+      muscleCrampingLeftAnkleCalf:
+        title: Muscle Cramping - Left Ankle/Calf
+        range: boolean
+        description: "Muscle cramping in left ankle/calf."
+        required: false
+      muscleCrampingLeftFootToes:
+        title: Muscle Cramping - Left Foot/Toes
+        range: boolean
+        description: "Muscle cramping in left foot/toes."
+        required: false
+      muscleCrampingRightChest:
+        title: Muscle Cramping - Right Chest
+        range: boolean
+        description: "Muscle cramping in right chest."
+        required: false
+      muscleCrampingRightUpperArmShoulder:
+        title: Muscle Cramping - Right Upper Arm/Shoulder
+        range: boolean
+        description: "Muscle cramping in right upper arm/shoulder."
+        required: false
+      muscleCrampingRightForearm:
+        title: Muscle Cramping - Right Forearm
+        range: boolean
+        description: "Muscle cramping in right forearm."
+        required: false
+      muscleCrampingRightHandFingers:
+        title: Muscle Cramping - Right Hand/Fingers
+        range: boolean
+        description: "Muscle cramping in right hand/fingers."
+        required: false
+      muscleCrampingRightThighHip:
+        title: Muscle Cramping - Right Thigh/Hip
+        range: boolean
+        description: "Muscle cramping in right thigh/hip."
+        required: false
+      muscleCrampingRightAnkleCalf:
+        title: Muscle Cramping - Right Ankle/Calf
+        range: boolean
+        description: "Muscle cramping in right ankle/calf."
+        required: false
+      muscleCrampingRightFootToes:
+        title: Muscle Cramping - Right Foot/Toes
+        range: boolean
+        description: "Muscle cramping in right foot/toes."
+        required: false
+      muscleCrampingFaceHead:
+        title: Muscle Cramping - Face/Head
+        range: boolean
+        description: "Muscle cramping in face/head."
+        required: false
+      muscleCrampingNeck:
+        title: Muscle Cramping - Neck
+        range: boolean
+        description: "Muscle cramping in neck."
+        required: false
+      muscleCrampingAbdomen:
+        title: Muscle Cramping - Abdomen
+        range: boolean
+        description: "Muscle cramping in abdomen."
+        required: false
+      muscleCrampingOther:
+        title: Muscle Cramping - Other
+        range: boolean
+        description: "Muscle cramping in other specified area."
+        required: false
+      muscleCrampingOtherSpecify:
+        title: Muscle Cramping - Other Specify
+        range: string
+        description: "Specify other area of muscle cramping."
+        required: false
+      muscleTwitching:
+        title: Muscle Twitching (Fasciculations)
+        range: boolean
+        description: "Has the participant experienced muscle twitching (fasciculations)?"
+        required: false
+      muscleTwitchingLeftChest:
+        title: Muscle Twitching - Left Chest
+        range: boolean
+        description: "Muscle twitching in left chest."
+        required: false
+      muscleTwitchingLeftUpperArmShoulder:
+        title: Muscle Twitching - Left Upper Arm/Shoulder
+        range: boolean
+        description: "Muscle twitching in left upper arm/shoulder."
+        required: false
+      muscleTwitchingLeftForearm:
+        title: Muscle Twitching - Left Forearm
+        range: boolean
+        description: "Muscle twitching in left forearm."
+        required: false
+      muscleTwitchingLeftHandFingers:
+        title: Muscle Twitching - Left Hand/Fingers
+        range: boolean
+        description: "Muscle twitching in left hand/fingers."
+        required: false
+      muscleTwitchingLeftThighHip:
+        title: Muscle Twitching - Left Thigh/Hip
+        range: boolean
+        description: "Muscle twitching in left thigh/hip."
+        required: false
+      muscleTwitchingLeftAnkleCalf:
+        title: Muscle Twitching - Left Ankle/Calf
+        range: boolean
+        description: "Muscle twitching in left ankle/calf."
+        required: false
+      muscleTwitchingLeftFootToes:
+        title: Muscle Twitching - Left Foot/Toes
+        range: boolean
+        description: "Muscle twitching in left foot/toes."
+        required: false
+      muscleTwitchingRightChest:
+        title: Muscle Twitching - Right Chest
+        range: boolean
+        description: "Muscle twitching in right chest."
+        required: false
+      muscleTwitchingRightUpperArmShoulder:
+        title: Muscle Twitching - Right Upper Arm/Shoulder
+        range: boolean
+        description: "Muscle twitching in right upper arm/shoulder."
+        required: false
+      muscleTwitchingRightForearm:
+        title: Muscle Twitching - Right Forearm
+        range: boolean
+        description: "Muscle twitching in right forearm."
+        required: false
+      muscleTwitchingRightHandFingers:
+        title: Muscle Twitching - Right Hand/Fingers
+        range: boolean
+        description: "Muscle twitching in right hand/fingers."
+        required: false
+      muscleTwitchingRightThighHip:
+        title: Muscle Twitching - Right Thigh/Hip
+        range: boolean
+        description: "Muscle twitching in right thigh/hip."
+        required: false
+      muscleTwitchingRightAnkleCalf:
+        title: Muscle Twitching - Right Ankle/Calf
+        range: boolean
+        description: "Muscle twitching in right ankle/calf."
+        required: false
+      muscleTwitchingRightFootToes:
+        title: Muscle Twitching - Right Foot/Toes
+        range: boolean
+        description: "Muscle twitching in right foot/toes."
+        required: false
+      muscleTwitchingFaceHead:
+        title: Muscle Twitching - Face/Head
+        range: boolean
+        description: "Muscle twitching in face/head."
+        required: false
+      muscleTwitchingNeck:
+        title: Muscle Twitching - Neck
+        range: boolean
+        description: "Muscle twitching in neck."
+        required: false
+      muscleTwitchingAbdomen:
+        title: Muscle Twitching - Abdomen
+        range: boolean
+        description: "Muscle twitching in abdomen."
+        required: false
+      muscleTwitchingOther:
+        title: Muscle Twitching - Other
+        range: boolean
+        description: "Muscle twitching in other specified area."
+        required: false
+      muscleTwitchingOtherSpecify:
+        title: Muscle Twitching - Other Specify
+        range: string
+        description: "Specify other area of muscle twitching."
+        required: false
+      walkingGaitProblems:
+        title: Problems with Walking and Gait
+        range: boolean
+        description: "Has the participant experienced problems with walking and gait?"
+        required: false
+      walkingGaitLeftFootDrop:
+        title: Walking/Gait - Left Foot Drop
+        range: boolean
+        description: "Left foot drop."
+        required: false
+      walkingGaitRightFootDrop:
+        title: Walking/Gait - Right Foot Drop
+        range: boolean
+        description: "Right foot drop."
+        required: false
+      walkingGaitDecreasedBalance:
+        title: Walking/Gait - Decreased Balance
+        range: boolean
+        description: "Decreased balance."
+        required: false
+      walkingGaitFrequentTripping:
+        title: Walking/Gait - Frequent Tripping
+        range: boolean
+        description: "Frequent tripping."
+        required: false
+      walkingGaitFalls:
+        title: Walking/Gait - Falls
+        range: boolean
+        description: "Falls."
+        required: false
+      walkingGaitOther:
+        title: Walking/Gait - Other
+        range: boolean
+        description: "Other walking/gait problems."
+        required: false
+      walkingGaitOtherSpecify:
+        title: Walking/Gait - Other Specify
+        range: string
+        description: "Specify other walking/gait problems."
+        required: false
+      speechProblems:
+        title: Problems with Speech
+        range: boolean
+        description: "Has the participant experienced problems with speech?"
+        required: false
+      speechSlurred:
+        title: Speech - Slurred
+        range: boolean
+        description: "Slurred speech."
+        required: false
+      speechSofterVolume:
+        title: Speech - Softer Volume
+        range: boolean
+        description: "Speech has softer volume."
+        required: false
+      speechHoarseStrained:
+        title: Speech - Hoarse or Strained
+        range: boolean
+        description: "Voice sounds hoarse or strained."
+        required: false
+      speechWordFinding:
+        title: Speech - Word Finding Problems
+        range: boolean
+        description: "Problems finding the right word to use."
+        required: false
+      speechUnderstanding:
+        title: Speech - Understanding Problems
+        range: boolean
+        description: "Problems understanding what other people are saying."
+        required: false
+      speechOther:
+        title: Speech - Other
+        range: boolean
+        description: "Other speech problems."
+        required: false
+      speechOtherSpecify:
+        title: Speech - Other Specify
+        range: string
+        description: "Specify other speech problems."
+        required: false
+      swallowingProblems:
+        title: Problems with Swallowing
+        range: boolean
+        description: "Has the participant experienced problems with swallowing?"
+        required: false
+      swallowingMoveFood:
+        title: Swallowing - Difficulty Moving Food
+        range: boolean
+        description: "Difficulty moving food to the back of the mouth."
+        required: false
+      swallowingCoughingChoking:
+        title: Swallowing - Frequent Coughing or Choking
+        range: boolean
+        description: "Frequent coughing or choking when eating or drinking."
+        required: false
+      swallowingChewingFatigue:
+        title: Swallowing - Fatigue with Chewing
+        range: boolean
+        description: "Fatigue with chewing."
+        required: false
+      swallowingSpilling:
+        title: Swallowing - Spilling Food/Liquid
+        range: boolean
+        description: "Food, liquid, or saliva spilling from the mouth."
+        required: false
+      swallowingSaliva:
+        title: Swallowing - Saliva Management
+        range: boolean
+        description: "Having to swallow more frequently to manage saliva."
+        required: false
+      swallowingOther:
+        title: Swallowing - Other
+        range: boolean
+        description: "Other swallowing problems."
+        required: false
+      swallowingOtherSpecify:
+        title: Swallowing - Other Specify
+        range: string
+        description: "Specify other swallowing problems."
+        required: false
+      breathingProblems:
+        title: Problems with Breathing
+        range: boolean
+        description: "Has the participant experienced problems with breathing?"
+        required: false
+      breathingShortnessOfBreathExertion:
+        title: Breathing - Shortness of Breath with Exertion
+        range: boolean
+        description: "Short of breath with exertion such as walking up a flight of stairs."
+        required: false
+      breathingShortnessOfBreathLightExertion:
+        title: Breathing - Shortness of Breath with Light Exertion
+        range: boolean
+        description: "Short of breath with light exertion in daily activities."
+        required: false
+      breathingShortnessOfBreathTalkingEating:
+        title: Breathing - Shortness of Breath with Talking or Eating
+        range: boolean
+        description: "Short of breath with talking or eating."
+        required: false
+      breathingShortnessOfBreathLyingFlat:
+        title: Breathing - Shortness of Breath when Lying Flat
+        range: boolean
+        description: "Short of breath when lying flat in bed."
+        required: false
+      breathingShortnessOfBreathAtRest:
+        title: Breathing - Shortness of Breath at Rest
+        range: boolean
+        description: "Short of breath at rest."
+        required: false
+      breathingOther:
+        title: Breathing - Other
+        range: boolean
+        description: "Other breathing problems."
+        required: false
+      breathingOtherSpecify:
+        title: Breathing - Other Specify
+        range: string
+        description: "Specify other breathing problems."
+        required: false
+      pbaProblems:
+        title: Problems with PBA
+        range: boolean
+        description: "Has the participant experienced problems with Pseudobulbar affect (PBA)?"
+        required: false
+
+enums:
+  WeaknessTypeEnum:
+    permissible_values:
+      Constant:
+        description: "Weakness is constant"
+      Intermittent:
+        description: "Weakness is intermittent"

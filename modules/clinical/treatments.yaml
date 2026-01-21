@@ -2,142 +2,165 @@ classes:
   Treatment:
     description: Treatment and medication information for subjects
     attributes:
+      reviewed:
+        title: Reviewed
+        range: boolean
+        description: "Was the medication log reviewed?"
+        required: false
+      reasonNotDone:
+        title: Reason Not Done
+        range: string
+        description: "Reason the medication log was not reviewed."
+        required: false
+      anyMedicationsUsed:
+        title: Any Medications Used
+        range: boolean
+        description: "Were any medications used?"
+        required: false
       treatmentId:
         title: Treatment ID
         range: string
         description: Unique identifier for this treatment record
         required: false
-        
       globalSubjectId:
         title: Global Subject ID
         range: string
         description: Reference to subject receiving this treatment
         required: false
-        
       visitId:
         title: Visit ID
         range: string
         description: Visit where treatment was recorded
         required: false
-        
       # Medication Details
       medicationName:
         title: Medication Name
         range: string
         description: Name of medication or treatment
         required: false
-        
       genericName:
         title: Generic Name
         range: string
         description: Generic name of medication
         required: false
-        
       brandName:
         title: Brand Name
         range: string
         description: Brand/trade name of medication
         required: false
-        
       medicationClass:
         title: Medication Class
         range: string
         description: Therapeutic class of medication
         required: false
-        
       atcCode:
         title: ATC Code
         range: string
         description: Anatomical Therapeutic Chemical (ATC) code
         required: false
-        
       # Dosing Information
       dose:
         title: Dose
         range: string
         description: Dose amount and units
         required: false
-        
       doseAmount:
         title: Dose Amount
         range: float
         description: Numeric dose amount
         required: false
-        
       doseUnits:
         title: Dose Units
         range: DoseUnitsEnum
         description: Units of dose measurement
         required: false
-        
+      doseUnitOther:
+        title: Dose Unit Other
+        range: string
+        description: "Specify other dose unit."
+        required: false
       frequency:
         title: Frequency
         range: FrequencyEnum
         description: Dosing frequency
         required: false
-        
       frequencyOther:
         title: Frequency Other
         range: string
         description: Other frequency specification
         required: false
-        
       route:
         title: Route of Administration
         range: RouteEnum
         description: Route of medication administration
         required: false
-        
+      routeOther:
+        title: Route Other
+        range: string
+        description: "Specify other route."
+        required: false
       # Clinical Information
       indication:
         title: Indication
         range: string
         description: Medical indication for treatment
         required: false
-        
       indicationCode:
         title: Indication Code
         range: string
         description: Coded medical indication (ICD-10, SNOMED, etc.)
         required: false
-        
+      indicationMedicalHistoryId:
+        title: Indication Medical History ID
+        range: string
+        description: "Medical History Event ID for indication."
+        required: false
+      indicationAdverseEventId:
+        title: Indication Adverse Event ID
+        range: string
+        description: "Adverse Event ID for indication."
+        required: false
+      indicationKeyDeviceId:
+        title: Indication Key Device ID
+        range: string
+        description: "Key Device or Procedure ID for indication."
+        required: false
+      indicationOther:
+        title: Indication Other
+        range: string
+        description: "Other indication."
+        required: false
       treatmentType:
         title: Treatment Type
         range: TreatmentTypeEnum
         description: Category of treatment
         required: false
-        
       investigational:
         title: Investigational Treatment
         range: boolean
         description: Whether this is an investigational treatment
         required: false
-        
       priorToStudy:
         title: Prior to Study
         range: boolean
         description: Whether treatment was started prior to study enrollment
         required: false
-        
       # Timing
       startDate:
         title: Start Date
         range: date
         description: Date treatment started
         required: false
-        
       endDate:
         title: End Date
         range: date
         description: Date treatment ended
         required: false
-        
       ongoing:
         title: Ongoing
         range: boolean
         description: Whether treatment is ongoing
         required: false
-        
       # Compliance and Monitoring
       compliance:
         title: Compliance (%)
@@ -146,61 +169,57 @@ classes:
         required: false
         minimum_value: 0
         maximum_value: 100
-        
       complianceMethod:
         title: Compliance Method
         range: ComplianceMethodEnum
         description: Method used to assess compliance
         required: false
-        
       reasonForChange:
         title: Reason for Change
         range: ReasonForChangeEnum
         description: Reason for dose/treatment change
         required: false
-        
       changeDetails:
         title: Change Details
         range: string
         description: Details about treatment changes
         required: false
-        
       # Efficacy and Tolerability
       efficacy:
         title: Efficacy Assessment
         range: EfficacyEnum
         description: Assessment of treatment efficacy
         required: false
-        
       tolerability:
         title: Tolerability Assessment
         range: TolerabilityEnum
         description: Assessment of treatment tolerability
         required: false
-        
       sideEffects:
         title: Side Effects Reported
         range: boolean
         description: Whether side effects were reported
         required: false
-        
       sideEffectDescription:
         title: Side Effect Description
         range: string
         description: Description of reported side effects
         required: false
-        
       # Study-Specific
       treatmentArm:
         title: Treatment Arm
         range: string
         description: Study treatment arm assignment
         required: false
-        
       blinding:
         title: Blinding Status
         range: BlindingEnum
         description: Blinding status for study treatment
+        required: false
+      comments:
+        title: Comments
+        range: string
+        description: "Comments about the treatment."
         required: false
 
   MedicalDevice:
@@ -211,31 +230,26 @@ classes:
         range: string
         description: Reference to subject using this device
         required: false
-        
       deviceType:
         title: Device Type
         range: DeviceTypeEnum
         description: Type of medical device
         required: false
-        
       deviceName:
         title: Device Name
         range: string
         description: Specific name or model of device
         required: false
-        
       implantDate:
         title: Implant Date
         range: date
         description: Date device was implanted or started
         required: false
-        
       indication:
         title: Indication
         range: string
         description: Medical indication for device use
         required: false
-        
       deviceStatus:
         title: Device Status
         range: DeviceStatusEnum
@@ -250,37 +264,31 @@ classes:
         range: string
         description: Reference to subject experiencing the event
         required: false
-        
       eventDescription:
         title: Event Description
         range: string
         description: Description of the adverse event
         required: false
-        
       eventDate:
         title: Event Date
         range: date
         description: Date when adverse event occurred
         required: false
-        
       severity:
         title: Severity
         range: SeverityEnum
         description: Severity grade of the adverse event
         required: false
-        
       relationship:
         title: Relationship to Study
         range: RelationshipEnum
         description: Relationship of event to study treatment/procedures
         required: false
-        
       outcome:
         title: Outcome
         range: OutcomeEnum
         description: Outcome or resolution of the adverse event
         required: false
-        
       serious:
         title: Serious Adverse Event
         range: boolean

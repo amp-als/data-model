@@ -1,0 +1,45 @@
+classes:
+  DigitalSpeechAssessment:
+    is_a: ClinicalAssessment
+    description: A digital speech assessment.
+    attributes:
+      performed:
+        title: Performed
+        range: boolean
+        description: "Was the assessment performed?"
+        required: false
+      reasonNotDone:
+        title: Reason Not Done
+        range: string
+        description: "Reason the assessment was not performed."
+        required: false
+      date:
+        title: Date
+        range: date
+        description: "Date of the assessment."
+        required: false
+      comments:
+        title: Comments
+        range: string
+        description: "Comments about the assessment."
+        required: false
+      speechVitalsUsername:
+        title: Speech Vitals Username
+        range: string
+        description: "Username for the Speech Vitals app."
+        required: false
+      speechVitalsPassword:
+        title: Speech Vitals Password
+        range: string
+        description: "Password for the Speech Vitals app."
+        required: false
+      appInstalled:
+        title: App Installed
+        range: boolean
+        description: "The Speech Vitals app has been installed and the participant has logged in."
+        required: false
+      appInstalledNoDescription:
+        title: App Installed No Description
+        range: string
+        description: "Description if the app was not installed."
+        required: false
