@@ -19,6 +19,7 @@ classes:
         range: StudyLevelEnum
         description: Study type for dataset
         required: false
+        multivalued: true
       # Clinical-specific data types using union enum
       dataType:
         title: Data Type

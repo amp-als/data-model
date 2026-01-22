@@ -469,19 +469,24 @@
     },
     "studyType": {
       "description": "Study type for dataset",
+      "items": {
+        "description": "",
+        "enum": [
+          "Patient Registry Study",
+          "Natural History Study",
+          "Clinical Trial",
+          "Observational Study",
+          "Unknown",
+          "individual",
+          "aggregate",
+          "summary_level",
+          "meta_analysis"
+        ],
+        "title": "StudyLevelEnum",
+        "type": "string"
+      },
       "title": "Study type",
-      "enum": [
-        "Patient Registry Study",
-        "Natural History Study",
-        "Clinical Trial",
-        "Observational Study",
-        "Unknown",
-        "individual",
-        "aggregate",
-        "summary_level",
-        "meta_analysis"
-      ],
-      "type": "string"
+      "type": "array"
     },
     "subject": {
       "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",

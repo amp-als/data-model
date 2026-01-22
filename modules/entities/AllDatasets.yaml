@@ -128,6 +128,7 @@ classes:
         range: StudyLevelEnum
         description: Study type for dataset (longitudinal, cross-sectional, etc.)
         required: false
+        multivalued: true
       dataType:
         title: Data Type
         range: ClinicalDataTypeEnum
