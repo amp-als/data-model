@@ -1,0 +1,117 @@
+# Synapse Dataset Manager Configuration Template
+# Copy this file to config.yaml and fill in your settings
+
+# Synapse Authentication
+synapse:
+  # OPTIONAL: Set your personal access token
+  # Get from: https://www.synapse.org/ → Account Settings → Personal Access Tokens
+  # Leave empty to use default Synapse credentials (~/.synapseConfig)
+  #
+  # Priority:
+  #   1. SYNAPSE_AUTH_TOKEN environment variable
+  #   2. auth_token below
+  #   3. Synapse default discovery (~/.synapseConfig from 'synapse login')
+  auth_token: ""
+
+  # Project to create datasets in
+  project_id: "syn68702804"
+
+  # Collection to add datasets to
+  datasets_collection_id: "syn66496326"
+
+# Directories (relative to base_dir)
+directories:
+  base_dir: "."  # Current directory
+  schema_path: "./json-schemas"  # JSON Schema files (*.json)
+  annotations_dir: "./annotations"
+  downloads_dir: "./downloads"
+  staging_dir: "./staging"
+
+# Workflow Settings
+workflow:
+  dry_run: true   # Safe default - set to false to execute for real
+  verbose: true   # Show detailed output
+  use_ai: true    # Enable AI-assisted annotation
+
+# AI Settings (Gemini)
+ai:
+  enabled: true
+  timeout: 60     # Seconds
+  model: "gemini-1.5-flash"  # or "gemini-1.5-pro"
+  max_file_lines: 100
+
+# Dataset-Specific Settings (optional)
+# Uncomment and customize as needed
+datasets:
+  # Example: ALL-ALS datasets
+  # all_als:
+  #   assess_dataset_id: "syn69694463"
+  #   prevent_dataset_id: "syn69694674"
+  #   assess_staging_folder: "syn72119685"
+  #   prevent_staging_folder: "syn72119684"
+  #   assess_release_folder: "syn68885185"
+  #   prevent_release_folder: "syn68885187"
+  #   version_label: "v3-DEC"
+  #   version_comment: "Dec Release"
+  #   dataset_type: "Clinical"  # Optional: explicitly set 'Clinical' or 'Omic'
+
+  # Example: Custom dataset with all features
+  # my_dataset:
+  #   staging_folder: "syn12345"
+  #   dataset_name: "My Custom Dataset"
+  #   dataset_type: "Omic"  # Optional: 'Clinical' or 'Omic' to override auto-detection
+  #
+  #   # Advanced features (optional)
+  #   release_folder: "syn67890"  # Target release folder
+  #   version_label: "v1.0"  # Version label for files and snapshot
+  #   version_comment: "Initial release"  # Comment for version
+  #   generate_wiki: true  # Generate dataset wiki
+  #   create_snapshot: true  # Create dataset snapshot
+  #   create_entity_view: true  # Create entity view for staging folder validation
+  #   add_to_collection: true  # Add dataset to collection
+  #   collection_id: "synXXXXXX"  # Optional: Override global datasets_collection_id
+  #   auto_move_to_release: false  # SAFETY: Set to true ONLY when ready to finalize (default: false)
+  #
+  #   # Wiki generation - AI will automatically generate using these fields
+  #   contact: "Dr. Jane Smith, PI.Email@institution.edu"
+  #   institution: "Research Institute, Department of Science"
+  #   contributors: "Jane Doe, John Smith, Alice Johnson, Bob Williams"
+  #   publication: "Smith J, Doe J, et al. Study Title. Journal Name. 2026;1(1):1-10."
+  #   doi: "10.1234/example"
+  #
+  #   # Optional: Custom wiki content (overrides AI generation)
+  #   # Use this template structure:
+  #   wiki_content: |
+  #     **Summary:** [2-3 sentences describing the study, purpose, and findings]
+  #
+  #     **Overall Design:**
+  #     - [Study design point 1]
+  #     - [Study design point 2]
+  #     - [Study design point 3]
+  #
+  #     <details>
+  #
+  #     <summary>Show More</summary>
+  #
+  #     <b>Contact:</b>
+  #
+  #     - Dr. Jane Smith, PI.Email@institution.edu
+  #     - Research Institute, Department Name
+  #
+  #     <b>Contributors:</b> Jane Doe, John Smith, Alice Johnson
+  #
+  #     <b>Publication:</b>
+  #
+  #     - Smith J, et al. Title. Journal. 2026.
+  #     - [**DOI:** 10.1234/example](https://doi.org/10.1234/example)
+  #
+  #     </details>
+  #
+  #   # Optional: Acknowledgement statement (Synapse wiki reference)
+  #   acknowledgementStatement: "syn64892175/wiki/633969"
+
+# SETUP INSTRUCTIONS:
+# 1. Copy this file: cp config.template.yaml config.yaml
+# 2. Edit config.yaml and set your auth_token
+# 3. Customize other settings as needed
+# 4. Add config.yaml to .gitignore (keep template in git)

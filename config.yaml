@@ -1,0 +1,84 @@
+# Synapse Dataset Manager Configuration
+# Edit this file to configure your workflows
+
+# Synapse Authentication
+synapse:
+  # Optional: Leave empty to use default Synapse credentials (~/.synapseConfig)
+  # Priority: SYNAPSE_AUTH_TOKEN env var > this config > ~/.synapseConfig
+  auth_token: ""
+  project_id: "syn69801668"
+  datasets_collection_id: "syn72642710"
+
+# Directories
+directories:
+  base_dir: "."  # Current directory, or specify absolute path
+  schema_path: "./json-schemas"  # JSON Schema directory (*.json files)
+  annotations_dir: "./annotations"
+  downloads_dir: "./downloads"
+  staging_dir: "./staging"
+
+# Workflow Settings
+workflow:
+  dry_run: true  # Safe default - set to false to execute
+  verbose: true  # Show detailed output
+  use_ai: true   # Enable AI-assisted annotation by default
+
+# AI Settings (Gemini)
+ai:
+  enabled: true
+  timeout: 360  # Seconds
+  model: "gemini-1.5-flash"  # or "gemini-1.5-pro"
+  max_file_lines: 100  # Lines to send to AI for analysis
+
+# Dataset-Specific Settings (optional)
+datasets:
+  # ALL-ALS specific settings
+  # all_als:
+  #   assess_dataset_id: "syn69694463"
+  #   prevent_dataset_id: "syn69694674"
+  #   assess_staging_folder: "syn72119685"
+  #   prevent_staging_folder: "syn72119684"
+  #   assess_release_folder: "syn68885185"
+  #   prevent_release_folder: "syn68885187"
+  #   version_label: "v3-DEC"
+  #   version_comment: "Dec Release"
+  #   # dataset_type: "Clinical"  # Optional: explicitly set 'Clinical' or 'Omic'
+  #
+  # Example: Add your own dataset configs
+  # trehalose:
+  #   staging_folder: "syn68927891"
+  #   release_folder: "syn68885183"
+  #   dataset_name: "Trehalose Biomarker Data"
+  #   dataset_type: "Omic"  # Optional: set to 'Clinical' or 'Omic' to override auto-detection
+  GEN_PIPELINE_TEST:
+    staging_folder: "syn72642665"
+    release_folder: "syn72642669"
+    dataset_name: "GEN_PIPELINE_TEST_DATASET"
+    dataset_type: "Omic"
+
+    # Advanced features (optional)
+    version_label: "v1.0"
+    version_comment: "Initial release"
+    generate_wiki: true
+    create_snapshot: true
+    create_entity_view: true
+    add_to_collection: true  # Add dataset to collection
+    collection_id: "syn72642710"  # Or use global datasets_collection_id
+    auto_move_to_release: false  # SAFETY: Set to true ONLY when ready to finalize
+
+    # Wiki generation - AI will use these fields if provided
+    contact: "Principal Investigator, PI.Email@institution.edu"
+    institution: "Research Institute, Department Name"
+    # contributors: "Jane Doe, John Smith, Alice Johnson"
+    # publication: "Author et al. Title. Journal. Year. doi: XX.XXXX/example"
+    # doi: "10.1234/example"
+
+    # Optional: Custom wiki content (overrides AI generation)
+    # wiki_content: |
+    #   **Summary:** Custom description...
+    #   **Overall Design:**
+    #   - Point 1
+    #   ...
+
+    # Optional: Acknowledgement statement (Synapse wiki ID)
+    # acknowledgementStatement: "syn64892175/wiki/633969"
