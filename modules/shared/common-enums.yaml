@@ -74,7 +74,7 @@ enums:
         description: Frontotemporal Dementia
       control:
         description: Healthy control
-      unknown:
+      Unknown:
         description: Disease status unknown
 
   DiseaseSubtypeEnum:
@@ -98,7 +98,7 @@ enums:
         description: Limb onset presentation
       respiratory_onset:
         description: Respiratory onset presentation
-      unknown:
+      Unknown:
         description: Disease subtype unknown or not applicable
 
   # Cell types
