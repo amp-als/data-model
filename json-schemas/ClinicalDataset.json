@@ -143,6 +143,12 @@
       "title": "Data Type",
       "type": "array"
     },
+    "dataset_code": {
+      "description": "Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.",
+      "pattern": "^(src|omop|sdtm|send|adam)_als\\d+$",
+      "title": "Dataset Code",
+      "type": "string"
+    },
     "datePublished": {
       "description": "Date data were published/available on Synapse.",
       "title": "Date Published",
@@ -155,14 +161,41 @@
     },
     "disease": {
       "description": "Disease(s) or condition(s) studied in the dataset.",
+      "items": {
+        "description": "",
+        "enum": [
+          "als",
+          "ftd",
+          "control",
+          "unknown"
+        ],
+        "title": "DiseaseEnum",
+        "type": "string"
+      },
       "title": "Disease",
-      "enum": [
-        "als",
-        "ftd",
-        "control",
-        "unknown"
-      ],
-      "type": "string"
+      "type": "array"
+    },
+    "diseaseSubtype": {
+      "description": "Specific subtype or variant of the primary disease studied in the dataset (e.g., gene mutations, onset types). Parsed from disease strings like 'C9orf72-ALS'.",
+      "items": {
+        "description": "Specific subtypes or variants of neurodegenerative diseases",
+        "enum": [
+          "C9orf72",
+          "SOD1",
+          "FUS",
+          "TARDBP",
+          "sporadic",
+          "familial",
+          "bulbar_onset",
+          "limb_onset",
+          "respiratory_onset",
+          "unknown"
+        ],
+        "title": "DiseaseSubtypeEnum",
+        "type": "string"
+      },
+      "title": "Disease Subtype",
+      "type": "array"
     },
     "followUpDuration": {
       "description": "Study follow-up period in months",
@@ -255,19 +288,24 @@
     },
     "studyType": {
       "description": "Study type for dataset",
+      "items": {
+        "description": "",
+        "enum": [
+          "Patient Registry Study",
+          "Natural History Study",
+          "Clinical Trial",
+          "Observational Study",
+          "Unknown",
+          "individual",
+          "aggregate",
+          "summary_level",
+          "meta_analysis"
+        ],
+        "title": "StudyLevelEnum",
+        "type": "string"
+      },
       "title": "Study type",
-      "enum": [
-        "Patient Registry Study",
-        "Natural History Study",
-        "Clinical Trial",
-        "Observational Study",
-        "Unknown",
-        "individual",
-        "aggregate",
-        "summary_level",
-        "meta_analysis"
-      ],
-      "type": "string"
+      "type": "array"
     },
     "subject": {
       "description": "Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
