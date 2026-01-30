@@ -68,11 +68,11 @@ enums:
   # Disease classifications
   DiseaseEnum:
     permissible_values:
-      als:
+      ALS:
         description: Amyotrophic Lateral Sclerosis
-      ftd:
+      FTD:
         description: Frontotemporal Dementia
-      control:
+      Control:
         description: Healthy control
       Unknown:
         description: Disease status unknown
