@@ -1,13 +1,13 @@
 {
   "title": catalogue.title,
-  "creator": $type(catalogue.creator.creatorName) = "array" ? 
-             catalogue.creator.creatorName : 
+  "creator": $type(catalogue.creator.creatorName) = "array" ?
+             catalogue.creator.creatorName :
              [catalogue.creator.creatorName],
   "keywords": $type(catalogue.keyword) = "string" ?
       $map($split(catalogue.keyword, ","), function($v) { $trim($v) }) :
       catalogue.keyword,
-  "subject": $type(catalogue.disease.text) = "array" ? 
-             catalogue.disease.text : 
+  "subject": $type(catalogue.disease.text) = "array" ?
+             catalogue.disease.text :
              [catalogue.disease.text],
   "description": catalogue.description,
   "collection": [
@@ -33,9 +33,36 @@
   "sameAs": "cpath:" & id,
   "curationLevel": catalogue.curationLevel? catalogue.curationLevel : "Unknown",
   "studyType": catalogue.studyType? catalogue.studyType : ["Unknown"],
+
+  /* Parse disease strings to extract disease type and subtype
+     Example: "C9orf72-ALS" → disease: "ALS", diseaseSubtype: "C9orf72"
+     Example: "amyotrophic lateral sclerosis" → disease: "ALS", diseaseSubtype: "Unknown"
+  */
+  "disease": $exists(catalogue.disease) ? (
+    $type(catalogue.disease) = "array" ?
+      [$distinct($map(catalogue.disease.text, function($v) {
+        $contains($v, "-") ? $substringAfter($v, "-") :
+        ($contains($lowercase($v), "als") or $contains($lowercase($v), "amyotrophic") ? "ALS" : $v)
+      }))] :
+      [$contains(catalogue.disease.text, "-") ? $substringAfter(catalogue.disease.text, "-") :
+       ($contains($lowercase(catalogue.disease.text), "als") or $contains($lowercase(catalogue.disease.text), "amyotrophic") ? "ALS" : catalogue.disease.text)]
+  ) : ["Unknown"],
+
+  /* Extract disease subtype - the portion before the hyphen */
+  "diseaseSubtype": $exists(catalogue.disease) ? (
+    $type(catalogue.disease) = "array" ?
+      [$distinct($map(catalogue.disease.text, function($v) {
+        $contains($v, "-") ? $substringBefore($v, "-") : "Unknown"
+      }))] :
+      [$contains(catalogue.disease.text, "-") ? $substringBefore(catalogue.disease.text, "-") : "Unknown"]
+  ) : ["Unknown"],
+
+  /* Extract dataset_code from code field - will be parsed further in DAG */
+  "dataset_code": $exists(code) ? code : "unknown",
+
   "source": "Critical Path Institute",
   "url": "https://fair.dap.c-path.org/#/data/datasets/" & code,
-  "contributor": $type(catalogue.creator.creatorName) = "array" ? 
-             catalogue.creator.creatorName : 
+  "contributor": $type(catalogue.creator.creatorName) = "array" ?
+             catalogue.creator.creatorName :
              [catalogue.creator.creatorName]
 }
