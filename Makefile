@@ -15,10 +15,6 @@ dist/ALS.yaml: $(SOURCES)
 ALS.ttl: dist/ALS.yaml
 	gen-rdf dist/ALS.yaml > dist/ALS.ttl
 
-dist/ALS.toon: dist/ALS.yaml
-	yq -o=json '.' dist/ALS.yaml | npx @toon-format/cli > dist/ALS.toon
-
-
 linkml_jsonld:
 	gen-jsonld dist/ALS.yaml > dist/ALS_linkml.jsonld
 

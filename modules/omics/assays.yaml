@@ -192,6 +192,9 @@ enums:
       'Social Responsiveness Scale, Second Edition':
         description: Identifies the presence and severity of social impairment within the autism spectrum and differentiates it from that which occurs in other disorders.
         source: https://www.wpspublish.com/srs-2-social-responsiveness-scale-second-edition
+      SomaScan:
+        description: A proteomics platform that uses Slow Off-rate Modified Aptamers (SOMAmers) to measure thousands of proteins in a small sample volume.
+        source: https://somalogic.com/somascan-platform/
       T cell receptor repertoire sequencing:
         description: A sequencing assay that determines the sequences of DNA or RNA molecules that encode the repertoire of T cell receptors within an input sample.
         meaning: http://purl.obolibrary.org/obo/OBI_0002990
@@ -531,7 +534,7 @@ enums:
       PROMIS Cognitive Function: 
         description: The PROMIS Cognitive Function and Cognitive Function Abilities Subset item banks assess patient-perceived cognitive deficits.
         meaning: http://www.healthmeasures.net/images/PROMIS/manuals/PROMIS_Cognitive_Function_Scoring_Manual.pdf
-      proximity extension assay:
+      Olink Proximity Extension Assay:
         description: Olink's Proximity Extension Assay (PEA) combines specificity and scalability to enable high-throughput, multiplex protein biomarker analysis. 
         source: https://olink.com/technology/what-is-pea
       pure tone average:
