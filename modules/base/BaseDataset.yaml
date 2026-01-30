@@ -124,3 +124,16 @@ classes:
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the dataset.
         required: false
+        multivalued: true
+      diseaseSubtype:
+        title: Disease Subtype
+        range: DiseaseSubtypeEnum
+        description: Specific subtype or variant of the primary disease studied in the dataset (e.g., gene mutations, onset types). Parsed from disease strings like 'C9orf72-ALS'.
+        required: false
+        multivalued: true
+      dataset_code:
+        title: Dataset Code
+        range: string
+        description: Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.
+        required: false
+        pattern: "^(src|omop|sdtm|send|adam)_als\\d+$"

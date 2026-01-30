@@ -77,6 +77,30 @@ enums:
       unknown:
         description: Disease status unknown
 
+  DiseaseSubtypeEnum:
+    description: Specific subtypes or variants of neurodegenerative diseases
+    permissible_values:
+      C9orf72:
+        description: C9orf72 gene mutation
+      SOD1:
+        description: SOD1 gene mutation
+      FUS:
+        description: FUS gene mutation
+      TARDBP:
+        description: TARDBP gene mutation
+      sporadic:
+        description: Sporadic (non-familial) form
+      familial:
+        description: Familial (inherited) form
+      bulbar_onset:
+        description: Bulbar onset presentation
+      limb_onset:
+        description: Limb onset presentation
+      respiratory_onset:
+        description: Respiratory onset presentation
+      unknown:
+        description: Disease subtype unknown or not applicable
+
   # Cell types
   CellTypeEnum:
     permissible_values:
