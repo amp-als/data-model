@@ -1,6 +1,10 @@
 {
-  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file",
+  "title": "ClinicalFile",
+  "type": "object",
   "description": "File containing clinical data such as assessments, visits, treatments, or medical history",
+  "additionalProperties": {},
   "properties": {
     "administrationMode": {
       "description": "The method by which the assessment or data collection was performed",
@@ -313,10 +317,10 @@
       "description": "Disease(s) or condition(s) studied in the file.",
       "title": "Disease",
       "enum": [
-        "als",
-        "ftd",
-        "control",
-        "unknown"
+        "ALS",
+        "FTD",
+        "Control",
+        "Unknown"
       ],
       "type": "string"
     },
@@ -439,8 +443,5 @@
     "keywords",
     "source",
     "url"
-  ],
-  "title": "ClinicalFile",
-  "type": "object",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file"
+  ]
 }

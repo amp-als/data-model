@@ -1,6 +1,10 @@
 {
-  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+  "title": "OmicDataset",
+  "type": "object",
   "description": "Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata",
+  "additionalProperties": {},
   "properties": {
     "FACSPopulation": {
       "description": "FACS-sorted cell population description",
@@ -397,10 +401,10 @@
       "items": {
         "description": "",
         "enum": [
-          "als",
-          "ftd",
-          "control",
-          "unknown"
+          "ALS",
+          "FTD",
+          "Control",
+          "Unknown"
         ],
         "title": "DiseaseEnum",
         "type": "string"
@@ -422,7 +426,7 @@
           "bulbar_onset",
           "limb_onset",
           "respiratory_onset",
-          "unknown"
+          "Unknown"
         ],
         "title": "DiseaseSubtypeEnum",
         "type": "string"
@@ -707,8 +711,5 @@
     "keywords",
     "source",
     "url"
-  ],
-  "title": "OmicDataset",
-  "type": "object",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset"
+  ]
 }

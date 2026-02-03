@@ -1,6 +1,10 @@
 {
-  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file",
+  "title": "File",
+  "type": "object",
   "description": "Model for file on the AMP-ALS portal - union of clinical and omic file types",
+  "additionalProperties": {},
   "properties": {
     "FACSPopulation": {
       "description": "FACS-sorted cell population description",
@@ -128,6 +132,7 @@
           "Sanger sequencing",
           "Social Responsiveness Scale",
           "Social Responsiveness Scale, Second Edition",
+          "SomaScan",
           "T cell receptor repertoire sequencing",
           "TIDE",
           "TMT quantitation",
@@ -235,7 +240,7 @@
           "polysomnography",
           "positron emission tomography",
           "PROMIS Cognitive Function",
-          "proximity extension assay",
+          "Olink Proximity Extension Assay",
           "pure tone average",
           "quantitative PCR",
           "Quant-seq",
@@ -427,10 +432,10 @@
       "description": "Disease(s) or condition(s) studied in the file.",
       "title": "Disease",
       "enum": [
-        "als",
-        "ftd",
-        "control",
-        "unknown"
+        "ALS",
+        "FTD",
+        "Control",
+        "Unknown"
       ],
       "type": "string"
     },
@@ -546,8 +551,5 @@
     "keywords",
     "source",
     "url"
-  ],
-  "title": "File",
-  "type": "object",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file"
+  ]
 }
