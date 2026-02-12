@@ -1,0 +1,195 @@
+{
+  "syn73671436": {
+    "ALS Compute Portal": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "alternateName": "",
+      "analysisTypes": [],
+      "annotations": [],
+      "assay": [
+        "whole genome sequencing"
+      ],
+      "biospecimenType": [],
+      "cellType": [],
+      "citation": [],
+      "collection": [
+        "ALS Compute"
+      ],
+      "contributor": [
+        "ALS Compute"
+      ],
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "raw_sequencing",
+        "transcriptomics",
+        "genomicVariants"
+      ],
+      "description": "A cloud platform providing access to whole-genome variant data to accelerate discoveries in Amyotrophic Lateral Sclerosis, featuring an interactive Variant Explorer and an AI Assistant.",
+      "disease": ["ALS","FTD"],
+      "fileFormat": "",
+      "includedInDataCatalog": "",
+      "individualCount": 12638,
+      "keywords": [
+        "ALS",
+        "WGS",
+        "genomics",
+        "variants"
+      ],
+      "libraryLayout": [],
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleName": "",
+      "platform": "Illumina HiSeq X",
+      "processingLevel": "",
+      "publisher": "ALS Compute",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "source": "ALS Compute",
+      "species": [
+        "Homo sapiens"
+      ],
+      "subject": [
+        "Amyotrophic Lateral Sclerosis"
+      ],
+      "title": "ALS Compute Portal",
+      "url": "https://alscompute.org/",
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-02-09T18:35:44.135404"
+    }
+  },
+  "syn73624008": {
+    "ALS Compute dbGAP": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "alternateName": "",
+      "analysisTypes": [],
+      "annotations": [],
+      "assay": [
+        "whole genome sequencing"
+      ],
+      "biospecimenType": [
+        "blood"
+      ],
+      "cellType": [],
+      "citation": [],
+      "collection": [
+        "ALS Compute"
+      ],
+      "contributor": [
+        "ALS Compute"
+      ],
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "raw_sequencing",
+        "transcriptomics",
+        "genomicVariants"
+      ],
+      "description": "The ALS Compute project centralizes the storage of Amyotrophic Lateral Sclerosis (ALS) and Frontotemporal Dementia (FTD) whole genome sequencing (WGS) data from major sequencing efforts.",
+      "disease": ["ALS","FTD"],
+      "fileFormat": "",
+      "includedInDataCatalog": "",
+      "individualCount": 12638,
+      "keywords": [
+        "ALS",
+        "FTD",
+        "WGS",
+        "whole genome sequencing"
+      ],
+      "libraryLayout": [],
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleName": "",
+      "platform": "Illumina HiSeq X",
+      "processingLevel": "",
+      "publisher": "ALS Compute",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "source": "dbGaP",
+      "species": [
+        "Homo sapiens"
+      ],
+      "subject": [
+        "Amyotrophic Lateral Sclerosis",
+        "Frontotemporal Dementia"
+      ],
+      "title": "ALS Compute dbGAP",
+      "url": "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/collection.cgi?study_id=phs003184.v1.p1",
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-02-09T18:35:44.135434"
+    }
+  },
+  "syn68753422": {
+    "ALS_Compute_Collection_freeze2_all_metadata_phenotype_final_forAMP_ALS_NIH-050525.xlsx": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "creator": [
+        ""
+      ],
+      "dataType": [
+        ""
+      ],
+      "description": "",
+      "disease": "",
+      "fileFormat": "",
+      "includedInDataCatalog": "",
+      "individualCount": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleName": "",
+      "platform": "",
+      "processingLevel": "",
+      "publisher": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "source": "",
+      "species": [
+        ""
+      ],
+      "subject": [
+        ""
+      ],
+      "title": "",
+      "url": "",
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-02-09T18:35:44.135455"
+    }
+  }
+}

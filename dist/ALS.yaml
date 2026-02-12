@@ -149,6 +149,8 @@ enums:
         description: Gene Expression Omnibus
       sra:
         description: Sequence Read Archive
+      als_compute:
+        description: ALS Compute Portal
       ALS Knowledge Portal:
         description: Default collection
       Answer ALS:
@@ -157,6 +159,7 @@ enums:
       New York Genome Center ALS Consortium:
       National Institutes of Health:
       Project MinE:
+      ALS Compute:
     description: Original collection, e.g. the consortium that the dataset comes from.
   # Library layouts for sequencing
   LibraryLayoutEnum:
@@ -172,26 +175,45 @@ enums:
   # Disease classifications
   DiseaseEnum:
     permissible_values:
-      als:
+      ALS:
         description: Amyotrophic Lateral Sclerosis
-      ftd:
+      FTD:
         description: Frontotemporal Dementia
-      control:
-        description: Healthy control
-      unknown:
-        description: Disease status unknown
       Control:
         description: Healthy control
+      Unknown:
+        description: Disease status unknown
       C9-ALS:
         description: C9orf72-associated ALS
       sporadic ALS:
         description: Sporadic ALS
-      FTD:
-        description: Frontotemporal dementia
       ALS-FTD:
         description: Combined ALS and FTD
       C9-FTD:
         description: C9orf72-associated FTD
+  DiseaseSubtypeEnum:
+    description: Specific subtypes or variants of neurodegenerative diseases
+    permissible_values:
+      C9orf72:
+        description: C9orf72 gene mutation
+      SOD1:
+        description: SOD1 gene mutation
+      FUS:
+        description: FUS gene mutation
+      TARDBP:
+        description: TARDBP gene mutation
+      sporadic:
+        description: Sporadic (non-familial) form
+      familial:
+        description: Familial (inherited) form
+      bulbar_onset:
+        description: Bulbar onset presentation
+      limb_onset:
+        description: Limb onset presentation
+      respiratory_onset:
+        description: Respiratory onset presentation
+      Unknown:
+        description: Disease subtype unknown or not applicable
   # Cell types
   CellTypeEnum:
     permissible_values:
@@ -2206,6 +2228,9 @@ enums:
       'Social Responsiveness Scale, Second Edition':
         description: Identifies the presence and severity of social impairment within the autism spectrum and differentiates it from that which occurs in other disorders.
         source: https://www.wpspublish.com/srs-2-social-responsiveness-scale-second-edition
+      SomaScan:
+        description: A proteomics platform that uses Slow Off-rate Modified Aptamers (SOMAmers) to measure thousands of proteins in a small sample volume.
+        source: https://somalogic.com/somascan-platform/
       T cell receptor repertoire sequencing:
         description: A sequencing assay that determines the sequences of DNA or RNA molecules that encode the repertoire of T cell receptors within an input sample.
         meaning: http://purl.obolibrary.org/obo/OBI_0002990
@@ -2540,7 +2565,7 @@ enums:
       PROMIS Cognitive Function:
         description: The PROMIS Cognitive Function and Cognitive Function Abilities Subset item banks assess patient-perceived cognitive deficits.
         meaning: http://www.healthmeasures.net/images/PROMIS/manuals/PROMIS_Cognitive_Function_Scoring_Manual.pdf
-      proximity extension assay:
+      Olink Proximity Extension Assay:
         description: Olink's Proximity Extension Assay (PEA) combines specificity and scalability to enable high-throughput, multiplex protein biomarker analysis.
         source: https://olink.com/technology/what-is-pea
       pure tone average:
@@ -4106,6 +4131,19 @@ classes:
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the dataset.
         required: false
+        multivalued: true
+      diseaseSubtype:
+        title: Disease Subtype
+        range: DiseaseSubtypeEnum
+        description: Specific subtype or variant of the primary disease studied in the dataset (e.g., gene mutations, onset types). Parsed from disease strings like 'C9orf72-ALS'.
+        required: false
+        multivalued: true
+      dataset_code:
+        title: Dataset Code
+        range: string
+        description: Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.
+        required: false
+        pattern: "^(src|omop|sdtm|send|adam)_als\\d+$"
   BaseFile:
     abstract: true
     description: Base schema for all file types with common metadata attributes
@@ -4205,6 +4243,7 @@ classes:
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the file.
         required: false
+        multivalued: true
       dataType:
         title: Data Type
         range: Data
@@ -6277,6 +6316,7 @@ classes:
         range: StudyLevelEnum
         description: Study type for dataset (longitudinal, cross-sectional, etc.)
         required: false
+        multivalued: true
   ClinicalFile:
     is_a: BaseFile
     mixins: [ClinicalFileMixin]
@@ -7208,6 +7248,7 @@ classes:
         range: StudyLevelEnum
         description: Study type for dataset
         required: false
+        multivalued: true
       # Clinical-specific data types using union enum
       dataType:
         title: Data Type

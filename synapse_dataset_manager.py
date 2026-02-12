@@ -189,6 +189,145 @@ def load_json_schema(schema_path):
         return None
 
 
+# ==================== DATASET COLUMN SCHEMA FUNCTIONS ====================
+
+def get_dataset_column_schema(dataset_type):
+    """
+    Get column schema based on dataset type (Clinical or Omic).
+
+    Returns a list of column definitions with size constraints to prevent
+    hitting Synapse's 64KB row limit.
+
+    Args:
+        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
+
+    Returns:
+        List of dicts with keys: name, type, facet, max_size, max_list_len, desc
+    """
+    # Shared columns for both clinical and omic datasets
+    # Note: Set maximum_size and maximum_list_length to stay under 64KB row limit
+    shared_columns = [
+        {"name": "dataType", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Data type"},
+        {"name": "fileFormat", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 50, "desc": "File format"},
+        {"name": "species", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Species"},
+        {"name": "disease", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Disease"},
+        {"name": "studyType", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Study type"},
+        {"name": "dataFormat", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Data format(s)"},
+        {"name": "individualCount", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Parrticipant Count"},
+        {"name": "url", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "URL"},
+
+    ]
+
+    # Clinical-specific columns
+    clinical_columns = [
+        {"name": "studyPhase", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Phase of study"},
+        {"name": "keyMeasures", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 20, "desc": "Key measurements"},
+        {"name": "assessmentType", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 15, "desc": "Type of assessment"},
+        {"name": "clinicalDomain", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 15, "desc": "Clinical domain"},
+        {"name": "hasLongitudinalData", "type": ColumnType.BOOLEAN, "facet": FacetType.ENUMERATION, "desc": "Contains longitudinal data"},
+        {"name": "studyDesign", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 150, "desc": "Study design type"},
+        {"name": "primaryOutcome", "type": ColumnType.STRING, "facet": None, "max_size": 250, "desc": "Primary outcome measure"},
+    ]
+
+    # Omic-specific columns
+    omic_columns = [
+        {"name": "assay", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Assay type(s)"},
+        {"name": "platform", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 150, "desc": "Sequencing/analysis platform"},
+        {"name": "libraryStrategy", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Library strategy"},
+        {"name": "libraryLayout", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 50, "desc": "Library layout"},
+        {"name": "cellType", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Cell type(s)"},
+        {"name": "biospecimenType", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Biospecimen type(s)"},
+        {"name": "processingLevel", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Data processing level"},
+    ]
+
+    # Combine columns based on dataset type
+    if dataset_type and 'omic' in dataset_type.lower():
+        return shared_columns + omic_columns
+    elif dataset_type and 'clinical' in dataset_type.lower():
+        return shared_columns + clinical_columns
+    else:
+        # Default: include both for generic Dataset
+        return shared_columns
+
+
+def get_column_order_template(dataset_type):
+    """
+    Get ordered list of column names for dataset column reordering.
+
+    Args:
+        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
+
+    Returns:
+        List of column names in desired order
+    """
+    # System columns (always first)
+    system_columns = ['id', 'name']
+
+    # High-priority shared annotation columns
+    shared_priority = ['dataType', 'fileFormat', 'studyType', 'species', 'disease', 'dataFormat']
+
+    # Clinical-specific priority columns
+    clinical_priority = [
+        'studyPhase', 'assessmentType', 'clinicalDomain', 'keyMeasures',
+        'hasLongitudinalData', 'studyDesign', 'primaryOutcome'
+    ]
+
+    # Omic-specific priority columns
+    omic_priority = [
+        'assay', 'platform', 'libraryStrategy', 'libraryLayout',
+        'cellType', 'biospecimenType', 'processingLevel'
+    ]
+
+    # Standard Synapse metadata columns (always last)
+    synapse_columns = [
+        'description', 'createdOn', 'createdBy', 'etag', 'modifiedOn', 'modifiedBy',
+        'path', 'type', 'currentVersion', 'parentId', 'benefactorId', 'projectId',
+        'dataFileHandleId', 'dataFileName', 'dataFileSizeBytes', 'dataFileMD5Hex',
+        'dataFileConcreteType', 'dataFileBucket', 'dataFileKey'
+    ]
+
+    # Build final order based on dataset type
+    if dataset_type and 'omic' in dataset_type.lower():
+        return system_columns + shared_priority + omic_priority + synapse_columns
+    elif dataset_type and 'clinical' in dataset_type.lower():
+        return system_columns + shared_priority + clinical_priority + synapse_columns
+    else:
+        # Default: shared columns + synapse columns
+        return system_columns + shared_priority + synapse_columns
+
+
+def get_entity_view_column_schema(dataset_type):
+    """
+    Get column schema for entity views based on dataset type.
+
+    Entity views show the same columns as datasets but apply to Files/Folders.
+
+    Args:
+        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
+
+    Returns:
+        List of dicts with keys: name, type, facet, max_size, max_list_len, desc
+    """
+    # Entity views use the same column schema as datasets
+    return get_dataset_column_schema(dataset_type)
+
+
+def get_entity_view_column_order_template(dataset_type):
+    """
+    Get ordered list of column names for entity view column reordering.
+
+    Entity views use the same order as datasets (id, name first).
+
+    Args:
+        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
+
+    Returns:
+        List of column names in desired order
+    """
+    # Entity views use the same column order as datasets
+    return get_column_order_template(dataset_type)
+
+
 def get_all_schemas(schema_base_path, verbose=False):
     """
     Load all JSON schema files from json-schemas directory.
@@ -661,6 +800,26 @@ def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose
     return success_count, error_count
 
 
+def validate_link_dataset_annotations(dataset_annotations):
+    """
+    Validate that link dataset has required url field.
+
+    Args:
+        dataset_annotations: Dataset annotation dict
+
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    if not dataset_annotations.get('url'):
+        return False, "Missing required 'url' field - link datasets must reference an external URL"
+
+    url_value = dataset_annotations.get('url', '').strip()
+    if url_value == '':
+        return False, "Empty 'url' field - link datasets must have a valid external URL"
+
+    return True, None
+
+
 def create_dataset_entity(syn, dataset_name, dataset_annotations, project_id,
                          all_schemas, dry_run=True):
     """
@@ -702,17 +861,34 @@ def create_dataset_entity(syn, dataset_name, dataset_annotations, project_id,
 
         if dry_run:
             print(f"  [DRY_RUN] Would create dataset '{dataset_name}' with {len(cleaned)} annotations")
+            if cleaned:
+                print(f"  [DRY_RUN] Annotations: {', '.join(list(cleaned.keys())[:10])}")
             return "syn_DRYRUN_DATASET"
 
-        # Create dataset
+        # Create dataset (without annotations first)
         dataset = Dataset(
             name=dataset_name,
-            parent_id=project_id,
-            annotations=cleaned
+            parent_id=project_id
         )
         dataset = dataset.store()
-
         print(f"  ✓ Created dataset: {dataset.id}")
+
+        # Apply annotations using the old API (get, set, store)
+        # The new Dataset models API doesn't properly persist annotations
+        if cleaned:
+            try:
+                # Get the entity using old API, set annotations, and store
+                entity = syn.get(dataset.id, downloadFile=False)
+                entity.annotations = cleaned
+                syn.store(entity)
+                print(f"  ✓ Applied {len(cleaned)} annotations: {', '.join(list(cleaned.keys())[:10])}")
+            except Exception as e:
+                print(f"  ⚠️  Warning: Failed to apply annotations: {e}")
+                import traceback
+                traceback.print_exc()
+        else:
+            print(f"  ⚠️  Warning: No annotations to apply")
+
         return dataset.id
 
     except Exception as e:
@@ -742,51 +918,249 @@ def add_files_to_dataset(syn, dataset_id, file_syn_ids, dry_run=True):
         return False
 
 
-def add_dataset_columns(syn, dataset_id, all_schemas, file_type='ClinicalFile', dry_run=True):
-    """Add annotation columns to dataset for faceted search"""
+def add_dataset_columns(syn, dataset_id, all_schemas, file_type='ClinicalFile',
+                       dataset_type=None, dry_run=True):
+    """
+    Add annotation columns to dataset for faceted search with size constraints.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        all_schemas: Dict of all loaded schemas (kept for backward compatibility)
+        file_type: File type (kept for backward compatibility)
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, will auto-detect from dataset annotations
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
     try:
-        # Get schema and field info
-        schema = get_schema_for_type(file_type, all_schemas)
-        if not schema:
-            print(f"  ⚠️  Schema not found for {file_type}, skipping column addition")
-            return False
+        # Auto-detect dataset type from annotations if not provided
+        if not dataset_type:
+            dataset = Dataset(dataset_id).get()
+            annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
+            dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+            if hasattr(dataset, 'annotations'):
+                print(f"  📊 Auto-detected dataset type: {dataset_type}")
 
-        field_info = get_field_info(schema)
-
-        # Count fields with enums
-        enum_fields = {name: info for name, info in field_info.items()
-                      if info.get('enum') or info.get('item_enum')}
+        # Get column schema for this dataset type
+        columns_to_add = get_dataset_column_schema(dataset_type)
 
         if dry_run:
-            print(f"  [DRY_RUN] Would add {len(enum_fields)} enumeration columns to dataset")
+            print(f"  [DRY_RUN] Would add {len(columns_to_add)} columns to dataset ({dataset_type})")
+            print(f"  [DRY_RUN] Columns: {', '.join([c['name'] for c in columns_to_add])}")
             return True
 
+        # Get dataset with existing columns
         dataset = Dataset(dataset_id).get()
 
-        for attr_name, info in enum_fields.items():
-            # Get enum values (handle both direct enum and item_enum for arrays)
-            enum_values = info.get('enum') or info.get('item_enum')
-            if enum_values:
-                try:
-                    # Filter out empty values
-                    enum_values = [str(v) for v in enum_values if v and str(v).strip()]
-                    if enum_values:
-                        column = Column(
-                            name=attr_name,
-                            column_type=ColumnType.STRING,
-                            facet_type=FacetType.enumeration,
-                            enum_values=enum_values
-                        )
-                        dataset.add_column(column)
-                except Exception as e:
-                    print(f"    ⚠️  Could not add column {attr_name}: {e}")
+        # Get existing columns to avoid duplicates
+        existing_columns = []
+        if hasattr(dataset, 'columns_to_store') and dataset.columns_to_store:
+            existing_columns = [col.name for col in dataset.columns_to_store]
 
-        dataset.store()
-        print(f"  ✓ Added {len(enum_fields)} enumeration columns to dataset")
+        # Add columns with size constraints
+        added_count = 0
+        for col_info in columns_to_add:
+            if col_info['name'] not in existing_columns:
+                try:
+                    # Build column kwargs
+                    col_kwargs = {
+                        'name': col_info['name'],
+                        'column_type': col_info['type'],
+                        'facet_type': col_info.get('facet')
+                    }
+
+                    # Add size constraints to prevent 64KB row limit violations
+                    if col_info['type'] == ColumnType.STRING and 'max_size' in col_info:
+                        col_kwargs['maximum_size'] = col_info['max_size']
+                    elif col_info['type'] == ColumnType.STRING_LIST and 'max_list_len' in col_info:
+                        col_kwargs['maximum_list_length'] = col_info['max_list_len']
+
+                    col = Column(**col_kwargs)
+                    dataset.add_column(column=col)
+                    added_count += 1
+                except Exception as e:
+                    print(f"    ⚠️  Could not add column {col_info['name']}: {e}")
+            else:
+                print(f"    ℹ️  Column {col_info['name']} already exists, skipping")
+
+        # Store changes
+        if added_count > 0:
+            dataset.store()
+            print(f"  ✓ Added {added_count} columns to dataset ({dataset_type})")
+        else:
+            print(f"  ℹ️  No new columns to add (all {len(columns_to_add)} already exist)")
+
         return True
 
     except Exception as e:
         print(f"  ✗ Error adding columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def reorder_dataset_columns(syn, dataset_id, dataset_type=None, dry_run=True):
+    """
+    Reorder dataset columns based on priority template.
+
+    Puts important columns first for better UX in Synapse UI:
+    1. System columns (id, name)
+    2. High-priority annotation columns (dataType, fileFormat, etc.)
+    3. Type-specific columns (clinical or omic)
+    4. Standard Synapse metadata columns
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, will auto-detect from dataset annotations
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Auto-detect dataset type if not provided
+        if not dataset_type:
+            dataset = Dataset(dataset_id).get()
+            annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
+            dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+
+        # Get dataset with columns (matching notebook pattern)
+        dataset = Dataset(id=dataset_id).get(include_columns=True)
+
+        # Get current column order (using dataset.columns.keys() like the notebook)
+        if not hasattr(dataset, 'columns') or not dataset.columns:
+            print(f"  ℹ️  No columns to reorder")
+            return True
+
+        current_columns = list(dataset.columns.keys())
+
+        # Build ordered list from template
+        template_order = get_column_order_template(dataset_type)
+
+        # Filter template to only include columns that exist in dataset
+        final_order = []
+        for col in template_order:
+            if col in current_columns:
+                final_order.append(col)
+
+        # Append any remaining columns not in template (to handle custom columns)
+        remaining_cols = [col for col in current_columns if col not in final_order]
+        final_order.extend(remaining_cols)
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would reorder {len(final_order)} columns")
+            print(f"  [DRY_RUN] Current order: {', '.join(current_columns[:10])}{'...' if len(current_columns) > 10 else ''}")
+            print(f"  [DRY_RUN] New order: {', '.join(final_order[:10])}{'...' if len(final_order) > 10 else ''}")
+            return True
+
+        # Apply reordering (matching notebook pattern)
+        for target_index, col_name in enumerate(final_order):
+            dataset.reorder_column(name=col_name, index=target_index)
+
+        # Store changes
+        dataset.store()
+        print(f"  ✓ Reordered {len(final_order)} columns ({dataset_type})")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error reordering columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def verify_dataset_columns(syn, dataset_id, verbose=True):
+    """
+    Retrieve and display dataset columns for verification.
+
+    Shows column names, types, facet types, and size constraints.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        verbose: If True, show detailed column information
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        dataset = Dataset(id=dataset_id).get(include_columns=True)
+
+        # Use dataset.columns (consistent with reorder function)
+        if not hasattr(dataset, 'columns') or not dataset.columns:
+            print(f"  ℹ️  Dataset has no columns")
+            return True
+
+        # dataset.columns is a dict, get the Column objects
+        columns = list(dataset.columns.values())
+        print(f"  📊 Total columns: {len(columns)}")
+
+        # Group by facet type
+        faceted = [c for c in columns if c.facet_type]
+        non_faceted = [c for c in columns if not c.facet_type]
+
+        print(f"  🔍 Faceted (searchable): {len(faceted)}")
+        print(f"  📝 Non-faceted: {len(non_faceted)}")
+
+        if verbose and faceted:
+            print("\n  Faceted columns:")
+            for col in faceted:
+                size_info = ''
+                if col.maximum_size:
+                    size_info = f" (max: {col.maximum_size})"
+                elif col.maximum_list_length:
+                    size_info = f" (max list: {col.maximum_list_length})"
+                facet_display = col.facet_type.value if col.facet_type else 'None'
+                print(f"   • {col.name}: {col.column_type.value}{size_info} [{facet_display}]")
+
+            if len(faceted) > 10:
+                print(f"   ... and {len(faceted) - 10} more faceted columns")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error verifying columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def add_staging_folder_to_dataset(syn, dataset_id, staging_folder_id, dry_run=True):
+    """
+    Recursively add entire staging folder contents to dataset.
+
+    This is a cleaner alternative to adding files one-by-one.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        staging_folder_id: Staging folder Synapse ID
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        if dry_run:
+            print(f"  [DRY_RUN] Would add staging folder {staging_folder_id} to dataset")
+            return True
+
+        dataset = Dataset(id=dataset_id).get()
+        dataset.add_item(Folder(id=staging_folder_id))
+        dataset.store()
+        print(f"  ✓ Added staging folder to dataset")
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error adding staging folder to dataset: {e}")
+        import traceback
+        traceback.print_exc()
         return False
 
 
@@ -1224,17 +1598,20 @@ def add_dataset_to_collection(syn, dataset_id, collection_id, dry_run=True):
 
 
 def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
-                               file_type='ClinicalFile', all_schemas=None, dry_run=True):
+                               file_type='ClinicalFile', all_schemas=None,
+                               dataset_type=None, dry_run=True):
     """
-    Create an entity view for the dataset files.
+    Create an entity view for dataset files with type-aware columns and size constraints.
 
     Args:
         syn: Synapse client
-        dataset_id: Dataset Synapse ID
+        dataset_id: Dataset Synapse ID (or staging folder ID)
         dataset_name: Dataset name
         project_id: Project ID to create view in
-        file_type: Type of files (for schema-based columns)
-        all_schemas: Schema dictionary
+        file_type: Type of files (kept for backward compatibility)
+        all_schemas: Schema dictionary (kept for backward compatibility)
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, will derive from file_type
         dry_run: If True, only show what would be created
 
     Returns:
@@ -1242,43 +1619,44 @@ def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
     """
     view_name = f"{dataset_name}_EntityView"
 
-    # Get column definitions from schema
-    annotation_columns = []
-    if all_schemas and file_type in all_schemas:
-        schema = all_schemas[file_type]
-        field_info = get_field_info(schema)
+    # Auto-detect dataset type if not provided
+    if not dataset_type and file_type:
+        # Convert file_type to dataset_type (e.g., 'ClinicalFile' -> 'ClinicalDataset')
+        dataset_type = file_type.replace('File', 'Dataset')
+        if dataset_type == 'Dataset':
+            dataset_type = 'ClinicalDataset'  # Default
 
-        # Add key columns (limit to most important ones)
-        important_fields = ['dataType', 'fileFormat', 'assay', 'platform',
-                           'specimenType', 'sex', 'diagnosis']
+    # Get column schema for this dataset type
+    columns_to_add = get_entity_view_column_schema(dataset_type)
 
-        for field_name in important_fields:
-            if field_name in field_info:
-                info = field_info[field_name]
-                # Map JSON types to Synapse column types
-                if info['type'] == 'array':
-                    col_type = ColumnType.STRING_LIST
-                elif info['type'] == 'integer':
-                    col_type = ColumnType.INTEGER
-                elif info['type'] == 'boolean':
-                    col_type = ColumnType.BOOLEAN
-                else:
-                    col_type = ColumnType.STRING
-
-                annotation_columns.append(Column(
-                    name=field_name,
-                    column_type=col_type
-                ))
-
-    # Build final column list: name column first, then annotation columns
+    # Build columns with size constraints
     all_columns = []
-    all_columns.append(Column(name="name", column_type=ColumnType.STRING))
-    all_columns.extend(annotation_columns)
+
+    for col_info in columns_to_add:
+        try:
+            # Build column kwargs
+            col_kwargs = {
+                'name': col_info['name'],
+                'column_type': col_info['type'],
+                'facet_type': col_info.get('facet')
+            }
+
+            # Add size constraints to prevent 64KB row limit violations
+            if col_info['type'] == ColumnType.STRING and 'max_size' in col_info:
+                col_kwargs['maximum_size'] = col_info['max_size']
+            elif col_info['type'] == ColumnType.STRING_LIST and 'max_list_len' in col_info:
+                col_kwargs['maximum_list_length'] = col_info['max_list_len']
+
+            col = Column(**col_kwargs)
+            all_columns.append(col)
+        except Exception as e:
+            print(f"    ⚠️  Could not add column {col_info['name']}: {e}")
 
     if dry_run:
-        print(f"  [DRY_RUN] Would create entity view '{view_name}'")
+        print(f"  [DRY_RUN] Would create entity view '{view_name}' ({dataset_type})")
         print(f"    Scope: {dataset_id}")
-        print(f"    Columns: {len(all_columns)} columns (name + {len(annotation_columns)} annotations)")
+        print(f"    Columns: {len(all_columns)} columns")
+        print(f"    Columns: {', '.join([c.name for c in all_columns[:10]])}{'...' if len(all_columns) > 10 else ''}")
         return None
     else:
         try:
@@ -1290,10 +1668,10 @@ def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
                 view_type_mask=ViewTypeMask.FILE | ViewTypeMask.FOLDER,
                 columns=all_columns
             )
-            # Use entity_view.store() instead of syn.store(view)
+            # Store the entity view
             created_view = entity_view.store()
-            print(f"  ✓ Entity view created: {created_view.id}")
-            print(f"  ✓ Total columns: {len(all_columns)} (name + {len(annotation_columns)} annotations)")
+            print(f"  ✓ Entity view created: {created_view.id} ({dataset_type})")
+            print(f"  ✓ Total columns: {len(all_columns)} with size constraints")
             print(f"  🔗 URL: https://www.synapse.org/#!Synapse:{created_view.id}")
             return created_view.id
         except Exception as e:
@@ -1301,6 +1679,133 @@ def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
             import traceback
             traceback.print_exc()
             return None
+
+
+def reorder_entity_view_columns(syn, view_id, dataset_type=None, dry_run=True):
+    """
+    Reorder entity view columns based on priority template.
+
+    Puts important columns first for better UX in Synapse UI.
+
+    Args:
+        syn: Synapse client
+        view_id: Entity view Synapse ID
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, defaults to 'ClinicalDataset'
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Use default if not provided
+        if not dataset_type:
+            dataset_type = 'ClinicalDataset'
+
+        # Get entity view with columns using the models API (same as datasets)
+        # This ensures columns are properly loaded
+        from synapseclient.models import Table
+        entity_view = Table(id=view_id).get(include_columns=True)
+
+        # Get current column order (using entity_view.columns like datasets)
+        if not hasattr(entity_view, 'columns') or not entity_view.columns:
+            print(f"  ℹ️  No columns to reorder")
+            return True
+
+        current_columns = list(entity_view.columns.keys())
+
+        # Build ordered list from template (using entity view specific template)
+        template_order = get_entity_view_column_order_template(dataset_type)
+
+        # Filter template to only include columns that exist in view
+        final_order = []
+        for col in template_order:
+            if col in current_columns:
+                final_order.append(col)
+
+        # Append any remaining columns not in template (to handle custom columns)
+        remaining_cols = [col for col in current_columns if col not in final_order]
+        final_order.extend(remaining_cols)
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would reorder {len(final_order)} columns in entity view")
+            print(f"  [DRY_RUN] Current order: {', '.join(current_columns[:10])}{'...' if len(current_columns) > 10 else ''}")
+            print(f"  [DRY_RUN] New order: {', '.join(final_order[:10])}{'...' if len(final_order) > 10 else ''}")
+            return True
+
+        # Apply reordering (same pattern as datasets)
+        for target_index, col_name in enumerate(final_order):
+            entity_view.reorder_column(name=col_name, index=target_index)
+
+        # Store changes
+        entity_view.store()
+        print(f"  ✓ Reordered {len(final_order)} columns in entity view ({dataset_type})")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error reordering entity view columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def verify_entity_view_columns(syn, view_id, verbose=True):
+    """
+    Retrieve and display entity view columns for verification.
+
+    Shows column names, types, facet types, and size constraints.
+
+    Args:
+        syn: Synapse client
+        view_id: Entity view Synapse ID
+        verbose: If True, show detailed column information
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Use models API to get entity view with columns (same as datasets)
+        from synapseclient.models import Table
+        entity_view = Table(id=view_id).get(include_columns=True)
+
+        # Use entity_view.columns (consistent with datasets)
+        if not hasattr(entity_view, 'columns') or not entity_view.columns:
+            print(f"  ℹ️  Entity view has no columns")
+            return True
+
+        # entity_view.columns is a dict, get the Column objects
+        columns = list(entity_view.columns.values())
+        print(f"  📊 Total columns: {len(columns)}")
+
+        # Group by facet type
+        faceted = [c for c in columns if c.facet_type]
+        non_faceted = [c for c in columns if not c.facet_type]
+
+        print(f"  🔍 Faceted (searchable): {len(faceted)}")
+        print(f"  📝 Non-faceted: {len(non_faceted)}")
+
+        if verbose and faceted:
+            print("\n  Faceted columns:")
+            for col in faceted:
+                size_info = ''
+                if col.maximum_size:
+                    size_info = f" (max: {col.maximum_size})"
+                elif col.maximum_list_length:
+                    size_info = f" (max list: {col.maximum_list_length})"
+                facet_display = col.facet_type.value if col.facet_type else 'None'
+                print(f"   • {col.name}: {col.column_type.value}{size_info} [{facet_display}]")
+
+            if len(faceted) > 10:
+                print(f"   ... and {len(faceted) - 10} more faceted columns")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error verifying entity view columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
 
 
 # ==================== UPDATE WORKFLOW FUNCTIONS ====================
@@ -1802,13 +2307,243 @@ Generate the dataset annotations JSON now:"""
 
 # ==================== COMMAND HANDLERS ====================
 
+def create_link_file_entity(syn, name, url, parent_id, annotations=None, dry_run=True):
+    """
+    Create a File entity with external URL reference (no file upload).
+
+    Args:
+        syn: Synapse client
+        name: Name for the link file entity
+        url: External URL to reference
+        parent_id: Parent project or folder ID
+        annotations: Optional annotations dict
+        dry_run: If True, only show what would be created
+
+    Returns:
+        File entity ID if created, None otherwise
+    """
+    try:
+        if dry_run:
+            print(f"  [DRY_RUN] Would create link file '{name}'")
+            print(f"    URL: {url}")
+            print(f"    Parent: {parent_id}")
+            if annotations:
+                print(f"    Annotations: {len(annotations)} fields")
+            return "syn_DRYRUN_LINK"
+
+        # Create a temporary placeholder file (required even though not uploaded)
+        temp_file = tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt')
+        temp_file.write(f"External link: {url}")
+        temp_file.close()
+
+        try:
+            # Create File entity with external URL (synapse_store=False prevents upload)
+            link_file = File(
+                parent_id=parent_id,
+                name=name,
+                path=temp_file.name,
+                external_url=url,
+                synapse_store=False
+            )
+
+            # Add annotations if provided
+            if annotations:
+                cleaned = clean_annotations_for_synapse(annotations)
+                link_file.annotations = cleaned
+
+            # Store the file entity
+            stored_file = link_file.store()
+
+            print(f"  ✓ Created link file: {stored_file.id}")
+            print(f"    Name: {name}")
+            print(f"    External URL: {url}")
+            return stored_file.id
+
+        finally:
+            # Clean up temporary file
+            os.unlink(temp_file.name)
+
+    except Exception as e:
+        print(f"  ✗ Error creating link file: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
+def add_link_to_dataset(syn, link_id, dataset_id, dry_run=True):
+    """
+    Add a File entity (link) to a dataset.
+
+    Args:
+        syn: Synapse client
+        link_id: File entity Synapse ID
+        dataset_id: Dataset Synapse ID
+        dry_run: If True, only show what would be done
+
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        if dry_run:
+            print(f"  [DRY_RUN] Would add link file {link_id} to dataset {dataset_id}")
+            return True
+
+        dataset = Dataset(dataset_id).get()
+        file_ref = File(id=link_id)
+        dataset.add_item(file_ref)
+        dataset.store()
+
+        print(f"  ✓ Added link file {link_id} to dataset {dataset_id}")
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error adding link file to dataset: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def handle_add_link_file(args, config):
+    """Handle ADD-LINK-FILE command - create link file and optionally add to dataset"""
+    print("\n" + "=" * 60)
+    print("CREATE LINK FILE ENTITY")
+    print("=" * 60)
+
+    # Validate URL
+    if not args.url or not args.url.strip():
+        print("❌ Error: --url is required and cannot be empty")
+        sys.exit(1)
+
+    # Parse annotations if provided
+    annotations = {}
+    if args.annotations:
+        try:
+            annotations = json.loads(args.annotations)
+        except json.JSONDecodeError as e:
+            print(f"❌ Error: Invalid JSON for --annotations: {e}")
+            sys.exit(1)
+
+    # Determine parent ID (priority: parent-id > dataset-id > project)
+    if args.parent_id:
+        parent_id = args.parent_id
+        print(f"Using parent ID from --parent-id: {parent_id}")
+    elif args.dataset_id:
+        parent_id = args.dataset_id
+        print(f"Using parent ID from --dataset-id: {parent_id}")
+    else:
+        parent_id = config.SYNAPSE_PROJECT_ID
+        print(f"Using parent ID from config (project): {parent_id}")
+
+    # Connect to Synapse
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # Create link file
+    print("\n" + "=" * 60)
+    print("CREATING LINK FILE")
+    print("=" * 60)
+
+    link_id = create_link_file_entity(
+        syn, args.name, args.url, parent_id,
+        annotations, config.DRY_RUN
+    )
+
+    if not link_id:
+        print("❌ Failed to create link file")
+        sys.exit(1)
+
+    # Add to dataset if specified
+    if args.dataset_id:
+        print("\n" + "=" * 60)
+        print("ADDING LINK TO DATASET")
+        print("=" * 60)
+
+        success = add_link_to_dataset(syn, link_id, args.dataset_id, config.DRY_RUN)
+
+        if not success:
+            print("⚠️  Warning: Link created but failed to add to dataset")
+
+    # Summary
+    print("\n" + "=" * 60)
+    print("✅ LINK FILE CREATION COMPLETE")
+    print("=" * 60)
+    print(f"Link ID: {link_id}")
+    print(f"Name: {args.name}")
+    print(f"URL: {args.url}")
+    if args.dataset_id:
+        print(f"Dataset: {args.dataset_id}")
+    print(f"DRY_RUN: {config.DRY_RUN}")
+
+    if config.DRY_RUN:
+        print("\n⚠️  This was a DRY_RUN - no changes made")
+        print("Run with --execute to apply changes")
+
+
+def handle_generate_template(args, config):
+    """Handle GENERATE-TEMPLATE command - create empty dataset annotation template"""
+    print("\n" + "=" * 60)
+    print("GENERATING DATASET ANNOTATION TEMPLATE")
+    print("=" * 60)
+
+    # Load schemas
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    # Determine dataset type
+    dataset_type_map = {
+        'Clinical': 'ClinicalDataset',
+        'Omic': 'OmicDataset',
+        'Dataset': 'Dataset'
+    }
+
+    dataset_type = dataset_type_map.get(args.type, 'Dataset')
+    print(f"Dataset type: {dataset_type}")
+
+    # Generate template
+    template = create_annotation_template(all_schemas, dataset_type)
+
+    # Determine output path
+    if args.output:
+        output_path = args.output
+    else:
+        # Default to annotations directory
+        output_filename = f"{args.type.lower()}_dataset_template.json"
+        output_path = os.path.join(config.ANNOTATIONS_DIR, output_filename)
+
+    # Ensure parent directory exists
+    os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
+
+    # Save template
+    with open(output_path, 'w') as f:
+        json.dump(template, f, indent=2)
+
+    print("\n" + "=" * 60)
+    print("✅ TEMPLATE GENERATED SUCCESSFULLY")
+    print("=" * 60)
+    print(f"Output file: {output_path}")
+    print(f"Dataset type: {dataset_type}")
+    print(f"Fields: {len([k for k in template.keys() if not k.startswith('_')])}")
+    print("\n💡 Edit this file to add your dataset metadata")
+    if args.type == 'Dataset':
+        print("   Note: You can also use 'Clinical' or 'Omic' for more specific schemas")
+
+
 def handle_create_workflow(args, config):
     """Handle CREATE workflow - create new dataset from scratch"""
     print("\n" + "=" * 60)
     print("WORKFLOW: CREATE NEW DATASET")
     print("=" * 60)
 
-    if not args.staging_folder:
+    # Detect link dataset mode (CLI flag or config)
+    is_link_dataset = args.link_dataset if hasattr(args, 'link_dataset') else False
+    dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
+    if not is_link_dataset and dataset_config:
+        is_link_dataset = dataset_config.get('link_dataset', False)
+
+    if is_link_dataset:
+        print("🔗 LINK DATASET MODE: Creating dataset without files")
+
+    if not is_link_dataset and not args.staging_folder:
         print("❌ Error: --staging-folder required for CREATE workflow")
         sys.exit(1)
 
@@ -1821,7 +2556,8 @@ def handle_create_workflow(args, config):
     all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
 
     # Get dataset-specific configuration (for type detection)
-    dataset_config = config.get_dataset_config(args.dataset_name)
+    if not dataset_config:
+        dataset_config = config.get_dataset_config(args.dataset_name)
     if dataset_config.get('dataset_type'):
         print(f"Using configured dataset type: {dataset_config['dataset_type']}")
 
@@ -1829,59 +2565,73 @@ def handle_create_workflow(args, config):
     print("\nConnecting to Synapse...")
     syn = connect_to_synapse(config)
 
-    # Step 1: Enumerate files
-    print("\n" + "=" * 60)
-    print("STEP 1: ENUMERATING FILES")
-    print("=" * 60)
-    files_dict = enumerate_files_with_folders(
-        syn, args.staging_folder, recursive=True, verbose=config.VERBOSE
-    )
-
-    if not files_dict:
-        print("❌ No files found in staging folder")
-        sys.exit(1)
-
-    # Step 2: Generate annotation templates
-    print("\n" + "=" * 60)
-    print("STEP 2: GENERATING ANNOTATION TEMPLATES")
-    print("=" * 60)
-
-    annotations_output = {}
-    for syn_id, file_info in files_dict.items():
-        filename = file_info['name']
-        existing_annotations = file_info['annotations']
-
-        # Detect file type (checks config first, then pattern matching, then defaults to File)
-        file_type = detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
-
-        # Create template
-        template = create_annotation_template(all_schemas, file_type)
-
-        # Smart merge with existing
-        merged = merge_annotations_smartly(existing_annotations, template)
-
-        annotations_output[syn_id] = {filename: merged}
-
-    # Step 3: AI-Assisted Annotation Enhancement
-    if config.AI_ENABLED:
-        download_dir = os.path.join(config.BASE_DIR, "downloads", args.dataset_name.replace(" ", "_"))
-        annotations_output = enhance_annotations_with_ai(
-            syn, files_dict, annotations_output, all_schemas,
-            download_dir, config
+    # Step 1: Enumerate files (SKIP FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 1: ENUMERATING FILES")
+        print("=" * 60)
+        files_dict = enumerate_files_with_folders(
+            syn, args.staging_folder, recursive=True, verbose=config.VERBOSE
         )
 
-    # Save annotations
-    output_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_annotations.json")
-    save_annotation_file(annotations_output, output_file)
+        if not files_dict:
+            print("❌ No files found in staging folder")
+            sys.exit(1)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 1: SKIPPING FILE ENUMERATION (Link Dataset)")
+        print("=" * 60)
+        print("🔗 Link datasets reference external URLs only")
+        files_dict = {}
+
+    # Step 2: Generate annotation templates (SKIP FILE ANNOTATIONS FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 2: GENERATING ANNOTATION TEMPLATES")
+        print("=" * 60)
+
+        annotations_output = {}
+        for syn_id, file_info in files_dict.items():
+            filename = file_info['name']
+            existing_annotations = file_info['annotations']
+
+            # Detect file type (checks config first, then pattern matching, then defaults to File)
+            file_type = detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
+
+            # Create template
+            template = create_annotation_template(all_schemas, file_type)
+
+            # Smart merge with existing
+            merged = merge_annotations_smartly(existing_annotations, template)
+
+            annotations_output[syn_id] = {filename: merged}
+
+        # Step 3: AI-Assisted Annotation Enhancement
+        if config.AI_ENABLED:
+            download_dir = os.path.join(config.BASE_DIR, "downloads", args.dataset_name.replace(" ", "_"))
+            annotations_output = enhance_annotations_with_ai(
+                syn, files_dict, annotations_output, all_schemas,
+                download_dir, config
+            )
+
+        # Save annotations
+        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_annotations.json")
+        save_annotation_file(annotations_output, output_file)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 2: SKIPPING FILE ANNOTATIONS (Link Dataset)")
+        print("=" * 60)
+        print("🔗 No files to annotate")
+        annotations_output = {}
 
     # Generate dataset annotation template (checks config first, then pattern matching, then defaults to Dataset)
     print("\n" + "=" * 60)
     print("GENERATING DATASET ANNOTATIONS")
     print("=" * 60)
-    dataset_type = detect_dataset_type(args.dataset_name, args.staging_folder, dataset_config=dataset_config)
+    dataset_type = detect_dataset_type(args.dataset_name, args.staging_folder if not is_link_dataset else None, dataset_config=dataset_config)
 
     # Use AI to generate dataset annotations if enabled
-    if config.AI_ENABLED:
+    if config.AI_ENABLED and not is_link_dataset:
         dataset_template = enhance_dataset_annotations_with_ai(
             args.dataset_name, annotations_output, all_schemas, dataset_type, config
         )
@@ -1894,13 +2644,19 @@ def handle_create_workflow(args, config):
     print("\n" + "=" * 60)
     print("✅ TEMPLATE GENERATION COMPLETE")
     print("=" * 60)
-    print(f"File annotations: {output_file}")
+    if not is_link_dataset:
+        print(f"File annotations: {output_file}")
     print(f"Dataset annotations: {dataset_output_file}")
     print(f"Total files: {len(annotations_output)}")
     print("\n⚠️  MANUAL STEP: Edit the annotation files")
+    if is_link_dataset:
+        print("   🔗 IMPORTANT: Add a 'url' field pointing to the external dataset location")
     print(f"\nAfter editing, continue with:")
-    print(f"  python {sys.argv[0]} create --from-annotations \\" )
-    print(f"    --staging-folder {args.staging_folder} \\")
+    if is_link_dataset:
+        print(f"  python {sys.argv[0]} create --from-annotations --link-dataset \\")
+    else:
+        print(f"  python {sys.argv[0]} create --from-annotations \\")
+        print(f"    --staging-folder {args.staging_folder} \\")
     print(f"    --dataset-name {args.dataset_name}")
 
 
@@ -1910,16 +2666,30 @@ def handle_create_from_annotations(args, config):
     print("WORKFLOW: CREATE DATASET FROM ANNOTATIONS")
     print("=" * 60)
 
-    # Load annotations
-    file_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_annotations.json")
-    dataset_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_dataset_annotations.json")
+    # Detect link dataset mode
+    is_link_dataset = args.link_dataset if hasattr(args, 'link_dataset') else False
+    dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
+    if not is_link_dataset and dataset_config:
+        is_link_dataset = dataset_config.get('link_dataset', False)
 
-    file_annotations = load_annotation_file(file_annotations_file)
+    if is_link_dataset:
+        print("🔗 LINK DATASET MODE: Creating dataset without files")
+
+    # Load annotations
+    dataset_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_dataset_annotations.json")
     dataset_annotations = load_annotation_file(dataset_annotations_file)
 
-    if not file_annotations:
-        print(f"❌ No file annotations found at {file_annotations_file}")
-        sys.exit(1)
+    # Load file annotations only if not link dataset
+    if not is_link_dataset:
+        file_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_annotations.json")
+        file_annotations = load_annotation_file(file_annotations_file)
+
+        if not file_annotations:
+            print(f"❌ No file annotations found at {file_annotations_file}")
+            sys.exit(1)
+    else:
+        file_annotations = {}
+        print("🔗 Skipping file annotations (link dataset mode)")
 
     # Load schemas
     all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
@@ -1932,8 +2702,19 @@ def handle_create_from_annotations(args, config):
     print("STEP 1: VALIDATING ANNOTATIONS")
     print("=" * 60)
 
+    # For link datasets, validate URL requirement
+    if is_link_dataset:
+        is_valid, error_msg = validate_link_dataset_annotations(dataset_annotations)
+        if not is_valid:
+            print(f"❌ Link dataset validation failed: {error_msg}")
+            print("\n💡 Link datasets must have a 'url' annotation pointing to the external dataset location")
+            sys.exit(1)
+        print(f"✓ Link dataset validation passed")
+        print(f"  External URL: {dataset_annotations.get('url')}")
+
     # Validate file annotations
-    print("\nValidating file annotations...")
+    if not is_link_dataset:
+        print("\nValidating file annotations...")
     file_annotations_valid = True
     for syn_id, file_data in file_annotations.items():
         filename = list(file_data.keys())[0]
@@ -2021,7 +2802,8 @@ def handle_create_from_annotations(args, config):
         print("\n✓ All annotations valid (files and dataset)")
 
     # Get dataset config for advanced features
-    dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
+    if not dataset_config:
+        dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
 
     # Debug: Show what config was retrieved
     if config.VERBOSE:
@@ -2031,79 +2813,107 @@ def handle_create_from_annotations(args, config):
         print(f"[DEBUG] create_entity_view: {dataset_config.get('create_entity_view', False)}")
 
     # ========== PHASE 2: FILE ANNOTATION & VALIDATION ==========
+    # SKIP ENTIRELY FOR LINK DATASETS
 
-    # STEP 2: Apply annotations to files in staging folder
-    print("\n" + "=" * 60)
-    print("PHASE 2: FILE ANNOTATION & VALIDATION")
-    print("=" * 60)
-    print("\n" + "=" * 60)
-    print("STEP 2: APPLYING ANNOTATIONS TO FILES")
-    print("=" * 60)
-
-    file_ids = list(file_annotations.keys())
-    success, errors = apply_annotations_to_files(
-        syn, file_annotations, config.DRY_RUN, config.VERBOSE
-    )
-    print(f"✓ Applied: {success}, Errors: {errors}")
-
-    # STEP 3: Create entity view (SCOPED TO STAGING FOLDER, NOT DATASET)
-    print("\n" + "=" * 60)
-    print("STEP 3: CREATING ENTITY VIEW FOR STAGING FOLDER")
-    print("=" * 60)
-    print("⚠️  Entity view is scoped to STAGING FOLDER for validation")
-
-    # Detect predominant file type
-    file_type = dataset_annotations.get('_dataset_type', 'ClinicalDataset').replace('Dataset', 'File')
-
-    view_id = create_dataset_entity_view(
-        syn, args.staging_folder, args.dataset_name, config.SYNAPSE_PROJECT_ID,
-        file_type, all_schemas, config.DRY_RUN
-    )
-
-    if view_id:
-        print(f"\n✅ Entity view created for validation!")
-        print(f"   🔗 View in Synapse: https://www.synapse.org/#!Synapse:{view_id}")
-        print(f"   📊 Review all file annotations in the entity view")
-
-    # PAUSE: Prompt user to verify annotations in entity view
-    print("\n" + "=" * 60)
-    print("⏸️  VERIFICATION CHECKPOINT")
-    print("=" * 60)
-    print("\n⚠️  IMPORTANT: Please verify your file annotations!")
-    print(f"\n1. Open the entity view in Synapse:")
-    print(f"   🔗 https://www.synapse.org/#!Synapse:{view_id}")
-    print(f"\n2. Review all file annotations to ensure they are correct")
-    print(f"\n3. Once verified, return here to continue")
-
-    # Prompt user to continue
-    while True:
-        try:
-            response = input("\nHave you verified the annotations? Ready to continue? (yes/no): ").strip().lower()
-            if response in ['yes', 'y']:
-                print("\n✓ Continuing with workflow...")
-                break
-            elif response in ['no', 'n']:
-                print("\n✓ Exiting. Please verify annotations and run again.")
-                print(f"\nTo resume, run:")
-                print(f"  python {sys.argv[0]} create --use-config {args.use_config if hasattr(args, 'use_config') else args.dataset_name} --from-annotations --execute")
-                sys.exit(0)
-            else:
-                print("Please answer 'yes' or 'no'")
-        except (EOFError, KeyboardInterrupt):
-            print("\n\n✓ Exiting.")
-            sys.exit(0)
-
-    # STEP 4: Set version labels on files (BEFORE dataset creation)
-    version_label = dataset_config.get('version_label') if dataset_config else (args.version_label if hasattr(args, 'version_label') and args.version_label else None)
-    version_comment = dataset_config.get('version_comment') if dataset_config else (args.version_comment if hasattr(args, 'version_comment') and args.version_comment else None)
-    if config.VERBOSE:
-        print(f"[DEBUG] version_label: {version_label}, version_comment: {version_comment}")
-    if version_label:
+    if not is_link_dataset:
+        # STEP 2: Apply annotations to files in staging folder
         print("\n" + "=" * 60)
-        print("STEP 4: SETTING FILE VERSION LABELS")
+        print("PHASE 2: FILE ANNOTATION & VALIDATION")
         print("=" * 60)
-        success, errors = set_file_versions(syn, file_ids, version_label, version_comment, config.DRY_RUN, config.VERBOSE)
-        print(f"✓ Versioned: {success}, Errors: {errors}")
+        print("\n" + "=" * 60)
+        print("STEP 2: APPLYING ANNOTATIONS TO FILES")
+        print("=" * 60)
+
+        file_ids = list(file_annotations.keys())
+        success, errors = apply_annotations_to_files(
+            syn, file_annotations, config.DRY_RUN, config.VERBOSE
+        )
+        print(f"✓ Applied: {success}, Errors: {errors}")
+
+        # STEP 3: Create entity view (SCOPED TO STAGING FOLDER, NOT DATASET)
+        print("\n" + "=" * 60)
+        print("STEP 3: CREATING ENTITY VIEW FOR STAGING FOLDER")
+        print("=" * 60)
+        print("⚠️  Entity view is scoped to STAGING FOLDER for validation")
+
+        # Detect dataset type for type-aware columns
+        dataset_type_for_view = dataset_annotations.get('_dataset_type', 'ClinicalDataset')
+        file_type = dataset_type_for_view.replace('Dataset', 'File')
+
+        view_id = create_dataset_entity_view(
+            syn, args.staging_folder, args.dataset_name, config.SYNAPSE_PROJECT_ID,
+            file_type, all_schemas,
+            dataset_type=dataset_type_for_view,
+            dry_run=config.DRY_RUN
+        )
+
+        # STEP 3b: Reorder entity view columns (if view was created)
+        if view_id and not config.DRY_RUN:
+            print("\n" + "=" * 60)
+            print("STEP 3b: REORDERING ENTITY VIEW COLUMNS")
+            print("=" * 60)
+
+            reorder_entity_view_columns(syn, view_id, dataset_type_for_view, config.DRY_RUN)
+
+        # STEP 3c: Verify entity view columns (if verbose and view was created)
+        if view_id and not config.DRY_RUN and config.VERBOSE:
+            print("\n" + "=" * 60)
+            print("STEP 3c: VERIFYING ENTITY VIEW COLUMNS")
+            print("=" * 60)
+
+            verify_entity_view_columns(syn, view_id, config.VERBOSE)
+
+        if view_id:
+            print(f"\n✅ Entity view created for validation!")
+            print(f"   🔗 View in Synapse: https://www.synapse.org/#!Synapse:{view_id}")
+            print(f"   📊 Review all file annotations in the entity view")
+
+        # PAUSE: Prompt user to verify annotations in entity view
+        print("\n" + "=" * 60)
+        print("⏸️  VERIFICATION CHECKPOINT")
+        print("=" * 60)
+        print("\n⚠️  IMPORTANT: Please verify your file annotations!")
+        print(f"\n1. Open the entity view in Synapse:")
+        print(f"   🔗 https://www.synapse.org/#!Synapse:{view_id}")
+        print(f"\n2. Review all file annotations to ensure they are correct")
+        print(f"\n3. Once verified, return here to continue")
+
+        # Prompt user to continue
+        while True:
+            try:
+                response = input("\nHave you verified the annotations? Ready to continue? (yes/no): ").strip().lower()
+                if response in ['yes', 'y']:
+                    print("\n✓ Continuing with workflow...")
+                    break
+                elif response in ['no', 'n']:
+                    print("\n✓ Exiting. Please verify annotations and run again.")
+                    print(f"\nTo resume, run:")
+                    print(f"  python {sys.argv[0]} create --use-config {args.use_config if hasattr(args, 'use_config') else args.dataset_name} --from-annotations --execute")
+                    sys.exit(0)
+                else:
+                    print("Please answer 'yes' or 'no'")
+            except (EOFError, KeyboardInterrupt):
+                print("\n\n✓ Exiting.")
+                sys.exit(0)
+
+        # STEP 4: Set version labels on files (BEFORE dataset creation)
+        version_label = dataset_config.get('version_label') if dataset_config else (args.version_label if hasattr(args, 'version_label') and args.version_label else None)
+        version_comment = dataset_config.get('version_comment') if dataset_config else (args.version_comment if hasattr(args, 'version_comment') and args.version_comment else None)
+        if config.VERBOSE:
+            print(f"[DEBUG] version_label: {version_label}, version_comment: {version_comment}")
+        if version_label:
+            print("\n" + "=" * 60)
+            print("STEP 4: SETTING FILE VERSION LABELS")
+            print("=" * 60)
+            success, errors = set_file_versions(syn, file_ids, version_label, version_comment, config.DRY_RUN, config.VERBOSE)
+            print(f"✓ Versioned: {success}, Errors: {errors}")
+    else:
+        print("\n" + "=" * 60)
+        print("PHASE 2: SKIPPING FILE OPERATIONS (Link Dataset)")
+        print("=" * 60)
+        print("🔗 Link datasets do not contain files")
+        file_ids = []
+        file_type = dataset_annotations.get('_dataset_type', 'ClinicalDataset').replace('Dataset', 'File')
 
     # ========== PHASE 3: DATASET CREATION & FINALIZATION ==========
 
@@ -2125,19 +2935,70 @@ def handle_create_from_annotations(args, config):
         print("❌ Failed to create dataset")
         sys.exit(1)
 
-    # STEP 6: Add files to dataset
-    print("\n" + "=" * 60)
-    print("STEP 6: ADDING FILES TO DATASET")
-    print("=" * 60)
+    # STEP 6: Add files to dataset (SKIP FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 6: ADDING FILES TO DATASET")
+        print("=" * 60)
+        add_files_to_dataset(syn, dataset_id, file_ids, config.DRY_RUN)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 6: SKIPPING FILE ADDITION (Link Dataset)")
+        print("=" * 60)
+        print("🔗 No files to add")
 
-    add_files_to_dataset(syn, dataset_id, file_ids, config.DRY_RUN)
+    # STEP 7: Add columns for faceted search (SKIP FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 7: ADDING DATASET COLUMNS")
+        print("=" * 60)
 
-    # STEP 7: Add columns for faceted search
-    print("\n" + "=" * 60)
-    print("STEP 7: ADDING DATASET COLUMNS")
-    print("=" * 60)
+        # Detect dataset type from annotations
+        dataset_type_for_columns = dataset_annotations.get('_dataset_type')
+        if not dataset_type_for_columns:
+            dataset_type_for_columns = detect_dataset_type(
+                args.dataset_name,
+                args.staging_folder if not is_link_dataset else None,
+                dataset_config
+            )
 
-    add_dataset_columns(syn, dataset_id, all_schemas, file_type, config.DRY_RUN)
+        # Add columns with type awareness and size constraints
+        add_dataset_columns(
+            syn, dataset_id, all_schemas, file_type,
+            dataset_type=dataset_type_for_columns,
+            dry_run=config.DRY_RUN
+        )
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 7: SKIPPING DATASET COLUMNS (Link Dataset)")
+        print("=" * 60)
+        print("🔗 No files for faceted search")
+
+    # STEP 7b: Reorder dataset columns (SKIP FOR LINK DATASETS)
+    # This happens automatically for better UX
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 7b: REORDERING DATASET COLUMNS")
+        print("=" * 60)
+
+        # Use same dataset type as column addition
+        dataset_type_for_columns = dataset_annotations.get('_dataset_type')
+        if not dataset_type_for_columns:
+            dataset_type_for_columns = detect_dataset_type(
+                args.dataset_name,
+                args.staging_folder if not is_link_dataset else None,
+                dataset_config
+            )
+
+        reorder_dataset_columns(syn, dataset_id, dataset_type_for_columns, config.DRY_RUN)
+
+    # STEP 7c: Verify dataset columns (SKIP FOR LINK DATASETS)
+    if config.VERBOSE and not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 7c: VERIFYING DATASET COLUMNS")
+        print("=" * 60)
+
+        verify_dataset_columns(syn, dataset_id, config.VERBOSE)
 
     # STEP 8: Generate wiki (if requested)
     generate_wiki = dataset_config.get('generate_wiki', False) if dataset_config else (args.generate_wiki if hasattr(args, 'generate_wiki') else False)
@@ -2161,8 +3022,8 @@ def handle_create_from_annotations(args, config):
         if not custom_content and 'wiki_content' in dataset_config:
             custom_content = dataset_config['wiki_content']
 
-        # Get file list for AI context
-        file_list = [list(file_data.keys())[0] for file_data in file_annotations.values()]
+        # Get file list for AI context (empty for link datasets)
+        file_list = [list(file_data.keys())[0] for file_data in file_annotations.values()] if not is_link_dataset else []
 
         wiki_id = generate_dataset_wiki(
             syn, dataset_id, args.dataset_name, dataset_annotations,
@@ -2194,17 +3055,24 @@ def handle_create_from_annotations(args, config):
             except Exception as e:
                 print(f"  ✗ Error setting acknowledgement statement: {e}")
 
-    # STEP 10: Create dataset snapshot (if requested)
+    # STEP 10: Create dataset snapshot (if requested) - SKIP FOR LINK DATASETS (requires files)
     create_snapshot = dataset_config.get('create_snapshot', False) if dataset_config else (args.create_snapshot if hasattr(args, 'create_snapshot') else False)
+    version_label = dataset_config.get('version_label') if dataset_config else (args.version_label if hasattr(args, 'version_label') and args.version_label else None)
+    version_comment = dataset_config.get('version_comment') if dataset_config else (args.version_comment if hasattr(args, 'version_comment') and args.version_comment else None)
     if config.VERBOSE:
         print(f"[DEBUG] create_snapshot condition: {create_snapshot}, version_label: {version_label}")
-    if create_snapshot and version_label:
+    if not is_link_dataset and create_snapshot and version_label:
         print("\n" + "=" * 60)
         print("STEP 10: CREATING DATASET SNAPSHOT")
         print("=" * 60)
         snapshot_version = create_dataset_snapshot(syn, dataset_id, version_label, version_comment, config.DRY_RUN)
         if snapshot_version:
             print(f"✓ Snapshot version: {snapshot_version}")
+    elif is_link_dataset and create_snapshot:
+        print("\n" + "=" * 60)
+        print("STEP 10: SKIPPING DATASET SNAPSHOT (Link Dataset)")
+        print("=" * 60)
+        print("🔗 Dataset snapshots require files - not supported for link datasets")
 
     # STEP 11: Add dataset to collection (if requested)
     add_to_collection = dataset_config.get('add_to_collection', False) if dataset_config else False
@@ -2231,54 +3099,66 @@ def handle_create_from_annotations(args, config):
         print(f"       add_to_collection: true")
         print(f"       collection_id: \"synXXXXXX\"  # Or use global datasets_collection_id")
 
-    # STEP 12: Move files to release folder (CONDITIONAL - only if explicitly enabled)
+    # STEP 12: Move files to release folder (SKIP FOR LINK DATASETS)
     # This is the FINAL step and should only be done when user is confident
-    release_folder = dataset_config.get('release_folder') if dataset_config else (args.release_folder if hasattr(args, 'release_folder') and args.release_folder else None)
-    auto_move_to_release = dataset_config.get('auto_move_to_release', False)  # Defaults to False for safety
+    if not is_link_dataset:
+        release_folder = dataset_config.get('release_folder') if dataset_config else (args.release_folder if hasattr(args, 'release_folder') and args.release_folder else None)
+        auto_move_to_release = dataset_config.get('auto_move_to_release', False)  # Defaults to False for safety
 
-    if config.VERBOSE:
-        print(f"[DEBUG] release_folder: {release_folder}, auto_move_to_release: {auto_move_to_release}")
+        if config.VERBOSE:
+            print(f"[DEBUG] release_folder: {release_folder}, auto_move_to_release: {auto_move_to_release}")
 
-    if release_folder and auto_move_to_release:
+        if release_folder and auto_move_to_release:
+            print("\n" + "=" * 60)
+            print("STEP 12: MOVING FILES TO RELEASE FOLDER")
+            print("=" * 60)
+            print("⚠️  This is a FINAL operation - files will be moved from staging to release")
+
+            # Use folder move mode by default (moves files within folder)
+            move_mode = dataset_config.get('move_mode', 'folder')
+            success, errors = move_files_to_release(
+                syn, args.staging_folder, file_ids, release_folder,
+                move_mode, config.DRY_RUN, config.VERBOSE
+            )
+            print(f"✓ Moved: {success}, Errors: {errors}")
+        elif release_folder and not auto_move_to_release:
+            print("\n" + "=" * 60)
+            print("⏭️  SKIPPING FILE MOVE TO RELEASE")
+            print("=" * 60)
+            print(f"⚠️  Release folder configured: {release_folder}")
+            print(f"⚠️  But auto_move_to_release is set to: {auto_move_to_release}")
+            print(f"\n💡 To enable automatic move to release, set in config.yaml:")
+            print(f"   datasets:")
+            print(f"     {args.use_config if hasattr(args, 'use_config') else args.dataset_name}:")
+            print(f"       auto_move_to_release: true")
+            print(f"\n⚠️  Files remain in staging folder: {args.staging_folder}")
+    else:
         print("\n" + "=" * 60)
-        print("STEP 12: MOVING FILES TO RELEASE FOLDER")
+        print("STEP 12: SKIPPING FILE MOVE (Link Dataset)")
         print("=" * 60)
-        print("⚠️  This is a FINAL operation - files will be moved from staging to release")
-
-        # Use folder move mode by default (moves files within folder)
-        move_mode = dataset_config.get('move_mode', 'folder')
-        success, errors = move_files_to_release(
-            syn, args.staging_folder, file_ids, release_folder,
-            move_mode, config.DRY_RUN, config.VERBOSE
-        )
-        print(f"✓ Moved: {success}, Errors: {errors}")
-    elif release_folder and not auto_move_to_release:
-        print("\n" + "=" * 60)
-        print("⏭️  SKIPPING FILE MOVE TO RELEASE")
-        print("=" * 60)
-        print(f"⚠️  Release folder configured: {release_folder}")
-        print(f"⚠️  But auto_move_to_release is set to: {auto_move_to_release}")
-        print(f"\n💡 To enable automatic move to release, set in config.yaml:")
-        print(f"   datasets:")
-        print(f"     {args.use_config if hasattr(args, 'use_config') else args.dataset_name}:")
-        print(f"       auto_move_to_release: true")
-        print(f"\n⚠️  Files remain in staging folder: {args.staging_folder}")
+        print("🔗 No files to move")
 
     # Summary
     print("\n" + "=" * 60)
     print("✅ CREATE WORKFLOW COMPLETE")
     print("=" * 60)
     print(f"Dataset: {args.dataset_name} ({dataset_id})")
-    print(f"Files: {len(file_ids)}")
-    print(f"Staging Folder: {args.staging_folder}")
-    if release_folder and auto_move_to_release:
-        print(f"Release Folder: {release_folder} (files moved)")
-    elif release_folder:
-        print(f"Release Folder: {release_folder} (files NOT moved - set auto_move_to_release: true to enable)")
-    if version_label:
-        print(f"Version: {version_label}")
-    if view_id:
-        print(f"Entity View: {view_id}")
+    if is_link_dataset:
+        print(f"Type: Link Dataset (no files)")
+        print(f"External URL: {dataset_annotations.get('url', 'NOT SET')}")
+    else:
+        print(f"Files: {len(file_ids)}")
+        print(f"Staging Folder: {args.staging_folder}")
+        release_folder = dataset_config.get('release_folder') if dataset_config else (args.release_folder if hasattr(args, 'release_folder') and args.release_folder else None)
+        auto_move_to_release = dataset_config.get('auto_move_to_release', False)
+        if release_folder and auto_move_to_release:
+            print(f"Release Folder: {release_folder} (files moved)")
+        elif release_folder:
+            print(f"Release Folder: {release_folder} (files NOT moved - set auto_move_to_release: true to enable)")
+        if version_label:
+            print(f"Version: {version_label}")
+        if 'view_id' in locals():
+            print(f"Entity View: {view_id}")
     print(f"DRY_RUN: {config.DRY_RUN}")
 
     if config.DRY_RUN:
@@ -2380,13 +3260,30 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 Examples:
+  # GENERATE TEMPLATE - Create empty dataset annotation template
+  python synapse_dataset_manager.py generate-template --type Clinical
+  python synapse_dataset_manager.py generate-template --type Omic --output my_template.json
+
+  # ADD LINK FILE - Create link file entity (external URL reference)
+  python synapse_dataset_manager.py add-link-file \\
+    --name "GEO Dataset" \\
+    --url "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE12345" \\
+    --dataset-id syn67890 \\
+    --annotations '{"dataType": "transcriptomics"}' \\
+    --execute
+
   # CREATE workflow - using config.yaml settings
   python synapse_dataset_manager.py create --use-config GEN_PIPELINE_TEST
 
   # CREATE workflow - with manual arguments
   python synapse_dataset_manager.py create \\
+    --project-id syn11111111 \\
     --staging-folder syn12345 \\
     --dataset-name "My New Dataset"
+
+  # CREATE workflow - link dataset (no files)
+  python synapse_dataset_manager.py create --link-dataset \\
+    --dataset-name "External GEO Dataset"
 
   # CREATE workflow - apply annotations (using config)
   python synapse_dataset_manager.py create --use-config GEN_PIPELINE_TEST \\
@@ -2421,12 +3318,16 @@ Examples:
     create_parser = subparsers.add_parser('create', help='Create new dataset from scratch')
     create_parser.add_argument('--use-config',
                               help='Use dataset settings from config.yaml (e.g., "GEN_PIPELINE_TEST")')
+    create_parser.add_argument('--project-id',
+                              help='Synapse project ID where dataset will be created (overrides config)')
     create_parser.add_argument('--staging-folder',
                               help='Synapse ID of staging folder containing files')
     create_parser.add_argument('--dataset-name',
                               help='Name for the new dataset')
     create_parser.add_argument('--from-annotations', action='store_true',
                               help='Skip template generation, use existing annotations')
+    create_parser.add_argument('--link-dataset', action='store_true',
+                              help='Create link dataset (no files, external URL reference only)')
     create_parser.add_argument('--skip-ai', action='store_true',
                               help='Skip AI-assisted annotation (use Gemini by default)')
     create_parser.add_argument('--execute', action='store_true',
@@ -2461,6 +3362,34 @@ Examples:
     update_parser.add_argument('--dry-run', action='store_true',
                               help='Dry run mode')
 
+    # GENERATE-TEMPLATE command
+    template_parser = subparsers.add_parser('generate-template',
+                                           help='Generate empty dataset annotation template')
+    template_parser.add_argument('--type', '-t',
+                                choices=['Clinical', 'Omic', 'Dataset'],
+                                default='Dataset',
+                                help='Dataset type (default: Dataset)')
+    template_parser.add_argument('--output', '-o',
+                                help='Output file path (default: annotations/<type>_dataset_template.json)')
+
+    # ADD-LINK-FILE command
+    link_parser = subparsers.add_parser('add-link-file',
+                                       help='Create link file entity (external URL reference) and add to dataset')
+    link_parser.add_argument('--name', required=True,
+                            help='Name for the link file entity')
+    link_parser.add_argument('--url', required=True,
+                            help='External URL to reference')
+    link_parser.add_argument('--parent-id',
+                            help='Parent folder/project ID where link file will be stored (e.g., syn12345)')
+    link_parser.add_argument('--dataset-id',
+                            help='Dataset ID to add the link to (also sets parent if --parent-id not specified)')
+    link_parser.add_argument('--annotations',
+                            help='JSON string of annotations (e.g., \'{"dataType": "transcriptomics"}\')')
+    link_parser.add_argument('--execute', action='store_true',
+                            help='Execute (override DRY_RUN)')
+    link_parser.add_argument('--dry-run', action='store_true',
+                            help='Dry run mode')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -2470,6 +3399,11 @@ Examples:
     # Load config from file
     config = Config(config_file=args.config)
 
+    # Override project ID from CLI if provided
+    if args.command == 'create' and hasattr(args, 'project_id') and args.project_id:
+        config.SYNAPSE_PROJECT_ID = args.project_id
+        print(f"Using project ID from --project-id: {args.project_id}")
+
     # Handle --use-config: Load dataset settings from config
     if args.command == 'create' and hasattr(args, 'use_config') and args.use_config:
         dataset_config = config.get_dataset_config(args.use_config)
@@ -2478,10 +3412,21 @@ Examples:
             print(f"\nAvailable configs: {list(config.full_config.get('datasets', {}).keys())}")
             sys.exit(1)
 
-        # Load settings from config (only if not provided via CLI)
-        if not args.staging_folder and 'staging_folder' in dataset_config:
-            args.staging_folder = dataset_config['staging_folder']
-            print(f"Using staging_folder from config: {args.staging_folder}")
+        # Load link_dataset flag from config
+        if not hasattr(args, 'link_dataset') or not args.link_dataset:
+            if 'link_dataset' in dataset_config and dataset_config['link_dataset']:
+                args.link_dataset = True
+                print(f"Using link_dataset mode from config: {args.link_dataset}")
+
+        # For link datasets, staging_folder should NOT be loaded from config
+        if hasattr(args, 'link_dataset') and args.link_dataset:
+            if 'staging_folder' in dataset_config:
+                print("⚠️  WARNING: Ignoring staging_folder from config (link dataset mode)")
+        else:
+            # Load settings from config (only if not provided via CLI and not link dataset)
+            if not args.staging_folder and 'staging_folder' in dataset_config:
+                args.staging_folder = dataset_config['staging_folder']
+                print(f"Using staging_folder from config: {args.staging_folder}")
 
         if not args.dataset_name and 'dataset_name' in dataset_config:
             args.dataset_name = dataset_config['dataset_name']
@@ -2489,9 +3434,18 @@ Examples:
 
     # Validate required arguments for create command
     if args.command == 'create':
-        if not args.staging_folder:
-            print("❌ Error: --staging-folder is required (or use --use-config)")
-            sys.exit(1)
+        # Validate link dataset requirements
+        if hasattr(args, 'link_dataset') and args.link_dataset:
+            if args.staging_folder:
+                print("❌ Error: --staging-folder cannot be used with --link-dataset")
+                print("   Link datasets reference external URLs and do not contain files")
+                sys.exit(1)
+        else:
+            # Only require staging folder for non-link datasets
+            if not args.staging_folder:
+                print("❌ Error: --staging-folder is required (or use --use-config)")
+                sys.exit(1)
+
         if not args.dataset_name:
             print("❌ Error: --dataset-name is required (or use --use-config)")
             sys.exit(1)
@@ -2506,7 +3460,16 @@ Examples:
     if hasattr(args, 'skip_ai') and args.skip_ai:
         config.AI_ENABLED = False
 
-    config.validate()
+    # Handle execute/dry-run for add-link-file command
+    if args.command == 'add-link-file':
+        if hasattr(args, 'execute') and args.execute:
+            config.DRY_RUN = False
+        if hasattr(args, 'dry_run') and args.dry_run:
+            config.DRY_RUN = True
+
+    # Only validate config for commands that need Synapse connection
+    if args.command in ['create', 'update', 'add-link-file']:
+        config.validate()
 
     # Route to appropriate handler
     if args.command == 'create':
@@ -2516,6 +3479,10 @@ Examples:
             handle_create_workflow(args, config)
     elif args.command == 'update':
         handle_update_workflow(args, config)
+    elif args.command == 'generate-template':
+        handle_generate_template(args, config)
+    elif args.command == 'add-link-file':
+        handle_add_link_file(args, config)
 
 
 if __name__ == "__main__":

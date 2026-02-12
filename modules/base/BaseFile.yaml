@@ -103,6 +103,7 @@ classes:
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the file.
         required: false
+        multivalued: true
       dataType:
         title: Data Type
         range: Data

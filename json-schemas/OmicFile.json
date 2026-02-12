@@ -353,13 +353,15 @@
           "New York Genome Center ALS Consortium",
           "National Institutes of Health",
           "Project MinE",
+          "ALS Compute",
           "amp_als",
           "target_als",
           "all_als",
           "c_path",
           "alsdb",
           "geo",
-          "sra"
+          "sra",
+          "als_compute"
         ],
         "title": "CollectionEnum",
         "type": "string"
@@ -444,14 +446,19 @@
     },
     "disease": {
       "description": "Disease(s) or condition(s) studied in the file.",
+      "items": {
+        "description": "",
+        "enum": [
+          "ALS",
+          "FTD",
+          "Control",
+          "Unknown"
+        ],
+        "title": "DiseaseEnum",
+        "type": "string"
+      },
       "title": "Disease",
-      "enum": [
-        "ALS",
-        "FTD",
-        "Control",
-        "Unknown"
-      ],
-      "type": "string"
+      "type": "array"
     },
     "fileFormat": {
       "description": "Format of the omic data file (FASTQ, BAM, VCF, etc.)",
