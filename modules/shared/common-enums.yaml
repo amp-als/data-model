@@ -39,26 +39,6 @@ enums:
       meta_analysis:
         description: Meta-analysis results
 
-  # Data collections
-  CollectionEnum:
-    permissible_values:
-      amp_als:
-        description: AMP-ALS Knowledge Portal
-      target_als:
-        description: Target ALS consortium
-      all_als:
-        description: ALL ALS consortium
-      c_path:
-        description: Critical Path Institute
-      alsdb:
-        description: ALS Database
-      geo:
-        description: Gene Expression Omnibus
-      sra:
-        description: Sequence Read Archive
-      als_compute:
-        description: ALS Compute Portal
-
   # Library layouts for sequencing
   LibraryLayoutEnum:
     permissible_values:

@@ -30,6 +30,22 @@ enums:
       National Institutes of Health:
       Project MinE:
       ALS Compute:
+      amp_als:
+        description: AMP-ALS Knowledge Portal
+      target_als:
+        description: Target ALS consortium
+      all_als:
+        description: ALL ALS consortium
+      c_path:
+        description: Critical Path Institute
+      alsdb:
+        description: ALS Database
+      geo:
+        description: Gene Expression Omnibus
+      sra:
+        description: Sequence Read Archive
+      als_compute:
+        description: ALS Compute Portal
   SourceNode:
     description: Source nodes within the federated network.
     permissible_values:

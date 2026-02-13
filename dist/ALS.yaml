@@ -132,35 +132,6 @@ enums:
       Clinical Trial:
       Observational Study:
       Unknown:
-  # Data collections
-  CollectionEnum:
-    permissible_values:
-      amp_als:
-        description: AMP-ALS Knowledge Portal
-      target_als:
-        description: Target ALS consortium
-      all_als:
-        description: ALL ALS consortium
-      c_path:
-        description: Critical Path Institute
-      alsdb:
-        description: ALS Database
-      geo:
-        description: Gene Expression Omnibus
-      sra:
-        description: Sequence Read Archive
-      als_compute:
-        description: ALS Compute Portal
-      ALS Knowledge Portal:
-        description: Default collection
-      Answer ALS:
-      CReATe Consortium:
-      'Genomic Translation for ALS Care (GTAC)':
-      New York Genome Center ALS Consortium:
-      National Institutes of Health:
-      Project MinE:
-      ALS Compute:
-    description: Original collection, e.g. the consortium that the dataset comes from.
   # Library layouts for sequencing
   LibraryLayoutEnum:
     permissible_values:
@@ -2029,6 +2000,34 @@ enums:
           This license is one of the Creative Commons licenses and allows users to use only your unmodified dataset if they give credit to the copyright holder and do not share it for commercial purposes. Users cannot make any additions, transformations or changes to the dataset under this license.
 
         source: https://creativecommons.org/licenses/by-nc-nd/4.0/
+  CollectionEnum:
+    description: Original collection, e.g. the consortium that the dataset comes from.
+    permissible_values:
+      ALS Knowledge Portal:
+        description: Default collection
+      Answer ALS:
+      CReATe Consortium:
+      'Genomic Translation for ALS Care (GTAC)':
+      New York Genome Center ALS Consortium:
+      National Institutes of Health:
+      Project MinE:
+      ALS Compute:
+      amp_als:
+        description: AMP-ALS Knowledge Portal
+      target_als:
+        description: Target ALS consortium
+      all_als:
+        description: ALL ALS consortium
+      c_path:
+        description: Critical Path Institute
+      alsdb:
+        description: ALS Database
+      geo:
+        description: Gene Expression Omnibus
+      sra:
+        description: Sequence Read Archive
+      als_compute:
+        description: ALS Compute Portal
   SourceNode:
     description: Source nodes within the federated network.
     permissible_values:
