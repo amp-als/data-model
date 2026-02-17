@@ -6,8 +6,8 @@ synapse:
   # Optional: Leave empty to use default Synapse credentials (~/.synapseConfig)
   # Priority: SYNAPSE_AUTH_TOKEN env var > this config > ~/.synapseConfig
   auth_token: ""
-  project_id: "syn69801668"
-  datasets_collection_id: "syn72642710"
+  project_id: "syn73604181"
+  datasets_collection_id: "syn66496326"
 
 # Directories
 directories:
@@ -21,11 +21,11 @@ directories:
 workflow:
   dry_run: true  # Safe default - set to false to execute
   verbose: true  # Show detailed output
-  use_ai: true   # Enable AI-assisted annotation by default
+  use_ai: false   # Enable AI-assisted annotation by default
 
 # AI Settings (Gemini)
 ai:
-  enabled: true
+  enabled: false
   timeout: 360  # Seconds
   model: "gemini-1.5-flash"  # or "gemini-1.5-pro"
   max_file_lines: 100  # Lines to send to AI for analysis
@@ -45,26 +45,36 @@ datasets:
   #   # dataset_type: "Clinical"  # Optional: explicitly set 'Clinical' or 'Omic'
   #
   # Example: Add your own dataset configs
+  ALS_Compute_Dataset: 
+    staging_folder: "syn68753414"
+    release_folder: "syn73686161"
+    dataset_name: "ALS Compute Dataset"
+    dataset_type: "Omic"
+    add_to_collection: true 
+    collection_id: "syn66496326"
+    auto_move_to_release: true 
+    generate_wiki: false
+
   # trehalose:
   #   staging_folder: "syn68927891"
   #   release_folder: "syn68885183"
   #   dataset_name: "Trehalose Biomarker Data"
   #   dataset_type: "Omic"  # Optional: set to 'Clinical' or 'Omic' to override auto-detection
-  GEN_PIPELINE_TEST:
-    staging_folder: "syn72642665"
-    release_folder: "syn72642669"
-    dataset_name: "GEN_PIPELINE_TEST_DATASET"
-    dataset_type: "Omic"
-
-    # Advanced features (optional)
-    version_label: "v1.0"
-    version_comment: "Initial release"
-    generate_wiki: true
-    create_snapshot: true
-    create_entity_view: true
-    add_to_collection: true  # Add dataset to collection
-    collection_id: "syn72642710"  # Or use global datasets_collection_id
-    auto_move_to_release: false  # SAFETY: Set to true ONLY when ready to finalize
+  # GEN_PIPELINE_TEST:
+  #   staging_folder: "syn72642665"
+  #   release_folder: "syn72642669"
+  #   dataset_name: "GEN_PIPELINE_TEST_DATASET"
+  #   dataset_type: "Omic"
+  #
+  #   # Advanced features (optional)
+  #   version_label: "v1.0"
+  #   version_comment: "Initial release"
+  #   generate_wiki: true
+  #   create_snapshot: true
+  #   create_entity_view: true
+  #   add_to_collection: true  # Add dataset to collection
+  #   collection_id: "syn72642710"  # Or use global datasets_collection_id
+  #   auto_move_to_release: false  # SAFETY: Set to true ONLY when ready to finalize
 
     # Wiki generation - AI will use these fields if provided
     contact: "Principal Investigator, PI.Email@institution.edu"
