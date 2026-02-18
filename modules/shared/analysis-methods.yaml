@@ -36,3 +36,35 @@ enums:
         description: Multivariate statistical analysis
       machine_learning:
         description: Machine learning and predictive modeling
+
+      # Clinical study analysis methods
+      safety_event_review:
+        description: Adverse event and safety monitoring review
+      clinical_score_tracking:
+        description: Clinical assessment and functional score tracking
+      speech_monitoring:
+        description: Speech function monitoring and analysis
+      biospecimen_tracking:
+        description: Biospecimen collection and processing tracking
+      medication_tracking:
+        description: Medication usage and concomitant medication tracking
+      subject_profile_review:
+        description: Subject demographic and baseline profile review
+      eligibility_screening:
+        description: Study eligibility criteria assessment
+      enrollment_tracking:
+        description: Study enrollment and consent tracking
+      device_tracking:
+        description: DHT device usage and adherence tracking
+      study_disposition_tracking:
+        description: Study completion and disposition tracking
+      protocol_deviation_tracking:
+        description: Protocol deviation monitoring
+      genetic_risk_assessment:
+        description: Genetic variant and risk assessment
+      respiratory_monitoring:
+        description: Respiratory function monitoring
+      visit_scheduling:
+        description: Clinical visit type and scheduling
+      consent_management:
+        description: Informed consent form tracking

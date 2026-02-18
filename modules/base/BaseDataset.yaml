@@ -27,7 +27,7 @@ classes:
         range: string
         description: Properly formatted name of the organization or person that is creator of the dataset (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
         multivalued: true
-        required: true
+        required: false
       contributor:
         title: Contributor(s)
         range: string
@@ -56,8 +56,8 @@ classes:
         range: string
         multivalued: true
         required: false
-      individualCount:
-        title: Individual Count
+      participant_count:
+        title: Participant Count
         range: integer
         description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
         required: false
@@ -109,11 +109,11 @@ classes:
         range: string
         description: Host platform from which the dataset was sourced.
         required: true
-      url: 
+      url:
         title: URL
         range: string
-        description: URL for the original dataset location at source. 
-        required: true
+        description: URL for the original dataset location at source.
+        required: false
       sameAs:
         title: Same As
         range: string
@@ -137,3 +137,15 @@ classes:
         description: Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.
         required: false
         pattern: "^(src|omop|sdtm|send|adam)_als\\d+$"
+      portalRelease:
+        title: Portal Release
+        range: string
+        description: Portal release version(s) in which this dataset is included (e.g. "2025.2").
+        multivalued: true
+        required: false
+      acknowledgementStatement:
+        title: Acknowledgement Statement
+        range: string
+        description: Statement or link describing how use of this dataset should be acknowledged.
+        multivalued: true
+        required: false

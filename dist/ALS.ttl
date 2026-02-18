@@ -10,18 +10,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace skos: ;
-            sh:prefix "skos" ],
-        [ sh:namespace schema1: ;
+    sh:declare [ sh:namespace schema1: ;
             sh:prefix "schema" ],
-        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
-            sh:prefix "als" ],
-        [ sh:namespace rdfs: ;
-            sh:prefix "rdfs" ],
+        [ sh:namespace skos: ;
+            sh:prefix "skos" ],
         [ sh:namespace prov: ;
             sh:prefix "prov" ],
+        [ sh:namespace <https://w3id.org/synapse/amp-als/vocab/> ;
+            sh:prefix "als" ],
         [ sh:namespace linkml: ;
-            sh:prefix "linkml" ] ;
+            sh:prefix "linkml" ],
+        [ sh:namespace rdfs: ;
+            sh:prefix "rdfs" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -199,7 +199,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-02-13T11:54:31"^^xsd:dateTime ;
+    linkml:generation_date "2026-02-17T23:52:59"^^xsd:dateTime ;
     linkml:id <https://w3id.org/amp-als/> ;
     linkml:imports linkml:types ;
     linkml:metamodel_version "1.7.0" ;
@@ -269,9 +269,9 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__license>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
@@ -288,8 +288,8 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__description>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/baseFile__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseFile__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__license>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__publisher>,
@@ -876,8 +876,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-02-13T11:54:30"^^xsd:dateTime ;
-    linkml:source_file_size 320134 ;
+    linkml:source_file_date "2026-02-17T23:52:58"^^xsd:dateTime ;
+    linkml:source_file_size 323710 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -942,6 +942,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Knowledge%20Portal> skos:definition "Default collection" .
 
+<https://w3id.org/synapse/amp-als/vocab/ALS2-ALS> skos:definition "ALS2 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/ALSAQ-40> skos:definition "ALS Assessment Questionnaire-40" .
 
 <https://w3id.org/synapse/amp-als/vocab/ALSFRS-R> skos:definition "ALS Functional Rating Scale-Revised" .
@@ -950,7 +952,13 @@
 
 <https://w3id.org/synapse/amp-als/vocab/ANG> skos:definition "Angiogenin gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/ANG-ALS> skos:definition "ANG ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/ANXA11> skos:definition "Annexin A11 gene" .
+
+<https://w3id.org/synapse/amp-als/vocab/ANXA11-ALS> skos:definition "ANXA11 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/ARHGEF28-ALS> skos:definition "ARHGEF28 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/ATAC-seq> skos:definition "Open chromatin regions measured by sequencing DNA after assay for transposase-accessible chromatin (ATAC) treatment" ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0002039> .
@@ -962,6 +970,8 @@
     linkml:meaning <http://purl.obolibrary.org/obo/MI_0880> .
 
 <https://w3id.org/synapse/amp-als/vocab/ATXN2> skos:definition "Ataxin 2 gene" .
+
+<https://w3id.org/synapse/amp-als/vocab/ATXN2-ALS> skos:definition "ATXN2 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/Abnormal> skos:definition "Abnormal result (non-numeric)" .
 
@@ -1078,8 +1088,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Burden_of_Participation> skos:definition "Withdrew due to burden of participation" .
 
-<https://w3id.org/synapse/amp-als/vocab/C9-ALS> skos:definition "C9orf72-associated ALS" .
-
 <https://w3id.org/synapse/amp-als/vocab/C9-FTD> skos:definition "C9orf72-associated FTD" .
 
 <https://w3id.org/synapse/amp-als/vocab/C9ORF72> skos:definition "C9orf72 gene" .
@@ -1129,7 +1137,13 @@
 <https://w3id.org/synapse/amp-als/vocab/CEL-seq> dcterms:source <https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json> ;
     skos:definition "CEL-Seq library preparation" .
 
+<https://w3id.org/synapse/amp-als/vocab/CFAP410-ALS> skos:definition "CFAP410 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/CHCHD10> skos:definition "Coiled-coil-helix-coiled-coil-helix domain containing 10 gene" .
+
+<https://w3id.org/synapse/amp-als/vocab/CHCHD10-ALS> skos:definition "CHCHD10 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/CHMP2B-ALS> skos:definition "CHMP2B ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/CLIP-seq> skos:definition "Cross-linking immunoprecipitation sequencing (CLIP-seq) identifies genome-wide binding sites of RNA-binding proteins by cross-linking protein-RNA complexes in vivo, followed by immunoprecipitation and sequencing of associated RNA fragments." ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0001858> .
@@ -1249,8 +1263,12 @@
 <https://w3id.org/synapse/amp-als/vocab/Cy5> skos:definition "Fluorescent dye used for the red channel on an array" ;
     linkml:meaning <http://purl.obolibrary.org/obo/FBbi_00000450> .
 
+<https://w3id.org/synapse/amp-als/vocab/DAO-ALS> skos:definition "DAO ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/DART-seq> dcterms:source <https://www.nature.com/articles/s41467-021-23239-9> ;
     skos:definition "Digital analysis of RNA targeting sequencing (DART-seq) enables transcriptome-wide detection and quantification of adenosine-to-inosine RNA editing events through computational analysis of RNA sequencing data." .
+
+<https://w3id.org/synapse/amp-als/vocab/DCTN1-ALS> skos:definition "DCTN1 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/DESeq2> dcterms:source <https://bioconductor.org/packages/release/bioc/html/DESeq2.html> .
 
@@ -1303,9 +1321,17 @@
 <https://w3id.org/synapse/amp-als/vocab/ELISA> skos:definition "A highly sensitive technique for detecting and measuring antigens or antibodies in a solution; the solution is run over a surface to which immobilized antibodies specific to the substance have been attached, and if the substance is present, it will bind to the antibody layer, and its presence is verified and visualized with an application of antibodies that have been tagged in some way." ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C16553> .
 
+<https://w3id.org/synapse/amp-als/vocab/ELP3-ALS> skos:definition "ELP3 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/EMG> skos:definition "Electromyography" .
 
+<https://w3id.org/synapse/amp-als/vocab/EPHA4-ALS> skos:definition "EPHA4 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/ERBB4-ALS> skos:definition "ERBB4 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/ERR%20bisulfite%20sequencing> skos:definition "Enhanced reduced representation bisulfite sequencing (ERRBS) " .
+
+<https://w3id.org/synapse/amp-als/vocab/EWSR1-ALS> skos:definition "EWSR1 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/EdU%20proliferation%20assay> dcterms:source <https://www.sigmaaldrich.com/deepweb/assets/sigmaaldrich/product/documents/100/843/17-1052x.pdf> ;
     skos:definition "Proliferation assay using EdU as a thymidine nucleoside analog is an alternative to the classical BrdU assay." ;
@@ -1349,6 +1375,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/FIG4> skos:definition "FIG4 phosphoinositide 5-phosphatase gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/FIG4-ALS> skos:definition "FIG4 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/FLIPR%20high-throughput%20cellular%20screening> dcterms:source <https://www.moleculardevices.com/products/flipr-penta-high-throughput-cellular-screening-system> ;
     skos:definition """An imaging-based system that allows measurement and analysis of peaks of human-derived induced pluripotent stem cells (hiPSCs),  differentiated into cardiomyocytes and neurons,  up to 100 times per second and quickly cherry pick events such as Early-After-Depolarization-like events (EAD-like events), fibrillation, and irregular beating.
 """ .
@@ -1356,6 +1384,8 @@
 <https://w3id.org/synapse/amp-als/vocab/FTIR%20spectroscopy> skos:definition """Fourier transform infrared (FTIR) spectroscopy is a technique used to obtain an infrared spectrum of absorption or emission of a solid, liquid or gas.  An FTIR spectrometer simultaneously collects high-resolution spectral data over a wide spectral range.
 """ ;
     linkml:meaning <http://purl.obolibrary.org/obo/CHMO_0000636> .
+
+<https://w3id.org/synapse/amp-als/vocab/FUS-ALS> skos:definition "FUS ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/FastQC> dcterms:source <https://github.com/s-andrews/FastQC> .
 
@@ -1466,6 +1496,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/HI-C> skos:definition "Chromatin interactions detected by HI-C protocol" ;
     linkml:meaning <http://www.ebi.ac.uk/efo/EFO_0007693> .
+
+<https://w3id.org/synapse/amp-als/vocab/HNRNPA1-ALS> skos:definition "HNRNPA1 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/HNRNPA2B1-ALS> skos:definition "HNRNPA2B1 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/HPLC> skos:definition """Frequently referred to simply as HPLC, this form of column chromatography is used frequently in biochemistry.  The analyte is forced through a column by liquid at high pressure, which decreases the time the separated components remain on the stationary phase.
 """ ;
@@ -1659,6 +1693,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/KIF5A> skos:definition "Kinesin family member 5A gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/KIF5A-ALS> skos:definition "KIF5A ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/KIKAP3-ALS> skos:definition "KIKAP3 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/KeyDevicesProcedures> skos:definition "Documentation of supportive devices and procedures" .
 
 <https://w3id.org/synapse/amp-als/vocab/LCM> skos:definition "Laser Capture Microdissection (LCM) precisely isolates specific cells or tissue regions from histological sections using laser technology, enabling spatially-resolved molecular analysis when combined with sequencing approaches." ;
@@ -1714,6 +1752,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/MATR3> skos:definition "Matrin 3 gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/MATR3-ALS> skos:definition "MATR3 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/MGI%20T-series> dcterms:source <https://en.mgi-tech.com/products/> ;
     skos:definition "deep whole genome sequencing" .
 
@@ -1722,6 +1762,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/MMUL1.0> dcterms:source <https://jul2016.archive.ensembl.org/Macaca_mulatta/Info/Index> ;
     skos:definition "Ensembl preliminary assembly Macaca mulatta" .
+
+<https://w3id.org/synapse/amp-als/vocab/MOBP-ALS> skos:definition "MOBP ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/MONDO> skos:definition "Mondo Disease Ontology" .
 
@@ -1795,6 +1837,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/NEBNext%20mRNA%20Library%20Prep%20Reagent%20Set%20for%20Illumina> dcterms:source <https://www.neb.com/products/e6100-nebnext-mrna-library-prep-reagent-set-for-illumina> ;
     skos:definition "NEBNext mRNA Library Prep Reagent Set for Illumina" .
+
+<https://w3id.org/synapse/amp-als/vocab/NEFH-ALS> skos:definition "NEFH ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/NEK1-ALS> skos:definition "NEK1 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/NIH%20Toolbox> skos:definition "A comprehensive set of neuro-behavioral measures that assess cognitive, emotional, sensory, and motor functions\"" ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C154482> .
@@ -1871,6 +1917,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/OPTN> skos:definition "Optineurin gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/OPTN-ALS> skos:definition "OPTN ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/Occasional> skos:definition "Occasional use (< 1 drink/week)" .
 
 <https://w3id.org/synapse/amp-als/vocab/Olink%20Proximity%20Extension%20Assay> dcterms:source <https://olink.com/technology/what-is-pea> ;
@@ -1898,6 +1946,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Other%20Platform> skos:definition "Placeholder for platform not in list." .
 
+<https://w3id.org/synapse/amp-als/vocab/Other%20genetic%20ALS> skos:definition "ALS associated with other or unspecified gene variant" .
+
 <https://w3id.org/synapse/amp-als/vocab/Other_Dementia> skos:definition "Other dementia" .
 
 <https://w3id.org/synapse/amp-als/vocab/Other_Healthcare_Facility> skos:definition "Other healthcare facility" .
@@ -1917,8 +1967,12 @@
 
 <https://w3id.org/synapse/amp-als/vocab/PFN1> skos:definition "Profilin 1 gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/PFN1-ALS> skos:definition "PFN1 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/PROMIS%20Cognitive%20Function> skos:definition "The PROMIS Cognitive Function and Cognitive Function Abilities Subset item banks assess patient-perceived cognitive deficits." ;
     linkml:meaning <http://www.healthmeasures.net/images/PROMIS/manuals/PROMIS_Cognitive_Function_Scoring_Manual.pdf> .
+
+<https://w3id.org/synapse/amp-als/vocab/PRPH-ALS> skos:definition "PRPH ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/PacBio%20RS%20II> dcterms:source <https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL21311> ;
     skos:definition "PacBio RS II" .
@@ -2115,6 +2169,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/SETX> skos:definition "Senataxin gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/SETX-ALS> skos:definition "SETX ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/SNOMED> skos:definition "SNOMED Clinical Terms" .
 
 <https://w3id.org/synapse/amp-als/vocab/SNP%20array> skos:definition "SNP measurements captured by array technology" ;
@@ -2122,10 +2178,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/SNV> skos:definition "Single nucleotide variant" .
 
+<https://w3id.org/synapse/amp-als/vocab/SOD1-ALS> skos:definition "SOD1 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/SPAR> dcterms:source <https://github.com/chenkonturek/MRS_MRI_libs> ;
     skos:definition "Phillips MRS Header File" .
 
+<https://w3id.org/synapse/amp-als/vocab/SPG11-ALS> skos:definition "SPG11 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/SPG4-ALS> skos:definition "SPG4 ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/SQSTM1> skos:definition "Sequestosome 1 gene" .
+
+<https://w3id.org/synapse/amp-als/vocab/SQSTM1-ALS> skos:definition "SQSTM1 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/STR%20profile> skos:definition "The analysis of all of the short tandem repeats in the genome of a biological sample." ;
     linkml:meaning <http://purl.obolibrary.org/obo/NCIT_C129889> .
@@ -2284,7 +2348,13 @@
 
 <https://w3id.org/synapse/amp-als/vocab/T2-weighted> skos:definition "" .
 
+<https://w3id.org/synapse/amp-als/vocab/TAF15-ALS> skos:definition "TAF15 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/TARDBP-ALS> skos:definition "TARDBP ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/TBK1> skos:definition "TANK binding kinase 1 gene" .
+
+<https://w3id.org/synapse/amp-als/vocab/TBK1-ALS> skos:definition "TBK1 ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/TIDE> dcterms:source <https://tide.nki.nl/> ;
     skos:definition """Tracking of Indels by Decomposition (TIDE) is a simple and accurate assay to precisely determine the spectrum and frequency of targeted mutations generated  in a pool of cells by genome editing tools such as CRISPR/Cas9, TALENs and ZFNs.
@@ -2295,6 +2365,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/TOOsonix%20System%20ONE-M> dcterms:source <https://www.toosonix.com/> ;
     skos:definition "High intensity focused ultrasound (HIFU) technology which delivers highly accurate and non-invasive ultrasound energy to target areas within the human skin." .
+
+<https://w3id.org/synapse/amp-als/vocab/TUBA4A-ALS> skos:definition "TUBA4A ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/Takara%20SMARTer%20Stranded%20Total%20RNA-seq%20Pico-Input%20v2> skos:definition "Takara SMARTer stranded total RNA-seq library prep for low input samples" .
 
@@ -2347,6 +2419,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/UBQLN2> skos:definition "Ubiquilin 2 gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/UBQLN2-ALS> skos:definition "UBQLN2 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/UNC13A-ALS> skos:definition "UNC13A ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/UNKNOWN> skos:definition "The license for the dataset is not known." .
 
 <https://w3id.org/synapse/amp-als/vocab/Unable_to_Continue> skos:definition "Too fatigued to continue" .
@@ -2373,7 +2449,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/VAPB> skos:definition "VAMP associated protein B and C gene" .
 
+<https://w3id.org/synapse/amp-als/vocab/VAPB-ALS> skos:definition "VAPB ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/VCP> skos:definition "Valosin containing protein gene" .
+
+<https://w3id.org/synapse/amp-als/vocab/VCP-ALS> skos:definition "VCP ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/VUS> skos:definition "Variant of uncertain significance" .
 
@@ -2550,6 +2630,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/biospecimen_collection> skos:definition "Collection of biological specimens such as serum, plasma, CSF" .
 
+<https://w3id.org/synapse/amp-als/vocab/biospecimen_tracking> skos:definition "Biospecimen collection and processing tracking" .
+
 <https://w3id.org/synapse/amp-als/vocab/bisulfite%20sequencing> skos:definition "Methylation data captured by sequencing of DNA treated by a bisulfite-based chemical process" ;
     linkml:meaning <http://purl.obolibrary.org/obo/OBI_0000748> .
 
@@ -2656,6 +2738,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/clinical_assessment> skos:definition "Clinical assessment data" .
 
+<https://w3id.org/synapse/amp-als/vocab/clinical_score_tracking> skos:definition "Clinical assessment and functional score tracking" .
+
 <https://w3id.org/synapse/amp-als/vocab/clinician_administered_exam> skos:definition "Examination administered directly by a clinician" .
 
 <https://w3id.org/synapse/amp-als/vocab/cnn> dcterms:source <https://cnvkit.readthedocs.io/en/stable/fileformats.html> ;
@@ -2685,6 +2769,8 @@
 <https://w3id.org/synapse/amp-als/vocab/confocal%20microscopy> skos:definition """Confocal microscopy has advantages over widefield optical microscopy, including the ability to eliminate or reduce background information away from the focal plane and collect serial optical sections from thick specimens.  It uses point illumination and a spatial pinhole to eliminate out-of-focus light in specimens that are thicker than the focal plane.
 """ ;
     linkml:meaning <http://www.bioassayontology.org/bao#BAO_0000453> .
+
+<https://w3id.org/synapse/amp-als/vocab/consent_management> skos:definition "Informed consent form tracking" .
 
 <https://w3id.org/synapse/amp-als/vocab/contextual%20conditioning%20behavior%20assay> skos:definition "A behavioral assay devised to measure contextual conditioning behavior" .
 
@@ -2795,6 +2881,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/derived_scores> skos:definition "Calculated scores and derived measures" .
 
+<https://w3id.org/synapse/amp-als/vocab/device_tracking> skos:definition "DHT device usage and adherence tracking" .
+
 <https://w3id.org/synapse/amp-als/vocab/diagnosis_criteria> skos:definition "Diagnostic criteria and clinical signs" .
 
 <https://w3id.org/synapse/amp-als/vocab/diagnostic_criteria> skos:definition "Diagnostic criteria and classification data" .
@@ -2865,11 +2953,15 @@
 
 <https://w3id.org/synapse/amp-als/vocab/eligibility_criteria> skos:definition "Screening inclusion and exclusion criteria" .
 
+<https://w3id.org/synapse/amp-als/vocab/eligibility_screening> skos:definition "Study eligibility criteria assessment" .
+
 <https://w3id.org/synapse/amp-als/vocab/embargo> skos:definition "Under embargo, restricted until release date" .
 
 <https://w3id.org/synapse/amp-als/vocab/emotional_functioning> skos:definition "Emotional wellbeing and psychological functioning" .
 
 <https://w3id.org/synapse/amp-als/vocab/endpoint> skos:definition "Primary endpoint assessment" .
+
+<https://w3id.org/synapse/amp-als/vocab/enrollment_tracking> skos:definition "Study enrollment and consent tracking" .
 
 <https://w3id.org/synapse/amp-als/vocab/environmental_stress> skos:definition "Environmental stress conditions" .
 
@@ -2943,6 +3035,8 @@
 <https://w3id.org/synapse/amp-als/vocab/genetic_modification> skos:definition "Genetic modification or manipulation" .
 
 <https://w3id.org/synapse/amp-als/vocab/genetic_profile> skos:definition "Genetic testing results" .
+
+<https://w3id.org/synapse/amp-als/vocab/genetic_risk_assessment> skos:definition "Genetic variant and risk assessment" .
 
 <https://w3id.org/synapse/amp-als/vocab/genome_annotation> skos:definition "Genome annotation data (GFF, GTF)" .
 
@@ -3194,6 +3288,8 @@
     skos:definition "Markdown (MD) is a lightweight markup language with plain text formatting syntax" .
 
 <https://w3id.org/synapse/amp-als/vocab/medication_history> skos:definition "Medication and treatment history" .
+
+<https://w3id.org/synapse/amp-als/vocab/medication_tracking> skos:definition "Medication usage and concomitant medication tracking" .
 
 <https://w3id.org/synapse/amp-als/vocab/medium> skos:definition "Medium data completeness (50-80% non-null values)" .
 
@@ -3460,6 +3556,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/proteomics_analysis> skos:definition "Proteomics data analysis methods" .
 
+<https://w3id.org/synapse/amp-als/vocab/protocol_deviation_tracking> skos:definition "Protocol deviation monitoring" .
+
 <https://w3id.org/synapse/amp-als/vocab/psychiatric_assessment> skos:definition "Psychiatric evaluation data" .
 
 <https://w3id.org/synapse/amp-als/vocab/psychiatric_eval> skos:definition "Psychiatric evaluation" .
@@ -3517,6 +3615,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/respiratory_function> skos:definition "Breathing and respiratory function" .
 
+<https://w3id.org/synapse/amp-als/vocab/respiratory_monitoring> skos:definition "Respiratory function monitoring" .
+
 <https://w3id.org/synapse/amp-als/vocab/respiratory_onset> skos:definition "Respiratory onset presentation" .
 
 <https://w3id.org/synapse/amp-als/vocab/reverse> skos:definition "read 1 (or unpaired read) comes from the reverse strand and read 2 (if applicable) comes from the forward strand" .
@@ -3534,6 +3634,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/rotarod%20performance%20test> skos:definition "A method that utilizes a device consisting of a rotating rod the speed of which is mechanically driven and precisely controlled, for instance held constant or accelerated. The rotarod test is often used to measure riding time or endurance in order to evaluate balance, motor coordination or grip strength." ;
     linkml:meaning <http://purl.obolibrary.org/obo/MMO_0000567> .
+
+<https://w3id.org/synapse/amp-als/vocab/safety_event_review> skos:definition "Adverse event and safety monitoring review" .
 
 <https://w3id.org/synapse/amp-als/vocab/safety_monitoring> skos:definition "Safety monitoring and adverse events" .
 
@@ -3640,6 +3742,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/speech_function> skos:definition "measuring the patient's ability to communicate across five levels, from normal speaking ability to a complete loss of useful speech" .
 
+<https://w3id.org/synapse/amp-als/vocab/speech_monitoring> skos:definition "Speech function monitoring and analysis" .
+
 <https://w3id.org/synapse/amp-als/vocab/splice_variants> skos:definition "Alternative splicing analysis results" .
 
 <https://w3id.org/synapse/amp-als/vocab/sporadic> skos:definition "Sporadic (non-familial) form" .
@@ -3658,6 +3762,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/stem_cell> skos:definition "Stem cell culture" .
 
+<https://w3id.org/synapse/amp-als/vocab/study_disposition_tracking> skos:definition "Study completion and disposition tracking" .
+
 <https://w3id.org/synapse/amp-als/vocab/study_eligibility> skos:definition "Eligibility defined by neurological diagnosis, disease stage, comorbidities, functional status, and treatment history." .
 
 <https://w3id.org/synapse/amp-als/vocab/study_management> skos:definition "Study management metadata" .
@@ -3665,6 +3771,8 @@
 <https://w3id.org/synapse/amp-als/vocab/study_report> skos:definition "Study Report given by testing services. Generally a summary report of all services carried out including methods and results." .
 
 <https://w3id.org/synapse/amp-als/vocab/subject_management> skos:definition "Subject demographics and study management" .
+
+<https://w3id.org/synapse/amp-als/vocab/subject_profile_review> skos:definition "Subject demographic and baseline profile review" .
 
 <https://w3id.org/synapse/amp-als/vocab/summary_level> skos:definition "Summary statistics" .
 
@@ -3786,6 +3894,8 @@
 <https://w3id.org/synapse/amp-als/vocab/vcf> skos:definition "Variant Call Format (VCF) for sequence variation (indels, polymorphisms, structural variation)" ;
     linkml:meaning <http://edamontology.org/format_3016> .
 
+<https://w3id.org/synapse/amp-als/vocab/visit_scheduling> skos:definition "Clinical visit type and scheduling" .
+
 <https://w3id.org/synapse/amp-als/vocab/western%20blot> skos:definition "A multistep process in which a mixture of proteins is separated by gel electrophoresis" ;
     linkml:meaning <http://purl.obolibrary.org/obo/MMO_0000338> .
 
@@ -3849,6 +3959,9 @@
     dcterms:title "Brodmann Area" ;
     skos:definition "Brodmann cortical area designation" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/BrodmannAreaEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/C9-ALS> skos:definition "C9orf72 ALS (gene-carrier notation)",
+        "C9orf72-associated ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/CNSRegion> a linkml:SlotDefinition ;
     dcterms:title "CNS Region" ;
@@ -6884,12 +6997,6 @@
     skos:definition "Meets disease stage inclusion criteria" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
 
-<https://w3id.org/synapse/amp-als/vocab/diseaseSubtype> a linkml:SlotDefinition ;
-    dcterms:title "Disease Subtype" ;
-    skos:definition "Specific subtype or variant of the primary disease studied in the dataset (e.g., gene mutations, onset types). Parsed from disease strings like 'C9orf72-ALS'." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> .
-
 <https://w3id.org/synapse/amp-als/vocab/disease_progression> skos:definition "Disease progression markers and rates",
         "Disease progression tracking data" .
 
@@ -9614,6 +9721,11 @@
     skos:definition "Reason for partial completion if applicable" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
+<https://w3id.org/synapse/amp-als/vocab/participant_count> a linkml:SlotDefinition ;
+    dcterms:title "Participant Count" ;
+    skos:definition "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown." ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
+
 <https://w3id.org/synapse/amp-als/vocab/pathway_enrichment> skos:definition "General pathway enrichment analysis",
         "Pathway enrichment analysis" .
 
@@ -11914,9 +12026,9 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__license>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
@@ -11962,8 +12074,8 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__description>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/baseFile__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseFile__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__license>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__publisher>,
@@ -12847,20 +12959,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Type_2>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
-<https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> skos:definition "Specific subtypes or variants of neurodegenerative diseases" ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/C9orf72>,
-        <https://w3id.org/synapse/amp-als/vocab/FUS>,
-        <https://w3id.org/synapse/amp-als/vocab/SOD1>,
-        <https://w3id.org/synapse/amp-als/vocab/TARDBP>,
-        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
-        <https://w3id.org/synapse/amp-als/vocab/bulbar_onset>,
-        <https://w3id.org/synapse/amp-als/vocab/familial>,
-        <https://w3id.org/synapse/amp-als/vocab/limb_onset>,
-        <https://w3id.org/synapse/amp-als/vocab/respiratory_onset>,
-        <https://w3id.org/synapse/amp-als/vocab/sporadic> .
-
 <https://w3id.org/synapse/amp-als/vocab/DoseUnitsEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DoseUnitsEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/L>,
@@ -13401,6 +13499,14 @@
     skos:definition "Short identifier indicating the data source origin" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
 
+<https://w3id.org/synapse/amp-als/vocab/diseaseSubtype> a linkml:SlotDefinition ;
+    dcterms:title "Disease Subtype" ;
+    skos:definition """Specific disease subtype or genetic variant associated with the data (e.g., C9orf72, SOD1, familial). Use when the data pertains to a specific genetic or clinical subtype of a disease.
+""",
+        "Specific subtype or variant of the primary disease studied in the dataset (e.g., gene mutations, onset types). Parsed from disease strings like 'C9orf72-ALS'." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> .
+
 <https://w3id.org/synapse/amp-als/vocab/glucose> a linkml:SlotDefinition ;
     dcterms:title "Glucose",
         "Glucose (mg/dL)" ;
@@ -13420,12 +13526,6 @@
     skos:definition "Medical indication for device use",
         "Medical indication for treatment" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
-<https://w3id.org/synapse/amp-als/vocab/individualCount> a linkml:SlotDefinition ;
-    dcterms:title "Individual Count" ;
-    skos:definition "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
-        "Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown." ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> .
 
 <https://w3id.org/synapse/amp-als/vocab/keywords> a linkml:SlotDefinition ;
     dcterms:title "Keywords" ;
@@ -13603,17 +13703,32 @@
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/AnalysisMethodEnum> ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/GeneSetEnrichmentAnalysis>,
         <https://w3id.org/synapse/amp-als/vocab/Normalized%20Protein%20Expression%20%28NPX%29>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen_tracking>,
+        <https://w3id.org/synapse/amp-als/vocab/clinical_score_tracking>,
+        <https://w3id.org/synapse/amp-als/vocab/consent_management>,
         <https://w3id.org/synapse/amp-als/vocab/correlation_analysis>,
+        <https://w3id.org/synapse/amp-als/vocab/device_tracking>,
         <https://w3id.org/synapse/amp-als/vocab/differential_expression>,
+        <https://w3id.org/synapse/amp-als/vocab/eligibility_screening>,
+        <https://w3id.org/synapse/amp-als/vocab/enrollment_tracking>,
+        <https://w3id.org/synapse/amp-als/vocab/genetic_risk_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/longitudinal_analysis>,
         <https://w3id.org/synapse/amp-als/vocab/machine_learning>,
+        <https://w3id.org/synapse/amp-als/vocab/medication_tracking>,
         <https://w3id.org/synapse/amp-als/vocab/meta_analysis>,
         <https://w3id.org/synapse/amp-als/vocab/metabolomics_analysis>,
         <https://w3id.org/synapse/amp-als/vocab/multivariate_analysis>,
         <https://w3id.org/synapse/amp-als/vocab/network_analysis>,
         <https://w3id.org/synapse/amp-als/vocab/pathway_enrichment>,
         <https://w3id.org/synapse/amp-als/vocab/proteomics_analysis>,
-        <https://w3id.org/synapse/amp-als/vocab/survival_analysis> .
+        <https://w3id.org/synapse/amp-als/vocab/protocol_deviation_tracking>,
+        <https://w3id.org/synapse/amp-als/vocab/respiratory_monitoring>,
+        <https://w3id.org/synapse/amp-als/vocab/safety_event_review>,
+        <https://w3id.org/synapse/amp-als/vocab/speech_monitoring>,
+        <https://w3id.org/synapse/amp-als/vocab/study_disposition_tracking>,
+        <https://w3id.org/synapse/amp-als/vocab/subject_profile_review>,
+        <https://w3id.org/synapse/amp-als/vocab/survival_analysis>,
+        <https://w3id.org/synapse/amp-als/vocab/visit_scheduling> .
 
 <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum> skos:definition "Types of clinical data contained in files" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -13763,6 +13878,62 @@
         <https://w3id.org/synapse/amp-als/vocab/sra>,
         <https://w3id.org/synapse/amp-als/vocab/synapse>,
         <https://w3id.org/synapse/amp-als/vocab/target_als> .
+
+<https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> skos:definition "Specific subtypes or variants of neurodegenerative diseases" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS2-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ANG-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ANXA11-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ARHGEF28-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ATXN2-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/C9-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/C9orf72>,
+        <https://w3id.org/synapse/amp-als/vocab/CFAP410-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/CHCHD10-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/CHMP2B-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/DAO-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/DCTN1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ELP3-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/EPHA4-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ERBB4-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/EWSR1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/FIG4-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/FUS>,
+        <https://w3id.org/synapse/amp-als/vocab/FUS-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/HNRNPA1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/HNRNPA2B1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/KIF5A-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/KIKAP3-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/MATR3-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/MOBP-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/NEFH-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/NEK1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/OPTN-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/Other%20genetic%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/PFN1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/PRPH-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/SETX-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/SOD1>,
+        <https://w3id.org/synapse/amp-als/vocab/SOD1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/SPG11-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/SPG4-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/SQSTM1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/TAF15-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/TARDBP>,
+        <https://w3id.org/synapse/amp-als/vocab/TARDBP-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/TBK1-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/TUBA4A-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/UBQLN2-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/UNC13A-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/Unknown>,
+        <https://w3id.org/synapse/amp-als/vocab/VAPB-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/VCP-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/bulbar_onset>,
+        <https://w3id.org/synapse/amp-als/vocab/familial>,
+        <https://w3id.org/synapse/amp-als/vocab/limb_onset>,
+        <https://w3id.org/synapse/amp-als/vocab/respiratory_onset>,
+        <https://w3id.org/synapse/amp-als/vocab/sporadic> .
 
 <https://w3id.org/synapse/amp-als/vocab/GeneticLabEnum> skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/GeneticLabEnum> ;
@@ -14146,16 +14317,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog> .
 
-<https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount> a linkml:SlotDefinition ;
-    dcterms:title "Individual Count" ;
-    skos:definition "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "individualCount" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/individualCount> .
-
 <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords> a linkml:SlotDefinition ;
     dcterms:title "Keywords" ;
     skos:inScheme <https://w3id.org/amp-als/> ;
@@ -14176,6 +14337,16 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/License> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/license> .
+
+<https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count> a linkml:SlotDefinition ;
+    dcterms:title "Participant Count" ;
+    skos:definition "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown." ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "participant_count" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/participant_count> .
 
 <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher> a linkml:SlotDefinition ;
     dcterms:title "Publisher" ;
@@ -14327,6 +14498,18 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseEnum> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/disease> .
 
+<https://w3id.org/synapse/amp-als/vocab/baseFile__diseaseSubtype> a linkml:SlotDefinition ;
+    dcterms:title "Disease Subtype" ;
+    skos:definition """Specific disease subtype or genetic variant associated with the data (e.g., C9orf72, SOD1, familial). Use when the data pertains to a specific genetic or clinical subtype of a disease.
+""" ;
+    skos:inScheme <https://w3id.org/amp-als/> ;
+    skos:prefLabel "diseaseSubtype" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> ;
+    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/diseaseSubtype> .
+
 <https://w3id.org/synapse/amp-als/vocab/baseFile__includedInDataCatalog> a linkml:SlotDefinition ;
     dcterms:title "Included In Data Catalog" ;
     skos:definition "Link(s) to known data catalog(s) the file is included in." ;
@@ -14336,16 +14519,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog> .
-
-<https://w3id.org/synapse/amp-als/vocab/baseFile__individualCount> a linkml:SlotDefinition ;
-    dcterms:title "Individual Count" ;
-    skos:definition "Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown." ;
-    skos:inScheme <https://w3id.org/amp-als/> ;
-    skos:prefLabel "individualCount" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
-    linkml:slot_uri <https://w3id.org/synapse/amp-als/vocab/individualCount> .
 
 <https://w3id.org/synapse/amp-als/vocab/baseFile__keywords> a linkml:SlotDefinition ;
     dcterms:title "Keywords" ;
@@ -14500,11 +14673,11 @@
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
     skos:inScheme <https://w3id.org/amp-als/> ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri <https://w3id.org/synapse/amp-als/vocab/sex> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum>,
         <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -15477,8 +15650,8 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__creator>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__description>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/baseFile__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseFile__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__license>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__publisher>,
@@ -15602,9 +15775,9 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__license>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
@@ -15643,8 +15816,8 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__creator>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__description>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/baseFile__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseFile__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__license>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__publisher>,
@@ -16020,9 +16193,9 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__license>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,
@@ -16476,8 +16649,8 @@
         <https://w3id.org/synapse/amp-als/vocab/dataType>,
         <https://w3id.org/synapse/amp-als/vocab/description>,
         <https://w3id.org/synapse/amp-als/vocab/disease>,
+        <https://w3id.org/synapse/amp-als/vocab/diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/license>,
         <https://w3id.org/synapse/amp-als/vocab/publisher>,
@@ -16498,8 +16671,8 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__description>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/baseFile__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseFile__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__license>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__publisher>,
@@ -16631,9 +16804,9 @@
         <https://w3id.org/synapse/amp-als/vocab/diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/funder>,
         <https://w3id.org/synapse/amp-als/vocab/includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/license>,
+        <https://w3id.org/synapse/amp-als/vocab/participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/publisher>,
         <https://w3id.org/synapse/amp-als/vocab/sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/source>,
@@ -16658,9 +16831,9 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__individualCount>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__license>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__source>,

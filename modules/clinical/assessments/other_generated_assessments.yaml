@@ -1,0 +1,435 @@
+classes:
+  CerebralSpinalFluidCSFCollection:
+    is_a: ClinicalAssessment
+    description: Cerebral Spinal Fluid (CSF) Collection
+    attributes:
+      siteUid:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      subjectUid:
+        title: Subject GUID
+        description: Subject GUID
+        range: string
+      localUID:
+        title: Local ID
+        description: Local ID
+        range: string
+      internalSubjectId:
+        title: Internal Subject ID
+        description: Internal subject id
+        range: string
+      beyn:
+        title: Attempted
+        description: Attempted?
+        range: string
+      benattmpt:
+        title: Reason Not Attempted
+        description: Reason Not Attempted
+        range: string
+      bestat:
+        title: Collection Successful?
+        description: Collection Successful?
+        range: string
+      reasonNotSuccessful:
+        title: Reason Not Successful
+        description: Reason Not Successful
+        range: string
+      bestdat:
+        title: Date of Collection
+        description: Date of Collection
+        range: string
+      besttimhh:
+        title: Time of Collection Hours
+        description: Time of Collection Hours
+        range: string
+      besttimmm:
+        title: Time of Collection Minutes
+        description: Time of Collection Minutes
+        range: string
+      lbrefid:
+        title: Kit Number
+        description: Kit Number
+        range: string
+      coval:
+        title: Comments
+        description: Comments
+        range: string
+  LumbarPunctureEligibilityCriteria:
+    is_a: ClinicalAssessment
+    description: "Lumbar Puncture Eligibility Criteria\nMerged source: Lumbar Puncture\
+      \ Eligibility Confirmation (v_ALLALS_AS_ASSEELCONLMP)"
+    attributes:
+      siteUid:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      subjectUid:
+        title: Subject GUID
+        description: Subject GUID
+        range: string
+      localUid:
+        title: Local ID
+        description: Local ID
+        range: string
+      internalSubjectId:
+        title: Internal Subject ID
+        description: Internal subject id
+        range: string
+      lpexc01Ieperf:
+        title: Not Evaluated 1
+        description: Not Evaluated 1
+        range: string
+      lpexc01Ieorres:
+        title: Exclusion 1
+        description: Exclusion 1
+        range: string
+      lpexc02Ieperf:
+        title: Not Evaluated 2
+        description: Not Evaluated 2
+        range: string
+      lpexc02Ieorres:
+        title: Exclusion 2
+        description: Exclusion 2
+        range: string
+      lpexc03Ieperf:
+        title: Not Evaluated 3
+        description: Not Evaluated 3
+        range: string
+      lpexc03Ieorres:
+        title: Exclusion 3
+        description: Exclusion 3
+        range: string
+      lpexc04Ieperf:
+        title: Not Evaluated 4
+        description: Not Evaluated 4
+        range: string
+      lpexc04Ieorres:
+        title: Exclusion 4
+        description: Exclusion 4
+        range: string
+      lpexc05Ieperf:
+        title: Not Evaluated 5
+        description: Not Evaluated 5
+        range: string
+      lpexc05Ieorres:
+        title: Exclusion 5
+        description: Exclusion 5
+        range: string
+      lpexc06Ieperf:
+        title: Not Evaluated 6
+        description: Not Evaluated 6
+        range: string
+      lpexc06Ieorres:
+        title: Exclusion 6
+        description: Exclusion 6
+        range: string
+      signinc:
+        title: Site Has Confirmed Lumbar Puncture Eligibility
+        description: Site has confirmed Lumbar Puncture Eligibility Con
+        range: string
+      siteUID:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      localUID:
+        title: Local ID
+        description: Local ID
+        range: string
+      consentFormCopyReceived:
+        title: Consent Form Copy Received
+        description: Did the participant receive a copy of consent form
+        range: boolean
+      satisfy:
+        title: Were All Eligibility Criteria Met
+        description: Were all eligibility criteria met?
+        range: boolean
+  KeyDevicesAndProceduresLog:
+    is_a: ClinicalAssessment
+    description: Key Devices and Procedures Log
+    attributes:
+      siteUID:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      subjectUid:
+        title: Subject GUID
+        description: Subject GUID
+        range: string
+      localUID:
+        title: Local ID
+        description: Local ID
+        range: string
+      internalSubjectId:
+        title: Internal Subject Id
+        description: Internal subject id
+        range: string
+      pryn:
+        title: Reviewed
+        description: Reviewed?
+        range: string
+      prreasnd:
+        title: Reason Not Done
+        description: Reason Not Done
+        range: string
+      ft:
+        title: Feeding Tube?
+        description: Feeding tube?
+        range: string
+      niv:
+        title: Ventilation
+        description: Ventilation
+        range: string
+      port:
+        title: Port
+        description: Central venous catheter
+        range: string
+      picc:
+        title: PICC
+        description: Central venous catheter
+        range: string
+      trach:
+        title: Tracheostomy
+        description: Tracheostomy?
+        range: string
+      botox:
+        title: Botox
+        description: Salivary gland treatment
+        range: string
+      rad:
+        title: Radiation
+        description: Salivary gland treatment
+        range: string
+      dps:
+        title: Diaphragm Pacing System (DPS)?
+        description: Diaphragm pacing system (DPS)?
+        range: string
+      prspid:
+        title: Row ID
+        description: Row ID
+        range: string
+      prtrt:
+        title: Device/Procedure
+        description: Device/Procedure
+        range: string
+      prstdat:
+        title: Start Date
+        description: Start Date
+        range: string
+      prongo:
+        title: Ongoing/Still Present
+        description: Ongoing/Still Present
+        range: string
+      procedureEndDate:
+        title: Procedure End Date
+        description: Stop Date
+        range: date
+      prlnkid:
+        title: Was Key Device or Procedure Used for AE?
+        description: Was key device or procedure used for AE?
+        range: string
+      praeno:
+        title: Select Primary AE
+        description: Select primary AE
+        range: string
+      prindc:
+        title: Specify Reason
+        description: Specify reason
+        range: string
+      prdesc:
+        title: Description
+        description: Description
+        range: string
+  EligibilityCriteriaASSESSSymptomatic:
+    is_a: ClinicalAssessment
+    description: Eligibility Criteria (ASSESS Symptomatic)
+    attributes:
+      siteUid:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      subjectUid:
+        title: Subject GUID
+        description: Subject GUID
+        range: string
+      localUid:
+        title: Local ID
+        description: Local ID
+        range: string
+      internalSubjectId:
+        title: Internal Subject ID
+        description: Internal subject id
+        range: string
+      assinc01Ieperf:
+        title: Not Done IN01
+        description: Not Done IN01
+        range: string
+      assinc01Ieorres:
+        title: Inclusion 1
+        description: Inclusion 1
+        range: string
+      assinc02Ieperf:
+        title: Not Done IN02
+        description: Not Done IN02
+        range: string
+      assinc02Ieorres:
+        title: Inclusion 2
+        description: Inclusion 2
+        range: string
+      assinc03Ieperf:
+        title: Not Done IN03
+        description: Not Done IN03
+        range: string
+      assinc03Ieorres:
+        title: Inclusion 3
+        description: Inclusion 3
+        range: string
+      assinc04Ieperf:
+        title: Not Done IN04
+        description: Not Done IN04
+        range: string
+      assinc04Ieorres:
+        title: Inclusion 4
+        description: Inclusion 4
+        range: string
+      assinc05Ieperf:
+        title: Not Done IN05
+        description: Not Done IN05
+        range: string
+      assinc05Ieorres:
+        title: Inclusion 5
+        description: Inclusion 5
+        range: string
+      assexc01Ieperf:
+        title: Not Done EX01
+        description: Not Done EX01
+        range: string
+      assexc01Ieorres:
+        title: Exclusion 1
+        description: Exclusion 1
+        range: string
+      signInc:
+        title: Site Has Completed Enrollment Confirmation
+        description: Site has completed Enrollment Confirmation
+        range: string
+  EligibilityCriteriaASSESSControl:
+    is_a: ClinicalAssessment
+    description: "Eligibility Criteria (ASSESS Control)\nMerged source: Eligibility\
+      \ Criteria (DHT ASSESS) (v_ALLALS_AS_ASSEDHTELCR)"
+    attributes:
+      siteUid:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      subjectUid:
+        title: Subject GUID
+        description: Subject GUID
+        range: string
+      localUid:
+        title: Local ID
+        description: Local ID
+        range: string
+      internalSubjectId:
+        title: Internal subject id
+        description: Internal subject id
+        range: string
+      ascinc01Ieperf:
+        title: Not Done IN01
+        description: Not Done IN01
+        range: string
+      ascinc01Ieorres:
+        title: Inclusion 1
+        description: Inclusion 1
+        range: string
+      ascinc02Ieperf:
+        title: Not Done IN02
+        description: Not Done IN02
+        range: string
+      ascinc02Ieorres:
+        title: Inclusion 2
+        description: Inclusion 2
+        range: string
+      ascinc03Ieperf:
+        title: Not Done IN03
+        description: Not Done IN03
+        range: string
+      ascinc03Ieorres:
+        title: Inclusion 3
+        description: Inclusion 3
+        range: string
+      ascinc04Ieperf:
+        title: Not Done IN04
+        description: Not Done IN04
+        range: string
+      ascinc04Ieorres:
+        title: Inclusion 4
+        description: Inclusion 4
+        range: string
+      ascinc05Ieperf:
+        title: Not Done IN05
+        description: Not Done IN05
+        range: string
+      ascinc05Ieorres:
+        title: Inclusion 5
+        description: Inclusion 5
+        range: string
+      ascinc06Ieperf:
+        title: Not Done IN06
+        description: Not Done IN06
+        range: string
+      ascinc06Ieorres:
+        title: Inclusion 6
+        description: Inclusion 6
+        range: string
+      ascexc01Ieperf:
+        title: Not Done EX01
+        description: Not Done EX01
+        range: string
+      ascexc01Ieorres:
+        title: Exclusion 1
+        description: Exclusion 1
+        range: string
+      signInc:
+        title: Site Has Completed Enrollment Confirmation
+        description: Site has completed Enrollment Confirmation
+        range: string
+      inc01Ieperf:
+        title: Not Done INC01
+        description: Not Done INC01
+        range: string
+      inc01Ieorres:
+        title: Inclusion 1
+        description: Inclusion 1
+        range: string
+      inc02Ieperf:
+        title: Not Done INC02
+        description: Not Done INC02
+        range: string
+      inc02Ieorres:
+        title: Inclusion 2
+        description: Inclusion 2
+        range: string
+      inc03Ieperf:
+        title: Not Done INC03
+        description: Not Done INC03
+        range: string
+      inc03Ieorres:
+        title: Inclusion 3
+        description: Inclusion 3
+        range: string
+  EnrollmentConfirmationDHTASSESS:
+    is_a: ClinicalAssessment
+    description: Enrollment Confirmation (DHT ASSESS)
+    attributes:
+      siteUid:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      subjectUid:
+        title: Subject GUID
+        description: Subject GUID
+        range: string
+      localUid:
+        title: Local ID
+        description: Local ID
+        range: string

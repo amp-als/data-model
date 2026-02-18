@@ -27,7 +27,7 @@ classes:
         range: string
         description: Properly formatted name of the organization or person that is creator of the file (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
         multivalued: true
-        required: true
+        required: false
       contributor:
         title: Contributor(s)
         range: string
@@ -50,11 +50,6 @@ classes:
         range: SpeciesEnum
         description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
         multivalued: true
-        required: false
-      individualCount:
-        title: Individual Count
-        range: integer
-        description: Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
         required: false
       collection:
         title: Collection
@@ -88,11 +83,11 @@ classes:
         range: string
         description: Host platform from which the file was sourced.
         required: true
-      url: 
+      url:
         title: URL
         range: string
-        description: URL for the original file location at source. 
-        required: true
+        description: URL for the original file location at source.
+        required: false
       sameAs:
         title: Same As
         range: string
@@ -102,6 +97,14 @@ classes:
         title: Disease
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the file.
+        required: false
+        multivalued: true
+      diseaseSubtype:
+        title: Disease Subtype
+        range: DiseaseSubtypeEnum
+        description: >
+          Specific disease subtype or genetic variant associated with the data (e.g., C9orf72, SOD1, familial).
+          Use when the data pertains to a specific genetic or clinical subtype of a disease.
         required: false
         multivalued: true
       dataType:

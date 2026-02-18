@@ -1,0 +1,105 @@
+classes:
+  Demographics:
+    is_a: ClinicalAssessment
+    description: Demographics
+    attributes:
+      siteUid:
+        title: Site UID
+        description: Original Site UID is empty because subject UID is a Unique UID.
+        range: string
+      subjectUid:
+        title: Subject GUID
+        description: Subject GUID
+        range: string
+      localUid:
+        title: Local ID
+        description: Local ID
+        range: string
+      internalSubjectId:
+        title: Internal Subject ID
+        description: Internal subject id
+        range: string
+      dmyn:
+        title: Obtained
+        description: Obtained?
+        range: string
+      dmreasnd:
+        title: Reason Not Done
+        description: Reason Not Done
+        range: string
+      dmdat:
+        title: Date
+        description: Date
+        range: date
+      birthDate:
+        title: Birth Date
+        description: Birth Date
+        range: string
+      sex:
+        title: Sex at Birth
+        description: Sex at Birth
+        range: string
+      height:
+        title: Height
+        description: Height
+        range: float
+      vsorresu:
+        title: Height Unit
+        description: Height Unit
+        range: string
+      aianRace:
+        title: American Indian or Alaska Native Race
+        description: 'Race/Ethnicity:'
+        range: string
+      asianRace:
+        title: Asian
+        description: Asian
+        range: string
+      blackRace:
+        title: Black or African American
+        description: Black or African American
+        range: string
+      hlRace:
+        title: Hispanic or Latino
+        description: Hispanic or Latino
+        range: string
+      menaRace:
+        title: Middle Eastern or North African
+        description: Middle Eastern or North African
+        range: string
+      nhpiRace:
+        title: Native Hawaiian or Pacific Islander Race
+        description: Native Hawaiian or Pacific Islander
+        range: string
+      whiteRace:
+        title: White
+        description: White
+        range: string
+      unknownRace:
+        title: Unknown Race
+        description: Unknown
+        range: string
+      ndRace:
+        title: Prefer Not to Disclose
+        description: Prefer Not to Disclose
+        range: string
+      nrRace:
+        title: Not Reported Race
+        description: Not Reported
+        range: string
+      state:
+        title: Participant State
+        description: Participant State
+        range: string
+      statesp:
+        title: Participant State Other
+        description: Participant State Other
+        range: string
+      zipCode:
+        title: Zip Code
+        description: Zip Code
+        range: string
+      nihguid:
+        title: NIH GUID
+        description: NIH GUID
+        range: string

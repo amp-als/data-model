@@ -24,7 +24,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 451,
       "collection": [
         "all_als"
       ],
@@ -33,7 +32,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -91,6 +90,109 @@
       ]
     }
   },
+  "syn68905760": {
+    "ALSFRS-R": {
+      "title": "ALSFRS-R",
+      "description": "ALS Functional Rating Scale (ALSFRS-R) assessment",
+      "alternateName": "v_ALLALS_AS_ASSEALSFRSR",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "clinical",
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "limb_function",
+        "ALSFRS-R",
+        "ALSFRS_total_score",
+        "speech_score",
+        "swallowing_score",
+        "walking_score",
+        "breathing_score"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "limb_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "longitudinal_analysis",
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "ALSFRS-R"
+      ],
+      "keyMeasures": [
+        "ALSFRS_total_score",
+        "speech_score",
+        "swallowing_score",
+        "walking_score",
+        "breathing_score"
+      ],
+      "administrationMode": [
+        "In_Person",
+        "Telephone"
+      ],
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEALSFRSR"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        1364
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
   "syn68905758": {
     "ALSFRS-R and Speech Anchor Questions": {
       "title": "ALSFRS-R and Speech Anchor Questions",
@@ -121,7 +223,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 438,
       "collection": [
         "all_als"
       ],
@@ -130,7 +231,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -221,7 +322,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 535,
       "collection": [
         "all_als"
       ],
@@ -230,7 +330,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -314,7 +414,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 671,
       "collection": [
         "all_als"
       ],
@@ -323,7 +422,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -406,7 +505,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 689,
       "collection": [
         "all_als"
       ],
@@ -415,7 +513,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -499,7 +597,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 99,
       "collection": [
         "all_als"
       ],
@@ -508,7 +605,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -588,7 +685,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 421,
       "collection": [
         "all_als"
       ],
@@ -597,7 +693,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -652,6 +748,95 @@
       ]
     }
   },
+  "syn68905762": {
+    "Digital Speech Assessment": {
+      "title": "Digital Speech Assessment",
+      "description": "Digital speech assessment sessions and results",
+      "alternateName": "v_ALLALS_AS_ASSEDSA",
+      "creator": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "keywords": [
+        "digital_speech",
+        "clinical",
+        "SpeechFunction",
+        "speech_function",
+        "safety_monitoring"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "collection": [
+        "all_als"
+      ],
+      "includedInDataCatalog": "",
+      "citation": [
+        ""
+      ],
+      "publisher": "",
+      "license": "",
+      "source": "all_als",
+      "url": "",
+      "sameAs": "",
+      "disease": "Amyotrophic Lateral Sclerosis",
+      "dataType": [
+        "clinical"
+      ],
+      "clinicalDomain": [
+        "safety_monitoring",
+        "speech_function"
+      ],
+      "studyPhase": "longitudinal",
+      "visitType": "Follow-up",
+      "analysisTypes": [
+        "speech_monitoring",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "SpeechFunction"
+      ],
+      "keyMeasures": [
+        "ftstat",
+        "dsadat"
+      ],
+      "administrationMode": "In_Person",
+      "hasLongitudinalData": true,
+      "subjectIdColumn": "SubjectUID",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "data-model",
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEDSA"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        723
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "high"
+      ]
+    }
+  },
   "syn68905764": {
     "Digital Speech Assessment User Information": {
       "title": "Digital Speech Assessment User Information",
@@ -676,7 +861,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 706,
       "collection": [
         "all_als"
       ],
@@ -685,7 +869,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -769,7 +953,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 708,
       "collection": [
         "all_als"
       ],
@@ -778,7 +961,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -867,7 +1050,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 714,
       "collection": [
         "all_als"
       ],
@@ -876,7 +1058,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -960,7 +1142,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 119,
       "collection": [
         "all_als"
       ],
@@ -969,7 +1150,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1048,7 +1229,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 766,
       "collection": [
         "all_als"
       ],
@@ -1057,7 +1237,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1137,7 +1317,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 118,
       "collection": [
         "all_als"
       ],
@@ -1146,7 +1325,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1228,7 +1407,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 390,
       "collection": [
         "all_als"
       ],
@@ -1237,7 +1415,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1318,7 +1496,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 121,
       "collection": [
         "all_als"
       ],
@@ -1327,7 +1504,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1407,7 +1584,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 743,
       "collection": [
         "all_als"
       ],
@@ -1416,7 +1592,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1498,7 +1674,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 490,
       "collection": [
         "all_als"
       ],
@@ -1507,7 +1682,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1564,11 +1739,11 @@
       ]
     }
   },
-  "syn68905776": {
-    "Informed Consent Log: CSF Collection": {
-      "title": "Informed Consent Log: CSF Collection",
-      "description": "Informed consent form approval, versioning, and participant signature",
-      "alternateName": "v_ALLALS_AS_ASSEICFCSF",
+  "syn68905774": {
+    "Informed Consent Log": {
+      "title": "Informed Consent Log",
+      "description": "Informed consent approvals, versions, and future-use choices for the ASSESS study",
+      "alternateName": "v_ALLALS_AS_ASSEICF",
       "creator": [
         ""
       ],
@@ -1580,7 +1755,8 @@
         "clinical",
         "subject_management",
         "consent_version",
-        "consent_status"
+        "consent_status",
+        "future_use"
       ],
       "subject": [
         "Amyotrophic lateral sclerosis--Patients"
@@ -1588,7 +1764,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 732,
       "collection": [
         "all_als"
       ],
@@ -1597,7 +1772,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1606,9 +1781,7 @@
         "clinical"
       ],
       "clinicalDomain": [
-        "subject_management",
-        "biospecimen_collection",
-        "biomarkers"
+        "subject_management"
       ],
       "studyPhase": "screening",
       "visitType": "Screening",
@@ -1623,17 +1796,20 @@
         "InformedConsentForm"
       ],
       "keyMeasures": [
-        "consent_status",
-        "consent_version"
+        "dsicf",
+        "icfapdat_suppds",
+        "icfvers_suppds",
+        "dsicfdat",
+        "dsfutyn"
       ],
       "administrationMode": "In_Person",
-      "hasLongitudinalData": false,
+      "hasLongitudinalData": true,
       "subjectIdColumn": "SubjectUID",
       "_file_type": "ClinicalFile",
       "_schema_source": "data-model",
       "_created_timestamp": "2026-01-08T01:17:37.079005",
       "viewName": [
-        "v_ALLALS_AS_ASSEICFCSF"
+        "v_ALLALS_AS_ASSEICF"
       ],
       "studyType": [
         "Clinical Trial"
@@ -1642,7 +1818,7 @@
         "csv"
       ],
       "recordCount": [
-        773
+        1023
       ],
       "dataSourcePrefix": [
         "all_als"
@@ -1680,7 +1856,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 566,
       "collection": [
         "all_als"
       ],
@@ -1689,7 +1864,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1769,7 +1944,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 706,
       "collection": [
         "all_als"
       ],
@@ -1778,7 +1952,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1857,7 +2031,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 122,
       "collection": [
         "all_als"
       ],
@@ -1866,7 +2039,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -1946,7 +2119,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 488,
       "collection": [
         "all_als"
       ],
@@ -1955,7 +2127,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -2037,7 +2209,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 531,
       "collection": [
         "all_als"
       ],
@@ -2046,7 +2217,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -2128,7 +2299,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 475,
       "collection": [
         "all_als"
       ],
@@ -2137,7 +2307,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -2216,7 +2386,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 767,
       "collection": [
         "all_als"
       ],
@@ -2225,7 +2394,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -2303,7 +2472,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 741,
       "collection": [
         "all_als"
       ],
@@ -2312,7 +2480,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -2368,153 +2536,6 @@
       ]
     }
   },
-  "syn71824508": {
-    "ALSFRS-R and Speech Anchor Questions": {
-      "title": "ALSFRS-R and Speech Anchor Questions",
-      "description": "ALS Functional Rating Scale (ALSFRS-R) assessment",
-      "alternateName": "v_ALLALS_AS_ASSEALSFRSRSAQ",
-      "creator": [
-        ""
-      ],
-      "contributor": [
-        ""
-      ],
-      "keywords": [
-        "clinical",
-        "motor_function",
-        "bulbar_function",
-        "respiratory_function",
-        "limb_function",
-        "ALSFRS-R",
-        "ALSFRS_total_score",
-        "speech_score",
-        "swallowing_score",
-        "walking_score",
-        "breathing_score"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "individualCount": 438,
-      "collection": [
-        "all_als"
-      ],
-      "includedInDataCatalog": "",
-      "citation": [
-        ""
-      ],
-      "publisher": "",
-      "license": "UNKNOWN",
-      "source": "all_als",
-      "url": "",
-      "sameAs": "",
-      "disease": "Amyotrophic Lateral Sclerosis",
-      "dataType": [
-        "clinical"
-      ],
-      "clinicalDomain": [
-        "motor_function",
-        "bulbar_function",
-        "respiratory_function",
-        "limb_function"
-      ],
-      "studyPhase": "longitudinal",
-      "visitType": "Follow-up",
-      "analysisTypes": [
-        "longitudinal_analysis",
-        "speech_monitoring"
-      ],
-      "annotations": [
-        "HPO"
-      ],
-      "assessmentType": [
-        "ALSFRS-R"
-      ],
-      "keyMeasures": [
-        "ALSFRS_total_score",
-        "speech_score",
-        "swallowing_score",
-        "walking_score",
-        "breathing_score"
-      ],
-      "administrationMode": "In_Person",
-      "hasLongitudinalData": true,
-      "subjectIdColumn": "SubjectUID",
-      "_file_type": "ClinicalFile",
-      "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005"
-    }
-  },
-  "syn71824516": {
-    "Digital Speech Assessment User Information": {
-      "title": "Digital Speech Assessment User Information",
-      "description": "Speech Function testing",
-      "alternateName": "v_ALLALS_AS_ASSEDSAUI",
-      "creator": [
-        ""
-      ],
-      "contributor": [
-        ""
-      ],
-      "keywords": [
-        "dsa_performed",
-        "clinical",
-        "SpeechFunction",
-        "safety_monitoring",
-        "speech_function"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "individualCount": 706,
-      "collection": [
-        "all_als"
-      ],
-      "includedInDataCatalog": "",
-      "citation": [
-        ""
-      ],
-      "publisher": "",
-      "license": "UNKNOWN",
-      "source": "all_als",
-      "url": "",
-      "sameAs": "",
-      "disease": "Amyotrophic Lateral Sclerosis",
-      "dataType": [
-        "clinical"
-      ],
-      "clinicalDomain": [
-        "safety_monitoring",
-        "speech_function"
-      ],
-      "studyPhase": "longitudinal",
-      "visitType": "Follow-up",
-      "analysisTypes": [
-        "device_tracking"
-      ],
-      "annotations": [
-        "SNOMED"
-      ],
-      "assessmentType": [
-        "SpeechFunction"
-      ],
-      "keyMeasures": [
-        "dsa_performed"
-      ],
-      "administrationMode": "In_Person",
-      "hasLongitudinalData": true,
-      "subjectIdColumn": "SubjectUID",
-      "_file_type": "ClinicalFile",
-      "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005"
-    }
-  },
   "syn71824528": {
     "Informed Consent Log: CSF Collection": {
       "title": "Informed Consent Log: CSF Collection",
@@ -2539,7 +2560,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 732,
       "collection": [
         "all_als"
       ],
@@ -2548,7 +2568,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -2582,7 +2602,28 @@
       "subjectIdColumn": "SubjectUID",
       "_file_type": "ClinicalFile",
       "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005"
+      "_created_timestamp": "2026-01-08T01:17:37.079005",
+      "viewName": [
+        "v_ALLALS_AS_ASSEICFCSF"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "recordCount": [
+        773
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "datasetReference": [
+        "assess"
+      ],
+      "completenessLevel": [
+        "medium"
+      ]
     }
   },
   "syn71824537": {
@@ -2609,7 +2650,6 @@
       "species": [
         "Homo sapiens"
       ],
-      "individualCount": 767,
       "collection": [
         "all_als"
       ],
@@ -2618,7 +2658,7 @@
         ""
       ],
       "publisher": "",
-      "license": "UNKNOWN",
+      "license": "",
       "source": "all_als",
       "url": "",
       "sameAs": "",
@@ -2670,477 +2710,6 @@
       ],
       "completenessLevel": [
         "high"
-      ]
-    }
-  },
-  "syn68905760": {
-    "ALSFRS-R": {
-      "title": "ALSFRS-R",
-      "description": "ALS Functional Rating Scale (ALSFRS-R) assessment",
-      "alternateName": "v_ALLALS_AS_ASSEALSFRSR",
-      "creator": [
-        ""
-      ],
-      "contributor": [
-        ""
-      ],
-      "keywords": [
-        "clinical",
-        "motor_function",
-        "bulbar_function",
-        "respiratory_function",
-        "limb_function",
-        "ALSFRS-R",
-        "ALSFRS_total_score",
-        "speech_score",
-        "swallowing_score",
-        "walking_score",
-        "breathing_score"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "individualCount": 541,
-      "collection": [
-        "all_als"
-      ],
-      "includedInDataCatalog": "",
-      "citation": [
-        ""
-      ],
-      "publisher": "",
-      "license": "UNKNOWN",
-      "source": "all_als",
-      "url": "",
-      "sameAs": "",
-      "disease": "Amyotrophic Lateral Sclerosis",
-      "dataType": [
-        "clinical"
-      ],
-      "clinicalDomain": [
-        "motor_function",
-        "bulbar_function",
-        "respiratory_function",
-        "limb_function"
-      ],
-      "studyPhase": "longitudinal",
-      "visitType": "Follow-up",
-      "analysisTypes": [
-        "longitudinal_analysis",
-        "clinical_score_tracking"
-      ],
-      "annotations": [
-        "HPO"
-      ],
-      "assessmentType": [
-        "ALSFRS-R"
-      ],
-      "keyMeasures": [
-        "ALSFRS_total_score",
-        "speech_score",
-        "swallowing_score",
-        "walking_score",
-        "breathing_score"
-      ],
-      "administrationMode": [
-        "In_Person",
-        "Telephone"
-      ],
-      "hasLongitudinalData": true,
-      "subjectIdColumn": "SubjectUID",
-      "_file_type": "ClinicalFile",
-      "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005",
-      "viewName": [
-        "v_ALLALS_AS_ASSEALSFRSR"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "recordCount": [
-        1364
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "assess"
-      ],
-      "completenessLevel": [
-        "high"
-      ]
-    }
-  },
-  "syn68905762": {
-    "Digital Speech Assessment": {
-      "title": "Digital Speech Assessment",
-      "description": "Digital speech assessment sessions and results",
-      "alternateName": "v_ALLALS_AS_ASSEDSA",
-      "creator": [
-        ""
-      ],
-      "contributor": [
-        ""
-      ],
-      "keywords": [
-        "digital_speech",
-        "clinical",
-        "SpeechFunction",
-        "speech_function",
-        "safety_monitoring"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "individualCount": 714,
-      "collection": [
-        "all_als"
-      ],
-      "includedInDataCatalog": "",
-      "citation": [
-        ""
-      ],
-      "publisher": "",
-      "license": "UNKNOWN",
-      "source": "all_als",
-      "url": "",
-      "sameAs": "",
-      "disease": "Amyotrophic Lateral Sclerosis",
-      "dataType": [
-        "clinical"
-      ],
-      "clinicalDomain": [
-        "safety_monitoring",
-        "speech_function"
-      ],
-      "studyPhase": "longitudinal",
-      "visitType": "Follow-up",
-      "analysisTypes": [
-        "speech_monitoring",
-        "longitudinal_analysis"
-      ],
-      "annotations": [
-        "HPO"
-      ],
-      "assessmentType": [
-        "SpeechFunction"
-      ],
-      "keyMeasures": [
-        "ftstat",
-        "dsadat"
-      ],
-      "administrationMode": "In_Person",
-      "hasLongitudinalData": true,
-      "subjectIdColumn": "SubjectUID",
-      "_file_type": "ClinicalFile",
-      "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005",
-      "viewName": [
-        "v_ALLALS_AS_ASSEDSA"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "recordCount": [
-        723
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "assess"
-      ],
-      "completenessLevel": [
-        "high"
-      ]
-    }
-  },
-  "syn68905768": {
-    "Eligibility Criteria (ASSESS Control) - Detailed": {
-      "title": "Eligibility Criteria (ASSESS Control) - Detailed",
-      "description": "Item-level inclusion and exclusion criteria responses for control cohort screening",
-      "alternateName": "v_ALLALS_AS_ASSEELIGCRIREG2",
-      "creator": [
-        ""
-      ],
-      "contributor": [
-        ""
-      ],
-      "keywords": [
-        "EligibilityCriteria",
-        "clinical",
-        "diagnosis_criteria",
-        "subject_management",
-        "control_cohort",
-        "detailed_itemized"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "individualCount": 84,
-      "collection": [
-        "all_als"
-      ],
-      "includedInDataCatalog": "",
-      "citation": [
-        ""
-      ],
-      "publisher": "",
-      "license": "UNKNOWN",
-      "source": "all_als",
-      "url": "",
-      "sameAs": "",
-      "disease": "ALS control",
-      "dataType": [
-        "clinical"
-      ],
-      "clinicalDomain": [
-        "subject_management",
-        "diagnosis_criteria"
-      ],
-      "studyPhase": "screening",
-      "visitType": "Screening",
-      "analysisTypes": [
-        "eligibility_screening"
-      ],
-      "annotations": [
-        "SNOMED"
-      ],
-      "assessmentType": [
-        "EligibilityCriteria"
-      ],
-      "keyMeasures": [
-        "ascinc01_ieorres",
-        "ascinc06_ieorres",
-        "ascexc01_ieorres",
-        "signinc"
-      ],
-      "administrationMode": "In_Person",
-      "hasLongitudinalData": false,
-      "subjectIdColumn": "SubjectUID",
-      "_file_type": "ClinicalFile",
-      "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005",
-      "viewName": [
-        "v_ALLALS_AS_ASSEELIGCRIREG2"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "recordCount": [
-        84
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "assess"
-      ],
-      "completenessLevel": [
-        "high"
-      ]
-    }
-  },
-  "syn68905769": {
-    "Eligibility Criteria (ASSESS Symptomatic) - Detailed": {
-      "title": "Eligibility Criteria (ASSESS Symptomatic) - Detailed",
-      "description": "Item-level inclusion and exclusion criteria responses for symptomatic ALS screening",
-      "alternateName": "v_ALLALS_AS_ASSEELIGCRISYM2",
-      "creator": [
-        ""
-      ],
-      "contributor": [
-        ""
-      ],
-      "keywords": [
-        "EligibilityCriteria",
-        "symptom_eligibility",
-        "clinical",
-        "diagnosis_criteria",
-        "subject_management",
-        "detailed_itemized"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "individualCount": 178,
-      "collection": [
-        "all_als"
-      ],
-      "includedInDataCatalog": "",
-      "citation": [
-        ""
-      ],
-      "publisher": "",
-      "license": "UNKNOWN",
-      "source": "all_als",
-      "url": "",
-      "sameAs": "",
-      "disease": "ALS symptomatic",
-      "dataType": [
-        "clinical"
-      ],
-      "clinicalDomain": [
-        "subject_management",
-        "diagnosis_criteria"
-      ],
-      "studyPhase": "screening",
-      "visitType": "Screening",
-      "analysisTypes": [
-        "eligibility_screening"
-      ],
-      "annotations": [
-        "SNOMED"
-      ],
-      "assessmentType": [
-        "EligibilityCriteria"
-      ],
-      "keyMeasures": [
-        "assinc01_ieorres",
-        "assinc05_ieorres",
-        "assexc01_ieorres",
-        "signinc"
-      ],
-      "administrationMode": "In_Person",
-      "hasLongitudinalData": false,
-      "subjectIdColumn": "SubjectUID",
-      "_file_type": "ClinicalFile",
-      "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005",
-      "viewName": [
-        "v_ALLALS_AS_ASSEELIGCRISYM2"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "recordCount": [
-        178
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "assess"
-      ],
-      "completenessLevel": [
-        "high"
-      ]
-    }
-  },
-  "syn68905774": {
-    "Informed Consent Log": {
-      "title": "Informed Consent Log",
-      "description": "Informed consent approvals, versions, and future-use choices for the ASSESS study",
-      "alternateName": "v_ALLALS_AS_ASSEICF",
-      "creator": [
-        ""
-      ],
-      "contributor": [
-        ""
-      ],
-      "keywords": [
-        "InformedConsentForm",
-        "clinical",
-        "subject_management",
-        "consent_version",
-        "consent_status",
-        "future_use"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "individualCount": 756,
-      "collection": [
-        "all_als"
-      ],
-      "includedInDataCatalog": "",
-      "citation": [
-        ""
-      ],
-      "publisher": "",
-      "license": "UNKNOWN",
-      "source": "all_als",
-      "url": "",
-      "sameAs": "",
-      "disease": "Amyotrophic Lateral Sclerosis",
-      "dataType": [
-        "clinical"
-      ],
-      "clinicalDomain": [
-        "subject_management"
-      ],
-      "studyPhase": "screening",
-      "visitType": "Screening",
-      "analysisTypes": [
-        "consent_management"
-      ],
-      "annotations": [
-        "SNOMED",
-        "ICD"
-      ],
-      "assessmentType": [
-        "InformedConsentForm"
-      ],
-      "keyMeasures": [
-        "dsicf",
-        "icfapdat_suppds",
-        "icfvers_suppds",
-        "dsicfdat",
-        "dsfutyn"
-      ],
-      "administrationMode": "In_Person",
-      "hasLongitudinalData": true,
-      "subjectIdColumn": "SubjectUID",
-      "_file_type": "ClinicalFile",
-      "_schema_source": "data-model",
-      "_created_timestamp": "2026-01-08T01:17:37.079005",
-      "viewName": [
-        "v_ALLALS_AS_ASSEICF"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "recordCount": [
-        1023
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "assess"
-      ],
-      "completenessLevel": [
-        "medium"
       ]
     }
   }

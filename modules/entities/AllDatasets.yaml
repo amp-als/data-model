@@ -56,8 +56,8 @@ classes:
         range: string
         multivalued: true
         required: false
-      individualCount:
-        title: Individual Count
+      participant_count:
+        title: Participant Count
         range: integer
         description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
         required: false
@@ -103,11 +103,11 @@ classes:
         range: string
         description: Host platform from which the dataset was sourced.
         required: true
-      url: 
+      url:
         title: URL
         range: string
-        description: URL for the original dataset location at source. 
-        required: true
+        description: URL for the original dataset location at source.
+        required: false
       sameAs:
         title: Same As
         range: string
@@ -118,6 +118,7 @@ classes:
         range: DiseaseEnum
         description: Disease(s) or condition(s) studied in the dataset.
         required: false
+        multivalued: true
 
   ClinicalDataset:
     is_a: BaseDataset

@@ -82,6 +82,90 @@ enums:
         description: Respiratory onset presentation
       Unknown:
         description: Disease subtype unknown or not applicable
+      C9-ALS:
+        description: C9orf72 ALS (gene-carrier notation)
+      SOD1-ALS:
+        description: SOD1 ALS
+      FUS-ALS:
+        description: FUS ALS
+      TARDBP-ALS:
+        description: TARDBP ALS
+      ANG-ALS:
+        description: ANG ALS
+      ANXA11-ALS:
+        description: ANXA11 ALS
+      ARHGEF28-ALS:
+        description: ARHGEF28 ALS
+      ATXN2-ALS:
+        description: ATXN2 ALS
+      CFAP410-ALS:
+        description: CFAP410 ALS
+      CHCHD10-ALS:
+        description: CHCHD10 ALS
+      CHMP2B-ALS:
+        description: CHMP2B ALS
+      DAO-ALS:
+        description: DAO ALS
+      DCTN1-ALS:
+        description: DCTN1 ALS
+      ERBB4-ALS:
+        description: ERBB4 ALS
+      FIG4-ALS:
+        description: FIG4 ALS
+      HNRNPA1-ALS:
+        description: HNRNPA1 ALS
+      HNRNPA2B1-ALS:
+        description: HNRNPA2B1 ALS
+      KIF5A-ALS:
+        description: KIF5A ALS
+      MATR3-ALS:
+        description: MATR3 ALS
+      MOBP-ALS:
+        description: MOBP ALS
+      NEFH-ALS:
+        description: NEFH ALS
+      NEK1-ALS:
+        description: NEK1 ALS
+      OPTN-ALS:
+        description: OPTN ALS
+      PFN1-ALS:
+        description: PFN1 ALS
+      SETX-ALS:
+        description: SETX ALS
+      SQSTM1-ALS:
+        description: SQSTM1 ALS
+      TAF15-ALS:
+        description: TAF15 ALS
+      TBK1-ALS:
+        description: TBK1 ALS
+      TUBA4A-ALS:
+        description: TUBA4A ALS
+      UBQLN2-ALS:
+        description: UBQLN2 ALS
+      UNC13A-ALS:
+        description: UNC13A ALS
+      VAPB-ALS:
+        description: VAPB ALS
+      VCP-ALS:
+        description: VCP ALS
+      ALS2-ALS:
+        description: ALS2 ALS
+      ELP3-ALS:
+        description: ELP3 ALS
+      EPHA4-ALS:
+        description: EPHA4 ALS
+      EWSR1-ALS:
+        description: EWSR1 ALS
+      KIKAP3-ALS:
+        description: KIKAP3 ALS
+      PRPH-ALS:
+        description: PRPH ALS
+      SPG4-ALS:
+        description: SPG4 ALS
+      SPG11-ALS:
+        description: SPG11 ALS
+      Other genetic ALS:
+        description: ALS associated with other or unspecified gene variant
 
   # Cell types
   CellTypeEnum:

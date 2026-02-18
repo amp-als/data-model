@@ -1,0 +1,142 @@
+{
+  "title": "ASSESS ALS Dataset",
+  "source": "ALL ALS",
+  "creator": [
+    "Access for All in ALS (ALL ALS)"
+  ],
+  "disease": [
+    "ALS"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "dataType": [
+    "clinical_assessment",
+    "medical_history",
+    "laboratory_results",
+    "vital_signs",
+    "hand_held_dynamometry",
+    "genetic_profile",
+    "study_management"
+  ],
+  "keywords": [
+    "ALS",
+    "motor_neuron",
+    "longitudinal",
+    "ALSFRS-R",
+    "ALSAQ-40",
+    "ECAS",
+    "motor_function",
+    "bulbar",
+    "respiratory",
+    "cognitive",
+    "depression",
+    "strength",
+    "pulmonary",
+    "QOL",
+    "biospecimen",
+    "eligibility",
+    "CRF",
+    "biomarker",
+    "progression",
+    "phenotype"
+  ],
+  "studyType": [
+    "Clinical Trial"
+  ],
+  "contributor": [
+    "Access for All in ALS (ALL ALS)"
+  ],
+  "portalRelease": [
+    "2026.1"
+  ],
+  "diseaseSubtype": [
+    "C9-ALS",
+    "SOD1-ALS",
+    "ANG-ALS",
+    "ANXA11-ALS",
+    "ARHGEF28-ALS",
+    "ATXN2-ALS",
+    "CFAP410-ALS",
+    "CHCHD10-ALS",
+    "CHMP2B-ALS",
+    "DAO-ALS",
+    "DCTN1-ALS",
+    "ERBB4-ALS",
+    "FIG4-ALS",
+    "FUS-ALS",
+    "HNRNPA1-ALS",
+    "HNRNPA2B1-ALS",
+    "KIF5A-ALS",
+    "MATR3-ALS",
+    "MOBP-ALS",
+    "NEFH-ALS",
+    "NEK1-ALS",
+    "OPTN-ALS",
+    "PFN1-ALS",
+    "SETX-ALS",
+    "SQSTM1-ALS",
+    "TAF15-ALS",
+    "TARDBP-ALS",
+    "TBK1-ALS",
+    "TUBA4A-ALS",
+    "UBQLN2-ALS",
+    "UNC13A-ALS",
+    "VAPB-ALS",
+    "VCP-ALS",
+    "ALS2-ALS",
+    "ELP3-ALS",
+    "EPHA4-ALS",
+    "EWSR1-ALS",
+    "KIKAP3-ALS",
+    "PRPH-ALS",
+    "SPG4-ALS",
+    "SPG11-ALS"
+  ],
+  "participant_count": 624,
+  "acknowledgementStatement": [
+    "syn64892175/wiki/633965"
+  ],
+  "description": "Multi-site longitudinal natural history study of ALS participants and healthy controls. Collects ALSFRS-R, ECAS cognitive assessment, hand-held dynamometry, vital capacity, digital speech, blood/CSF biospecimens, medical/family history, prior genetic testing, and DHT wearable data. N=418.",
+  "alternateName": "ASSESS ALL ALS",
+  "subject": [
+    "Amyotrophic lateral sclerosis--Patients",
+    "Motor neuron diseases--Research",
+    "Neurodegenerative diseases--Diagnosis"
+  ],
+  "funder": [
+    "National Institutes of Health"
+  ],
+  "collection": [
+    "all_als"
+  ],
+  "curationLevel": "tier2",
+  "includedInDataCatalog": "",
+  "citation": [],
+  "publisher": "Sage Bionetworks",
+  "license": "",
+  "url": "",
+  "sameAs": "",
+  "studyDesign": "longitudinal",
+  "primaryOutcome": "ALSFRS-R total score and rate of functional decline",
+  "assessmentTypes": [
+    "alsfrs_r",
+    "vital_signs",
+    "laboratory",
+    "dynamometry",
+    "genetic_testing"
+  ],
+  "visitSchedule": "Screening; Visits 1, 1a, 2\u20137; Control Visits 2\u20133; DHT sub-study visits; Early Termination",
+  "clinicalDomain": [
+    "motor_function",
+    "bulbar_function",
+    "respiratory_function",
+    "disease_progression",
+    "genetic_testing",
+    "biomarkers",
+    "cognitive_assessment"
+  ],
+  "_dataset_type": "ClinicalDataset",
+  "_schema_source": "data-model",
+  "_created_timestamp": "2026-02-17T12:05:58.833802"
+}

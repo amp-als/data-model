@@ -27,10 +27,12 @@
         "genomicVariants"
       ],
       "description": "A cloud platform providing access to whole-genome variant data to accelerate discoveries in Amyotrophic Lateral Sclerosis, featuring an interactive Variant Explorer and an AI Assistant.",
-      "disease": ["ALS","FTD"],
+      "disease": [
+        "ALS",
+        "FTD"
+      ],
       "fileFormat": "",
       "includedInDataCatalog": "",
-      "individualCount": 12638,
       "keywords": [
         "ALS",
         "WGS",
@@ -90,10 +92,12 @@
         "genomicVariants"
       ],
       "description": "The ALS Compute project centralizes the storage of Amyotrophic Lateral Sclerosis (ALS) and Frontotemporal Dementia (FTD) whole genome sequencing (WGS) data from major sequencing efforts.",
-      "disease": ["ALS","FTD"],
+      "disease": [
+        "ALS",
+        "FTD"
+      ],
       "fileFormat": "",
       "includedInDataCatalog": "",
-      "individualCount": 12638,
       "keywords": [
         "ALS",
         "FTD",
@@ -163,7 +167,6 @@
       "disease": "",
       "fileFormat": "",
       "includedInDataCatalog": "",
-      "individualCount": null,
       "keywords": [
         ""
       ],

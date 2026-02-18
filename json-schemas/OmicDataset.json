@@ -16,6 +16,14 @@
       "title": "GEO SuperSeries",
       "type": "string"
     },
+    "acknowledgementStatement": {
+      "description": "Statement or link describing how use of this dataset should be acknowledged.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Acknowledgement Statement",
+      "type": "array"
+    },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
       "title": "Alternate Name",
@@ -428,7 +436,49 @@
           "bulbar_onset",
           "limb_onset",
           "respiratory_onset",
-          "Unknown"
+          "Unknown",
+          "C9-ALS",
+          "SOD1-ALS",
+          "FUS-ALS",
+          "TARDBP-ALS",
+          "ANG-ALS",
+          "ANXA11-ALS",
+          "ARHGEF28-ALS",
+          "ATXN2-ALS",
+          "CFAP410-ALS",
+          "CHCHD10-ALS",
+          "CHMP2B-ALS",
+          "DAO-ALS",
+          "DCTN1-ALS",
+          "ERBB4-ALS",
+          "FIG4-ALS",
+          "HNRNPA1-ALS",
+          "HNRNPA2B1-ALS",
+          "KIF5A-ALS",
+          "MATR3-ALS",
+          "MOBP-ALS",
+          "NEFH-ALS",
+          "NEK1-ALS",
+          "OPTN-ALS",
+          "PFN1-ALS",
+          "SETX-ALS",
+          "SQSTM1-ALS",
+          "TAF15-ALS",
+          "TBK1-ALS",
+          "TUBA4A-ALS",
+          "UBQLN2-ALS",
+          "UNC13A-ALS",
+          "VAPB-ALS",
+          "VCP-ALS",
+          "ALS2-ALS",
+          "ELP3-ALS",
+          "EPHA4-ALS",
+          "EWSR1-ALS",
+          "KIKAP3-ALS",
+          "PRPH-ALS",
+          "SPG4-ALS",
+          "SPG11-ALS",
+          "Other genetic ALS"
         ],
         "title": "DiseaseSubtypeEnum",
         "type": "string"
@@ -447,11 +497,6 @@
       "description": "Link(s) to known data catalog(s) the dataset is included in.",
       "title": "Included In Data Catalog",
       "type": "string"
-    },
-    "individualCount": {
-      "description": "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
-      "title": "Individual Count",
-      "type": "integer"
     },
     "keywords": {
       "items": {
@@ -497,6 +542,11 @@
       "description": "Original sample name from data source",
       "title": "Original Sample Name",
       "type": "string"
+    },
+    "participant_count": {
+      "description": "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
+      "title": "Participant Count",
+      "type": "integer"
     },
     "platform": {
       "description": "Sequencing or analysis platform used",
@@ -619,6 +669,14 @@
       ],
       "type": "string"
     },
+    "portalRelease": {
+      "description": "Portal release version(s) in which this dataset is included (e.g. \"2025.2\").",
+      "items": {
+        "type": "string"
+      },
+      "title": "Portal Release",
+      "type": "array"
+    },
     "processingLevel": {
       "description": "Level of data processing (raw, processed, analyzed)",
       "title": "Processing Level",
@@ -709,9 +767,7 @@
   },
   "required": [
     "title",
-    "creator",
     "keywords",
-    "source",
-    "url"
+    "source"
   ]
 }

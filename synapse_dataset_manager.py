@@ -800,6 +800,56 @@ def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose
     return success_count, error_count
 
 
+def apply_dataset_annotations(syn, dataset_syn_id, annotations, all_schemas, dry_run=True):
+    """
+    Apply annotations to an existing dataset entity in Synapse.
+
+    Args:
+        syn: Synapse client
+        dataset_syn_id: Synapse ID of the existing dataset entity
+        annotations: Dict of annotations to apply
+        all_schemas: Dict of loaded JSON schemas (for validation)
+        dry_run: If True, only show what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+
+    is_valid, errors, warnings = validate_annotation_against_schema(
+        annotations, dataset_type, all_schemas
+    )
+
+    if warnings:
+        print(f"  Warnings ({len(warnings)}):")
+        for w in warnings:
+            print(f"    ⚠️  {w}")
+
+    if not is_valid:
+        print(f"  Errors ({len(errors)}):")
+        for e in errors:
+            print(f"    ✗ {e}")
+        print("  ❌ Validation failed — annotations not applied")
+        return False
+
+    cleaned = clean_annotations_for_synapse(annotations)
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {dataset_syn_id}")
+        print(f"  [DRY_RUN] Fields: {', '.join(list(cleaned.keys())[:10])}{'...' if len(cleaned) > 10 else ''}")
+        return True
+
+    try:
+        entity = syn.get(dataset_syn_id, downloadFile=False)
+        entity.annotations = cleaned
+        syn.store(entity)
+        print(f"  ✓ Applied {len(cleaned)} annotations to {dataset_syn_id}")
+        return True
+    except Exception as e:
+        print(f"  ✗ Error applying annotations: {e}")
+        return False
+
+
 def validate_link_dataset_annotations(dataset_annotations):
     """
     Validate that link dataset has required url field.
@@ -3253,6 +3303,53 @@ def handle_update_workflow(args, config):
     print(f"  python all_als_sop.py --from-validation")
 
 
+def handle_annotate_dataset(args, config):
+    """Handle ANNOTATE-DATASET workflow — push annotations to an existing dataset entity"""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: ANNOTATE EXISTING DATASET")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    if not os.path.exists(args.annotations_file):
+        print(f"❌ Error: Annotations file not found: {args.annotations_file}")
+        sys.exit(1)
+
+    with open(args.annotations_file) as f:
+        annotations = json.load(f)
+    print(f"✓ Loaded annotations from {args.annotations_file}")
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    try:
+        entity = syn.get(args.dataset_id, downloadFile=False)
+        print(f"✓ Found dataset: {entity.name} ({args.dataset_id})")
+    except Exception as e:
+        print(f"❌ Error: Could not retrieve dataset {args.dataset_id}: {e}")
+        sys.exit(1)
+
+    print("\n" + "=" * 60)
+    print("APPLYING DATASET ANNOTATIONS")
+    print("=" * 60)
+
+    success = apply_dataset_annotations(
+        syn, args.dataset_id, annotations, all_schemas, dry_run=config.DRY_RUN
+    )
+
+    print("\n" + "=" * 60)
+    if success:
+        if config.DRY_RUN:
+            print("✅ DRY RUN COMPLETE — re-run with --execute to apply")
+        else:
+            print("✅ DATASET ANNOTATIONS APPLIED SUCCESSFULLY")
+    else:
+        print("❌ FAILED TO APPLY ANNOTATIONS")
+        sys.exit(1)
+    print("=" * 60)
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
@@ -3304,6 +3401,12 @@ Examples:
   python synapse_dataset_manager.py --config my-config.yaml create --use-config my_dataset
 
   # For full UPDATE workflow with versioning, use all_als_sop.py
+
+  # ANNOTATE-DATASET - push annotations from file to existing dataset entity
+  python synapse_dataset_manager.py annotate-dataset \\
+    --dataset-id syn12345 \\
+    --annotations-file annotations/all_als/assess_dataset_annotations.json \\
+    --execute
         """
     )
 
@@ -3361,6 +3464,20 @@ Examples:
                               help='Execute (override DRY_RUN)')
     update_parser.add_argument('--dry-run', action='store_true',
                               help='Dry run mode')
+
+    # ANNOTATE-DATASET command
+    annotate_parser = subparsers.add_parser(
+        'annotate-dataset',
+        help='Apply annotations from a JSON file to an existing dataset entity'
+    )
+    annotate_parser.add_argument('--dataset-id', required=True,
+                                 help='Synapse ID of existing dataset entity')
+    annotate_parser.add_argument('--annotations-file', required=True,
+                                 help='Path to JSON annotations file')
+    annotate_parser.add_argument('--execute', action='store_true',
+                                 help='Execute (override DRY_RUN)')
+    annotate_parser.add_argument('--dry-run', action='store_true',
+                                 help='Dry run mode (default)')
 
     # GENERATE-TEMPLATE command
     template_parser = subparsers.add_parser('generate-template',
@@ -3468,7 +3585,7 @@ Examples:
             config.DRY_RUN = True
 
     # Only validate config for commands that need Synapse connection
-    if args.command in ['create', 'update', 'add-link-file']:
+    if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset']:
         config.validate()
 
     # Route to appropriate handler
@@ -3479,6 +3596,8 @@ Examples:
             handle_create_workflow(args, config)
     elif args.command == 'update':
         handle_update_workflow(args, config)
+    elif args.command == 'annotate-dataset':
+        handle_annotate_dataset(args, config)
     elif args.command == 'generate-template':
         handle_generate_template(args, config)
     elif args.command == 'add-link-file':

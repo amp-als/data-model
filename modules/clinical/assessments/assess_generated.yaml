@@ -1,0 +1,79 @@
+classes:
+  InformedConsentLog:
+    is_a: ClinicalAssessment
+    attributes:
+      SiteUID:
+        title: Site UID
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      SubjectUID:
+        title: Subject GUID
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      LocalUID:
+        title: Local ID
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      internalSubjectId:
+        title: Internal Subject ID
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      dsyn:
+        title: Was informed consent obtained for ALL ALS?
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      dsreasnd:
+        title: Reason Not Done
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      dsrowid:
+        title: Row ID
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      dsevdat:
+        title: Event Date
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: date
+      dsicf:
+        title: ICF Participant Consented To?
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      icfapdatSuppds:
+        title: ALL ALS ICF Approval Date
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: date
+      icfversSuppds:
+        title: ICF Version
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      dsicfdat:
+        title: Date Participant Consented
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: date
+      dsfutyn:
+        title: Consent to Contact About Future Studies?
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      dsdonyn:
+        title: Consent to Contact About Brain and Tissue Donation
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      dsdigityn:
+        title: Consent to Optional DIGITIZE Assessment
+        description: '[DESCRIPTION TO BE GENERATED]'
+        range: string
+      consent:
+        title: Did Participant Read
+        description: Did the participant read
+        range: string
+      consentFormCopyReceived:
+        title: Did Participant Receive a Copy of Consent Form
+        description: Did the Participant Receive a Copy of Consent Form
+        range: string
+      satisfy:
+        title: Satisfy Inclusion and Exclusion Criteria for ALL ALS
+        description: Does the participant satisfy all inclusion and exclusion criteria
+          for ALL ALS?
+        range: string
+    description: "Merged source: Enrollment Confirmation (v_ALLALS_AS_ASSEELCONREG)\n\
+      Merged source: Informed Consent Log: CSF Collection (v_ALLALS_AS_ASSEICFCSF)"
