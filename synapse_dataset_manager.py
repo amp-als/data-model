@@ -1343,6 +1343,230 @@ def set_file_versions(syn, file_ids, version_label, version_comment=None, dry_ru
     return success_count, error_count
 
 
+def upload_file_new_versions(syn, file_annotations, local_files_dir,
+                              version_label=None, version_comment=None,
+                              dry_run=True, verbose=False):
+    """
+    Upload local files as new versions of existing Synapse file entities.
+
+    For each entry in file_annotations, find a matching file in local_files_dir
+    by filename, then upload it to the same syn_id (creating a new version).
+    Annotations are applied during upload.
+
+    Args:
+        syn: Synapse client
+        file_annotations: {syn_id: {filename: annotations_dict}}
+        local_files_dir: Local directory containing prepared file versions
+        version_label: Version label (e.g., "v4-JAN")
+        version_comment: Version comment
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+
+    Returns:
+        Tuple of (success_count, error_count, skipped_count)
+    """
+    success_count = 0
+    error_count = 0
+    skipped_count = 0
+
+    local_files = {}
+    if os.path.isdir(local_files_dir):
+        for fname in os.listdir(local_files_dir):
+            local_files[fname.lower()] = os.path.join(local_files_dir, fname)
+
+    for syn_id, file_data in file_annotations.items():
+        filename = list(file_data.keys())[0]
+        annotations = list(file_data.values())[0]
+
+        # Try to find matching local file (case-insensitive)
+        local_path = local_files.get(filename.lower())
+        if local_path is None:
+            if verbose:
+                print(f"  [SKIP] No local file found matching '{filename}' ({syn_id})")
+            skipped_count += 1
+            continue
+
+        try:
+            cleaned = clean_annotations_for_synapse(annotations)
+
+            if dry_run:
+                label_str = f" with version label '{version_label}'" if version_label else ""
+                print(f"  [DRY_RUN] Would upload {os.path.basename(local_path)} -> {syn_id}{label_str}")
+                success_count += 1
+            else:
+                file_entity = File(path=local_path, id=syn_id)
+                if version_label:
+                    file_entity.versionLabel = version_label
+                if version_comment:
+                    file_entity.versionComment = version_comment
+                file_entity.annotations = cleaned
+                syn.store(file_entity)
+                if verbose:
+                    print(f"  ✓ Uploaded new version of {filename} ({syn_id})")
+                success_count += 1
+
+        except Exception as e:
+            print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
+            error_count += 1
+
+    return success_count, error_count, skipped_count
+
+
+def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
+                            dataset_id, dry_run=True, verbose=False):
+    """
+    Move new-only staging files to release folder, add to dataset, apply annotations.
+
+    Used when staging has files that don't exist in the release dataset yet.
+
+    Args:
+        syn: Synapse client
+        new_file_ids_annotations: {syn_id: {filename: annotations_dict}}
+                                   (files from staging not yet in release)
+        release_folder_id: Synapse ID of release folder
+        dataset_id: Synapse ID of dataset to add files to
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+
+    Returns:
+        Tuple of (success_count, error_count)
+    """
+    success_count = 0
+    error_count = 0
+
+    for syn_id, file_data in new_file_ids_annotations.items():
+        filename = list(file_data.keys())[0]
+        annotations = list(file_data.values())[0]
+
+        try:
+            cleaned = clean_annotations_for_synapse(annotations)
+
+            if dry_run:
+                print(f"  [DRY_RUN] Would move {filename} ({syn_id}) -> {release_folder_id}")
+                print(f"  [DRY_RUN] Would add {syn_id} to dataset {dataset_id}")
+                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {syn_id}")
+                success_count += 1
+                continue
+
+            # 1. Move to release folder
+            file_entity = syn.get(syn_id, downloadFile=False)
+            file_entity.parentId = release_folder_id
+            syn.store(file_entity, forceVersion=False)
+            if verbose:
+                print(f"  ✓ Moved {filename} ({syn_id}) to {release_folder_id}")
+
+            # 2. Add to dataset
+            dataset = Dataset(id=dataset_id).get()
+            dataset.add_item(File(id=syn_id))
+            dataset.store()
+            if verbose:
+                print(f"  ✓ Added {syn_id} to dataset {dataset_id}")
+
+            # 3. Apply annotations
+            entity = syn.get(syn_id, downloadFile=False)
+            entity.annotations = cleaned
+            syn.store(entity, forceVersion=False)
+            if verbose:
+                print(f"  ✓ Applied {len(cleaned)} annotations to {filename}")
+
+            success_count += 1
+
+        except Exception as e:
+            print(f"  ✗ Error processing new file {filename} ({syn_id}): {e}")
+            error_count += 1
+
+    return success_count, error_count
+
+
+def verify_update_results(syn, dataset_id, expected_syn_ids,
+                           expected_version_label=None,
+                           release_folder_id=None,
+                           verbose=True):
+    """
+    Verify update results: version labels, parent folders, dataset membership.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Synapse ID of the dataset
+        expected_syn_ids: List of syn IDs to verify
+        expected_version_label: Expected version label on file entities (optional)
+        release_folder_id: Expected parent folder ID (optional)
+        verbose: Print per-file results
+
+    Returns:
+        dict with keys: verified_versions, verified_folders, verified_membership, failures
+    """
+    results = {
+        'verified_versions': 0,
+        'verified_folders': 0,
+        'verified_membership': 0,
+        'failures': []
+    }
+
+    try:
+        dataset = Dataset(id=dataset_id).get()
+        dataset_item_ids = {item.id for item in dataset.items}
+    except Exception as e:
+        print(f"  ✗ Could not retrieve dataset items for {dataset_id}: {e}")
+        dataset_item_ids = set()
+
+    for syn_id in expected_syn_ids:
+        file_failures = []
+        try:
+            entity = syn.get(syn_id, downloadFile=False)
+
+            # Check version label
+            if expected_version_label:
+                actual_label = getattr(entity, 'versionLabel', None)
+                if actual_label == expected_version_label:
+                    results['verified_versions'] += 1
+                else:
+                    file_failures.append(
+                        f"version label: expected '{expected_version_label}', got '{actual_label}'"
+                    )
+
+            # Check parent folder
+            if release_folder_id:
+                actual_parent = getattr(entity, 'parentId', None)
+                if actual_parent == release_folder_id:
+                    results['verified_folders'] += 1
+                else:
+                    file_failures.append(
+                        f"parent folder: expected '{release_folder_id}', got '{actual_parent}'"
+                    )
+
+            # Check dataset membership
+            if syn_id in dataset_item_ids:
+                results['verified_membership'] += 1
+            else:
+                file_failures.append(f"not found in dataset {dataset_id}")
+
+            if verbose:
+                status = "✓" if not file_failures else "✗"
+                print(f"  {status} {entity.name} ({syn_id})")
+                for failure in file_failures:
+                    print(f"      ✗ {failure}")
+
+        except Exception as e:
+            file_failures.append(f"could not retrieve entity: {e}")
+            if verbose:
+                print(f"  ✗ {syn_id}: {e}")
+
+        if file_failures:
+            results['failures'].append({'syn_id': syn_id, 'issues': file_failures})
+
+    total = len(expected_syn_ids)
+    print(f"\n  Verification summary ({total} files):")
+    if expected_version_label:
+        print(f"    Version labels correct : {results['verified_versions']}/{total}")
+    if release_folder_id:
+        print(f"    Folders correct        : {results['verified_folders']}/{total}")
+    print(f"    Dataset membership     : {results['verified_membership']}/{total}")
+    print(f"    Failures               : {len(results['failures'])}")
+
+    return results
+
+
 def generate_wiki_with_ai(dataset_name, dataset_annotations, file_list, dataset_config, timeout=60):
     """
     Use Gemini AI to generate wiki content based on dataset information.
@@ -2578,6 +2802,138 @@ def handle_generate_template(args, config):
         print("   Note: You can also use 'Clinical' or 'Omic' for more specific schemas")
 
 
+def handle_generate_file_templates(args, config):
+    """Generate per-file annotation templates from a Synapse folder."""
+    print("\n" + "=" * 60)
+    print("GENERATE FILE TEMPLATES")
+    print("=" * 60)
+
+    # Load schemas
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    # Connect to Synapse
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # Step 1: Enumerate files
+    print("\n" + "=" * 60)
+    print("STEP 1: ENUMERATING FILES")
+    print("=" * 60)
+    files_dict = enumerate_files_with_folders(
+        syn, args.folder, recursive=True, verbose=config.VERBOSE
+    )
+
+    if not files_dict:
+        print("❌ No files found in folder")
+        sys.exit(1)
+
+    # Step 2: Generate annotation templates
+    print("\n" + "=" * 60)
+    print("STEP 2: GENERATING ANNOTATION TEMPLATES")
+    print("=" * 60)
+
+    dataset_config = {'dataset_type': args.type} if args.type else {}
+    annotations_output = {}
+    for syn_id, file_info in files_dict.items():
+        filename = file_info['name']
+        existing_annotations = file_info['annotations']
+
+        file_type = detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
+        template = create_annotation_template(all_schemas, file_type)
+        merged = merge_annotations_smartly(existing_annotations, template)
+
+        annotations_output[syn_id] = {filename: merged}
+
+    # Optional AI enhancement
+    if config.AI_ENABLED and not (hasattr(args, 'skip_ai') and args.skip_ai):
+        name = args.name or args.folder
+        download_dir = os.path.join(config.BASE_DIR, "downloads", name.replace(" ", "_"))
+        annotations_output = enhance_annotations_with_ai(
+            syn, files_dict, annotations_output, all_schemas,
+            download_dir, config
+        )
+
+    # Determine output path
+    name = args.name or args.folder
+    if args.output:
+        output_path = args.output
+    else:
+        output_path = os.path.join(config.ANNOTATIONS_DIR, f"{name}_file_templates.json")
+
+    os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
+    save_annotation_file(annotations_output, output_path)
+
+    print("\n" + "=" * 60)
+    print("✅ FILE TEMPLATES GENERATED SUCCESSFULLY")
+    print("=" * 60)
+    print(f"Output file: {output_path}")
+    print(f"Total files: {len(annotations_output)}")
+    print("\n💡 Edit this file to fill in annotation values")
+
+
+def handle_apply_file_annotations(args, config):
+    """Apply edited per-file annotation JSON to Synapse file entities."""
+    print("\n" + "=" * 60)
+    print("APPLY FILE ANNOTATIONS")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    if not os.path.exists(args.annotations_file):
+        print(f"❌ Error: Annotations file not found: {args.annotations_file}")
+        sys.exit(1)
+
+    with open(args.annotations_file) as f:
+        file_annotations = json.load(f)
+    print(f"✓ Loaded annotations from {args.annotations_file} ({len(file_annotations)} file entries)")
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    if not args.skip_validation:
+        print("\n" + "=" * 60)
+        print("VALIDATING ANNOTATIONS")
+        print("=" * 60)
+        validation_errors = False
+        for syn_id, file_data in file_annotations.items():
+            filename = list(file_data.keys())[0]
+            annots = file_data[filename]
+            file_type = annots.get('_file_type', 'File')
+            is_valid, errors, warnings = validate_annotation_against_schema(annots, file_type, all_schemas)
+            for w in warnings:
+                print(f"  ⚠ {filename}: {w}")
+            if errors:
+                for e in errors:
+                    print(f"  ✗ {filename}: {e}")
+                validation_errors = True
+        if validation_errors:
+            print("\n❌ Validation errors found. Fix them or re-run with --skip-validation.")
+            sys.exit(1)
+        else:
+            print("✓ All annotations valid")
+
+    print("\n" + "=" * 60)
+    print("APPLYING FILE ANNOTATIONS")
+    print("=" * 60)
+
+    success_count, error_count = apply_annotations_to_files(
+        syn, file_annotations, dry_run=config.DRY_RUN, verbose=config.VERBOSE
+    )
+
+    print("\n" + "=" * 60)
+    print(f"  Files succeeded : {success_count}")
+    print(f"  Files failed    : {error_count}")
+    if config.DRY_RUN:
+        print("\n✅ DRY RUN COMPLETE — re-run with --execute to apply changes")
+    elif error_count == 0:
+        print("\n✅ FILE ANNOTATIONS APPLIED SUCCESSFULLY")
+    else:
+        print("\n⚠ FILE ANNOTATIONS APPLIED WITH ERRORS")
+    print("=" * 60)
+
+
 def handle_create_workflow(args, config):
     """Handle CREATE workflow - create new dataset from scratch"""
     print("\n" + "=" * 60)
@@ -3217,17 +3573,17 @@ def handle_create_from_annotations(args, config):
 
 
 def handle_update_workflow(args, config):
-    """Handle UPDATE workflow - update existing dataset with new file versions"""
+    """Handle UPDATE workflow - update existing dataset with new file versions.
+
+    Phase 1 (no --annotations-file): Generate merged annotation templates.
+    Phase 2 (with --annotations-file): Validate, upload, move, apply, verify.
+    """
+    annotations_file = getattr(args, 'annotations_file', None)
+    phase = 2 if annotations_file else 1
+
     print("\n" + "=" * 60)
     print("WORKFLOW: UPDATE EXISTING DATASET")
-    print("=" * 60)
-    print("This workflow will:")
-    print("  1. Retrieve existing annotations from release dataset")
-    print("  2. Get new files from staging folder")
-    print("  3. Match and merge annotations")
-    print("  4. Generate templates for manual editing")
-    print("  5. (After editing) Upload new versions to dataset")
-    print("\nFor full UPDATE workflow, use all_als_sop.py")
+    print(f"Phase: {'2 — Apply Updates' if phase == 2 else '1 — Template Generation'}")
     print("=" * 60)
 
     # Load schemas
@@ -3239,68 +3595,222 @@ def handle_update_workflow(args, config):
     syn = connect_to_synapse(config)
 
     # Get dataset name for config lookup
-    dataset_name = syn.get(args.dataset_id, downloadFile=False).name
+    dataset_entity = syn.get(args.dataset_id, downloadFile=False)
+    dataset_name = dataset_entity.name
     dataset_config = config.get_dataset_config(dataset_name)
     if dataset_config.get('dataset_type'):
         print(f"Using configured dataset type: {dataset_config['dataset_type']}")
 
-    # Step 1: Retrieve existing annotations
-    print("\n" + "=" * 60)
-    print("STEP 1: RETRIEVING EXISTING ANNOTATIONS")
-    print("=" * 60)
-
-    existing_annotations = enumerate_dataset_files(syn, args.dataset_id, config.VERBOSE)
-    print(f"Found {len(existing_annotations)} files in dataset")
-
-    # Step 2: Get staging files (if provided)
-    staging_annotations = {}
-    if args.staging_folder:
+    # ── PHASE 1: TEMPLATE GENERATION ─────────────────────────────────────────
+    if phase == 1:
+        # Step 1: Retrieve existing annotations
         print("\n" + "=" * 60)
-        print("STEP 2: RETRIEVING STAGING FILES")
+        print("STEP 1: RETRIEVING EXISTING ANNOTATIONS")
         print("=" * 60)
 
-        staging_annotations = enumerate_folder_files(syn, args.staging_folder, config.VERBOSE)
-        print(f"Found {len(staging_annotations)} files in staging")
+        existing_annotations = enumerate_dataset_files(syn, args.dataset_id, config.VERBOSE)
+        print(f"Found {len(existing_annotations)} files in dataset")
 
-    # Step 3: Generate merged templates
+        # Step 2: Get staging files (if provided)
+        staging_annotations = {}
+        if args.staging_folder:
+            print("\n" + "=" * 60)
+            print("STEP 2: RETRIEVING STAGING FILES")
+            print("=" * 60)
+
+            staging_annotations = enumerate_folder_files(syn, args.staging_folder, config.VERBOSE)
+            print(f"Found {len(staging_annotations)} files in staging")
+
+        # Step 3: Generate merged templates
+        print("\n" + "=" * 60)
+        print("STEP 3: GENERATING ANNOTATION TEMPLATES")
+        print("=" * 60)
+
+        annotations_output = {}
+
+        # For each existing file, create merged template
+        for syn_id, file_data in existing_annotations.items():
+            filename = list(file_data.keys())[0]
+            old_annot = file_data[filename]
+
+            # Check if there's a staging version
+            new_annot = {}
+            if syn_id in staging_annotations:
+                staging_file_data = staging_annotations[syn_id]
+                new_annot = list(staging_file_data.values())[0]
+
+            # Get file type and create template
+            file_type = old_annot.get('_file_type') or detect_file_type(
+                filename, all_schemas=all_schemas, dataset_config=dataset_config
+            )
+            template = create_annotation_template(all_schemas, file_type)
+
+            # Priority merge: old > new > template
+            merged = merge_file_annotations_priority(old_annot, new_annot, template)
+            annotations_output[syn_id] = {filename: merged}
+
+        # Save annotations
+        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{dataset_name}_update_annotations.json")
+        save_annotation_file(annotations_output, output_file)
+
+        print("\n" + "=" * 60)
+        print("✅ PHASE 1 COMPLETE — Template generated")
+        print("=" * 60)
+        print(f"Annotations saved to: {output_file}")
+        print(f"Total files        : {len(annotations_output)}")
+        print("\n⚠️  MANUAL STEP: Edit the annotation file, then re-run with:")
+        print(f"  python synapse_dataset_manager.py update \\")
+        print(f"    --dataset-id {args.dataset_id} \\")
+        print(f"    --annotations-file {output_file} \\")
+        print(f"    --execute")
+        return
+
+    # ── PHASE 2: APPLY UPDATES ────────────────────────────────────────────────
+
+    # Resolve optional Phase 2 args (may come from CLI or config)
+    local_files_dir = getattr(args, 'local_files_dir', None)
+    release_folder = getattr(args, 'release_folder', None) or dataset_config.get('release_folder')
+    version_label = getattr(args, 'version_label', None) or dataset_config.get('version_label')
+    version_comment = getattr(args, 'version_comment', None) or dataset_config.get('version_comment')
+    skip_validation = getattr(args, 'skip_validation', False)
+
+    # Step 1: Load annotations
     print("\n" + "=" * 60)
-    print("STEP 3: GENERATING ANNOTATION TEMPLATES")
+    print("STEP 1: LOADING ANNOTATIONS FILE")
     print("=" * 60)
 
-    annotations_output = {}
+    if not os.path.exists(annotations_file):
+        print(f"❌ Error: Annotations file not found: {annotations_file}")
+        sys.exit(1)
 
-    # For each existing file, create merged template
-    for syn_id, file_data in existing_annotations.items():
-        filename = list(file_data.keys())[0]
-        old_annot = file_data[filename]
+    with open(annotations_file) as f:
+        file_annotations = json.load(f)
+    print(f"✓ Loaded {len(file_annotations)} file entries from {annotations_file}")
 
-        # Check if there's a staging version
-        new_annot = {}
-        if syn_id in staging_annotations:
-            staging_file_data = staging_annotations[syn_id]
-            new_annot = list(staging_file_data.values())[0]
+    # Step 2: Validate annotations
+    if not skip_validation:
+        print("\n" + "=" * 60)
+        print("STEP 2: VALIDATING ANNOTATIONS")
+        print("=" * 60)
 
-        # Get file type and create template (checks config first, then pattern matching, then defaults to File)
-        file_type = old_annot.get('_file_type') or detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
-        template = create_annotation_template(all_schemas, file_type)
+        validation_errors = False
+        for syn_id, file_data in file_annotations.items():
+            filename = list(file_data.keys())[0]
+            annots = file_data[filename]
+            file_type = annots.get('_file_type', 'File')
+            is_valid, errors, warnings = validate_annotation_against_schema(annots, file_type, all_schemas)
+            for w in warnings:
+                print(f"  ⚠ {filename}: {w}")
+            if errors:
+                for e in errors:
+                    print(f"  ✗ {filename}: {e}")
+                validation_errors = True
 
-        # Priority merge: old > new > template
-        merged = merge_file_annotations_priority(old_annot, new_annot, template)
+        if validation_errors:
+            print("\n❌ Validation errors found. Fix them or re-run with --skip-validation.")
+            sys.exit(1)
+        else:
+            print("✓ All annotations valid")
+    else:
+        print("\n⚠️  Skipping annotation validation (--skip-validation)")
 
-        annotations_output[syn_id] = {filename: merged}
+    # Retrieve existing annotations to detect "new" vs "existing" files
+    existing_annotations = enumerate_dataset_files(syn, args.dataset_id, config.VERBOSE)
+    existing_ids = set(existing_annotations.keys())
 
-    # Save annotations (dataset_name retrieved earlier for config lookup)
-    output_file = os.path.join(config.ANNOTATIONS_DIR, f"{dataset_name}_update_annotations.json")
-    save_annotation_file(annotations_output, output_file)
+    # Identify new files (in annotations but not in existing dataset)
+    new_file_ids_annotations = {
+        syn_id: data for syn_id, data in file_annotations.items()
+        if syn_id not in existing_ids
+    }
+    existing_file_ids_annotations = {
+        syn_id: data for syn_id, data in file_annotations.items()
+        if syn_id in existing_ids
+    }
+
+    if new_file_ids_annotations:
+        print(f"\n  New files (not yet in dataset): {len(new_file_ids_annotations)}")
+    print(f"  Existing files to update      : {len(existing_file_ids_annotations)}")
+
+    # Step 3: Upload new file versions from local dir (if provided)
+    if local_files_dir:
+        print("\n" + "=" * 60)
+        print("STEP 3: UPLOADING NEW FILE VERSIONS")
+        print("=" * 60)
+        print(f"Local files dir: {local_files_dir}")
+        if version_label:
+            print(f"Version label  : {version_label}")
+
+        uploaded, upload_errors, skipped = upload_file_new_versions(
+            syn, existing_file_ids_annotations, local_files_dir,
+            version_label=version_label,
+            version_comment=version_comment,
+            dry_run=config.DRY_RUN,
+            verbose=config.VERBOSE
+        )
+        print(f"\n  Uploaded: {uploaded}, Errors: {upload_errors}, Skipped (no local file): {skipped}")
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 3: SKIPPING UPLOAD (no --local-files-dir)")
+        print("=" * 60)
+
+        # Apply annotations to existing files (no upload path)
+        print("Applying annotations to existing files...")
+        success_count, error_count = apply_annotations_to_files(
+            syn, existing_file_ids_annotations,
+            dry_run=config.DRY_RUN, verbose=config.VERBOSE
+        )
+        print(f"\n  Applied: {success_count}, Errors: {error_count}")
+
+    # Step 4: Move new-only staging files to release folder
+    if new_file_ids_annotations and release_folder:
+        print("\n" + "=" * 60)
+        print("STEP 4: MOVING NEW FILES TO RELEASE FOLDER")
+        print("=" * 60)
+        print(f"New files : {len(new_file_ids_annotations)}")
+        print(f"Release folder: {release_folder}")
+
+        moved, move_errors = move_and_add_new_files(
+            syn, new_file_ids_annotations,
+            release_folder_id=release_folder,
+            dataset_id=args.dataset_id,
+            dry_run=config.DRY_RUN,
+            verbose=config.VERBOSE
+        )
+        print(f"\n  Moved & added: {moved}, Errors: {move_errors}")
+    elif new_file_ids_annotations and not release_folder:
+        print("\n" + "=" * 60)
+        print("STEP 4: SKIPPING MOVE (no --release-folder)")
+        print("=" * 60)
+        print(f"⚠️  {len(new_file_ids_annotations)} new files found but --release-folder not set.")
+        print("    Provide --release-folder to move them to the release folder and add to dataset.")
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 4: NO NEW FILES TO MOVE")
+        print("=" * 60)
+
+    # Step 5: Verify results
+    print("\n" + "=" * 60)
+    print("STEP 5: VERIFYING RESULTS")
+    print("=" * 60)
+
+    if config.DRY_RUN:
+        print("⚠️  DRY RUN — skipping live verification")
+    else:
+        all_ids = list(file_annotations.keys())
+        verify_update_results(
+            syn, args.dataset_id, all_ids,
+            expected_version_label=version_label,
+            release_folder_id=release_folder,
+            verbose=config.VERBOSE
+        )
 
     print("\n" + "=" * 60)
-    print("✅ TEMPLATE GENERATION COMPLETE")
+    if config.DRY_RUN:
+        print("✅ PHASE 2 DRY RUN COMPLETE — re-run with --execute to apply changes")
+    else:
+        print("✅ PHASE 2 COMPLETE — Update applied")
     print("=" * 60)
-    print(f"Annotations saved to: {output_file}")
-    print(f"Total files: {len(annotations_output)}")
-    print("\n⚠️  MANUAL STEP: Edit the annotation file")
-    print(f"\nFor full UPDATE workflow with version management, use:")
-    print(f"  python all_als_sop.py --from-validation")
 
 
 def handle_annotate_dataset(args, config):
@@ -3392,15 +3902,37 @@ Examples:
     --dataset-name "My New Dataset" \\
     --execute
 
-  # UPDATE workflow - generate templates
+  # UPDATE workflow - Phase 1: generate templates (via config)
+  python synapse_dataset_manager.py update --use-config ALL_ALS_ASSESS
+
+  # UPDATE workflow - Phase 1: generate templates (explicit args)
   python synapse_dataset_manager.py update \\
     --dataset-id syn67890 \\
     --staging-folder syn12345
 
+  # UPDATE workflow - Phase 2: apply updates (via config, after editing annotations JSON)
+  python synapse_dataset_manager.py update --use-config ALL_ALS_ASSESS --execute
+
+  # UPDATE workflow - Phase 2: upload new file versions from local dir
+  python synapse_dataset_manager.py update \\
+    --dataset-id syn67890 \\
+    --annotations-file annotations/DatasetName_update_annotations.json \\
+    --local-files-dir staging/assess/ \\
+    --version-label "v4-JAN" \\
+    --version-comment "January 2026 release" \\
+    --execute
+
+  # UPDATE workflow - Phase 2: move new staging files to release + apply annotations
+  python synapse_dataset_manager.py update \\
+    --dataset-id syn67890 \\
+    --staging-folder syn12345 \\
+    --release-folder syn68885185 \\
+    --annotations-file annotations/DatasetName_update_annotations.json \\
+    --version-label "v4-JAN" \\
+    --execute
+
   # Use custom config file
   python synapse_dataset_manager.py --config my-config.yaml create --use-config my_dataset
-
-  # For full UPDATE workflow with versioning, use all_als_sop.py
 
   # ANNOTATE-DATASET - push annotations from file to existing dataset entity
   python synapse_dataset_manager.py annotate-dataset \\
@@ -3456,10 +3988,24 @@ Examples:
 
     # UPDATE command
     update_parser = subparsers.add_parser('update', help='Update existing dataset')
-    update_parser.add_argument('--dataset-id', required=True,
-                              help='Synapse ID of existing dataset')
+    update_parser.add_argument('--use-config',
+                              help='Load update settings from config.yaml datasets section (e.g., "ALL_ALS_ASSESS")')
+    update_parser.add_argument('--dataset-id',
+                              help='Synapse ID of existing dataset (required unless --use-config provides it)')
     update_parser.add_argument('--staging-folder',
                               help='Synapse ID of staging folder with new files (optional)')
+    update_parser.add_argument('--annotations-file',
+                              help='Path to pre-edited annotations JSON (triggers Phase 2 apply)')
+    update_parser.add_argument('--local-files-dir',
+                              help='Local directory containing prepared file versions to upload as new versions')
+    update_parser.add_argument('--release-folder',
+                              help='Synapse ID of release folder (for moving new staging files)')
+    update_parser.add_argument('--version-label',
+                              help='Version label for new file versions (e.g., "v4-JAN")')
+    update_parser.add_argument('--version-comment',
+                              help='Version comment for new file versions')
+    update_parser.add_argument('--skip-validation', action='store_true',
+                              help='Skip annotation schema validation before applying')
     update_parser.add_argument('--execute', action='store_true',
                               help='Execute (override DRY_RUN)')
     update_parser.add_argument('--dry-run', action='store_true',
@@ -3488,6 +4034,36 @@ Examples:
                                 help='Dataset type (default: Dataset)')
     template_parser.add_argument('--output', '-o',
                                 help='Output file path (default: annotations/<type>_dataset_template.json)')
+
+    # GENERATE-FILE-TEMPLATES command
+    file_tmpl_parser = subparsers.add_parser(
+        'generate-file-templates',
+        help='Generate per-file annotation templates from a Synapse folder'
+    )
+    file_tmpl_parser.add_argument('--folder', required=True,
+        help='Synapse ID of folder containing files (e.g., syn12345)')
+    file_tmpl_parser.add_argument('--name', default=None,
+        help='Name prefix for output file (default: folder syn ID)')
+    file_tmpl_parser.add_argument('--type', choices=['Clinical', 'Omic', 'File'], default=None,
+        help='Override file type for all files instead of auto-detecting')
+    file_tmpl_parser.add_argument('--output', '-o', default=None,
+        help='Output JSON file path (default: annotations/<name>_file_templates.json)')
+    file_tmpl_parser.add_argument('--skip-ai', action='store_true',
+        help='Skip AI-assisted annotation enhancement')
+
+    # APPLY-FILE-ANNOTATIONS command
+    apply_file_parser = subparsers.add_parser(
+        'apply-file-annotations',
+        help='Apply edited per-file annotation JSON to Synapse file entities'
+    )
+    apply_file_parser.add_argument('--annotations-file', required=True,
+        help='Path to per-file annotations JSON (e.g., annotations/my_dataset_file_templates.json)')
+    apply_file_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN — actually write to Synapse)')
+    apply_file_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default — prints what would be applied)')
+    apply_file_parser.add_argument('--skip-validation', action='store_true',
+        help='Skip schema validation before applying annotations')
 
     # ADD-LINK-FILE command
     link_parser = subparsers.add_parser('add-link-file',
@@ -3549,6 +4125,49 @@ Examples:
             args.dataset_name = dataset_config['dataset_name']
             print(f"Using dataset_name from config: {args.dataset_name}")
 
+    # Handle --use-config for update command
+    if args.command == 'update' and hasattr(args, 'use_config') and args.use_config:
+        dataset_config = config.get_dataset_config(args.use_config)
+        if not dataset_config:
+            print(f"❌ Error: Dataset config '{args.use_config}' not found in config file")
+            print(f"\nAvailable configs: {list(config.full_config.get('datasets', {}).keys())}")
+            sys.exit(1)
+
+        # Load update-specific fields from config (CLI args take precedence)
+        if not args.dataset_id and 'dataset_id' in dataset_config:
+            args.dataset_id = dataset_config['dataset_id']
+            print(f"Using dataset_id from config: {args.dataset_id}")
+
+        if not args.staging_folder and 'staging_folder' in dataset_config:
+            args.staging_folder = dataset_config['staging_folder']
+            print(f"Using staging_folder from config: {args.staging_folder}")
+
+        if not args.release_folder and 'release_folder' in dataset_config:
+            args.release_folder = dataset_config['release_folder']
+            print(f"Using release_folder from config: {args.release_folder}")
+
+        if not args.version_label and 'version_label' in dataset_config:
+            args.version_label = dataset_config['version_label']
+            print(f"Using version_label from config: {args.version_label}")
+
+        if not args.version_comment and 'version_comment' in dataset_config:
+            args.version_comment = dataset_config['version_comment']
+            print(f"Using version_comment from config: {args.version_comment}")
+
+        if not args.local_files_dir and 'local_files_dir' in dataset_config:
+            args.local_files_dir = dataset_config['local_files_dir']
+            print(f"Using local_files_dir from config: {args.local_files_dir}")
+
+        if not args.annotations_file and 'annotations_file' in dataset_config:
+            args.annotations_file = dataset_config['annotations_file']
+            print(f"Using annotations_file from config: {args.annotations_file}")
+
+    # Validate required arguments for update command
+    if args.command == 'update':
+        if not args.dataset_id:
+            print("❌ Error: --dataset-id is required (or use --use-config with dataset_id in config)")
+            sys.exit(1)
+
     # Validate required arguments for create command
     if args.command == 'create':
         # Validate link dataset requirements
@@ -3585,7 +4204,8 @@ Examples:
             config.DRY_RUN = True
 
     # Only validate config for commands that need Synapse connection
-    if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset']:
+    if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
+                        'generate-file-templates', 'apply-file-annotations']:
         config.validate()
 
     # Route to appropriate handler
@@ -3600,6 +4220,10 @@ Examples:
         handle_annotate_dataset(args, config)
     elif args.command == 'generate-template':
         handle_generate_template(args, config)
+    elif args.command == 'generate-file-templates':
+        handle_generate_file_templates(args, config)
+    elif args.command == 'apply-file-annotations':
+        handle_apply_file_annotations(args, config)
     elif args.command == 'add-link-file':
         handle_add_link_file(args, config)
 
