@@ -61,10 +61,10 @@ classes:
         range: string
         description: GEO SuperSeries identifier
         required: false
-      originalSampleName:
-        title: Original Sample Name
+      originalSampleId:
+        title: Original Sample ID
         range: string
-        description: Original sample name from data source
+        description: Original sample identifier as provided by the data source.
         required: false
       FACSPopulation:
         title: FACS Population

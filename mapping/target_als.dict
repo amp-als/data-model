@@ -1,0 +1,53 @@
+# structure is as follows: key is the attribute name in the target als files, value is the attribute in the data model it will be mapping to
+{
+  "subject_id": "originalSubjectId",
+  "sample_id": "originalSampleId",
+  "tissue_source": {
+    "target": "biospecimenType",
+    "values": {
+      "Blood-EDTA": "blood",
+      "Cerebrospinal Fluid": "csf",
+      "Spinal cord": "spinal cord"
+    }
+  },
+  "library_preparation": "libraryPreparationMethod",
+  "sequencing_platform": "platform",
+  # sequencing type is a mix of telling whether the reads are Single read or paired, and if its wgs
+  "sequencing_type": {
+    "target" : "libraryLayout",
+    "values" : {
+        "SR-WGS" : "single"
+      }
+    }
+  "file_type": "fileFormat",
+  "clinical_group": {
+    "target": "disease",
+    "values": {
+      "ALS": "ALS",
+      "Non-Neurological Control": "Control"
+    }
+  },
+  "als_diagnosis_revised_el_escorial": "diseaseSubtype",
+  "site_of_motor_onset": {
+    "target": "diseaseSubtype",
+    "values": {
+        "Bulber" : "",
+       "Bulbar | Limb" : ""
+       "Limb" : "",
+       "N/D" : "",
+       "PEN" : ""
+      }
+    }
+  "year_of_symptom_onset": "",
+  "year_of_als_diagnosis": "",
+  "age_in_years": "",
+  "sex_reported": "",
+  "country": "",
+  "race": "",
+  "ethnicity": "",
+  "other_reported_als_associated_genomic_variants": "diseaseSubtype",
+  "collection": {
+    "target": "collection",
+    "value": "Target ALS"
+  }
+}

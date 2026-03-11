@@ -38,7 +38,22 @@
           "meta_analysis",
           "correlation_analysis",
           "multivariate_analysis",
-          "machine_learning"
+          "machine_learning",
+          "safety_event_review",
+          "clinical_score_tracking",
+          "speech_monitoring",
+          "biospecimen_tracking",
+          "medication_tracking",
+          "subject_profile_review",
+          "eligibility_screening",
+          "enrollment_tracking",
+          "device_tracking",
+          "study_disposition_tracking",
+          "protocol_deviation_tracking",
+          "genetic_risk_assessment",
+          "respiratory_monitoring",
+          "visit_scheduling",
+          "consent_management"
         ],
         "title": "AnalysisMethodEnum",
         "type": "string"
@@ -354,6 +369,7 @@
           "National Institutes of Health",
           "Project MinE",
           "ALS Compute",
+          "Target ALS",
           "amp_als",
           "target_als",
           "all_als",
@@ -460,20 +476,85 @@
       "title": "Disease",
       "type": "array"
     },
+    "diseaseSubtype": {
+      "description": "Specific disease subtype or genetic variant associated with the data (e.g., C9orf72, SOD1, familial). Use when the data pertains to a specific genetic or clinical subtype of a disease.\n",
+      "items": {
+        "description": "Specific subtypes or variants of neurodegenerative diseases",
+        "enum": [
+          "C9orf72",
+          "SOD1",
+          "FUS",
+          "TARDBP",
+          "sporadic",
+          "familial",
+          "bulbar_onset",
+          "limb_onset",
+          "respiratory_onset",
+          "Unknown",
+          "C9-ALS",
+          "SOD1-ALS",
+          "FUS-ALS",
+          "TARDBP-ALS",
+          "ANG-ALS",
+          "ANXA11-ALS",
+          "ARHGEF28-ALS",
+          "ATXN2-ALS",
+          "CFAP410-ALS",
+          "CHCHD10-ALS",
+          "CHMP2B-ALS",
+          "DAO-ALS",
+          "DCTN1-ALS",
+          "ERBB4-ALS",
+          "FIG4-ALS",
+          "HNRNPA1-ALS",
+          "HNRNPA2B1-ALS",
+          "KIF5A-ALS",
+          "MATR3-ALS",
+          "MOBP-ALS",
+          "NEFH-ALS",
+          "NEK1-ALS",
+          "OPTN-ALS",
+          "PFN1-ALS",
+          "SETX-ALS",
+          "SQSTM1-ALS",
+          "TAF15-ALS",
+          "TBK1-ALS",
+          "TUBA4A-ALS",
+          "UBQLN2-ALS",
+          "UNC13A-ALS",
+          "VAPB-ALS",
+          "VCP-ALS",
+          "ALS2-ALS",
+          "ELP3-ALS",
+          "EPHA4-ALS",
+          "EWSR1-ALS",
+          "KIKAP3-ALS",
+          "PRPH-ALS",
+          "SPG4-ALS",
+          "SPG11-ALS",
+          "Other genetic ALS"
+        ],
+        "title": "DiseaseSubtypeEnum",
+        "type": "string"
+      },
+      "title": "Disease Subtype",
+      "type": "array"
+    },
     "fileFormat": {
       "description": "Format of the omic data file (FASTQ, BAM, VCF, etc.)",
       "title": "File Format",
+      "type": "string"
+    },
+    "globalSubjectId": {
+      "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "title": "Global Subject ID",
       "type": "string"
     },
     "includedInDataCatalog": {
       "description": "Link(s) to known data catalog(s) the file is included in.",
       "title": "Included In Data Catalog",
       "type": "string"
-    },
-    "individualCount": {
-      "description": "Number of unique individuals included in the file (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
-      "title": "Individual Count",
-      "type": "integer"
     },
     "keywords": {
       "items": {
@@ -496,6 +577,10 @@
       "title": "Library Layout",
       "type": "array"
     },
+    "libraryPreparationMethod": {
+      "description": "Method or kit used for library preparation.",
+      "title": "Library Preparation Method"
+    },
     "libraryStrategy": {
       "description": "Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)",
       "title": "Library Strategy"
@@ -504,9 +589,14 @@
       "description": "Unless information for license is clear, this should default to UNKNOWN.",
       "title": "License"
     },
-    "originalSampleName": {
-      "description": "Original sample name from data source",
-      "title": "Original Sample Name",
+    "originalSampleId": {
+      "description": "Original sample identifier as provided by the data source.",
+      "title": "Original Sample ID",
+      "type": "string"
+    },
+    "originalSubjectId": {
+      "description": "Original subject identifier as provided by the data source.",
+      "title": "Original Subject ID",
       "type": "string"
     },
     "platform": {
@@ -632,7 +722,14 @@
     },
     "processingLevel": {
       "description": "Level of data processing (raw, processed, analyzed)",
-      "title": "Processing Level"
+      "title": "Processing Level",
+      "enum": [
+        "raw",
+        "processed",
+        "analyzed",
+        "integrated"
+      ],
+      "type": "string"
     },
     "publisher": {
       "description": "Name of the organization or person responsible for making the file available.",
@@ -697,9 +794,7 @@
   },
   "required": [
     "title",
-    "creator",
     "keywords",
-    "source",
-    "url"
+    "source"
   ]
 }

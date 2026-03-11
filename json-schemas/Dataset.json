@@ -317,6 +317,7 @@
           "National Institutes of Health",
           "Project MinE",
           "ALS Compute",
+          "Target ALS",
           "amp_als",
           "target_als",
           "all_als",
@@ -509,9 +510,9 @@
       "description": "Unless information for license is clear, this should default to UNKNOWN.",
       "title": "License"
     },
-    "originalSampleName": {
-      "description": "Original sample name from data source",
-      "title": "Original Sample Name",
+    "originalSampleId": {
+      "description": "Original sample identifier as provided by the data source.",
+      "title": "Original Sample ID",
       "type": "string"
     },
     "participant_count": {

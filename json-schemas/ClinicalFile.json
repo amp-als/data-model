@@ -175,7 +175,6 @@
           "quality_of_life",
           "functional_assessment",
           "safety_monitoring",
-          "treatment_response",
           "treatment_modification",
           "subject_management",
           "data_quality",
@@ -218,6 +217,7 @@
           "survival",
           "mortality",
           "activities_of_daily_living (ADL)",
+          "treatment_response",
           "speech_function",
           "study_eligibility",
           "dementia_screening"
@@ -241,6 +241,7 @@
           "National Institutes of Health",
           "Project MinE",
           "ALS Compute",
+          "Target ALS",
           "amp_als",
           "target_als",
           "all_als",
@@ -410,6 +411,12 @@
       "title": "Disease Subtype",
       "type": "array"
     },
+    "globalSubjectId": {
+      "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "title": "Global Subject ID",
+      "type": "string"
+    },
     "hasLongitudinalData": {
       "description": "Indicates whether the data contains multiple timepoints per subject",
       "title": "Has Longitudinal Data",
@@ -438,6 +445,11 @@
     "license": {
       "description": "Unless information for license is clear, this should default to UNKNOWN.",
       "title": "License"
+    },
+    "originalSubjectId": {
+      "description": "Original subject identifier as provided by the data source.",
+      "title": "Original Subject ID",
+      "type": "string"
     },
     "publisher": {
       "description": "Name of the organization or person responsible for making the file available.",

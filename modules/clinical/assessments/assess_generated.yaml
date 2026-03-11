@@ -14,9 +14,9 @@ classes:
         title: Local ID
         description: '[DESCRIPTION TO BE GENERATED]'
         range: string
-      internalSubjectId:
-        title: Internal Subject ID
-        description: '[DESCRIPTION TO BE GENERATED]'
+      originalSubjectId:
+        title: Original Subject ID
+        description: Original subject identifier as provided by the data source.
         range: string
       dsyn:
         title: Was informed consent obtained for ALL ALS?

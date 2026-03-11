@@ -15,9 +15,9 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      internalSubjectId:
-        title: Internal Subject ID
-        description: Internal subject id
+      originalSubjectId:
+        title: Original Subject ID
+        description: Original subject identifier as provided by the data source.
         range: string
       beyn:
         title: Attempted
@@ -72,9 +72,9 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      internalSubjectId:
-        title: Internal Subject ID
-        description: Internal subject id
+      originalSubjectId:
+        title: Original Subject ID
+        description: Original subject identifier as provided by the data source.
         range: string
       lpexc01Ieperf:
         title: Not Evaluated 1
@@ -160,9 +160,9 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      internalSubjectId:
-        title: Internal Subject Id
-        description: Internal subject id
+      originalSubjectId:
+        title: Original Subject ID
+        description: Original subject identifier as provided by the data source.
         range: string
       pryn:
         title: Reviewed
@@ -256,9 +256,9 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      internalSubjectId:
-        title: Internal Subject ID
-        description: Internal subject id
+      originalSubjectId:
+        title: Original Subject ID
+        description: Original subject identifier as provided by the data source.
         range: string
       assinc01Ieperf:
         title: Not Done IN01
@@ -329,9 +329,9 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      internalSubjectId:
-        title: Internal subject id
-        description: Internal subject id
+      originalSubjectId:
+        title: Original Subject ID
+        description: Original subject identifier as provided by the data source.
         range: string
       ascinc01Ieperf:
         title: Not Done IN01

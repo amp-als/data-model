@@ -15,9 +15,9 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      internalSubjectId:
-        title: Internal Subject ID
-        description: Internal subject id
+      originalSubjectId:
+        title: Original Subject ID
+        description: Original subject identifier as provided by the data source.
         range: string
       dmyn:
         title: Obtained

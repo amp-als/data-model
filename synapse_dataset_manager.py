@@ -612,6 +612,221 @@ def validate_annotation_against_schema(annotation, file_type, all_schemas):
     return is_valid, errors, warnings
 
 
+def load_mapping_dict(path) -> dict:
+    """Read a JSON-with-comments mapping dict file, return only non-empty-value entries."""
+    try:
+        with open(path, 'r') as f:
+            raw = f.read()
+    except FileNotFoundError:
+        print(f"❌ Mapping file not found: {path}")
+        return {}
+
+    # Strip line-level and inline # comments, but preserve strings
+    lines = []
+    for line in raw.splitlines():
+        # Remove inline comments (not inside strings) — simple heuristic
+        stripped = re.sub(r'\s*#[^"]*$', '', line)
+        lines.append(stripped)
+    cleaned = '\n'.join(lines)
+
+    # Remove trailing commas before } or ] (common in hand-written dicts)
+    cleaned = re.sub(r',\s*([}\]])', r'\1', cleaned)
+
+    try:
+        raw_dict = json.loads(cleaned, strict=False)
+    except json.JSONDecodeError as e:
+        print(f"⚠ Warning: Could not parse mapping dict {path}: {e}")
+        return {}
+
+    # Strip whitespace from keys and keep only non-empty values
+    result = {}
+    for k, v in raw_dict.items():
+        k = k.strip()
+        if isinstance(v, str) and v.strip():
+            result[k] = v
+        elif isinstance(v, dict) and isinstance(v.get('target'), str) and v['target'].strip():
+            result[k] = v
+    return result
+
+
+def load_metadata_file(path) -> list:
+    """Load a CSV or XLSX metadata file, returning a list of dicts with whitespace-stripped values."""
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Metadata file not found: {path}")
+
+    ext = os.path.splitext(path)[1].lower()
+    rows = []
+
+    if ext == '.csv':
+        with open(path, newline='', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                rows.append({k.strip(): (v.strip() if v else '') for k, v in row.items()})
+
+    elif ext in ('.xlsx', '.xls'):
+        try:
+            import openpyxl
+        except ImportError:
+            raise ImportError("openpyxl is required for XLSX support: pip install openpyxl")
+        wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+        ws = wb.active
+        rows_iter = ws.iter_rows(values_only=True)
+        headers = [str(h).strip() if h is not None else '' for h in next(rows_iter)]
+        for row in rows_iter:
+            rows.append({headers[i]: (str(v).strip() if v is not None else '') for i, v in enumerate(row)})
+        wb.close()
+
+    else:
+        raise ValueError(f"Unsupported metadata file extension '{ext}'. Use .csv or .xlsx")
+
+    return rows
+
+
+def collect_unique_values(paths: list, ignore_cols: set, max_values: int) -> dict:
+    """
+    Load metadata files and return {col: sorted_unique_values} for columns
+    with <= max_values unique values, else {col: None} (no value dict).
+    subject_id and anything in ignore_cols is always skipped.
+    """
+    agg: dict = {}
+    for path in paths:
+        try:
+            rows = load_metadata_file(str(path))
+            if not rows:
+                continue
+            for col in rows[0].keys():
+                if col in ignore_cols:
+                    continue
+                vals = {str(row[col]) for row in rows if row.get(col, "").strip()}
+                agg.setdefault(col, set()).update(vals)
+            print(f"  loaded {Path(path).name}  ({len(rows)} rows)")
+        except Exception as e:
+            print(f"  WARNING: skipped {Path(path).name}: {e}")
+
+    result = {}
+    for col, vals in agg.items():
+        result[col] = sorted(vals) if len(vals) <= max_values else None
+    return result
+
+
+def build_mapping_dict(unique_vals: dict) -> dict:
+    """
+    Convert {col: sorted_vals | None} into the mapping-dict entry format:
+      - list of values  -> {"target": "", "values": {v: "" ...}}
+      - None (too many) -> ""
+    """
+    mapping = {}
+    for col, vals in unique_vals.items():
+        if vals is None:
+            mapping[col] = ""
+        else:
+            mapping[col] = {"target": "", "values": {v: "" for v in vals}}
+    return mapping
+
+
+def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
+    """
+    Read existing mapping file (raw, preserving empty-value entries), then:
+    - Add columns from new_mapping that are absent in existing
+    - For existing dict-style entries, add any new values not already present
+    - Never overwrite existing mappings
+    Returns merged dict.
+    """
+    with open(existing_path) as f:
+        raw = f.read()
+    lines = []
+    for line in raw.splitlines():
+        # Drop pure comment lines (start with optional whitespace then #)
+        if re.match(r'^\s*#', line):
+            lines.append('')
+        else:
+            stripped = re.sub(r'\s*#[^"]*$', '', line)
+            lines.append(stripped)
+    cleaned = re.sub(r',\s*([}\]])', r'\1', '\n'.join(lines))
+    existing = json.loads(cleaned, strict=False)
+
+    merged = dict(existing)
+    for col, entry in new_mapping.items():
+        if col not in merged:
+            merged[col] = entry
+        elif isinstance(merged[col], dict) and isinstance(entry, dict):
+            existing_vals = merged[col].get("values", {})
+            new_vals = entry.get("values", {})
+            for v in new_vals:
+                if v not in existing_vals:
+                    existing_vals[v] = ""
+            merged[col]["values"] = existing_vals
+    return merged
+
+
+def write_mapping_file(path: str, mapping: dict) -> None:
+    header = (
+        "# Mapping dict: source_column -> target_data_model_field\n"
+        "# Fill in \"target\" with the data model field name for each column.\n"
+        "# For value-mapped columns, fill in the data model value for each source value.\n"
+        "# Entries with empty string values are ignored during annotation.\n"
+    )
+    body = json.dumps(mapping, indent=2, ensure_ascii=False)
+    with open(path, "w") as f:
+        f.write(header + body + "\n")
+    print(f"Wrote mapping file: {path}  ({len(mapping)} columns)")
+
+
+def load_all_metadata_files(paths, join_col='subject_id') -> dict:
+    """Load and merge one or more metadata files into a subject_id-keyed index.
+
+    Later files win for overlapping columns. Returns {subject_id: merged_row_dict}.
+    """
+    index = {}
+    for path in paths:
+        rows = load_metadata_file(path)
+        for row in rows:
+            sid = row.get(join_col, '').strip()
+            if not sid:
+                continue
+            if sid in index:
+                index[sid].update(row)
+            else:
+                index[sid] = dict(row)
+    return index
+
+
+def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
+    """Fill empty template slots from a metadata row using the field mapping.
+
+    Only writes to fields that are currently empty; does not overwrite existing values.
+    """
+    result = dict(template)
+    for source_col, mapping_entry in mapping.items():
+        if isinstance(mapping_entry, dict):
+            target_field = mapping_entry['target']
+            value_map    = mapping_entry.get('values', {})
+            constant     = mapping_entry.get('value')
+        else:
+            target_field = mapping_entry
+            value_map    = {}
+            constant     = None
+
+        # Hard-coded constant bypasses metadata lookup entirely
+        if constant is not None:
+            value = constant
+        else:
+            value = metadata_row.get(source_col, '')
+            if not value:
+                continue
+            if value_map:
+                value = value_map.get(value, value) or value
+
+        # Only fill if the current template value is empty
+        current = result.get(target_field)
+        if current in ('', None, [''], []):
+            if isinstance(current, list):
+                result[target_field] = [value]
+            else:
+                result[target_field] = value
+    return result
+
+
 def create_annotation_template(all_schemas, file_type='ClinicalFile'):
     """
     Generate empty annotation template from JSON schema.
@@ -2833,8 +3048,37 @@ def handle_generate_file_templates(args, config):
     print("STEP 2: GENERATING ANNOTATION TEMPLATES")
     print("=" * 60)
 
+    # Expand any directory paths in --metadata to constituent CSV/XLSX files
+    if getattr(args, 'metadata', None):
+        expanded = []
+        for p in args.metadata:
+            if os.path.isdir(p):
+                dir_files = sorted(
+                    str(f) for f in Path(p).iterdir()
+                    if f.suffix.lower() in ('.csv', '.xlsx', '.xls')
+                )
+                if not dir_files:
+                    print(f"  Warning: No CSV/XLSX files found in directory {p}")
+                expanded.extend(dir_files)
+            else:
+                expanded.append(p)
+        args.metadata = expanded
+
+    # Step 1: Load mapping + metadata (before per-file loop)
+    mapping = load_mapping_dict(args.mapping) if getattr(args, 'mapping', None) else None
+    metadata_index = {}
+    if getattr(args, 'metadata', None) and mapping:
+        join_col = next(
+            (k for k, v in mapping.items()
+             if (v['target'] if isinstance(v, dict) else v) == 'originalSubjectId'),
+            'subject_id'
+        )
+        metadata_index = load_all_metadata_files(args.metadata, join_col)
+        print(f"  Loaded {len(metadata_index)} subjects from {len(args.metadata)} metadata file(s)")
+
     dataset_config = {'dataset_type': args.type} if args.type else {}
     annotations_output = {}
+    metadata_fill_count = 0
     for syn_id, file_info in files_dict.items():
         filename = file_info['name']
         existing_annotations = file_info['annotations']
@@ -2843,7 +3087,20 @@ def handle_generate_file_templates(args, config):
         template = create_annotation_template(all_schemas, file_type)
         merged = merge_annotations_smartly(existing_annotations, template)
 
+        # Step 2: Fill from metadata if available
+        if metadata_index:
+            subject_id = file_info['path'].split('/')[-1] if file_info.get('path') else None
+            if subject_id and subject_id in metadata_index:
+                merged = fill_template_from_metadata(merged, metadata_index[subject_id], mapping)
+                metadata_fill_count += 1
+            elif subject_id:
+                print(f"  Warning: No metadata match for subject_id '{subject_id}' ({filename})")
+
         annotations_output[syn_id] = {filename: merged}
+
+    # Step 3: Summary counter
+    if metadata_index:
+        print(f"  Metadata-filled: {metadata_fill_count} / {len(files_dict)} files matched a metadata row")
 
     # Optional AI enhancement
     if config.AI_ENABLED and not (hasattr(args, 'skip_ai') and args.skip_ai):
@@ -3860,6 +4117,43 @@ def handle_annotate_dataset(args, config):
     print("=" * 60)
 
 
+def handle_generate_mapping(args, config):
+    ignore_cols = {"subject_id"} | set(getattr(args, "ignore", None) or [])
+    max_values = getattr(args, "max_values", 50)
+
+    input_path = Path(args.input)
+    if input_path.is_dir():
+        supported = {".csv", ".xlsx", ".xls"}
+        paths = sorted(p for p in input_path.iterdir()
+                       if p.suffix.lower() in supported)
+        print(f"Found {len(paths)} metadata file(s) in {input_path}")
+    elif input_path.is_file():
+        paths = [input_path]
+    else:
+        print(f"ERROR: --input path not found: {args.input}")
+        sys.exit(1)
+
+    if not paths:
+        print("ERROR: No supported metadata files found (.csv, .xlsx, .xls)")
+        sys.exit(1)
+
+    unique_vals = collect_unique_values(paths, ignore_cols, max_values)
+    print(f"\n  {len(unique_vals)} columns found "
+          f"({sum(1 for v in unique_vals.values() if v is not None)} with value mappings, "
+          f"{sum(1 for v in unique_vals.values() if v is None)} without)")
+
+    new_mapping = build_mapping_dict(unique_vals)
+
+    output_path = args.output
+    if os.path.exists(output_path):
+        print(f"\nUpdating existing mapping file: {output_path}")
+        mapping = merge_into_existing_mapping(output_path, new_mapping)
+    else:
+        mapping = new_mapping
+
+    write_mapping_file(output_path, mapping)
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
@@ -4050,6 +4344,10 @@ Examples:
         help='Output JSON file path (default: annotations/<name>_file_templates.json)')
     file_tmpl_parser.add_argument('--skip-ai', action='store_true',
         help='Skip AI-assisted annotation enhancement')
+    file_tmpl_parser.add_argument('--mapping', default=None,
+        help='Path to field mapping dict file (e.g., mapping/target_als.dict)')
+    file_tmpl_parser.add_argument('--metadata', nargs='+', default=None,
+        help='One or more source metadata CSV/XLSX files (space-separated)')
 
     # APPLY-FILE-ANNOTATIONS command
     apply_file_parser = subparsers.add_parser(
@@ -4082,6 +4380,20 @@ Examples:
                             help='Execute (override DRY_RUN)')
     link_parser.add_argument('--dry-run', action='store_true',
                             help='Dry run mode')
+
+    # GENERATE-MAPPING command
+    mapping_parser = subparsers.add_parser(
+        'generate-mapping',
+        help='Generate a scaffold mapping .dict file from metadata column names and unique values'
+    )
+    mapping_parser.add_argument('--input', '-i', required=True,
+        help='Metadata file (.csv/.xlsx) or folder of metadata files')
+    mapping_parser.add_argument('--output', '-o', required=True,
+        help='Output mapping .dict file path (created or updated in-place)')
+    mapping_parser.add_argument('--ignore', nargs='+', default=None,
+        help='Additional columns to exclude beyond subject_id (space-separated)')
+    mapping_parser.add_argument('--max-values', type=int, default=50,
+        help='Max unique values for a column to get a value-map dict (default: 50)')
 
     args = parser.parse_args()
 
@@ -4226,6 +4538,8 @@ Examples:
         handle_apply_file_annotations(args, config)
     elif args.command == 'add-link-file':
         handle_add_link_file(args, config)
+    elif args.command == 'generate-mapping':
+        handle_generate_mapping(args, config)
 
 
 if __name__ == "__main__":

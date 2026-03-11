@@ -187,6 +187,18 @@ enums:
       unknown:
         description: Cell type unknown
 
+  # Data processing levels
+  ProcessingLevelEnum:
+    permissible_values:
+      raw:
+        description: Raw, unprocessed data
+      processed:
+        description: Processed data (aligned, normalized)
+      analyzed:
+        description: Analyzed data with statistical results
+      integrated:
+        description: Integrated multi-sample analysis
+
   # Biospecimen types
   BiospecimenTypeEnum:
     permissible_values:
