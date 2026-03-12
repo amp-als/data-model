@@ -378,6 +378,12 @@ enums:
         description: Copy number variant
       Repeat_Expansion:
         description: Repeat expansion (e.g., C9orf72)
+      Genomic:
+        description: All variant types (SNVs, InDels, SVs) from genome-wide haplotype calling
+      Small_Variant:
+        description: Small variants including SNVs and InDels
+      Structural_Variant:
+        description: Structural variants including deletions, insertions, duplications, inversions, and CNVs
       Other:
         description: Other variant type
   VariantClassificationEnum:

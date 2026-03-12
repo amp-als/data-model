@@ -16,6 +16,11 @@
       "title": "GEO SuperSeries",
       "type": "string"
     },
+    "age": {
+      "description": "Age of subject in years at time of data collection",
+      "title": "Age",
+      "type": "integer"
+    },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
       "title": "Alternate Name",
@@ -385,6 +390,11 @@
       "title": "Collection",
       "type": "array"
     },
+    "collectionSite": {
+      "description": "Site or institution where biospecimen was collected",
+      "title": "Collection Site",
+      "type": "string"
+    },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the file.",
       "items": {
@@ -392,6 +402,11 @@
       },
       "title": "Contributor(s)",
       "type": "array"
+    },
+    "country": {
+      "description": "Country of residence or data collection site",
+      "title": "Country",
+      "type": "string"
     },
     "creator": {
       "description": "Properly formatted name of the organization or person that is creator of the file (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.",
@@ -506,9 +521,11 @@
           "DCTN1-ALS",
           "ERBB4-ALS",
           "FIG4-ALS",
+          "GRN-ALS",
           "HNRNPA1-ALS",
           "HNRNPA2B1-ALS",
           "KIF5A-ALS",
+          "MAPT-ALS",
           "MATR3-ALS",
           "MOBP-ALS",
           "NEFH-ALS",
@@ -532,13 +549,22 @@
           "PRPH-ALS",
           "SPG4-ALS",
           "SPG11-ALS",
-          "Other genetic ALS"
+          "Other genetic ALS",
+          "Definite_ALS",
+          "Probable_ALS",
+          "Probable_ALS_Lab_Supported",
+          "Possible_ALS",
+          "Suspected_ALS"
         ],
         "title": "DiseaseSubtypeEnum",
         "type": "string"
       },
       "title": "Disease Subtype",
       "type": "array"
+    },
+    "ethnicity": {
+      "description": "Ethnicity of the subject",
+      "title": "Ethnicity"
     },
     "fileFormat": {
       "description": "Format of the omic data file (FASTQ, BAM, VCF, etc.)",
@@ -550,6 +576,11 @@
       "pattern": "^[a-zA-Z0-9_-]+$",
       "title": "Global Subject ID",
       "type": "string"
+    },
+    "heightCm": {
+      "description": "Height of subject in centimeters",
+      "title": "Height (cm)",
+      "type": "number"
     },
     "includedInDataCatalog": {
       "description": "Link(s) to known data catalog(s) the file is included in.",
@@ -722,19 +753,53 @@
     },
     "processingLevel": {
       "description": "Level of data processing (raw, processed, analyzed)",
+      "items": {
+        "description": "",
+        "enum": [
+          "raw",
+          "processed",
+          "analyzed",
+          "integrated"
+        ],
+        "title": "ProcessingLevelEnum",
+        "type": "string"
+      },
       "title": "Processing Level",
-      "enum": [
-        "raw",
-        "processed",
-        "analyzed",
-        "integrated"
-      ],
-      "type": "string"
+      "type": "array"
+    },
+    "propAfricanGeneticAncestry": {
+      "description": "Proportion of African genetic ancestry from admixture analysis",
+      "title": "Proportion African Genetic Ancestry",
+      "type": "number"
+    },
+    "propEastAsianGeneticAncestry": {
+      "description": "Proportion of East Asian genetic ancestry from admixture analysis",
+      "title": "Proportion East Asian Genetic Ancestry",
+      "type": "number"
+    },
+    "propEuropeanGeneticAncestry": {
+      "description": "Proportion of European genetic ancestry from admixture analysis",
+      "title": "Proportion European Genetic Ancestry",
+      "type": "number"
+    },
+    "propNativeAmericanGeneticAncestry": {
+      "description": "Proportion of Native American genetic ancestry from admixture analysis",
+      "title": "Proportion Native American Genetic Ancestry",
+      "type": "number"
+    },
+    "propSouthAsianGeneticAncestry": {
+      "description": "Proportion of South Asian genetic ancestry from admixture analysis",
+      "title": "Proportion South Asian Genetic Ancestry",
+      "type": "number"
     },
     "publisher": {
       "description": "Name of the organization or person responsible for making the file available.",
       "title": "Publisher",
       "type": "string"
+    },
+    "race": {
+      "description": "Race of the subject",
+      "title": "Race"
     },
     "sameAs": {
       "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
@@ -745,6 +810,10 @@
       "description": "Name of the column containing sample identifiers",
       "title": "Sample ID Column",
       "type": "string"
+    },
+    "sex": {
+      "description": "Biological sex of the subject",
+      "title": "Sex"
     },
     "source": {
       "description": "Host platform from which the file was sourced.",
@@ -774,6 +843,11 @@
       "title": "Species",
       "type": "array"
     },
+    "storageContainer": {
+      "description": "Container or repository where biospecimen is stored",
+      "title": "Storage Container",
+      "type": "string"
+    },
     "subject": {
       "description": "Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
       "items": {
@@ -790,6 +864,25 @@
       "description": "URL for the original file location at source.",
       "title": "URL",
       "type": "string"
+    },
+    "variantType": {
+      "description": "Type of genetic variant for VCF files",
+      "title": "Variant Type"
+    },
+    "weightKg": {
+      "description": "Weight of subject in kilograms",
+      "title": "Weight (kg)",
+      "type": "number"
+    },
+    "yearOfDiagnosis": {
+      "description": "Year when ALS diagnosis was made",
+      "title": "Year of ALS Diagnosis",
+      "type": "integer"
+    },
+    "yearOfSymptomOnset": {
+      "description": "Year when first ALS symptoms appeared",
+      "title": "Year of Symptom Onset",
+      "type": "integer"
     }
   },
   "required": [

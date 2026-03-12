@@ -72,6 +72,7 @@ classes:
         title: Processing Level
         range: ProcessingLevelEnum
         description: Level of data processing (raw, processed, analyzed)
+        multivalued: true
         required: false
       dataFormat:
         title: Data Format

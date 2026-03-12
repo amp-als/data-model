@@ -112,12 +112,16 @@ enums:
         description: ERBB4 ALS
       FIG4-ALS:
         description: FIG4 ALS
+      GRN-ALS:
+        description: GRN (Progranulin) ALS
       HNRNPA1-ALS:
         description: HNRNPA1 ALS
       HNRNPA2B1-ALS:
         description: HNRNPA2B1 ALS
       KIF5A-ALS:
         description: KIF5A ALS
+      MAPT-ALS:
+        description: MAPT (Tau) ALS
       MATR3-ALS:
         description: MATR3 ALS
       MOBP-ALS:
@@ -166,6 +170,18 @@ enums:
         description: SPG11 ALS
       Other genetic ALS:
         description: ALS associated with other or unspecified gene variant
+
+      # El Escorial Revised Diagnostic Criteria
+      Definite_ALS:
+        description: Definite ALS by El Escorial revised criteria - UMN and LMN signs in 3+ regions
+      Probable_ALS:
+        description: Probable ALS by El Escorial revised criteria - UMN and LMN signs in 2+ regions
+      Probable_ALS_Lab_Supported:
+        description: Probable ALS with laboratory support - clinical evidence in 1-2 regions plus EMG findings
+      Possible_ALS:
+        description: Possible ALS by El Escorial revised criteria - UMN and LMN signs in 1 region
+      Suspected_ALS:
+        description: Suspected ALS - LMN signs only in 2+ regions
 
   # Cell types
   CellTypeEnum:

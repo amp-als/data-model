@@ -32,6 +32,7 @@ classes:
         title: Processing Level
         range: ProcessingLevelEnum
         description: Level of data processing (raw, processed, analyzed)
+        multivalued: true
         required: false
       # File format details
       fileFormat:
@@ -39,9 +40,102 @@ classes:
         range: string
         description: Format of the omic data file (FASTQ, BAM, VCF, etc.)
         required: false
+      variantType:
+        title: Variant Type
+        range: VariantTypeEnum
+        description: Type of genetic variant for VCF files
+        required: false
       # Sample tracking
       sampleIdColumn:
         title: Sample ID Column
         range: string
         description: Name of the column containing sample identifiers
+        required: false
+
+      # Subject Demographics
+      age:
+        title: Age
+        description: Age of subject in years at time of data collection
+        range: integer
+        required: false
+      sex:
+        title: Sex
+        description: Biological sex of the subject
+        range: SexEnum
+        required: false
+      race:
+        title: Race
+        description: Race of the subject
+        range: RaceEnum
+        required: false
+      ethnicity:
+        title: Ethnicity
+        description: Ethnicity of the subject
+        range: EthnicityEnum
+        required: false
+      country:
+        title: Country
+        description: Country of residence or data collection site
+        range: string
+        required: false
+      heightCm:
+        title: Height (cm)
+        description: Height of subject in centimeters
+        range: float
+        required: false
+      weightKg:
+        title: Weight (kg)
+        description: Weight of subject in kilograms
+        range: float
+        required: false
+
+      # Disease Timeline
+      yearOfSymptomOnset:
+        title: Year of Symptom Onset
+        description: Year when first ALS symptoms appeared
+        range: integer
+        required: false
+      yearOfDiagnosis:
+        title: Year of ALS Diagnosis
+        description: Year when ALS diagnosis was made
+        range: integer
+        required: false
+
+      # Genetic Ancestry Proportions (0.0 to 1.0 scale)
+      propAfricanGeneticAncestry:
+        title: Proportion African Genetic Ancestry
+        description: Proportion of African genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propEuropeanGeneticAncestry:
+        title: Proportion European Genetic Ancestry
+        description: Proportion of European genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propSouthAsianGeneticAncestry:
+        title: Proportion South Asian Genetic Ancestry
+        description: Proportion of South Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propEastAsianGeneticAncestry:
+        title: Proportion East Asian Genetic Ancestry
+        description: Proportion of East Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propNativeAmericanGeneticAncestry:
+        title: Proportion Native American Genetic Ancestry
+        description: Proportion of Native American genetic ancestry from admixture analysis
+        range: float
+        required: false
+
+      # Biospecimen Collection and Storage
+      collectionSite:
+        title: Collection Site
+        description: Site or institution where biospecimen was collected
+        range: string
+        required: false
+      storageContainer:
+        title: Storage Container
+        description: Container or repository where biospecimen is stored
+        range: string
         required: false

@@ -9,11 +9,42 @@ enums:
       Unknown:
   StudyLevelEnum:
     permissible_values:
+      # Clinical study types
       Patient Registry Study:
-      Natural History Study: 
+        description: Registry-based patient data collection
+      Natural History Study:
+        description: Observational study tracking disease progression
       Clinical Trial:
+        description: Interventional study testing treatments
       Observational Study:
+        description: Non-interventional observational research
+      # Omic study types
+      Case-Control Study:
+        description: Comparison between disease cases and healthy controls
+      Cohort Study:
+        description: Longitudinal study following a cohort over time
+      Cross-Sectional Study:
+        description: Data collected at a single time point across subjects
+      Longitudinal Study:
+        description: Repeated measurements from same subjects over time
+      Discovery Study:
+        description: Exploratory study to identify patterns or biomarkers
+      Validation Study:
+        description: Study to validate previously identified findings
+      Multi-Omics Study:
+        description: Integrating multiple omic data types (genomics, transcriptomics, proteomics, etc.)
+      Comparative Study:
+        description: Comparing different conditions, treatments, or populations
+      Pilot Study:
+        description: Small-scale preliminary study
+      Replication Study:
+        description: Study replicating findings from previous research
+      Time Series Study:
+        description: Sequential measurements over time to study dynamics
+      Population Study:
+        description: Large-scale population-level genomic or omic analysis
       Unknown:
+        description: Study type unknown or not specified
   AccessTypeEnum:
     description: (Draft) Labels for how the AMP-ALS federated network defines access
     permissible_values:

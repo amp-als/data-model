@@ -64,6 +64,13 @@ classes:
         description: Disease diagnosis
         required: false
 
+      diseaseSubtype:
+        title: Disease Subtype
+        description: Specific disease subtypes, genetic variants, or diagnostic criteria (can have multiple)
+        range: DiseaseSubtypeEnum
+        multivalued: true
+        required: false
+
       sex:
         title: Sex
         range: SexEnum
@@ -117,6 +124,75 @@ classes:
         range: string
         description: ZIP or postal code
         required: false
+
+      country:
+        title: Country
+        description: Country of residence or data collection site
+        range: string
+        required: false
+
+      yearOfSymptomOnset:
+        title: Year of Symptom Onset
+        description: Year when first ALS symptoms appeared
+        range: integer
+        required: false
+        minimum_value: 1900
+        maximum_value: 2100
+
+      yearOfDiagnosis:
+        title: Year of ALS Diagnosis
+        description: Year when ALS diagnosis was made
+        range: integer
+        required: false
+        minimum_value: 1900
+        maximum_value: 2100
+
+      # Genetic Ancestry Proportions (0.0 to 1.0 scale)
+      propAfricanGeneticAncestry:
+        title: Proportion African Genetic Ancestry
+        description: Proportion of African genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+
+      propEuropeanGeneticAncestry:
+        title: Proportion European Genetic Ancestry
+        description: Proportion of European genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+
+      propSouthAsianGeneticAncestry:
+        title: Proportion South Asian Genetic Ancestry
+        description: Proportion of South Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+
+      propEastAsianGeneticAncestry:
+        title: Proportion East Asian Genetic Ancestry
+        description: Proportion of East Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+
+      propNativeAmericanGeneticAncestry:
+        title: Proportion Native American Genetic Ancestry
+        description: Proportion of Native American genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+
+      ethnicity:
+        title: Ethnicity
+        description: Ethnicity of subject
+        range: EthnicityEnum
+        required: false
 enums:
   DataSourceEnum:
     permissible_values:
@@ -168,10 +244,25 @@ enums:
         description: Middle Eastern or North African
       "Native Hawaiian or Other Pacific Islander":
         description: Native Hawaiian or Other Pacific Islander
+      Multiracial:
+        description: Individual identifies with multiple racial categories
       "Not Reported":
         description: Race/ethnicity not reported
       "Prefer Not to Disclose":
         description: Subject prefers not to disclose race/ethnicity
+
+  EthnicityEnum:
+    permissible_values:
+      "Hispanic or Latino":
+        description: Hispanic or Latino ethnicity
+      "Not Hispanic or Latino":
+        description: Not Hispanic or Latino
+      Unknown:
+        description: Ethnicity unknown or not reported
+      "Not Reported":
+        description: Ethnicity not reported
+      "Prefer Not to Disclose":
+        description: Subject prefers not to disclose ethnicity
 
   HandednessEnum:
     permissible_values:
