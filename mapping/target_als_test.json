@@ -1,7 +1,3 @@
-# Mapping dict: source_column -> target_data_model_field
-# Fill in "target" with the data model field name for each column.
-# For value-mapped columns, fill in the data model value for each source value.
-# Entries with empty string values are ignored during annotation.
 {
   "clinical_group": {
     "target": "disease",
@@ -13,247 +9,189 @@
   "als_diagnosis_revised_el_escorial": {
     "target": "diseaseSubtype",
     "values": {
-      "Definite ALS": "",
+      "Definite ALS": "Definite_ALS",
       "N/A": "",
       "PEN": "",
-      "Possible ALS": "",
-      "Probable ALS": "",
-      "Probable ALS - Lab Supported": ""
+      "Possible ALS": "Possible_ALS",
+      "Probable ALS": "Probable_ALS",
+      "Probable ALS - Lab Supported": "Probable_ALS_Lab_Supported"
     }
   },
   "site_of_motor_onset": {
     "target": "diseaseSubtype",
     "values": {
-      "Bulbar": "",
-      "Bulbar | Limb": "",
-      "Limb": "",
+      "Bulbar": "bulbar_onset",
+      "Bulbar | Limb": ["bulbar_onset", "limb_onset"],
+      "Limb": "limb_onset",
       "N/A": "",
       "N/D": "",
       "PEN": ""
     }
   },
   "year_of_symptom_onset": {
-    "target": "",
+    "target": "yearOfSymptomOnset",
     "values": {
       "-5555": "",
       "-8888": "",
-      "-9999": "",
-      "2007": "",
-      "2012": "",
-      "2013": "",
-      "2015": "",
-      "2016": "",
-      "2017": "",
-      "2018": "",
-      "2019": "",
-      "2020": "",
-      "2021": "",
-      "2022": "",
-      "2023": ""
+      "-9999": ""
     }
   },
   "year_of_als_diagnosis": {
-    "target": "",
+    "target": "yearOfDiagnosis",
     "values": {
       "-5555": "",
       "-8888": "",
-      "-9999": "",
-      "2008": "",
-      "2014": "",
-      "2017": "",
-      "2018": "",
-      "2019": "",
-      "2020": "",
-      "2021": "",
-      "2022": "",
-      "2023": ""
+      "-9999": ""
     }
   },
   "age_in_years": {
-    "target": "",
+    "target": "age",
     "values": {
-      "-9999": "",
-      "20": "",
-      "21": "",
-      "23": "",
-      "25": "",
-      "26": "",
-      "29": "",
-      "30": "",
-      "31": "",
-      "34": "",
-      "35": "",
-      "36": "",
-      "37": "",
-      "38": "",
-      "39": "",
-      "40": "",
-      "41": "",
-      "42": "",
-      "43": "",
-      "44": "",
-      "45": "",
-      "46": "",
-      "47": "",
-      "49": "",
-      "50": "",
-      "51": "",
-      "52": "",
-      "53": "",
-      "54": "",
-      "55": "",
-      "56": "",
-      "57": "",
-      "58": "",
-      "59": "",
-      "60": "",
-      "61": "",
-      "62": "",
-      "63": "",
-      "64": "",
-      "65": "",
-      "66": "",
-      "67": "",
-      "68": "",
-      "70": "",
-      "71": "",
-      "73": ""
+      "-9999": ""
     }
   },
   "sex_reported": {
-    "target": "",
+    "target": "sex",
     "values": {
-      "Female": "",
-      "Male": ""
+      "Female": "Female",
+      "Male": "Male"
     }
   },
   "country": {
-    "target": "",
+    "target": "country",
     "values": {
-      "USA": "",
-      "USA - Puerto Rico": ""
+      "USA": "USA",
+      "USA - Puerto Rico": "USA - Puerto Rico"
     }
   },
   "race": {
-    "target": "",
+    "target": "race",
     "values": {
-      "Asian": "",
-      "Black or African American": "",
-      "Multiracial": "",
-      "Native Hawaiian or Pacific Islander": "",
-      "White": ""
+      "Asian": "Asian",
+      "Black or African American": "Black or African American",
+      "Multiracial": "Multiracial",
+      "Native Hawaiian or Pacific Islander": "Native Hawaiian or Other Pacific Islander",
+      "White": "White"
     }
   },
   "ethnicity": {
-    "target": "",
+    "target": "ethnicity",
     "values": {
-      "Hispanic or Latino": "",
-      "Not Hispanic or Latino": ""
+      "Hispanic or Latino": "Hispanic or Latino",
+      "Not Hispanic or Latino": "Not Hispanic or Latino"
     }
   },
   "reported_ang_mutation": {
-    "target": "",
+    "target": "diseaseSubtype",
     "values": {
       "N/D": "",
       "Negative": "",
-      "PEN": ""
+      "PEN": "",
+      "Positive": "ANG-ALS"
     }
   },
   "reported_atxn2_mutation": {
-    "target": "",
+    "target": "diseaseSubtype",
     "values": {
       "N/D": "",
       "Negative": "",
       "PEN": "",
-      "Positive": ""
+      "Positive": "ATXN2-ALS"
     }
   },
   "reported_c9orf72_mutation": {
-    "target": "",
+    "target": "diseaseSubtype",
     "values": {
       "N/D": "",
       "Negative": "",
       "PEN": "",
-      "Positive": ""
+      "Positive": "C9-ALS"
     }
   },
   "reported_fus_mutation": {
-    "target": "",
-    "values": {
-      "N/D": "",
-      "Negative": "",
-      "PEN": ""
-    }
-  },
-  "reported_grn_mutation": {
-    "target": "",
-    "values": {
-      "N/D": "",
-      "Negative": "",
-      "PEN": ""
-    }
-  },
-  "reported_mapt_mutation": {
-    "target": "",
-    "values": {
-      "N/D": "",
-      "Negative": "",
-      "PEN": ""
-    }
-  },
-  "reported_setx_mutation": {
-    "target": "",
-    "values": {
-      "N/D": "",
-      "Negative": "",
-      "PEN": ""
-    }
-  },
-  "reported_sod1_mutation": {
-    "target": "",
+    "target": "diseaseSubtype",
     "values": {
       "N/D": "",
       "Negative": "",
       "PEN": "",
-      "Positive": ""
+      "Positive": "FUS-ALS"
+    }
+  },
+  "reported_grn_mutation": {
+    "target": "diseaseSubtype",
+    "values": {
+      "N/D": "",
+      "Negative": "",
+      "PEN": "",
+      "Positive": "GRN-ALS"
+    }
+  },
+  "reported_mapt_mutation": {
+    "target": "diseaseSubtype",
+    "values": {
+      "N/D": "",
+      "Negative": "",
+      "PEN": "",
+      "Positive": "MAPT-ALS"
+    }
+  },
+  "reported_setx_mutation": {
+    "target": "diseaseSubtype",
+    "values": {
+      "N/D": "",
+      "Negative": "",
+      "PEN": "",
+      "Positive": "SETX-ALS"
+    }
+  },
+  "reported_sod1_mutation": {
+    "target": "diseaseSubtype",
+    "values": {
+      "N/D": "",
+      "Negative": "",
+      "PEN": "",
+      "Positive": "SOD1-ALS"
     }
   },
   "reported_tardbp_mutation": {
-    "target": "",
+    "target": "diseaseSubtype",
     "values": {
       "N/D": "",
       "Negative": "",
-      "PEN": ""
+      "PEN": "",
+      "Positive": "TARDBP-ALS"
     }
   },
   "reported_vapb_mutation": {
-    "target": "",
+    "target": "diseaseSubtype",
     "values": {
       "N/D": "",
       "Negative": "",
-      "PEN": ""
+      "PEN": "",
+      "Positive": "VAPB-ALS"
     }
   },
   "reported_vcp_mutation": {
-    "target": "",
+    "target": "diseaseSubtype",
     "values": {
       "N/D": "",
       "Negative": "",
-      "PEN": ""
+      "PEN": "",
+      "Positive": "VCP-ALS"
     }
   },
   "other_reported_als_associated_genomic_variants": {
     "target": "diseaseSubtype",
     "values": {
-      "ANXA11": "",
+      "ANXA11": "ANXA11-ALS",
       "GAA | NEB": "",
       "N/D": "",
       "None Identified": "",
       "PEN": "",
-      "SQSTM1": "",
-      "TAF15": "",
-      "TBK1": "",
-      "UBQLN2": ""
+      "SQSTM1": "SQSTM1-ALS",
+      "TAF15": "TAF15-ALS",
+      "TBK1": "TBK1-ALS",
+      "UBQLN2": "UBQLN2-ALS"
     }
   },
   "taking_edaravone": {
@@ -687,37 +625,24 @@
   "picture_description_mean_spontaneous_lexical_density_ratio": "",
   "picture_description_mean_spontaneous_dbpi_density_ratio": "",
   "picture_description_mean_image_descr_sem_relevance_ratio": "",
-  "sample_id": "",
+  "sample_id": "originalSampleId",
+  "subject_id": "originalSubjectId",
   "tissue_source": {
-    "target": "",
+    "target": "biospecimenType",
     "values": {
-      "Blood - EDTA": "",
-      "CSF": "",
+      "Blood - EDTA": "blood",
+      "CSF": "csf",
       "N/D": "",
-      "Plasma": ""
+      "Plasma": "plasma"
     }
   },
-  "tissue_collection_site": {
-    "target": "",
-    "values": {
-      "Barrow Neurological Institute": "",
-      "CHALS-CCT University of Puerto Rico": "",
-      "Columbia University": "",
-      "Georgetown University": "",
-      "University of California San Diego": ""
-    }
-  },
-  "tissue_repository_site": {
-    "target": "",
-    "values": {
-      "Barrow Neurological Institute/Target ALS Repository": ""
-    }
-  },
+  "tissue_collection_site": "collectionSite",
+  "tissue_repository_site": "storageContainer",
   "proteomics_site": {
     "target": "",
     "values": {
-      "Psomagen": "",
-      "University of Gothenburg": ""
+      "Psomagen": "Psomagen",
+      "University of Gothenburg": "University of Gothenburg"
     }
   },
   "sample_type": {
@@ -815,52 +740,46 @@
     }
   },
   "sequencing_site": {
-    "target": "",
+    "target": "contributor",
     "values": {
-      "NYGC": "",
-      "Psomagen": ""
+      "NYGC": "New York Genome Center",
+      "Psomagen": "Psomagen"
     }
   },
   "sequencing_type": {
-    "target": "",
+    "target": "libraryLayout",
     "values": {
-      "SR-WGS": ""
+      "SR-WGS": "single"
     }
   },
-  "gs_uri": "",
+  "gs_uri": "url",
   "file_update_time": "",
   "file_size": "",
   "file_type": {
     "target": "",
-    "values": {
-      "bai": "",
-      "bam": "",
-      "crai": "",
-      "cram": "",
-      "gz": "",
-      "jsi": "",
-      "md5": "",
-      "md5sum": "",
-      "pdf": "",
-      "tbi": "",
-      "txt": "",
-      "vcf": ""
-    }
+    "values": {}
   },
+  "_file_extension": {
+    "target": "",
+    "values": {}
+  },
+  "_computed_dataType": "dataType",
+  "_computed_fileFormat": "fileFormat",
+  "_computed_variantType": "variantType",
   "nfl_concentration_pg_per_ml": "",
   "library_preparation": {
-    "target": "",
+    "target": "libraryPreparationMethod",
     "values": {
-      "Illumina TruSeq PCR-free": "",
-      "TruSeq DNA PCR-Free (350 bp insert)": ""
+      "Illumina TruSeq PCR-free": "Illumina TruSeq PCR-free",
+      "TruSeq DNA PCR-Free (350 bp insert)": "TruSeq DNA PCR-Free (350 bp insert)"
     }
   },
   "sequencing_platform": {
-    "target": "",
+    "target": "platform",
     "values": {
-      "Illumina NovaSeq 6000": "",
-      "Illumina NovaSeq X": "",
-      "Illumina NovaSeq X Plus (300 Cycle)": ""
+      "Illumina NovaSeq 6000": "Illumina NovaSeq 6000",
+      "Illumina NovaSeq X": "Illumina NovaSeq X",
+      "Illumina NovaSeq X Plus (300 Cycle)": "Illumina NovaSeq X Plus"
     }
   },
   "din": {
@@ -913,60 +832,11 @@
       "Male": ""
     }
   },
-  "prop_african_genetic_ancestry": "",
-  "prop_european_genetic_ancestry": "",
-  "prop_south_asian_genetic_ancestry": "",
-  "prop_east_asian_genetic_ancestry": {
-    "target": "",
-    "values": {
-      "0": "",
-      "0.0001": "",
-      "0.0006": "",
-      "0.002158": "",
-      "0.0024": "",
-      "0.002586": "",
-      "0.0027": "",
-      "0.0046": "",
-      "0.0047": "",
-      "0.0049": "",
-      "0.00509": "",
-      "0.005434": "",
-      "0.00548": "",
-      "0.006587": "",
-      "0.006647": "",
-      "0.007009": "",
-      "0.007029": "",
-      "0.007616": "",
-      "0.0077": "",
-      "0.007779": "",
-      "0.007832": "",
-      "0.008458": "",
-      "0.008868": "",
-      "0.009666": "",
-      "0.0103": "",
-      "0.010453": "",
-      "0.010572": "",
-      "0.0108": "",
-      "0.011102": "",
-      "0.014913": "",
-      "0.015336": "",
-      "0.017259": "",
-      "0.01946": "",
-      "0.021853": "",
-      "0.0244": "",
-      "0.024427": "",
-      "0.0287": "",
-      "0.115253": "",
-      "0.457594": "",
-      "0.781254": "",
-      "0.793073": "",
-      "0.885": "",
-      "0.9477": "",
-      "0.9528": "",
-      "1e-05": ""
-    }
-  },
-  "prop_native_american_genetic_ancestry": "",
+  "prop_african_genetic_ancestry": "propAfricanGeneticAncestry",
+  "prop_european_genetic_ancestry": "propEuropeanGeneticAncestry",
+  "prop_south_asian_genetic_ancestry": "propSouthAsianGeneticAncestry",
+  "prop_east_asian_genetic_ancestry": "propEastAsianGeneticAncestry",
+  "prop_native_american_genetic_ancestry": "propNativeAmericanGeneticAncestry",
   "atxn2_repeat_size": {
     "target": "",
     "values": {
@@ -1021,70 +891,8 @@
       "Positive": ""
     }
   },
-  "height_cm": {
-    "target": "",
-    "values": {
-      "152": "",
-      "160": "",
-      "163": "",
-      "165": "",
-      "166": "",
-      "167": "",
-      "168": "",
-      "170": "",
-      "173": "",
-      "175": "",
-      "178": "",
-      "179": "",
-      "180": "",
-      "182": "",
-      "183": "",
-      "185": "",
-      "188": "",
-      "191": ""
-    }
-  },
-  "weight_kg": {
-    "target": "",
-    "values": {
-      "102": "",
-      "105": "",
-      "114": "",
-      "154": "",
-      "155": "",
-      "54": "",
-      "56": "",
-      "59": "",
-      "61": "",
-      "62": "",
-      "63": "",
-      "64": "",
-      "65": "",
-      "66": "",
-      "67": "",
-      "68": "",
-      "69": "",
-      "72": "",
-      "73": "",
-      "74": "",
-      "75": "",
-      "76": "",
-      "77": "",
-      "78": "",
-      "79": "",
-      "81": "",
-      "82": "",
-      "83": "",
-      "84": "",
-      "86": "",
-      "88": "",
-      "89": "",
-      "90": "",
-      "93": "",
-      "97": "",
-      "98": ""
-    }
-  },
+  "height_cm": "heightCm",
+  "weight_kg": "weightKg",
   "series_id": "",
   "series_number": {
     "target": "",
@@ -1325,5 +1133,16 @@
   "collection": {
     "target": "collection",
     "value": "Target ALS"
-  }
+  },
+  "contributor_fixed": {
+    "target": "contributor",
+    "value": "Target ALS"
+  },
+  "_file_category": {
+    "target": "",
+    "values": {}
+  },
+  "_computed_title": "title",
+  "_computed_description": "description",
+  "_computed_keywords": "keywords"
 }

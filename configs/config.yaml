@@ -6,7 +6,7 @@ synapse:
   # Optional: Leave empty to use default Synapse credentials (~/.synapseConfig)
   # Priority: SYNAPSE_AUTH_TOKEN env var > this config > ~/.synapseConfig
   auth_token: ""
-  project_id: "syn73604181"
+  project_id: ""
   datasets_collection_id: "syn66496326"
 
 # Directories
