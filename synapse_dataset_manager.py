@@ -791,6 +791,524 @@ def load_all_metadata_files(paths, join_col='subject_id') -> dict:
     return index
 
 
+def extract_file_extension(file_identifier: str) -> str:
+    """
+    Extract file extension from filename, URL, or path.
+
+    Args:
+        file_identifier: Filename, gs:// URI, or file path
+
+    Returns:
+        Lowercase file extension without dot (e.g., 'bam', 'vcf', 'cram')
+        Returns empty string if no extension found
+
+    Examples:
+        'sample.bam' -> 'bam'
+        'gs://bucket/path/file.cram' -> 'cram'
+        'data.vcf.gz' -> 'vcf'
+        'alignment.bam.bai' -> 'bai'
+    """
+    if not file_identifier:
+        return ''
+
+    # Extract filename from URI/path
+    filename = file_identifier.split('/')[-1]
+
+    # Handle no extension
+    if '.' not in filename:
+        return ''
+
+    # Get all extensions
+    parts = filename.split('.')
+
+    # If last extension is compression, use second-to-last
+    if len(parts) > 2 and parts[-1].lower() in ['gz', 'bz2', 'zip']:
+        return parts[-2].lower()
+
+    # Otherwise use last extension
+    return parts[-1].lower()
+
+
+def map_extension_to_datatype(extension: str) -> str:
+    """
+    Map file extension to OmicDataTypeEnum value.
+
+    Based on modules/omics/data-types.yaml definitions.
+
+    Args:
+        extension: File extension (without dot, lowercase)
+
+    Returns:
+        OmicDataTypeEnum value string, or empty string if unmapped
+
+    Note: Index files (bai, crai, tbi, etc.) return empty string as they
+          are not omic data types themselves but rather technical indices.
+    """
+    # Mapping table: extension -> dataType
+    extension_map = {
+        # Raw sequencing data
+        'fastq': 'raw_sequencing',
+        'fq': 'raw_sequencing',
+        'fasta': 'raw_sequencing',
+        'fa': 'raw_sequencing',
+        'fna': 'raw_sequencing',
+
+        # Aligned reads
+        'bam': 'aligned_reads',
+        'sam': 'aligned_reads',
+        'cram': 'aligned_reads',
+
+        # Variant calls
+        'vcf': 'genomicVariants',
+        'bcf': 'genomicVariants',
+
+        # Genome annotation
+        'gtf': 'genome_annotation',
+        'gff': 'genome_annotation',
+        'gff3': 'genome_annotation',
+        'bed': 'genome_annotation',
+
+        # Expression data
+        'gct': 'gene_expression',
+
+        # Index files - return empty as they are not omic data per se
+        # They are technical files for accessing omic data
+        'bai': '',
+        'crai': '',
+        'csi': '',
+        'tbi': '',
+        'jsi': '',
+
+        # Compressed files - return empty, should use inner extension
+        'gz': '',
+
+        # Checksums - not omic data
+        'md5': '',
+        'md5sum': '',
+
+        # Documentation
+        'pdf': '',
+        'txt': '',
+    }
+
+    return extension_map.get(extension, '')
+
+
+def map_extension_to_fileformat(extension: str) -> str:
+    """
+    Map file extension to fileFormat value.
+
+    Args:
+        extension: File extension (without dot, lowercase)
+
+    Returns:
+        File format string (uppercase), or empty string if unmapped
+    """
+    # For most formats, uppercase extension is the format
+    # Special cases handled explicitly
+
+    format_map = {
+        # Sequencing formats
+        'fastq': 'FASTQ',
+        'fq': 'FASTQ',
+        'fasta': 'FASTA',
+        'fa': 'FASTA',
+        'bam': 'BAM',
+        'sam': 'SAM',
+        'cram': 'CRAM',
+
+        # Variant formats
+        'vcf': 'VCF',
+        'bcf': 'BCF',
+
+        # Annotation formats
+        'gtf': 'GTF',
+        'gff': 'GFF',
+        'gff3': 'GFF3',
+        'bed': 'BED',
+
+        # Expression formats
+        'gct': 'GCT',
+        'tsv': 'TSV',
+        'csv': 'CSV',
+
+        # Index formats
+        'bai': 'BAI',
+        'crai': 'CRAI',
+        'csi': 'CSI',
+        'tbi': 'TBI',
+        'jsi': 'JSI',
+
+        # Compressed
+        'gz': 'GZIP',
+
+        # Checksums
+        'md5': 'MD5',
+        'md5sum': 'MD5SUM',
+
+        # Documents
+        'pdf': 'PDF',
+        'txt': 'TXT',
+    }
+
+    return format_map.get(extension, extension.upper() if extension else '')
+
+
+def extract_file_category(file_identifier: str) -> Optional[str]:
+    """
+    Detect file category from filename using regex pattern matching.
+
+    Returns category string or None if no match.
+    """
+    if not file_identifier:
+        return None
+
+    filename = file_identifier.split('/')[-1].lower()
+    patterns = get_file_category_patterns()
+
+    for category, pattern in patterns.items():
+        if re.search(pattern, filename):
+            return category
+
+    return None
+
+
+def get_file_category_patterns() -> Dict[str, str]:
+    """Define regex patterns for each file category."""
+    return {
+        # PDF QC Plots
+        'gc_bias_plot': r'gc[_-]?bias',
+        'base_distribution_plot': r'base[_-]?distribution[_-]?by[_-]?cycle',
+        'insert_size_histogram': r'insert[_-]?size',
+        'quality_by_cycle_plot': r'quality[_-]?by[_-]?cycle',
+        'quality_distribution_plot': r'quality[_-]?distribution',
+
+        # TXT Files - specific patterns first
+        'haplotype_calls': r'haplotype[_-]?calls?',
+        'summary_table': r'summary|repeat[_-]?id|repeat[_-]?unit|target[_-]?region|genotype',
+    }
+
+
+def generate_title_from_category(category: str, filename: str = '') -> str:
+    """Generate descriptive title based on category and filename."""
+    templates = {
+        'gc_bias_plot': 'GC Bias QC Plot',
+        'base_distribution_plot': 'Base Distribution by Cycle QC Plot',
+        'insert_size_histogram': 'Insert Size Histogram',
+        'quality_by_cycle_plot': 'Quality by Cycle QC Plot',
+        'quality_distribution_plot': 'Quality Distribution QC Plot',
+        'haplotype_calls': 'Haplotype Calls',
+        'summary_table': 'Repeat Expansion Summary Table',
+    }
+
+    base_title = templates.get(category, 'File')
+
+    # Extract subject ID to make title specific
+    # First try: subject_XXX or subject-XXX pattern (case insensitive)
+    subject_match = re.search(r'(subject[_-]?\d+)', filename, re.IGNORECASE)
+    if subject_match:
+        return f"{base_title} - {subject_match.group(1)}"
+
+    # Second try: alphanumeric IDs like ABCD1234 (must be 6+ chars with both letters and numbers)
+    # Match IDs that start at word boundary or beginning of string
+    subject_match = re.search(r'(?:^|/)([A-Za-z]+\d+[A-Za-z\d]*|[A-Za-z\d]*\d+[A-Za-z]+)(?:[_\-/\.]|$)', filename)
+    if subject_match:
+        match_text = subject_match.group(1)
+        # Filter out common false positives and ensure minimum length
+        if len(match_text) >= 6 and match_text.lower() not in ['bucket', 'subject']:
+            return f"{base_title} - {match_text}"
+
+    return base_title
+
+
+def generate_description_from_category(category: str) -> str:
+    """Generate description text (max 500 chars)."""
+    descriptions = {
+        'gc_bias_plot': 'Quality control plot showing GC content bias across the sequence, '
+                       'used to assess systematic biases in sequencing coverage related to GC content.',
+        'base_distribution_plot': 'Quality control plot displaying the distribution of nucleotide bases '
+                                 '(A, T, G, C) across sequencing cycles, useful for detecting sequence composition bias.',
+        'insert_size_histogram': 'Distribution plot of DNA fragment insert sizes in the sequencing library, '
+                                'important for validating library preparation and identifying size selection issues.',
+        'quality_by_cycle_plot': 'Quality control plot showing sequencing quality scores across base positions, '
+                                'used to identify quality degradation patterns during sequencing runs.',
+        'quality_distribution_plot': 'Distribution of sequencing quality scores across all reads, '
+                                    'provides an overview of overall sequencing quality.',
+        'haplotype_calls': 'Variant haplotype calls from whole genome sequencing, '
+                          'containing phased genomic variant information. May include companion index files (.tbi).',
+        'summary_table': 'Summary table containing repeat expansion analysis results including repeat ID, '
+                        'repeat unit sequences, target genomic regions, and genotype information.',
+    }
+    return descriptions.get(category, '')
+
+
+def generate_keywords_from_category(category: str) -> List[str]:
+    """Generate keyword list based on category."""
+    keyword_map = {
+        'gc_bias_plot': ['qc', 'quality_control', 'gc_bias', 'sequencing_qc', 'plot'],
+        'base_distribution_plot': ['qc', 'quality_control', 'base_distribution', 'sequencing_qc', 'plot'],
+        'insert_size_histogram': ['qc', 'quality_control', 'insert_size', 'library_qc', 'histogram'],
+        'quality_by_cycle_plot': ['qc', 'quality_control', 'quality_score', 'sequencing_qc', 'plot'],
+        'quality_distribution_plot': ['qc', 'quality_control', 'quality_score', 'sequencing_qc', 'plot'],
+        'haplotype_calls': ['variant_calls', 'haplotype', 'genomics', 'vcf', 'phased_variants'],
+        'summary_table': ['repeat_expansion', 'summary', 'genotype', 'genomics', 'c9orf72', 'atxn2'],
+    }
+    return keyword_map.get(category, [])
+
+
+def get_datatype_from_category(category: str) -> Optional[str]:
+    """Map category to OmicDataTypeEnum value."""
+    datatype_map = {
+        'haplotype_calls': 'variant_calls',
+        'summary_table': 'genomicVariants',
+        # QC plots don't have specific dataType (they're QC files, not primary data)
+    }
+    return datatype_map.get(category)
+
+
+def extract_variant_type_from_path(folder_path: str) -> Optional[str]:
+    """
+    Detect variant type from folder path structure.
+
+    Args:
+        folder_path: Folder path (e.g., "wgs/vcf/structural/SUBJECT001")
+
+    Returns:
+        Internal variant type identifier or None
+
+    Examples:
+        >>> extract_variant_type_from_path("wgs/vcf/structural/SUBJECT001")
+        'structural'
+        >>> extract_variant_type_from_path("wgs/vcf/small/SUBJECT001")
+        'small'
+        >>> extract_variant_type_from_path("wgs/vcf/genomic/SUBJECT001")
+        'genomic'
+        >>> extract_variant_type_from_path("wgs/vcf/repeat-expansion/SUBJECT001")
+        'repeat_expansion'
+    """
+    if not folder_path:
+        return None
+
+    path_lower = folder_path.lower()
+    path_parts = [p.strip() for p in path_lower.split('/') if p.strip()]
+
+    # Priority order: more specific patterns first
+    if 'repeat-expansion' in path_parts or 'repeat_expansion' in path_parts:
+        return 'repeat_expansion'
+    elif 'structural' in path_parts:
+        return 'structural'
+    elif 'small' in path_parts:
+        return 'small'
+    elif 'genomic' in path_parts:
+        return 'genomic'
+
+    return None
+
+
+def map_variant_type_to_enum(variant_type: str) -> Optional[str]:
+    """
+    Map internal variant type to VariantTypeEnum value.
+
+    Args:
+        variant_type: Internal variant type identifier
+
+    Returns:
+        VariantTypeEnum value or None
+
+    Examples:
+        >>> map_variant_type_to_enum('structural')
+        'Structural_Variant'
+        >>> map_variant_type_to_enum('small')
+        'Small_Variant'
+    """
+    if not variant_type:
+        return None
+
+    variant_type_map = {
+        'structural': 'Structural_Variant',
+        'repeat_expansion': 'Repeat_Expansion',
+        'small': 'Small_Variant',
+        'genomic': 'Genomic',
+    }
+
+    return variant_type_map.get(variant_type)
+
+
+def map_variant_type_to_datatype(variant_type: str) -> Optional[str]:
+    """
+    Map variant type to specific OmicDataTypeEnum value.
+
+    Args:
+        variant_type: Internal variant type identifier
+
+    Returns:
+        OmicDataTypeEnum value or None
+
+    Examples:
+        >>> map_variant_type_to_datatype('structural')
+        'StructuralVariants'
+        >>> map_variant_type_to_datatype('small')
+        'GermlineVariants'
+    """
+    if not variant_type:
+        return None
+
+    datatype_map = {
+        'structural': 'StructuralVariants',
+        'repeat_expansion': 'genomicVariants',
+        'small': 'GermlineVariants',
+        'genomic': 'genomicVariants',
+    }
+
+    return datatype_map.get(variant_type)
+
+
+def generate_variant_type_keywords(variant_type: str) -> List[str]:
+    """
+    Generate keywords based on variant type.
+
+    Args:
+        variant_type: Internal variant type identifier
+
+    Returns:
+        List of keywords for search and filtering
+
+    Examples:
+        >>> generate_variant_type_keywords('structural')
+        ['structural_variants', 'cnv', 'copy_number', 'deletions', 'duplications', 'genomics', 'vcf']
+        >>> generate_variant_type_keywords('small')
+        ['small_variants', 'snv', 'indel', 'germline', 'genomics', 'vcf']
+    """
+    if not variant_type:
+        return []
+
+    keyword_map = {
+        'structural': ['structural_variants', 'cnv', 'copy_number', 'deletions', 'duplications', 'genomics', 'vcf'],
+        'repeat_expansion': ['repeat_expansion', 'c9orf72', 'atxn2', 'repeat_analysis', 'genomics', 'vcf'],
+        'small': ['small_variants', 'snv', 'indel', 'germline', 'genomics', 'vcf'],
+        'genomic': ['genomic_variants', 'haplotype', 'variant_calls', 'genomics', 'vcf'],
+    }
+
+    return keyword_map.get(variant_type, [])
+
+
+def enrich_metadata_with_file_info(metadata_row: dict, file_name: str = None, folder_path: str = None) -> dict:
+    """
+    Enrich metadata row with computed fields derived from file name/URI.
+
+    Adds computed columns:
+    - _file_extension: Extracted file extension
+    - _computed_dataType: Data type derived from extension
+    - _computed_fileFormat: File format derived from extension
+    - _file_category: Category detected from filename pattern (NEW)
+    - _computed_title: Generated title based on category (NEW)
+    - _computed_description: Generated description based on category (NEW)
+    - _computed_keywords: Generated keywords based on category (NEW)
+    - _computed_variantType: Variant type for VCF files (NEW)
+    - _variant_type_detected: Internal variant type identifier (NEW, debug)
+
+    Args:
+        metadata_row: Original metadata dictionary
+        file_name: Optional file name to use for enrichment.
+                   IMPORTANT: If provided, this takes PRIORITY over any
+                   file paths in metadata_row to avoid using stale/polluted
+                   values from metadata merging.
+        folder_path: Optional folder path for variant type detection.
+                     Used to extract variant type from folder structure
+                     (e.g., "wgs/vcf/structural/SUBJECT001").
+                     IMPORTANT: If provided, takes PRIORITY over any
+                     folder paths in metadata_row.
+
+    Returns:
+        Enriched metadata dictionary with computed fields
+    """
+    enriched = metadata_row.copy()
+
+    # Determine file identifier source (priority order)
+    # CRITICAL: Prioritize explicit file_name parameter over metadata columns
+    # to avoid using stale/polluted gs_uri values from metadata merging
+    file_identifier = None
+
+    # First: Use explicit file_name parameter if provided
+    if file_name:
+        file_identifier = file_name
+    # Second: Fall back to metadata columns
+    else:
+        for col in ['gs_uri', 'url', 'file_name', 'filename', 'name']:
+            if col in enriched and enriched[col]:
+                file_identifier = enriched[col]
+                break
+
+    if not file_identifier:
+        return enriched
+
+    # Extract extension
+    extension = extract_file_extension(file_identifier)
+    enriched['_file_extension'] = extension
+
+    # Map to dataType
+    data_type = map_extension_to_datatype(extension)
+    if data_type:
+        enriched['_computed_dataType'] = data_type
+
+    # Map to fileFormat
+    file_format = map_extension_to_fileformat(extension)
+    if file_format:
+        enriched['_computed_fileFormat'] = file_format
+
+    # NEW: Category-based enrichment for PDF and TXT files
+    if extension in ['pdf', 'txt']:
+        category = extract_file_category(file_identifier)
+
+        if category:
+            enriched['_file_category'] = category
+
+            # Generate title
+            title = generate_title_from_category(category, file_identifier)
+            if title:
+                enriched['_computed_title'] = title
+
+            # Generate description
+            description = generate_description_from_category(category)
+            if description:
+                enriched['_computed_description'] = description
+
+            # Generate keywords
+            keywords = generate_keywords_from_category(category)
+            if keywords:
+                enriched['_computed_keywords'] = keywords
+
+            # Override dataType for specific TXT categories
+            category_datatype = get_datatype_from_category(category)
+            if category_datatype:
+                enriched['_computed_dataType'] = category_datatype
+
+    # VCF Variant Type Detection from folder structure
+    if extension == 'vcf' and folder_path:
+        variant_type = extract_variant_type_from_path(folder_path)
+
+        if variant_type:
+            # Store internal identifier for debugging
+            enriched['_variant_type_detected'] = variant_type
+
+            # Map to VariantTypeEnum value
+            variant_enum = map_variant_type_to_enum(variant_type)
+            if variant_enum:
+                enriched['_computed_variantType'] = variant_enum
+
+            # Override dataType with specific value
+            specific_datatype = map_variant_type_to_datatype(variant_type)
+            if specific_datatype:
+                enriched['_computed_dataType'] = specific_datatype
+
+            # Generate variant-type keywords
+            variant_keywords = generate_variant_type_keywords(variant_type)
+            if variant_keywords:
+                enriched['_computed_keywords'] = variant_keywords
+
+    return enriched
+
+
 def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
     """Fill empty template slots from a metadata row using the field mapping.
 
@@ -817,11 +1335,26 @@ def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
             if value_map:
                 value = value_map.get(value, value) or value
 
+        # Special handling for keywords - merge instead of replace
+        if target_field == 'keywords' and isinstance(value, list):
+            current = result.get(target_field, [])
+            if isinstance(current, list) and current not in ([''], []):
+                # Merge and deduplicate
+                result[target_field] = list(set(current + value))
+            else:
+                result[target_field] = value
         # Only fill if the current template value is empty
-        current = result.get(target_field)
-        if current in ('', None, [''], []):
+        elif current := result.get(target_field):
+            if current not in ('', None, [''], []):
+                continue
             if isinstance(current, list):
-                result[target_field] = [value]
+                result[target_field] = [value] if not isinstance(value, list) else value
+            else:
+                result[target_field] = value
+        else:
+            # Field doesn't exist yet, add it
+            if isinstance(value, list):
+                result[target_field] = value
             else:
                 result[target_field] = value
     return result
@@ -3088,13 +3621,26 @@ def handle_generate_file_templates(args, config):
         merged = merge_annotations_smartly(existing_annotations, template)
 
         # Step 2: Fill from metadata if available
-        if metadata_index:
+        if metadata_index and mapping:
             subject_id = file_info['path'].split('/')[-1] if file_info.get('path') else None
             if subject_id and subject_id in metadata_index:
-                merged = fill_template_from_metadata(merged, metadata_index[subject_id], mapping)
+                # Enrich metadata with file-derived fields
+                folder_path = file_info.get('path', '')
+                metadata_row = enrich_metadata_with_file_info(metadata_index[subject_id], filename, folder_path)
+                merged = fill_template_from_metadata(merged, metadata_row, mapping)
                 metadata_fill_count += 1
             elif subject_id:
                 print(f"  Warning: No metadata match for subject_id '{subject_id}' ({filename})")
+                # Still enrich with file info even if no metadata match
+                if mapping:
+                    folder_path = file_info.get('path', '')
+                    metadata_row = enrich_metadata_with_file_info({}, filename, folder_path)
+                    merged = fill_template_from_metadata(merged, metadata_row, mapping)
+        elif mapping:
+            # No metadata file provided, but we have mapping - still enrich from filename
+            folder_path = file_info.get('path', '')
+            metadata_row = enrich_metadata_with_file_info({}, filename, folder_path)
+            merged = fill_template_from_metadata(merged, metadata_row, mapping)
 
         annotations_output[syn_id] = {filename: merged}
 
