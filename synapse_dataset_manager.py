@@ -669,7 +669,9 @@ def load_mapping_dict(path) -> dict:
     result = {}
     for k, v in raw_dict.items():
         k = k.strip()
-        if isinstance(v, str) and v.strip():
+        if k == "_views" and isinstance(v, dict):
+            result[k] = v  # always carry through view-level annotations
+        elif isinstance(v, str) and v.strip():
             result[k] = v
         elif isinstance(v, dict) and _valid_target(v.get('target')):
             result[k] = v
@@ -747,23 +749,29 @@ def sanitize_synapse_filename(name: str, ext: str = '.csv') -> str:
     return name
 
 
-def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) -> tuple[dict, dict]:
+def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) -> tuple[dict, dict, dict, dict]:
     """
     For each staging file, download it and extract the Form Name column value.
     Falls back to the staging filename if no Form Name column is found.
 
     Returns:
-        form_map  — {lower_clean_name: (staging_syn_id, clean_name)}
-        name_map  — {staging_syn_id: clean_name}
+        form_map       — {lower_clean_name: (staging_syn_id, clean_name)}
+        name_map       — {staging_syn_id: clean_name}  (human-readable form name)
+        local_path_map — {staging_syn_id: local_file_path}  (None if download failed)
+        view_map       — {staging_syn_id: view_name}  (raw staging filename w/o extension = view name)
     """
     os.makedirs(download_dir, exist_ok=True)
     form_map = {}
     name_map = {}
+    local_path_map = {}
+    view_map = {}
 
     for staging_syn_id, file_data in staging_annotations.items():
         staging_filename = list(file_data.keys())[0]
 
         local_path = download_file_for_analysis(syn, staging_syn_id, download_dir)
+        local_path_map[staging_syn_id] = local_path
+
         form_name = None
         if local_path and local_path.endswith(('.csv', '.xlsx', '.xls')):
             form_name = extract_form_name_from_csv(local_path)
@@ -775,8 +783,10 @@ def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) ->
 
         form_map[_norm_filename_for_match(clean)] = (staging_syn_id, clean)
         name_map[staging_syn_id] = clean
+        # Raw staging filename (without extension) IS the view name (e.g. v_ALLALS_AS_ASSEECASCGI)
+        view_map[staging_syn_id] = os.path.splitext(staging_filename)[0]
 
-    return form_map, name_map
+    return form_map, name_map, local_path_map, view_map
 
 
 def _get_data_dict_views(path: str) -> list:
@@ -859,7 +869,7 @@ def parse_data_dictionary(path: str, view_name: str = None) -> dict:
             # Field header row — capture field-level description, reset current field
             current_field = raw_field
             if current_field not in result:
-                result[current_field] = {"description": description, "values": {}}
+                result[current_field] = {"description": description, "view": current_view, "values": {}}
         elif current_field and raw_value:
             # Value row — extract human-readable label from description
             # Description is often "code = label"; strip the leading "code = " prefix
@@ -921,25 +931,43 @@ def build_mapping_from_data_dict(parsed_dict: dict) -> dict:
     """
     Convert parsed data dictionary into a mapping-dict scaffold.
 
-    Assumes source column names match data model field names (identity mapping).
-    Target is pre-filled; allowed values are pre-populated so users only need to
-    adjust source→target translations that differ.
+    Each entry includes:
+      - "description": field description from the data dictionary (read-only context
+        to help identify which data model attribute this field maps to)
+      - "view": the View Name (CRF form) this field belongs to
+      - "target": data model field name to map to (empty — user must fill in)
+      - "values": {raw_code: human_label} for coded fields, {} for free-text
+
+    Also prepends a "_views" key mapping each unique view name to an empty
+    file-level annotation scaffold (assessmentType, clinicalDomain, dataType,
+    studyPhase) — fill these in to drive view-level annotation.
 
     Returns:
-        {field_name: {"target": field_name, "values": {v: v for v in values}}
-         or field_name: {"target": field_name, "values": {}} for free-text fields}
+        {"_views": {view_name: {file-level annotations}},
+         field_name: {"description": str, "view": str, "target": "", "values": {code: label}}}
     """
-    mapping = {}
+    views_seen = []
+    fields = {}
     for field, info in parsed_dict.items():
-        values = info.get("values", [])
-        if values:
-            mapping[field] = {
-                "target": field,
-                "values": {v: v for v in values}
-            }
-        else:
-            mapping[field] = {"target": field, "values": {}}
-    return mapping
+        view = info.get("view", "")
+        fields[field] = {
+            "description": info.get("description", ""),
+            "view": view,
+            "target": "",
+            "values": info.get("values", {}),
+        }
+        if view and view not in views_seen:
+            views_seen.append(view)
+
+    _views = {
+        v: {"assessmentType": [], "clinicalDomain": [], "dataType": [], "studyPhase": ""}
+        for v in views_seen
+    }
+
+    # _views first so it's visible at the top of the file
+    result = {"_views": _views}
+    result.update(fields)
+    return result
 
 
 def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
@@ -965,6 +993,13 @@ def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
 
     merged = dict(existing)
     for col, entry in new_mapping.items():
+        if col == "_views":
+            # Merge view scaffolds: add new views, never overwrite existing
+            existing_views = merged.setdefault("_views", {})
+            for view_name, scaffold in entry.items():
+                if view_name not in existing_views:
+                    existing_views[view_name] = scaffold
+            continue
         if col not in merged:
             merged[col] = entry
         elif isinstance(merged[col], dict) and isinstance(entry, dict):
@@ -972,8 +1007,11 @@ def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
             new_vals = entry.get("values", {})
             for v in new_vals:
                 if v not in existing_vals:
-                    existing_vals[v] = ""
+                    existing_vals[v] = new_vals[v]  # carry over parsed label
             merged[col]["values"] = existing_vals
+            # Carry over view field if missing from existing entry
+            if "view" not in merged[col] and "view" in entry:
+                merged[col]["view"] = entry["view"]
     return merged
 
 
@@ -1584,25 +1622,21 @@ def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
             if target_field in result and result[target_field] is None:
                 value = _coerce_numeric(value)
 
-            # Special handling for keywords - merge instead of replace
-            if target_field == 'keywords' and isinstance(value, list):
-                current = result.get(target_field, [])
-                if isinstance(current, list) and current not in ([''], []):
-                    # Merge and deduplicate
-                    result[target_field] = list(set(current + value))
-                else:
-                    result[target_field] = value
-            # Only fill if the current template value is empty
-            elif current := result.get(target_field):
-                if current not in ('', None, [''], []):
-                    continue
-                if isinstance(current, list):
-                    result[target_field] = [value] if not isinstance(value, list) else value
-                else:
-                    result[target_field] = value
-            else:
-                # Field doesn't exist yet, add it
+            current = result.get(target_field)
+            additions = value if isinstance(value, list) else [value]
+
+            if isinstance(current, list):
+                # Append any new values not already present (covers keywords too)
+                existing = [x for x in current if x not in ('', None)]
+                new_items = [v for v in additions if v and v not in existing]
+                if new_items:
+                    result[target_field] = existing + new_items
+            elif current in ('', None):
+                # Scalar field that is empty — fill it
                 result[target_field] = value
+            else:
+                # Non-list field already has a value — leave it
+                pass
 
     # Pass 2: fill value_template entries using already-populated fields
     for source_col, mapping_entry in mapping.items():
@@ -1636,6 +1670,242 @@ def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
                 result[target_field] = rendered_value
 
     return result
+
+
+def fill_template_from_file_contents(template: dict, file_path: str, mapping: dict) -> dict:
+    """Fill annotation template fields by reading a multi-subject data file and
+    collecting unique values per mapped column across all rows.
+
+    For each source_col in mapping that exists as a column in the file:
+      - Collect all unique non-null values in that column
+      - Translate each via the mapping dict's values map
+      - Merge translated values into the target annotation field as a list
+
+    Only fills empty or partially-empty template slots; does not overwrite
+    already-populated values unless they are blank/null.
+
+    Args:
+        template:  Annotation template dict to fill
+        file_path: Path to the data CSV/XLSX file
+        mapping:   Mapping dict loaded via load_mapping_dict()
+
+    Returns:
+        Updated template dict
+    """
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception as e:
+        print(f"  ⚠️  Could not load {file_path} for annotation filling: {e}")
+        return template
+
+    if not rows:
+        return template
+
+    result = dict(template)
+    available_cols = set(rows[0].keys())
+
+    for source_col, mapping_entry in mapping.items():
+        if source_col not in available_cols:
+            continue
+
+        if isinstance(mapping_entry, dict):
+            raw_target = mapping_entry.get('target', '')
+            value_map  = mapping_entry.get('values', {})
+        else:
+            raw_target = mapping_entry
+            value_map  = {}
+
+        if not raw_target:
+            continue
+
+        target_fields = raw_target if isinstance(raw_target, list) else [raw_target]
+
+        # Collect unique non-null raw values across all rows
+        raw_values_seen = []
+        for row in rows:
+            v = str(row.get(source_col, '') or '').strip()
+            if v and not _is_null_like(v) and v not in raw_values_seen:
+                raw_values_seen.append(v)
+
+        if not raw_values_seen:
+            continue
+
+        # Translate via value map; keep untranslated values as-is if no map entry
+        translated = []
+        for v in raw_values_seen:
+            mapped_v = value_map.get(v, v) if value_map else v
+            if mapped_v and not _is_null_like(mapped_v) and mapped_v not in translated:
+                translated.append(mapped_v)
+
+        if not translated:
+            continue
+
+        for target_field in target_fields:
+            current = result.get(target_field)
+
+            if isinstance(current, list):
+                # Merge into existing list, skip blanks
+                existing = [x for x in current if x not in ('', None)]
+                merged = existing[:]
+                for v in translated:
+                    if v not in merged:
+                        merged.append(v)
+                if merged:
+                    result[target_field] = merged
+            elif current in ('', None):
+                # Scalar field — store as list if multiple values, scalar if one
+                result[target_field] = translated if len(translated) > 1 else translated[0]
+
+    return result
+
+
+def infer_view_from_columns(file_path: str, mapping: dict) -> str | None:
+    """Infer the _views key for a file by checking which view appears most in its columns.
+
+    Each mapping entry carries a "view" field (the source database view name).
+    By tallying how many of the file's columns belong to each view, we identify
+    the dominant view and return it so apply_view_annotations can match it.
+
+    Returns None if the file cannot be read or no mapping entries have a view field.
+    """
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception:
+        return None
+    if not rows:
+        return None
+    columns = set(rows[0].keys())
+    view_counts: dict[str, int] = {}
+    for col in columns:
+        entry = mapping.get(col)
+        if isinstance(entry, dict) and entry.get('view'):
+            v = entry['view']
+            view_counts[v] = view_counts.get(v, 0) + 1
+    if not view_counts:
+        return None
+    return max(view_counts, key=view_counts.get)
+
+
+def apply_view_annotations(template: dict, form_name: str, mapping: dict) -> dict:
+    """Apply view-level file annotations from the _views section of a mapping dict.
+
+    The mapping dict's "_views" key maps each CRF form/view name to a dict of
+    file-level annotation fields (assessmentType, clinicalDomain, dataType,
+    studyPhase, etc.) that should apply to any file extracted from that view.
+
+    Matching is case-insensitive with hyphens/underscores/spaces normalised.
+
+    Args:
+        template:  Annotation template dict to fill
+        form_name: The form/view name of the staging file (from extract_form_name_from_csv)
+        mapping:   Mapping dict loaded via load_mapping_dict() — must contain "_views"
+
+    Returns:
+        Updated template dict (only empty slots are filled)
+    """
+    views = mapping.get("_views", {})
+    if not views or not form_name:
+        return template
+
+    def _norm(s):
+        return re.sub(r'[\s_\-]+', '', s).lower()
+
+    form_norm = _norm(form_name)
+    matched_view = next((v for v in views if _norm(v) == form_norm), None)
+    if not matched_view:
+        return template
+
+    result = dict(template)
+    for field, value in views[matched_view].items():
+        if not value:
+            continue
+        current = result.get(field)
+        if isinstance(current, list):
+            existing = [x for x in current if x not in ('', None)]
+            additions = value if isinstance(value, list) else [value]
+            for v in additions:
+                if v and v not in existing:
+                    existing.append(v)
+            if existing:
+                result[field] = existing
+        elif current in ('', None):
+            result[field] = value
+
+    return result
+
+
+def detect_subject_file_type(file_path: str, subject_id_col: str = None) -> str:
+    """Detect whether a data file contains a single subject or multiple subjects.
+
+    Detection order:
+    1. Extension heuristic — genomics/sequencing formats are always single-subject;
+       tabular formats proceed to content inspection.
+    2. Content inspection — count unique values in the subject identifier column.
+
+    Args:
+        file_path:       Path to (or name of) the file being evaluated
+        subject_id_col:  Column name that holds subject IDs (e.g. "SubjectUID").
+                         Falls back to common names if None or not found.
+
+    Returns:
+        'single' or 'multi'
+    """
+    # File extensions that are unambiguously single-subject (genomics / sequencing)
+    _SINGLE_SUBJECT_EXTS = {
+        '.fastq', '.fq', '.bam', '.cram', '.sam',
+        '.vcf', '.bcf', '.gvcf',
+        '.tbi', '.bai', '.crai', '.csi',
+        '.bed', '.bedgraph', '.bigwig', '.bw', '.wig', '.bigbed',
+        '.fasta', '.fa', '.fastq.gz', '.fq.gz', '.vcf.gz', '.bcf.gz', '.gvcf.gz',
+    }
+
+    # File extensions that are tabular and likely multi-subject
+    _TABULAR_EXTS = {
+        '.csv', '.tsv', '.txt', '.xlsx', '.xls', '.parquet', '.feather',
+    }
+
+    _COMMON_SUBJECT_COLS = ['SubjectUID', 'subject_id', 'subjectId', 'SubjectId',
+                            'GUID', 'ParticipantID', 'participant_id']
+
+    # Normalise: strip query strings, lowercased suffix
+    name = os.path.basename(file_path).lower()
+
+    # Handle compound extensions (.fastq.gz, .vcf.gz, etc.)
+    for ext in _SINGLE_SUBJECT_EXTS:
+        if name.endswith(ext):
+            return 'single'
+
+    # For non-tabular, non-genomics formats (images, PDFs, etc.) default to single
+    is_tabular = any(name.endswith(ext) for ext in _TABULAR_EXTS)
+    if not is_tabular:
+        return 'single'
+
+    # Tabular file — inspect contents
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception:
+        return 'multi'  # safe default if we can't read it
+
+    if not rows:
+        return 'single'
+
+    available = set(rows[0].keys())
+
+    # Build candidate list: explicit col first, then common fallbacks
+    candidates = []
+    if subject_id_col:
+        candidates.append(subject_id_col)
+    candidates.extend(c for c in _COMMON_SUBJECT_COLS if c not in candidates)
+
+    for col in candidates:
+        if col not in available:
+            continue
+        unique_ids = {str(row.get(col, '') or '').strip() for row in rows}
+        unique_ids.discard('')
+        return 'single' if len(unique_ids) <= 1 else 'multi'
+
+    # No subject column found — treat as multi if more than one row
+    return 'single' if len(rows) <= 1 else 'multi'
 
 
 def create_annotation_template(all_schemas, file_type='ClinicalFile'):
@@ -1842,10 +2112,13 @@ def enumerate_files_with_folders(syn, folder_id, recursive=True, verbose=False):
     return files_dict
 
 
-def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose=False):
+def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose=False,
+                                version_label=None, version_comment=None):
     """
     Apply annotations to file entities in Synapse.
-    Used in CREATE workflow.
+    Used in CREATE workflow and UPDATE workflow (annotation-only path).
+
+    If version_label is provided, a new version is forced so the label is applied.
     """
     success_count = 0
     error_count = 0
@@ -1858,20 +2131,29 @@ def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose
             cleaned = clean_annotations_for_synapse(annotations)
 
             if dry_run:
-                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {filename}")
+                label_str = f" with label '{version_label}'" if version_label else ""
+                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {filename}{label_str}")
                 success_count += 1
             else:
                 entity = syn.get(syn_id, downloadFile=False)
                 entity.annotations = cleaned
-                syn.store(entity, forceVersion=False)
+                if version_comment:
+                    entity['versionComment'] = version_comment
+                syn.store(entity, forceVersion=bool(version_label),
+                          versionLabel=version_label or None)
 
                 if verbose:
                     print(f"  ✓ Applied annotations to {filename}")
                 success_count += 1
 
         except Exception as e:
-            print(f"  ✗ Error applying annotations to {filename}: {e}")
-            error_count += 1
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+                success_count += 1
+            else:
+                print(f"  ✗ Error applying annotations to {filename}: {e}")
+                error_count += 1
 
     return success_count, error_count
 
@@ -2502,20 +2784,27 @@ def upload_file_new_versions(syn, file_annotations, local_files_dir,
                 print(f"  [DRY_RUN] Would upload {os.path.basename(local_path)} -> {syn_id}{label_str}")
                 success_count += 1
             else:
-                file_entity = File(path=local_path, id=syn_id)
-                if version_label:
-                    file_entity.versionLabel = version_label
-                if version_comment:
-                    file_entity.versionComment = version_comment
-                file_entity.annotations = cleaned
-                syn.store(file_entity)
+                file_entity = File(
+                    path=local_path,
+                    id=syn_id,
+                    name=filename,
+                    version_label=version_label,
+                    version_comment=version_comment,
+                    annotations=cleaned,
+                )
+                file_entity.store()
                 if verbose:
                     print(f"  ✓ Uploaded new version of {filename} ({syn_id})")
                 success_count += 1
 
         except Exception as e:
-            print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
-            error_count += 1
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+                skipped_count += 1
+            else:
+                print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
+                error_count += 1
 
     return success_count, error_count, skipped_count
 
@@ -2555,26 +2844,33 @@ def upload_new_versions_from_staging(syn, file_annotations: dict,
                 print(f"  [DRY_RUN] Would upload {staging_id} → {syn_id} ({filename}){label_str}")
                 success_count += 1
             else:
-                file_entity = File(path=local_path, id=syn_id)
-                file_entity.name = filename  # ensure target name, not staging name
-                if version_label:
-                    file_entity.versionLabel = version_label
-                if version_comment:
-                    file_entity.versionComment = version_comment
-                file_entity.annotations = cleaned
-                syn.store(file_entity)
+                file_entity = File(
+                    path=local_path,
+                    id=syn_id,
+                    name=filename,
+                    version_label=version_label,
+                    version_comment=version_comment,
+                    annotations=cleaned,
+                )
+                file_entity.store()
                 if verbose:
                     print(f"  ✓ Uploaded new version: {filename} ({syn_id})")
                 success_count += 1
         except Exception as e:
-            print(f"  ✗ Error uploading {filename} ({syn_id}): {e}")
-            error_count += 1
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+                skipped_count += 1
+            else:
+                print(f"  ✗ Error uploading {filename} ({syn_id}): {e}")
+                error_count += 1
 
     return success_count, error_count, skipped_count
 
 
 def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
-                            dataset_id, dry_run=True, verbose=False):
+                            dataset_id, dry_run=True, verbose=False,
+                            version_label=None, version_comment=None):
     """
     Move new-only staging files to release folder, add to dataset, apply annotations.
 
@@ -2588,6 +2884,8 @@ def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
         dataset_id: Synapse ID of dataset to add files to
         dry_run: If True, only show what would be done
         verbose: Show detailed output
+        version_label: Optional version label to apply (creates a new version)
+        version_comment: Optional version comment
 
     Returns:
         Tuple of (success_count, error_count)
@@ -2625,12 +2923,16 @@ def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
             if verbose:
                 print(f"  ✓ Added {syn_id} to dataset {dataset_id}")
 
-            # 3. Apply annotations
+            # 3. Apply annotations (and version label if provided)
             entity = syn.get(syn_id, downloadFile=False)
             entity.annotations = cleaned
-            syn.store(entity, forceVersion=False)
+            if version_comment:
+                entity['versionComment'] = version_comment
+            syn.store(entity, forceVersion=bool(version_label),
+                      versionLabel=version_label or None)
             if verbose:
-                print(f"  ✓ Applied {len(cleaned)} annotations to {filename}")
+                label_str = f" with label '{version_label}'" if version_label else ""
+                print(f"  ✓ Applied {len(cleaned)} annotations to {filename}{label_str}")
 
             success_count += 1
 
@@ -2998,6 +3300,66 @@ def create_dataset_snapshot(syn, dataset_id, version_label, version_comment=None
         except Exception as e:
             print(f"  ✗ Error creating snapshot: {e}")
             return None
+
+
+def delete_file_versions_by_label(syn, syn_id, version_labels, dry_run=True, verbose=False):
+    """
+    Delete all versions of a Synapse file entity whose versionLabel matches any of the given labels.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse entity ID
+        version_labels: List of version label strings to delete (e.g. ["v5-FEB_test", "v5-FEB_test_v2"])
+        dry_run: If True, only show what would be deleted
+        verbose: Show detailed output
+
+    Returns:
+        (deleted_count, skipped_count, error_count)
+    """
+    label_set = set(version_labels)
+    deleted = skipped = errors = 0
+
+    try:
+        # Paginate through all versions
+        versions = []
+        offset = 0
+        limit = 100
+        while True:
+            page = syn.restGET(f"/entity/{syn_id}/version?offset={offset}&limit={limit}")
+            batch = page.get('results', [])
+            versions.extend(batch)
+            if len(batch) < limit:
+                break
+            offset += limit
+
+        matches = [(v['versionNumber'], v.get('versionLabel', '')) for v in versions
+                   if v.get('versionLabel') in label_set]
+
+        if not matches:
+            if verbose:
+                print(f"  [SKIP] No matching versions found on {syn_id}")
+            skipped += 1
+            return deleted, skipped, errors
+
+        for version_number, label in matches:
+            if dry_run:
+                print(f"  [DRY_RUN] Would delete {syn_id} version {version_number} (label='{label}')")
+                deleted += 1
+            else:
+                try:
+                    syn.delete(syn_id, version=version_number)
+                    if verbose:
+                        print(f"  ✓ Deleted {syn_id} version {version_number} (label='{label}')")
+                    deleted += 1
+                except Exception as e:
+                    print(f"  ✗ Error deleting {syn_id} v{version_number}: {e}")
+                    errors += 1
+
+    except Exception as e:
+        print(f"  ✗ Error listing versions for {syn_id}: {e}")
+        errors += 1
+
+    return deleted, skipped, errors
 
 
 def add_dataset_to_collection(syn, dataset_id, collection_id, dry_run=True):
@@ -4862,18 +5224,27 @@ def handle_update_workflow(args, config):
             print(f"Found {len(staging_annotations)} files in staging")
 
         # Step 2c: Extract Form Names from staging files (if staging folder provided)
-        form_map = {}   # {lower_clean_name: (staging_syn_id, clean_name)}
-        name_map = {}   # {staging_syn_id: clean_name}
+        form_map = {}        # {lower_clean_name: (staging_syn_id, clean_name)}
+        name_map = {}        # {staging_syn_id: clean_name}
+        local_path_map = {}  # {staging_syn_id: local_file_path}
+        view_map = {}        # {staging_syn_id: view_name (raw staging filename w/o ext)}
         if staging_annotations:
             print("\n" + "=" * 60)
             print("STEP 2c: EXTRACTING FORM NAMES FROM STAGING FILES")
             print("=" * 60)
             import tempfile
             _tmp = tempfile.mkdtemp(prefix='sdm_staging_')
-            form_map, name_map = build_staging_form_map(syn, staging_annotations, _tmp)
+            form_map, name_map, local_path_map, view_map = build_staging_form_map(syn, staging_annotations, _tmp)
             print(f"  Extracted form names for {len(form_map)} staging files")
             for sid, cname in name_map.items():
                 print(f"    {list(staging_annotations[sid].keys())[0]} → {cname}")
+
+        # Resolve subject file type (single / multi / auto)
+        subject_file_type = (
+            getattr(args, 'subject_file_type', None)
+            or dataset_config.get('subject_file_type')
+            or 'auto'
+        )
 
         # Step 2b: Build / load mapping dict from data dictionary (if provided)
         mapping = None
@@ -4952,6 +5323,28 @@ def handle_update_workflow(args, config):
             if mapping:
                 merged = normalize_annotations_from_mapping(merged, mapping)
 
+            # Fill empty annotation slots from the actual file contents (unique values per column)
+            if mapping and matched_staging_id:
+                local_path = local_path_map.get(matched_staging_id)
+                if local_path and os.path.exists(local_path):
+                    effective_type = subject_file_type
+                    if effective_type == 'auto':
+                        subj_col = merged.get('subjectIdColumn')
+                        if isinstance(subj_col, list):
+                            subj_col = subj_col[0] if subj_col else None
+                        effective_type = detect_subject_file_type(local_path, subj_col)
+                    if effective_type == 'multi':
+                        merged = fill_template_from_file_contents(merged, local_path, mapping)
+                # Apply view-level annotations from _views
+                # Prefer viewName already stored in annotations; fall back to raw staging filename
+                view_name = merged.get('viewName')
+                if isinstance(view_name, list):
+                    view_name = view_name[0] if view_name else None
+                if not view_name and matched_staging_id:
+                    view_name = view_map.get(matched_staging_id)
+                if view_name:
+                    merged = apply_view_annotations(merged, view_name, mapping)
+
             if matched_staging_id and matched_staging_id != syn_id:
                 merged['_staging_id'] = matched_staging_id
             if matched_staging_id:
@@ -4967,6 +5360,24 @@ def handle_update_workflow(args, config):
             file_type = detect_file_type(clean_name, all_schemas=all_schemas, dataset_config=dataset_config)
             template = create_annotation_template(all_schemas, file_type)
             template['_staging_id'] = staging_syn_id
+
+            # Fill from file contents for new files too
+            if mapping:
+                local_path = local_path_map.get(staging_syn_id)
+                if local_path and os.path.exists(local_path):
+                    effective_type = subject_file_type
+                    if effective_type == 'auto':
+                        subj_col = template.get('subjectIdColumn')
+                        if isinstance(subj_col, list):
+                            subj_col = subj_col[0] if subj_col else None
+                        effective_type = detect_subject_file_type(local_path, subj_col)
+                    if effective_type == 'multi':
+                        template = fill_template_from_file_contents(template, local_path, mapping)
+                # Apply view-level annotations from _views using raw staging filename as view name
+                view_name = view_map.get(staging_syn_id)
+                if view_name and mapping:
+                    template = apply_view_annotations(template, view_name, mapping)
+
             annotations_output[staging_syn_id] = {clean_name: template}
             print(f"  + New file (no existing match): {clean_name} ({staging_syn_id})")
 
@@ -5096,13 +5507,21 @@ def handle_update_workflow(args, config):
         print("STEP 3: SKIPPING UPLOAD (no --local-files-dir)")
         print("=" * 60)
 
-        # Apply annotations to existing files (no upload path)
-        print("Applying annotations to existing files...")
-        success_count, error_count = apply_annotations_to_files(
-            syn, existing_file_ids_annotations,
-            dry_run=config.DRY_RUN, verbose=config.VERBOSE
-        )
-        print(f"\n  Applied: {success_count}, Errors: {error_count}")
+        # Apply annotations (and optionally force-version) for files not handled by staging upload
+        no_staging_files = {
+            sid: data for sid, data in existing_file_ids_annotations.items()
+            if not list(data.values())[0].get('_staging_id')
+        }
+        if no_staging_files:
+            label_str = f" (forcing version '{version_label}')" if version_label else ""
+            print(f"Applying annotations to {len(no_staging_files)} files without staging upload{label_str}...")
+            success_count, error_count = apply_annotations_to_files(
+                syn, no_staging_files,
+                dry_run=config.DRY_RUN, verbose=config.VERBOSE,
+                version_label=version_label,
+                version_comment=version_comment,
+            )
+            print(f"\n  Applied: {success_count}, Errors: {error_count}")
 
     # Step 4: Move new-only staging files to release folder
     if new_file_ids_annotations and release_folder:
@@ -5117,7 +5536,9 @@ def handle_update_workflow(args, config):
             release_folder_id=release_folder,
             dataset_id=args.dataset_id,
             dry_run=config.DRY_RUN,
-            verbose=config.VERBOSE
+            verbose=config.VERBOSE,
+            version_label=version_label,
+            version_comment=version_comment,
         )
         print(f"\n  Moved & added: {moved}, Errors: {move_errors}")
     elif new_file_ids_annotations and not release_folder:
@@ -5297,6 +5718,122 @@ def handle_set_version(args, config):
         print("\n💡 Tip: Re-run with --create-snapshot (or set create_snapshot: true in config) to also snapshot the dataset.")
 
 
+def handle_delete_versions_workflow(args, config):
+    """
+    Delete file versions by label across a single entity or all files in a dataset.
+
+    Supports:
+      --syn-id          single entity to target
+      --dataset-id      delete matching versions from every file in this dataset
+      --use-config      load dataset_id (and optionally version-label list) from config
+      --version-label   one or more labels to delete
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    version_labels = getattr(args, 'version_label', None) or []
+    if not version_labels:
+        print("❌ No --version-label provided. Nothing to do.")
+        return
+
+    dataset_config = {}
+    if hasattr(args, 'use_config') and args.use_config:
+        dataset_config = config.get_dataset_config(args.use_config) or {}
+        if not dataset_config:
+            print(f"❌ Config '{args.use_config}' not found.")
+            return
+
+    # Resolve dataset_id or syn_id
+    dataset_id = getattr(args, 'dataset_id', None) or dataset_config.get('dataset_id')
+    single_syn_id = getattr(args, 'syn_id', None)
+
+    if not dataset_id and not single_syn_id:
+        print("❌ Provide --dataset-id, --syn-id, or --use-config with a dataset_id.")
+        return
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"DELETE FILE VERSIONS {mode}")
+    print(f"{'='*60}")
+    print(f"Labels to delete : {version_labels}")
+
+    total_deleted = total_skipped = total_errors = 0
+
+    def _process_file_list(file_ids_names):
+        nonlocal total_deleted, total_skipped, total_errors
+        for fid, fname in file_ids_names:
+            print(f"  [{fid}] {fname}")
+            d, s, e = delete_file_versions_by_label(syn, fid, version_labels,
+                                                     dry_run=dry_run,
+                                                     verbose=config.VERBOSE)
+            total_deleted += d; total_skipped += s; total_errors += e
+
+    if single_syn_id:
+        # Auto-detect entity type
+        entity = syn.get(single_syn_id, downloadFile=False)
+        concrete_type = entity.get('concreteType', '')
+
+        if 'FileEntity' in concrete_type:
+            # Single file
+            print(f"Target (file)    : {single_syn_id} ({entity.name})")
+            d, s, e = delete_file_versions_by_label(syn, single_syn_id, version_labels,
+                                                     dry_run=dry_run, verbose=True)
+            total_deleted += d; total_skipped += s; total_errors += e
+
+        elif 'Folder' in concrete_type or 'Project' in concrete_type:
+            # Enumerate all files in the folder (non-recursive, direct children)
+            print(f"Target (folder)  : {single_syn_id} ({entity.name})")
+            children = list(syn.getChildren(single_syn_id, includeTypes=['file']))
+            print(f"Files in folder  : {len(children)}\n")
+            _process_file_list([(c['id'], c['name']) for c in children])
+
+        elif 'Dataset' in concrete_type:
+            # Enumerate via table query
+            print(f"Target (dataset) : {single_syn_id} ({entity.name})")
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {single_syn_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+                print(f"Files in dataset : {len(file_rows)}\n")
+                _process_file_list(
+                    [(row.get('id') or row.iloc[0], row.get('name', '')) for _, row in file_rows.iterrows()]
+                )
+            except Exception as e:
+                print(f"❌ Could not query dataset {single_syn_id}: {e}")
+                return
+        else:
+            print(f"❌ Unsupported entity type '{concrete_type}' for {single_syn_id}")
+            return
+
+    elif dataset_id:
+        print(f"Dataset          : {dataset_id}")
+        try:
+            results = syn.tableQuery(
+                f"SELECT id, name FROM {dataset_id}", includeRowIdAndRowVersion=False
+            )
+            file_rows = results.asDataFrame()
+        except Exception as e:
+            print(f"❌ Could not query dataset {dataset_id}: {e}")
+            return
+
+        print(f"Files in dataset : {len(file_rows)}\n")
+        _process_file_list(
+            [(row.get('id') or row.iloc[0], row.get('name', '')) for _, row in file_rows.iterrows()]
+        )
+
+    print(f"\n{'='*60}")
+    print(f"Summary: deleted={total_deleted}, skipped={total_skipped}, errors={total_errors}")
+    if dry_run:
+        print("Re-run with --execute to apply deletions.")
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
@@ -5449,6 +5986,15 @@ Examples:
                               help='View Name to filter from data dictionary (e.g. "ASSESS")')
     update_parser.add_argument('--mapping',
                               help='Path to existing mapping .dict file (overrides --data-dict)')
+    update_parser.add_argument('--subject-file-type',
+                              choices=['single', 'multi', 'auto'],
+                              default=None,
+                              help=(
+                                  'How to treat files when filling annotations from file contents. '
+                                  '"single": one subject per file (no file-content filling). '
+                                  '"multi": multiple subjects per file (collect unique values per column). '
+                                  '"auto" (default): detect per file using the subject ID column.'
+                              ))
     update_parser.add_argument('--execute', action='store_true',
                               help='Execute (override DRY_RUN)')
     update_parser.add_argument('--dry-run', action='store_true',
@@ -5568,6 +6114,24 @@ Examples:
     version_parser.add_argument('--dry-run', action='store_true',
                                 help='Dry run mode (default)')
 
+    # DELETE-VERSIONS command
+    delete_parser = subparsers.add_parser(
+        'delete-versions',
+        help='Delete file versions by version label (single entity or all files in a dataset)'
+    )
+    delete_parser.add_argument('--use-config',
+                               help='Load dataset_id from config.yaml datasets section (e.g., "ALL_ALS_ASSESS")')
+    delete_parser.add_argument('--dataset-id',
+                               help='Synapse ID of dataset — deletes matching versions from every file in it')
+    delete_parser.add_argument('--syn-id',
+                               help='Synapse ID to target: file (single entity), folder (enumerates direct children), or dataset (enumerates all files)')
+    delete_parser.add_argument('--version-label', nargs='+', metavar='LABEL',
+                               help='One or more version labels to delete (e.g. v5-FEB_test v5-FEB_test_v2)')
+    delete_parser.add_argument('--execute', action='store_true',
+                               help='Execute deletions (default is dry-run)')
+    delete_parser.add_argument('--dry-run', action='store_true',
+                               help='Dry run mode (default)')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -5658,6 +6222,10 @@ Examples:
         if not getattr(args, 'mapping', None) and 'mapping' in dataset_config:
             args.mapping = dataset_config['mapping']
             print(f"Using mapping from config: {args.mapping}")
+
+        if not getattr(args, 'subject_file_type', None) and 'subject_file_type' in dataset_config:
+            args.subject_file_type = dataset_config['subject_file_type']
+            print(f"Using subject_file_type from config: {args.subject_file_type}")
 
     # Handle --use-config for set-version command
     if args.command == 'set-version' and hasattr(args, 'use_config') and args.use_config:
@@ -5764,6 +6332,8 @@ Examples:
         handle_generate_mapping(args, config)
     elif args.command == 'set-version':
         handle_set_version(args, config)
+    elif args.command == 'delete-versions':
+        handle_delete_versions_workflow(args, config)
 
 
 if __name__ == "__main__":
