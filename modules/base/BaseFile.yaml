@@ -11,7 +11,7 @@ classes:
       title:
         title: Title
         range: string
-        required: true
+        required: false
       description:
         title: Description
         range: string
@@ -38,7 +38,7 @@ classes:
         title: Keywords
         range: string
         multivalued: true
-        required: true
+        required: false
       subject:
         title: Subject
         range: string

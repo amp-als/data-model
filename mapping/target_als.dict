@@ -49,5 +49,17 @@
   "collection": {
     "target": "collection",
     "value": "Target ALS"
+  },
+  "_data_source_prefix_const": {
+    "target": "_data_source_prefix",
+    "value": "target_als"
+  },
+  "_dataset_id_const": {
+    "target": "_dataset_id",
+    "value": "wgs"
+  },
+  "_global_subject_id_gen": {
+    "target": "globalSubjectId",
+    "value_template": "{_data_source_prefix}_{_dataset_id}_{originalSubjectId}"
   }
 }

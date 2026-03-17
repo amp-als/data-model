@@ -11,7 +11,7 @@
   "biospecimenType": [
     "blood",
     "csf",
-    "spinal cord"
+    "spinal_cord"
   ],
   "cellType": [
     ""
@@ -28,7 +28,7 @@
   "creator": [
     "Target ALS"
   ],
-  "curationLevel": "raw",
+  "curationLevel": "Raw",
   "dataFormat": [
     ""
   ],
@@ -63,17 +63,21 @@
     ""
   ],
   "libraryLayout": [
-    "single"
+    "single-end"
   ],
-  "libraryStrategy": "",
+  "libraryStrategy": "WGS",
   "license": "",
   "originalSampleId": "",
-  "participant_count": null,
-  "platform": "",
+  "participant_count": 86,
+  "platform":[
+    "Illumina NovaSeq 6000",
+    "Illumina NovaSeq X", 
+    "Illumina NovaSeq X" 
+  ],
   "portalRelease": [
     "2026.1"
   ],
-  "processingLevel": ["raw","procressed"],
+  "processingLevel": ["raw","processed"],
   "publisher": "",
   "sameAs": "",
   "source": "Target ALS",
@@ -87,7 +91,7 @@
     ""
   ],
   "title": "Target ALS Dataset",
-  "url": "",
+  "url": "https://targetals.org/",
   "_file_type": "OmicDataset",
   "_schema_source": "json-schema",
   "_created_timestamp": "2026-03-11T16:42:06.102345"

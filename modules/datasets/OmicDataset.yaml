@@ -32,6 +32,7 @@ classes:
         title: Platform
         range: PlatformEnum
         description: Sequencing or analysis platform used
+        multivalued: true
         required: false
       libraryStrategy:
         title: Library Strategy

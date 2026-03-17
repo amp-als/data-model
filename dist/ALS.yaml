@@ -158,11 +158,42 @@ enums:
         description: Summary statistics
       meta_analysis:
         description: Meta-analysis results
+      # Clinical study types
       Patient Registry Study:
+        description: Registry-based patient data collection
       Natural History Study:
+        description: Observational study tracking disease progression
       Clinical Trial:
+        description: Interventional study testing treatments
       Observational Study:
+        description: Non-interventional observational research
+      # Omic study types
+      Case-Control Study:
+        description: Comparison between disease cases and healthy controls
+      Cohort Study:
+        description: Longitudinal study following a cohort over time
+      Cross-Sectional Study:
+        description: Data collected at a single time point across subjects
+      Longitudinal Study:
+        description: Repeated measurements from same subjects over time
+      Discovery Study:
+        description: Exploratory study to identify patterns or biomarkers
+      Validation Study:
+        description: Study to validate previously identified findings
+      Multi-Omics Study:
+        description: Integrating multiple omic data types (genomics, transcriptomics, proteomics, etc.)
+      Comparative Study:
+        description: Comparing different conditions, treatments, or populations
+      Pilot Study:
+        description: Small-scale preliminary study
+      Replication Study:
+        description: Study replicating findings from previous research
+      Time Series Study:
+        description: Sequential measurements over time to study dynamics
+      Population Study:
+        description: Large-scale population-level genomic or omic analysis
       Unknown:
+        description: Study type unknown or not specified
   # Library layouts for sequencing
   LibraryLayoutEnum:
     permissible_values:
@@ -246,12 +277,16 @@ enums:
         description: ERBB4 ALS
       FIG4-ALS:
         description: FIG4 ALS
+      GRN-ALS:
+        description: GRN (Progranulin) ALS
       HNRNPA1-ALS:
         description: HNRNPA1 ALS
       HNRNPA2B1-ALS:
         description: HNRNPA2B1 ALS
       KIF5A-ALS:
         description: KIF5A ALS
+      MAPT-ALS:
+        description: MAPT (Tau) ALS
       MATR3-ALS:
         description: MATR3 ALS
       MOBP-ALS:
@@ -300,6 +335,17 @@ enums:
         description: SPG11 ALS
       Other genetic ALS:
         description: ALS associated with other or unspecified gene variant
+      # El Escorial Revised Diagnostic Criteria
+      Definite_ALS:
+        description: Definite ALS by El Escorial revised criteria - UMN and LMN signs in 3+ regions
+      Probable_ALS:
+        description: Probable ALS by El Escorial revised criteria - UMN and LMN signs in 2+ regions
+      Probable_ALS_Lab_Supported:
+        description: Probable ALS with laboratory support - clinical evidence in 1-2 regions plus EMG findings
+      Possible_ALS:
+        description: Possible ALS by El Escorial revised criteria - UMN and LMN signs in 1 region
+      Suspected_ALS:
+        description: Suspected ALS - LMN signs only in 2+ regions
   # Cell types
   CellTypeEnum:
     permissible_values:
@@ -345,6 +391,17 @@ enums:
         description: Other types of glial cells
       other:
         description: Other cell type
+  # Data processing levels
+  ProcessingLevelEnum:
+    permissible_values:
+      raw:
+        description: Raw, unprocessed data
+      processed:
+        description: Processed data (aligned, normalized)
+      analyzed:
+        description: Analyzed data with statistical results
+      integrated:
+        description: Integrated multi-sample analysis
   # Biospecimen types
   BiospecimenTypeEnum:
     permissible_values:
@@ -642,8 +699,6 @@ enums:
         description: Overall functional capacity assessment
       safety_monitoring:
         description: Safety monitoring and adverse events
-      treatment_response:
-        description: Physiological response to study drug infusion as measured by changes in vital signs (blood pressure, heart rate, respiratory rate) taken pre-dose, during infusion, and post-infusion to assess tolerance and acute treatment effects.
       treatment_modification:
         description: Changes, interruptions, or discontinuation of study treatment
       subject_management:
@@ -728,6 +783,8 @@ enums:
         description: Death and cause of death
       activities_of_daily_living (ADL):
         description: tasks like bathing, dressing, eating, and mobility that become challenging with ALS, and can be classified into basic ADLs (physical self-care) and instrumental ADLs (complex life management)
+      treatment_response:
+        description: Physiological response to study drug infusion as measured by changes in vital signs (blood pressure, heart rate, respiratory rate) taken pre-dose, during infusion, and post-infusion to assess tolerance and acute treatment effects.
       speech_function:
         description: measuring the patient's ability to communicate across five levels, from normal speaking ability to a complete loss of useful speech
       study_eligibility:
@@ -808,6 +865,12 @@ enums:
         description: Copy number variant
       Repeat_Expansion:
         description: Repeat expansion (e.g., C9orf72)
+      Genomic:
+        description: All variant types (SNVs, InDels, SVs) from genome-wide haplotype calling
+      Small_Variant:
+        description: Small variants including SNVs and InDels
+      Structural_Variant:
+        description: Structural variants including deletions, insertions, duplications, inversions, and CNVs
       Other:
         description: Other variant type
   VariantClassificationEnum:
@@ -1776,16 +1839,6 @@ enums:
         description: Amplicon sequencing
       targeted_seq:
         description: Targeted sequencing panel
-  ProcessingLevelEnum:
-    permissible_values:
-      raw:
-        description: Raw, unprocessed data
-      processed:
-        description: Processed data (aligned, normalized)
-      analyzed:
-        description: Analyzed data with statistical results
-      integrated:
-        description: Integrated multi-sample analysis
   TreatmentEnum:
     permissible_values:
       control:
@@ -2042,10 +2095,34 @@ enums:
         description: Middle Eastern or North African
       "Native Hawaiian or Other Pacific Islander":
         description: Native Hawaiian or Other Pacific Islander
+      Multiracial:
+        description: Individual identifies with multiple racial categories
       "Not Reported":
         description: Race/ethnicity not reported
       "Prefer Not to Disclose":
         description: Subject prefers not to disclose race/ethnicity
+  EthnicityEnum:
+    permissible_values:
+      "Hispanic or Latino":
+        description: Hispanic or Latino ethnicity
+      "Not Hispanic or Latino":
+        description: Not Hispanic or Latino
+      Unknown:
+        description: Ethnicity unknown or not reported
+      "Not Reported":
+        description: Ethnicity not reported
+      "Prefer Not to Disclose":
+        description: Subject prefers not to disclose ethnicity
+  SampleTypeEnum:
+    permissible_values:
+      "Negative Control":
+        description: Negative control sample
+      "Plate Control":
+        description: Plate control sample
+      Sample:
+        description: Actual biological sample
+      "Sample Control":
+        description: Sample control
   License:
     description: License attached to the data. If indicates UNKNOWN or RESTRICTED-USE, data may not be used without further contact for terms.
     notes:
@@ -2127,6 +2204,8 @@ enums:
       National Institutes of Health:
       Project MinE:
       ALS Compute:
+      Target ALS:
+        description: Target ALS consortium
       amp_als:
         description: AMP-ALS Knowledge Portal
       target_als:
@@ -4234,7 +4313,7 @@ classes:
         title: URL
         range: string
         description: URL for the original dataset location at source.
-        required: true
+        required: false
       sameAs:
         title: Same As
         range: string
@@ -4258,6 +4337,18 @@ classes:
         description: Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.
         required: false
         pattern: "^(src|omop|sdtm|send|adam)_als\\d+$"
+      portalRelease:
+        title: Portal Release
+        range: string
+        description: Portal release version(s) in which this dataset is included (e.g. "2025.2").
+        multivalued: true
+        required: false
+      acknowledgementStatement:
+        title: Acknowledgement Statement
+        range: string
+        description: Statement or link describing how use of this dataset should be acknowledged.
+        multivalued: true
+        required: false
   BaseFile:
     abstract: true
     description: Base schema for all file types with common metadata attributes
@@ -4265,7 +4356,7 @@ classes:
       title:
         title: Title
         range: string
-        required: true
+        required: false
       description:
         title: Description
         range: string
@@ -4281,7 +4372,7 @@ classes:
         range: string
         description: Properly formatted name of the organization or person that is creator of the file (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
         multivalued: true
-        required: true
+        required: false
       contributor:
         title: Contributor(s)
         range: string
@@ -4292,7 +4383,7 @@ classes:
         title: Keywords
         range: string
         multivalued: true
-        required: true
+        required: false
       subject:
         title: Subject
         range: string
@@ -4341,7 +4432,7 @@ classes:
         title: URL
         range: string
         description: URL for the original file location at source.
-        required: true
+        required: false
       sameAs:
         title: Same As
         range: string
@@ -6511,6 +6602,7 @@ classes:
         title: Platform
         range: PlatformEnum
         description: Sequencing or analysis platform used
+        multivalued: true
         required: false
       libraryStrategy:
         title: Library Strategy
@@ -6536,10 +6628,10 @@ classes:
         range: string
         description: GEO SuperSeries identifier
         required: false
-      originalSampleName:
-        title: Original Sample Name
+      originalSampleId:
+        title: Original Sample ID
         range: string
-        description: Original sample name from data source
+        description: Original sample identifier as provided by the data source.
         required: false
       FACSPopulation:
         title: FACS Population
@@ -6551,6 +6643,7 @@ classes:
         title: Processing Level
         range: ProcessingLevelEnum
         description: Level of data processing (raw, processed, analyzed)
+        multivalued: true
         required: false
       dataFormat:
         title: Data Format
@@ -6575,6 +6668,7 @@ classes:
         title: Platform
         range: PlatformEnum
         description: Sequencing or analysis platform used
+        multivalued: true
         required: false
       libraryStrategy:
         title: Library Strategy
@@ -6586,6 +6680,7 @@ classes:
         title: Processing Level
         range: ProcessingLevelEnum
         description: Level of data processing (raw, processed, analyzed)
+        multivalued: true
         required: false
       # File format details
       fileFormat:
@@ -6593,11 +6688,100 @@ classes:
         range: string
         description: Format of the omic data file (FASTQ, BAM, VCF, etc.)
         required: false
+      variantType:
+        title: Variant Type
+        range: VariantTypeEnum
+        description: Type of genetic variant for VCF files
+        required: false
       # Sample tracking
       sampleIdColumn:
         title: Sample ID Column
         range: string
         description: Name of the column containing sample identifiers
+        required: false
+      # Subject Demographics
+      age:
+        title: Age
+        description: Age of subject in years at time of data collection
+        range: integer
+        required: false
+      sex:
+        title: Sex
+        description: Biological sex of the subject
+        range: SexEnum
+        required: false
+      race:
+        title: Race
+        description: Race of the subject
+        range: RaceEnum
+        required: false
+      ethnicity:
+        title: Ethnicity
+        description: Ethnicity of the subject
+        range: EthnicityEnum
+        required: false
+      country:
+        title: Country
+        description: Country of residence or data collection site
+        range: string
+        required: false
+      heightCm:
+        title: Height (cm)
+        description: Height of subject in centimeters
+        range: float
+        required: false
+      weightKg:
+        title: Weight (kg)
+        description: Weight of subject in kilograms
+        range: float
+        required: false
+      # Disease Timeline
+      yearOfSymptomOnset:
+        title: Year of Symptom Onset
+        description: Year when first ALS symptoms appeared
+        range: integer
+        required: false
+      yearOfDiagnosis:
+        title: Year of ALS Diagnosis
+        description: Year when ALS diagnosis was made
+        range: integer
+        required: false
+      # Genetic Ancestry Proportions (0.0 to 1.0 scale)
+      propAfricanGeneticAncestry:
+        title: Proportion African Genetic Ancestry
+        description: Proportion of African genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propEuropeanGeneticAncestry:
+        title: Proportion European Genetic Ancestry
+        description: Proportion of European genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propSouthAsianGeneticAncestry:
+        title: Proportion South Asian Genetic Ancestry
+        description: Proportion of South Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propEastAsianGeneticAncestry:
+        title: Proportion East Asian Genetic Ancestry
+        description: Proportion of East Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+      propNativeAmericanGeneticAncestry:
+        title: Proportion Native American Genetic Ancestry
+        description: Proportion of Native American genetic ancestry from admixture analysis
+        range: float
+        required: false
+      # Biospecimen Collection and Storage
+      collectionSite:
+        title: Collection Site
+        description: Site or institution where biospecimen was collected
+        range: string
+        required: false
+      storageContainer:
+        title: Storage Container
+        description: Container or repository where biospecimen is stored
+        range: string
         required: false
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
@@ -7305,6 +7489,17 @@ classes:
         range: DiseaseEnum
         description: Disease diagnosis
         required: false
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type)
+        required: false
+      diseaseSubtype:
+        title: Disease Subtype
+        description: Specific disease subtypes, genetic variants, or diagnostic criteria (can have multiple)
+        range: DiseaseSubtypeEnum
+        multivalued: true
+        required: false
       sex:
         title: Sex
         range: SexEnum
@@ -7349,6 +7544,66 @@ classes:
         title: ZIP/Postal Code
         range: string
         description: ZIP or postal code
+        required: false
+      country:
+        title: Country
+        description: Country of residence or data collection site
+        range: string
+        required: false
+      yearOfSymptomOnset:
+        title: Year of Symptom Onset
+        description: Year when first ALS symptoms appeared
+        range: integer
+        required: false
+        minimum_value: 1900
+        maximum_value: 2100
+      yearOfDiagnosis:
+        title: Year of ALS Diagnosis
+        description: Year when ALS diagnosis was made
+        range: integer
+        required: false
+        minimum_value: 1900
+        maximum_value: 2100
+      # Genetic Ancestry Proportions (0.0 to 1.0 scale)
+      propAfricanGeneticAncestry:
+        title: Proportion African Genetic Ancestry
+        description: Proportion of African genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propEuropeanGeneticAncestry:
+        title: Proportion European Genetic Ancestry
+        description: Proportion of European genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propSouthAsianGeneticAncestry:
+        title: Proportion South Asian Genetic Ancestry
+        description: Proportion of South Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propEastAsianGeneticAncestry:
+        title: Proportion East Asian Genetic Ancestry
+        description: Proportion of East Asian genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propNativeAmericanGeneticAncestry:
+        title: Proportion Native American Genetic Ancestry
+        description: Proportion of Native American genetic ancestry from admixture analysis
+        range: float
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      ethnicity:
+        title: Ethnicity
+        description: Ethnicity of subject
+        range: EthnicityEnum
         required: false
   ClinicalDatasetMixin:
     mixin: true
@@ -7406,10 +7661,10 @@ classes:
         range: string
         description: GEO SuperSeries identifier
         required: false
-      originalSampleName:
-        title: Original Sample Name
+      originalSampleId:
+        title: Original Sample ID
         range: string
-        description: Original sample name from data source
+        description: Original sample identifier as provided by the data source.
         required: false
       FACSPopulation:
         title: FACS Population
@@ -7449,6 +7704,24 @@ classes:
         description: Computational and statistical analysis methods applied to the data
         multivalued: true
         required: false
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: >
+          Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}
+
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+$"
+      originalSubjectId:
+        title: Original Subject ID
+        range: string
+        description: Original subject identifier as provided by the data source.
+        required: false
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type)
+        required: false
   OmicFileMixin:
     mixin: true
     description: Mixin for omic file specific attributes
@@ -7464,10 +7737,10 @@ classes:
         range: string
         description: GEO SuperSeries identifier
         required: false
-      originalSampleName:
-        title: Original Sample Name
+      originalSampleId:
+        title: Original Sample ID
         range: string
-        description: Original sample name from data source
+        description: Original sample identifier as provided by the data source.
         required: false
       FACSPopulation:
         title: FACS Population
@@ -7479,6 +7752,11 @@ classes:
         range: LibraryLayoutEnum
         description: Single-end or paired-end sequencing layout for files containing sequencing data.
         multivalued: true
+        required: false
+      libraryPreparationMethod:
+        title: Library Preparation Method
+        range: LibraryPreparationMethodEnum
+        description: Method or kit used for library preparation.
         required: false
       biospecimenType:
         title: Biospecimen Type
@@ -7497,6 +7775,24 @@ classes:
         range: AnalysisMethodEnum
         description: Computational and statistical analysis methods applied to the data
         multivalued: true
+        required: false
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: >
+          Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}
+
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+$"
+      originalSubjectId:
+        title: Original Subject ID
+        range: string
+        description: Original subject identifier as provided by the data source.
+        required: false
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type)
         required: false
   Dataset:
     is_a: BaseDataset

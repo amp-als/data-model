@@ -64,6 +64,12 @@ classes:
         description: Disease diagnosis
         required: false
 
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type)
+        required: false
+
       diseaseSubtype:
         title: Disease Subtype
         description: Specific disease subtypes, genetic variants, or diagnostic criteria (can have multiple)
@@ -274,4 +280,15 @@ enums:
         description: Ambidextrous (both hands equally dominant)
       Unknown:
         description: Handedness unknown or not reported
+
+  SampleTypeEnum:
+    permissible_values:
+      "Negative Control":
+        description: Negative control sample
+      "Plate Control":
+        description: Plate control sample
+      Sample:
+        description: Actual biological sample
+      "Sample Control":
+        description: Sample control
 

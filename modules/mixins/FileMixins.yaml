@@ -49,6 +49,11 @@ classes:
         range: string
         description: Original subject identifier as provided by the data source.
         required: false
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type)
+        required: false
 
   OmicFileMixin:
     mixin: true
@@ -122,4 +127,9 @@ classes:
         title: Original Subject ID
         range: string
         description: Original subject identifier as provided by the data source.
+        required: false
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type)
         required: false

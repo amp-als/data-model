@@ -85,7 +85,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "ANG-ALS"
     }
@@ -94,7 +94,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "ATXN2-ALS"
     }
@@ -103,7 +103,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "C9-ALS"
     }
@@ -112,7 +112,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "FUS-ALS"
     }
@@ -121,7 +121,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "GRN-ALS"
     }
@@ -130,7 +130,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "MAPT-ALS"
     }
@@ -139,7 +139,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "SETX-ALS"
     }
@@ -148,7 +148,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "SOD1-ALS"
     }
@@ -157,7 +157,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "TARDBP-ALS"
     }
@@ -166,7 +166,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "VAPB-ALS"
     }
@@ -175,7 +175,7 @@
     "target": "diseaseSubtype",
     "values": {
       "N/D": "",
-      "Negative": "",
+      "Negative": "N/A",
       "PEN": "",
       "Positive": "VCP-ALS"
     }
@@ -740,7 +740,7 @@
     }
   },
   "sequencing_site": {
-    "target": "contributor",
+    "target": ["contributor","source"],
     "values": {
       "NYGC": "New York Genome Center",
       "Psomagen": "Psomagen"
@@ -851,7 +851,7 @@
   "atxn2_pathogenic_repeat_expansion": {
     "target": "",
     "values": {
-      "Negative": ""
+      "Negative": "N/A"
     }
   },
   "c9orf72_repeat_size": {
@@ -887,7 +887,7 @@
   "c9orf72_pathogenic_repeat_expansion": {
     "target": "",
     "values": {
-      "Negative": "",
+      "Negative": "N/A",
       "Positive": ""
     }
   },
@@ -1134,9 +1134,25 @@
     "target": "collection",
     "value": "Target ALS"
   },
+  "species_fixed": {
+    "target": "species",
+    "value": "Homo sapiens"
+  },
   "contributor_fixed": {
     "target": "contributor",
     "value": "Target ALS"
+  },
+  "_data_source_prefix_const": {
+    "target": "_data_source_prefix",
+    "value": "target_als"
+  },
+  "_dataset_id_const": {
+    "target": "_dataset_id",
+    "value": "wgs"
+  },
+  "_global_subject_id_gen": {
+    "target": "globalSubjectId",
+    "value_template": "{_data_source_prefix}_{_dataset_id}_{originalSubjectId}"
   },
   "_file_category": {
     "target": "",

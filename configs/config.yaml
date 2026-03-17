@@ -6,7 +6,7 @@ synapse:
   # Optional: Leave empty to use default Synapse credentials (~/.synapseConfig)
   # Priority: SYNAPSE_AUTH_TOKEN env var > this config > ~/.synapseConfig
   auth_token: ""
-  project_id: ""
+  project_id: "syn69808338"
   datasets_collection_id: "syn66496326"
 
 # Directories
@@ -43,7 +43,14 @@ datasets:
   #   version_label: "v3-DEC"
   #   version_comment: "Dec Release"
   #   # dataset_type: "Clinical"  # Optional: explicitly set 'Clinical' or 'Omic'
-  #
+  ALL_ALS_ASSESS:
+    dataset_id: "syn69694463"
+    staging_folder: "syn73806497"
+    release_folder: "syn68885185"
+    version_label: "v5-FEB"
+    data_dict: "data/ALL_ALS/v5-FEB/DD_ALLALS_AS_2026_02_23.csv"
+    data_dict_view: "ASSESS"
+    #mapping: "mapping/ALL_ALS_ASSESS.dict"
   # Example: Add your own dataset configs
   # ALS_Compute_Dataset: 
   #   staging_folder: "syn68753414"
@@ -54,20 +61,58 @@ datasets:
   #   collection_id: "syn66496326"
   #   auto_move_to_release: true 
   #   generate_wiki: false
-
-  Toprimate_dataset:
-    staging_folder: "syn73452570"
-    release_folder: "syn73447929"
-    dataset_name: "Clinical Trial of Toprimate in ALS"
-    dataset_type: "Clinical"
-    version_label: "2026.1"
-    version_comment: "Initial Release"
-    generate_wiki: false
-    create_snapshot: true
-    create_entity_view: true
-    add_to_collection: true
-    collection_id: "syn66496326"
-    auto_move_to_release: false
+  # Target_ALS_Dataset:   
+  #   staging_folder: "syn73810626"
+  #   release_folder: "syn69808340"
+  #   dataset_name: "Target ALS Dataset"
+  #   dataset_type: "Omic"
+  #   version_label: "2026.1"
+  #   version_comment: "Initial Release"
+  #   apply_version: false
+  #   generate_wiki: false
+  #   create_snapshot: false
+  #   create_entity_view: true
+  #   add_to_collection: true
+  #   collection_id: "syn66496326"
+  #   auto_move_to_release: false
+  #   acknowledgementStatement: "syn64892175/wiki/639413"
+  #   columns:
+  #     - age 
+  #     - collectionSite
+  #     - country
+  #     - diseaseSubtype
+  #     - ethnicity
+  #     - heightCm
+  #     - libraryPreparationMethod
+  #     - originalSampleId
+  #     - propAfricanGeneticAncestry
+  #     - propEastAsianGeneticAncestry
+  #     - propEuropeanGeneticAncestry
+  #     - propNativeAmericanGeneticAncestry
+  #     - propSouthAsianGeneticAncestry
+  #     - race
+  #     - sex
+  #     - tissue
+  #     - diagnosis
+  #     - libraryPrep
+  #     - storageContainer
+  #     - variantType
+  #     - weightKg
+  #     - yearOfDiagnosis
+  #     - yearOfSymptomOnset
+  # Toprimate_dataset:
+  #   staging_folder: "syn73452570"
+  #   release_folder: "syn73447929"
+  #   dataset_name: "Clinical Trial of Toprimate in ALS"
+  #   dataset_type: "Clinical"
+  #   version_label: "2026.1"
+  #   version_comment: "Initial Release"
+  #   generate_wiki: false
+  #   create_snapshot: true
+  #   create_entity_view: true
+  #   add_to_collection: true
+  #   collection_id: "syn66496326"
+  #   auto_move_to_release: false
   # trehalose:
   #   staging_folder: "syn68927891"
   #   release_folder: "syn68885183"
@@ -88,10 +133,13 @@ datasets:
   #   add_to_collection: true  # Add dataset to collection
   #   collection_id: "syn72642710"  # Or use global datasets_collection_id
   #   auto_move_to_release: false  # SAFETY: Set to true ONLY when ready to finalize
+  #   data_dict: "path/to/data_dictionary.csv"   # Data dictionary CSV for mapping generation (update workflow)
+  #   data_dict_view: "ASSESS"                    # View Name to filter (optional)
+  #   mapping: "mapping/dataset_name.dict"        # Pre-existing mapping file (overrides data_dict)
 
     # Wiki generation - AI will use these fields if provided
-    contact: "Principal Investigator, PI.Email@institution.edu"
-    institution: "Research Institute, Department Name"
+    #contact: "Principal Investigator, PI.Email@institution.edu"
+    #institution: "Research Institute, Department Name"
     # contributors: "Jane Doe, John Smith, Alice Johnson"
     # publication: "Author et al. Title. Journal. Year. doi: XX.XXXX/example"
     # doi: "10.1234/example"

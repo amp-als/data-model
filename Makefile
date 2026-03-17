@@ -1,4 +1,4 @@
-all: ALS.jsonld dist/ALS.yaml ALS.ttl dist/ALS.toon
+all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile OmicFile
 
 ALS.jsonld: dist/ALS.yaml
 	bb ./retold/retold as-jsonld --dir modules --out ALS.jsonld
