@@ -1,0 +1,3894 @@
+# Mapping dict: source_column -> target_data_model_field
+# Fill in "target" with the data model field name for each column.
+# For value-mapped columns, fill in the data model value for each source value.
+# Entries with empty string values are ignored during annotation.
+{
+  "_views": {
+    "v_ALLALS_AS_ASSEICF": {
+      "assessmentType": ["InformedConsentForm", "EligibilityConsent"],
+      "clinicalDomain": ["informed_consent", "eligibility_criteria"],
+      "dataType": ["clinical"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEVISTYPE": {
+      "assessmentType": ["VisitScheduling"],
+      "clinicalDomain": ["subject_management"],
+      "dataType": ["clinical"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEELIGCRITSYM": {
+      "assessmentType": ["EligibilityCriteria"],
+      "clinicalDomain": ["eligibility_criteria", "study_eligibility", "symptom_onset"],
+      "dataType": ["diagnostic_criteria"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEELIGCRITREG": {
+      "assessmentType": ["EligibilityCriteria"],
+      "clinicalDomain": ["eligibility_criteria", "study_eligibility"],
+      "dataType": ["diagnostic_criteria"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEDEMOG": {
+      "assessmentType": ["Demographics"],
+      "clinicalDomain": ["subject_management"],
+      "dataType": ["demographics"],
+      "studyPhase": "baseline"
+    },
+    "v_ALLALS_AS_ASSEALSHIST": {
+      "assessmentType": ["MedicalHistory", "ClinicalExamination"],
+      "clinicalDomain": ["disease_progression", "symptom_onset", "diagnosis_criteria", "site_of_onset"],
+      "dataType": ["medical_history", "disease_progression", "symptom_onset"],
+      "studyPhase": "baseline"
+    },
+    "v_ALLALS_AS_ASSEPRALSGENTST": {
+      "assessmentType": ["genetic_testing", "genetic_counseling"],
+      "clinicalDomain": ["genetic_testing"],
+      "dataType": ["genetic_testing"],
+      "studyPhase": "baseline"
+    },
+    "v_ALLALS_AS_ASSEFAMHIST": {
+      "assessmentType": ["MedicalHistory"],
+      "clinicalDomain": ["medical_history", "genetic_testing"],
+      "dataType": ["family_history"],
+      "studyPhase": "baseline"
+    },
+    "v_ALLALS_AS_ASSEMEDHX": {
+      "assessmentType": ["MedicalHistory"],
+      "clinicalDomain": ["medical_history"],
+      "dataType": ["medical_history", "medication_history"],
+      "studyPhase": "baseline"
+    },
+    "v_ALLALS_AS_ASSEVITSIGN": {
+      "assessmentType": ["VitalSigns"],
+      "clinicalDomain": ["vital_signs"],
+      "dataType": ["vital_signs"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEDSA": {
+      "assessmentType": ["StudyDisposition"],
+      "clinicalDomain": ["subject_management", "study_completion"],
+      "dataType": ["study_completion"],
+      "studyPhase": "endpoint"
+    },
+    "v_ALLALS_AS_ASSEELCONREG": {
+      "assessmentType": ["EligibilityConsent", "InformedConsentForm"],
+      "clinicalDomain": ["informed_consent"],
+      "dataType": ["clinical"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSECONMD": {
+      "assessmentType": ["ConcomitantMedications"],
+      "clinicalDomain": ["drug_administration", "drug_exposure"],
+      "dataType": ["medication_history"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEAELOG": {
+      "assessmentType": ["AdverseEventLog"],
+      "clinicalDomain": ["adverse_events", "safety_monitoring"],
+      "dataType": ["adverse_events"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEPDEVAD": {
+      "assessmentType": ["ProtocolDeviation"],
+      "clinicalDomain": ["compliance", "data_quality"],
+      "dataType": ["clinical"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEALSFRSR": {
+      "assessmentType": ["ALSFRS-R"],
+      "clinicalDomain": ["motor_function", "bulbar_function", "respiratory_function", "functional_assessment", "disease_progression"],
+      "dataType": ["functional_assessment", "disease_progression"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEHHD": {
+      "assessmentType": ["HandHeldDynamometry", "Strength"],
+      "clinicalDomain": ["motor_function", "limb_function", "upper_motor_neuron", "lower_motor_neuron"],
+      "dataType": ["motor_assessment"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEVC": {
+      "assessmentType": ["PulmonaryFunction", "SlowVitalCapacity (SVC)"],
+      "clinicalDomain": ["respiratory_function", "pulmonary_function_test"],
+      "dataType": ["respiratory_assessment"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEECAS": {
+      "assessmentType": ["ECAS", "cognitive_assessment"],
+      "clinicalDomain": ["cognitive_assessment", "cognitive_function", "dementia_screening"],
+      "dataType": ["cognitive_assessment"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEECASCGI": {
+      "assessmentType": ["ECAS", "ClinicalExamination"],
+      "clinicalDomain": ["cognitive_assessment", "cognitive_function"],
+      "dataType": ["cognitive_assessment", "derived_scores"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEBLDCOL": {
+      "assessmentType": ["BiomarkerSerumCollection", "Laboratory"],
+      "clinicalDomain": ["biospecimen_collection", "biomarkers"],
+      "dataType": ["biomarker_data", "laboratory_results"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSECSFCO": {
+      "assessmentType": ["BiomarkerSerumCollection", "Laboratory"],
+      "clinicalDomain": ["biospecimen_collection", "biomarkers"],
+      "dataType": ["biomarker_data", "laboratory_results"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEALSFRSRSAQ": {
+      "assessmentType": ["ALSFRS-R", "QualityOfLifeSurvey"],
+      "clinicalDomain": ["motor_function", "bulbar_function", "respiratory_function", "functional_assessment", "disease_progression"],
+      "dataType": ["functional_assessment", "surveyData"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEDSAUI": {
+      "assessmentType": ["StudyDisposition"],
+      "clinicalDomain": ["subject_management"],
+      "dataType": ["study_completion"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEELIGCRITLMP": {
+      "assessmentType": ["EligibilityCriteria", "Pregnancy"],
+      "clinicalDomain": ["eligibility_criteria", "reproductive_health", "pregnancy_exposure"],
+      "dataType": ["diagnostic_criteria"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEKEYDEV": {
+      "assessmentType": ["KeyDevicesProcedures"],
+      "clinicalDomain": ["supportive_interventions", "physical_mobility"],
+      "dataType": ["clinical"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEPARTFINDI": {
+      "assessmentType": ["ClinicalExamination", "neurological_examination"],
+      "clinicalDomain": ["disease_progression", "functional_assessment", "neurology"],
+      "dataType": ["clinical", "disease_progression"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEELCONLMP": {
+      "assessmentType": ["EligibilityConsent"],
+      "clinicalDomain": ["subject_management", "eligibility_criteria", "informed_consent"],
+      "dataType": ["clinical"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_NPROREGASSESS": {
+      "assessmentType": ["CohortParticipation"],
+      "clinicalDomain": ["subject_management"],
+      "dataType": ["clinical"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEICFCSF": {
+      "assessmentType": ["InformedConsentForm"],
+      "clinicalDomain": ["subject_management", "biospecimen_collection", "biomarkers", "informed_consent"],
+      "dataType": ["clinical"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEDHTAL": {
+      "assessmentType": ["PhysicalExam"],
+      "clinicalDomain": ["physical_mobility", "limb_function"],
+      "dataType": ["clinical"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEDHTBOE": {
+      "assessmentType": ["Strength"],
+      "clinicalDomain": ["motor_function", "limb_function"],
+      "dataType": ["motor_assessment"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEDHTELCR": {
+      "assessmentType": ["EligibilityCriteria"],
+      "clinicalDomain": ["subject_management", "eligibility_criteria"],
+      "dataType": ["clinical"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEDHTENCONF": {
+      "assessmentType": ["EligibilityConsent"],
+      "clinicalDomain": ["subject_management", "informed_consent"],
+      "dataType": ["clinical"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEDHTFQ": {
+      "assessmentType": ["QualityOfLifeSurvey"],
+      "clinicalDomain": ["physical_mobility", "safety_monitoring"],
+      "dataType": ["surveyData"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEDHTPAS": {
+      "assessmentType": ["QualityOfLifeSurvey"],
+      "clinicalDomain": ["remote_monitoring", "compliance"],
+      "dataType": ["surveyData"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEDHTPFD": {
+      "assessmentType": ["StudyDisposition"],
+      "clinicalDomain": ["subject_management", "study_completion"],
+      "dataType": ["study_completion"],
+      "studyPhase": "endpoint"
+    },
+    "v_ALLALS_AS_ASSEDHTSAS": {
+      "assessmentType": ["QualityOfLifeSurvey"],
+      "clinicalDomain": ["physical_mobility", "motor_function", "limb_function"],
+      "dataType": ["surveyData"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEDHTTAMS": {
+      "assessmentType": ["QualityOfLifeSurvey"],
+      "clinicalDomain": ["remote_monitoring"],
+      "dataType": ["surveyData"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEDHTUMUXS": {
+      "assessmentType": ["QualityOfLifeSurvey"],
+      "clinicalDomain": ["remote_monitoring"],
+      "dataType": ["surveyData"],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEELIGCRIREG2": {
+      "assessmentType": ["EligibilityCriteria"],
+      "clinicalDomain": ["eligibility_criteria", "study_eligibility", "diagnosis_criteria"],
+      "dataType": ["diagnostic_criteria"],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEELIGCRISYM2": {
+      "assessmentType": ["EligibilityCriteria"],
+      "clinicalDomain": ["eligibility_criteria", "study_eligibility", "symptom_onset"],
+      "dataType": ["diagnostic_criteria"],
+      "studyPhase": "screening"
+    }
+  },
+  "SiteUID": {
+    "description": "Original Site UID is empty because subject UID is a Unique UID.",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "SubjectUID": {
+    "description": "Subject GUID",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "LocalUID": {
+    "description": "Local ID",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "internal_subject_id": {
+    "description": "Internal subject id",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "dsyn": {
+    "description": "Was informed consent obtained for ALL ALS?",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "N/A (Symptomatic Remote)"
+    }
+  },
+  "dsreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "dsrowid": {
+    "description": "Row ID",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "dsevdat": {
+    "description": "Event Date",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "dsicf": {
+    "description": "ICF Participant Consented To?",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "disease",
+    "values": {
+      "1": "ALS",
+      "2": "Control",
+      "3": "Control"
+    }
+  },
+  "icfapdat_suppds": {
+    "description": "ALL ALS ICF Approval Date",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "icfvers_suppds": {
+    "description": "ICF Version",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "dsicfdat": {
+    "description": "Date Participant Consented",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {}
+  },
+  "dsfutyn": {
+    "description": "Consent to Contact About Future Studies?",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "dsdonyn": {
+    "description": "Consent to Contact About Brain and Tissue Donation",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "N/A"
+    }
+  },
+  "dsdigityn": {
+    "description": "Consent to optional DIGITIZE assessment?",
+    "view": "v_ALLALS_AS_ASSEICF",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "95": "N/A"
+    }
+  },
+  "location": {
+    "description": "Where Was This Visit Conducted",
+    "view": "v_ALLALS_AS_ASSEVISTYPE",
+    "target": "administrationMode",
+    "values": {
+      "1": "In_Person",
+      "2": "Video_Call"
+    }
+  },
+  "assinc01_ieperf": {
+    "description": "Not Done IN01",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "assinc01_ieorres": {
+    "description": "Inclusion 1",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "assinc02_ieperf": {
+    "description": "Not Done IN02",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "assinc02_ieorres": {
+    "description": "Inclusion 2",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "assinc03_ieperf": {
+    "description": "Not Done IN03",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "assinc03_ieorres": {
+    "description": "Inclusion 3",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "assinc04_ieperf": {
+    "description": "Not Done IN04",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "assinc04_ieorres": {
+    "description": "Inclusion 4",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "assinc05_ieperf": {
+    "description": "Not Done IN05",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "assinc05_ieorres": {
+    "description": "Inclusion 5",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "assexc01_ieperf": {
+    "description": "Not Done EX01",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "assexc01_ieorres": {
+    "description": "Exclusion 1",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "assexc02_ieperf": {
+    "description": "Not Done EX02",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "assexc02_ieorres": {
+    "description": "Exclusion 2",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "signinc": {
+    "description": "Site has completed Enrollment Confirmation",
+    "view": "v_ALLALS_AS_ASSEELIGCRITSYM",
+    "target": "",
+    "values": {}
+  },
+  "ascinc01_ieperf": {
+    "description": "Not Done IN01",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascinc01_ieorres": {
+    "description": "Inclusion 1",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ascinc02_ieperf": {
+    "description": "Not Done IN02",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascinc02_ieorres": {
+    "description": "Inclusion 2",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ascinc03_ieperf": {
+    "description": "Not Done IN03",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascinc03_ieorres": {
+    "description": "Inclusion 3",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ascinc04_ieperf": {
+    "description": "Not Done IN04",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascinc04_ieorres": {
+    "description": "Inclusion 4",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ascinc05_ieperf": {
+    "description": "Not Done IN05",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascinc05_ieorres": {
+    "description": "Inclusion 5",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ascinc06_ieperf": {
+    "description": "Not Done IN06",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascinc06_ieorres": {
+    "description": "Inclusion 6",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ascexc01_ieperf": {
+    "description": "Not Done EX01",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascexc01_ieorres": {
+    "description": "Exclusion 1",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ascexc02_ieperf": {
+    "description": "Not Done EX02",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {}
+  },
+  "ascexc02_ieorres": {
+    "description": "Exclusion 2",
+    "view": "v_ALLALS_AS_ASSEELIGCRITREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "dmyn": {
+    "description": "Obtained?",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "dmreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "dmdat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "brthdat": {
+    "description": "Birth Date",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "sex": {
+    "description": "Sex at Birth",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {
+      "1": "Female",
+      "2": "Male",
+      "3": "Intersex",
+      "90": "Unknown",
+      "95": "Not Reported"
+    }
+  },
+  "height": {
+    "description": "Height",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "vsorresu": {
+    "description": "Height Unit",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {
+      "1": "Centimeters",
+      "2": "Inches"
+    }
+  },
+  "aian_race": {
+    "description": "Race/Ethnicity:",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "asian_race": {
+    "description": "Asian",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "black_race": {
+    "description": "Black or African American",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "hl_race": {
+    "description": "Hispanic or Latino",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "mena_race": {
+    "description": "Middle Eastern or North African",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "nhpi_race": {
+    "description": "Native Hawaiian or Pacific Islander",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "white_race": {
+    "description": "White",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "unknown_race": {
+    "description": "Unknown",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "nd_race": {
+    "description": "Prefer Not to Disclose",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "nr_race": {
+    "description": "Not Reported",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "state": {
+    "description": "Participant State",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {
+      "1": "Alabama",
+      "2": "Alaska",
+      "3": "American Samoa",
+      "4": "Arizona",
+      "5": "Arkansas",
+      "6": "California",
+      "7": "Colorado",
+      "8": "Connecticut",
+      "9": "Dakota",
+      "10": "Delaware",
+      "11": "District of Columbia",
+      "12": "Florida",
+      "13": "Georgia",
+      "14": "Hawaii",
+      "15": "Idaho",
+      "16": "Illinois",
+      "17": "Indiana",
+      "18": "Iowa",
+      "19": "Kansas",
+      "20": "Kentucky",
+      "21": "Louisiana",
+      "22": "Maine",
+      "23": "Maryland",
+      "24": "Massachusetts",
+      "25": "Michigan",
+      "26": "Minnesota",
+      "27": "Mississippi",
+      "28": "Missouri",
+      "29": "Montana",
+      "30": "Nebraska",
+      "31": "Nevada",
+      "32": "New Hampshire",
+      "33": "New Jersey",
+      "34": "New Mexico",
+      "35": "New York",
+      "36": "North Carolina",
+      "37": "North Dakota",
+      "38": "Ohio",
+      "39": "Oklahoma",
+      "40": "Oregon",
+      "41": "Pennsylvania",
+      "42": "Puerto Rico",
+      "43": "Rhode Island",
+      "44": "South Carolina",
+      "45": "South Dakota",
+      "46": "Tennessee",
+      "47": "Texas",
+      "48": "Utah",
+      "49": "Vermont",
+      "50": "Virgin Islands",
+      "51": "Virginia",
+      "52": "Washington",
+      "53": "West Virgina",
+      "54": "Wisconsin",
+      "55": "Wyoming",
+      "99": "Other (specify)"
+    }
+  },
+  "statesp": {
+    "description": "Participant State Other",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "zipcode": {
+    "description": "Zip Code",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "nihguid": {
+    "description": "NIH GUID",
+    "view": "v_ALLALS_AS_ASSEDEMOG",
+    "target": "",
+    "values": {}
+  },
+  "mhstat": {
+    "description": "Obtained?",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "mhreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "mhdat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "mhoccur": {
+    "description": "Family History of ALS?",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "mhstdat": {
+    "description": "Date of Symptom Onset",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "limb_mhloc": {
+    "description": "Limb",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "bulb_mhloc": {
+    "description": "Bulbar",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "axia_mhloc": {
+    "description": "Axial",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "resp_mhloc": {
+    "description": "Respiratory",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "gen_mhloc": {
+    "description": "Generalized",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "mhevdtyp_diagnosis": {
+    "description": "Date of Diagnosis",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "mh_clinyn": {
+    "description": "Participation in Other Clinical Trials",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "mh_clin_name": {
+    "description": "Name of Clinical Trial",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "mh_clin_dat": {
+    "description": "Date of Participation",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "mh_clin_assign": {
+    "description": "Known Treatment Assignment?",
+    "view": "v_ALLALS_AS_ASSEALSHIST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_stat": {
+    "description": "Genetic Testing Previously Performed?",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Results Pending"
+    }
+  },
+  "pralsgt_rrev": {
+    "description": "If Yes",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "pralsgt_tlab": {
+    "description": "Report Available: Testing Lab",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Prevention Genetics",
+      "2": "Invitae",
+      "3": "GeneDx",
+      "4": "Ambry",
+      "5": "Athena",
+      "99": "Other"
+    }
+  },
+  "pralsgt_tlabothsp": {
+    "description": "Report Available: Specify Other Testing Lab",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_tname": {
+    "description": "Report Available: Test Name/Test ID",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Prevention Genetics Test 10155: ALS Panel",
+      "2": "Prevention Genetics Test 15479: IONIS ALS Test Program",
+      "3": "Prevention Genetics Test 10359: ALS and FTD Panel",
+      "6": "Invitae Test 03503: ALS Panel (NO C9orf72)",
+      "7": "GeneDx Test T404: ALS/FTD Panel (NO C9orf72)",
+      "8": "GeneDx Test T404 with J805: ALS/FTD Panel AND the C9orf72 gene",
+      "9": "Athena Test 6520: ALS Advanced Evaluation",
+      "10": "Athena Test 6522: Nonprevalent ALS Advanced Sequencing Evaluation",
+      "99": "Other"
+    }
+  },
+  "pralsgt_tnameothsp": {
+    "description": "Report Available: Specify Other Test Name/ID Lab",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_tdate": {
+    "description": "Report Available: Date of Report",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_nr_tlab": {
+    "description": "No Report Available: Testing Lab",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Prevention Genetics",
+      "2": "Invitae",
+      "3": "GeneDx",
+      "4": "Ambry",
+      "5": "Athena",
+      "99": "Other"
+    }
+  },
+  "pralsgt_nr_tlabothsp": {
+    "description": "No Report Available: Specify Other Lab",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_nr_tname": {
+    "description": "No Report Available: Test Name/ID",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Prevention Genetics Test 10155: ALS Panel",
+      "2": "Prevention Genetics Test 15479: IONIS ALS Test Program",
+      "3": "Prevention Genetics Test 10359: ALS and FTD Panel",
+      "6": "Invitae Test 03503: ALS Panel (NO C9orf72)",
+      "7": "GeneDx Test T404: ALS/FTD Panel (NO C9orf72)",
+      "8": "GeneDx Test T404 with J805: ALS/FTD Panel AND the C9orf72 Gene",
+      "9": "Athena Test 6520: ALS Advanced Evaluation",
+      "10": "Athena Test 6522: Nonprevalent ALS Advanced Sequencing Evaluation",
+      "99": "Other"
+    }
+  },
+  "pralsgt_nr_tnameothsp": {
+    "description": "No Report Available: Specify Test Name/ID Other",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_nr_approxdat": {
+    "description": "No Report Available: Approximate Date of Report",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_result": {
+    "description": "No Report Available: Results",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Positive: A pathogenic or likely pathogenic variant was found in a protocol defined ALS/FTD gene (please add one row per gene in log below)",
+      "2": "Indeterminant – Known ALS/FTD causative gene: Testing identified a variant of uncertain significance in a protocol defined ALS/FTD gene (please add one row per gene in log below)",
+      "3": "Indeterminant – Gene of Uncertain Significance: Testing Identified a variant of uncertain significance in an ALD/FTD gene NOT on the protocol defined (please add one row per gene in log below)",
+      "4": "Negative: Testing identified no reportable variants"
+    }
+  },
+  "pralsgt_ntest": {
+    "description": "No Testing Performed: Reason",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Testing Not Previous Offered",
+      "99": "Other (specify):"
+    }
+  },
+  "pralsgt_ntestothsp": {
+    "description": "No Testing Performed: Reason Other (specify)",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "pralsgt_pending": {
+    "description": "If Results Pending: Date",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "gene_spid": {
+    "description": "Row ID",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "gene_name": {
+    "description": "Gene Name",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "diseaseSubtype",
+    "values": {
+      "1": "C9orf72",
+      "2": "SOD1",
+      "3": "ANG-ALS",
+      "4": "ANXA11-ALS",
+      "5": "ARHGEF28-ALS",
+      "6": "ATXN2-ALS",
+      "7": "CFAP410-ALS",
+      "8": "CHCHD10-ALS",
+      "9": "CHMP2B-ALS",
+      "10": "DAO-ALS",
+      "11": "DCTN1-ALS",
+      "12": "ERBB4-ALS",
+      "13": "FIG4-ALS",
+      "14": "FUS",
+      "15": "HNRNPA1-ALS",
+      "16": "HNRNPA2B1-ALS",
+      "17": "KIF5A-ALS",
+      "18": "MATR3-ALS",
+      "19": "MOBP-ALS",
+      "20": "NEFH-ALS",
+      "21": "NEK1-ALS",
+      "22": "OPTN-ALS",
+      "23": "PFN1-ALS",
+      "24": "SETX-ALS",
+      "25": "SQSTM1-ALS",
+      "26": "TAF15-ALS",
+      "27": "TARDBP",
+      "28": "TBK1-ALS",
+      "29": "TUBA4A-ALS",
+      "30": "UBQLN2-ALS",
+      "31": "UNC13A-ALS",
+      "32": "VAPB-ALS",
+      "33": "VCP-ALS",
+      "34": "ALS2-ALS",
+      "35": "ELP3-ALS",
+      "36": "EPHA4-ALS",
+      "37": "EWSR1-ALS",
+      "38": "KIKAP3-ALS",
+      "39": "PRPH-ALS",
+      "40": "SPG4-ALS",
+      "41": "SPG11-ALS",
+      "99": "Other genetic ALS"
+    }
+  },
+  "gene_name_oth": {
+    "description": "Gene Name Other (specify)",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "cdnaloc": {
+    "description": "cDNA Location",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "prochg": {
+    "description": "Protein Change",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "lbclass": {
+    "description": "Lab Classification",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {
+      "1": "Pathogenic",
+      "2": "Likely Pathogenic",
+      "3": "Variant of Uncertain Significance",
+      "4": "Likely Benign",
+      "5": "Benign",
+      "6": "Not Classified",
+      "99": "Other (specify):"
+    }
+  },
+  "lbclass_othsp": {
+    "description": "Specify Other Lab Classification",
+    "view": "v_ALLALS_AS_ASSEPRALSGENTST",
+    "target": "",
+    "values": {}
+  },
+  "famhx1": {
+    "description": "A detailed family history was obtained:",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "famhobt": {
+    "description": "Who Obtained Family History",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {
+      "1": "Genetic Counselor",
+      "2": "Site Investigator",
+      "3": "Study Coordinator",
+      "4": "Chart Review",
+      "99": "Other (specify):"
+    }
+  },
+  "famhobtotsp": {
+    "description": "Who Obtained Family History Other (specify)",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famhnbs": {
+    "description": "Number of Biological Siblings",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famhnbs_unk": {
+    "description": "Unknown",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famhnhs": {
+    "description": "Number of Half-Siblings Living or Deceased",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famhnhs_unk": {
+    "description": "Unknown",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famhnbc": {
+    "description": "Number of Biological Children Living or Deceased",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famhnbc_unk": {
+    "description": "Unknown",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famrel": {
+    "description": "Relative",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {
+      "1": "Mother",
+      "2": "Father",
+      "3": "Sister",
+      "4": "Brother",
+      "5": "Half-Sister",
+      "6": "Half-Brother",
+      "7": "Daughter",
+      "8": "Son",
+      "9": "Grandmother",
+      "10": "Grandfather",
+      "11": "Aunt",
+      "12": "Uncle",
+      "13": "Male Cousin",
+      "14": "Female Cousin",
+      "99": "Other Relative (specify):"
+    }
+  },
+  "famrelsp": {
+    "description": "Other Relative (specify)",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "famher": {
+    "description": "Heredity",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {
+      "1": "Paternal",
+      "2": "Maternal"
+    }
+  },
+  "fhals": {
+    "description": "ALS",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhftd": {
+    "description": "FTD",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhalz": {
+    "description": "Alzheimer's",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "othdem": {
+    "description": "Other Dementia Syndrome",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhpd": {
+    "description": "PD",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhhd": {
+    "description": "HD",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhpsy": {
+    "description": "Psychiatric Disorder",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhpsysp": {
+    "description": "Specify Psychiatric Disorder",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "pdotb": {
+    "description": "Paget's Disease of the Bone",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "myopty": {
+    "description": "Myopathy",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhot": {
+    "description": "Other Disease",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhotsp": {
+    "description": "Specify Other Disease",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgen": {
+    "description": "Genetic Testing Performed",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No/Unknown"
+    }
+  },
+  "fhgenyn": {
+    "description": "Tested Positive for Variant(s)",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No/Unknown"
+    }
+  },
+  "fhgnc9": {
+    "description": "Family member has C9ORF72 mutation",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnsod1": {
+    "description": "Family member has SOD1 mutation",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnfus": {
+    "description": "Family member has FUS mutation",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgntardbp": {
+    "description": "TARDBP",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnanxa11": {
+    "description": "ANXA11",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgntbk1": {
+    "description": "TBK1",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgncfap": {
+    "description": "CFAP410",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnchchd": {
+    "description": "CHCHD10",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnatxn2": {
+    "description": "FATXN2",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnvcp": {
+    "description": "Family member has VCP mutation",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnot": {
+    "description": "Family Member Has Other Gene Mutation",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "fhgnotsp": {
+    "description": "Specify Other ALS Mutation Identified",
+    "view": "v_ALLALS_AS_ASSEFAMHIST",
+    "target": "",
+    "values": {}
+  },
+  "mhyn": {
+    "description": "Were any medical history events reported?",
+    "view": "v_ALLALS_AS_ASSEMEDHX",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "mhspid": {
+    "description": "Medical History ID",
+    "view": "v_ALLALS_AS_ASSEMEDHX",
+    "target": "",
+    "values": {}
+  },
+  "mhterm": {
+    "description": "Medical History Term",
+    "view": "v_ALLALS_AS_ASSEMEDHX",
+    "target": "",
+    "values": {}
+  },
+  "mhongo": {
+    "description": "Ongoing",
+    "view": "v_ALLALS_AS_ASSEMEDHX",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "mhendat": {
+    "description": "Year Ended",
+    "view": "v_ALLALS_AS_ASSEMEDHX",
+    "target": "",
+    "values": {}
+  },
+  "vsperf": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "vsreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {}
+  },
+  "vsdat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {}
+  },
+  "vstimhh": {
+    "description": "Time Hours",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {}
+  },
+  "vstimmm": {
+    "description": "Time Minutes",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {}
+  },
+  "weight_vsperf": {
+    "description": "Weight Not Done",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {}
+  },
+  "weight_vsreasnd": {
+    "description": "Weight Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {}
+  },
+  "weight_vsorres": {
+    "description": "Weight Result",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {}
+  },
+  "weight_vsorresu": {
+    "description": "Weight Unit",
+    "view": "v_ALLALS_AS_ASSEVITSIGN",
+    "target": "",
+    "values": {
+      "1": "Kilograms",
+      "2": "Pounds"
+    }
+  },
+  "ftstat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDSA",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ftreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDSA",
+    "target": "",
+    "values": {}
+  },
+  "dsadat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDSA",
+    "target": "",
+    "values": {}
+  },
+  "coval": {
+    "description": "Comments",
+    "view": "v_ALLALS_AS_ASSEDSA",
+    "target": "",
+    "values": {}
+  },
+  "consent": {
+    "description": "Did the participant read",
+    "view": "v_ALLALS_AS_ASSEELCONREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "copy": {
+    "description": "Did the Participant Receive a Copy of Consent Form",
+    "view": "v_ALLALS_AS_ASSEELCONREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "satisfy": {
+    "description": "Does the participant satisfy all inclusion and exclusion criteria for ALL ALS?",
+    "view": "v_ALLALS_AS_ASSEELCONREG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "cmperf": {
+    "description": "Reviewed?",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "cmreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmyn": {
+    "description": "Were Any Medications Used?",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "cmspid": {
+    "description": "Row ID",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmtrt": {
+    "description": "Medication",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmdose": {
+    "description": "Dose Value",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmdosu": {
+    "description": "Dose Unit",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "Milligram",
+      "2": "Microgram",
+      "3": "Milliliter",
+      "4": "Gram",
+      "5": "International Unit",
+      "6": "Tablet",
+      "7": "Capsule",
+      "8": "Puff",
+      "9": "Drop",
+      "10": "Application",
+      "11": "Teaspoon",
+      "12": "%",
+      "13": "Ounces",
+      "14": "Gummy",
+      "15": "Syringe",
+      "16": "Spray",
+      "17": "Unit (U)",
+      "18": "Lozenge",
+      "19": "Gtt",
+      "20": "Milliequivalent",
+      "90": "Unknown",
+      "99": "Other"
+    }
+  },
+  "cmdosusp": {
+    "description": "Specify Other Dose Unit",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmdosfrq": {
+    "description": "Frequency",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "Daily QD",
+      "2": "Twice Daily BID",
+      "3": "Three Times A Day TID",
+      "4": "Four Times Daily QID",
+      "5": "Every Other Day QOD",
+      "6": "Every Week QW",
+      "7": "Every Month QM",
+      "8": "As Needed PRN",
+      "10": "Once",
+      "12": "Continuous IV",
+      "90": "Unknown",
+      "99": "Other"
+    }
+  },
+  "cmdosfrqsp": {
+    "description": "Specify Other Frequency",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmroute": {
+    "description": "Route",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "Oral",
+      "2": "Topical",
+      "3": "Subcutaneous",
+      "4": "Transdermal",
+      "5": "Intraocular",
+      "6": "Intramuscular",
+      "7": "Inhalation",
+      "8": "Intralesion",
+      "9": "Intraperitoneal",
+      "10": "Intravenous",
+      "11": "Nasal",
+      "12": "Vaginal",
+      "13": "Rectal",
+      "14": "Feeding Tube",
+      "15": "Sublingual",
+      "16": "Intrauterine",
+      "17": "Intra-Articular",
+      "90": "Unknown",
+      "99": "Other"
+    }
+  },
+  "cmroutesp": {
+    "description": "Specify Other Route",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmstdat": {
+    "description": "Start Date",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmongo": {
+    "description": "Ongoing",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "cmendat": {
+    "description": "End Date",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cminvdrg": {
+    "description": "Investigational Drug",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "cmindc": {
+    "description": "Primary indication",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {
+      "1": "ALS",
+      "2": "Medical History Event(s). Please Specify ID(s):",
+      "3": "Adverse Event(s). Please Specify ID(s):",
+      "4": "Key Device or Procedure. Please Specify ID(s):",
+      "5": "Supplementation/General Health/Prevention",
+      "6": "Unknown",
+      "7": "Other (specify):"
+    }
+  },
+  "cmmhno": {
+    "description": "Medical History Event(s). Please Specify ID(s)",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmaeno": {
+    "description": "Adverse Event(s). Please specify ID(s)",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmkdno": {
+    "description": "Key Device or Procedure. Please specify ID(s)",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "cmother": {
+    "description": "Other indication",
+    "view": "v_ALLALS_AS_ASSECONMD",
+    "target": "",
+    "values": {}
+  },
+  "aeyn": {
+    "description": "Did any AEs occur?",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "aespid": {
+    "description": "AE ID",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
+  },
+  "aeterm": {
+    "description": "Verbatim Term",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
+  },
+  "aesev": {
+    "description": "Highest Severity Attained",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "Mild",
+      "2": "Moderate",
+      "3": "Severe"
+    }
+  },
+  "aestdat": {
+    "description": "Start Date",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
+  },
+  "aesiteaw": {
+    "description": "Date Site Became Aware of AE",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
+  },
+  "aeser": {
+    "description": "Serious?",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "condrel": {
+    "description": "Study Condition Related?",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "aerel": {
+    "description": "Relationship to Study Procedure(s)",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "Definite",
+      "2": "Probable",
+      "3": "Possible",
+      "4": "Unlikely",
+      "5": "Not Related"
+    }
+  },
+  "aeact": {
+    "description": "Action Taken",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "None",
+      "2": "Medication Therapy",
+      "3": "Medical Procedure",
+      "4": "Hospitalization",
+      "90": "Unknown",
+      "99": "Other (specify):"
+    }
+  },
+  "aeactsp": {
+    "description": "Action Taken Other (Specify)",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
+  },
+  "aecontrt": {
+    "description": "Con Med Given?",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "aeout": {
+    "description": "Primary Outcome of AE",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {
+      "1": "Recovered/Resolved",
+      "2": "Recovered/Resolved with Sequelae (Specify below)",
+      "3": "Recovering/Resolving",
+      "4": "Not Recovered/Not Resolved",
+      "5": "Fatal",
+      "90": "Unknown"
+    }
+  },
+  "sequela": {
+    "description": "Sequela(e)",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
+  },
+  "aeendat": {
+    "description": "Outcome Date",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
+  },
+  "dvperf": {
+    "description": "Reviewed?",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "dvreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "dvyn": {
+    "description": "Did Any Protocol Deviations Occur?",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "dvspid": {
+    "description": "Deviation ID",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "dvstdat": {
+    "description": "Date Deviation Occurred",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "visit": {
+    "description": "Visit Deviation Occurred",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "visitType",
+    "values": {
+      "1": "Screening",
+      "2": "Follow-up",
+      "3": "Follow-up",
+      "4": "Follow-up",
+      "5": "Follow-up",
+      "6": "Follow-up",
+      "7": "Follow-up",
+      "8": "Follow-up",
+      "9": "Follow-up",
+      "10": "Follow-up",
+      "11": "Follow-up",
+      "12": "Early Termination",
+      "13": "Unscheduled",
+      "99": "Other"
+    }
+  },
+  "other_visit": {
+    "description": "Specify Other Visit Name",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "dvcat": {
+    "description": "Deviation Severity",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "1": "Minor",
+      "2": "Major"
+    }
+  },
+  "dvterm": {
+    "description": "Deviation Type",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "1": "1.Informed Consent Violation",
+      "2": "2.Study Procedure Violated",
+      "3": "3.Visit Deviation",
+      "4": "4. Adverse Event (AE) Reporting Deviation",
+      "5": "5. Eligibility Deviation",
+      "6": "6. Unblinding Event",
+      "7": "7. Other Deviation"
+    }
+  },
+  "icviol_dvterm": {
+    "description": "Informed Consent Violation",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "11": "1a. No documentation of informed consent",
+      "12": "1b. Informed consent obtained after initiation of procedures",
+      "13": "1c. Missing original signed and dated consent form (only a photocopy available)/Inappropriate documentation of informed consent",
+      "14": "1d. Participant signed expired or incorrect version of the consent form",
+      "15": "1e. Informed consent obtained by someone other than authorized individuals"
+    }
+  },
+  "stdyproc_dvterm": {
+    "description": "Study procedure violated",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "21": "2a. Study procedure not performed (may affect participant safety or data integrity)",
+      "22": "2b. Study procedure not performed (does not affect participant safety or data integrity)",
+      "23": "2c. Performing study procedure not approved by the IRB",
+      "24": "2d. Study procedure not performed properly",
+      "25": "2e. Non delegated individual performing study procedures",
+      "26": "2f. Non certified individual performing study procedures"
+    }
+  },
+  "visit_dvterm": {
+    "description": "Visit deviation",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "31": "3a. Visit not done",
+      "32": "3b. Visit done out of window"
+    }
+  },
+  "aerep_dvterm": {
+    "description": "Adverse event (AE) reporting deviation",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "41": "4a. Failure to report serious adverse event (SAE) per protocol",
+      "42": "4b. Failure to report AE per protocol"
+    }
+  },
+  "elig_dvterm": {
+    "description": "Eligibility deviation",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "51": "5a. Enrollment of a participant who did not satisfy inclusion or exclusion criteria"
+    }
+  },
+  "unblind_dvterm": {
+    "description": "Unblinding event",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {
+      "61": "6a. Participant's genetic status results were unintentionally unblinded"
+    }
+  },
+  "sponsor_unblndto_suppds": {
+    "description": "Study Sponsor",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "pi_unblndto_suppds": {
+    "description": "Principal Investigator",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "coordstf_unblndto_suppds": {
+    "description": "Coordination Center Staff",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "si_unblndto_suppds": {
+    "description": "Site Investigator",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "sc_unblndto_suppds": {
+    "description": "Site Coordinator",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "subject_unblndto_suppds": {
+    "description": "Study Participant",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "other_unblndto_suppds": {
+    "description": "Other (specify) text",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "othertxt_unblndto_suppds": {
+    "description": "Other (specify) text",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "other_dvterm": {
+    "description": "Other Deviation",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "othertxt_dvterm": {
+    "description": "Other Deviation specify",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "dvdesc": {
+    "description": "Description",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "dvcapa": {
+    "description": "Corrective and Preventive Action",
+    "view": "v_ALLALS_AS_ASSEPDEVAD",
+    "target": "",
+    "values": {}
+  },
+  "ftdat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {}
+  },
+  "intrvwr_suppqs": {
+    "description": "Evaluator's Initials",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {}
+  },
+  "ftadmin": {
+    "description": "Mode of Administration",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "administrationMode",
+    "values": {
+      "1": "In_Person",
+      "2": "Video_Call",
+      "99": "Other"
+    }
+  },
+  "ftadmin_othsp": {
+    "description": "Mode of Administration Other Specify",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {}
+  },
+  "ftresp": {
+    "description": "Responded By",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "administrationMode",
+    "values": {
+      "1": "Self_Administered",
+      "2": "Caregiver_Assisted"
+    }
+  },
+  "speech_ftorres": {
+    "description": "ALSFRS-R 1.Speech",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal speech processes",
+      "3": "Detectable speech disturbances",
+      "2": "Important Deterioration (Getting Worse)",
+      "1": "No Important Change",
+      "0": "Loss of useful speech"
+    }
+  },
+  "saliva_ftorres": {
+    "description": "ALSFRS-R 2.Salivation",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal",
+      "3": "Slight but definite excess of saliva in mouth may have nighttime drooling",
+      "2": "Moderately excessive saliva may have minimal drooling",
+      "1": "Marked excess of saliva with some drooling",
+      "0": "Marked drooling requires constant tissue or handkerchief"
+    }
+  },
+  "swallow_ftorres": {
+    "description": "ALSFRS-R 3.Swallowing",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal eating habits",
+      "3": "Early eating problems – occasional choking",
+      "2": "Dietary consistency changes",
+      "1": "Needs supplemental tube feeding",
+      "0": "NPO (exclusively parenteral or enteral feeding)"
+    }
+  },
+  "hndwrit_ftorres": {
+    "description": "ALSFRS-R 4.Handwriting",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal",
+      "3": "Slow or sloppy all words are legible",
+      "2": "Not all words are legible",
+      "1": "Able to grip pen but unable to write",
+      "0": "Unable to grip pen"
+    }
+  },
+  "gastro_ftorres": {
+    "description": "Gastrostomy Status",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "utenwog_ftorres": {
+    "description": "ALSFRS-R 5.a Cutting Without Gastrostomy",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal",
+      "0": "Needs to be fed"
+    }
+  },
+  "utenwg_ftorres": {
+    "description": "ALSFRS-R 5.b Cutting With Gastrostomy",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal",
+      "3": "Clumsy but able to perform all manipulations independently",
+      "2": "Some help needed with closures and fasteners",
+      "1": "Provides minimal assistance to caregivers",
+      "0": "Unable to perform any aspect of task"
+    }
+  },
+  "hygiene_ftorres": {
+    "description": "ALSFRS-R 6.Dressing and Hygiene",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal function",
+      "3": "Independent and complete self-care with effort or decreased efficiency",
+      "2": "Intermittent assistance or substitute methods",
+      "1": "Needs attendant for self-care",
+      "0": "Total dependence"
+    }
+  },
+  "bedcloth_ftorres": {
+    "description": "ALSFRS-R 7.Turning in Bed",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal",
+      "0": "Helpless"
+    }
+  },
+  "walking_ftorres": {
+    "description": "ALSFRS-R 8.Walking",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal",
+      "3": "Early ambulation difficulties",
+      "2": "Walks with assistance",
+      "1": "Nonambulatory functional movement only",
+      "0": "No purposeful leg movement"
+    }
+  },
+  "stairs_ftorres": {
+    "description": "ALSFRS-R 9.Climbing Stairs",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "Normal",
+      "3": "Slow",
+      "2": "Mild unsteadiness or fatigue",
+      "1": "Needs assistance",
+      "0": "Cannot do"
+    }
+  },
+  "dyspnea_ftorres": {
+    "description": "ALSFRS-R R-1.Dyspnea",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "None",
+      "3": "Occurs when walking"
+    }
+  },
+  "ortho_ftorres": {
+    "description": "ALSFRS-R R-2 Orthopnea",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "None",
+      "2": "Needs extra pillow in order to sleep (more than two)",
+      "1": "Can only sleep sitting up",
+      "0": "Unable to sleep"
+    }
+  },
+  "respins_ftorres": {
+    "description": "ALSFRS-R R-3.Respiratory Insufficiency",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {
+      "4": "None",
+      "3": "Intermittent use of NIV",
+      "2": "Continuous use of NIV during the night",
+      "1": "Continuous use of NIV during the night and day",
+      "0": "Invasive mechanical ventilation by intubation or tracheostomy"
+    }
+  },
+  "fttotal": {
+    "description": "Total:",
+    "view": "v_ALLALS_AS_ASSEALSFRSR",
+    "target": "",
+    "values": {}
+  },
+  "mkattmpt": {
+    "description": "Attempted?",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "mknattmpt": {
+    "description": "Reason Not Attempted",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "mkstat": {
+    "description": "Collection Successful?",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "mkreasnd": {
+    "description": "Reason Not Successful",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "mkdat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lfdi_mkstat": {
+    "description": "Left FDI Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lfdi_mkreasnd": {
+    "description": "Left FDI Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Participant unable to perform task due to weakness",
+      "99": "Other (specify):"
+    }
+  },
+  "lfdi_mkreasndos": {
+    "description": "Left FDI Reason Not Done Other",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lfdi_ablbrk_mkorres": {
+    "description": "Left FDI Able to Break",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lfdi_force1_mkorres": {
+    "description": "Left FDI Trial 1",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lfdi_force2_mkorres": {
+    "description": "Left FDI Trial 2",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lfdi_force3_mkorres": {
+    "description": "Left FDI Trial 3",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rfdi_mkstat": {
+    "description": "Right FDI Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rfdi_mkreasnd": {
+    "description": "Right FDI Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Participant unable to perform task due to weakness",
+      "99": "Other (specify):"
+    }
+  },
+  "rfdi_mkreasndos": {
+    "description": "Right FDI Reason Not Done Other",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rfdi_ablbrk_mkorres": {
+    "description": "Right FDI Able to Break",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "rfdi_force1_mkorres": {
+    "description": "Right FDI Trial 1",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rfdi_force2_mkorres": {
+    "description": "Right FDI Trial 2",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rfdi_force3_mkorres": {
+    "description": "Right FDI Trial 3",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lapb_mkstat": {
+    "description": "Left APB Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lapb_mkreasnd": {
+    "description": "Left APB Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Participant unable to perform task due to weakness",
+      "99": "Other (specify):"
+    }
+  },
+  "lapb_mkreasndos": {
+    "description": "Left APB Reason Not Done Other",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lapb_ablbrk_mkorres": {
+    "description": "Left APB Able to Break",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lapb_force1_mkorres": {
+    "description": "Left APB Trial 1",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lapb_force2_mkorres": {
+    "description": "Left APB Trial 2",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "lapb_force3_mkorres": {
+    "description": "Left APB Trial 3",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rapb_mkstat": {
+    "description": "Right APB Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rapb_mkreasnd": {
+    "description": "Right APB Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Participant unable to perform task due to weakness",
+      "99": "Other (specify):"
+    }
+  },
+  "rapb_mkreasndos": {
+    "description": "Right APB Reason Not Done Other",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rapb_ablbrk_mkorres": {
+    "description": "Right APB Able to Break",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "rapb_force1_mkorres": {
+    "description": "Right APB Trial 1",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rapb_force2_mkorres": {
+    "description": "Right APB Trial 2",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "rapb_force3_mkorres": {
+    "description": "Right APB Trial 3",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "ladm_mkstat": {
+    "description": "Left ADM Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "ladm_mkreasnd": {
+    "description": "Left ADM Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Participant unable to perform task due to weakness",
+      "99": "Other (specify):"
+    }
+  },
+  "ladm_mkreasndos": {
+    "description": "Left ADM Reason Not Done Other",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "ladm_ablbrk_mkorres": {
+    "description": "Left ADM Able to Break",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ladm_force1_mkorres": {
+    "description": "Left ADM Trial 1",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "ladm_force2_mkorres": {
+    "description": "Left ADM Trial 2",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "ladm_force3_mkorres": {
+    "description": "Left ADM Trial 3",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "radm_mkstat": {
+    "description": "Right ADM Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "radm_mkreasnd": {
+    "description": "Right ADM Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Participant unable to perform task due to weakness",
+      "99": "Other (specify):"
+    }
+  },
+  "radm_mkreasndos": {
+    "description": "Right ADM Reason Not Done Other",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "radm_ablbrk_mkorres": {
+    "description": "Right ADM Able to Break",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "radm_force1_mkorres": {
+    "description": "Right ADM Trial 1",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "radm_force2_mkorres": {
+    "description": "Right ADM Trial 2",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "radm_force3_mkorres": {
+    "description": "Right ADM Trial 3",
+    "view": "v_ALLALS_AS_ASSEHHD",
+    "target": "",
+    "values": {}
+  },
+  "reattmpt": {
+    "description": "Attempted?",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "renattmpt": {
+    "description": "Reason Not Attempted",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "restat": {
+    "description": "Collection Successful?",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "rereasnd": {
+    "description": "Reason Not Successful",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "redat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svctest": {
+    "description": "Was the Test an SVC or FVC",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "SVC",
+      "2": "FVC"
+    }
+  },
+  "tstprfrmd": {
+    "description": "Test Performed By",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "Pulmonary Function Lab (PFL) Evaluator",
+      "2": "NEALS-Certified Evaluator"
+    }
+  },
+  "svc_t1_restat": {
+    "description": "VC Trial 1 Not Done",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t1_rereasnd": {
+    "description": "VC Trial 1 Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "Device Did Not Capture",
+      "99": "Other (specify):"
+    }
+  },
+  "svc_t1_rereasndos": {
+    "description": "VC Trial 1 Reason Not Done Other Specify",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t1_reorres": {
+    "description": "Result Trial 1 (Liters)",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t2_restat": {
+    "description": "VC Trial 2 Not Done",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t2_rereasnd": {
+    "description": "VC Trial 2 Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "Device Did Not Capture",
+      "99": "Other (specify):"
+    }
+  },
+  "svc_t2_rereasndos": {
+    "description": "VC Trial 2 Reason Not Done Other Specify",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t2_reorres": {
+    "description": "Result Trial 2 (Liters)",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t3_restat": {
+    "description": "VC Trial 3 Not Done",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t3_rereasnd": {
+    "description": "VC Trial 3 Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "Device Did Not Capture",
+      "99": "Other (specify):"
+    }
+  },
+  "svc_t3_rereasndos": {
+    "description": "VC Trial 3 Reason Not Done Other Specify",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "svc_t3_reorres": {
+    "description": "Result Trial 3 (Liters)",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "vcpp_reorres": {
+    "description": "Percent of Predicted Result",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "pctvar_reorres": {
+    "description": "Percent Variability Between Best Two Results",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "source": {
+    "description": "Data Source",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {
+      "1": "Medical Records",
+      "2": "Original Collection",
+      "3": "Patient Reported",
+      "90": "Unknown",
+      "99": "Other (specify):"
+    }
+  },
+  "sourcesp": {
+    "description": "Specify Other Data Source",
+    "view": "v_ALLALS_AS_ASSEVC",
+    "target": "",
+    "values": {}
+  },
+  "ecasstat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ecasreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "ecasdat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "ecasver": {
+    "description": "Version",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "administrationMode",
+    "values": {
+      "1": "In_Person",
+      "2": "In_Person",
+      "3": "In_Person",
+      "4": "Video_Call",
+      "5": "Video_Call",
+      "6": "Video_Call"
+    }
+  },
+  "ecasoc": {
+    "description": "Occupation",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "ecashand": {
+    "description": "Handedness",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {
+      "1": "Right",
+      "2": "Left",
+      "3": "Ambidextrous"
+    }
+  },
+  "ecasyoed": {
+    "description": "Years of Education",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "ecashcd": {
+    "description": "Highest Completed Degree",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {
+      "1": "No Schooling Completed",
+      "2": "Some High School",
+      "3": "High School Graduate",
+      "4": "College Degree",
+      "5": "Master's Degree",
+      "6": "Professional Degree",
+      "7": "Doctorate Degree"
+    }
+  },
+  "lnnamsc": {
+    "description": "Language – Naming Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "lcpsc": {
+    "description": "Language – Comprehension Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "limrsc": {
+    "description": "Memory – Immediate recall Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "lspellsc": {
+    "description": "Language – Spelling Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "fluenls": {
+    "description": "Fluency – Letter S/F/P",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {
+      "1": "Oral",
+      "2": "Written"
+    }
+  },
+  "fluenlsfpsc": {
+    "description": "Fluency – Letter S/F/P Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "exrdssc": {
+    "description": "Executive – Reverse Digit Span Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "exalsc": {
+    "description": "Executive – Alternation Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "fluenltrl": {
+    "description": "Fluency – Letter T/D/M",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {
+      "1": "Oral",
+      "2": "Written"
+    }
+  },
+  "fluenltdmsc": {
+    "description": "Fluency – Letter T/D/M Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "visspatdcsc": {
+    "description": "Visuospatial – Dot Counting Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "visspccsc": {
+    "description": "Visuospatial – Cube Counting Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "vissnlosc": {
+    "description": "Visuospatial – Number Location Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "execscsc": {
+    "description": "Executive – Sentence Completion Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "scpbsc": {
+    "description": "Social Cognition – Part B Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "mdrrs": {
+    "description": "Raw Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "mdrcrs": {
+    "description": "Converted Retention Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "mdrcsc": {
+    "description": "Memory – Delayed Recognition Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "ltotscor": {
+    "description": "Language Total Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "vftotsc": {
+    "description": "Verbal Fluency Total Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "exectotsc": {
+    "description": "Executive Total Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "alsspectot": {
+    "description": "ALS-Specific Subtotal:",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "memtotsco": {
+    "description": "Memory Total Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "visuototsc": {
+    "description": "Visuospatial Total Score",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "nonspectot": {
+    "description": "ALS Non-Specific Subtotal",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "ecastotsc": {
+    "description": "ECAS TOTAL SCORE:",
+    "view": "v_ALLALS_AS_ASSEECAS",
+    "target": "",
+    "values": {}
+  },
+  "ecasgistat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "95": "Not Applicable"
+    }
+  },
+  "ecascirnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "ecascidc": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "sibrl": {
+    "description": "A. Behavioral Disinhibition: Question 1",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "lomrl": {
+    "description": "A. Behavioral Disinhibition: Question 2",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "ircrl": {
+    "description": "A. Behavioral Disinhibition: Question 3",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "loirl": {
+    "description": "B. Apathy or Inertia: Question 4",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "drprl": {
+    "description": "C. Loss of Sympathy or Empathy: Question 5",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "dsirl": {
+    "description": "C. Loss of Sympathy or Empathy: Question 6",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "srmrl": {
+    "description": "D. Perseverative/Stereotyped Behavior: Question 7",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "ccrbrl": {
+    "description": "D. Perseverative/Stereotyped Behavior: Question 8",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "afprl": {
+    "description": "E. Altered Food Preferences: Question 9",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "behrrl": {
+    "description": "E. Altered Food Preferences: Question 10",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "ecascitot": {
+    "description": "SCORE-TOTAL",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "behdiscb": {
+    "description": "A. Behavioral disinhibition",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "aoincb": {
+    "description": "B. Apathy or inertia",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "losprl": {
+    "description": "C. Loss of sympathy or empathy",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "pscrrl": {
+    "description": "D. Perseverative",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "hafprl": {
+    "description": "E. Hyperorality and altered food preferences",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "hsbbbrl": {
+    "description": "1. Has strange and/or bizarre beliefs",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "hstprl": {
+    "description": "2. Hears or sees things that are not there",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "osusprl": {
+    "description": "3. Is overly suspicious",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "3": "Dont know"
+    }
+  },
+  "alssctot": {
+    "description": "SCORE-TOTAL",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "symchgrl": {
+    "description": "1. Symptoms represent CHANGE of previous behavior?",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "bonsetrl": {
+    "description": "a. BEFORE the onset of the disease?",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "atsamtrl": {
+    "description": "b. At the same time as other symptoms?",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "afondisrl": {
+    "description": "c. AFTER the onset of the disease?",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "persisrl": {
+    "description": "2. Do they still persist?",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "ifnothowtb": {
+    "description": "3. If not",
+    "view": "v_ALLALS_AS_ASSEECASCGI",
+    "target": "",
+    "values": {}
+  },
+  "lbattmpt": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lbnattmpt": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "lblocat": {
+    "description": "Location",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {
+      "1": "In-Clinic",
+      "2": "Off-Site"
+    }
+  },
+  "lbdat": {
+    "description": "Date of Collection",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "lbtimhh": {
+    "description": "Time of Collection Hours",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "lbtimmm": {
+    "description": "Time of Collection Minutes",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "lbrefid": {
+    "description": "Kit Number",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "wbld_lbperf": {
+    "description": "Whole Blood Not Done",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "wbld_lbreasnd": {
+    "description": "Whole Blood Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "wbld_lbdesc": {
+    "description": "Whole Blood Comments",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "seru_lbperf": {
+    "description": "Serum Not Done",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "seru_lbreasnd": {
+    "description": "Serum Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "seru_lbdesc": {
+    "description": "Serum Comments",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "plas_lbperf": {
+    "description": "Plasma Not Done",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "plas_lbreasnd": {
+    "description": "Plasma Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "plas_lbdesc": {
+    "description": "Plasma Comments",
+    "view": "v_ALLALS_AS_ASSEBLDCOL",
+    "target": "",
+    "values": {}
+  },
+  "beyn": {
+    "description": "Attempted?",
+    "view": "v_ALLALS_AS_ASSECSFCO",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "benattmpt": {
+    "description": "Reason Not Attempted",
+    "view": "v_ALLALS_AS_ASSECSFCO",
+    "target": "",
+    "values": {}
+  },
+  "bestat": {
+    "description": "Collection Successful?",
+    "view": "v_ALLALS_AS_ASSECSFCO",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "bereasnd": {
+    "description": "Reason Not Successful",
+    "view": "v_ALLALS_AS_ASSECSFCO",
+    "target": "",
+    "values": {}
+  },
+  "bestdat": {
+    "description": "Date of Collection",
+    "view": "v_ALLALS_AS_ASSECSFCO",
+    "target": "",
+    "values": {}
+  },
+  "besttimhh": {
+    "description": "Time of Collection Hours",
+    "view": "v_ALLALS_AS_ASSECSFCO",
+    "target": "",
+    "values": {}
+  },
+  "besttimmm": {
+    "description": "Time of Collection Minutes",
+    "view": "v_ALLALS_AS_ASSECSFCO",
+    "target": "",
+    "values": {}
+  },
+  "overall_ftorres": {
+    "description": "Overall Function",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "No Important Change",
+      "2": "Important Deterioration (Getting Worse)"
+    }
+  },
+  "overall_ftorres_chng": {
+    "description": "Overall Function Change",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "A Tiny Bit Worse",
+      "2": "A Little Bit Worse",
+      "3": "Somewhat Worse",
+      "4": "Moderately Worse",
+      "5": "Quite a Bit Worse",
+      "6": "A Great Deal Worse",
+      "7": "A Very Great Deal Worse"
+    }
+  },
+  "bulbar_ftorres": {
+    "description": "Bulbar Domain",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "No Important Change",
+      "2": "Important Deterioration (Getting Worse)"
+    }
+  },
+  "bulbar_ftorres_change": {
+    "description": "Bulbar Domain Change",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "A Tiny Bit Worse",
+      "2": "A Little Bit Worse",
+      "3": "Somewhat Worse",
+      "4": "Moderately Worse",
+      "5": "Quite a Bit Worse",
+      "6": "A Great Deal Worse",
+      "7": "A Very Great Deal Worse"
+    }
+  },
+  "finemot_ftorres": {
+    "description": "Fine Motor Domain",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "No Important Change",
+      "2": "Important Deterioration (Getting Worse)"
+    }
+  },
+  "finemot_ftorres_change": {
+    "description": "Fine Motor Domain Change",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "A Tiny Bit Worse",
+      "2": "A Little Bit Worse",
+      "3": "Somewhat Worse",
+      "4": "Moderately Worse",
+      "5": "Quite a Bit Worse",
+      "6": "A Great Deal Worse",
+      "7": "A Very Great Deal Worse"
+    }
+  },
+  "grossmot_ftorres": {
+    "description": "Gross Motor Domain",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "No Important Change",
+      "2": "Important Deterioration (Getting Worse)"
+    }
+  },
+  "grossmot_ftorres_change": {
+    "description": "Gross Motor Domain Change",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "A Tiny Bit Worse",
+      "2": "A Little Bit Worse",
+      "3": "Somewhat Worse",
+      "4": "Moderately Worse",
+      "5": "Quite a Bit Worse",
+      "6": "A Great Deal Worse",
+      "7": "A Very Great Deal Worse"
+    }
+  },
+  "resp_ftorres": {
+    "description": "Respiratory Domain",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "No Important Change",
+      "2": "Important Deterioration (Getting Worse)"
+    }
+  },
+  "resp_ftorres_change": {
+    "description": "Respiratory Domain Change",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "A Tiny Bit Worse",
+      "2": "A Little Bit Worse",
+      "3": "Somewhat Worse",
+      "4": "Moderately Worse",
+      "5": "Quite a Bit Worse",
+      "6": "A Great Deal Worse",
+      "7": "A Very Great Deal Worse"
+    }
+  },
+  "speech_ftorres_change": {
+    "description": "Speech Anchor Change",
+    "view": "v_ALLALS_AS_ASSEALSFRSRSAQ",
+    "target": "",
+    "values": {
+      "1": "A Tiny Bit Worse",
+      "2": "A Little Bit Worse",
+      "3": "Somewhat Worse",
+      "4": "Moderately Worse",
+      "5": "Quite a Bit Worse",
+      "6": "A Great Deal Worse",
+      "7": "A Very Great Deal Worse"
+    }
+  },
+  "aausername": {
+    "description": "Speech Vitals Username:",
+    "view": "v_ALLALS_AS_ASSEDSAUI",
+    "target": "",
+    "values": {}
+  },
+  "aapassword": {
+    "description": "Speech Vitals Password:",
+    "view": "v_ALLALS_AS_ASSEDSAUI",
+    "target": "",
+    "values": {}
+  },
+  "aainstall": {
+    "description": "The Speech Vitals app has been installed and the participant has logged in with the username and password specified on this form:",
+    "view": "v_ALLALS_AS_ASSEDSAUI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "aadesc": {
+    "description": "If \"No\"",
+    "view": "v_ALLALS_AS_ASSEDSAUI",
+    "target": "",
+    "values": {}
+  },
+  "lpexc01_ieperf": {
+    "description": "Not Evaluated 1",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {}
+  },
+  "lpexc01_ieorres": {
+    "description": "Exclusion 1",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lpexc02_ieperf": {
+    "description": "Not Evaluated 2",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {}
+  },
+  "lpexc02_ieorres": {
+    "description": "Exclusion 2",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lpexc03_ieperf": {
+    "description": "Not Evaluated 3",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {}
+  },
+  "lpexc03_ieorres": {
+    "description": "Exclusion 3",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lpexc04_ieperf": {
+    "description": "Not Evaluated 4",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {}
+  },
+  "lpexc04_ieorres": {
+    "description": "Exclusion 4",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lpexc05_ieperf": {
+    "description": "Not Evaluated 5",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {}
+  },
+  "lpexc05_ieorres": {
+    "description": "Exclusion 5",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "lpexc06_ieperf": {
+    "description": "Not Evaluated 6",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {}
+  },
+  "lpexc06_ieorres": {
+    "description": "Exclusion 6",
+    "view": "v_ALLALS_AS_ASSEELIGCRITLMP",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "pryn": {
+    "description": "Reviewed?",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "prreasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {}
+  },
+  "ft": {
+    "description": "Feeding tube?",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "niv": {
+    "description": "Ventilation",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "port": {
+    "description": "Central venous catheter",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "picc": {
+    "description": "Central venous catheter",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "trach": {
+    "description": "Tracheostomy?",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "botox": {
+    "description": "Salivary gland treatment",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "rad": {
+    "description": "Salivary gland treatment",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "dps": {
+    "description": "Diaphragm pacing system (DPS)?",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No",
+      "90": "Unknown"
+    }
+  },
+  "prspid": {
+    "description": "Row ID",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {}
+  },
+  "prtrt": {
+    "description": "Device/Procedure",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "feeding tube",
+      "5": "tracheostomy",
+      "8": "diaphragm pacing system (DPS)"
+    }
+  },
+  "prstdat": {
+    "description": "Start Date",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {}
+  },
+  "prongo": {
+    "description": "Ongoing/Still Present",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "prendat": {
+    "description": "Stop Date",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {}
+  },
+  "prlnkid": {
+    "description": "Was key device or procedure used for AE?",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "1": "Yes. Select primary AE:",
+      "2": "No. Specify reason:"
+    }
+  },
+  "praeno": {
+    "description": "Select primary AE",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {
+      "0": "***"
+    }
+  },
+  "prindc": {
+    "description": "Specify reason",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {}
+  },
+  "prdesc": {
+    "description": "Description",
+    "view": "v_ALLALS_AS_ASSEKEYDEV",
+    "target": "",
+    "values": {}
+  },
+  "dsend": {
+    "description": "The following events mark the end of participation in this study. Have any of these events occurred?",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "dsstdat": {
+    "description": "Event Date",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {}
+  },
+  "dsdecod": {
+    "description": "Specify participant's final disposition",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {
+      "1": "Participant Declined to Consent to the Protocol",
+      "2": "Participant did not satisfy Inclusion/Exclusion Criteria",
+      "9": "Eligibility was not Assessed within Expected Timeframe",
+      "3": "Participant Completed the Study",
+      "4": "Subject Lost to Follow-Up",
+      "5": "Participant Died",
+      "6": "Participant Early Terminated (Indicate Reasons Below)",
+      "7": "Participant Withdrew Consent Prior to End of Study (Indicate Reasons at Bottom)",
+      "8": "Study Terminated for Administrative Reasons",
+      "99": "Other (specify):"
+    }
+  },
+  "dsearlyterm": {
+    "description": "Termination of participation by",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {
+      "1": "Participant",
+      "2": "Site Investigator",
+      "3": "Study Sponsor"
+    }
+  },
+  "dsterm": {
+    "description": "Other Final Disposition Specify",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {}
+  },
+  "dsreas": {
+    "description": "Reason for early termination or consent withdrawal",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {
+      "1": "Adverse Event. Specify Row ID of Primary AE:",
+      "2": "Disease Progression",
+      "3": "Travel Difficulties",
+      "4": "Participant Enrolled into Another Study",
+      "5": "Non-Compliance"
+    }
+  },
+  "aeno_suppds": {
+    "description": "Primary AE ID",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {
+      "0": "***"
+    }
+  },
+  "dsreasos": {
+    "description": "Other reason for early termination or withdrawal",
+    "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {}
+  }
+}

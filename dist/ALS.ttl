@@ -7,18 +7,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
-            sh:prefix "schema" ],
-        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
-            sh:prefix "als" ],
+    sh:declare [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
+            sh:prefix "prov" ],
         [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
             sh:prefix "skos" ],
+        [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
+            sh:prefix "schema" ],
         [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
             sh:prefix "linkml" ],
-        [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
-            sh:prefix "prov" ] ;
+        [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+            sh:prefix "rdfs" ],
+        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
+            sh:prefix "als" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -198,7 +198,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-03-12T16:54:35"^^xsd:dateTime ;
+    linkml:generation_date "2026-03-16T21:40:16"^^xsd:dateTime ;
     linkml:id "https://w3id.org/amp-als/"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -912,8 +912,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-03-12T16:54:33"^^xsd:dateTime ;
-    linkml:source_file_size 335096 ;
+    linkml:source_file_date "2026-03-16T21:40:15"^^xsd:dateTime ;
+    linkml:source_file_size 335364 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -9425,6 +9425,8 @@
     linkml:description "Short identifier indicating the data source origin" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
 
+<https://w3id.org/synapse/amp-als/vocab/data_dictionary> linkml:description "Data dictionary file describing variable definitions, codings, and metadata for a dataset" .
+
 <https://w3id.org/synapse/amp-als/vocab/differential_expression> linkml:description "Differential gene expression analysis",
         "Differential gene expression results" .
 
@@ -14296,6 +14298,7 @@
         <https://w3id.org/synapse/amp-als/vocab/clinical>,
         <https://w3id.org/synapse/amp-als/vocab/clinical_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/cognitive_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/data_dictionary>,
         <https://w3id.org/synapse/amp-als/vocab/data_management>,
         <https://w3id.org/synapse/amp-als/vocab/demographics>,
         <https://w3id.org/synapse/amp-als/vocab/derived_scores>,
@@ -14512,6 +14515,7 @@
         <https://w3id.org/synapse/amp-als/vocab/analyzed_results>,
         <https://w3id.org/synapse/amp-als/vocab/chromatinActivity>,
         <https://w3id.org/synapse/amp-als/vocab/chromatin_accessibility>,
+        <https://w3id.org/synapse/amp-als/vocab/data_dictionary>,
         <https://w3id.org/synapse/amp-als/vocab/differential_expression>,
         <https://w3id.org/synapse/amp-als/vocab/epigenomics>,
         <https://w3id.org/synapse/amp-als/vocab/geneExpression>,

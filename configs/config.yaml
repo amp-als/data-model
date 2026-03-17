@@ -6,7 +6,7 @@ synapse:
   # Optional: Leave empty to use default Synapse credentials (~/.synapseConfig)
   # Priority: SYNAPSE_AUTH_TOKEN env var > this config > ~/.synapseConfig
   auth_token: ""
-  project_id: "syn69808338"
+  project_id: "syn68702804"
   datasets_collection_id: "syn66496326"
 
 # Directories
@@ -43,15 +43,28 @@ datasets:
   #   version_label: "v3-DEC"
   #   version_comment: "Dec Release"
   #   # dataset_type: "Clinical"  # Optional: explicitly set 'Clinical' or 'Omic'
-  ALL_ALS_ASSESS:
-    dataset_id: "syn69694463"
-    staging_folder: "syn73806497"
-    release_folder: "syn68885185"
-    version_label: "v5-FEB"
-    data_dict: "data/ALL_ALS/v5-FEB/DD_ALLALS_AS_2026_02_23.csv"
-    data_dict_view: "ASSESS"
-    #mapping: "mapping/ALL_ALS_ASSESS.dict"
+  #
   # Example: Add your own dataset configs
+    # ALL_ALS_ASSESS:
+    #   dataset_id: "syn69694463"
+    #   staging_folder: "syn73806497"
+    #   release_folder: "syn68885185"
+    #   version_label: "v5-FEB"
+    #   version_comment: "Feb Release"
+    #   data_dict: "data/ALL_ALS/v5-FEB/DD_ALLALS_AS_2026_02_23.csv"
+    #   data_dict_view: "ASSESS"
+    #   mapping: "mapping/ASSESS_ALL_ALS_Dataset.dict"
+    #   subject_file_type: "multi"
+    ALL_ALS_PREVENT:
+      dataset_id: "syn69694674"
+      staging_folder: "syn73806498"
+      release_folder: "syn68885187"
+      version_label: "v5-FEB"
+      version_comment: "Feb Release"
+      data_dict: "data/ALL_ALS/v5-FEB/DD_ALLALS_PR_2026_02_23.csv"
+      data_dict_view: "PREVENT"
+      mapping: "mapping/PREVENT_ALL_ALS_Dataset.dict"
+      subject_file_type: "multi"
   # ALS_Compute_Dataset: 
   #   staging_folder: "syn68753414"
   #   release_folder: "syn73686161"
@@ -133,9 +146,6 @@ datasets:
   #   add_to_collection: true  # Add dataset to collection
   #   collection_id: "syn72642710"  # Or use global datasets_collection_id
   #   auto_move_to_release: false  # SAFETY: Set to true ONLY when ready to finalize
-  #   data_dict: "path/to/data_dictionary.csv"   # Data dictionary CSV for mapping generation (update workflow)
-  #   data_dict_view: "ASSESS"                    # View Name to filter (optional)
-  #   mapping: "mapping/dataset_name.dict"        # Pre-existing mapping file (overrides data_dict)
 
     # Wiki generation - AI will use these fields if provided
     #contact: "Principal Investigator, PI.Email@institution.edu"

@@ -112,3 +112,5 @@ enums:
         description: Audio transcript data (e.g., clinical interviews)
       cellularPhysiology:
         description: Cellular physiology assessment data
+      data_dictionary:
+        description: Data dictionary file describing variable definitions, codings, and metadata for a dataset

@@ -10451,6 +10451,17 @@
     "sms:displayName" : "Critical_High",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:data_dictionary",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "data_dictionary",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "data_dictionary",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:alsdb",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",

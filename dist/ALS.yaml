@@ -648,6 +648,8 @@ enums:
         description: Audio transcript data (e.g., clinical interviews)
       cellularPhysiology:
         description: Cellular physiology assessment data
+      data_dictionary:
+        description: Data dictionary file describing variable definitions, codings, and metadata for a dataset
       clinical_assessment:
         description: Clinical assessment data
       treatment:
@@ -1820,6 +1822,8 @@ enums:
         description: Raw intensity values from the instrument.
       NormalizedIntensities:
         description: Normalized intensity values from the instrument/machine.
+      data_dictionary:
+        description: Data dictionary file describing variable definitions, codings, and metadata for a dataset
     description: Types of omic data contained in files
   LibraryStrategyEnum:
     permissible_values:
