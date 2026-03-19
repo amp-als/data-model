@@ -1150,6 +1150,32 @@ def map_extension_to_datatype(extension: str) -> str:
     return extension_map.get(extension, '')
 
 
+def apply_file_specific_datatype_overrides(filename: str, default_datatype: str) -> str:
+    """
+    Apply file-specific dataType overrides for known files.
+
+    This ensures regeneration doesn't lose manually curated dataType values for
+    special cases like DHT-specific categorizations.
+
+    Args:
+        filename: The base filename (e.g., "nhs_linus_aural_analytics_speech_vitals_data.xlsx")
+        default_datatype: The dataType that would be assigned by normal logic
+
+    Returns:
+        The overridden dataType if a match is found, otherwise the default_datatype
+    """
+    # Target ALS NHS file overrides for DHT-specific dataTypes and metadata
+    overrides = {
+        'nhs_linus_aural_analytics_speech_vitals_data.xlsx': 'dht_speech_vitals',
+        'nhs_zephyrx_spirometry_data.xlsx': 'dht_respiratory_assessment',
+        'nhs_clinical_data.xlsx': 'metadata',
+        'nhs_wgs_metadata.xlsx': 'metadata',
+        'nhs_sequencing_data_files.xlsx': 'metadata',
+    }
+
+    return overrides.get(filename, default_datatype)
+
+
 def map_extension_to_fileformat(extension: str) -> str:
     """
     Map file extension to fileFormat value.
@@ -1505,6 +1531,8 @@ def enrich_metadata_with_file_info(metadata_row: dict, file_name: str = None, fo
     # Map to dataType
     data_type = map_extension_to_datatype(extension)
     if data_type:
+        # Apply file-specific overrides for DHT-specific dataTypes
+        data_type = apply_file_specific_datatype_overrides(file_identifier, data_type)
         enriched['_computed_dataType'] = data_type
 
     # Map to fileFormat
@@ -2112,16 +2140,76 @@ def enumerate_files_with_folders(syn, folder_id, recursive=True, verbose=False):
     return files_dict
 
 
+def annotations_differ(current_annotations, new_annotations):
+    """
+    Compare current Synapse annotations with new annotations to detect changes.
+
+    Args:
+        current_annotations: Dict of current annotations from Synapse entity
+        new_annotations: Dict of new annotations to apply
+
+    Returns:
+        bool: True if annotations differ, False if they're the same
+    """
+    # Get all keys from both annotation sets
+    all_keys = set(current_annotations.keys()) | set(new_annotations.keys())
+
+    for key in all_keys:
+        current_val = current_annotations.get(key)
+        new_val = new_annotations.get(key)
+
+        # Normalize empty values (None, '', [], ['']) to None for comparison
+        def normalize_empty(val):
+            if val in (None, '', [], ['']):
+                return None
+            if isinstance(val, list) and len(val) == 1 and val[0] == '':
+                return None
+            return val
+
+        current_val = normalize_empty(current_val)
+        new_val = normalize_empty(new_val)
+
+        # Both empty - no difference
+        if current_val is None and new_val is None:
+            continue
+
+        # One empty, one not - difference
+        if (current_val is None) != (new_val is None):
+            return True
+
+        # Compare list values (order-independent for most annotation fields)
+        if isinstance(current_val, list) and isinstance(new_val, list):
+            if sorted(current_val) != sorted(new_val):
+                return True
+        # Compare scalar values
+        elif current_val != new_val:
+            return True
+
+    # No differences found
+    return False
+
+
 def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose=False,
-                                version_label=None, version_comment=None):
+                                version_label=None, version_comment=None, skip_unchanged=True):
     """
     Apply annotations to file entities in Synapse.
     Used in CREATE workflow and UPDATE workflow (annotation-only path).
 
-    If version_label is provided, a new version is forced so the label is applied.
+    Args:
+        syn: Synapse client
+        file_annotations_dict: Dict of {syn_id: {filename: annotations}}
+        dry_run: If True, only preview changes
+        verbose: If True, print detailed output
+        version_label: Version label to apply (forces new version)
+        version_comment: Version comment for the update
+        skip_unchanged: If True, skip files with unchanged annotations (default: True)
+
+    Returns:
+        (success_count, error_count, skipped_count)
     """
     success_count = 0
     error_count = 0
+    skipped_count = 0
 
     for syn_id, file_data in file_annotations_dict.items():
         filename = list(file_data.keys())[0]
@@ -2130,12 +2218,25 @@ def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose
         try:
             cleaned = clean_annotations_for_synapse(annotations)
 
+            # Fetch current annotations to compare
+            entity = syn.get(syn_id, downloadFile=False)
+            current_annotations = dict(entity.annotations)
+
+            # Check if annotations differ
+            has_changes = annotations_differ(current_annotations, cleaned)
+
+            if not has_changes and skip_unchanged:
+                if verbose or dry_run:
+                    print(f"  [SKIP] No changes for {filename} ({syn_id})")
+                skipped_count += 1
+                continue
+
             if dry_run:
                 label_str = f" with label '{version_label}'" if version_label else ""
-                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {filename}{label_str}")
+                change_str = "changes" if has_changes else "no changes"
+                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations ({change_str}) to {filename}{label_str}")
                 success_count += 1
             else:
-                entity = syn.get(syn_id, downloadFile=False)
                 entity.annotations = cleaned
                 if version_comment:
                     entity['versionComment'] = version_comment
@@ -2150,12 +2251,12 @@ def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose
             err_str = str(e)
             if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
                 print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
-                success_count += 1
+                skipped_count += 1
             else:
                 print(f"  ✗ Error applying annotations to {filename}: {e}")
                 error_count += 1
 
-    return success_count, error_count
+    return success_count, error_count, skipped_count
 
 
 def apply_dataset_annotations(syn, dataset_syn_id, annotations, all_schemas, dry_run=True):
@@ -4515,12 +4616,15 @@ def handle_apply_file_annotations(args, config):
     print("APPLYING FILE ANNOTATIONS")
     print("=" * 60)
 
-    success_count, error_count = apply_annotations_to_files(
-        syn, file_annotations, dry_run=config.DRY_RUN, verbose=config.VERBOSE
+    success_count, error_count, skipped_count = apply_annotations_to_files(
+        syn, file_annotations, dry_run=config.DRY_RUN, verbose=config.VERBOSE,
+        version_label=args.version_label, version_comment=args.version_comment,
+        skip_unchanged=not args.force_update_all
     )
 
     print("\n" + "=" * 60)
-    print(f"  Files succeeded : {success_count}")
+    print(f"  Files updated   : {success_count}")
+    print(f"  Files skipped   : {skipped_count}")
     print(f"  Files failed    : {error_count}")
     if config.DRY_RUN:
         print("\n✅ DRY RUN COMPLETE — re-run with --execute to apply changes")
@@ -4828,10 +4932,10 @@ def handle_create_from_annotations(args, config):
         print("=" * 60)
 
         file_ids = list(file_annotations.keys())
-        success, errors = apply_annotations_to_files(
+        success, errors, skipped = apply_annotations_to_files(
             syn, file_annotations, config.DRY_RUN, config.VERBOSE
         )
-        print(f"✓ Applied: {success}, Errors: {errors}")
+        print(f"✓ Applied: {success}, Skipped: {skipped}, Errors: {errors}")
 
         # STEP 3: Create entity view (SCOPED TO STAGING FOLDER, NOT DATASET)
         print("\n" + "=" * 60)
@@ -5515,13 +5619,13 @@ def handle_update_workflow(args, config):
         if no_staging_files:
             label_str = f" (forcing version '{version_label}')" if version_label else ""
             print(f"Applying annotations to {len(no_staging_files)} files without staging upload{label_str}...")
-            success_count, error_count = apply_annotations_to_files(
+            success_count, error_count, skipped_count = apply_annotations_to_files(
                 syn, no_staging_files,
                 dry_run=config.DRY_RUN, verbose=config.VERBOSE,
                 version_label=version_label,
                 version_comment=version_comment,
             )
-            print(f"\n  Applied: {success_count}, Errors: {error_count}")
+            print(f"\n  Applied: {success_count}, Skipped: {skipped_count}, Errors: {error_count}")
 
     # Step 4: Move new-only staging files to release folder
     if new_file_ids_annotations and release_folder:
@@ -6059,6 +6163,12 @@ Examples:
         help='Dry run mode (default — prints what would be applied)')
     apply_file_parser.add_argument('--skip-validation', action='store_true',
         help='Skip schema validation before applying annotations')
+    apply_file_parser.add_argument('--version-label',
+        help='Version label to apply to updated files (e.g., "v1.1-dht-metadata-update")')
+    apply_file_parser.add_argument('--version-comment',
+        help='Version comment describing the changes (e.g., "Updated dataType annotations for DHT files")')
+    apply_file_parser.add_argument('--force-update-all', action='store_true',
+        help='Force update all files even if annotations are unchanged (default: skip unchanged files)')
 
     # ADD-LINK-FILE command
     link_parser = subparsers.add_parser('add-link-file',
