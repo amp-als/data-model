@@ -7,18 +7,18 @@
 
 <https://w3id.org/synapse/amp-als/vocab/amp-als> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
-    sh:declare [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
-            sh:prefix "prov" ],
+    sh:declare [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
+            sh:prefix "als" ],
         [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
             sh:prefix "skos" ],
+        [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
+            sh:prefix "prov" ],
         [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
             sh:prefix "schema" ],
         [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
             sh:prefix "linkml" ],
         [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
-            sh:prefix "als" ] ;
+            sh:prefix "rdfs" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -198,7 +198,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-03-16T21:40:16"^^xsd:dateTime ;
+    linkml:generation_date "2026-03-19T13:40:27"^^xsd:dateTime ;
     linkml:id "https://w3id.org/amp-als/"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -912,8 +912,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-03-16T21:40:15"^^xsd:dateTime ;
-    linkml:source_file_size 335364 ;
+    linkml:source_file_date "2026-03-19T13:40:25"^^xsd:dateTime ;
+    linkml:source_file_size 336383 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -5254,8 +5254,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/metabolomics_analysis> linkml:description "Metabolomics data analysis methods" .
 
-<https://w3id.org/synapse/amp-als/vocab/metadata> linkml:description "A file of clinical, technical, or other parameters that describe a dataset." .
-
 <https://w3id.org/synapse/amp-als/vocab/metagenomics> linkml:description "Metagenomic sequencing data" .
 
 <https://w3id.org/synapse/amp-als/vocab/methodUsed> a linkml:SlotDefinition ;
@@ -9426,6 +9424,10 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/data_dictionary> linkml:description "Data dictionary file describing variable definitions, codings, and metadata for a dataset" .
+
+<https://w3id.org/synapse/amp-als/vocab/dht_respiratory_assessment> linkml:description "Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)" .
+
+<https://w3id.org/synapse/amp-als/vocab/dht_speech_vitals> linkml:description "Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)" .
 
 <https://w3id.org/synapse/amp-als/vocab/differential_expression> linkml:description "Differential gene expression analysis",
         "Differential gene expression results" .
@@ -14028,6 +14030,9 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/License> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/license"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/metadata> linkml:description "A file of clinical, technical, or other parameters that describe a dataset.",
+        "Metadata files containing information about data collection, processing, or file manifests" .
+
 <https://w3id.org/synapse/amp-als/vocab/muscle> linkml:description "Muscle",
         "Muscle tissue" .
 
@@ -14180,9 +14185,9 @@
     dcterms:title "Sex" ;
     skos:inScheme "https://w3id.org/amp-als/"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
@@ -14302,6 +14307,8 @@
         <https://w3id.org/synapse/amp-als/vocab/data_management>,
         <https://w3id.org/synapse/amp-als/vocab/demographics>,
         <https://w3id.org/synapse/amp-als/vocab/derived_scores>,
+        <https://w3id.org/synapse/amp-als/vocab/dht_respiratory_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/dht_speech_vitals>,
         <https://w3id.org/synapse/amp-als/vocab/diagnostic_criteria>,
         <https://w3id.org/synapse/amp-als/vocab/disease_progression>,
         <https://w3id.org/synapse/amp-als/vocab/drugCombinationScreen>,
@@ -14320,6 +14327,7 @@
         <https://w3id.org/synapse/amp-als/vocab/laboratory_results>,
         <https://w3id.org/synapse/amp-als/vocab/medical_history>,
         <https://w3id.org/synapse/amp-als/vocab/medication_history>,
+        <https://w3id.org/synapse/amp-als/vocab/metadata>,
         <https://w3id.org/synapse/amp-als/vocab/motor_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/neuroimaging>,
         <https://w3id.org/synapse/amp-als/vocab/neurological_assessment>,
@@ -14516,6 +14524,8 @@
         <https://w3id.org/synapse/amp-als/vocab/chromatinActivity>,
         <https://w3id.org/synapse/amp-als/vocab/chromatin_accessibility>,
         <https://w3id.org/synapse/amp-als/vocab/data_dictionary>,
+        <https://w3id.org/synapse/amp-als/vocab/dht_respiratory_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/dht_speech_vitals>,
         <https://w3id.org/synapse/amp-als/vocab/differential_expression>,
         <https://w3id.org/synapse/amp-als/vocab/epigenomics>,
         <https://w3id.org/synapse/amp-als/vocab/geneExpression>,
@@ -14531,6 +14541,7 @@
         <https://w3id.org/synapse/amp-als/vocab/metabolic_pathways>,
         <https://w3id.org/synapse/amp-als/vocab/metabolite_abundance>,
         <https://w3id.org/synapse/amp-als/vocab/metabolomics>,
+        <https://w3id.org/synapse/amp-als/vocab/metadata>,
         <https://w3id.org/synapse/amp-als/vocab/metagenomics>,
         <https://w3id.org/synapse/amp-als/vocab/methylation>,
         <https://w3id.org/synapse/amp-als/vocab/multi_omics>,
@@ -16155,9 +16166,9 @@
     dcterms:title "Data Type" ;
     skos:inScheme "https://w3id.org/amp-als/"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description "Clinical data types (assessments, treatments, medical history, etc.)",
         """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.

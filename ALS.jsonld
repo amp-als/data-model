@@ -17216,6 +17216,17 @@
     "sms:displayName" : "T cell receptor repertoire sequencing",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:dht_respiratory_assessment",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "dht_respiratory_assessment",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "dht_respiratory_assessment",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:neurological_assessment",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -19326,6 +19337,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "3D imaging",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:dht_speech_vitals",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "dht_speech_vitals",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "dht_speech_vitals",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:SNV",

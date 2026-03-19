@@ -463,7 +463,10 @@
           "raw_counts",
           "RawIntensities",
           "NormalizedIntensities",
-          "data_dictionary"
+          "data_dictionary",
+          "metadata",
+          "dht_speech_vitals",
+          "dht_respiratory_assessment"
         ],
         "title": "OmicDataTypeEnum",
         "type": "string"

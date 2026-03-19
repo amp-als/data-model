@@ -319,7 +319,10 @@
           "image",
           "audio_transcript",
           "cellularPhysiology",
-          "data_dictionary"
+          "data_dictionary",
+          "metadata",
+          "dht_speech_vitals",
+          "dht_respiratory_assessment"
         ],
         "title": "ClinicalDataTypeEnum",
         "type": "string"

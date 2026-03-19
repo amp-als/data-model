@@ -650,6 +650,13 @@ enums:
         description: Cellular physiology assessment data
       data_dictionary:
         description: Data dictionary file describing variable definitions, codings, and metadata for a dataset
+      metadata:
+        description: Metadata files containing information about data collection, processing, or file manifests
+      # Digital Health Technology (DHT) Clinical Data Types
+      dht_speech_vitals:
+        description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
+      dht_respiratory_assessment:
+        description: Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)
       clinical_assessment:
         description: Clinical assessment data
       treatment:
@@ -1824,6 +1831,13 @@ enums:
         description: Normalized intensity values from the instrument/machine.
       data_dictionary:
         description: Data dictionary file describing variable definitions, codings, and metadata for a dataset
+      metadata:
+        description: Metadata files containing information about data collection, processing, or file manifests
+      # Digital Health Technology (DHT) Data Types
+      dht_speech_vitals:
+        description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
+      dht_respiratory_assessment:
+        description: Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)
     description: Types of omic data contained in files
   LibraryStrategyEnum:
     permissible_values:

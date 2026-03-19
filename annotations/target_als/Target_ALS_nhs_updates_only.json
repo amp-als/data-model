@@ -1,0 +1,428 @@
+{
+  "syn73918597": {
+    "nhs_linus_aural_analytics_speech_vitals_data.xlsx": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "alternateName": "",
+      "analysisTypes": [
+        "speech_monitoring"
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        "Target ALS"
+      ],
+      "contributor": [
+        "Target ALS"
+      ],
+      "creator": [
+        ""
+      ],
+      "dataType": [
+        "dht_speech_vitals"
+      ],
+      "description": "Speech vitals data collected via the Linus platform (Aural Analytics) measuring speech function in the Target ALS Natural History Study",
+      "disease": [
+        "ALS",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "globalSubjectId": "",
+      "includedInDataCatalog": "",
+      "keywords": [
+        "ALS",
+        "speech",
+        "Linus",
+        "Aural Analytics",
+        "digital biomarker",
+        "natural history study"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "publisher": "Target ALS",
+      "sameAs": "",
+      "sampleType": "",
+      "source": "Target ALS",
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "title": "NHS Linus Aural Analytics Speech Vitals Data",
+      "url": "",
+      "visitType": "",
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-03-16T21:10:10.112820",
+      "_staging_id": "syn73918597"
+    }
+  },
+  "syn73918601": {
+    "nhs_zephyrx_spirometry_data.xlsx": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "alternateName": "",
+      "analysisTypes": [
+        "respiratory_monitoring"
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        "Target ALS"
+      ],
+      "contributor": [
+        "Target ALS"
+      ],
+      "creator": [
+        ""
+      ],
+      "dataType": [
+        "dht_respiratory_assessment"
+      ],
+      "description": "Spirometry data collected via ZephyrX device measuring respiratory function in the Target ALS Natural History Study",
+      "disease": [
+        "ALS",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "globalSubjectId": "",
+      "includedInDataCatalog": "",
+      "keywords": [
+        "ALS",
+        "spirometry",
+        "respiratory",
+        "ZephyrX",
+        "pulmonary function",
+        "natural history study"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "publisher": "Target ALS",
+      "sameAs": "",
+      "sampleType": "",
+      "source": "Target ALS",
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "title": "NHS ZephyrX Spirometry Data",
+      "url": "",
+      "visitType": "",
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-03-16T21:10:10.112936",
+      "_staging_id": "syn73918601"
+    }
+  },
+  "syn73918596": {
+    "nhs_clinical_data.xlsx": {
+      "administrationMode": "",
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        "Target ALS"
+      ],
+      "contributor": [
+        "Target ALS"
+      ],
+      "creator": [
+        "Target ALS"
+      ],
+      "dataType": [
+        "metadata"
+      ],
+      "description": "Clinical data dictionary for the Target ALS Natural History Study (NHS)",
+      "disease": [
+        "ALS",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "globalSubjectId": "",
+      "hasLongitudinalData": true,
+      "includedInDataCatalog": "",
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        "ALS",
+        "clinical data",
+        "natural history study",
+        "data dictionary"
+      ],
+      "license": "",
+      "originalSubjectId": "",
+      "publisher": "Target ALS",
+      "sameAs": "",
+      "sampleType": "",
+      "source": "Target ALS",
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": "",
+      "title": "NHS Clinical Data",
+      "url": "",
+      "visitType": "",
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-03-16T21:10:10.112784",
+      "_staging_id": "syn73918596"
+    }
+  },
+  "syn73918600": {
+    "nhs_wgs_metadata.xlsx": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "whole genome sequencing"
+      ],
+      "biospecimenType": [
+        "blood"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        "Target ALS"
+      ],
+      "contributor": [
+        "Target ALS"
+      ],
+      "creator": [
+        ""
+      ],
+      "dataType": [
+        "metadata"
+      ],
+      "description": "Metadata for whole genome sequencing (WGS) samples from the Target ALS Natural History Study",
+      "disease": [
+        "ALS",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "globalSubjectId": "",
+      "includedInDataCatalog": "",
+      "keywords": [
+        "ALS",
+        "WGS",
+        "whole genome sequencing",
+        "metadata",
+        "natural history study"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "libraryPreparationMethod": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "publisher": "Target ALS",
+      "sameAs": "",
+      "sampleType": "",
+      "source": "Target ALS",
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "title": "NHS WGS Metadata",
+      "url": "",
+      "visitType": "",
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-03-16T21:10:10.112918",
+      "_staging_id": "syn73918600"
+    }
+  },
+  "syn73918599": {
+    "nhs_sequencing_data_files.xlsx": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "whole genome sequencing"
+      ],
+      "biospecimenType": [
+        "blood"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "Target ALS"
+      ],
+      "collectionSite": "",
+      "contributor": [
+        "Target ALS"
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "dataType": [
+        "metadata"
+      ],
+      "description": "Manifest and metadata for whole genome sequencing data files from the Target ALS Natural History Study",
+      "disease": [
+        "ALS",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "XLSX",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "ALS",
+        "WGS",
+        "sequencing",
+        "metadata",
+        "manifest",
+        "natural history study"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        "raw"
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "Target ALS",
+      "race": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "Target ALS",
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "NHS Sequencing Data Files",
+      "url": "",
+      "variantType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-03-16T21:10:10.112876",
+      "_staging_id": "syn73918599"
+    }
+  }
+}
