@@ -1,0 +1,257 @@
+id: https://amp-als.org/schemas/MetadataSchema
+name: metadata-schema
+title: Metadata Schema Template
+description: >-
+  A template schema for defining metadata schemas used to document clinical,
+  omics, and study metadata attributes. This schema allows users to specify
+  column definitions, data types, valid values, and validation rules.
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  schema: http://schema.org/
+
+default_range: string
+
+imports:
+  - linkml:types
+
+classes:
+  MetadataSchema:
+    description: >-
+      Template for defining metadata schemas that document the structure,
+      data types, and valid values for clinical and omics metadata files.
+      Also supports dataset-level citation metadata per NIH CADR requirements.
+    attributes:
+      schemaName:
+        description: Name of this metadata schema
+        range: string
+        required: true
+      schemaType:
+        description: Type of metadata this schema describes
+        range: SchemaTypeEnum
+        required: true
+      version:
+        description: Version of this schema (e.g., "1.0", "2.1")
+        range: string
+        required: true
+      description:
+        description: Overall description of what this schema covers
+        range: string
+      conformsTo:
+        description: >-
+          URIs of community metadata standards this schema conforms to
+          (e.g., DataCite, Dublin Core, DCAT, Schema.org)
+        range: string
+        multivalued: true
+      attributes:
+        description: List of metadata attributes/columns defined in this schema
+        range: MetadataAttribute
+        multivalued: true
+        required: true
+        inlined_as_list: true
+
+      # Dataset-level citation metadata (optional, for NIH CADR compliance)
+      identifier:
+        description: >-
+          Persistent identifier for the dataset (DOI, ARK, Handle).
+          Required for dataset citation and discovery.
+        range: string
+      identifierType:
+        description: Type of identifier (DOI, ARK, Handle, URL)
+        range: IdentifierTypeEnum
+      title:
+        description: Primary title of the dataset
+        range: string
+      creators:
+        description: >-
+          Main researchers/authors responsible for creating the dataset.
+          Format: LastName, FirstName (ORCID). Separate multiple with semicolons.
+        range: string
+        multivalued: true
+      contributors:
+        description: >-
+          Additional persons/organizations contributing to the dataset.
+          Format: LastName, FirstName (Role). Separate multiple with semicolons.
+        range: string
+        multivalued: true
+      publisher:
+        description: Institution/entity responsible for publishing the dataset
+        range: string
+      publicationYear:
+        description: Year the dataset was made publicly available
+        range: integer
+      resourceType:
+        description: General type of the resource (Dataset, Collection, etc.)
+        range: ResourceTypeEnum
+      subjects:
+        description: >-
+          Keywords or subject terms describing the dataset.
+          Use controlled vocabularies (MeSH, SNOMED) when possible.
+        range: string
+        multivalued: true
+      license:
+        description: License or rights statement for dataset use
+        range: string
+      licenseURL:
+        description: URL to the full license text
+        range: string
+      accessRights:
+        description: Information about access restrictions
+        range: AccessRightsEnum
+      fundingReferences:
+        description: >-
+          Funding support information.
+          Format: Funder Name (Award Number)
+        range: string
+        multivalued: true
+      relatedPublications:
+        description: Citations or DOIs of related publications
+        range: string
+        multivalued: true
+      relatedDatasets:
+        description: Identifiers of related datasets
+        range: string
+        multivalued: true
+      dateCreated:
+        description: Date the dataset was originally created (YYYY-MM-DD)
+        range: date
+      dateModified:
+        description: Date the dataset was last modified (YYYY-MM-DD)
+        range: date
+      datePublished:
+        description: Date the dataset was published (YYYY-MM-DD)
+        range: date
+      contactName:
+        description: Name of person/organization to contact for questions
+        range: string
+      contactEmail:
+        description: Email address for dataset inquiries
+        range: string
+      landingPage:
+        description: URL to dataset landing page or repository entry
+        range: string
+      citationRecommendation:
+        description: Recommended citation format for this dataset
+        range: string
+
+  MetadataAttribute:
+    description: >-
+      Definition of a single metadata attribute/column including its data type,
+      valid values, and validation rules.
+    attributes:
+      name:
+        description: Name of the metadata attribute/column
+        range: string
+        required: true
+      description:
+        description: Detailed description of what this attribute represents
+        range: string
+        required: true
+      dataType:
+        description: Data type of this attribute
+        range: DataTypeEnum
+        required: true
+      required:
+        description: Whether this attribute must be present in the data
+        range: boolean
+      validValues:
+        description: >-
+          List of allowed values for enumerated attributes. Only applicable
+          when dataType is "enum".
+        range: ValidValue
+        multivalued: true
+        inlined_as_list: true
+      validationRules:
+        description: >-
+          Optional validation constraints or rules for this attribute
+          (e.g., "Must be between 1900 and current year")
+        range: string
+      examples:
+        description: Example values to help users understand this attribute
+        range: string
+        multivalued: true
+
+  ValidValue:
+    description: >-
+      Allowed value for an enumerated attribute, including a description
+      of what the value means.
+    attributes:
+      value:
+        description: The actual allowed value
+        range: string
+        required: true
+      description:
+        description: What this value means or represents
+        range: string
+        required: true
+
+enums:
+  SchemaTypeEnum:
+    description: Type of metadata schema
+    permissible_values:
+      clinical:
+        description: Clinical metadata schema (assessments, diagnoses, demographics)
+      omics:
+        description: Omics metadata schema (sequencing, samples, biospecimens)
+      study:
+        description: Study management metadata schema (visits, protocols, sites)
+      dataset:
+        description: Dataset-level metadata schema for discovery, reuse, and citation
+
+  DataTypeEnum:
+    description: Data type for metadata attributes
+    permissible_values:
+      string:
+        description: Text string value
+      integer:
+        description: Integer number (whole numbers)
+      float:
+        description: Floating point number (decimal numbers)
+      date:
+        description: Date in YYYY-MM-DD format
+      datetime:
+        description: Date and time in ISO 8601 format
+      boolean:
+        description: True/false or yes/no value
+      enum:
+        description: Enumerated value from a fixed set of allowed options
+
+  IdentifierTypeEnum:
+    description: Type of persistent identifier
+    permissible_values:
+      DOI:
+        description: Digital Object Identifier
+      ARK:
+        description: Archival Resource Key
+      Handle:
+        description: Handle system identifier
+      URL:
+        description: Uniform Resource Locator
+      URN:
+        description: Uniform Resource Name
+      PURL:
+        description: Persistent URL
+
+  ResourceTypeEnum:
+    description: General type of the resource
+    permissible_values:
+      Dataset:
+        description: General research dataset
+      Collection:
+        description: Collection of datasets or resources
+      DataPaper:
+        description: Dataset with accompanying publication
+      Software:
+        description: Software or code dataset
+
+  AccessRightsEnum:
+    description: Information about access restrictions
+    permissible_values:
+      Open:
+        description: Openly accessible without restrictions
+      Restricted:
+        description: Restricted access requiring approval
+      Embargoed:
+        description: Under embargo until specific date
+      Controlled:
+        description: Controlled access requiring DUC or similar agreement

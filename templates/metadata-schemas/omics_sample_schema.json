@@ -1,0 +1,152 @@
+{
+  "schemaName": "OmicsSampleMetadata",
+  "schemaType": "omics",
+  "version": "1.0",
+  "description": "Schema for omics sample-level metadata including biospecimen information and sequencing parameters",
+  "attributes": [
+    {
+      "name": "sample_id",
+      "description": "Unique identifier for the biological sample",
+      "dataType": "string",
+      "required": true,
+      "validationRules": "Must be unique across the dataset",
+      "examples": ["CGND-HDA-05782", "SAMPLE_001"]
+    },
+    {
+      "name": "subject_id",
+      "description": "Identifier for the subject/participant this sample came from",
+      "dataType": "string",
+      "required": true,
+      "examples": ["NEUAJ018HDE", "SUBJECT_001"]
+    },
+    {
+      "name": "biospecimen_type",
+      "description": "Type of biological specimen",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "blood",
+          "description": "Whole blood sample"
+        },
+        {
+          "value": "plasma",
+          "description": "Blood plasma"
+        },
+        {
+          "value": "serum",
+          "description": "Blood serum"
+        },
+        {
+          "value": "CSF",
+          "description": "Cerebrospinal fluid"
+        },
+        {
+          "value": "brain_tissue",
+          "description": "Brain tissue biopsy or autopsy"
+        },
+        {
+          "value": "motor_neuron",
+          "description": "Motor neuron cells (isolated or iPSC-derived)"
+        }
+      ],
+      "examples": ["blood", "plasma", "CSF"]
+    },
+    {
+      "name": "collection_date",
+      "description": "Date when sample was collected",
+      "dataType": "date",
+      "required": true,
+      "validationRules": "Format: YYYY-MM-DD",
+      "examples": ["2023-01-15", "2023-06-22"]
+    },
+    {
+      "name": "assay_type",
+      "description": "Type of experimental assay performed",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "RNA-seq",
+          "description": "RNA sequencing for transcriptome profiling"
+        },
+        {
+          "value": "whole_genome_sequencing",
+          "description": "Whole genome sequencing (WGS)"
+        },
+        {
+          "value": "whole_exome_sequencing",
+          "description": "Whole exome sequencing (WES)"
+        },
+        {
+          "value": "proteomics",
+          "description": "Proteomics analysis (e.g., LC-MS/MS)"
+        }
+      ],
+      "examples": ["RNA-seq", "whole_genome_sequencing"]
+    },
+    {
+      "name": "platform",
+      "description": "Sequencing or analysis platform used",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "Illumina NovaSeq",
+          "description": "Illumina NovaSeq sequencing platform"
+        },
+        {
+          "value": "Illumina HiSeq",
+          "description": "Illumina HiSeq sequencing platform"
+        },
+        {
+          "value": "Oxford Nanopore",
+          "description": "Oxford Nanopore long-read sequencer"
+        },
+        {
+          "value": "10x Genomics",
+          "description": "10x Genomics single-cell platform"
+        }
+      ],
+      "examples": ["Illumina NovaSeq"]
+    },
+    {
+      "name": "library_layout",
+      "description": "Sequencing library layout",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "single",
+          "description": "Single-end sequencing"
+        },
+        {
+          "value": "paired",
+          "description": "Paired-end sequencing"
+        }
+      ],
+      "examples": ["paired"]
+    },
+    {
+      "name": "processing_level",
+      "description": "Level of data processing",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "raw",
+          "description": "Raw, unprocessed data (e.g., FASTQ files)"
+        },
+        {
+          "value": "processed",
+          "description": "Processed data (e.g., aligned BAM, normalized counts)"
+        },
+        {
+          "value": "analyzed",
+          "description": "Analysis results (e.g., differential expression, variant calls)"
+        }
+      ],
+      "examples": ["processed", "raw"]
+    }
+  ]
+}

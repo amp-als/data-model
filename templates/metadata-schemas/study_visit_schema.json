@@ -1,0 +1,166 @@
+{
+  "schemaName": "StudyVisit",
+  "schemaType": "study",
+  "version": "1.0",
+  "description": "Schema for study visit metadata including visit scheduling, completion status, and protocol adherence",
+  "attributes": [
+    {
+      "name": "subject_id",
+      "description": "Unique identifier for the study subject/participant",
+      "dataType": "string",
+      "required": true,
+      "examples": ["SUBJECT_001", "NEUAJ018HDE"]
+    },
+    {
+      "name": "visit_number",
+      "description": "Sequential visit number for the study",
+      "dataType": "integer",
+      "required": true,
+      "examples": ["1", "2", "3", "4", "5"]
+    },
+    {
+      "name": "visit_name",
+      "description": "Name or label for this visit type",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "Screening",
+          "description": "Initial screening visit"
+        },
+        {
+          "value": "Baseline",
+          "description": "Baseline visit (Visit 1)"
+        },
+        {
+          "value": "Follow-up",
+          "description": "Regular follow-up visit"
+        },
+        {
+          "value": "End of Study",
+          "description": "Final study visit"
+        },
+        {
+          "value": "Unscheduled",
+          "description": "Unscheduled or ad-hoc visit"
+        },
+        {
+          "value": "Early Termination",
+          "description": "Early termination visit"
+        }
+      ],
+      "examples": ["Baseline", "Follow-up"]
+    },
+    {
+      "name": "scheduled_date",
+      "description": "Date when visit was scheduled to occur",
+      "dataType": "date",
+      "required": true,
+      "validationRules": "Format: YYYY-MM-DD",
+      "examples": ["2023-01-15", "2023-04-20"]
+    },
+    {
+      "name": "actual_date",
+      "description": "Date when visit actually occurred",
+      "dataType": "date",
+      "required": false,
+      "validationRules": "Format: YYYY-MM-DD",
+      "examples": ["2023-01-17", "2023-04-22"]
+    },
+    {
+      "name": "visit_status",
+      "description": "Status of the visit",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "Scheduled",
+          "description": "Visit is scheduled but not yet completed"
+        },
+        {
+          "value": "Completed",
+          "description": "Visit was completed as planned"
+        },
+        {
+          "value": "Partially Completed",
+          "description": "Visit occurred but some procedures were not completed"
+        },
+        {
+          "value": "Missed",
+          "description": "Subject did not attend scheduled visit"
+        },
+        {
+          "value": "Cancelled",
+          "description": "Visit was cancelled"
+        }
+      ],
+      "examples": ["Completed", "Scheduled"]
+    },
+    {
+      "name": "visit_window_start",
+      "description": "Start date of acceptable visit window",
+      "dataType": "date",
+      "required": false,
+      "validationRules": "Format: YYYY-MM-DD",
+      "examples": ["2023-01-08", "2023-04-13"]
+    },
+    {
+      "name": "visit_window_end",
+      "description": "End date of acceptable visit window",
+      "dataType": "date",
+      "required": false,
+      "validationRules": "Format: YYYY-MM-DD",
+      "examples": ["2023-01-22", "2023-04-27"]
+    },
+    {
+      "name": "protocol_deviation",
+      "description": "Whether any protocol deviations occurred during visit",
+      "dataType": "boolean",
+      "required": false,
+      "examples": ["false", "true"]
+    },
+    {
+      "name": "deviation_description",
+      "description": "Description of protocol deviation if applicable",
+      "dataType": "string",
+      "required": false,
+      "examples": ["Blood draw occurred 15 minutes outside window", "Subject ate breakfast before fasting blood draw"]
+    },
+    {
+      "name": "assessments_completed",
+      "description": "Comma-separated list of assessments completed at this visit",
+      "dataType": "string",
+      "required": false,
+      "examples": ["ALSFRS-R, Blood draw, MRI", "Clinical exam, Cognitive assessment"]
+    },
+    {
+      "name": "site_id",
+      "description": "Identifier for the clinical site where visit occurred",
+      "dataType": "string",
+      "required": true,
+      "examples": ["SITE_001", "MGH", "UCSF"]
+    },
+    {
+      "name": "visit_duration_minutes",
+      "description": "Total duration of visit in minutes",
+      "dataType": "integer",
+      "required": false,
+      "validationRules": "Must be positive integer",
+      "examples": ["60", "120", "180"]
+    },
+    {
+      "name": "coordinator_initials",
+      "description": "Initials of study coordinator who conducted visit",
+      "dataType": "string",
+      "required": false,
+      "examples": ["ABC", "XYZ"]
+    },
+    {
+      "name": "notes",
+      "description": "Free-text notes about the visit",
+      "dataType": "string",
+      "required": false,
+      "examples": ["Subject reported increased fatigue", "All procedures completed without issues"]
+    }
+  ]
+}

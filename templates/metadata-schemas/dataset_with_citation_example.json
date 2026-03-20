@@ -1,0 +1,129 @@
+{
+  "schemaName": "TargetALSClinicalData",
+  "schemaType": "clinical",
+  "version": "1.0",
+  "description": "Clinical assessment data from the Target ALS Natural History Study, including demographics, diagnosis information, and standardized clinical assessments collected over multiple visits from ALS patients and control participants.",
+  "conformsTo": [
+    "https://schema.datacite.org/meta/kernel-4.4/",
+    "http://purl.org/dc/terms/",
+    "https://www.w3.org/TR/vocab-dcat-2/"
+  ],
+
+  "identifier": "10.7303/syn12345678",
+  "identifierType": "DOI",
+  "title": "Target ALS Natural History Study - Clinical Assessment Data",
+  "creators": [
+    "Smith, John (0000-0001-2345-6789)",
+    "Doe, Jane (0000-0002-3456-7890)"
+  ],
+  "contributors": [
+    "Anderson, Robert (DataCollector)",
+    "Wilson, Sarah (DataCurator)"
+  ],
+  "publisher": "Sage Bionetworks",
+  "publicationYear": 2023,
+  "resourceType": "Dataset",
+  "subjects": [
+    "Amyotrophic Lateral Sclerosis",
+    "ALS",
+    "motor neuron disease",
+    "clinical assessment",
+    "ALSFRS-R",
+    "natural history study",
+    "longitudinal study"
+  ],
+  "license": "CC-BY-NC-4.0",
+  "licenseURL": "https://creativecommons.org/licenses/by-nc/4.0/",
+  "accessRights": "Controlled",
+  "fundingReferences": [
+    "NIH/NINDS (U01NS107027)",
+    "Target ALS Foundation"
+  ],
+  "relatedPublications": [
+    "10.1038/s41586-020-1234-5"
+  ],
+  "dateCreated": "2018-01-15",
+  "dateModified": "2024-03-10",
+  "datePublished": "2023-08-01",
+  "contactName": "Target ALS Data Coordination Team",
+  "contactEmail": "data@targetals.org",
+  "landingPage": "https://www.synapse.org/#!Synapse:syn12345678",
+  "citationRecommendation": "Smith, J., Doe, J. (2023). Target ALS Natural History Study - Clinical Assessment Data. Sage Bionetworks. https://doi.org/10.7303/syn12345678",
+
+  "attributes": [
+    {
+      "name": "visit_number",
+      "description": "Sequential visit number for the study",
+      "dataType": "integer",
+      "required": true,
+      "examples": ["1", "2", "3", "4", "5"]
+    },
+    {
+      "name": "clinical_group",
+      "description": "Clinical group classification",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "ALS",
+          "description": "Amyotrophic Lateral Sclerosis patient"
+        },
+        {
+          "value": "Non-Neurological Control",
+          "description": "Healthy control participant without neurological conditions"
+        }
+      ],
+      "examples": ["ALS", "Non-Neurological Control"]
+    },
+    {
+      "name": "als_diagnosis_revised_el_escorial",
+      "description": "ALS diagnosis classification based on revised El Escorial criteria",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Definite ALS",
+          "description": "Meets criteria for definite ALS"
+        },
+        {
+          "value": "Probable ALS",
+          "description": "Meets criteria for probable ALS"
+        },
+        {
+          "value": "Probable ALS - Lab Supported",
+          "description": "Probable ALS with laboratory support"
+        },
+        {
+          "value": "Possible ALS",
+          "description": "Meets criteria for possible ALS"
+        }
+      ],
+      "examples": ["Definite ALS", "Probable ALS"]
+    },
+    {
+      "name": "age_in_years",
+      "description": "Age of participant in years at time of assessment",
+      "dataType": "integer",
+      "required": true,
+      "validationRules": "Must be between 18 and 120, or -9999 for missing data",
+      "examples": ["45", "52", "63", "58", "71"]
+    },
+    {
+      "name": "sex_reported",
+      "description": "Self-reported biological sex",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "Male",
+          "description": "Male sex"
+        },
+        {
+          "value": "Female",
+          "description": "Female sex"
+        }
+      ],
+      "examples": ["Male", "Female"]
+    }
+  ]
+}

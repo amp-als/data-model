@@ -1,4 +1,4 @@
-all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile OmicFile
+all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile OmicFile MetadataSchema
 
 ALS.jsonld: dist/ALS.yaml
 	bb ./retold/retold as-jsonld --dir modules --out ALS.jsonld
@@ -79,3 +79,7 @@ OmicFile:
 	jq '."$$defs".OmicFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json > json-schemas/OmicFile.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/OmicFile.json ---"
+
+MetadataSchema:
+	gen-json-schema modules/shared/metadata-schema-template.yaml > json-schemas/MetadataSchema.json
+	@echo "--- Saved json-schemas/MetadataSchema.json ---"

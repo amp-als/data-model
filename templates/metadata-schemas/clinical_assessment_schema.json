@@ -1,0 +1,202 @@
+{
+  "schemaName": "ClinicalAssessmentMetadata",
+  "schemaType": "clinical",
+  "version": "1.0",
+  "description": "Schema for clinical assessment metadata including visit information, diagnosis, demographics, and assessment scores",
+  "attributes": [
+    {
+      "name": "visit_number",
+      "description": "Sequential visit number for the study",
+      "dataType": "integer",
+      "required": true,
+      "examples": ["1", "2", "3", "4", "5"]
+    },
+    {
+      "name": "clinical_group",
+      "description": "Clinical group classification",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "ALS",
+          "description": "Amyotrophic Lateral Sclerosis patient"
+        },
+        {
+          "value": "Non-Neurological Control",
+          "description": "Healthy control participant without neurological conditions"
+        }
+      ],
+      "examples": ["ALS", "Non-Neurological Control"]
+    },
+    {
+      "name": "als_diagnosis_revised_el_escorial",
+      "description": "ALS diagnosis classification based on revised El Escorial criteria",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Definite ALS",
+          "description": "Meets criteria for definite ALS"
+        },
+        {
+          "value": "Probable ALS",
+          "description": "Meets criteria for probable ALS"
+        },
+        {
+          "value": "Probable ALS - Lab Supported",
+          "description": "Probable ALS with laboratory support"
+        },
+        {
+          "value": "Possible ALS",
+          "description": "Meets criteria for possible ALS"
+        },
+        {
+          "value": "PEN",
+          "description": "Pending or not yet evaluated"
+        }
+      ],
+      "examples": ["Definite ALS", "Probable ALS"]
+    },
+    {
+      "name": "site_of_motor_onset",
+      "description": "Anatomical site where motor symptoms first appeared",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Bulbar",
+          "description": "Onset in bulbar muscles (speech, swallowing)"
+        },
+        {
+          "value": "Limb",
+          "description": "Onset in limb muscles"
+        },
+        {
+          "value": "Bulbar | Limb",
+          "description": "Simultaneous bulbar and limb onset"
+        },
+        {
+          "value": "N/D",
+          "description": "Not determined or not applicable"
+        },
+        {
+          "value": "PEN",
+          "description": "Pending evaluation"
+        }
+      ],
+      "examples": ["Bulbar", "Limb"]
+    },
+    {
+      "name": "year_of_symptom_onset",
+      "description": "Year when first ALS symptoms appeared",
+      "dataType": "integer",
+      "required": false,
+      "validationRules": "Must be between 1900 and current year, or special codes: -5555 (N/A), -8888 (Unknown), -9999 (Not collected)",
+      "examples": ["2019", "2020", "2021", "2022", "2023"]
+    },
+    {
+      "name": "age_in_years",
+      "description": "Age of participant in years at time of assessment",
+      "dataType": "integer",
+      "required": true,
+      "validationRules": "Must be between 18 and 120, or -9999 for missing data",
+      "examples": ["45", "52", "63", "58", "71"]
+    },
+    {
+      "name": "sex_reported",
+      "description": "Self-reported biological sex",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "Male",
+          "description": "Male sex"
+        },
+        {
+          "value": "Female",
+          "description": "Female sex"
+        }
+      ],
+      "examples": ["Male", "Female"]
+    },
+    {
+      "name": "race",
+      "description": "Self-reported race",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "White",
+          "description": "White or Caucasian"
+        },
+        {
+          "value": "Black or African American",
+          "description": "Black or African American"
+        },
+        {
+          "value": "Asian",
+          "description": "Asian"
+        },
+        {
+          "value": "Native Hawaiian or Pacific Islander",
+          "description": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "value": "Multiracial",
+          "description": "More than one race"
+        }
+      ],
+      "examples": ["White", "Asian"]
+    },
+    {
+      "name": "ethnicity",
+      "description": "Self-reported ethnicity",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Hispanic or Latino",
+          "description": "Hispanic or Latino ethnicity"
+        },
+        {
+          "value": "Not Hispanic or Latino",
+          "description": "Not Hispanic or Latino"
+        }
+      ],
+      "examples": ["Not Hispanic or Latino"]
+    },
+    {
+      "name": "reported_c9orf72_mutation",
+      "description": "C9orf72 mutation status based on genetic testing",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Positive",
+          "description": "C9orf72 repeat expansion detected"
+        },
+        {
+          "value": "Negative",
+          "description": "No C9orf72 mutation detected"
+        },
+        {
+          "value": "N/D",
+          "description": "Not determined"
+        },
+        {
+          "value": "PEN",
+          "description": "Pending"
+        }
+      ],
+      "examples": ["Negative", "Positive"]
+    },
+    {
+      "name": "als_cbs_score",
+      "description": "ALS Cognitive Behavioral Screen total score",
+      "dataType": "integer",
+      "required": false,
+      "validationRules": "Score range 0-20, or special codes: -5555 (N/A), -8888 (Unknown), -9999 (Not collected)",
+      "examples": ["15", "18", "12", "16"]
+    }
+  ]
+}

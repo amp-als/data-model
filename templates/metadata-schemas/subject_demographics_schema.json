@@ -1,0 +1,182 @@
+{
+  "schemaName": "SubjectDemographics",
+  "schemaType": "clinical",
+  "version": "1.0",
+  "description": "Schema for subject demographic information including age, sex, race, ethnicity, and baseline characteristics",
+  "attributes": [
+    {
+      "name": "subject_id",
+      "description": "Unique identifier for the study subject/participant",
+      "dataType": "string",
+      "required": true,
+      "validationRules": "Must be unique across the study",
+      "examples": ["SUBJECT_001", "NEUAJ018HDE"]
+    },
+    {
+      "name": "age_at_enrollment",
+      "description": "Age of subject in years at time of enrollment",
+      "dataType": "integer",
+      "required": true,
+      "validationRules": "Must be between 18 and 120",
+      "examples": ["45", "52", "63", "71"]
+    },
+    {
+      "name": "sex_reported",
+      "description": "Self-reported biological sex",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "Male",
+          "description": "Male sex"
+        },
+        {
+          "value": "Female",
+          "description": "Female sex"
+        }
+      ],
+      "examples": ["Male", "Female"]
+    },
+    {
+      "name": "race",
+      "description": "Self-reported race",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "White",
+          "description": "White or Caucasian"
+        },
+        {
+          "value": "Black or African American",
+          "description": "Black or African American"
+        },
+        {
+          "value": "Asian",
+          "description": "Asian"
+        },
+        {
+          "value": "Native Hawaiian or Pacific Islander",
+          "description": "Native Hawaiian or Other Pacific Islander"
+        },
+        {
+          "value": "American Indian or Alaska Native",
+          "description": "American Indian or Alaska Native"
+        },
+        {
+          "value": "Multiracial",
+          "description": "More than one race"
+        },
+        {
+          "value": "Unknown",
+          "description": "Race not reported or unknown"
+        }
+      ],
+      "examples": ["White", "Asian", "Multiracial"]
+    },
+    {
+      "name": "ethnicity",
+      "description": "Self-reported ethnicity",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Hispanic or Latino",
+          "description": "Hispanic or Latino ethnicity"
+        },
+        {
+          "value": "Not Hispanic or Latino",
+          "description": "Not Hispanic or Latino"
+        },
+        {
+          "value": "Unknown",
+          "description": "Ethnicity not reported or unknown"
+        }
+      ],
+      "examples": ["Not Hispanic or Latino", "Hispanic or Latino"]
+    },
+    {
+      "name": "education_level",
+      "description": "Highest level of education completed",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Less than high school",
+          "description": "Did not complete high school"
+        },
+        {
+          "value": "High school or GED",
+          "description": "High school diploma or equivalent"
+        },
+        {
+          "value": "Some college",
+          "description": "Some college but no degree"
+        },
+        {
+          "value": "Associate degree",
+          "description": "Associate or technical degree"
+        },
+        {
+          "value": "Bachelor's degree",
+          "description": "Bachelor's degree"
+        },
+        {
+          "value": "Graduate degree",
+          "description": "Master's, PhD, or professional degree"
+        }
+      ],
+      "examples": ["Bachelor's degree", "Graduate degree"]
+    },
+    {
+      "name": "handedness",
+      "description": "Dominant hand preference",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Right",
+          "description": "Right-handed"
+        },
+        {
+          "value": "Left",
+          "description": "Left-handed"
+        },
+        {
+          "value": "Ambidextrous",
+          "description": "No dominant hand preference"
+        }
+      ],
+      "examples": ["Right", "Left"]
+    },
+    {
+      "name": "family_history_als",
+      "description": "Presence of ALS in family history",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "Yes",
+          "description": "Positive family history of ALS"
+        },
+        {
+          "value": "No",
+          "description": "No family history of ALS"
+        },
+        {
+          "value": "Unknown",
+          "description": "Family history unknown"
+        }
+      ],
+      "examples": ["No", "Yes"]
+    },
+    {
+      "name": "enrollment_date",
+      "description": "Date subject was enrolled in the study",
+      "dataType": "date",
+      "required": true,
+      "validationRules": "Format: YYYY-MM-DD",
+      "examples": ["2023-01-15", "2023-06-22", "2024-03-10"]
+    }
+  ]
+}

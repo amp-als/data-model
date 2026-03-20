@@ -1,0 +1,248 @@
+{
+  "schemaName": "BiospecimenCollection",
+  "schemaType": "omics",
+  "version": "1.0",
+  "description": "Schema for biospecimen collection metadata including sample collection, processing, and storage information",
+  "attributes": [
+    {
+      "name": "sample_id",
+      "description": "Unique identifier for the biological sample",
+      "dataType": "string",
+      "required": true,
+      "validationRules": "Must be unique across the dataset",
+      "examples": ["SAMPLE_001", "BIO_2023_0042"]
+    },
+    {
+      "name": "subject_id",
+      "description": "Identifier for the subject/participant this sample came from",
+      "dataType": "string",
+      "required": true,
+      "examples": ["SUBJECT_001", "NEUAJ018HDE"]
+    },
+    {
+      "name": "visit_number",
+      "description": "Sequential visit number when sample was collected",
+      "dataType": "integer",
+      "required": true,
+      "examples": ["1", "2", "3", "4"]
+    },
+    {
+      "name": "biospecimen_type",
+      "description": "Type of biological specimen collected",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "whole_blood",
+          "description": "Whole blood sample"
+        },
+        {
+          "value": "plasma",
+          "description": "Blood plasma"
+        },
+        {
+          "value": "serum",
+          "description": "Blood serum"
+        },
+        {
+          "value": "CSF",
+          "description": "Cerebrospinal fluid"
+        },
+        {
+          "value": "urine",
+          "description": "Urine sample"
+        },
+        {
+          "value": "saliva",
+          "description": "Saliva sample"
+        },
+        {
+          "value": "tissue",
+          "description": "Tissue biopsy or autopsy"
+        },
+        {
+          "value": "cells",
+          "description": "Isolated cells or cell culture"
+        }
+      ],
+      "examples": ["whole_blood", "plasma", "CSF"]
+    },
+    {
+      "name": "anatomical_site",
+      "description": "Anatomical site where specimen was collected",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "blood_peripheral",
+          "description": "Peripheral blood (e.g., venipuncture)"
+        },
+        {
+          "value": "CSF_lumbar",
+          "description": "Lumbar cerebrospinal fluid"
+        },
+        {
+          "value": "brain_frontal_cortex",
+          "description": "Frontal cortex brain tissue"
+        },
+        {
+          "value": "brain_motor_cortex",
+          "description": "Motor cortex brain tissue"
+        },
+        {
+          "value": "spinal_cord_cervical",
+          "description": "Cervical spinal cord"
+        },
+        {
+          "value": "spinal_cord_lumbar",
+          "description": "Lumbar spinal cord"
+        }
+      ],
+      "examples": ["blood_peripheral", "CSF_lumbar"]
+    },
+    {
+      "name": "collection_date",
+      "description": "Date when sample was collected",
+      "dataType": "date",
+      "required": true,
+      "validationRules": "Format: YYYY-MM-DD",
+      "examples": ["2023-01-15", "2023-06-22"]
+    },
+    {
+      "name": "collection_time",
+      "description": "Time when sample was collected",
+      "dataType": "string",
+      "required": false,
+      "validationRules": "Format: HH:MM (24-hour format)",
+      "examples": ["09:30", "14:15"]
+    },
+    {
+      "name": "fasting_status",
+      "description": "Whether subject was fasting at time of collection",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "fasting",
+          "description": "Subject was fasting (typically 8+ hours)"
+        },
+        {
+          "value": "non-fasting",
+          "description": "Subject was not fasting"
+        },
+        {
+          "value": "unknown",
+          "description": "Fasting status unknown"
+        }
+      ],
+      "examples": ["fasting", "non-fasting"]
+    },
+    {
+      "name": "collection_tube_type",
+      "description": "Type of collection tube or container used",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "EDTA",
+          "description": "EDTA anticoagulant tube (purple cap)"
+        },
+        {
+          "value": "Heparin",
+          "description": "Heparin anticoagulant tube (green cap)"
+        },
+        {
+          "value": "Serum separator",
+          "description": "Serum separator tube (red/gold cap)"
+        },
+        {
+          "value": "PAXgene RNA",
+          "description": "PAXgene RNA stabilization tube"
+        },
+        {
+          "value": "Cryovial",
+          "description": "Cryogenic storage vial"
+        }
+      ],
+      "examples": ["EDTA", "PAXgene RNA"]
+    },
+    {
+      "name": "processing_time",
+      "description": "Time from collection to processing/stabilization (in minutes)",
+      "dataType": "integer",
+      "required": false,
+      "validationRules": "Must be positive integer, typically < 240 minutes",
+      "examples": ["30", "60", "120"]
+    },
+    {
+      "name": "storage_temperature",
+      "description": "Temperature at which sample is stored",
+      "dataType": "enum",
+      "required": true,
+      "validValues": [
+        {
+          "value": "-80C",
+          "description": "Stored at -80 degrees Celsius"
+        },
+        {
+          "value": "-20C",
+          "description": "Stored at -20 degrees Celsius"
+        },
+        {
+          "value": "4C",
+          "description": "Stored at 4 degrees Celsius (refrigerated)"
+        },
+        {
+          "value": "liquid_nitrogen",
+          "description": "Stored in liquid nitrogen (-196C)"
+        },
+        {
+          "value": "room_temperature",
+          "description": "Stored at room temperature"
+        }
+      ],
+      "examples": ["-80C", "liquid_nitrogen"]
+    },
+    {
+      "name": "freeze_thaw_cycles",
+      "description": "Number of freeze-thaw cycles sample has undergone",
+      "dataType": "integer",
+      "required": false,
+      "validationRules": "Must be non-negative integer, typically 0-3",
+      "examples": ["0", "1", "2"]
+    },
+    {
+      "name": "sample_volume",
+      "description": "Volume of sample collected (in mL)",
+      "dataType": "float",
+      "required": false,
+      "validationRules": "Must be positive number",
+      "examples": ["5.0", "10.5", "2.5"]
+    },
+    {
+      "name": "sample_quality",
+      "description": "Quality assessment of collected sample",
+      "dataType": "enum",
+      "required": false,
+      "validValues": [
+        {
+          "value": "excellent",
+          "description": "High quality, no issues detected"
+        },
+        {
+          "value": "good",
+          "description": "Good quality, minor issues if any"
+        },
+        {
+          "value": "acceptable",
+          "description": "Acceptable quality, some degradation or contamination"
+        },
+        {
+          "value": "poor",
+          "description": "Poor quality, significant issues"
+        }
+      ],
+      "examples": ["excellent", "good"]
+    }
+  ]
+}
