@@ -5681,21 +5681,17 @@ def handle_update_workflow(args, config):
 
 
 def handle_annotate_dataset(args, config):
-    """Handle ANNOTATE-DATASET workflow — push annotations to an existing dataset entity"""
+    """Handle ANNOTATE-DATASET workflow — push annotations and/or description to an existing dataset entity"""
+    description = getattr(args, 'description', None)
+    annotations_file = getattr(args, 'annotations_file', None)
+
+    if not annotations_file and not description:
+        print("❌ Error: At least one of --annotations-file or --description is required")
+        sys.exit(1)
+
     print("\n" + "=" * 60)
     print("WORKFLOW: ANNOTATE EXISTING DATASET")
     print("=" * 60)
-
-    print("\nLoading schemas...")
-    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
-
-    if not os.path.exists(args.annotations_file):
-        print(f"❌ Error: Annotations file not found: {args.annotations_file}")
-        sys.exit(1)
-
-    with open(args.annotations_file) as f:
-        annotations = json.load(f)
-    print(f"✓ Loaded annotations from {args.annotations_file}")
 
     print("\nConnecting to Synapse...")
     syn = connect_to_synapse(config)
@@ -5707,22 +5703,56 @@ def handle_annotate_dataset(args, config):
         print(f"❌ Error: Could not retrieve dataset {args.dataset_id}: {e}")
         sys.exit(1)
 
-    print("\n" + "=" * 60)
-    print("APPLYING DATASET ANNOTATIONS")
-    print("=" * 60)
+    overall_success = True
 
-    success = apply_dataset_annotations(
-        syn, args.dataset_id, annotations, all_schemas, dry_run=config.DRY_RUN
-    )
+    # --- Set description ---
+    if description:
+        print("\n" + "=" * 60)
+        print("SETTING DATASET DESCRIPTION")
+        print("=" * 60)
+        if config.DRY_RUN:
+            print(f"  [DRY_RUN] Would set description on {args.dataset_id}:")
+            print(f"  [DRY_RUN] {description[:120]}{'...' if len(description) > 120 else ''}")
+        else:
+            try:
+                entity.description = description
+                syn.store(entity)
+                print(f"  ✓ Description set on {args.dataset_id}")
+            except Exception as e:
+                print(f"  ❌ Error setting description: {e}")
+                overall_success = False
+
+    # --- Apply annotations ---
+    if annotations_file:
+        print("\nLoading schemas...")
+        all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+        if not os.path.exists(annotations_file):
+            print(f"❌ Error: Annotations file not found: {annotations_file}")
+            sys.exit(1)
+
+        with open(annotations_file) as f:
+            annotations = json.load(f)
+        print(f"✓ Loaded annotations from {annotations_file}")
+
+        print("\n" + "=" * 60)
+        print("APPLYING DATASET ANNOTATIONS")
+        print("=" * 60)
+
+        success = apply_dataset_annotations(
+            syn, args.dataset_id, annotations, all_schemas, dry_run=config.DRY_RUN
+        )
+        if not success:
+            overall_success = False
 
     print("\n" + "=" * 60)
-    if success:
+    if overall_success:
         if config.DRY_RUN:
             print("✅ DRY RUN COMPLETE — re-run with --execute to apply")
         else:
-            print("✅ DATASET ANNOTATIONS APPLIED SUCCESSFULLY")
+            print("✅ DATASET ANNOTATE COMPLETE")
     else:
-        print("❌ FAILED TO APPLY ANNOTATIONS")
+        print("❌ ONE OR MORE STEPS FAILED")
         sys.exit(1)
     print("=" * 60)
 
@@ -5938,6 +5968,273 @@ def handle_delete_versions_workflow(args, config):
         print("Re-run with --execute to apply deletions.")
 
 
+def _normalize_annotation_value(val):
+    """Normalize annotation value for comparison: single-element lists become scalars."""
+    if isinstance(val, list) and len(val) == 1:
+        return val[0]
+    return val
+
+
+def _is_empty_annotation(val):
+    """Check if an annotation value is empty/null."""
+    if val is None:
+        return True
+    if isinstance(val, str) and val.strip() == "":
+        return True
+    if isinstance(val, list) and (len(val) == 0 or val == [""]):
+        return True
+    return False
+
+
+def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
+                                dry_run=True, verbose=False):
+    """
+    Rename an annotation key on a single Synapse entity (dataset or file).
+
+    Cases:
+      1: Has old_key, no new_key → rename old to new
+      2a: Has both, values match → remove old, keep new
+      2b: Has both, values conflict → prompt user (execute) or flag (dry-run), remove old
+      3: Has new_key only → skip
+      4: Has neither → add new_key with empty value
+      5: Old key empty/null → still migrate, warn user
+
+    Returns:
+        str: 'renamed', 'merged', 'added', 'skipped', 'conflict', 'error'
+    """
+    try:
+        entity = syn.get(entity_id, downloadFile=False)
+        annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+
+        has_old = old_key in annotations
+        has_new = new_key in annotations
+
+        # Case 4: Neither key exists — add new key with empty value
+        if not has_old and not has_new:
+            if dry_run:
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): neither key found — would add '{new_key}' with empty value")
+                return 'added'
+            else:
+                annotations[new_key] = ""
+                entity.annotations = annotations
+                syn.store(entity)
+                print(f"  + {entity_name} ({entity_id}): added '{new_key}' with empty value")
+                return 'added'
+
+        # Case 3: Only new key exists — nothing to do
+        if not has_old and has_new:
+            if verbose:
+                print(f"  [OK]   {entity_name} ({entity_id}): already has '{new_key}' (no '{old_key}')")
+            return 'skipped'
+
+        old_value = annotations[old_key]
+        old_is_empty = _is_empty_annotation(old_value)
+
+        # Case 5: Old key exists but is empty/null — still migrate, warn
+        if old_is_empty and not has_new:
+            if dry_run:
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would rename '{old_key}' → '{new_key}' (WARNING: empty value)")
+                return 'renamed'
+            else:
+                annotations[new_key] = old_value
+                del annotations[old_key]
+                entity.annotations = annotations
+                syn.store(entity)
+                print(f"  ⚠️  {entity_name} ({entity_id}): renamed '{old_key}' → '{new_key}' (empty value)")
+                return 'renamed'
+
+        # Case 1: Only old key exists (non-empty) — rename
+        if has_old and not has_new:
+            if dry_run:
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would rename '{old_key}' → '{new_key}' (value: {old_value})")
+                return 'renamed'
+            else:
+                annotations[new_key] = old_value
+                del annotations[old_key]
+                entity.annotations = annotations
+                syn.store(entity)
+                print(f"  ✓ {entity_name} ({entity_id}): renamed '{old_key}' → '{new_key}' (value: {old_value})")
+                return 'renamed'
+
+        # Case 2: Both keys exist — compare values
+        if has_old and has_new:
+            new_value = annotations[new_key]
+            old_norm = _normalize_annotation_value(old_value)
+            new_norm = _normalize_annotation_value(new_value)
+
+            # Case 2a: Values match — remove old
+            if old_norm == new_norm:
+                if dry_run:
+                    print(f"  [DRY_RUN] {entity_name} ({entity_id}): values match — would remove '{old_key}' (value: {old_value})")
+                    return 'merged'
+                else:
+                    del annotations[old_key]
+                    entity.annotations = annotations
+                    syn.store(entity)
+                    print(f"  ✓ {entity_name} ({entity_id}): values match — removed '{old_key}' (kept '{new_key}': {new_value})")
+                    return 'merged'
+
+            # Case 2b: Values conflict
+            if dry_run:
+                print(f"  [CONFLICT] {entity_name} ({entity_id}): "
+                      f"'{old_key}'={old_value} vs '{new_key}'={new_value} — will prompt in execute mode")
+                return 'conflict'
+            else:
+                print(f"\n  ⚠️  CONFLICT on {entity_name} ({entity_id}):")
+                print(f"     '{old_key}' = {old_value}")
+                print(f"     '{new_key}' = {new_value}")
+                print(f"     [1] Keep old value ({old_value})")
+                print(f"     [2] Keep new value ({new_value})")
+                print(f"     [3] Skip this entity")
+
+                while True:
+                    choice = input("     Choose [1/2/3]: ").strip()
+                    if choice in ('1', '2', '3'):
+                        break
+                    print("     Invalid choice. Enter 1, 2, or 3.")
+
+                if choice == '3':
+                    print(f"  [SKIP] {entity_name} ({entity_id}): skipped by user")
+                    return 'skipped'
+
+                keep_value = old_value if choice == '1' else new_value
+                annotations[new_key] = keep_value
+                del annotations[old_key]
+                entity.annotations = annotations
+                syn.store(entity)
+                print(f"  ✓ {entity_name} ({entity_id}): set '{new_key}' = {keep_value}, removed '{old_key}'")
+                return 'conflict'
+
+    except Exception as e:
+        print(f"  ✗ Error on {entity_name} ({entity_id}): {e}")
+        return 'error'
+
+
+def handle_rename_annotation(args, config):
+    """
+    Rename/migrate an annotation key across all datasets in a collection,
+    and optionally across all files within each dataset.
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    old_key = args.old_annotation
+    new_key = args.new_annotation
+
+    if old_key == new_key:
+        print("❌ --old-annotation and --new-annotation must be different.")
+        return
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    include_files = getattr(args, 'include_files', False)
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"RENAME ANNOTATION {mode}")
+    print(f"{'='*60}")
+    print(f"Old annotation : {old_key}")
+    print(f"New annotation : {new_key}")
+    print(f"Include files  : {'Yes' if include_files else 'No (dataset-level only)'}")
+
+    # Collect dataset IDs to process
+    dataset_ids = []  # list of (dataset_id, dataset_name)
+
+    collection_id = getattr(args, 'collection_id', None)
+    dataset_id = getattr(args, 'dataset_id', None)
+
+    if dataset_id:
+        # Single dataset mode
+        try:
+            entity = syn.get(dataset_id, downloadFile=False)
+            dataset_ids.append((dataset_id, entity.name))
+            print(f"Target         : dataset {dataset_id} ({entity.name})")
+        except Exception as e:
+            print(f"❌ Could not fetch dataset {dataset_id}: {e}")
+            return
+
+    elif collection_id:
+        # Collection mode — enumerate all datasets in the collection
+        print(f"Collection     : {collection_id}")
+        try:
+            dataset_collection = DatasetCollection(id=collection_id).get()
+            items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+            if not items:
+                print("❌ No datasets found in collection.")
+                return
+            print(f"Datasets found : {len(items)}")
+            for item in items:
+                item_id = item.entity_id if hasattr(item, 'entity_id') else (item.id if hasattr(item, 'id') else str(item))
+                try:
+                    ds_entity = syn.get(item_id, downloadFile=False)
+                    dataset_ids.append((item_id, ds_entity.name))
+                except Exception as e:
+                    print(f"  ⚠️  Could not fetch {item_id}: {e}")
+        except Exception as e:
+            print(f"❌ Could not fetch collection {collection_id}: {e}")
+            return
+    else:
+        print("❌ Provide --collection-id or --dataset-id.")
+        return
+
+    print(f"\n--- Processing {len(dataset_ids)} dataset(s) ---")
+
+    # Counters
+    ds_counts = {'renamed': 0, 'merged': 0, 'added': 0, 'skipped': 0, 'conflict': 0, 'error': 0}
+    file_counts = {'renamed': 0, 'merged': 0, 'added': 0, 'skipped': 0, 'conflict': 0, 'error': 0}
+
+    for ds_id, ds_name in dataset_ids:
+        print(f"\n📦 Dataset: {ds_name} ({ds_id})")
+
+        # Rename on dataset entity itself
+        result = rename_annotation_on_entity(syn, ds_id, ds_name, old_key, new_key,
+                                              dry_run=dry_run, verbose=verbose)
+        ds_counts[result] = ds_counts.get(result, 0) + 1
+
+        # Optionally process file entities within the dataset
+        if include_files:
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+                print(f"  Files in dataset: {len(file_rows)}")
+
+                for _, row in file_rows.iterrows():
+                    file_id = row.get('id') or row.iloc[0]
+                    file_name = row.get('name', file_id)
+
+                    result = rename_annotation_on_entity(syn, file_id, f"  {file_name}",
+                                                         old_key, new_key,
+                                                         dry_run=dry_run, verbose=verbose)
+                    file_counts[result] = file_counts.get(result, 0) + 1
+
+            except Exception as e:
+                print(f"  ⚠️  Could not query files in dataset {ds_id}: {e}")
+
+    # Summary
+    print(f"\n{'='*60}")
+    print(f"SUMMARY")
+    print(f"{'='*60}")
+    print(f"Datasets processed: {len(dataset_ids)}")
+    print(f"Dataset-level : renamed={ds_counts['renamed']}, merged={ds_counts['merged']}, "
+          f"added={ds_counts['added']}, skipped={ds_counts['skipped']}, "
+          f"conflicts={ds_counts['conflict']}, errors={ds_counts['error']}")
+    if include_files:
+        total_files = sum(file_counts.values())
+        print(f"Files processed: {total_files}")
+        print(f"File-level    : renamed={file_counts['renamed']}, merged={file_counts['merged']}, "
+              f"added={file_counts['added']}, skipped={file_counts['skipped']}, "
+              f"conflicts={file_counts['conflict']}, errors={file_counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
@@ -6011,6 +6308,18 @@ Examples:
 
   # Use custom config file
   python synapse_dataset_manager.py --config my-config.yaml create --use-config my_dataset
+
+  # RENAME-ANNOTATION - rename annotation key across all datasets in a collection
+  python synapse_dataset_manager.py rename-annotation \\
+    --collection-id syn66496326 \\
+    --old-annotation "individualCount" --new-annotation "participant_count" \\
+    --dry-run
+
+  # RENAME-ANNOTATION - single dataset, including file-level annotations
+  python synapse_dataset_manager.py rename-annotation \\
+    --dataset-id syn12345 \\
+    --old-annotation "individualCount" --new-annotation "participant_count" \\
+    --include-files --execute
 
   # ANNOTATE-DATASET - push annotations from file to existing dataset entity
   python synapse_dataset_manager.py annotate-dataset \\
@@ -6107,12 +6416,14 @@ Examples:
     # ANNOTATE-DATASET command
     annotate_parser = subparsers.add_parser(
         'annotate-dataset',
-        help='Apply annotations from a JSON file to an existing dataset entity'
+        help='Apply annotations and/or description to an existing dataset entity'
     )
     annotate_parser.add_argument('--dataset-id', required=True,
                                  help='Synapse ID of existing dataset entity')
-    annotate_parser.add_argument('--annotations-file', required=True,
-                                 help='Path to JSON annotations file')
+    annotate_parser.add_argument('--annotations-file',
+                                 help='Path to JSON annotations file (optional if --description is set)')
+    annotate_parser.add_argument('--description',
+                                 help='Entity description to set on the dataset (visible in Synapse UI)')
     annotate_parser.add_argument('--execute', action='store_true',
                                  help='Execute (override DRY_RUN)')
     annotate_parser.add_argument('--dry-run', action='store_true',
@@ -6241,6 +6552,28 @@ Examples:
                                help='Execute deletions (default is dry-run)')
     delete_parser.add_argument('--dry-run', action='store_true',
                                help='Dry run mode (default)')
+
+    # RENAME-ANNOTATION command
+    rename_parser = subparsers.add_parser(
+        'rename-annotation',
+        help='Rename/migrate an annotation key across datasets (and optionally files) in a collection'
+    )
+    rename_parser.add_argument('--collection-id',
+        help='Synapse ID of a DatasetCollection to process all datasets within')
+    rename_parser.add_argument('--dataset-id',
+        help='Synapse ID of a single dataset to process (alternative to --collection-id)')
+    rename_parser.add_argument('--old-annotation', required=True,
+        help='Current annotation key name to rename from (e.g., "individualCount")')
+    rename_parser.add_argument('--new-annotation', required=True,
+        help='New annotation key name to rename to (e.g., "participant_count")')
+    rename_parser.add_argument('--include-files', action='store_true',
+        help='Also rename the annotation on all file entities within each dataset')
+    rename_parser.add_argument('--verbose', action='store_true',
+        help='Print detailed info for each entity processed')
+    rename_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    rename_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
 
     args = parser.parse_args()
 
@@ -6374,6 +6707,13 @@ Examples:
             print("❌ Error: --version-label is required (or use --use-config with version_label in config)")
             sys.exit(1)
 
+    # Validate/default arguments for rename-annotation command
+    if args.command == 'rename-annotation':
+        if not getattr(args, 'collection_id', None) and not getattr(args, 'dataset_id', None):
+            # Fall back to default collection from config
+            args.collection_id = config.DATASETS_COLLECTION_ID
+            print(f"Using default collection from config: {args.collection_id}")
+
     # Validate required arguments for update command
     if args.command == 'update':
         if not args.dataset_id:
@@ -6417,7 +6757,8 @@ Examples:
 
     # Only validate config for commands that need Synapse connection
     if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
-                        'generate-file-templates', 'apply-file-annotations', 'set-version']:
+                        'generate-file-templates', 'apply-file-annotations', 'set-version',
+                        'rename-annotation']:
         config.validate()
 
     # Route to appropriate handler
@@ -6444,6 +6785,8 @@ Examples:
         handle_set_version(args, config)
     elif args.command == 'delete-versions':
         handle_delete_versions_workflow(args, config)
+    elif args.command == 'rename-annotation':
+        handle_rename_annotation(args, config)
 
 
 if __name__ == "__main__":
