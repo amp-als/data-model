@@ -136,3 +136,7 @@ enums:
         description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
       dht_respiratory_assessment:
         description: Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)
+      md5:
+        description: MD5 checksum file for data integrity verification
+      index:
+        description: Index file for a sequencing or genomic data file (e.g., BAI, TBI, CSI)

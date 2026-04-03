@@ -75,13 +75,13 @@ The project follows a hierarchical module organization that reflects the logical
 │   │
 │   ├── mixins/                        # 🧩 COMPONENTS: Reusable attribute mixins
 │   │   ├── DatasetMixins.yaml        # Clinical + omic dataset mixins
-│   │   └── FileMixins.yaml           # Clinical + omic file mixins
+│   │   └── FileMixins.yaml           # Clinical + omic file mixins (libraryPreparationMethod, alignmentMethod, genomeReference, etc.)
 │   │
 │   ├── datasets/                      # 📊 DATASET TYPES: Domain-specific datasets/files
 │   │   ├── ClinicalDataset.yaml
 │   │   ├── OmicDataset.yaml
 │   │   ├── ClinicalFile.yaml
-│   │   └── OmicFile.yaml
+│   │   └── OmicFile.yaml             # Omic file schema (site_of_onset, referenceGenome, alignmentMethod, variantType)
 │   │
 │   ├── entities/                      # 🗂️ CORE ENTITIES: Primary domain objects
 │   │   ├── Subject.yaml              # Multi-source subject identification
@@ -91,28 +91,31 @@ The project follows a hierarchical module organization that reflects the logical
 │   │
 │   ├── clinical/                      # 🏥 CLINICAL DOMAIN: Clinical-specific modules
 │   │   ├── assessments/              # Clinical assessment types
+│   │   │   ├── assess_generated.yaml          # Auto-generated ASSESS study assessments
+│   │   │   ├── demographics.yaml              # Demographic assessments
 │   │   │   ├── dynamometry.yaml
 │   │   │   ├── electrophysiology.yaml
 │   │   │   ├── neurological.yaml
+│   │   │   ├── other_generated_assessments.yaml  # Other auto-generated assessments
 │   │   │   ├── psychiatric.yaml
 │   │   │   ├── speech.yaml
-│   │   │   ├── symptom-questionnaire.yaml
+│   │   │   ├── symptoms.yaml                  # Patient-reported symptoms (renamed from symptom-questionnaire.yaml)
 │   │   │   └── vital-signs-physical.yaml
 │   │   ├── data-management.yaml
 │   │   ├── data-types.yaml
 │   │   ├── domains.yaml
-│   │   ├── genetic-profile.yaml
+│   │   ├── genetic-profile.yaml               # Genetic testing, family history (FamilyHistorySubtypeEnum)
 │   │   ├── laboratory.yaml
 │   │   ├── medical-history.yaml
-│   │   ├── phenoconversion.yaml
+│   │   ├── phenoconversion.yaml               # Phenoconversion tracking (site_of_onset via SiteOfOnsetEnum)
 │   │   ├── study-management.yaml
 │   │   ├── treatments.yaml
 │   │   └── visits.yaml
 │   │
 │   ├── omics/                         # 🧬 OMICS DOMAIN: Omics-specific modules
 │   │   ├── assays.yaml
-│   │   ├── data-types.yaml
-│   │   ├── parameters.yaml
+│   │   ├── data-types.yaml           # OmicDataTypeEnum (md5, index added)
+│   │   ├── parameters.yaml           # AlignmentMethodEnum, LibraryPreparationMethodEnum, VariantTypeEnum, GenomicReferenceEnum
 │   │   └── platforms.yaml
 │   │
 │   ├── reference/                     # 📚 REFERENCE DATA: Standard enums and types
@@ -126,10 +129,11 @@ The project follows a hierarchical module organization that reflects the logical
 │   │   └── portals.yaml
 │   │
 │   └── shared/                        # 🔧 SHARED UTILITIES: Common properties
+│       ├── analysis-methods.yaml      # AnalysisMethodEnum (joint_genotype_calling added)
 │       ├── annotations.yaml
-│       ├── analysis-methods.yaml
-│       ├── props.yaml
-│       └── common-enums.yaml
+│       ├── common-enums.yaml          # DiseaseEnum, DiseaseSubtypeEnum, SiteOfOnsetEnum, and more
+│       ├── metadata-schema-template.yaml
+│       └── props.yaml
 │
 ├── mapping/                           # Data transformation mappings
 │   ├── *.jsonata                      # Source-to-schema mappings
@@ -558,6 +562,77 @@ The repository includes automated testing that:
 - Builds all artifacts successfully
 - Runs schematic validation on output
 - Checks for breaking changes
+
+## Recent Schema Changes
+
+### Shared Enums (`modules/shared/`)
+
+#### `common-enums.yaml`
+- Added `SiteOfOnsetEnum` — captures disease site of onset (`Bulbar`, `Limb`, `Lumbar`, `Respiratory`, `Generalized`, `Unknown`); used by both clinical and omic modules
+- Expanded `DiseaseSubtypeEnum` with a comprehensive set of clinical subtypes organized into categories: ALS variants, PLS/PMA subtypes, FTD/PPA subtypes, DLB subtypes, pathological FTLD/DLB subtypes, other neurodegenerative diseases, carrier statuses, non-neurological controls, and ALS/PLS/PMA/FTD comorbidity combinations
+- Removed family history entries from `DiseaseSubtypeEnum` (moved to `FamilyHistorySubtypeEnum` in `clinical/genetic-profile.yaml`)
+
+#### `analysis-methods.yaml`
+- Added `joint_genotype_calling` to `AnalysisMethodEnum` — multi-sample VCF joint genotype calling
+
+#### `props.yaml`
+- Removed `genomeReference` slot (moved to `OmicFileMixin` in `mixins/FileMixins.yaml`)
+
+---
+
+### Clinical Modules (`modules/clinical/`)
+
+#### `phenoconversion.yaml`
+- Renamed field `alsSiteOfOnset` → `site_of_onset`
+- Updated range from removed `ALSSiteOfOnsetEnum` → shared `SiteOfOnsetEnum`
+- Removed local `ALSSiteOfOnsetEnum` definition
+
+#### `genetic-profile.yaml`
+- Added `familyHistory` attribute to `FamilyHistory` class (range: `FamilyHistorySubtypeEnum`)
+- Added `FamilyHistorySubtypeEnum` with 19 combined family history values (e.g. "Family history of ALS and FTD")
+- Removed `VariantTypeEnum` (moved to `omics/parameters.yaml`)
+
+#### `assessments/symptom-questionnaire.yaml` → `assessments/symptoms.yaml`
+- Renamed file to `symptoms.yaml`
+- Renamed class `SymptomQuestionnaire` → `Symptoms`
+
+---
+
+### Omics Modules (`modules/omics/`)
+
+#### `parameters.yaml`
+- Added `LibraryPreparationMethodEnum` — `Illumina SeqLab DNA PCR-free library`, `PCR-Free`, `Nano`
+- Added `AlignmentMethodEnum` — 13 common aligners including `STAR`, `BWA-MEM`, `BWA-MEM2`, `HISAT2`, `DRAGEN`, `minimap2`, `CellRanger`, `STARsolo`, and others
+- Added `VariantTypeEnum` (moved from `clinical/genetic-profile.yaml`) — expanded to include `SNVs/SNPs`, `INDELs`, `SVs`, `MNVs`, `Germline`, `Somatic`, `Deletions`, `CNVs`, `Inversions`, `Translocations` alongside existing values
+
+#### `data-types.yaml`
+- Added `md5` and `index` to `OmicDataTypeEnum`
+
+---
+
+### Mixins (`modules/mixins/`)
+
+#### `FileMixins.yaml`
+- Added `libraryPreparationMethod` to `OmicFileMixin` (range: `LibraryPreparationMethodEnum`)
+- Added `alignmentMethod` to `OmicFileMixin` (range: `AlignmentMethodEnum`)
+- Added `genomeReference` to `OmicFileMixin` (range: `GenomicReferenceEnum`) — moved from `props.yaml`
+
+---
+
+### Datasets (`modules/datasets/`)
+
+#### `OmicFile.yaml`
+- Added `site_of_onset` field (range: `SiteOfOnsetEnum`)
+- Added `referenceGenome` field (range: `GenomicReferenceEnum`)
+- Added `alignmentMethod` field (range: `AlignmentMethodEnum`)
+- Made `variantType` multivalued (array)
+
+---
+
+### Build (`Makefile`)
+- Added `modules/omics/parameters.yaml` to the `OmicFile` build target so `LibraryPreparationMethodEnum`, `AlignmentMethodEnum`, `GenomicReferenceEnum`, and `VariantTypeEnum` resolve correctly
+
+---
 
 ## Additional Resources
 

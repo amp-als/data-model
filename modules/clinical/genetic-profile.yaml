@@ -303,6 +303,11 @@ classes:
         range: integer
         description: Age at death if deceased
         required: false
+      familyHistory:
+        title: Family History
+        range: FamilyHistorySubtypeEnum
+        description: Combined family history of neurological disease as a single categorical value
+        required: false
 enums:
   GeneticLabEnum:
     permissible_values:
@@ -368,24 +373,6 @@ enums:
         description: VAMP associated protein B and C gene
       VCP:
         description: Valosin containing protein gene
-  VariantTypeEnum:
-    permissible_values:
-      SNV:
-        description: Single nucleotide variant
-      Indel:
-        description: Insertion or deletion variant
-      CNV:
-        description: Copy number variant
-      Repeat_Expansion:
-        description: Repeat expansion (e.g., C9orf72)
-      Genomic:
-        description: All variant types (SNVs, InDels, SVs) from genome-wide haplotype calling
-      Small_Variant:
-        description: Small variants including SNVs and InDels
-      Structural_Variant:
-        description: Structural variants including deletions, insertions, duplications, inversions, and CNVs
-      Other:
-        description: Other variant type
   VariantClassificationEnum:
     permissible_values:
       Pathogenic:
@@ -468,3 +455,45 @@ enums:
         description: "Chart Review"
       "Other":
         description: "Other"
+
+  FamilyHistorySubtypeEnum:
+    description: Combined family history of neurological disease as a categorical value
+    permissible_values:
+      Family history of ALS:
+        description: Family history of ALS
+      Family history of ALS and FTD:
+        description: Family history of ALS and FTD
+      Family history of ALS and ALS/FTD:
+        description: Family history of ALS and ALS/FTD
+      Family history of ALS and Dementia:
+        description: Family history of ALS and dementia
+      Family history of ALS, Dementia (NOS):
+        description: Family history of ALS and dementia (NOS)
+      Family history of ALS, Dementia (NOS), and FTD:
+        description: Family history of ALS, dementia (NOS), and FTD
+      "Family history of ALS, Dementia (NOS), and FTD. Obligate carrier.":
+        description: Family history of ALS, dementia (NOS), and FTD; obligate carrier
+      Family history of ALS, Obligate carrier:
+        description: Family history of ALS; obligate carrier
+      Family history of ALS and Parkinson's Disease (PD):
+        description: Family history of ALS and Parkinson's disease
+      Family history of ALS and Alzheimer's Disease (AD):
+        description: Family history of ALS and Alzheimer's disease
+      Family history of ALS (twin brother has ALS):
+        description: Family history of ALS (twin brother affected)
+      Family history of Behavioral Variant Frontotemporal Dementia (bvFTD) and Frontotemporal Dementia (FTD):
+        description: Family history of bvFTD and FTD
+      Family history of Behavioral Variant Frontotemporal Dementia (bvFTD) and Primary Progressive Aphasia:
+        description: Family history of bvFTD and primary progressive aphasia
+      Family history of Parkinson's Disease (PD), Behavioral Variant Frontotemporal Dementia (bvFTD), and Dementia (NOS):
+        description: Family history of PD, bvFTD, and dementia (NOS)
+      Family history of Alzheimer's Disease (AD) and Frontotemporal Dementia (FTD):
+        description: Family history of Alzheimer's disease and FTD
+      Family history of Corticobasal Syndrome (CBS) and Parkinson's Disease (PD):
+        description: Family history of CBS and Parkinson's disease
+      Family history of FTD, Alzheimer's Disease, and Dementia (NOS):
+        description: Family history of FTD, Alzheimer's disease, and dementia (NOS)
+      Family history of FTD and dementia:
+        description: Family history of FTD and dementia
+      Family history of frontotemporal dementia (FTD) and Alzheimer's Disease (AD):
+        description: Family history of FTD and Alzheimer's disease

@@ -41,6 +41,8 @@ enums:
       GRCh38_Verily_v1:
         description: Custom build of Genome Reference Consortium Human Build 38 by Verily (company)
         source: https://cloud.google.com/life-sciences/docs/resources/public-datasets/reference-genomes
+      GRChb38H: 
+        description: ALS Compute reference-genome 
       GRCh37:
         description: Genome Reference Consortium Human Build 37
         source: https://www.ncbi.nlm.nih.gov/assembly/GCF_000001405.13/
@@ -138,6 +140,13 @@ enums:
         description: 10x Genomics single-cell 3' gene expression library preparation
       Takara SMARTer Stranded Total RNA-seq Pico-Input v2:
         description: Takara SMARTer stranded total RNA-seq library prep for low input samples
+      Illumina SeqLab DNA PCR-free library:
+        description: Illumina SeqLab DNA PCR-free library preparation
+      PCR-Free:
+        description: PCR-free library preparation
+      Illumina TruSeq Nano DNA Library Prep:
+        description: TrueSeq Nano library preparation
+
   MRISequenceEnum:
     permissible_values:
       PD-weighted:
@@ -262,3 +271,71 @@ enums:
         description: Single-end sequencing reads
       paired-end:
         description: Paired-end sequencing reads
+
+  AlignmentMethodEnum:
+    description: Tool or method used for sequence alignment
+    permissible_values:
+      STAR:
+        description: STAR RNA-seq aligner
+      BWA-MEM:
+        description: BWA-MEM short-read DNA aligner
+      BWA-MEM2:
+        description: BWA-MEM2 short-read DNA aligner
+      HISAT2:
+        description: HISAT2 splice-aware RNA-seq aligner
+      minimap2:
+        description: minimap2 long-read aligner
+      DRAGEN:
+        description: Illumina DRAGEN accelerated aligner
+      bowtie2:
+        description: Bowtie2 short-read aligner
+      GSNAP:
+        description: GSNAP splice-aware aligner
+      TopHat2:
+        description: TopHat2 splice-aware RNA-seq aligner
+      CellRanger:
+        description: 10x Genomics Cell Ranger alignment pipeline
+      STARsolo:
+        description: STARsolo single-cell RNA-seq aligner
+      Other:
+        description: Other alignment method not listed
+
+
+  VariantTypeEnum:
+    permissible_values:
+      SNV:
+        description: Single nucleotide variant
+      SNVs/SNPs:
+        description: Single nucleotide variants and single nucleotide polymorphisms
+      Indel:
+        description: Insertion or deletion variant
+      INDELs:
+        description: Insertions and deletions
+      SVs:
+        description: Structural variants
+      MNVs:
+        description: Multi-nucleotide variants
+      Germline:
+        description: Germline variants inherited from parents
+      Somatic:
+        description: Somatic variants acquired in non-germline cells
+      Deletions:
+        description: Deletion variants
+      CNV:
+        description: Copy number variant
+      CNVs:
+        description: Copy number variants
+      Inversions:
+        description: Inversion structural variants
+      Translocations:
+        description: Translocation structural variants
+      Repeat_Expansion:
+        description: Repeat expansion (e.g., C9orf72)
+      Genomic:
+        description: All variant types (SNVs, InDels, SVs) from genome-wide haplotype calling
+      Small_Variant:
+        description: Small variants including SNVs and InDels
+      Structural_Variant:
+        description: Structural variants including deletions, insertions, duplications, inversions, and CNVs
+      Other:
+        description: Other variant type

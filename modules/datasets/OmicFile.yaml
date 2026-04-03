@@ -28,6 +28,16 @@ classes:
         range: LibraryStrategyEnum
         description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
         required: false
+      referenceGenome:
+        title: Reference Genome
+        range: GenomicReferenceEnum
+        description: Reference genome used for alignment
+        required: false
+      alignmentMethod:
+        title: Alignment Method
+        range: AlignmentMethodEnum
+        description: Tool or method used for sequence alignment
+        required: false
       # Processing information
       processingLevel:
         title: Processing Level
@@ -45,7 +55,14 @@ classes:
         title: Variant Type
         range: VariantTypeEnum
         description: Type of genetic variant for VCF files
+        multivalued: true
         required: false
+      site_of_onset:
+        title: Site of Onset
+        range: SiteOfOnsetEnum
+        description: Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)
+        required: false
+
       # Sample tracking
       sampleIdColumn:
         title: Sample ID Column

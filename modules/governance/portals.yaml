@@ -43,8 +43,19 @@ enums:
         description: Sequential measurements over time to study dynamics
       Population Study:
         description: Large-scale population-level genomic or omic analysis
+      Harmonized Study Collection:
+        description: A curated collection of harmonized datasets aggregated across multiple studies or cohorts
       Unknown:
         description: Study type unknown or not specified
+      # Data aggregation levels
+      individual:
+        description: Individual-level data
+      aggregate:
+        description: Aggregate population-level data
+      summary_level:
+        description: Summary statistics
+      meta_analysis:
+        description: Meta-analysis results
   AccessTypeEnum:
     description: (Draft) Labels for how the AMP-ALS federated network defines access
     permissible_values:

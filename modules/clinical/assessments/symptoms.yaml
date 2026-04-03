@@ -1,5 +1,5 @@
 classes:
-  SymptomQuestionnaire:
+  Symptoms:
     is_a: ClinicalAssessment
     description: A questionnaire about various symptoms a participant may be experiencing.
     attributes:
@@ -673,6 +673,16 @@ classes:
         range: boolean
         description: "Has the participant experienced problems with Pseudobulbar affect (PBA)?"
         required: false
+      Myotonia:
+        title: Myotonia
+        range: boolean
+        description: is a neuromuscular symptom where muscles remain contracted and are unable to relax quickly after a voluntary movement
+        required: false
+      Psych Symptoms:
+        title: Psych Symptoms
+        description: Unspecified psychiatric symptoms
+        required: false
+
 
 enums:
   WeaknessTypeEnum:

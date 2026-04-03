@@ -72,7 +72,7 @@ ClinicalFile:
 
 OmicFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json

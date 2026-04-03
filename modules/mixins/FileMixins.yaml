@@ -91,6 +91,16 @@ classes:
         range: LibraryPreparationMethodEnum
         description: Method or kit used for library preparation.
         required: false
+      alignmentMethod:
+        title: Alignment Method
+        range: AlignmentMethodEnum
+        description: Tool or method used for sequence alignment.
+        required: false
+      genomeReference:
+        title: Reference Genome
+        range: GenomicReferenceEnum
+        description: Reference genome used for alignment.
+        required: false
       biospecimenType:
         title: Biospecimen Type
         range: BiospecimenTypeEnum

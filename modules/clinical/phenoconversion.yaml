@@ -33,9 +33,9 @@ classes:
         range: date
         description: Date of ALS diagnosis.
         required: false
-      alsSiteOfOnset:
-        title: ALS Site of Onset
-        range: ALSSiteOfOnsetEnum
+      site_of_onset:
+        title: Site of Onset
+        range: SiteOfOnsetEnum
         description: Site of ALS onset.
         required: false
       ftdOnsetDate:
@@ -74,16 +74,6 @@ enums:
         description: "Frontotemporal Dementia"
       ALS-FTD:
         description: "Amyotrophic Lateral Sclerosis with Frontotemporal Dementia"
-  ALSSiteOfOnsetEnum:
-    permissible_values:
-      Bulbar:
-        description: "Bulbar onset"
-      Limb:
-        description: "Limb onset"
-      Respiratory:
-        description: "Respiratory onset"
-      Generalized:
-        description: "Generalized onset"
   FTDPrimarySyndromeEnum:
     permissible_values:
       "Behavioral Variant FTD (bvFTD)":
