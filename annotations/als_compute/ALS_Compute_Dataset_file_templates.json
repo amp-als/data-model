@@ -1,0 +1,632 @@
+{
+  "syn73974831": {
+    "ALL_CHR_freeze2.CSQ_annotated.vcf.bgz": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alignmentMethod": [
+        "BWA-MEM"
+      ],
+      "alternateName": "",
+      "analysisTypes": [
+        "joint_variant_call"
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "whole genome sequencing"
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Compute"
+      ],
+      "collectionSite": "",
+      "contributor": [
+        "ALS Compute"
+      ],
+      "country": "",
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "variant_calls"
+      ],
+      "description": "joint variant calls",
+      "disease": [
+        "ALS",
+        "FTD",
+        "Control",
+        "PLS",
+        "LBD",
+        "AD",
+        "PMA",
+        "Mitocondrial Myopathy",
+        "VCP myopathy",
+        "PD",
+        "PBP",
+        "Spastic paraparesis",
+        "MSA",
+        "VCP myopathy",
+        "Hirayama disease",
+        "Kennedy's disease",
+        "Spinal muscular atrophy"
+      ],
+      "diseaseSubtype": [
+        "ALS Spectrum MND",
+        "pre-fALS",
+        "Asymptomatic C9orf72",
+        "Spastic paraparesis",
+        "Asymptomatic NEK1",
+        "Asymptomatic C9",
+        "Asymptomatic SOD1",
+        "MUISK myasthenia",
+        "",
+      ],
+      "ethnicity": "",
+      "fileFormat": "VCF",
+      "genomeReference":[
+        "GRChb38H"
+      ],
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "joint variant calls"
+      ],
+      "libraryLayout": [
+        "paired-end"
+      ],
+      "libraryPreparationMethod":[
+        "Illumina SeqLab DNA PCR-free library",
+        "PCR-Free",
+        "Illumina TruSeq Nano DNA Library Prep"
+      ],
+      "libraryStrategy": "WGS",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        "Illumina HiSeq X",
+        "Illumina NovaSeq 6000",
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "site_of_onset":[
+        "Bulbar",
+        "Limb",
+        "Lumbar",
+        "Axial",
+        "Respiratory",
+        "Generalized",
+        "Other",
+        "Cognitive",
+        "Head Drop"
+      ]
+      "source": "ALS Compute",
+      "species": [
+        "Homo Sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "",
+      "url": "",
+      "variantType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-02T17:18:54.528956"
+    }
+  },
+  "syn73974832": {
+    "ALL_CHR_freeze2.CSQ_annotated.vcf.bgz.md5": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Compute"
+      ],
+      "collectionSite": "",
+      "contributor": [
+        "ALS Compute"
+      ],
+      "country": "",
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "md5"
+      ],
+      "description": "",
+      "disease": [
+        ""
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "MD5",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "",
+      "species": [
+        ""
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "",
+      "url": "",
+      "variantType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-02T17:18:54.528989"
+    }
+  },
+  "syn73974833": {
+    "ALL_CHR_freeze2.CSQ_annotated.vcf.bgz.tbi": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Compute"
+      ],
+      "collectionSite": "",
+      "contributor": [
+        "ALS Compute"
+      ],
+      "country": "",
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "index"
+      ],
+      "description": "",
+      "disease": [
+        ""
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "TBI",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "",
+      "species": [
+        ""
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "",
+      "url": "",
+      "variantType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-02T17:18:54.529015"
+    }
+  },
+  "syn73974834": {
+    "ALL_CHR_freeze2.CSQ_annotated.vcf.bgz.tbi.md5": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Compute"
+      ],
+      "collectionSite": "",
+      "contributor": [
+        "ALS Compute"
+      ],
+      "country": "",
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "md5"
+      ],
+      "description": "",
+      "disease": [
+        ""
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "MD5",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "",
+      "species": [
+        ""
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "",
+      "url": "",
+      "variantType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-02T17:18:54.529041"
+    }
+  },
+  "syn68753422": {
+    "ALS_Compute_Collection_freeze2_all_metadata_phenotype_final_forAMP_ALS_NIH-050525.xlsx": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Compute"
+      ],
+      "collectionSite": "",
+      "contributor": [
+        "ALS Compute"
+      ],
+      "country": "",
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "metadata",
+        "data_dictionary"
+      ],
+      "description": "",
+      "disease": [
+        ""
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "XLSX",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "metadata",
+        "data_dictionary"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "",
+      "species": [
+        ""
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "ALS Compute Data Dictionary/Metadata",
+      "url": "",
+      "variantType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-02T17:18:54.529067"
+    }
+  },
+  "syn74024032": {
+    "Freeze2_samplesheet.tsv": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Compute"
+      ],
+      "collectionSite": "",
+      "contributor": [
+        "ALS Compute"
+      ],
+      "country": "",
+      "creator": [
+        "ALS Compute"
+      ],
+      "dataType": [
+        "metadata"
+      ],
+      "description": "",
+      "disease": [
+        ""
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "TSV",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "metdata"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "",
+      "species": [
+        ""
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "ALS Compute SampleSheet",
+      "url": "",
+      "variantType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-02T17:18:54.529093"
+    }
+  }
+}

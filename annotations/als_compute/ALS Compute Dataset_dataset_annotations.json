@@ -6,10 +6,8 @@
     "whole genome sequencing"
   ],
   "biospecimenType": [
-    "unknown"
   ],
   "cellType": [
-    "unknown"
   ],
   "citation": [
     ""
@@ -29,17 +27,43 @@
   ],
   "dataType": [
     "genomics",
-    "transcriptomics"
+    "transcriptomics",
+    "variant_calls",
+    "metadata",
+    "data_dictionary"
+
   ],
   "dataset_code": "als_compute",
   "datePublished": null,
   "description": "",
   "disease": [
     "ALS",
-    "FTD"
+    "FTD",
+    "Control",
+    "PLS",
+    "LBD",
+    "AD",
+    "PMA",
+    "Mitocondrial Myopathy",
+    "VCP myopathy",
+    "PD",
+    "PBP",
+    "Spastic paraparesis",
+    "MSA",
+    "VCP myopathy",
+    "Hirayama disease",
+    "Kennedy's disease",
+    "Spinal muscular atrophy"
   ],
   "diseaseSubtype": [
-    "C9orf72"
+    "ALS Spectrum MND",
+    "pre-fALS",
+    "Asymptomatic C9orf72",
+    "Spastic paraparesis",
+    "Asymptomatic NEK1",
+    "Asymptomatic C9",
+    "Asymptomatic SOD1",
+    "MUISK myasthenia",
   ],
   "funder": [
     ""
@@ -60,17 +84,28 @@
   "libraryStrategy": "WGS",
   "license": "",
   "originalSampleName": "",
-  "platform": "Illumina HiSeq X",
+  "platform": [
+        "Illumina HiSeq X",
+        "Illumina NovaSeq 6000",
+  ],
   "processingLevel": "processed",
   "publisher": "ALS Compute",
-  "sameAs": "",
+  "sameAs": [
+    "phs001963",
+    "phs003067",
+    "phs001585",
+    "phs002973",
+  ],
   "source": "ALS Compute",
   "species": [
     "Homo sapiens"
   ],
   "studyType": [
+    "Longitudinal Study",
+    "Case-Control Study",
+    "Cohort Study",
     "aggregate",
-    "summary_level"
+    "Harmonized Dataset Collection"
   ],
   "subject": [
     ""
