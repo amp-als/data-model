@@ -16,6 +16,7 @@ import json
 import shutil
 import re
 import string
+import fnmatch
 import argparse
 import subprocess
 import tempfile
@@ -6235,6 +6236,220 @@ def handle_rename_annotation(args, config):
         print("\nRe-run with --execute to apply changes.")
 
 
+def rename_folders(syn, collection_id, folder_pattern="Released Data",
+                             rename_pattern="{folder_name}_{project_name}",
+                             exclude_project_ids=None, dry_run=True, verbose=False):
+    """
+    For every project associated with datasets in a DatasetCollection, find
+    direct-child folders whose names match `folder_pattern` (a glob pattern)
+    and rename each one using `rename_pattern`.
+
+    `folder_pattern` supports standard glob wildcards (fnmatch):
+        *   matches any sequence of characters
+        ?   matches any single character
+        [seq]  matches any character in seq
+
+    `rename_pattern` supports two placeholders (spaces → underscores):
+        {folder_name}  — the actual matched folder name (e.g. "Released_Data")
+        {project_name} — the parent project name       (e.g. "ALL_ALS")
+
+    Examples:
+        folder_pattern="Released Data",  Project.name="ALL ALS"
+        rename_pattern="{folder_name}_{project_name}"
+        → "Released_Data_ALL_ALS"
+
+        folder_pattern="Released*", rename_pattern="Released_{project_name}"
+        → matches any folder starting with "Released", renames to e.g. "Released_ALL_ALS"
+
+    Args:
+        syn: Synapse client
+        collection_id: DatasetCollection Synapse ID
+        folder_pattern: Glob pattern to match folder names (default: "Released Data")
+        rename_pattern: Output name template using {folder_name} and/or
+                        {project_name} placeholders
+                        (default: "{folder_name}_{project_name}")
+        exclude_project_ids: Set/list of project Synapse IDs to skip
+        dry_run: If True, only preview changes without writing to Synapse
+        verbose: Print extra detail for each item processed
+
+    Returns:
+        dict with counts: renamed, already_renamed, skipped, error
+    """
+    exclude_project_ids = set(exclude_project_ids or [])
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"RENAME RELEASED FOLDERS {mode}")
+    print(f"{'='*60}")
+    print(f"Collection     : {collection_id}")
+    print(f"Folder pattern : {folder_pattern}")
+    print(f"Rename pattern : {rename_pattern}")
+    if exclude_project_ids:
+        print(f"Excluded projects: {', '.join(exclude_project_ids)}")
+
+    # --- Step 1: Enumerate datasets in the collection ---
+    try:
+        dataset_collection = DatasetCollection(id=collection_id).get()
+        items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+    except Exception as e:
+        print(f"❌ Could not fetch collection {collection_id}: {e}")
+        return {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 1}
+
+    if not items:
+        print("❌ No datasets found in collection.")
+        return {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 0}
+
+    print(f"Datasets found : {len(items)}")
+
+    # --- Step 2: Resolve each dataset to its parent project (deduplicated) ---
+    seen_projects = {}  # {project_id: project_name}
+
+    for item in items:
+        item_id = (item.entity_id if hasattr(item, 'entity_id')
+                   else item.id if hasattr(item, 'id') else str(item))
+        try:
+            entity = syn.get(item_id, downloadFile=False)
+
+            # projectId is set by the server on all non-Project entities
+            project_id = entity.get('projectId', None)
+            if not project_id:
+                # Fallback: walk parentId chain until we reach a Project
+                current = entity
+                while type(current).__name__ != 'Project':
+                    parent_id = current.get('parentId', None)
+                    if not parent_id:
+                        current = None
+                        break
+                    current = syn.get(parent_id, downloadFile=False)
+                if current is not None:
+                    project_id = current.id
+
+            if not project_id:
+                if verbose:
+                    print(f"  ⚠️  Could not determine project for dataset {item_id}")
+                continue
+
+            if project_id in exclude_project_ids:
+                if verbose:
+                    print(f"  ⊘ Dataset {item_id} belongs to excluded project {project_id} — skipped")
+                continue
+
+            if project_id not in seen_projects:
+                project_entity = syn.get(project_id, downloadFile=False)
+                seen_projects[project_id] = project_entity.name
+
+        except Exception as e:
+            print(f"  ⚠️  Could not resolve project for dataset {item_id}: {e}")
+
+    print(f"Unique projects: {len(seen_projects)}")
+
+    if not seen_projects:
+        print("❌ No eligible projects found for collection datasets.")
+        return {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 1}
+
+    # --- Step 3: For each project, find and rename the target folder ---
+    counts = {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 0}
+
+    for project_id, project_name in seen_projects.items():
+        print(f"\n📁 Project : {project_name} ({project_id})")
+
+        try:
+            children = list(syn.getChildren(project_id))
+        except Exception as e:
+            print(f"  ✗ Could not list project children: {e}")
+            counts['error'] += 1
+            continue
+
+        folder_found = False
+        for child in children:
+            child_type = child.get('type', '')
+            if not ('folder' in child_type.lower()):
+                continue
+
+            child_name = child['name']
+            child_id = child['id']
+
+            if not fnmatch.fnmatch(child_name, folder_pattern):
+                if verbose:
+                    print(f"  ⊘ Skipping folder '{child_name}'")
+                continue
+
+            # Compute target name using the actual matched folder name
+            new_name = rename_pattern.format(
+                folder_name=child_name.replace(' ', '_'),
+                project_name=project_name.replace(' ', '_'),
+            )
+
+            if child_name == new_name:
+                print(f"  ✓ Already named '{new_name}' ({child_id}) — no change needed")
+                counts['already_renamed'] += 1
+                folder_found = True
+                continue
+
+            folder_found = True
+            if dry_run:
+                print(f"  [DRY_RUN] Would rename '{child_name}' ({child_id}) → '{new_name}'")
+                counts['renamed'] += 1
+            else:
+                try:
+                    folder_entity = syn.get(child_id, downloadFile=False)
+                    folder_entity.name = new_name
+                    syn.store(folder_entity)
+                    print(f"  ✓ Renamed '{child_name}' ({child_id}) → '{new_name}'")
+                    counts['renamed'] += 1
+                except Exception as e:
+                    print(f"  ✗ Error renaming '{child_name}' ({child_id}): {e}")
+                    counts['error'] += 1
+
+        if not folder_found:
+            print(f"  ⚠️  No folder matching '{folder_pattern}' found in project")
+            counts['skipped'] += 1
+
+    return counts
+
+
+def handle_rename_folders(args, config):
+    """CLI handler for the rename-folders command."""
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+
+    collection_id = getattr(args, 'collection_id', None) or config.DATASETS_COLLECTION_ID
+    if not collection_id:
+        print("❌ --collection-id is required (or set DATASETS_COLLECTION_ID in config)")
+        return
+
+    folder_pattern = getattr(args, 'folder_pattern', None) or 'Released Data'
+    rename_pattern = getattr(args, 'rename_pattern', None) or '{folder_name}_{project_name}'
+    exclude_ids = set(getattr(args, 'exclude_project', None) or [])
+
+    counts = rename_folders(
+        syn,
+        collection_id=collection_id,
+        folder_pattern=folder_pattern,
+        rename_pattern=rename_pattern,
+        exclude_project_ids=exclude_ids,
+        dry_run=dry_run,
+        verbose=verbose,
+    )
+
+    print(f"\n{'='*60}")
+    print(f"SUMMARY")
+    print(f"{'='*60}")
+    print(f"Renamed        : {counts['renamed']}")
+    print(f"Already correct: {counts['already_renamed']}")
+    print(f"No match found : {counts['skipped']}")
+    print(f"Errors         : {counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
@@ -6308,6 +6523,32 @@ Examples:
 
   # Use custom config file
   python synapse_dataset_manager.py --config my-config.yaml create --use-config my_dataset
+
+  # RENAME-RELEASED-FOLDERS - preview renames (exact folder name match)
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --folder-pattern "Released Data" \\
+    --dry-run
+
+  # RENAME-RELEASED-FOLDERS - execute, exclude a specific project
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --exclude-project syn64892175 \\
+    --execute
+
+  # RENAME-RELEASED-FOLDERS - glob pattern matching any folder starting with "Released"
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --folder-pattern "Released*" \\
+    --rename-pattern "Released_{project_name}" \\
+    --dry-run
+
+  # RENAME-RELEASED-FOLDERS - rename Staging folders, keep source name in output
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --folder-pattern "Staging*" \\
+    --rename-pattern "{folder_name}_{project_name}" \\
+    --execute
 
   # RENAME-ANNOTATION - rename annotation key across all datasets in a collection
   python synapse_dataset_manager.py rename-annotation \\
@@ -6575,6 +6816,35 @@ Examples:
     rename_parser.add_argument('--dry-run', action='store_true',
         help='Dry run mode (default)')
 
+    # RENAME-RELEASED-FOLDERS command
+    rename_folders_parser = subparsers.add_parser(
+        'rename-folders',
+        help='Rename folders matching a pattern across all projects in a DatasetCollection'
+    )
+    rename_folders_parser.add_argument('--collection-id',
+        help='Synapse ID of the DatasetCollection (defaults to DATASETS_COLLECTION_ID in config)')
+    rename_folders_parser.add_argument('--folder-pattern', default='Released Data',
+        help=(
+            'Glob pattern to match folder names (default: "Released Data"). '
+            'Supports * (any chars), ? (one char), [seq]. '
+            'Examples: "Released Data", "Released*", "*Data*"'
+        ))
+    rename_folders_parser.add_argument('--rename-pattern', default='{folder_name}_{project_name}',
+        help=(
+            'Output name template. Available placeholders (spaces → underscores): '
+            '{folder_name}, {project_name}. '
+            'Default: "{folder_name}_{project_name}" '
+            '(e.g. "Released_Data_ALL_ALS")'
+        ))
+    rename_folders_parser.add_argument('--exclude-project', nargs='+', metavar='SYN_ID',
+        help='One or more project Synapse IDs to skip (e.g. --exclude-project syn64892175)')
+    rename_folders_parser.add_argument('--verbose', action='store_true',
+        help='Print detailed info for each folder checked')
+    rename_folders_parser.add_argument('--execute', action='store_true',
+        help='Execute renames (override DRY_RUN)')
+    rename_folders_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode — preview changes without writing (default)')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -6758,7 +7028,7 @@ Examples:
     # Only validate config for commands that need Synapse connection
     if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
-                        'rename-annotation']:
+                        'rename-annotation', 'rename-folders']:
         config.validate()
 
     # Route to appropriate handler
@@ -6787,6 +7057,8 @@ Examples:
         handle_delete_versions_workflow(args, config)
     elif args.command == 'rename-annotation':
         handle_rename_annotation(args, config)
+    elif args.command == 'rename-folders':
+        handle_rename_folders(args, config)
 
 
 if __name__ == "__main__":
