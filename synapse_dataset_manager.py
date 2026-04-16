@@ -2294,16 +2294,25 @@ def apply_dataset_annotations(syn, dataset_syn_id, annotations, all_schemas, dry
 
     cleaned = clean_annotations_for_synapse(annotations)
 
+    # description is a dedicated entity property in Synapse, not a regular annotation
+    entity_description = cleaned.pop('description', None)
+
     if dry_run:
         print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {dataset_syn_id}")
         print(f"  [DRY_RUN] Fields: {', '.join(list(cleaned.keys())[:10])}{'...' if len(cleaned) > 10 else ''}")
+        if entity_description:
+            print(f"  [DRY_RUN] Description: {entity_description[:80]}{'...' if len(entity_description) > 80 else ''}")
         return True
 
     try:
         entity = syn.get(dataset_syn_id, downloadFile=False)
         entity.annotations = cleaned
+        if entity_description:
+            entity.description = entity_description
         syn.store(entity)
         print(f"  ✓ Applied {len(cleaned)} annotations to {dataset_syn_id}")
+        if entity_description:
+            print(f"  ✓ Set description")
         return True
     except Exception as e:
         print(f"  ✗ Error applying annotations: {e}")
@@ -2368,6 +2377,9 @@ def create_dataset_entity(syn, dataset_name, dataset_annotations, project_id,
                 print(f"    ... and {len(errors) - 3} more")
 
         cleaned = clean_annotations_for_synapse(cleaned_dataset_annotations)
+
+        # description is a dedicated entity property in Synapse, not a regular annotation
+        description = description or cleaned.pop('description', None)
 
         if dry_run:
             print(f"  [DRY_RUN] Would create dataset '{dataset_name}' with {len(cleaned)} annotations")
@@ -3781,6 +3793,21 @@ def load_annotation_file(file_path):
         return json.load(f)
 
 
+def sanitize_filename(name):
+    """Replace characters that are invalid in file paths with safe alternatives."""
+    return name.replace('/', '_').replace(':', '_').replace('\\', '_').replace(' ', '_').replace(',', '_')
+
+
+def sanitize_synapse_name(name):
+    """Replace characters not allowed in Synapse entity names.
+
+    Synapse allows: letters, numbers, spaces, underscores, hyphens, periods,
+    plus signs, apostrophes, and parentheses. Replaces everything else with a space.
+    """
+    import re
+    return re.sub(r"[^\w\s\-.()+']", ' ', name).strip()
+
+
 def save_annotation_file(annotations_dict, file_path):
     """Save annotations to JSON file"""
     with open(file_path, 'w') as f:
@@ -4723,7 +4750,7 @@ def handle_create_workflow(args, config):
             )
 
         # Save annotations
-        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_annotations.json")
+        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_annotations.json")
         save_annotation_file(annotations_output, output_file)
     else:
         print("\n" + "=" * 60)
@@ -4746,7 +4773,7 @@ def handle_create_workflow(args, config):
     else:
         dataset_template = create_annotation_template(all_schemas, dataset_type)
 
-    dataset_output_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_dataset_annotations.json")
+    dataset_output_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_dataset_annotations.json")
     save_annotation_file(dataset_template, dataset_output_file)
 
     print("\n" + "=" * 60)
@@ -4784,12 +4811,12 @@ def handle_create_from_annotations(args, config):
         print("🔗 LINK DATASET MODE: Creating dataset without files")
 
     # Load annotations
-    dataset_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_dataset_annotations.json")
+    dataset_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_dataset_annotations.json")
     dataset_annotations = load_annotation_file(dataset_annotations_file)
 
     # Load file annotations only if not link dataset
     if not is_link_dataset:
-        file_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{args.dataset_name}_annotations.json")
+        file_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_annotations.json")
         file_annotations = load_annotation_file(file_annotations_file)
 
         if not file_annotations:
@@ -5035,9 +5062,10 @@ def handle_create_from_annotations(args, config):
     print("STEP 5: CREATING DATASET ENTITY")
     print("=" * 60)
 
-    entity_description = dataset_config.get('description') if dataset_config else None
+    entity_description = (dataset_config.get('description') if dataset_config else None) \
+                         or dataset_annotations.get('description') or None
     dataset_id = create_dataset_entity(
-        syn, args.dataset_name, dataset_annotations,
+        syn, sanitize_synapse_name(args.dataset_name), dataset_annotations,
         config.SYNAPSE_PROJECT_ID, all_schemas, config.DRY_RUN,
         description=entity_description
     )

@@ -1,0 +1,90 @@
+{
+  "FACSPopulation": "",
+  "GEOSuperSeries": "",
+  "acknowledgementStatement": [
+    "syn64892175/wiki/640100"
+  ],
+  "alternateName": "phs004288.v1.p1",
+  "assay": [
+    "RNA-seq"
+  ],
+  "biospecimenType": [
+    "blood"
+  ],
+  "cellType": [
+    "whole_blood"
+  ],
+  "citation": [],
+  "collection": [
+    "National Institutes of Health"
+  ],
+  "contributor": [
+    "Eva Feldman"
+  ],
+  "creator": [
+    "Eva Feldman",
+    "Yue Zhao",
+    "Stephen Goutman",
+    "Maureen Sartor",
+    "Stuart Batterman"
+  ],
+  "curationLevel": "Unknown",
+  "dataFormat": [],
+  "dataType": [
+    "transcriptomics"
+  ],
+  "dataset_code": "",
+  "datePublished": null,
+  "description": "Whole blood RNA-seq study in ALS cases (n=388) and controls examining gene expression to predict disease status and survival using machine learning. Multi-omic integration analysis identifies therapeutic candidates leveraging the exposome, epigenome, metabolome, and inflammasome.",
+  "disease": [
+    "ALS",
+    "Control"
+  ],
+  "diseaseSubtype": [],
+  "funder": [
+    "National Institutes of Health"
+  ],
+  "includedInDataCatalog": "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1",
+  "keywords": [
+    "ALS",
+    "exposome",
+    "epigenome",
+    "metabolome",
+    "inflammasome",
+    "RNA-seq",
+    "machine learning",
+    "case-control",
+    "whole blood",
+    "gene expression"
+  ],
+  "libraryLayout": [],
+  "libraryStrategy": "RNA_seq",
+  "license": "DS-ALS-IRB-PUB-COL-NPU",
+  "originalSampleId": "",
+  "participant_count": 388,
+  "platform": [],
+  "portalRelease": [],
+  "processingLevel": [
+    "raw",
+    "processed"
+  ],
+  "publisher": "University of Michigan",
+  "sameAs": "phs004288.v1.p1",
+  "source": "dbGaP (NINDS_ALS_Omics)",
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyType": [
+    "Case-Control Study"
+  ],
+  "subject": [
+    "Amyotrophic lateral sclerosis",
+    "Gene expression",
+    "RNA-Seq"
+  ],
+  "title": "Developing Novel Strategies for Personalized Treatment and Prevention of ALS: Leveraging the Global Exposome, Genome, Epigenome, Metabolome, and Inflammasome with Data Science in a Case/Control Cohort",
+  "url": "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1",
+  "_file_type": "OmicDataset",
+  "_schema_source": "json-schema",
+  "_created_timestamp": "2026-04-15T19:24:35.710939"
+}
