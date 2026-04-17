@@ -1475,6 +1475,299 @@ def generate_variant_type_keywords(variant_type: str) -> List[str]:
     return keyword_map.get(variant_type, [])
 
 
+# ==================== VCF VARIANT TYPE INFERENCE ====================
+
+def classify_vcf_allele(ref: str, alt: str) -> str:
+    """Classify a single REF/ALT pair into a variant class (ported from scripts/infer_variant_types.py)."""
+    alt = alt.strip()
+    ref = ref.strip()
+    if alt == "" or alt == ".":
+        return "MISSING_ALT"
+    if alt == "*":
+        return "STAR"
+    if alt.startswith("<") and alt.endswith(">"):
+        return alt[1:-1]
+    if "[" in alt or "]" in alt:
+        return "BND"
+    if len(ref) == 1 and len(alt) == 1:
+        return "SNP"
+    if len(ref) == len(alt):
+        return "MNV"
+    if len(ref) < len(alt):
+        return "INS"
+    if len(ref) > len(alt):
+        return "DEL"
+    return "OTHER"
+
+
+def get_variant_type_schema_values(all_schemas: Optional[Dict] = None) -> Set[str]:
+    """
+    Extract the valid variantType enum values from the OmicFile JSON schema.
+
+    Falls back to a hardcoded default set if the schema cannot be loaded, so inference
+    still works when all_schemas is unavailable.
+
+    Args:
+        all_schemas: Dict of loaded JSON schemas from get_all_schemas()
+
+    Returns:
+        Set of valid variantType enum strings from the schema
+    """
+    _FALLBACK = {
+        'SNV', 'SNVs/SNPs', 'Indel', 'INDELs', 'SVs', 'MNVs',
+        'Germline', 'Somatic', 'Deletions', 'CNV', 'CNVs',
+        'Inversions', 'Translocations', 'Repeat_Expansion',
+        'Genomic', 'Small_Variant', 'Structural_Variant', 'Other',
+    }
+    if not all_schemas:
+        return _FALLBACK
+    schema = all_schemas.get('OmicFile') or all_schemas.get('Omic')
+    if not schema:
+        return _FALLBACK
+    props = schema.get('properties', {})
+    vt_field = props.get('variantType', {})
+    items = vt_field.get('items', {})
+    enum_values = items.get('enum', [])
+    return set(enum_values) if enum_values else _FALLBACK
+
+
+def map_vcf_classes_to_schema_enum(
+    classes: List[str],
+    all_schemas: Optional[Dict] = None,
+) -> List[str]:
+    """
+    Map infer_variant_types output classes to OmicFile variantType schema enum values.
+
+    Valid enum values are read from the OmicFile JSON schema so they stay in sync
+    with the schema definition. A hardcoded fallback is used only when schemas are
+    unavailable.
+
+    Args:
+        classes: List of variant class strings from run_vcf_variant_inference()
+        all_schemas: Dict of loaded JSON schemas (from get_all_schemas); used to read
+                     valid variantType enum values dynamically from OmicFile.json
+
+    Returns:
+        Sorted list of unique schema-valid variantType enum values
+    """
+    _SKIP_CLASSES = {'MISSING_ALT', 'STAR'}
+    # Map from bcftools/inferred class → schema enum value
+    _CLASS_MAP = {
+        'SNP':   'SNVs/SNPs',
+        'MNV':   'MNVs',
+        'INS':   'INDELs',
+        'DEL':   'Deletions',
+        'BND':   'SVs',
+        'DUP':   'SVs',
+        'INV':   'Inversions',
+        'CNV':   'CNVs',
+        'TRA':   'Translocations',
+        'OTHER': 'Other',
+    }
+    valid_schema_values = get_variant_type_schema_values(all_schemas)
+    result: Set[str] = set()
+    for cls in classes:
+        if cls.upper() in _SKIP_CLASSES:
+            continue
+        mapped = _CLASS_MAP.get(cls.upper()) or _CLASS_MAP.get(cls)
+        if mapped and mapped in valid_schema_values:
+            result.add(mapped)
+        elif mapped:
+            # Mapped value not in schema — use Other as safe fallback
+            result.add('Other')
+        elif cls in valid_schema_values:
+            result.add(cls)
+        else:
+            result.add('Other')
+    return sorted(result)
+
+
+def run_vcf_variant_inference(vcf_path: str, limit: int = 0) -> Optional[Dict]:
+    """
+    Run bcftools-based variant type inference on a local VCF/VCF.GZ file.
+
+    Requires bcftools in PATH. Logic is equivalent to scripts/infer_variant_types.py.
+
+    Args:
+        vcf_path: Path to local VCF/VCF.GZ/BCF file
+        limit: Max records to scan (0 = all records)
+
+    Returns:
+        Dict with keys n_records, allele_classes, allele_counts, site_counts; or None on error.
+    """
+    cmd = ['bcftools', 'query', '-f', '%REF\t%ALT\n', vcf_path]
+    try:
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                text=True, bufsize=1)
+    except FileNotFoundError:
+        print('  ⚠️  bcftools not found in PATH — cannot infer VCF variant types')
+        return None
+
+    allele_counts: Counter = Counter()
+    site_counts: Counter = Counter()
+    n_records = 0
+
+    assert proc.stdout is not None
+    for line in proc.stdout:
+        if limit and n_records >= limit:
+            proc.terminate()
+            break
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        try:
+            ref, alt_field = line.split('\t', 1)
+        except ValueError:
+            continue
+        alts = [a.strip() for a in alt_field.split(',') if a.strip()]
+        if not alts:
+            continue
+        classes_this_site: set = set()
+        for alt in alts:
+            klass = classify_vcf_allele(ref, alt)
+            allele_counts[klass] += 1
+            classes_this_site.add(klass)
+        if len(classes_this_site) == 1:
+            site_counts[next(iter(classes_this_site))] += 1
+        else:
+            site_counts['MIXED'] += 1
+        n_records += 1
+
+    stderr_text = proc.stderr.read() if proc.stderr is not None else ''
+    return_code = proc.wait()
+    if return_code not in (0, -15):
+        print(f'  ⚠️  bcftools returned exit code {return_code}: {stderr_text[:300]}')
+        return None
+
+    return {
+        'n_records': n_records,
+        'allele_classes': sorted(allele_counts.keys()),
+        'allele_counts': dict(allele_counts),
+        'site_counts': dict(site_counts),
+    }
+
+
+def infer_vcf_variant_types_from_synapse(
+    syn,
+    syn_id: str,
+    filename: str,
+    annotations: dict,
+    download_dir: str,
+    force_infer: bool = False,
+    size_threshold_gb: float = 100.0,
+    all_schemas: Optional[Dict] = None,
+) -> Optional[List[str]]:
+    """
+    Download a VCF file from Synapse, infer variant types via bcftools, then delete the local copy.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse ID of the VCF file
+        filename: File name (used for display)
+        annotations: Current annotation dict for the file
+        download_dir: Local directory for temporary downloads (file is deleted after inference)
+        force_infer: Re-infer even if variantType is already populated
+        size_threshold_gb: Files larger than this prompt the user before downloading
+        all_schemas: Loaded JSON schemas for reading valid variantType enum values from OmicFile.json
+
+    Returns:
+        Sorted list of schema-valid variantType enum values, or None if skipped/failed.
+        NOTE: The local file is always deleted after inference — Synapse is never modified.
+    """
+    # Skip if already annotated (unless force_infer)
+    existing_types = annotations.get('variantType')
+    if existing_types and not force_infer:
+        if isinstance(existing_types, list):
+            existing_types = [v for v in existing_types if v]
+        if existing_types:
+            print(f'  [SKIP] variantType already set for {filename} — use --force-infer-variant-types to override')
+            return None
+
+    # Get file size without downloading
+    size_bytes = 0
+    try:
+        entity_meta = syn.get(syn_id, downloadFile=False)
+        size_bytes = int(entity_meta.properties.get('contentSize', 0))
+    except Exception as e:
+        print(f'  ⚠️  Could not fetch size metadata for {syn_id}: {e}')
+
+    size_gb = size_bytes / (1024 ** 3)
+    size_label = (f'{size_gb:.1f} GB' if size_gb >= 1
+                  else f'{size_bytes / (1024 ** 2):.1f} MB' if size_bytes > 0
+                  else 'unknown size')
+
+    if size_gb > size_threshold_gb:
+        print(f'  ⚠️  {filename} is {size_label} — exceeds {size_threshold_gb:.0f} GB auto-download threshold')
+        try:
+            answer = input(f'  Download {filename} for variant type inference? [y/N] ').strip().lower()
+        except (EOFError, OSError):
+            # Non-interactive context (CI/CD, piped input) — skip to avoid hanging
+            print(f'  [SKIP] Non-interactive — skipping large file {filename}')
+            return None
+        if answer != 'y':
+            print(f'  [SKIP] {filename} skipped by user')
+            return None
+
+    print(f'  Downloading {filename} ({size_label}) for variant type inference...')
+    os.makedirs(download_dir, exist_ok=True)
+    local_path = None
+    try:
+        entity = syn.get(syn_id, downloadLocation=download_dir, ifcollision='overwrite.local')
+        local_path = entity.path
+        if not local_path or not os.path.exists(local_path):
+            print(f'  ⚠️  Download returned no local path for {syn_id}')
+            return None
+
+        print(f'  Running bcftools variant inference on {filename}...')
+        result = run_vcf_variant_inference(local_path)
+        if result is None:
+            return None
+
+        classes = result['allele_classes']
+        print(f'  Scanned {result["n_records"]:,} records — classes: {", ".join(classes) or "(none)"}')
+
+        mapped = map_vcf_classes_to_schema_enum(classes, all_schemas=all_schemas)
+        if mapped:
+            print(f'  → variantType: {", ".join(mapped)}')
+        return mapped if mapped else None
+
+    except Exception as e:
+        print(f'  ⚠️  VCF inference failed for {filename}: {e}')
+        return None
+    finally:
+        # Always delete the local copy — NEVER touches Synapse
+        if local_path and os.path.exists(local_path):
+            try:
+                os.remove(local_path)
+                if os.path.isdir(download_dir) and not os.listdir(download_dir):
+                    os.rmdir(download_dir)
+            except OSError:
+                pass
+
+
+def aggregate_variant_types_from_file_annotations(annotations_output: dict) -> List[str]:
+    """
+    Collect all unique variantType values across all file annotations.
+
+    Args:
+        annotations_output: Dict of {syn_id: {filename: annotations_dict}}
+
+    Returns:
+        Sorted list of unique variantType schema enum values found across all files
+    """
+    seen: Set[str] = set()
+    for file_data in annotations_output.values():
+        for annots in file_data.values():
+            vt = annots.get('variantType')
+            if not vt:
+                continue
+            if isinstance(vt, list):
+                seen.update(v for v in vt if v)
+            elif isinstance(vt, str) and vt:
+                seen.add(vt)
+    return sorted(seen)
+
+
 def enrich_metadata_with_file_info(metadata_row: dict, file_name: str = None, folder_path: str = None) -> dict:
     """
     Enrich metadata row with computed fields derived from file name/URI.
@@ -4535,6 +4828,17 @@ def handle_generate_file_templates(args, config):
     dataset_config = {'dataset_type': args.type} if args.type else {}
     annotations_output = {}
     metadata_fill_count = 0
+
+    # VCF variant type inference setup
+    infer_vcf = getattr(args, 'infer_variant_types', False)
+    force_infer_vcf = getattr(args, 'force_infer_variant_types', False)
+    vcf_download_dir = os.path.join(
+        getattr(config, 'BASE_DIR', tempfile.gettempdir()),
+        'vcf_inference_tmp'
+    )
+    if infer_vcf:
+        print('\n  VCF variant type inference enabled (requires bcftools in PATH)')
+
     for syn_id, file_info in files_dict.items():
         filename = file_info['name']
         existing_annotations = file_info['annotations']
@@ -4565,11 +4869,28 @@ def handle_generate_file_templates(args, config):
             metadata_row = enrich_metadata_with_file_info({}, filename, folder_path)
             merged = fill_template_from_metadata(merged, metadata_row, mapping)
 
+        # VCF variant type inference (file level)
+        if infer_vcf and extract_file_extension(filename) == 'vcf':
+            inferred_types = infer_vcf_variant_types_from_synapse(
+                syn, syn_id, filename, merged, vcf_download_dir,
+                force_infer=force_infer_vcf,
+                all_schemas=all_schemas,
+            )
+            if inferred_types:
+                merged['variantType'] = inferred_types
+
         annotations_output[syn_id] = {filename: merged}
 
     # Step 3: Summary counter
     if metadata_index:
         print(f"  Metadata-filled: {metadata_fill_count} / {len(files_dict)} files matched a metadata row")
+
+    # Summarize inferred variant types across all VCF files (dataset level)
+    if infer_vcf:
+        all_variant_types = aggregate_variant_types_from_file_annotations(annotations_output)
+        if all_variant_types:
+            print(f'\n  Dataset-level variantType (aggregated from files): {", ".join(all_variant_types)}')
+            print('  Tip: add these to your dataset annotation template under "variantType"')
 
     # Optional AI enhancement
     if config.AI_ENABLED and not (hasattr(args, 'skip_ai') and args.skip_ai):
@@ -4725,6 +5046,13 @@ def handle_create_workflow(args, config):
         print("STEP 2: GENERATING ANNOTATION TEMPLATES")
         print("=" * 60)
 
+        # VCF variant type inference setup
+        infer_vcf = getattr(args, 'infer_variant_types', False)
+        force_infer_vcf = getattr(args, 'force_infer_variant_types', False)
+        vcf_download_dir = os.path.join(config.BASE_DIR, 'vcf_inference_tmp')
+        if infer_vcf:
+            print('\n  VCF variant type inference enabled (requires bcftools in PATH)')
+
         annotations_output = {}
         for syn_id, file_info in files_dict.items():
             filename = file_info['name']
@@ -4738,6 +5066,16 @@ def handle_create_workflow(args, config):
 
             # Smart merge with existing
             merged = merge_annotations_smartly(existing_annotations, template)
+
+            # VCF variant type inference (file level)
+            if infer_vcf and extract_file_extension(filename) == 'vcf':
+                inferred_types = infer_vcf_variant_types_from_synapse(
+                    syn, syn_id, filename, merged, vcf_download_dir,
+                    force_infer=force_infer_vcf,
+                    all_schemas=all_schemas,
+                )
+                if inferred_types:
+                    merged['variantType'] = inferred_types
 
             annotations_output[syn_id] = {filename: merged}
 
@@ -4758,6 +5096,7 @@ def handle_create_workflow(args, config):
         print("=" * 60)
         print("🔗 No files to annotate")
         annotations_output = {}
+        infer_vcf = getattr(args, 'infer_variant_types', False)
 
     # Generate dataset annotation template (checks config first, then pattern matching, then defaults to Dataset)
     print("\n" + "=" * 60)
@@ -4772,6 +5111,13 @@ def handle_create_workflow(args, config):
         )
     else:
         dataset_template = create_annotation_template(all_schemas, dataset_type)
+
+    # Propagate inferred VCF variant types to dataset template
+    if not is_link_dataset and infer_vcf and annotations_output:
+        dataset_variant_types = aggregate_variant_types_from_file_annotations(annotations_output)
+        if dataset_variant_types:
+            dataset_template['variantType'] = dataset_variant_types
+            print(f'  Propagated variantType to dataset template: {", ".join(dataset_variant_types)}')
 
     dataset_output_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_dataset_annotations.json")
     save_annotation_file(dataset_template, dataset_output_file)
@@ -6641,6 +6987,10 @@ Examples:
                               help='Comment for version/snapshot')
     create_parser.add_argument('--create-entity-view', action='store_true',
                               help='Create entity view for dataset files')
+    create_parser.add_argument('--infer-variant-types', action='store_true',
+                              help='Download VCF files and infer variantType using bcftools (requires bcftools in PATH)')
+    create_parser.add_argument('--force-infer-variant-types', action='store_true',
+                              help='Re-infer variantType even if already populated in annotations')
 
     # UPDATE command
     update_parser = subparsers.add_parser('update', help='Update existing dataset')
@@ -6729,6 +7079,10 @@ Examples:
         help='One or more source metadata CSV/XLSX files (space-separated)')
     file_tmpl_parser.add_argument('--refresh-walkthrough', action='store_true',
         help='Re-enumerate Synapse folder even if walkthrough cache exists')
+    file_tmpl_parser.add_argument('--infer-variant-types', action='store_true',
+        help='Download VCF files and infer variantType using bcftools (requires bcftools in PATH)')
+    file_tmpl_parser.add_argument('--force-infer-variant-types', action='store_true',
+        help='Re-infer variantType even if already populated in annotations')
 
     # APPLY-FILE-ANNOTATIONS command
     apply_file_parser = subparsers.add_parser(

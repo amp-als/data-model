@@ -1,2 +1,6 @@
 synapseclient>=4.0.0
 pandas>=1.5.0
+
+# System dependency (not pip-installable):
+# bcftools — required for VCF variant type inference (--infer-variant-types flag)
+# Install via: conda install -c bioconda bcftools  OR  apt-get install bcftools
