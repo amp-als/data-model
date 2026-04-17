@@ -1,6 +1,7 @@
 classes:
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin, SpecimenTypeMixin]
     attributes:
       # Core Identifiers
       globalBiospecimenId:
@@ -18,31 +19,7 @@ classes:
         description: The original biospecimen identifier as provided by the data source
         required: false
         
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject from whom specimen was collected
-        required: false
-        
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit during which specimen was collected
-        required: false
-      
-      dataSourcePrefix:
-        title: Data Source Prefix
-        range: DataSourceEnum
-        description: Short identifier indicating the data source origin
-        required: false
-      
       # Collection Information
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date when biospecimen was collected
-        required: false
-        
       collectionTime:
         title: Collection Time
         range: time
@@ -293,18 +270,6 @@ classes:
         title: Treatment
         range: TreatmentEnum
         description: Type of treatment applied to the biospecimen
-        required: false
-      
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used
-        required: false
-      
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen
         required: false
       
       isPostMortem:

@@ -16,6 +16,11 @@
       "title": "GEO SuperSeries",
       "type": "string"
     },
+    "age": {
+      "description": "Age of subject in years.",
+      "title": "Age",
+      "type": "integer"
+    },
     "alignmentMethod": {
       "description": "Tool or method used for sequence alignment.",
       "title": "Alignment Method"
@@ -26,7 +31,7 @@
       "type": "string"
     },
     "analysisTypes": {
-      "description": "Computational and statistical analysis methods applied to the data",
+      "description": "Computational and statistical analysis methods applied to the data.",
       "items": {
         "description": "Computational and statistical analysis methods applied to the data",
         "enum": [
@@ -67,7 +72,7 @@
       "type": "array"
     },
     "annotations": {
-      "description": "Types of biological databases and annotations referenced in this file",
+      "description": "Types of biological databases and annotations referenced in this file.",
       "items": {
         "description": "Types of biological databases and annotation references",
         "enum": [
@@ -311,7 +316,7 @@
       "type": "array"
     },
     "biospecimenType": {
-      "description": "Type of biological specimen(s) in the file.",
+      "description": "Type of biological specimen(s).",
       "items": {
         "description": "",
         "enum": [
@@ -334,7 +339,7 @@
       "type": "array"
     },
     "cellType": {
-      "description": "Type of cell or cell line used in the file.",
+      "description": "Type of cell or cell line used.",
       "items": {
         "description": "",
         "enum": [
@@ -354,7 +359,7 @@
       "type": "array"
     },
     "citation": {
-      "description": "identifies academic articles that are recommended by the data provider be cited in addition to the file itself.",
+      "description": "Academic articles recommended by the data provider to cite in addition to the resource itself.",
       "items": {
         "type": "string"
       },
@@ -389,7 +394,7 @@
       "type": "array"
     },
     "collection": {
-      "description": "Associated collection(s)",
+      "description": "Associated collection(s).",
       "items": {
         "description": "Original collection, e.g. the consortium that the dataset comes from.",
         "enum": [
@@ -417,21 +422,36 @@
       "title": "Collection",
       "type": "array"
     },
+    "collectionDate": {
+      "description": "Date when the specimen was collected.",
+      "format": "date",
+      "title": "Collection Date",
+      "type": "string"
+    },
     "contributor": {
-      "description": "Institution or person responsible for collecting and managing the files and records in the file.",
+      "description": "Institution or person responsible for collecting and managing the files and records in the resource.",
       "items": {
         "type": "string"
       },
       "title": "Contributor(s)",
       "type": "array"
     },
+    "country": {
+      "description": "Country of residence or data collection site.",
+      "title": "Country",
+      "type": "string"
+    },
     "creator": {
-      "description": "Properly formatted name of the organization or person that is creator of the file (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.",
+      "description": "Properly formatted name of the organization or person that is creator of the resource (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id.",
       "items": {
         "type": "string"
       },
       "title": "Creator",
       "type": "array"
+    },
+    "dataSourcePrefix": {
+      "description": "Short identifier indicating the data source origin.",
+      "title": "Data Source Prefix"
     },
     "dataType": {
       "description": "Reflects the data types within the file.",
@@ -447,12 +467,12 @@
       "type": "array"
     },
     "description": {
-      "description": "Blurb for the file; should be no more than 500 characters.",
+      "description": "Brief description; should be no more than 500 characters.",
       "title": "Description",
       "type": "string"
     },
     "disease": {
-      "description": "Disease(s) or condition(s) studied in the file.",
+      "description": "Disease(s) or condition(s) associated with the data.",
       "items": {
         "description": "",
         "enum": [
@@ -481,7 +501,7 @@
       "type": "array"
     },
     "diseaseSubtype": {
-      "description": "Specific disease subtype or genetic variant associated with the data (e.g., C9orf72, SOD1, familial). Use when the data pertains to a specific genetic or clinical subtype of a disease.\n",
+      "description": "Specific disease subtypes, genetic variants, or diagnostic criteria (e.g., C9orf72, SOD1, familial).",
       "items": {
         "description": "Specific subtypes or variants of neurodegenerative diseases",
         "enum": [
@@ -553,22 +573,22 @@
           "MUSK Myasthenia",
           "Anxiety for ALS",
           "Atypical for GM1 ab",
-          "Lower motor neuron predominant ALS (LMND)",
+          "LMND",
           "ALS- LMND (lower motor neuron dominant)",
-          "Upper motor neuron predominant ALS (UMND)",
+          "UMND",
           "ALS UMN-Predominant",
           "ALS UMN-Predominant (PLS)",
           "Flail Arm",
           "Focal MND",
           "PICALS",
           "Pseudopolyneuritic form of ALS",
-          "MND (unspecified, non-ALS ALS Spectrum MND), Frontotemporal Dementia (FTD)",
+          "MND (unspecified, non-ALS ALS Spectrum MND), FTD",
           "Non-ALS MND, Seizures",
           "Primary lateral sclerosis (PLS) (UMN only)",
           "PLS UMN-Predominant",
           "Progressive muscular atrophy (PMA) (LMN only)",
-          "Primary Lateral Sclerosis (PLS) or Progressive Muscular Atrophy (PMA)",
-          "Behavioral Variant Frontotemporal Dementia (bvFTD)",
+          "PLS or PMA",
+          "bvFTD",
           "Clinical FTD (behavioral variant)",
           "Clinical FTD (semantic variant)",
           "Clinical FTD (nonfluent variant)",
@@ -577,15 +597,13 @@
           "Clinical FTD (NOS)",
           "Clinical FTD (PSP)",
           "Clinical FTD (corticobasal syndrome)",
-          "Primary Progressive Aphasia (PPA)",
-          "Primary Progressive Aphasia",
-          "Primary Progressive Aphasia (naPPA)",
+          "PPA",
           "Progressive Aphasia",
-          "Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA)",
-          "Semantic Variant Primary Progressive Aphasia (svPPA)",
-          "Logopenic Variant Primary Progressive Aphasia (lvPPA)",
-          "Behavioral Variant Frontotemporal Dementia (bvFTD), Semantic Variant Primary Progressive Aphasia (svPPA)",
-          "Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA), Frontotemporal Dementia (FTD)",
+          "naPPA",
+          "svPPA",
+          "lvPPA",
+          "bvFTD, svPPA",
+          "naPPA, FTD",
           "Clinical DLB (Probable)",
           "Clinical PDD",
           "Pathological FTLD NOS",
@@ -605,30 +623,30 @@
           "Pathological Brain Stem DLB",
           "Pathological Amygdala DLB",
           "Pathological DLB NOS",
-          "Corticobasal Syndrome (CBS)",
-          "Progressive Supranuclear Palsy (PSP)",
+          "CBS",
+          "PSP",
           "Huntington's Disease-like (HDL) Syndrome",
           "Vascular Dementia",
           "Dementia (NOS)",
-          "Hereditary Spastic Paraplegia (HSP)",
+          "HSP",
           "NEK1 Family",
-          "Pre-fALS, Mild Cognitive Impairment (MCI)",
+          "Pre-fALS, MCI",
           "Non-Neurological Control with family history of ALS",
-          "Non-Neurological Control with family history of Frontotemporal Dementia (FTD) and Alzheimer's Disease (AD)",
-          "Non-Neurological Control with family history of Alzheimer's Disease (AD), Frontotemporal Dementia (FTD)",
-          "Classical/Typical ALS, Frontotemporal Dementia (FTD)",
-          "Classical/Typical ALS, Alzheimer's Disease (AD)",
-          "Classical/Typical ALS, Parkinson's Disease (PD)",
+          "Non-Neurological Control with family history of FTD and AD",
+          "Non-Neurological Control with family history of AD, FTD",
+          "Classical/Typical ALS, FTD",
+          "Classical/Typical ALS, AD",
+          "Classical/Typical ALS, PD",
           "Classical/Typical ALS, Dementia (NOS)",
-          "Classical/Typical ALS, Mild Cognitive Impairment (MCI)",
-          "Classical/Typical ALS, Behavioral Variant Frontotemporal Dementia (bvFTD)",
-          "Classical/Typical ALS, Alzheimer's Disease (AD), Frontotemporal Dementia (FTD)",
-          "Classical/Typical ALS, Frontotemporal Dementia (FTD), Parkinson's Disease (PD)",
-          "Classical/Typical ALS, Parkinson's Disease, Frontotemporal Dementia (FTD)",
-          "Classical/Typical ALS, Frontotemporal Dementia (FTD), Alzheimer's Disease (AD)",
-          "Classical/Typical ALS, Alzheimer's Disease (AD), Chronic Traumatic Encephalopathy (CTE)",
-          "Classical/Typical ALS, Chronic Traumatic Encephalopathy (CTE)",
-          "Classical/Typical ALS, Dementia with Lewy Bodies (DLB)",
+          "Classical/Typical ALS, MCI",
+          "Classical/Typical ALS, bvFTD",
+          "Classical/Typical ALS, AD, FTD",
+          "Classical/Typical ALS, FTD, PD",
+          "Classical/Typical ALS, PD, FTD",
+          "Classical/Typical ALS, FTD, AD",
+          "Classical/Typical ALS, AD, CTE",
+          "Classical/Typical ALS, CTE",
+          "Classical/Typical ALS, DLB",
           "Classical/Typical ALS, Radiculopathy",
           "Classical/Typical ALS, Peripheral Neuropathy",
           "Classical/Typical ALS, Seizure Disorder",
@@ -636,42 +654,42 @@
           "Classical/Typical ALS, Partial Seizure Disorder",
           "Classical/Typical ALS, Sensory Neuropathy, Seizure",
           "Classical/Typical ALS, Myasthenia Gravis",
-          "Classical/Typical ALS, Mild Cognitive Impairment (MCI), Myasthenia Gravis",
-          "Classical/Typical ALS, Hereditary Spastic Paraplegia (HSP), Sensorimotor Polyneuropathy",
+          "Classical/Typical ALS, MCI, Myasthenia Gravis",
+          "Classical/Typical ALS, HSP, Sensorimotor Polyneuropathy",
           "Classical/Typical ALS, Chronic Axonal Polyneuropathy, Sensory Axonal Neuropathy",
           "Classical/Typical ALS, Left Ulnar Neuropathy",
-          "Classical/Typical ALS, Parkinson's Disease (PD), Bulbar Paralysis",
-          "Classical/Typical ALS, Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA)",
-          "Classical/Typical ALS, Behavioral Variant Frontotemporal Dementia (bvFTD), Progressive Aphasia",
-          "Classical/Typical ALS, Charcot-Marie-Tooth Disease (CMT)",
-          "Classical/Typical ALS, Alzheimer's Disease (AD), Argyrophilic Grain Disease (AGD) Stage II, Cerebral Amyloid Angiopathy (CAA)",
-          "Classical/Typical ALS, Argyrophilic Grain Disease (AGD) Stage II-III, Cerebrovascular Disease (Not Contributing to Dementia)",
-          "Classical/Typical ALS, Alzheimer's Disease (AD), Acute Meningitis, Cerebrovascular Disease (Not Contributing to Dementia)",
-          "Classical/Typical ALS, Alzheimer's Disease (AD), Acute Hypoxic-Ischemic Changes, Hippocampus",
+          "Classical/Typical ALS, PD, Bulbar Paralysis",
+          "Classical/Typical ALS, naPPA",
+          "Classical/Typical ALS, bvFTD, Progressive Aphasia",
+          "Classical/Typical ALS, CMT",
+          "Classical/Typical ALS, AD, AGD Stage II, CAA",
+          "Classical/Typical ALS, AGD Stage II-III, Cerebrovascular Disease (Not Contributing to Dementia)",
+          "Classical/Typical ALS, AD, Acute Meningitis, Cerebrovascular Disease (Not Contributing to Dementia)",
+          "Classical/Typical ALS, AD, Acute Hypoxic-Ischemic Changes, Hippocampus",
           "Classical/Typical ALS, Mild Diffuse Subpial Gliosis, Mild Hypertensive Vasculopathy",
           "Classical/Typical ALS, Myelomalacia of the cord at C3-C5",
           "Classical/Typical ALS, Tauopathy",
           "Classical/Typical ALS, Cognitive Problems, Memory Impairment",
           "Classical/Typical ALS, Sheehan's Syndrome",
-          "Classical/Typical ALS, Frontotemporal Dementia (FTD), Metastatic Carcinoma, Superior Parietal Lobe, Left",
-          "Amyotrophic Lateral Sclerosis (ALS), Dementia (NOS)",
-          "Primary Lateral Sclerosis (PLS), Frontotemporal Dementia (FTD)",
-          "Primary Lateral Sclerosis (PLS), Peripheral Neuropathy",
-          "Primary Lateral Sclerosis (PLS), Radiculopathy",
-          "Primary Lateral Sclerosis (PLS), Huntington's Disease-like (HDL) Syndrome",
-          "Progressive Muscular Atrophy (PMA), Diabetic Polyneuropathy",
-          "Progressive Muscular Atrophy (PMA), Dementia (NOS)",
-          "Progressive Muscular Atrophy (PMS)",
-          "Progressive Bulbar Palsy, Parkinson's Disease (PD)",
-          "Frontotemporal Dementia (FTD), Progressive Supranuclear Palsy (PSP)",
+          "Classical/Typical ALS, FTD, Metastatic Carcinoma, Superior Parietal Lobe, Left",
+          "ALS, Dementia (NOS)",
+          "PLS, FTD",
+          "PLS, Peripheral Neuropathy",
+          "PLS, Radiculopathy",
+          "PLS, HDL Syndrome",
+          "PMA, Diabetic Polyneuropathy",
+          "PMA, Dementia (NOS)",
+          "PMA",
+          "Progressive Bulbar Palsy, PD",
+          "FTD, PSP",
           "Dementia (NOS), Progressive Aphasia",
-          "Dementia with Lewy Bodies (DLB), Peripheral Neuropathy",
-          "Inclusion Body Myositis (IBM)",
-          "Inclusion Body Myopathy (IBM)",
+          "DLB, Peripheral Neuropathy",
+          "IBM-myositis",
+          "IBM-myopathy",
           "Dermatomyositis",
           "Polymyositis",
           "Distal Myopathy",
-          "Facioscapulohumeral Muscular Dystrophy (FSHD)",
+          "FSHD",
           "Monomelic Amyotrophy",
           "Post-Polio Syndrome",
           "Polio",
@@ -689,6 +707,10 @@
       "title": "Disease Subtype",
       "type": "array"
     },
+    "ethnicity": {
+      "description": "Ethnicity of subject.",
+      "title": "Ethnicity"
+    },
     "genomeReference": {
       "description": "Reference genome used for alignment.",
       "title": "Reference Genome"
@@ -699,8 +721,13 @@
       "title": "Global Subject ID",
       "type": "string"
     },
+    "heightCm": {
+      "description": "Height of subject in centimeters.",
+      "title": "Height (cm)",
+      "type": "number"
+    },
     "includedInDataCatalog": {
-      "description": "Link(s) to known data catalog(s) the file is included in.",
+      "description": "Link(s) to known data catalog(s) this resource is included in.",
       "title": "Included In Data Catalog",
       "type": "string"
     },
@@ -743,10 +770,49 @@
       "title": "Original Subject ID",
       "type": "string"
     },
+    "propAfricanGeneticAncestry": {
+      "description": "Proportion of African genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion African Genetic Ancestry",
+      "type": "number"
+    },
+    "propEastAsianGeneticAncestry": {
+      "description": "Proportion of East Asian genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion East Asian Genetic Ancestry",
+      "type": "number"
+    },
+    "propEuropeanGeneticAncestry": {
+      "description": "Proportion of European genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion European Genetic Ancestry",
+      "type": "number"
+    },
+    "propNativeAmericanGeneticAncestry": {
+      "description": "Proportion of Native American genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion Native American Genetic Ancestry",
+      "type": "number"
+    },
+    "propSouthAsianGeneticAncestry": {
+      "description": "Proportion of South Asian genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion South Asian Genetic Ancestry",
+      "type": "number"
+    },
     "publisher": {
-      "description": "Name of the organization or person responsible for making the file available.",
+      "description": "Name of the organization or person responsible for making the resource available.",
       "title": "Publisher",
       "type": "string"
+    },
+    "race": {
+      "description": "Race/ethnicity of subject.",
+      "title": "Race/Ethnicity"
     },
     "sameAs": {
       "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
@@ -754,16 +820,20 @@
       "type": "string"
     },
     "sampleType": {
-      "description": "Classification of the sample (e.g. actual sample vs. control type)",
+      "description": "Classification of the sample (e.g. actual sample vs. control type).",
       "title": "Sample Type"
     },
+    "sex": {
+      "description": "Biological sex of subject.",
+      "title": "Sex"
+    },
     "source": {
-      "description": "Host platform from which the file was sourced.",
+      "description": "Host platform from which the resource was sourced.",
       "title": "Source",
       "type": "string"
     },
     "species": {
-      "description": "Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.",
+      "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
       "items": {
         "description": "",
         "enum": [
@@ -791,7 +861,7 @@
       "type": "string"
     },
     "subject": {
-      "description": "Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
+      "description": "Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
       "items": {
         "type": "string"
       },
@@ -803,7 +873,7 @@
       "type": "string"
     },
     "url": {
-      "description": "URL for the original file location at source.",
+      "description": "URL for the original resource location at source.",
       "title": "URL",
       "type": "string"
     },
@@ -811,6 +881,25 @@
       "description": "Type of clinical visit (baseline, follow-up, etc.)",
       "title": "Visit Type",
       "type": "string"
+    },
+    "weightKg": {
+      "description": "Weight of subject in kilograms.",
+      "title": "Weight (kg)",
+      "type": "number"
+    },
+    "yearOfDiagnosis": {
+      "description": "Year when ALS diagnosis was made.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Year of ALS Diagnosis",
+      "type": "integer"
+    },
+    "yearOfSymptomOnset": {
+      "description": "Year when first ALS symptoms appeared.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Year of Symptom Onset",
+      "type": "integer"
     }
   },
   "required": [

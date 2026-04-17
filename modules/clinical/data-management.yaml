@@ -1,25 +1,14 @@
 classes:
   DataQuality:
     description: Data quality control and audit trail information
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
       dataQualityId:
         title: Data Quality ID
         range: string
         description: Unique identifier for this data quality record
         required: false
-        
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this data quality record
-        required: false
-        
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit associated with this data quality record
-        required: false
-        
+
       formName:
         title: Form Name
         range: string
@@ -184,19 +173,14 @@ classes:
 
   AssessmentAdministration:
     description: Assessment administration details and metadata
+    mixins: [SubjectIdentifierMixin]
     attributes:
       administrationId:
         title: Administration ID
         range: string
         description: Unique identifier for this administration record
         required: false
-        
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this administration
-        required: false
-        
+
       assessmentType:
         title: Assessment Type
         range: string

@@ -25,16 +25,12 @@ classes:
 
   MedicalHistory:
     description: Medical history and comorbidity tracking
+    mixins: [SubjectIdentifierMixin]
     attributes:
       medicalHistoryId:
         title: Medical History ID
         range: string
         description: Unique identifier for this medical history record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this medical history
         required: false
       # Significant Medical Conditions
       diabetes:
@@ -206,16 +202,12 @@ classes:
 
   Comorbidity:
     description: Individual comorbid condition tracking
+    mixins: [SubjectIdentifierMixin]
     attributes:
       comorbidityId:
         title: Comorbidity ID
         range: string
         description: Unique identifier for this comorbidity record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this comorbidity
         required: false
       conditionName:
         title: Condition Name

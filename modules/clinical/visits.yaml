@@ -1,19 +1,8 @@
 classes:
   Visit:
     description: Clinical visit or encounter information for longitudinal studies
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
-      visitId:
-        title: Visit ID
-        range: string
-        description: Unique identifier for the visit
-        required: false
-        
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this visit belongs to
-        required: false
-        
       visitName:
         title: Visit Name
         range: string

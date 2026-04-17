@@ -15,10 +15,6 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      originalSubjectId:
-        title: Original Subject ID
-        description: Original subject identifier as provided by the data source.
-        range: string
       beyn:
         title: Attempted
         description: Attempted?
@@ -71,10 +67,6 @@ classes:
       localUid:
         title: Local ID
         description: Local ID
-        range: string
-      originalSubjectId:
-        title: Original Subject ID
-        description: Original subject identifier as provided by the data source.
         range: string
       lpexc01Ieperf:
         title: Not Evaluated 1
@@ -159,10 +151,6 @@ classes:
       localUID:
         title: Local ID
         description: Local ID
-        range: string
-      originalSubjectId:
-        title: Original Subject ID
-        description: Original subject identifier as provided by the data source.
         range: string
       pryn:
         title: Reviewed
@@ -256,10 +244,6 @@ classes:
         title: Local ID
         description: Local ID
         range: string
-      originalSubjectId:
-        title: Original Subject ID
-        description: Original subject identifier as provided by the data source.
-        range: string
       assinc01Ieperf:
         title: Not Done IN01
         description: Not Done IN01
@@ -328,10 +312,6 @@ classes:
       localUid:
         title: Local ID
         description: Local ID
-        range: string
-      originalSubjectId:
-        title: Original Subject ID
-        description: Original subject identifier as provided by the data source.
         range: string
       ascinc01Ieperf:
         title: Not Done IN01

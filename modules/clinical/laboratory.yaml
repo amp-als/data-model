@@ -1,25 +1,8 @@
 classes:
   LaboratoryCollection:
     description: Laboratory specimen collection status and details
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this collection
-        required: false
-        
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit during which collection occurred
-        required: false
-        
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date of specimen collection
-        required: false
-        
       # Whole Blood Collection
       wholeBloodCollected:
         title: Whole Blood Collected
@@ -129,18 +112,6 @@ classes:
         title: Laboratory Result ID
         range: string
         description: Unique identifier for this lab result
-        required: false
-        
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this result
-        required: false
-        
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit during which specimen was collected
         required: false
         
       specimenType:

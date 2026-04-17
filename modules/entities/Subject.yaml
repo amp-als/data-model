@@ -1,203 +1,57 @@
 classes:
   Subject:
     description: Individual subject/participant record for various data sources
+    mixins: [DiseaseMixin, SubjectIdentifierMixin, SubjectDemographicsMixin]
     attributes:
-      globalSubjectId: 
-        title: Global Subject ID
-        range: string
-        description: > 
-          Globally unique identifier for a subject across all data sources. 
-          Format: {data_source_prefix}{dataset_id}{original_subject_id}
-        required: false
-        pattern: "^[a-zA-Z0-9_-]+$"
-      originalSubjectId: 
-        title: Original Subject ID
-        range: string
-        description: Original subject identifier provided by data source. 
-        required: false
-    
-      datasetReference: 
+      datasetReference:
         title: Dataset Reference
         range: string
         description: Reference to dataset this subject belongs to
         required: false
-
-      dataSourcePrefix: 
-        title: Data Source Prefix
-        range: DataSourceEnum
-        description: Short identifier indicating the data source origin 
-        required: false
-      
-      age:
-        title: Age
-        range: integer
-        description: Age of subject
-        required: false
-      
       diseaseDurationYears:
         title: Disease Duration (Years)
         range: float
         description: Duration of disease in years
         required: false
-      
       ageDiseaseOnset:
         title: Age at Disease Onset
         range: integer
         description: Age at disease onset
         required: false
-      
-      race:
-        title: Race/Ethnicity
-        range: RaceEnum
-        description: Race/ethnicity of subject
-        required: false
-      
       PMI:
         title: Post-mortem Interval
         range: float
         description: Post-mortem interval in hours
         required: false
-      
-      disease:
-        title: Disease
-        range: DiseaseEnum
-        description: Disease diagnosis
-        required: false
-
-      sampleType:
-        title: Sample Type
-        range: SampleTypeEnum
-        description: Classification of the sample (e.g. actual sample vs. control type)
-        required: false
-
-      diseaseSubtype:
-        title: Disease Subtype
-        description: Specific disease subtypes, genetic variants, or diagnostic criteria (can have multiple)
-        range: DiseaseSubtypeEnum
-        multivalued: true
-        required: false
-
-      sex:
-        title: Sex
-        range: SexEnum
-        description: Biological sex of subject
-        required: false
-      
       birthDate:
         title: Birth Date
         range: date
         description: Date of birth
         required: false
-      
-      heightCm:
-        title: Height (cm)
-        range: float
-        description: Height in centimeters
-        required: false
-        
-      weightKg:
-        title: Weight (kg)
-        range: float
-        description: Weight in kilograms
-        required: false
-        
       handedness:
         title: Handedness
         range: HandednessEnum
         description: Dominant hand preference
         required: false
-        
       yearsEducation:
         title: Years of Education
         range: integer
         description: Total years of formal education
         required: false
-        
       occupation:
         title: Occupation
         range: string
         description: Primary occupation or job title
         required: false
-        
       state:
         title: State/Province
         range: string
         description: State or province of residence
         required: false
-        
       zipCode:
         title: ZIP/Postal Code
         range: string
         description: ZIP or postal code
-        required: false
-
-      country:
-        title: Country
-        description: Country of residence or data collection site
-        range: string
-        required: false
-
-      yearOfSymptomOnset:
-        title: Year of Symptom Onset
-        description: Year when first ALS symptoms appeared
-        range: integer
-        required: false
-        minimum_value: 1900
-        maximum_value: 2100
-
-      yearOfDiagnosis:
-        title: Year of ALS Diagnosis
-        description: Year when ALS diagnosis was made
-        range: integer
-        required: false
-        minimum_value: 1900
-        maximum_value: 2100
-
-      # Genetic Ancestry Proportions (0.0 to 1.0 scale)
-      propAfricanGeneticAncestry:
-        title: Proportion African Genetic Ancestry
-        description: Proportion of African genetic ancestry from admixture analysis
-        range: float
-        required: false
-        minimum_value: 0.0
-        maximum_value: 1.0
-
-      propEuropeanGeneticAncestry:
-        title: Proportion European Genetic Ancestry
-        description: Proportion of European genetic ancestry from admixture analysis
-        range: float
-        required: false
-        minimum_value: 0.0
-        maximum_value: 1.0
-
-      propSouthAsianGeneticAncestry:
-        title: Proportion South Asian Genetic Ancestry
-        description: Proportion of South Asian genetic ancestry from admixture analysis
-        range: float
-        required: false
-        minimum_value: 0.0
-        maximum_value: 1.0
-
-      propEastAsianGeneticAncestry:
-        title: Proportion East Asian Genetic Ancestry
-        description: Proportion of East Asian genetic ancestry from admixture analysis
-        range: float
-        required: false
-        minimum_value: 0.0
-        maximum_value: 1.0
-
-      propNativeAmericanGeneticAncestry:
-        title: Proportion Native American Genetic Ancestry
-        description: Proportion of Native American genetic ancestry from admixture analysis
-        range: float
-        required: false
-        minimum_value: 0.0
-        maximum_value: 1.0
-
-      ethnicity:
-        title: Ethnicity
-        description: Ethnicity of subject
-        range: EthnicityEnum
         required: false
 enums:
   DataSourceEnum:

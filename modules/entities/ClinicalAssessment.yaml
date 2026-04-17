@@ -1,25 +1,14 @@
 classes:
   ClinicalAssessment:
     description: Clinical assessment and outcome measures for subjects
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this assessment belongs to
-        required: false
-        
       assessmentDate:
         title: Assessment Date
         range: date
         description: Date when the assessment was performed
         required: false
-        
-      visitId:
-        title: Visit ID
-        range: string
-        description: Identifier for the clinical visit
-        required: false
-        
+
       assessmentType:
         title: Assessment Type
         range: AssessmentTypeEnum

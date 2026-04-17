@@ -1,13 +1,8 @@
 classes:
   StudyDisposition:
     description: Study completion, termination, and final disposition information
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this disposition belongs to
-        required: false
-        
       studyCompletionStatus:
         title: Study Completion Status
         range: CompletionStatusEnum
@@ -108,13 +103,8 @@ classes:
 
   Eligibility:
     description: Study eligibility criteria and enrollment information
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this eligibility assessment belongs to
-        required: false
-        
       eligibilityDate:
         title: Eligibility Assessment Date
         range: date
@@ -253,25 +243,14 @@ classes:
 
   ProtocolDeviation:
     description: Protocol deviations and violations tracking
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
       deviationId:
         title: Deviation ID
         range: string
         description: Unique identifier for the protocol deviation
         required: false
-        
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject with protocol deviation
-        required: false
-        
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit where deviation occurred
-        required: false
-        
+
       deviationDate:
         title: Deviation Date
         range: date

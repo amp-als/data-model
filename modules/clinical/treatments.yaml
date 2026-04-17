@@ -1,6 +1,7 @@
 classes:
   Treatment:
     description: Treatment and medication information for subjects
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
       reviewed:
         title: Reviewed
@@ -21,16 +22,6 @@ classes:
         title: Treatment ID
         range: string
         description: Unique identifier for this treatment record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject receiving this treatment
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit where treatment was recorded
         required: false
       # Medication Details
       medicationName:
@@ -224,12 +215,8 @@ classes:
 
   MedicalDevice:
     description: Medical devices used by subjects
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject using this device
-        required: false
       deviceType:
         title: Device Type
         range: DeviceTypeEnum
@@ -258,12 +245,8 @@ classes:
 
   AdverseEvent:
     description: Adverse events and safety monitoring
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject experiencing the event
-        required: false
       eventDescription:
         title: Event Description
         range: string

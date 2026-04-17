@@ -1,12 +1,8 @@
 classes:
   GeneticProfile:
     description: Genetic testing results and family history information for subjects
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this genetic profile belongs to
-        required: false
       previousGeneticTesting:
         title: Previous Genetic Testing
         range: boolean
@@ -59,12 +55,8 @@ classes:
         required: false
   GeneticVariant:
     description: Specific genetic variant found in testing
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this variant belongs to
-        required: false
       geneName:
         title: Gene Name
         range: ALSGeneEnum
@@ -97,12 +89,8 @@ classes:
         required: false
   FamilyHistory:
     description: Detailed family history information
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this family history belongs to
-        required: false
       detailedFamilyHistoryObtained:
         title: Detailed Family History Obtained
         range: boolean

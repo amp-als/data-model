@@ -1,0 +1,252 @@
+#######################################
+# Common Mixins
+# Reusable attribute groups shared across files, datasets, and subjects
+#######################################
+
+classes:
+  SubjectIdentifierMixin:
+    mixin: true
+    description: Mixin for subject identifier attributes shared across subjects, files, and clinical records
+    attributes:
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: >
+          Globally unique identifier for a subject across all data sources.
+          Format: {data_source_prefix}{dataset_id}{original_subject_id}
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+$"
+      originalSubjectId:
+        title: Original Subject ID
+        range: string
+        description: Original subject identifier as provided by the data source.
+        required: false
+      dataSourcePrefix:
+        title: Data Source Prefix
+        range: DataSourceEnum
+        description: Short identifier indicating the data source origin.
+        required: false
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type).
+        required: false
+
+  ClinicalRecordMixin:
+    mixin: true
+    description: Mixin for attributes linking clinical records to a specific visit
+    attributes:
+      visitId:
+        title: Visit ID
+        range: string
+        description: Unique identifier for the clinical visit during which data was collected.
+        required: false
+
+  SpecimenTypeMixin:
+    mixin: true
+    description: Mixin for biospecimen and cell type attributes shared across biospecimen records and omic data
+    attributes:
+      biospecimenType:
+        title: Biospecimen Type
+        range: BiospecimenTypeEnum
+        description: Type of biological specimen(s).
+        multivalued: true
+        required: false
+      cellType:
+        title: Cell Type
+        range: CellTypeEnum
+        description: Type of cell or cell line used.
+        multivalued: true
+        required: false
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
+        required: false
+
+  SubjectDemographicsMixin:
+    mixin: true
+    description: Mixin for subject demographic and phenotypic attributes shared across subject records and omic files
+    attributes:
+      age:
+        title: Age
+        range: integer
+        description: Age of subject in years.
+        required: false
+      sex:
+        title: Sex
+        range: SexEnum
+        description: Biological sex of subject.
+        required: false
+      race:
+        title: Race/Ethnicity
+        range: RaceEnum
+        description: Race/ethnicity of subject.
+        required: false
+      ethnicity:
+        title: Ethnicity
+        range: EthnicityEnum
+        description: Ethnicity of subject.
+        required: false
+      country:
+        title: Country
+        range: string
+        description: Country of residence or data collection site.
+        required: false
+      heightCm:
+        title: Height (cm)
+        range: float
+        description: Height of subject in centimeters.
+        required: false
+      weightKg:
+        title: Weight (kg)
+        range: float
+        description: Weight of subject in kilograms.
+        required: false
+      yearOfSymptomOnset:
+        title: Year of Symptom Onset
+        range: integer
+        description: Year when first ALS symptoms appeared.
+        required: false
+        minimum_value: 1900
+        maximum_value: 2100
+      yearOfDiagnosis:
+        title: Year of ALS Diagnosis
+        range: integer
+        description: Year when ALS diagnosis was made.
+        required: false
+        minimum_value: 1900
+        maximum_value: 2100
+      propAfricanGeneticAncestry:
+        title: Proportion African Genetic Ancestry
+        range: float
+        description: Proportion of African genetic ancestry from admixture analysis.
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propEuropeanGeneticAncestry:
+        title: Proportion European Genetic Ancestry
+        range: float
+        description: Proportion of European genetic ancestry from admixture analysis.
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propSouthAsianGeneticAncestry:
+        title: Proportion South Asian Genetic Ancestry
+        range: float
+        description: Proportion of South Asian genetic ancestry from admixture analysis.
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propEastAsianGeneticAncestry:
+        title: Proportion East Asian Genetic Ancestry
+        range: float
+        description: Proportion of East Asian genetic ancestry from admixture analysis.
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+      propNativeAmericanGeneticAncestry:
+        title: Proportion Native American Genetic Ancestry
+        range: float
+        description: Proportion of Native American genetic ancestry from admixture analysis.
+        required: false
+        minimum_value: 0.0
+        maximum_value: 1.0
+
+  CommonMetadataMixin:
+    mixin: true
+    description: Mixin for metadata attributes shared across all file and dataset types
+    attributes:
+      description:
+        title: Description
+        range: string
+        description: Brief description; should be no more than 500 characters.
+        required: false
+      alternateName:
+        title: Alternate Name
+        description: An alternate name that can be used for search and discovery improvement.
+        range: string
+        required: false
+      creator:
+        title: Creator
+        range: string
+        description: Properly formatted name of the organization or person that is creator of the resource (e.g. "Sage Bionetworks" or "John Doe"), not an id.
+        multivalued: true
+        required: false
+      contributor:
+        title: Contributor(s)
+        range: string
+        description: Institution or person responsible for collecting and managing the files and records in the resource.
+        multivalued: true
+        required: false
+      subject:
+        title: Subject
+        range: string
+        description: Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
+        multivalued: true
+        required: false
+      species:
+        title: Species
+        range: SpeciesEnum
+        description: Species of the organism(s) from which the data were generated. Omit if not applicable.
+        multivalued: true
+        required: false
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection(s).
+        multivalued: true
+        required: false
+      includedInDataCatalog:
+        title: Included In Data Catalog
+        description: Link(s) to known data catalog(s) this resource is included in.
+        range: string
+        required: false
+      citation:
+        title: Citation
+        range: string
+        multivalued: true
+        description: Academic articles recommended by the data provider to cite in addition to the resource itself.
+        required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the resource available.
+        required: false
+      license:
+        title: License
+        range: License
+        description: Unless information for license is clear, this should default to UNKNOWN.
+        required: false
+      source:
+        title: Source
+        range: string
+        description: Host platform from which the resource was sourced.
+        required: true
+      url:
+        title: URL
+        range: string
+        description: URL for the original resource location at source.
+        required: false
+      sameAs:
+        title: Same As
+        range: string
+        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
+        required: false
+
+  DiseaseMixin:
+    mixin: true
+    description: Mixin for disease and disease subtype attributes shared across files, datasets, and subjects
+    attributes:
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease(s) or condition(s) associated with the data.
+        required: false
+        multivalued: true
+      diseaseSubtype:
+        title: Disease Subtype
+        range: DiseaseSubtypeEnum
+        description: Specific disease subtypes, genetic variants, or diagnostic criteria (e.g., C9orf72, SOD1, familial).
+        required: false
+        multivalued: true

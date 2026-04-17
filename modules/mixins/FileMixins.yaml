@@ -4,9 +4,27 @@
 #######################################
 
 classes:
+  FileAnnotationsMixin:
+    mixin: true
+    description: Mixin for biological annotation and analysis method attributes shared across file types
+    attributes:
+      annotations:
+        title: Biological Annotations
+        range: AnnotationTypeEnum
+        description: Types of biological databases and annotations referenced in this file.
+        multivalued: true
+        required: false
+      analysisTypes:
+        title: Analysis Types
+        range: AnalysisMethodEnum
+        description: Computational and statistical analysis methods applied to the data.
+        multivalued: true
+        required: false
+
   ClinicalFileMixin:
     mixin: true
     description: Mixin for clinical file specific attributes
+    mixins: [SubjectIdentifierMixin, FileAnnotationsMixin]
     attributes:
       clinicalDomain:
         title: Clinical Domain
@@ -24,40 +42,11 @@ classes:
         range: string
         description: Type of clinical visit (baseline, follow-up, etc.)
         required: false
-      analysisTypes:
-        title: Analysis Types
-        range: AnalysisMethodEnum
-        description: Computational and statistical analysis methods applied to the data
-        multivalued: true
-        required: false
-      annotations:
-        title: Biological Annotations
-        range: AnnotationTypeEnum
-        description: Types of biological databases and annotations referenced in this file
-        multivalued: true
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: >
-          Globally unique identifier for a subject across all data sources.
-          Format: {data_source_prefix}{dataset_id}{original_subject_id}
-        required: false
-        pattern: "^[a-zA-Z0-9_-]+$"
-      originalSubjectId:
-        title: Original Subject ID
-        range: string
-        description: Original subject identifier as provided by the data source.
-        required: false
-      sampleType:
-        title: Sample Type
-        range: SampleTypeEnum
-        description: Classification of the sample (e.g. actual sample vs. control type)
-        required: false
 
   OmicFileMixin:
     mixin: true
     description: Mixin for omic file specific attributes
+    mixins: [SubjectIdentifierMixin, SpecimenTypeMixin, FileAnnotationsMixin, SubjectDemographicsMixin]
     attributes:
       assay:
         title: Measurement Technique
@@ -100,46 +89,4 @@ classes:
         title: Reference Genome
         range: GenomicReferenceEnum
         description: Reference genome used for alignment.
-        required: false
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen(s) in the file.
-        multivalued: true
-        required: false
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used in the file.
-        multivalued: true
-        required: false
-      annotations:
-        title: Biological Annotations
-        range: AnnotationTypeEnum
-        description: Types of biological databases and annotations referenced in this file
-        multivalued: true
-        required: false
-      analysisTypes:
-        title: Analysis Types
-        range: AnalysisMethodEnum
-        description: Computational and statistical analysis methods applied to the data
-        multivalued: true
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: >
-          Globally unique identifier for a subject across all data sources.
-          Format: {data_source_prefix}{dataset_id}{original_subject_id}
-        required: false
-        pattern: "^[a-zA-Z0-9_-]+$"
-      originalSubjectId:
-        title: Original Subject ID
-        range: string
-        description: Original subject identifier as provided by the data source.
-        required: false
-      sampleType:
-        title: Sample Type
-        range: SampleTypeEnum
-        description: Classification of the sample (e.g. actual sample vs. control type)
         required: false

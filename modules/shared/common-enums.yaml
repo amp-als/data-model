@@ -217,11 +217,11 @@ enums:
         description: Atypical presentation for GM1 antibody-associated disease
 
       # ALS clinical subtypes
-      Lower motor neuron predominant ALS (LMND):
+      LMND:
         description: ALS with predominant lower motor neuron involvement
       ALS- LMND (lower motor neuron dominant):
         description: ALS with lower motor neuron dominant presentation
-      Upper motor neuron predominant ALS (UMND):
+      UMND:
         description: ALS with predominant upper motor neuron involvement
       ALS UMN-Predominant:
         description: ALS with upper motor neuron predominant presentation
@@ -235,7 +235,7 @@ enums:
         description: Pure lower motor neuron ALS (PICALS)
       Pseudopolyneuritic form of ALS:
         description: ALS presenting with a pseudopolyneuritic pattern
-      MND (unspecified, non-ALS ALS Spectrum MND), Frontotemporal Dementia (FTD):
+      MND (unspecified, non-ALS ALS Spectrum MND), FTD:
         description: Unspecified non-ALS motor neuron disease with frontotemporal dementia
       Non-ALS MND, Seizures:
         description: Non-ALS motor neuron disease with seizures
@@ -246,11 +246,11 @@ enums:
         description: PLS with predominant upper motor neuron involvement
       Progressive muscular atrophy (PMA) (LMN only):
         description: Progressive muscular atrophy with lower motor neuron signs only
-      Primary Lateral Sclerosis (PLS) or Progressive Muscular Atrophy (PMA):
+      PLS or PMA:
         description: Diagnosis of either PLS or PMA
 
       # FTD and PPA subtypes
-      Behavioral Variant Frontotemporal Dementia (bvFTD):
+      bvFTD:
         description: Behavioral variant frontotemporal dementia
       Clinical FTD (behavioral variant):
         description: Clinically diagnosed FTD behavioral variant
@@ -268,23 +268,19 @@ enums:
         description: Clinically diagnosed FTD with PSP features
       Clinical FTD (corticobasal syndrome):
         description: Clinically diagnosed FTD with corticobasal syndrome
-      Primary Progressive Aphasia (PPA):
+      PPA:
         description: Primary progressive aphasia
-      Primary Progressive Aphasia:
-        description: Primary progressive aphasia
-      Primary Progressive Aphasia (naPPA):
-        description: Primary progressive aphasia, nonfluent/agrammatic variant
       Progressive Aphasia:
         description: Progressive aphasia
-      Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA):
+      naPPA:
         description: Nonfluent/agrammatic variant primary progressive aphasia
-      Semantic Variant Primary Progressive Aphasia (svPPA):
+      svPPA:
         description: Semantic variant primary progressive aphasia
-      Logopenic Variant Primary Progressive Aphasia (lvPPA):
+      lvPPA:
         description: Logopenic variant primary progressive aphasia
-      Behavioral Variant Frontotemporal Dementia (bvFTD), Semantic Variant Primary Progressive Aphasia (svPPA):
+      bvFTD, svPPA:
         description: bvFTD co-occurring with semantic variant PPA
-      Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA), Frontotemporal Dementia (FTD):
+      naPPA, FTD:
         description: Nonfluent PPA with frontotemporal dementia
 
       # DLB / Lewy Body subtypes
@@ -332,9 +328,9 @@ enums:
         description: Pathological DLB, not otherwise specified
 
       # Other neurodegenerative diseases not in DiseaseEnum
-      Corticobasal Syndrome (CBS):
+      CBS:
         description: Corticobasal syndrome
-      Progressive Supranuclear Palsy (PSP):
+      PSP:
         description: Progressive supranuclear palsy
       Huntington's Disease-like (HDL) Syndrome:
         description: Huntington's disease-like syndrome
@@ -342,49 +338,49 @@ enums:
         description: Vascular dementia
       Dementia (NOS):
         description: Dementia, not otherwise specified
-      Hereditary Spastic Paraplegia (HSP):
+      HSP:
         description: Hereditary spastic paraplegia
 
       # Carriers
       NEK1 Family:
         description: Family member with NEK1 variant
-      Pre-fALS, Mild Cognitive Impairment (MCI):
+      Pre-fALS, MCI:
         description: Pre-symptomatic familial ALS with mild cognitive impairment
 
       # Non-neurological controls
       Non-Neurological Control with family history of ALS:
         description: Non-neurological control subject with family history of ALS
-      Non-Neurological Control with family history of Frontotemporal Dementia (FTD) and Alzheimer's Disease (AD):
+      Non-Neurological Control with family history of FTD and AD:
         description: Non-neurological control with family history of FTD and AD
-      Non-Neurological Control with family history of Alzheimer's Disease (AD), Frontotemporal Dementia (FTD):
+      Non-Neurological Control with family history of AD, FTD:
         description: Non-neurological control with family history of AD and FTD
 
       # ALS with comorbidities
-      Classical/Typical ALS, Frontotemporal Dementia (FTD):
+      Classical/Typical ALS, FTD:
         description: Classical ALS with frontotemporal dementia
-      Classical/Typical ALS, Alzheimer's Disease (AD):
+      Classical/Typical ALS, AD:
         description: Classical ALS with Alzheimer's disease
-      Classical/Typical ALS, Parkinson's Disease (PD):
+      Classical/Typical ALS, PD:
         description: Classical ALS with Parkinson's disease
       Classical/Typical ALS, Dementia (NOS):
         description: Classical ALS with dementia (NOS)
-      Classical/Typical ALS, Mild Cognitive Impairment (MCI):
+      Classical/Typical ALS, MCI:
         description: Classical ALS with mild cognitive impairment
-      Classical/Typical ALS, Behavioral Variant Frontotemporal Dementia (bvFTD):
+      Classical/Typical ALS, bvFTD:
         description: Classical ALS with behavioral variant FTD
-      Classical/Typical ALS, Alzheimer's Disease (AD), Frontotemporal Dementia (FTD):
+      Classical/Typical ALS, AD, FTD:
         description: Classical ALS with Alzheimer's disease and FTD
-      Classical/Typical ALS, Frontotemporal Dementia (FTD), Parkinson's Disease (PD):
+      Classical/Typical ALS, FTD, PD:
         description: Classical ALS with FTD and Parkinson's disease
-      Classical/Typical ALS, Parkinson's Disease, Frontotemporal Dementia (FTD):
+      Classical/Typical ALS, PD, FTD:
         description: Classical ALS with Parkinson's disease and FTD
-      Classical/Typical ALS, Frontotemporal Dementia (FTD), Alzheimer's Disease (AD):
+      Classical/Typical ALS, FTD, AD:
         description: Classical ALS with FTD and Alzheimer's disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Chronic Traumatic Encephalopathy (CTE):
+      Classical/Typical ALS, AD, CTE:
         description: Classical ALS with AD and CTE
-      Classical/Typical ALS, Chronic Traumatic Encephalopathy (CTE):
+      Classical/Typical ALS, CTE:
         description: Classical ALS with chronic traumatic encephalopathy
-      Classical/Typical ALS, Dementia with Lewy Bodies (DLB):
+      Classical/Typical ALS, DLB:
         description: Classical ALS with dementia with Lewy bodies
       Classical/Typical ALS, Radiculopathy:
         description: Classical ALS with radiculopathy
@@ -400,29 +396,29 @@ enums:
         description: Classical ALS with sensory neuropathy and seizure
       Classical/Typical ALS, Myasthenia Gravis:
         description: Classical ALS with myasthenia gravis
-      Classical/Typical ALS, Mild Cognitive Impairment (MCI), Myasthenia Gravis:
+      Classical/Typical ALS, MCI, Myasthenia Gravis:
         description: Classical ALS with MCI and myasthenia gravis
-      Classical/Typical ALS, Hereditary Spastic Paraplegia (HSP), Sensorimotor Polyneuropathy:
+      Classical/Typical ALS, HSP, Sensorimotor Polyneuropathy:
         description: Classical ALS with HSP and sensorimotor polyneuropathy
       Classical/Typical ALS, Chronic Axonal Polyneuropathy, Sensory Axonal Neuropathy:
         description: Classical ALS with chronic axonal polyneuropathy and sensory axonal neuropathy
       Classical/Typical ALS, Left Ulnar Neuropathy:
         description: Classical ALS with left ulnar neuropathy
-      Classical/Typical ALS, Parkinson's Disease (PD), Bulbar Paralysis:
+      Classical/Typical ALS, PD, Bulbar Paralysis:
         description: Classical ALS with Parkinson's disease and bulbar paralysis
-      Classical/Typical ALS, Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA):
+      Classical/Typical ALS, naPPA:
         description: Classical ALS with nonfluent/agrammatic PPA
-      Classical/Typical ALS, Behavioral Variant Frontotemporal Dementia (bvFTD), Progressive Aphasia:
+      Classical/Typical ALS, bvFTD, Progressive Aphasia:
         description: Classical ALS with bvFTD and progressive aphasia
-      Classical/Typical ALS, Charcot-Marie-Tooth Disease (CMT):
+      Classical/Typical ALS, CMT:
         description: Classical ALS with Charcot-Marie-Tooth disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Argyrophilic Grain Disease (AGD) Stage II, Cerebral Amyloid Angiopathy (CAA):
+      Classical/Typical ALS, AD, AGD Stage II, CAA:
         description: Classical ALS with AD, AGD Stage II, and CAA
-      Classical/Typical ALS, Argyrophilic Grain Disease (AGD) Stage II-III, Cerebrovascular Disease (Not Contributing to Dementia):
+      Classical/Typical ALS, AGD Stage II-III, Cerebrovascular Disease (Not Contributing to Dementia):
         description: Classical ALS with AGD Stage II-III and cerebrovascular disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Acute Meningitis, Cerebrovascular Disease (Not Contributing to Dementia):
+      Classical/Typical ALS, AD, Acute Meningitis, Cerebrovascular Disease (Not Contributing to Dementia):
         description: Classical ALS with AD, acute meningitis, and cerebrovascular disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Acute Hypoxic-Ischemic Changes, Hippocampus:
+      Classical/Typical ALS, AD, Acute Hypoxic-Ischemic Changes, Hippocampus:
         description: Classical ALS with AD and acute hypoxic-ischemic hippocampal changes
       Classical/Typical ALS, Mild Diffuse Subpial Gliosis, Mild Hypertensive Vasculopathy:
         description: Classical ALS with mild diffuse subpial gliosis and hypertensive vasculopathy
@@ -434,41 +430,41 @@ enums:
         description: Classical ALS with cognitive problems and memory impairment
       Classical/Typical ALS, Sheehan's Syndrome:
         description: Classical ALS with Sheehan's syndrome
-      Classical/Typical ALS, Frontotemporal Dementia (FTD), Metastatic Carcinoma, Superior Parietal Lobe, Left:
+      Classical/Typical ALS, FTD, Metastatic Carcinoma, Superior Parietal Lobe, Left:
         description: Classical ALS with FTD and metastatic carcinoma of the left superior parietal lobe
-      Amyotrophic Lateral Sclerosis (ALS), Dementia (NOS):
+      ALS, Dementia (NOS):
         description: ALS with dementia (NOS)
 
       # PLS / PMA / PBP with comorbidities
-      Primary Lateral Sclerosis (PLS), Frontotemporal Dementia (FTD):
+      PLS, FTD:
         description: PLS with frontotemporal dementia
-      Primary Lateral Sclerosis (PLS), Peripheral Neuropathy:
+      PLS, Peripheral Neuropathy:
         description: PLS with peripheral neuropathy
-      Primary Lateral Sclerosis (PLS), Radiculopathy:
+      PLS, Radiculopathy:
         description: PLS with radiculopathy
-      Primary Lateral Sclerosis (PLS), Huntington's Disease-like (HDL) Syndrome:
+      PLS, HDL Syndrome:
         description: PLS with Huntington's disease-like syndrome
-      Progressive Muscular Atrophy (PMA), Diabetic Polyneuropathy:
+      PMA, Diabetic Polyneuropathy:
         description: PMA with diabetic polyneuropathy
-      Progressive Muscular Atrophy (PMA), Dementia (NOS):
+      PMA, Dementia (NOS):
         description: PMA with dementia (NOS)
-      Progressive Muscular Atrophy (PMS):
+      PMA:
         description: Progressive muscular atrophy (variant notation)
-      Progressive Bulbar Palsy, Parkinson's Disease (PD):
+      Progressive Bulbar Palsy, PD:
         description: Progressive bulbar palsy with Parkinson's disease
 
       # FTD / dementia with comorbidities
-      Frontotemporal Dementia (FTD), Progressive Supranuclear Palsy (PSP):
+      FTD, PSP:
         description: FTD with progressive supranuclear palsy
       Dementia (NOS), Progressive Aphasia:
         description: Dementia (NOS) with progressive aphasia
-      Dementia with Lewy Bodies (DLB), Peripheral Neuropathy:
+      DLB, Peripheral Neuropathy:
         description: DLB with peripheral neuropathy
 
       # Neuromuscular and other conditions
-      Inclusion Body Myositis (IBM):
+      IBM-myositis:
         description: Inclusion body myositis
-      Inclusion Body Myopathy (IBM):
+      IBM-myopathy:
         description: Inclusion body myopathy
       Dermatomyositis:
         description: Dermatomyositis
@@ -476,7 +472,7 @@ enums:
         description: Polymyositis
       Distal Myopathy:
         description: Distal myopathy
-      Facioscapulohumeral Muscular Dystrophy (FSHD):
+      FSHD:
         description: Facioscapulohumeral muscular dystrophy
       Monomelic Amyotrophy:
         description: Monomelic amyotrophy
@@ -577,8 +573,6 @@ enums:
         description: other onset sites
       Cognitive:
         description: cognitive or behavioral changes (Frontotemporal Dementia) may be the first sign of the disease, appearing months or even years before any muscle weakness. 
-      Limb:
-        description: symptoms first appear in the arms or legs
       Head Drop: 
         description: Dropped Head Syndrome (DHS) as the very first manifestation of a disease. severe weakness in the neck extensor muscles. Patients find it difficult or impossible to hold their head upright, leading to a "chin-on-chest" posture.
       Unknown:

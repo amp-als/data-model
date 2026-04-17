@@ -346,11 +346,11 @@ enums:
       Atypical for GM1 ab:
         description: Atypical presentation for GM1 antibody-associated disease
       # ALS clinical subtypes
-      Lower motor neuron predominant ALS (LMND):
+      LMND:
         description: ALS with predominant lower motor neuron involvement
       ALS- LMND (lower motor neuron dominant):
         description: ALS with lower motor neuron dominant presentation
-      Upper motor neuron predominant ALS (UMND):
+      UMND:
         description: ALS with predominant upper motor neuron involvement
       ALS UMN-Predominant:
         description: ALS with upper motor neuron predominant presentation
@@ -364,7 +364,7 @@ enums:
         description: Pure lower motor neuron ALS (PICALS)
       Pseudopolyneuritic form of ALS:
         description: ALS presenting with a pseudopolyneuritic pattern
-      MND (unspecified, non-ALS ALS Spectrum MND), Frontotemporal Dementia (FTD):
+      MND (unspecified, non-ALS ALS Spectrum MND), FTD:
         description: Unspecified non-ALS motor neuron disease with frontotemporal dementia
       Non-ALS MND, Seizures:
         description: Non-ALS motor neuron disease with seizures
@@ -375,10 +375,10 @@ enums:
         description: PLS with predominant upper motor neuron involvement
       Progressive muscular atrophy (PMA) (LMN only):
         description: Progressive muscular atrophy with lower motor neuron signs only
-      Primary Lateral Sclerosis (PLS) or Progressive Muscular Atrophy (PMA):
+      PLS or PMA:
         description: Diagnosis of either PLS or PMA
       # FTD and PPA subtypes
-      Behavioral Variant Frontotemporal Dementia (bvFTD):
+      bvFTD:
         description: Behavioral variant frontotemporal dementia
       Clinical FTD (behavioral variant):
         description: Clinically diagnosed FTD behavioral variant
@@ -396,23 +396,19 @@ enums:
         description: Clinically diagnosed FTD with PSP features
       Clinical FTD (corticobasal syndrome):
         description: Clinically diagnosed FTD with corticobasal syndrome
-      Primary Progressive Aphasia (PPA):
+      PPA:
         description: Primary progressive aphasia
-      Primary Progressive Aphasia:
-        description: Primary progressive aphasia
-      Primary Progressive Aphasia (naPPA):
-        description: Primary progressive aphasia, nonfluent/agrammatic variant
       Progressive Aphasia:
         description: Progressive aphasia
-      Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA):
+      naPPA:
         description: Nonfluent/agrammatic variant primary progressive aphasia
-      Semantic Variant Primary Progressive Aphasia (svPPA):
+      svPPA:
         description: Semantic variant primary progressive aphasia
-      Logopenic Variant Primary Progressive Aphasia (lvPPA):
+      lvPPA:
         description: Logopenic variant primary progressive aphasia
-      Behavioral Variant Frontotemporal Dementia (bvFTD), Semantic Variant Primary Progressive Aphasia (svPPA):
+      bvFTD, svPPA:
         description: bvFTD co-occurring with semantic variant PPA
-      Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA), Frontotemporal Dementia (FTD):
+      naPPA, FTD:
         description: Nonfluent PPA with frontotemporal dementia
       # DLB / Lewy Body subtypes
       Clinical DLB (Probable):
@@ -456,9 +452,9 @@ enums:
       Pathological DLB NOS:
         description: Pathological DLB, not otherwise specified
       # Other neurodegenerative diseases not in DiseaseEnum
-      Corticobasal Syndrome (CBS):
+      CBS:
         description: Corticobasal syndrome
-      Progressive Supranuclear Palsy (PSP):
+      PSP:
         description: Progressive supranuclear palsy
       Huntington's Disease-like (HDL) Syndrome:
         description: Huntington's disease-like syndrome
@@ -466,46 +462,46 @@ enums:
         description: Vascular dementia
       Dementia (NOS):
         description: Dementia, not otherwise specified
-      Hereditary Spastic Paraplegia (HSP):
+      HSP:
         description: Hereditary spastic paraplegia
       # Carriers
       NEK1 Family:
         description: Family member with NEK1 variant
-      Pre-fALS, Mild Cognitive Impairment (MCI):
+      Pre-fALS, MCI:
         description: Pre-symptomatic familial ALS with mild cognitive impairment
       # Non-neurological controls
       Non-Neurological Control with family history of ALS:
         description: Non-neurological control subject with family history of ALS
-      Non-Neurological Control with family history of Frontotemporal Dementia (FTD) and Alzheimer's Disease (AD):
+      Non-Neurological Control with family history of FTD and AD:
         description: Non-neurological control with family history of FTD and AD
-      Non-Neurological Control with family history of Alzheimer's Disease (AD), Frontotemporal Dementia (FTD):
+      Non-Neurological Control with family history of AD, FTD:
         description: Non-neurological control with family history of AD and FTD
       # ALS with comorbidities
-      Classical/Typical ALS, Frontotemporal Dementia (FTD):
+      Classical/Typical ALS, FTD:
         description: Classical ALS with frontotemporal dementia
-      Classical/Typical ALS, Alzheimer's Disease (AD):
+      Classical/Typical ALS, AD:
         description: Classical ALS with Alzheimer's disease
-      Classical/Typical ALS, Parkinson's Disease (PD):
+      Classical/Typical ALS, PD:
         description: Classical ALS with Parkinson's disease
       Classical/Typical ALS, Dementia (NOS):
         description: Classical ALS with dementia (NOS)
-      Classical/Typical ALS, Mild Cognitive Impairment (MCI):
+      Classical/Typical ALS, MCI:
         description: Classical ALS with mild cognitive impairment
-      Classical/Typical ALS, Behavioral Variant Frontotemporal Dementia (bvFTD):
+      Classical/Typical ALS, bvFTD:
         description: Classical ALS with behavioral variant FTD
-      Classical/Typical ALS, Alzheimer's Disease (AD), Frontotemporal Dementia (FTD):
+      Classical/Typical ALS, AD, FTD:
         description: Classical ALS with Alzheimer's disease and FTD
-      Classical/Typical ALS, Frontotemporal Dementia (FTD), Parkinson's Disease (PD):
+      Classical/Typical ALS, FTD, PD:
         description: Classical ALS with FTD and Parkinson's disease
-      Classical/Typical ALS, Parkinson's Disease, Frontotemporal Dementia (FTD):
+      Classical/Typical ALS, PD, FTD:
         description: Classical ALS with Parkinson's disease and FTD
-      Classical/Typical ALS, Frontotemporal Dementia (FTD), Alzheimer's Disease (AD):
+      Classical/Typical ALS, FTD, AD:
         description: Classical ALS with FTD and Alzheimer's disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Chronic Traumatic Encephalopathy (CTE):
+      Classical/Typical ALS, AD, CTE:
         description: Classical ALS with AD and CTE
-      Classical/Typical ALS, Chronic Traumatic Encephalopathy (CTE):
+      Classical/Typical ALS, CTE:
         description: Classical ALS with chronic traumatic encephalopathy
-      Classical/Typical ALS, Dementia with Lewy Bodies (DLB):
+      Classical/Typical ALS, DLB:
         description: Classical ALS with dementia with Lewy bodies
       Classical/Typical ALS, Radiculopathy:
         description: Classical ALS with radiculopathy
@@ -521,29 +517,29 @@ enums:
         description: Classical ALS with sensory neuropathy and seizure
       Classical/Typical ALS, Myasthenia Gravis:
         description: Classical ALS with myasthenia gravis
-      Classical/Typical ALS, Mild Cognitive Impairment (MCI), Myasthenia Gravis:
+      Classical/Typical ALS, MCI, Myasthenia Gravis:
         description: Classical ALS with MCI and myasthenia gravis
-      Classical/Typical ALS, Hereditary Spastic Paraplegia (HSP), Sensorimotor Polyneuropathy:
+      Classical/Typical ALS, HSP, Sensorimotor Polyneuropathy:
         description: Classical ALS with HSP and sensorimotor polyneuropathy
       Classical/Typical ALS, Chronic Axonal Polyneuropathy, Sensory Axonal Neuropathy:
         description: Classical ALS with chronic axonal polyneuropathy and sensory axonal neuropathy
       Classical/Typical ALS, Left Ulnar Neuropathy:
         description: Classical ALS with left ulnar neuropathy
-      Classical/Typical ALS, Parkinson's Disease (PD), Bulbar Paralysis:
+      Classical/Typical ALS, PD, Bulbar Paralysis:
         description: Classical ALS with Parkinson's disease and bulbar paralysis
-      Classical/Typical ALS, Non-Fluent/Agrammatic Variant Primary Progressive Aphasia (naPPA):
+      Classical/Typical ALS, naPPA:
         description: Classical ALS with nonfluent/agrammatic PPA
-      Classical/Typical ALS, Behavioral Variant Frontotemporal Dementia (bvFTD), Progressive Aphasia:
+      Classical/Typical ALS, bvFTD, Progressive Aphasia:
         description: Classical ALS with bvFTD and progressive aphasia
-      Classical/Typical ALS, Charcot-Marie-Tooth Disease (CMT):
+      Classical/Typical ALS, CMT:
         description: Classical ALS with Charcot-Marie-Tooth disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Argyrophilic Grain Disease (AGD) Stage II, Cerebral Amyloid Angiopathy (CAA):
+      Classical/Typical ALS, AD, AGD Stage II, CAA:
         description: Classical ALS with AD, AGD Stage II, and CAA
-      Classical/Typical ALS, Argyrophilic Grain Disease (AGD) Stage II-III, Cerebrovascular Disease (Not Contributing to Dementia):
+      Classical/Typical ALS, AGD Stage II-III, Cerebrovascular Disease (Not Contributing to Dementia):
         description: Classical ALS with AGD Stage II-III and cerebrovascular disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Acute Meningitis, Cerebrovascular Disease (Not Contributing to Dementia):
+      Classical/Typical ALS, AD, Acute Meningitis, Cerebrovascular Disease (Not Contributing to Dementia):
         description: Classical ALS with AD, acute meningitis, and cerebrovascular disease
-      Classical/Typical ALS, Alzheimer's Disease (AD), Acute Hypoxic-Ischemic Changes, Hippocampus:
+      Classical/Typical ALS, AD, Acute Hypoxic-Ischemic Changes, Hippocampus:
         description: Classical ALS with AD and acute hypoxic-ischemic hippocampal changes
       Classical/Typical ALS, Mild Diffuse Subpial Gliosis, Mild Hypertensive Vasculopathy:
         description: Classical ALS with mild diffuse subpial gliosis and hypertensive vasculopathy
@@ -555,38 +551,38 @@ enums:
         description: Classical ALS with cognitive problems and memory impairment
       Classical/Typical ALS, Sheehan's Syndrome:
         description: Classical ALS with Sheehan's syndrome
-      Classical/Typical ALS, Frontotemporal Dementia (FTD), Metastatic Carcinoma, Superior Parietal Lobe, Left:
+      Classical/Typical ALS, FTD, Metastatic Carcinoma, Superior Parietal Lobe, Left:
         description: Classical ALS with FTD and metastatic carcinoma of the left superior parietal lobe
-      Amyotrophic Lateral Sclerosis (ALS), Dementia (NOS):
+      ALS, Dementia (NOS):
         description: ALS with dementia (NOS)
       # PLS / PMA / PBP with comorbidities
-      Primary Lateral Sclerosis (PLS), Frontotemporal Dementia (FTD):
+      PLS, FTD:
         description: PLS with frontotemporal dementia
-      Primary Lateral Sclerosis (PLS), Peripheral Neuropathy:
+      PLS, Peripheral Neuropathy:
         description: PLS with peripheral neuropathy
-      Primary Lateral Sclerosis (PLS), Radiculopathy:
+      PLS, Radiculopathy:
         description: PLS with radiculopathy
-      Primary Lateral Sclerosis (PLS), Huntington's Disease-like (HDL) Syndrome:
+      PLS, HDL Syndrome:
         description: PLS with Huntington's disease-like syndrome
-      Progressive Muscular Atrophy (PMA), Diabetic Polyneuropathy:
+      PMA, Diabetic Polyneuropathy:
         description: PMA with diabetic polyneuropathy
-      Progressive Muscular Atrophy (PMA), Dementia (NOS):
+      PMA, Dementia (NOS):
         description: PMA with dementia (NOS)
-      Progressive Muscular Atrophy (PMS):
+      PMA:
         description: Progressive muscular atrophy (variant notation)
-      Progressive Bulbar Palsy, Parkinson's Disease (PD):
+      Progressive Bulbar Palsy, PD:
         description: Progressive bulbar palsy with Parkinson's disease
       # FTD / dementia with comorbidities
-      Frontotemporal Dementia (FTD), Progressive Supranuclear Palsy (PSP):
+      FTD, PSP:
         description: FTD with progressive supranuclear palsy
       Dementia (NOS), Progressive Aphasia:
         description: Dementia (NOS) with progressive aphasia
-      Dementia with Lewy Bodies (DLB), Peripheral Neuropathy:
+      DLB, Peripheral Neuropathy:
         description: DLB with peripheral neuropathy
       # Neuromuscular and other conditions
-      Inclusion Body Myositis (IBM):
+      IBM-myositis:
         description: Inclusion body myositis
-      Inclusion Body Myopathy (IBM):
+      IBM-myopathy:
         description: Inclusion body myopathy
       Dermatomyositis:
         description: Dermatomyositis
@@ -594,7 +590,7 @@ enums:
         description: Polymyositis
       Distal Myopathy:
         description: Distal myopathy
-      Facioscapulohumeral Muscular Dystrophy (FSHD):
+      FSHD:
         description: Facioscapulohumeral muscular dystrophy
       Monomelic Amyotrophy:
         description: Monomelic amyotrophy
@@ -717,7 +713,7 @@ enums:
       Bulbar:
         description: Bulbar onset (speech, swallowing)
       Limb:
-        description: symptoms first appear in the arms or legs
+        description: Limb onset (arm or leg)
       Lumbar:
         description: Lumbar onset (lower limb/lumbar region)
       Axial:
@@ -4625,50 +4621,17 @@ classes:
   BaseDataset:
     abstract: true
     description: Base schema for all dataset types with common metadata attributes
+    mixins: [DiseaseMixin, CommonMetadataMixin]
     attributes:
       title:
         title: Title
         range: string
         required: true
-      description:
-        title: Description
-        range: string
-        description: Blurb for the dataset; should be no more than 500 characters.
-        required: false
-      alternateName:
-        title: Alternate Name
-        description: An alternate name that can be used for search and discovery improvement.
-        range: string
-        required: false
-      creator:
-        title: Creator
-        range: string
-        description: Properly formatted name of the organization or person that is creator of the dataset (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
-        multivalued: true
-        required: true
-      contributor:
-        title: Contributor(s)
-        range: string
-        description: Institution or person responsible for collecting and managing the files and records in the dataset.
-        multivalued: true
-        required: false
       keywords:
         title: Keywords
         range: string
         multivalued: true
         required: true
-      subject:
-        title: Subject
-        range: string
-        description: Applicable subject term(s) for dataset cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
-        multivalued: true
-        required: false
-      species:
-        title: Species
-        range: SpeciesEnum
-        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
-        multivalued: true
-        required: false
       funder:
         title: Funder
         range: string
@@ -4678,12 +4641,6 @@ classes:
         title: Participant Count
         range: integer
         description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
-        required: false
-      collection:
-        title: Collection
-        range: CollectionEnum
-        description: Associated collection(s)
-        multivalued: true
         required: false
       curationLevel:
         title: Curation level
@@ -4701,54 +4658,6 @@ classes:
         description: Date data were published/available on Synapse.
         range: integer
         required: false
-      includedInDataCatalog:
-        title: Included In Data Catalog
-        description: Link(s) to known data catalog(s) the dataset is included in.
-        range: string
-        required: false
-      citation:
-        title: Citation
-        range: string
-        multivalued: true
-        description: identifies academic articles that are recommended by the data provider be cited in addition to the dataset itself.
-        required: false
-      publisher:
-        title: Publisher
-        range: string
-        description: Name of the organization or person responsible for making the dataset available.
-        required: false
-      license:
-        title: License
-        range: License
-        description: Unless information for license is clear, this should default to UNKNOWN.
-        required: false
-      source:
-        title: Source
-        range: string
-        description: Host platform from which the dataset was sourced.
-        required: true
-      url:
-        title: URL
-        range: string
-        description: URL for the original dataset location at source.
-        required: false
-      sameAs:
-        title: Same As
-        range: string
-        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
-        required: false
-      disease:
-        title: Disease
-        range: DiseaseEnum
-        description: Disease(s) or condition(s) studied in the dataset.
-        required: false
-        multivalued: true
-      diseaseSubtype:
-        title: Disease Subtype
-        range: DiseaseSubtypeEnum
-        description: Specific subtype or variant of the primary disease studied in the dataset (e.g., gene mutations, onset types). Parsed from disease strings like 'C9orf72-ALS'.
-        required: false
-        multivalued: true
       dataset_code:
         title: Dataset Code
         range: string
@@ -4770,106 +4679,17 @@ classes:
   BaseFile:
     abstract: true
     description: Base schema for all file types with common metadata attributes
+    mixins: [DiseaseMixin, CommonMetadataMixin]
     attributes:
       title:
         title: Title
         range: string
-        required: false
-      description:
-        title: Description
-        range: string
-        description: Blurb for the file; should be no more than 500 characters.
-        required: false
-      alternateName:
-        title: Alternate Name
-        description: An alternate name that can be used for search and discovery improvement.
-        range: string
-        required: false
-      creator:
-        title: Creator
-        range: string
-        description: Properly formatted name of the organization or person that is creator of the file (e.g. "Sage Bionetworks" or "John Doe"), not an id. Most preferred is the project PI or data lead who's responsible for its conception and initial content creation.
-        multivalued: true
-        required: false
-      contributor:
-        title: Contributor(s)
-        range: string
-        description: Institution or person responsible for collecting and managing the files and records in the file.
-        multivalued: true
         required: false
       keywords:
         title: Keywords
         range: string
         multivalued: true
         required: false
-      subject:
-        title: Subject
-        range: string
-        description: Applicable subject term(s) for file cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
-        multivalued: true
-        required: false
-      species:
-        title: Species
-        range: SpeciesEnum
-        description: Species of the organism(s) from which the data were generated. Omit property if not applicable, such as for data like compounds or other non-biological data.
-        multivalued: true
-        required: false
-      collection:
-        title: Collection
-        range: CollectionEnum
-        description: Associated collection(s)
-        multivalued: true
-        required: false
-      includedInDataCatalog:
-        title: Included In Data Catalog
-        description: Link(s) to known data catalog(s) the file is included in.
-        range: string
-        required: false
-      citation:
-        title: Citation
-        range: string
-        multivalued: true
-        description: identifies academic articles that are recommended by the data provider be cited in addition to the file itself.
-        required: false
-      publisher:
-        title: Publisher
-        range: string
-        description: Name of the organization or person responsible for making the file available.
-        required: false
-      license:
-        title: License
-        range: License
-        description: Unless information for license is clear, this should default to UNKNOWN.
-        required: false
-      source:
-        title: Source
-        range: string
-        description: Host platform from which the file was sourced.
-        required: true
-      url:
-        title: URL
-        range: string
-        description: URL for the original file location at source.
-        required: false
-      sameAs:
-        title: Same As
-        range: string
-        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
-        required: false
-      disease:
-        title: Disease
-        range: DiseaseEnum
-        description: Disease(s) or condition(s) studied in the file.
-        required: false
-        multivalued: true
-      diseaseSubtype:
-        title: Disease Subtype
-        range: DiseaseSubtypeEnum
-        description: >
-          Specific disease subtype or genetic variant associated with the data (e.g., C9orf72, SOD1, familial). Use when the data pertains to a specific genetic or clinical subtype of a disease.
-
-        required: false
-        multivalued: true
       dataType:
         title: Data Type
         range: Data
@@ -4878,21 +4698,12 @@ classes:
         required: false
   DataQuality:
     description: Data quality control and audit trail information
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
       dataQualityId:
         title: Data Quality ID
         range: string
         description: Unique identifier for this data quality record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this data quality record
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit associated with this data quality record
         required: false
       formName:
         title: Form Name
@@ -5032,16 +4843,12 @@ classes:
         required: false
   AssessmentAdministration:
     description: Assessment administration details and metadata
+    mixins: [SubjectIdentifierMixin]
     attributes:
       administrationId:
         title: Administration ID
         range: string
         description: Unique identifier for this administration record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this administration
         required: false
       assessmentType:
         title: Assessment Type
@@ -5150,12 +4957,8 @@ classes:
         required: false
   GeneticProfile:
     description: Genetic testing results and family history information for subjects
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this genetic profile belongs to
-        required: false
       previousGeneticTesting:
         title: Previous Genetic Testing
         range: boolean
@@ -5208,12 +5011,8 @@ classes:
         required: false
   GeneticVariant:
     description: Specific genetic variant found in testing
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this variant belongs to
-        required: false
       geneName:
         title: Gene Name
         range: ALSGeneEnum
@@ -5246,12 +5045,8 @@ classes:
         required: false
   FamilyHistory:
     description: Detailed family history information
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this family history belongs to
-        required: false
       detailedFamilyHistoryObtained:
         title: Detailed Family History Obtained
         range: boolean
@@ -5459,22 +5254,8 @@ classes:
         required: false
   LaboratoryCollection:
     description: Laboratory specimen collection status and details
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this collection
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit during which collection occurred
-        required: false
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date of specimen collection
-        required: false
       # Whole Blood Collection
       wholeBloodCollected:
         title: Whole Blood Collected
@@ -5568,16 +5349,6 @@ classes:
         title: Laboratory Result ID
         range: string
         description: Unique identifier for this lab result
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this result
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit during which specimen was collected
         required: false
       specimenType:
         title: Specimen Type
@@ -5945,16 +5716,12 @@ classes:
         required: false
   MedicalHistory:
     description: Medical history and comorbidity tracking
+    mixins: [SubjectIdentifierMixin]
     attributes:
       medicalHistoryId:
         title: Medical History ID
         range: string
         description: Unique identifier for this medical history record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this medical history
         required: false
       # Significant Medical Conditions
       diabetes:
@@ -6125,16 +5892,12 @@ classes:
         required: false
   Comorbidity:
     description: Individual comorbid condition tracking
+    mixins: [SubjectIdentifierMixin]
     attributes:
       comorbidityId:
         title: Comorbidity ID
         range: string
         description: Unique identifier for this comorbidity record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject for this comorbidity
         required: false
       conditionName:
         title: Condition Name
@@ -6252,12 +6015,8 @@ classes:
         required: false
   StudyDisposition:
     description: Study completion, termination, and final disposition information
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this disposition belongs to
-        required: false
       studyCompletionStatus:
         title: Study Completion Status
         range: CompletionStatusEnum
@@ -6342,12 +6101,8 @@ classes:
         required: false
   Eligibility:
     description: Study eligibility criteria and enrollment information
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this eligibility assessment belongs to
-        required: false
       eligibilityDate:
         title: Eligibility Assessment Date
         range: date
@@ -6464,21 +6219,12 @@ classes:
         required: false
   ProtocolDeviation:
     description: Protocol deviations and violations tracking
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
       deviationId:
         title: Deviation ID
         range: string
         description: Unique identifier for the protocol deviation
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject with protocol deviation
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit where deviation occurred
         required: false
       deviationDate:
         title: Deviation Date
@@ -6557,6 +6303,7 @@ classes:
         required: false
   Treatment:
     description: Treatment and medication information for subjects
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
       reviewed:
         title: Reviewed
@@ -6577,16 +6324,6 @@ classes:
         title: Treatment ID
         range: string
         description: Unique identifier for this treatment record
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject receiving this treatment
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit where treatment was recorded
         required: false
       # Medication Details
       medicationName:
@@ -6779,12 +6516,8 @@ classes:
         required: false
   MedicalDevice:
     description: Medical devices used by subjects
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject using this device
-        required: false
       deviceType:
         title: Device Type
         range: DeviceTypeEnum
@@ -6812,12 +6545,8 @@ classes:
         required: false
   AdverseEvent:
     description: Adverse events and safety monitoring
+    mixins: [SubjectIdentifierMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject experiencing the event
-        required: false
       eventDescription:
         title: Event Description
         range: string
@@ -6850,17 +6579,8 @@ classes:
         required: false
   Visit:
     description: Clinical visit or encounter information for longitudinal studies
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
-      visitId:
-        title: Visit ID
-        range: string
-        description: Unique identifier for the visit
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this visit belongs to
-        required: false
       visitName:
         title: Visit Name
         range: string
@@ -6999,14 +6719,9 @@ classes:
         required: false
   OmicDataset:
     is_a: BaseDataset
+    mixins: [OmicDatasetMixin]
     description: Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata
     attributes:
-      assay:
-        title: Measurement Technique
-        range: AssayEnum
-        multivalued: true
-        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
-        required: false
       # Omic-specific data types
       dataType:
         title: Data Type
@@ -7015,12 +6730,6 @@ classes:
         multivalued: true
         required: false
       # Sequencing and platform metadata
-      libraryLayout:
-        title: Library Layout
-        range: LibraryLayoutEnum
-        description: Single-end or paired-end sequencing layout for datasets containing sequencing data
-        multivalued: true
-        required: false
       platform:
         title: Platform
         range: PlatformEnum
@@ -7031,35 +6740,6 @@ classes:
         title: Library Strategy
         range: LibraryStrategyEnum
         description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
-        required: false
-      # Sample-specific attributes
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen(s) in the dataset
-        multivalued: true
-        required: false
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used in the dataset
-        multivalued: true
-        required: false
-      # GEO and external references
-      GEOSuperSeries:
-        title: GEO SuperSeries
-        range: string
-        description: GEO SuperSeries identifier
-        required: false
-      originalSampleId:
-        title: Original Sample ID
-        range: string
-        description: Original sample identifier as provided by the data source.
-        required: false
-      FACSPopulation:
-        title: FACS Population
-        range: string
-        description: FACS-sorted cell population description
         required: false
       # Processing information
       processingLevel:
@@ -7138,79 +6818,6 @@ classes:
         range: string
         description: Name of the column containing sample identifiers
         required: false
-      # Subject Demographics
-      age:
-        title: Age
-        description: Age of subject in years at time of data collection
-        range: integer
-        required: false
-      sex:
-        title: Sex
-        description: Biological sex of the subject
-        range: SexEnum
-        required: false
-      race:
-        title: Race
-        description: Race of the subject
-        range: RaceEnum
-        required: false
-      ethnicity:
-        title: Ethnicity
-        description: Ethnicity of the subject
-        range: EthnicityEnum
-        required: false
-      country:
-        title: Country
-        description: Country of residence or data collection site
-        range: string
-        required: false
-      heightCm:
-        title: Height (cm)
-        description: Height of subject in centimeters
-        range: float
-        required: false
-      weightKg:
-        title: Weight (kg)
-        description: Weight of subject in kilograms
-        range: float
-        required: false
-      # Disease Timeline
-      yearOfSymptomOnset:
-        title: Year of Symptom Onset
-        description: Year when first ALS symptoms appeared
-        range: integer
-        required: false
-      yearOfDiagnosis:
-        title: Year of ALS Diagnosis
-        description: Year when ALS diagnosis was made
-        range: integer
-        required: false
-      # Genetic Ancestry Proportions (0.0 to 1.0 scale)
-      propAfricanGeneticAncestry:
-        title: Proportion African Genetic Ancestry
-        description: Proportion of African genetic ancestry from admixture analysis
-        range: float
-        required: false
-      propEuropeanGeneticAncestry:
-        title: Proportion European Genetic Ancestry
-        description: Proportion of European genetic ancestry from admixture analysis
-        range: float
-        required: false
-      propSouthAsianGeneticAncestry:
-        title: Proportion South Asian Genetic Ancestry
-        description: Proportion of South Asian genetic ancestry from admixture analysis
-        range: float
-        required: false
-      propEastAsianGeneticAncestry:
-        title: Proportion East Asian Genetic Ancestry
-        description: Proportion of East Asian genetic ancestry from admixture analysis
-        range: float
-        required: false
-      propNativeAmericanGeneticAncestry:
-        title: Proportion Native American Genetic Ancestry
-        description: Proportion of Native American genetic ancestry from admixture analysis
-        range: float
-        required: false
       # Biospecimen Collection and Storage
       collectionSite:
         title: Collection Site
@@ -7224,6 +6831,7 @@ classes:
         required: false
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin, SpecimenTypeMixin]
     attributes:
       # Core Identifiers
       globalBiospecimenId:
@@ -7239,27 +6847,7 @@ classes:
         range: string
         description: The original biospecimen identifier as provided by the data source
         required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject from whom specimen was collected
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Visit during which specimen was collected
-        required: false
-      dataSourcePrefix:
-        title: Data Source Prefix
-        range: DataSourceEnum
-        description: Short identifier indicating the data source origin
-        required: false
       # Collection Information
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date when biospecimen was collected
-        required: false
       collectionTime:
         title: Collection Time
         range: time
@@ -7471,16 +7059,6 @@ classes:
         range: TreatmentEnum
         description: Type of treatment applied to the biospecimen
         required: false
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used
-        required: false
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen
-        required: false
       isPostMortem:
         title: Post-mortem Status
         range: boolean
@@ -7513,21 +7091,12 @@ classes:
         required: false
   ClinicalAssessment:
     description: Clinical assessment and outcome measures for subjects
+    mixins: [SubjectIdentifierMixin, ClinicalRecordMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: Reference to subject this assessment belongs to
-        required: false
       assessmentDate:
         title: Assessment Date
         range: date
         description: Date when the assessment was performed
-        required: false
-      visitId:
-        title: Visit ID
-        range: string
-        description: Identifier for the clinical visit
         required: false
       assessmentType:
         title: Assessment Type
@@ -7874,34 +7443,12 @@ classes:
         required: false
   Subject:
     description: Individual subject/participant record for various data sources
+    mixins: [DiseaseMixin, SubjectIdentifierMixin, SubjectDemographicsMixin]
     attributes:
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: >
-          Globally unique identifier for a subject across all data sources.  Format: {data_source_prefix}{dataset_id}{original_subject_id}
-
-        required: false
-        pattern: "^[a-zA-Z0-9_-]+$"
-      originalSubjectId:
-        title: Original Subject ID
-        range: string
-        description: Original subject identifier provided by data source.
-        required: false
       datasetReference:
         title: Dataset Reference
         range: string
         description: Reference to dataset this subject belongs to
-        required: false
-      dataSourcePrefix:
-        title: Data Source Prefix
-        range: DataSourceEnum
-        description: Short identifier indicating the data source origin
-        required: false
-      age:
-        title: Age
-        range: integer
-        description: Age of subject
         required: false
       diseaseDurationYears:
         title: Disease Duration (Years)
@@ -7913,51 +7460,15 @@ classes:
         range: integer
         description: Age at disease onset
         required: false
-      race:
-        title: Race/Ethnicity
-        range: RaceEnum
-        description: Race/ethnicity of subject
-        required: false
       PMI:
         title: Post-mortem Interval
         range: float
         description: Post-mortem interval in hours
         required: false
-      disease:
-        title: Disease
-        range: DiseaseEnum
-        description: Disease diagnosis
-        required: false
-      sampleType:
-        title: Sample Type
-        range: SampleTypeEnum
-        description: Classification of the sample (e.g. actual sample vs. control type)
-        required: false
-      diseaseSubtype:
-        title: Disease Subtype
-        description: Specific disease subtypes, genetic variants, or diagnostic criteria (can have multiple)
-        range: DiseaseSubtypeEnum
-        multivalued: true
-        required: false
-      sex:
-        title: Sex
-        range: SexEnum
-        description: Biological sex of subject
-        required: false
       birthDate:
         title: Birth Date
         range: date
         description: Date of birth
-        required: false
-      heightCm:
-        title: Height (cm)
-        range: float
-        description: Height in centimeters
-        required: false
-      weightKg:
-        title: Weight (kg)
-        range: float
-        description: Weight in kilograms
         required: false
       handedness:
         title: Handedness
@@ -7984,66 +7495,247 @@ classes:
         range: string
         description: ZIP or postal code
         required: false
+  SubjectIdentifierMixin:
+    mixin: true
+    description: Mixin for subject identifier attributes shared across subjects, files, and clinical records
+    attributes:
+      globalSubjectId:
+        title: Global Subject ID
+        range: string
+        description: >
+          Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}
+
+        required: false
+        pattern: "^[a-zA-Z0-9_-]+$"
+      originalSubjectId:
+        title: Original Subject ID
+        range: string
+        description: Original subject identifier as provided by the data source.
+        required: false
+      dataSourcePrefix:
+        title: Data Source Prefix
+        range: DataSourceEnum
+        description: Short identifier indicating the data source origin.
+        required: false
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Classification of the sample (e.g. actual sample vs. control type).
+        required: false
+  ClinicalRecordMixin:
+    mixin: true
+    description: Mixin for attributes linking clinical records to a specific visit
+    attributes:
+      visitId:
+        title: Visit ID
+        range: string
+        description: Unique identifier for the clinical visit during which data was collected.
+        required: false
+  SpecimenTypeMixin:
+    mixin: true
+    description: Mixin for biospecimen and cell type attributes shared across biospecimen records and omic data
+    attributes:
+      biospecimenType:
+        title: Biospecimen Type
+        range: BiospecimenTypeEnum
+        description: Type of biological specimen(s).
+        multivalued: true
+        required: false
+      cellType:
+        title: Cell Type
+        range: CellTypeEnum
+        description: Type of cell or cell line used.
+        multivalued: true
+        required: false
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
+        required: false
+  SubjectDemographicsMixin:
+    mixin: true
+    description: Mixin for subject demographic and phenotypic attributes shared across subject records and omic files
+    attributes:
+      age:
+        title: Age
+        range: integer
+        description: Age of subject in years.
+        required: false
+      sex:
+        title: Sex
+        range: SexEnum
+        description: Biological sex of subject.
+        required: false
+      race:
+        title: Race/Ethnicity
+        range: RaceEnum
+        description: Race/ethnicity of subject.
+        required: false
+      ethnicity:
+        title: Ethnicity
+        range: EthnicityEnum
+        description: Ethnicity of subject.
+        required: false
       country:
         title: Country
-        description: Country of residence or data collection site
         range: string
+        description: Country of residence or data collection site.
+        required: false
+      heightCm:
+        title: Height (cm)
+        range: float
+        description: Height of subject in centimeters.
+        required: false
+      weightKg:
+        title: Weight (kg)
+        range: float
+        description: Weight of subject in kilograms.
         required: false
       yearOfSymptomOnset:
         title: Year of Symptom Onset
-        description: Year when first ALS symptoms appeared
         range: integer
+        description: Year when first ALS symptoms appeared.
         required: false
         minimum_value: 1900
         maximum_value: 2100
       yearOfDiagnosis:
         title: Year of ALS Diagnosis
-        description: Year when ALS diagnosis was made
         range: integer
+        description: Year when ALS diagnosis was made.
         required: false
         minimum_value: 1900
         maximum_value: 2100
-      # Genetic Ancestry Proportions (0.0 to 1.0 scale)
       propAfricanGeneticAncestry:
         title: Proportion African Genetic Ancestry
-        description: Proportion of African genetic ancestry from admixture analysis
         range: float
+        description: Proportion of African genetic ancestry from admixture analysis.
         required: false
         minimum_value: 0.0
         maximum_value: 1.0
       propEuropeanGeneticAncestry:
         title: Proportion European Genetic Ancestry
-        description: Proportion of European genetic ancestry from admixture analysis
         range: float
+        description: Proportion of European genetic ancestry from admixture analysis.
         required: false
         minimum_value: 0.0
         maximum_value: 1.0
       propSouthAsianGeneticAncestry:
         title: Proportion South Asian Genetic Ancestry
-        description: Proportion of South Asian genetic ancestry from admixture analysis
         range: float
+        description: Proportion of South Asian genetic ancestry from admixture analysis.
         required: false
         minimum_value: 0.0
         maximum_value: 1.0
       propEastAsianGeneticAncestry:
         title: Proportion East Asian Genetic Ancestry
-        description: Proportion of East Asian genetic ancestry from admixture analysis
         range: float
+        description: Proportion of East Asian genetic ancestry from admixture analysis.
         required: false
         minimum_value: 0.0
         maximum_value: 1.0
       propNativeAmericanGeneticAncestry:
         title: Proportion Native American Genetic Ancestry
-        description: Proportion of Native American genetic ancestry from admixture analysis
         range: float
+        description: Proportion of Native American genetic ancestry from admixture analysis.
         required: false
         minimum_value: 0.0
         maximum_value: 1.0
-      ethnicity:
-        title: Ethnicity
-        description: Ethnicity of subject
-        range: EthnicityEnum
+  CommonMetadataMixin:
+    mixin: true
+    description: Mixin for metadata attributes shared across all file and dataset types
+    attributes:
+      description:
+        title: Description
+        range: string
+        description: Brief description; should be no more than 500 characters.
         required: false
+      alternateName:
+        title: Alternate Name
+        description: An alternate name that can be used for search and discovery improvement.
+        range: string
+        required: false
+      creator:
+        title: Creator
+        range: string
+        description: Properly formatted name of the organization or person that is creator of the resource (e.g. "Sage Bionetworks" or "John Doe"), not an id.
+        multivalued: true
+        required: false
+      contributor:
+        title: Contributor(s)
+        range: string
+        description: Institution or person responsible for collecting and managing the files and records in the resource.
+        multivalued: true
+        required: false
+      subject:
+        title: Subject
+        range: string
+        description: Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
+        multivalued: true
+        required: false
+      species:
+        title: Species
+        range: SpeciesEnum
+        description: Species of the organism(s) from which the data were generated. Omit if not applicable.
+        multivalued: true
+        required: false
+      collection:
+        title: Collection
+        range: CollectionEnum
+        description: Associated collection(s).
+        multivalued: true
+        required: false
+      includedInDataCatalog:
+        title: Included In Data Catalog
+        description: Link(s) to known data catalog(s) this resource is included in.
+        range: string
+        required: false
+      citation:
+        title: Citation
+        range: string
+        multivalued: true
+        description: Academic articles recommended by the data provider to cite in addition to the resource itself.
+        required: false
+      publisher:
+        title: Publisher
+        range: string
+        description: Name of the organization or person responsible for making the resource available.
+        required: false
+      license:
+        title: License
+        range: License
+        description: Unless information for license is clear, this should default to UNKNOWN.
+        required: false
+      source:
+        title: Source
+        range: string
+        description: Host platform from which the resource was sourced.
+        required: true
+      url:
+        title: URL
+        range: string
+        description: URL for the original resource location at source.
+        required: false
+      sameAs:
+        title: Same As
+        range: string
+        description: Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.
+        required: false
+  DiseaseMixin:
+    mixin: true
+    description: Mixin for disease and disease subtype attributes shared across files, datasets, and subjects
+    attributes:
+      disease:
+        title: Disease
+        range: DiseaseEnum
+        description: Disease(s) or condition(s) associated with the data.
+        required: false
+        multivalued: true
+      diseaseSubtype:
+        title: Disease Subtype
+        range: DiseaseSubtypeEnum
+        description: Specific disease subtypes, genetic variants, or diagnostic criteria (e.g., C9orf72, SOD1, familial).
+        required: false
+        multivalued: true
   ClinicalDatasetMixin:
     mixin: true
     description: Mixin for clinical dataset specific attributes
@@ -8070,6 +7762,7 @@ classes:
   OmicDatasetMixin:
     mixin: true
     description: Mixin for omic dataset specific attributes
+    mixins: [SpecimenTypeMixin]
     attributes:
       assay:
         title: Measurement Technique
@@ -8081,18 +7774,6 @@ classes:
         title: Library Layout
         range: LibraryLayoutEnum
         description: Single-end or paired-end sequencing layout for datasets containing sequencing data.
-        multivalued: true
-        required: false
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen(s) in the dataset.
-        multivalued: true
-        required: false
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used in the dataset.
         multivalued: true
         required: false
       GEOSuperSeries:
@@ -8117,9 +7798,20 @@ classes:
         description: Reflects the data types within the dataset.
         multivalued: true
         required: false
+  FileAnnotationsMixin:
+    mixin: true
+    description: Mixin for biological annotation and analysis method attributes shared across file types
+    attributes:
+      analysisTypes:
+        title: Analysis Types
+        range: AnalysisMethodEnum
+        description: Computational and statistical analysis methods applied to the data.
+        multivalued: true
+        required: false
   ClinicalFileMixin:
     mixin: true
     description: Mixin for clinical file specific attributes
+    mixins: [SubjectIdentifierMixin, FileAnnotationsMixin]
     attributes:
       clinicalDomain:
         title: Clinical Domain
@@ -8137,33 +7829,10 @@ classes:
         range: string
         description: Type of clinical visit (baseline, follow-up, etc.)
         required: false
-      analysisTypes:
-        title: Analysis Types
-        range: AnalysisMethodEnum
-        description: Computational and statistical analysis methods applied to the data
-        multivalued: true
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: >
-          Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}
-
-        required: false
-        pattern: "^[a-zA-Z0-9_-]+$"
-      originalSubjectId:
-        title: Original Subject ID
-        range: string
-        description: Original subject identifier as provided by the data source.
-        required: false
-      sampleType:
-        title: Sample Type
-        range: SampleTypeEnum
-        description: Classification of the sample (e.g. actual sample vs. control type)
-        required: false
   OmicFileMixin:
     mixin: true
     description: Mixin for omic file specific attributes
+    mixins: [SubjectIdentifierMixin, SpecimenTypeMixin, FileAnnotationsMixin, SubjectDemographicsMixin]
     attributes:
       assay:
         title: Measurement Technique
@@ -8206,42 +7875,6 @@ classes:
         title: Reference Genome
         range: GenomicReferenceEnum
         description: Reference genome used for alignment.
-        required: false
-      biospecimenType:
-        title: Biospecimen Type
-        range: BiospecimenTypeEnum
-        description: Type of biological specimen(s) in the file.
-        multivalued: true
-        required: false
-      cellType:
-        title: Cell Type
-        range: CellTypeEnum
-        description: Type of cell or cell line used in the file.
-        multivalued: true
-        required: false
-      analysisTypes:
-        title: Analysis Types
-        range: AnalysisMethodEnum
-        description: Computational and statistical analysis methods applied to the data
-        multivalued: true
-        required: false
-      globalSubjectId:
-        title: Global Subject ID
-        range: string
-        description: >
-          Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}
-
-        required: false
-        pattern: "^[a-zA-Z0-9_-]+$"
-      originalSubjectId:
-        title: Original Subject ID
-        range: string
-        description: Original subject identifier as provided by the data source.
-        required: false
-      sampleType:
-        title: Sample Type
-        range: SampleTypeEnum
-        description: Classification of the sample (e.g. actual sample vs. control type)
         required: false
   Dataset:
     is_a: BaseDataset
