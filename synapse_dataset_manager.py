@@ -6485,6 +6485,245 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
         return 'error'
 
 
+def get_enum_values_for_field(field_name, all_schemas):
+    """
+    Search all loaded schemas for enum values defined for `field_name`.
+
+    Checks both top-level `enum` (string field) and `items.enum` (array field).
+    Returns a deduplicated list of enum values found across all schemas, or []
+    if the field is not present or has no enum defined anywhere.
+    """
+    seen = set()
+    values = []
+    for schema in all_schemas.values():
+        props = schema.get('properties', {})
+        if field_name not in props:
+            continue
+        field_def = props[field_name]
+        candidates = field_def.get('enum') or field_def.get('items', {}).get('enum') or []
+        for v in candidates:
+            if v not in seen:
+                seen.add(v)
+                values.append(v)
+    return values
+
+
+def migrate_annotation_values_on_entity(syn, entity_id, entity_name,
+                                        source_key, target_key, values_to_migrate,
+                                        remove_empty_source=True,
+                                        dry_run=True, verbose=False):
+    """
+    Move a specific set of values from one annotation key to another on a single entity.
+
+    Values listed in `values_to_migrate` that appear in `source_key` are appended to
+    `target_key` (deduped) and removed from `source_key`. If `source_key` becomes empty
+    after the move and `remove_empty_source` is True, the key is deleted entirely.
+
+    Cases handled:
+      - Source key absent: skip
+      - No matching values in source: skip
+      - Partial match: move matching values, leave remaining in source
+      - Full match: move all values, optionally delete source key
+
+    Returns:
+        str: 'migrated', 'skipped', 'no_match', 'error'
+    """
+    try:
+        entity = syn.get(entity_id, downloadFile=False)
+        annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+
+        if source_key not in annotations:
+            if verbose:
+                print(f"  [OK]   {entity_name} ({entity_id}): source '{source_key}' absent — skip")
+            return 'skipped'
+
+        raw_source = annotations[source_key]
+        source_values = raw_source if isinstance(raw_source, list) else [raw_source]
+        source_values = [v for v in source_values if v is not None and v != ""]
+
+        migrate_set = set(values_to_migrate)
+        to_move = [v for v in source_values if v in migrate_set]
+        remaining = [v for v in source_values if v not in migrate_set]
+
+        if not to_move:
+            if verbose:
+                print(f"  [OK]   {entity_name} ({entity_id}): no matching values in '{source_key}' — skip")
+            return 'no_match'
+
+        # Build new target value (merge with existing, no duplicates, preserve order)
+        raw_target = annotations.get(target_key)
+        existing_target = raw_target if isinstance(raw_target, list) else ([raw_target] if raw_target else [])
+        existing_target = [v for v in existing_target if v is not None and v != ""]
+        seen = set(existing_target)
+        new_target = list(existing_target)
+        for v in to_move:
+            if v not in seen:
+                new_target.append(v)
+                seen.add(v)
+
+        if dry_run:
+            action = f"move {to_move} from '{source_key}' → '{target_key}'"
+            if remaining:
+                action += f"; keep {remaining} in '{source_key}'"
+            else:
+                action += f"; remove '{source_key}'" if remove_empty_source else f"; leave '{source_key}' empty"
+            print(f"  [DRY_RUN] {entity_name} ({entity_id}): would {action}")
+            return 'migrated'
+
+        # Apply changes
+        annotations[target_key] = new_target
+        if remaining:
+            annotations[source_key] = remaining
+        elif remove_empty_source:
+            del annotations[source_key]
+        else:
+            annotations[source_key] = []
+
+        entity.annotations = annotations
+        syn.store(entity)
+        kept_msg = f"; kept {remaining} in '{source_key}'" if remaining else f"; removed '{source_key}'"
+        print(f"  ✓ {entity_name} ({entity_id}): moved {to_move} → '{target_key}'{kept_msg}")
+        return 'migrated'
+
+    except Exception as e:
+        print(f"  ✗ Error on {entity_name} ({entity_id}): {e}")
+        return 'error'
+
+
+def handle_migrate_annotation_values(args, config):
+    """
+    Move a specified set of annotation values from one key to another across
+    datasets in a collection (and optionally their file entities).
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    source_key = args.source_annotation
+    target_key = args.target_annotation
+
+    if source_key == target_key:
+        print("❌ --source-annotation and --target-annotation must be different.")
+        return
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    include_files = getattr(args, 'include_files', False)
+    remove_empty_source = not getattr(args, 'keep_empty_source', False)
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+
+    # Resolve values: explicit CLI list takes precedence; otherwise pull from schema
+    values_to_migrate = getattr(args, 'values', None) or []
+    if not values_to_migrate:
+        all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, verbose)
+        values_to_migrate = get_enum_values_for_field(target_key, all_schemas)
+        if not values_to_migrate:
+            print(f"❌ No --values provided and no enum found in schema for '{target_key}'. "
+                  f"Specify values explicitly with --values.")
+            return
+        print(f"Resolved {len(values_to_migrate)} enum value(s) for '{target_key}' from schema.")
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"MIGRATE ANNOTATION VALUES {mode}")
+    print(f"{'='*60}")
+    print(f"Source annotation : {source_key}")
+    print(f"Target annotation : {target_key}")
+    print(f"Values to migrate : {values_to_migrate}")
+    print(f"Remove empty src  : {'Yes' if remove_empty_source else 'No'}")
+    print(f"Include files     : {'Yes' if include_files else 'No (dataset-level only)'}")
+
+    # Collect dataset IDs to process
+    dataset_ids = []
+
+    collection_id = getattr(args, 'collection_id', None)
+    dataset_id = getattr(args, 'dataset_id', None)
+
+    if dataset_id:
+        try:
+            entity = syn.get(dataset_id, downloadFile=False)
+            dataset_ids.append((dataset_id, entity.name))
+            print(f"Target            : dataset {dataset_id} ({entity.name})")
+        except Exception as e:
+            print(f"❌ Could not fetch dataset {dataset_id}: {e}")
+            return
+    elif collection_id:
+        print(f"Collection        : {collection_id}")
+        try:
+            dataset_collection = DatasetCollection(id=collection_id).get()
+            items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+            if not items:
+                print("❌ No datasets found in collection.")
+                return
+            print(f"Datasets found    : {len(items)}")
+            for item in items:
+                item_id = item.entity_id if hasattr(item, 'entity_id') else (item.id if hasattr(item, 'id') else str(item))
+                try:
+                    ds_entity = syn.get(item_id, downloadFile=False)
+                    dataset_ids.append((item_id, ds_entity.name))
+                except Exception as e:
+                    print(f"  ⚠️  Could not fetch {item_id}: {e}")
+        except Exception as e:
+            print(f"❌ Could not fetch collection {collection_id}: {e}")
+            return
+    else:
+        print("❌ Provide --collection-id or --dataset-id.")
+        return
+
+    print(f"\n--- Processing {len(dataset_ids)} dataset(s) ---")
+
+    ds_counts = {'migrated': 0, 'skipped': 0, 'no_match': 0, 'error': 0}
+    file_counts = {'migrated': 0, 'skipped': 0, 'no_match': 0, 'error': 0}
+
+    for ds_id, ds_name in dataset_ids:
+        print(f"\n📦 Dataset: {ds_name} ({ds_id})")
+
+        result = migrate_annotation_values_on_entity(
+            syn, ds_id, ds_name, source_key, target_key, values_to_migrate,
+            remove_empty_source=remove_empty_source, dry_run=dry_run, verbose=verbose
+        )
+        ds_counts[result] = ds_counts.get(result, 0) + 1
+
+        if include_files:
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+                print(f"  Files in dataset: {len(file_rows)}")
+
+                for _, row in file_rows.iterrows():
+                    file_id = row.get('id') or row.iloc[0]
+                    file_name = row.get('name', file_id)
+
+                    result = migrate_annotation_values_on_entity(
+                        syn, file_id, f"  {file_name}", source_key, target_key,
+                        values_to_migrate, remove_empty_source=remove_empty_source,
+                        dry_run=dry_run, verbose=verbose
+                    )
+                    file_counts[result] = file_counts.get(result, 0) + 1
+
+            except Exception as e:
+                print(f"  ⚠️  Could not query files in dataset {ds_id}: {e}")
+
+    print(f"\n{'='*60}")
+    print(f"SUMMARY")
+    print(f"{'='*60}")
+    print(f"Datasets processed : {len(dataset_ids)}")
+    print(f"Dataset-level : migrated={ds_counts['migrated']}, no_match={ds_counts['no_match']}, "
+          f"skipped={ds_counts['skipped']}, errors={ds_counts['error']}")
+    if include_files:
+        total_files = sum(file_counts.values())
+        print(f"Files processed   : {total_files}")
+        print(f"File-level    : migrated={file_counts['migrated']}, no_match={file_counts['no_match']}, "
+              f"skipped={file_counts['skipped']}, errors={file_counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
 def handle_rename_annotation(args, config):
     """
     Rename/migrate an annotation key across all datasets in a collection,
@@ -6936,6 +7175,19 @@ Examples:
     --old-annotation "individualCount" --new-annotation "participant_count" \\
     --include-files --execute
 
+  # MIGRATE-ANNOTATION-VALUES - move specific values from one annotation key to another
+  python synapse_dataset_manager.py migrate-annotation-values \\
+    --collection-id syn66496326 \\
+    --source-annotation "diseaseSubtype" --target-annotation "siteOfOnset" \\
+    --values "Limb" "Bulbar" "Spinal" \\
+    --include-files --dry-run
+
+  python synapse_dataset_manager.py migrate-annotation-values \\
+    --dataset-id syn12345 \\
+    --source-annotation "diseaseSubtype" --target-annotation "siteOfOnset" \\
+    --values "Limb" "Bulbar" "Spinal" \\
+    --include-files --execute
+
   # ANNOTATE-DATASET - push annotations from file to existing dataset entity
   python synapse_dataset_manager.py annotate-dataset \\
     --dataset-id syn12345 \\
@@ -7227,6 +7479,33 @@ Examples:
     rename_folders_parser.add_argument('--dry-run', action='store_true',
         help='Dry run mode — preview changes without writing (default)')
 
+    # MIGRATE-ANNOTATION-VALUES command
+    migrate_values_parser = subparsers.add_parser(
+        'migrate-annotation-values',
+        help='Move specific enum values from one annotation key to another across datasets/files'
+    )
+    migrate_values_parser.add_argument('--collection-id',
+        help='Synapse ID of a DatasetCollection to process all datasets within')
+    migrate_values_parser.add_argument('--dataset-id',
+        help='Synapse ID of a single dataset to process (alternative to --collection-id)')
+    migrate_values_parser.add_argument('--source-annotation', required=True,
+        help='Annotation key to migrate values FROM (e.g., "diseaseSubtype")')
+    migrate_values_parser.add_argument('--target-annotation', required=True,
+        help='Annotation key to migrate values TO (e.g., "siteOfOnset")')
+    migrate_values_parser.add_argument('--values', nargs='+', default=None, metavar='VALUE',
+        help='One or more specific values to move (e.g. --values "Limb" "Bulbar" "Spinal"). '
+             'If omitted, enum values are read from the JSON schema for --target-annotation.')
+    migrate_values_parser.add_argument('--keep-empty-source', action='store_true',
+        help='Leave source annotation as empty list instead of deleting it when all values are migrated')
+    migrate_values_parser.add_argument('--include-files', action='store_true',
+        help='Also migrate values on all file entities within each dataset')
+    migrate_values_parser.add_argument('--verbose', action='store_true',
+        help='Print info for entities where no migration was needed')
+    migrate_values_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    migrate_values_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -7407,10 +7686,16 @@ Examples:
         if hasattr(args, 'dry_run') and args.dry_run:
             config.DRY_RUN = True
 
+    # Validate/default arguments for migrate-annotation-values command
+    if args.command == 'migrate-annotation-values':
+        if not getattr(args, 'collection_id', None) and not getattr(args, 'dataset_id', None):
+            args.collection_id = config.DATASETS_COLLECTION_ID
+            print(f"Using default collection from config: {args.collection_id}")
+
     # Only validate config for commands that need Synapse connection
     if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
-                        'rename-annotation', 'rename-folders']:
+                        'rename-annotation', 'rename-folders', 'migrate-annotation-values']:
         config.validate()
 
     # Route to appropriate handler
@@ -7441,6 +7726,8 @@ Examples:
         handle_rename_annotation(args, config)
     elif args.command == 'rename-folders':
         handle_rename_folders(args, config)
+    elif args.command == 'migrate-annotation-values':
+        handle_migrate_annotation_values(args, config)
 
 
 if __name__ == "__main__":
