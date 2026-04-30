@@ -6117,8 +6117,15 @@ def handle_update_workflow(args, config):
             print("STEP 2: RETRIEVING STAGING FILES")
             print("=" * 60)
 
-            staging_annotations = enumerate_folder_files(syn, args.staging_folder, config.VERBOSE)
-            print(f"Found {len(staging_annotations)} files in staging")
+            folder_ids = args.staging_folder if isinstance(args.staging_folder, list) else [args.staging_folder]
+            for folder_id in folder_ids:
+                folder_annots = enumerate_folder_files(syn, folder_id, config.VERBOSE)
+                staging_annotations.update(folder_annots)
+                print(f"  Found {len(folder_annots)} files in staging folder {folder_id}")
+            if len(folder_ids) > 1:
+                print(f"Found {len(staging_annotations)} files in staging (total across {len(folder_ids)} folders)")
+            else:
+                print(f"Found {len(staging_annotations)} files in staging")
 
         # Step 2c: Extract Form Names from staging files (if staging folder provided)
         form_map = {}        # {lower_clean_name: [(staging_syn_id, clean_name), ...]}
@@ -6553,6 +6560,256 @@ def handle_update_workflow(args, config):
         print("✅ PHASE 2 DRY RUN COMPLETE — re-run with --execute to apply changes")
     else:
         print("✅ PHASE 2 COMPLETE — Update applied")
+    print("=" * 60)
+
+
+def get_or_create_synapse_folder(syn, name, parent_id, dry_run=False):
+    """Return the Synapse ID of a folder named *name* under *parent_id*, creating it if absent."""
+    if dry_run:
+        print(f"  [DRY_RUN] Would create/get folder '{name}' under {parent_id}")
+        return f"syn_DRY_{name}"
+
+    children = list(syn.getChildren(parent_id, includeTypes=['folder']))
+    for child in children:
+        if child['name'] == name:
+            print(f"  ✓ Found existing folder '{name}' ({child['id']})")
+            return child['id']
+
+    folder = Folder(name=name, parent=parent_id)
+    folder = syn.store(folder)
+    print(f"  ✓ Created folder '{name}' → {folder.id}")
+    return folder.id
+
+
+def upload_local_dir_to_synapse(syn, local_dir, parent_syn_id, dry_run=True, verbose=False):
+    """
+    Recursively walk *local_dir* and upload every file to Synapse under *parent_syn_id*,
+    mirroring subdirectory structure as Synapse Folder entities.
+
+    Returns:
+        uploaded  — {syn_id: {filename: {}}} empty annotation registry
+        total     — count of files uploaded (or previewed in dry-run)
+    """
+    uploaded = {}
+    total = 0
+
+    for root, dirs, files in os.walk(local_dir):
+        dirs.sort()
+        if not files:
+            continue
+
+        rel_path = os.path.relpath(root, local_dir)
+
+        if rel_path == '.':
+            current_parent = parent_syn_id
+        else:
+            current_parent = parent_syn_id
+            for part in rel_path.split(os.sep):
+                current_parent = get_or_create_synapse_folder(syn, part, current_parent, dry_run)
+
+        for filename in sorted(files):
+            local_path = os.path.join(root, filename)
+            total += 1
+
+            if dry_run:
+                folder_label = rel_path if rel_path != '.' else '<root>'
+                print(f"  [DRY_RUN] Would upload {folder_label}/{filename}")
+                uploaded[f"syn_DRY_{total:04d}"] = {filename: {}}
+            else:
+                try:
+                    file_entity = File(path=local_path, name=filename, parent=current_parent)
+                    file_entity = syn.store(file_entity)
+                    uploaded[file_entity.id] = {filename: {}}
+                    if verbose:
+                        print(f"  ✓ {filename} → {file_entity.id}")
+                except Exception as e:
+                    print(f"  ✗ Failed to upload {filename}: {e}")
+
+    return uploaded, total
+
+
+def handle_upload_local_workflow(args, config):
+    """Handle UPLOAD-LOCAL workflow — upload local files to Synapse and annotate them.
+
+    Phase 1 (no --annotations-file):
+      Walk --local-dir, mirror directory structure under --parent-folder on Synapse,
+      upload all files, generate annotation template JSON, exit for manual editing.
+
+    Phase 2 (with --annotations-file):
+      Validate annotations, apply to uploaded files, add to dataset(s).
+    """
+    annotations_file = getattr(args, 'annotations_file', None)
+    phase = 2 if annotations_file else 1
+
+    print("\n" + "=" * 60)
+    print("WORKFLOW: UPLOAD LOCAL FILES")
+    print(f"Phase: {'2 — Apply Annotations' if phase == 2 else '1 — Upload & Template Generation'}")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # ── PHASE 1: UPLOAD + TEMPLATE ────────────────────────────────────────────
+    if phase == 1:
+        local_dir = getattr(args, 'local_dir', None)
+        parent_folder = getattr(args, 'parent_folder', None)
+
+        if not local_dir:
+            print("❌ Error: --local-dir is required for Phase 1")
+            sys.exit(1)
+        if not parent_folder:
+            print("❌ Error: --parent-folder is required for Phase 1")
+            sys.exit(1)
+        if not os.path.isdir(local_dir):
+            print(f"❌ Error: --local-dir '{local_dir}' is not a valid directory")
+            sys.exit(1)
+
+        folder_name = args.folder_name or os.path.basename(os.path.abspath(local_dir))
+
+        # Step 1: Resolve target folder
+        print("\n" + "=" * 60)
+        print("STEP 1: RESOLVING TARGET FOLDER ON SYNAPSE")
+        print("=" * 60)
+        print(f"  Parent   : {parent_folder}")
+        print(f"  Subfolder: {folder_name}")
+        target_folder_id = get_or_create_synapse_folder(syn, folder_name, parent_folder, config.DRY_RUN)
+        print(f"  Target   : {target_folder_id}")
+
+        # Step 2: Upload local files
+        print("\n" + "=" * 60)
+        print("STEP 2: UPLOADING LOCAL FILES")
+        print("=" * 60)
+        print(f"  Source: {local_dir}")
+
+        uploaded, total = upload_local_dir_to_synapse(
+            syn, local_dir, target_folder_id,
+            dry_run=config.DRY_RUN, verbose=config.VERBOSE
+        )
+        print(f"\n  {'Previewed' if config.DRY_RUN else 'Uploaded'}: {total} files → {len(uploaded)} entities")
+
+        if config.DRY_RUN:
+            print("\n⚠️  DRY RUN — no files were uploaded.")
+            print("   Re-run with --execute to upload and generate the annotations template.")
+            return
+
+        # Step 3: Generate annotation templates
+        print("\n" + "=" * 60)
+        print("STEP 3: GENERATING ANNOTATION TEMPLATES")
+        print("=" * 60)
+
+        file_type_default = getattr(args, 'file_type', None) or 'ClinicalFile'
+        print(f"  Default file type: {file_type_default}")
+
+        annotations_output = {}
+        for syn_id, file_data in uploaded.items():
+            filename = list(file_data.keys())[0]
+            inferred_type = detect_file_type(filename, all_schemas=all_schemas) or file_type_default
+            template = create_annotation_template(all_schemas, inferred_type)
+            annotations_output[syn_id] = {filename: template}
+
+        safe_name = re.sub(r'[^\w]', '_', folder_name)
+        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{safe_name}_upload_annotations.json")
+        save_annotation_file(annotations_output, output_file)
+
+        dataset_ids = getattr(args, 'dataset_id', None) or []
+        print("\n" + "=" * 60)
+        print("✅ PHASE 1 COMPLETE")
+        print("=" * 60)
+        print(f"  Uploaded     : {total} files")
+        print(f"  Target folder: {target_folder_id}")
+        print(f"  Template file: {output_file}")
+        print(f"\n⚠️  MANUAL STEP: Edit the annotation file, then re-run with:")
+        print(f"  python synapse_dataset_manager.py upload-local \\")
+        print(f"    --annotations-file {output_file} \\")
+        for did in dataset_ids:
+            print(f"    --dataset-id {did} \\")
+        print(f"    --execute")
+        return
+
+    # ── PHASE 2: APPLY ANNOTATIONS ───────────────────────────────────────────
+
+    skip_validation = getattr(args, 'skip_validation', False)
+    version_label = getattr(args, 'version_label', None)
+    version_comment = getattr(args, 'version_comment', None)
+    dataset_ids = getattr(args, 'dataset_id', None) or []
+
+    # Step 1: Load annotations
+    print("\n" + "=" * 60)
+    print("STEP 1: LOADING ANNOTATIONS FILE")
+    print("=" * 60)
+
+    if not os.path.exists(annotations_file):
+        print(f"❌ Error: Annotations file not found: {annotations_file}")
+        sys.exit(1)
+
+    with open(annotations_file) as f:
+        file_annotations = json.load(f)
+    print(f"✓ Loaded {len(file_annotations)} file entries from {annotations_file}")
+
+    # Step 2: Validate
+    if not skip_validation:
+        print("\n" + "=" * 60)
+        print("STEP 2: VALIDATING ANNOTATIONS")
+        print("=" * 60)
+
+        validation_errors = False
+        for syn_id, file_data in file_annotations.items():
+            filename = list(file_data.keys())[0]
+            annots = file_data[filename]
+            ftype = annots.get('_file_type', 'ClinicalFile')
+            is_valid, errors, warnings = validate_annotation_against_schema(annots, ftype, all_schemas)
+            for w in warnings:
+                print(f"  ⚠ {filename}: {w}")
+            if errors:
+                for e in errors:
+                    print(f"  ✗ {filename}: {e}")
+                validation_errors = True
+
+        if validation_errors:
+            print("\n❌ Validation errors found. Fix them or re-run with --skip-validation.")
+            sys.exit(1)
+        else:
+            print("✓ All annotations valid")
+    else:
+        print("\n⚠️  Skipping annotation validation (--skip-validation)")
+
+    # Step 3: Apply annotations to uploaded files
+    print("\n" + "=" * 60)
+    print("STEP 3: APPLYING ANNOTATIONS")
+    print("=" * 60)
+
+    success, errors, skipped = apply_annotations_to_files(
+        syn, file_annotations,
+        dry_run=config.DRY_RUN,
+        verbose=config.VERBOSE,
+        version_label=version_label,
+        version_comment=version_comment,
+    )
+    print(f"  Applied: {success}, Skipped: {skipped}, Errors: {errors}")
+
+    # Step 4: Add files to dataset(s)
+    if dataset_ids:
+        print("\n" + "=" * 60)
+        print("STEP 4: ADDING FILES TO DATASET(S)")
+        print("=" * 60)
+
+        file_ids = list(file_annotations.keys())
+        for dataset_id in dataset_ids:
+            print(f"\n  Dataset: {dataset_id}")
+            add_files_to_dataset(syn, dataset_id, file_ids, config.DRY_RUN)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 4: SKIPPING DATASET ADD (no --dataset-id provided)")
+        print("=" * 60)
+
+    print("\n" + "=" * 60)
+    if config.DRY_RUN:
+        print("✅ PHASE 2 DRY RUN COMPLETE — re-run with --execute to apply changes")
+    else:
+        print("✅ PHASE 2 COMPLETE — Upload annotations applied")
     print("=" * 60)
 
 
@@ -8036,7 +8293,10 @@ Examples:
     update_parser.add_argument('--dataset-id',
                               help='Synapse ID of existing dataset (required unless --use-config provides it)')
     update_parser.add_argument('--staging-folder',
-                              help='Synapse ID of staging folder with new files (optional)')
+                              nargs='+',
+                              metavar='FOLDER_ID',
+                              help='Synapse ID(s) of staging folder(s) with new files. '
+                                   'Pass multiple IDs if data is spread across folders (optional)')
     update_parser.add_argument('--annotations-file',
                               help='Path to pre-edited annotations JSON (triggers Phase 2 apply)')
     update_parser.add_argument('--local-files-dir',
@@ -8307,6 +8567,37 @@ Examples:
     merge_parser.add_argument('--dry-run', action='store_true',
         help='Dry run mode (default)')
 
+    # UPLOAD-LOCAL command
+    upload_local_parser = subparsers.add_parser(
+        'upload-local',
+        help='Upload local files to a new Synapse folder, annotate them, and add to dataset(s)'
+    )
+    upload_local_parser.add_argument('--local-dir',
+                                     help='Local directory of files to upload (Phase 1 required)')
+    upload_local_parser.add_argument('--parent-folder',
+                                     help='Synapse ID of parent folder to create the target subfolder under (Phase 1 required)')
+    upload_local_parser.add_argument('--folder-name',
+                                     help='Name for the new Synapse subfolder (defaults to local dir name)')
+    upload_local_parser.add_argument('--file-type',
+                                     default='ClinicalFile',
+                                     help='Schema file type for annotation templates (default: ClinicalFile)')
+    upload_local_parser.add_argument('--annotations-file',
+                                     help='Path to edited annotations JSON (triggers Phase 2 apply)')
+    upload_local_parser.add_argument('--dataset-id',
+                                     nargs='+',
+                                     metavar='DATASET_ID',
+                                     help='Synapse dataset ID(s) to add uploaded files to (Phase 2)')
+    upload_local_parser.add_argument('--version-label',
+                                     help='Version label to set on uploaded files (e.g., "v1-APR")')
+    upload_local_parser.add_argument('--version-comment',
+                                     help='Version comment for uploaded files')
+    upload_local_parser.add_argument('--skip-validation', action='store_true',
+                                     help='Skip annotation schema validation before applying (Phase 2)')
+    upload_local_parser.add_argument('--execute', action='store_true',
+                                     help='Execute (override DRY_RUN)')
+    upload_local_parser.add_argument('--dry-run', action='store_true',
+                                     help='Dry run mode (default)')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -8363,7 +8654,8 @@ Examples:
             print(f"Using dataset_id from config: {args.dataset_id}")
 
         if not args.staging_folder and 'staging_folder' in dataset_config:
-            args.staging_folder = dataset_config['staging_folder']
+            raw = dataset_config['staging_folder']
+            args.staging_folder = raw if isinstance(raw, list) else [raw]
             print(f"Using staging_folder from config: {args.staging_folder}")
 
         if not args.release_folder and 'release_folder' in dataset_config:
@@ -8497,7 +8789,7 @@ Examples:
     if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
                         'rename-annotation', 'rename-folders', 'migrate-annotation-values',
-                        'merge-file-versions']:
+                        'merge-file-versions', 'upload-local']:
         config.validate()
 
     # Route to appropriate handler
@@ -8532,6 +8824,8 @@ Examples:
         handle_migrate_annotation_values(args, config)
     elif args.command == 'merge-file-versions':
         handle_merge_file_versions(args, config)
+    elif args.command == 'upload-local':
+        handle_upload_local_workflow(args, config)
 
 
 if __name__ == "__main__":
