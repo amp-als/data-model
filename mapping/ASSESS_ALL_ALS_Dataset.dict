@@ -5,256 +5,608 @@
 {
   "_views": {
     "v_ALLALS_AS_ASSEICF": {
-      "assessmentType": ["InformedConsentForm", "EligibilityConsent"],
-      "clinicalDomain": ["informed_consent", "eligibility_criteria"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "InformedConsentForm",
+        "EligibilityConsent"
+      ],
+      "clinicalDomain": [
+        "informed_consent",
+        "eligibility_criteria"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEVISTYPE": {
-      "assessmentType": ["VisitScheduling"],
-      "clinicalDomain": ["subject_management"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "VisitScheduling"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEELIGCRITSYM": {
-      "assessmentType": ["EligibilityCriteria"],
-      "clinicalDomain": ["eligibility_criteria", "study_eligibility", "symptom_onset"],
-      "dataType": ["diagnostic_criteria"],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "study_eligibility",
+        "symptom_onset"
+      ],
+      "dataType": [
+        "diagnostic_criteria"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEELIGCRITREG": {
-      "assessmentType": ["EligibilityCriteria"],
-      "clinicalDomain": ["eligibility_criteria", "study_eligibility"],
-      "dataType": ["diagnostic_criteria"],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "study_eligibility"
+      ],
+      "dataType": [
+        "diagnostic_criteria"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEDEMOG": {
-      "assessmentType": ["Demographics"],
-      "clinicalDomain": ["subject_management"],
-      "dataType": ["demographics"],
+      "assessmentType": [
+        "Demographics"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "dataType": [
+        "demographics"
+      ],
       "studyPhase": "baseline"
     },
     "v_ALLALS_AS_ASSEALSHIST": {
-      "assessmentType": ["MedicalHistory", "ClinicalExamination"],
-      "clinicalDomain": ["disease_progression", "symptom_onset", "diagnosis_criteria", "site_of_onset"],
-      "dataType": ["medical_history", "disease_progression", "symptom_onset"],
+      "assessmentType": [
+        "MedicalHistory",
+        "ClinicalExamination"
+      ],
+      "clinicalDomain": [
+        "disease_progression",
+        "symptom_onset",
+        "diagnosis_criteria",
+        "site_of_onset"
+      ],
+      "dataType": [
+        "medical_history",
+        "disease_progression",
+        "symptom_onset"
+      ],
       "studyPhase": "baseline"
     },
     "v_ALLALS_AS_ASSEPRALSGENTST": {
-      "assessmentType": ["genetic_testing", "genetic_counseling"],
-      "clinicalDomain": ["genetic_testing"],
-      "dataType": ["genetic_testing"],
+      "assessmentType": [
+        "genetic_testing",
+        "genetic_counseling"
+      ],
+      "clinicalDomain": [
+        "genetic_testing"
+      ],
+      "dataType": [
+        "genetic_testing"
+      ],
       "studyPhase": "baseline"
     },
     "v_ALLALS_AS_ASSEFAMHIST": {
-      "assessmentType": ["MedicalHistory"],
-      "clinicalDomain": ["medical_history", "genetic_testing"],
-      "dataType": ["family_history"],
+      "assessmentType": [
+        "MedicalHistory"
+      ],
+      "clinicalDomain": [
+        "medical_history",
+        "genetic_testing"
+      ],
+      "dataType": [
+        "family_history"
+      ],
       "studyPhase": "baseline"
     },
     "v_ALLALS_AS_ASSEMEDHX": {
-      "assessmentType": ["MedicalHistory"],
-      "clinicalDomain": ["medical_history"],
-      "dataType": ["medical_history", "medication_history"],
+      "assessmentType": [
+        "MedicalHistory"
+      ],
+      "clinicalDomain": [
+        "medical_history"
+      ],
+      "dataType": [
+        "medical_history",
+        "medication_history"
+      ],
       "studyPhase": "baseline"
     },
     "v_ALLALS_AS_ASSEVITSIGN": {
-      "assessmentType": ["VitalSigns"],
-      "clinicalDomain": ["vital_signs"],
-      "dataType": ["vital_signs"],
+      "assessmentType": [
+        "VitalSigns"
+      ],
+      "clinicalDomain": [
+        "vital_signs"
+      ],
+      "dataType": [
+        "vital_signs"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEDSA": {
-      "assessmentType": ["StudyDisposition"],
-      "clinicalDomain": ["subject_management", "study_completion"],
-      "dataType": ["study_completion"],
+      "assessmentType": [
+        "StudyDisposition"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "study_completion"
+      ],
+      "dataType": [
+        "study_completion"
+      ],
       "studyPhase": "endpoint"
     },
     "v_ALLALS_AS_ASSEELCONREG": {
-      "assessmentType": ["EligibilityConsent", "InformedConsentForm"],
-      "clinicalDomain": ["informed_consent"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "EligibilityConsent",
+        "InformedConsentForm"
+      ],
+      "clinicalDomain": [
+        "informed_consent"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSECONMD": {
-      "assessmentType": ["ConcomitantMedications"],
-      "clinicalDomain": ["drug_administration", "drug_exposure"],
-      "dataType": ["medication_history"],
+      "assessmentType": [
+        "ConcomitantMedications"
+      ],
+      "clinicalDomain": [
+        "drug_administration",
+        "drug_exposure"
+      ],
+      "dataType": [
+        "medication_history"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEAELOG": {
-      "assessmentType": ["AdverseEventLog"],
-      "clinicalDomain": ["adverse_events", "safety_monitoring"],
-      "dataType": ["adverse_events"],
+      "assessmentType": [
+        "AdverseEventLog"
+      ],
+      "clinicalDomain": [
+        "adverse_events",
+        "safety_monitoring"
+      ],
+      "dataType": [
+        "adverse_events"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEPDEVAD": {
-      "assessmentType": ["ProtocolDeviation"],
-      "clinicalDomain": ["compliance", "data_quality"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "ProtocolDeviation"
+      ],
+      "clinicalDomain": [
+        "compliance",
+        "data_quality"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEALSFRSR": {
-      "assessmentType": ["ALSFRS-R"],
-      "clinicalDomain": ["motor_function", "bulbar_function", "respiratory_function", "functional_assessment", "disease_progression"],
-      "dataType": ["functional_assessment", "disease_progression"],
+      "assessmentType": [
+        "ALSFRS-R"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "functional_assessment",
+        "disease_progression"
+      ],
+      "dataType": [
+        "functional_assessment",
+        "disease_progression"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEHHD": {
-      "assessmentType": ["HandHeldDynamometry", "Strength"],
-      "clinicalDomain": ["motor_function", "limb_function", "upper_motor_neuron", "lower_motor_neuron"],
-      "dataType": ["motor_assessment"],
+      "assessmentType": [
+        "HandHeldDynamometry",
+        "Strength"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "limb_function",
+        "upper_motor_neuron",
+        "lower_motor_neuron"
+      ],
+      "dataType": [
+        "motor_assessment"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEVC": {
-      "assessmentType": ["PulmonaryFunction", "SlowVitalCapacity (SVC)"],
-      "clinicalDomain": ["respiratory_function", "pulmonary_function_test"],
-      "dataType": ["respiratory_assessment"],
+      "assessmentType": [
+        "PulmonaryFunction",
+        "SlowVitalCapacity (SVC)"
+      ],
+      "clinicalDomain": [
+        "respiratory_function",
+        "pulmonary_function_test"
+      ],
+      "dataType": [
+        "respiratory_assessment"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEECAS": {
-      "assessmentType": ["ECAS", "cognitive_assessment"],
-      "clinicalDomain": ["cognitive_assessment", "cognitive_function", "dementia_screening"],
-      "dataType": ["cognitive_assessment"],
+      "assessmentType": [
+        "ECAS",
+        "cognitive_assessment"
+      ],
+      "clinicalDomain": [
+        "cognitive_assessment",
+        "cognitive_function",
+        "dementia_screening"
+      ],
+      "dataType": [
+        "cognitive_assessment"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEECASCGI": {
-      "assessmentType": ["ECAS", "ClinicalExamination"],
-      "clinicalDomain": ["cognitive_assessment", "cognitive_function"],
-      "dataType": ["cognitive_assessment", "derived_scores"],
+      "assessmentType": [
+        "ECAS",
+        "ClinicalExamination"
+      ],
+      "clinicalDomain": [
+        "cognitive_assessment",
+        "cognitive_function"
+      ],
+      "dataType": [
+        "cognitive_assessment",
+        "derived_scores"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEBLDCOL": {
-      "assessmentType": ["BiomarkerSerumCollection", "Laboratory"],
-      "clinicalDomain": ["biospecimen_collection", "biomarkers"],
-      "dataType": ["biomarker_data", "laboratory_results"],
+      "assessmentType": [
+        "BiomarkerSerumCollection",
+        "Laboratory"
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "biomarkers"
+      ],
+      "dataType": [
+        "biomarker_data",
+        "laboratory_results"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSECSFCO": {
-      "assessmentType": ["BiomarkerSerumCollection", "Laboratory"],
-      "clinicalDomain": ["biospecimen_collection", "biomarkers"],
-      "dataType": ["biomarker_data", "laboratory_results"],
+      "assessmentType": [
+        "BiomarkerSerumCollection",
+        "Laboratory"
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "biomarkers"
+      ],
+      "dataType": [
+        "biomarker_data",
+        "laboratory_results"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEALSFRSRSAQ": {
-      "assessmentType": ["ALSFRS-R", "QualityOfLifeSurvey"],
-      "clinicalDomain": ["motor_function", "bulbar_function", "respiratory_function", "functional_assessment", "disease_progression"],
-      "dataType": ["functional_assessment", "surveyData"],
+      "assessmentType": [
+        "ALSFRS-R",
+        "QualityOfLifeSurvey"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "functional_assessment",
+        "disease_progression"
+      ],
+      "dataType": [
+        "functional_assessment",
+        "surveyData"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEDSAUI": {
-      "assessmentType": ["StudyDisposition"],
-      "clinicalDomain": ["subject_management"],
-      "dataType": ["study_completion"],
+      "assessmentType": [
+        "StudyDisposition"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "dataType": [
+        "study_completion"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEELIGCRITLMP": {
-      "assessmentType": ["EligibilityCriteria", "Pregnancy"],
-      "clinicalDomain": ["eligibility_criteria", "reproductive_health", "pregnancy_exposure"],
-      "dataType": ["diagnostic_criteria"],
+      "assessmentType": [
+        "EligibilityCriteria",
+        "Pregnancy"
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "reproductive_health",
+        "pregnancy_exposure"
+      ],
+      "dataType": [
+        "diagnostic_criteria"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEKEYDEV": {
-      "assessmentType": ["KeyDevicesProcedures"],
-      "clinicalDomain": ["supportive_interventions", "physical_mobility"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "KeyDevicesProcedures"
+      ],
+      "clinicalDomain": [
+        "supportive_interventions",
+        "physical_mobility"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEPARTFINDI": {
-      "assessmentType": ["ClinicalExamination", "neurological_examination"],
-      "clinicalDomain": ["disease_progression", "functional_assessment", "neurology"],
-      "dataType": ["clinical", "disease_progression"],
+      "assessmentType": [
+        "ClinicalExamination",
+        "neurological_examination"
+      ],
+      "clinicalDomain": [
+        "disease_progression",
+        "functional_assessment",
+        "neurology"
+      ],
+      "dataType": [
+        "clinical",
+        "disease_progression"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEELCONLMP": {
-      "assessmentType": ["EligibilityConsent"],
-      "clinicalDomain": ["subject_management", "eligibility_criteria", "informed_consent"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "eligibility_criteria",
+        "informed_consent"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_NPROREGASSESS": {
-      "assessmentType": ["CohortParticipation"],
-      "clinicalDomain": ["subject_management"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "CohortParticipation"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEICFCSF": {
-      "assessmentType": ["InformedConsentForm"],
-      "clinicalDomain": ["subject_management", "biospecimen_collection", "biomarkers", "informed_consent"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "InformedConsentForm"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "biospecimen_collection",
+        "biomarkers",
+        "informed_consent"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEDHTAL": {
-      "assessmentType": ["PhysicalExam"],
-      "clinicalDomain": ["physical_mobility", "limb_function"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "PhysicalExam"
+      ],
+      "clinicalDomain": [
+        "physical_mobility",
+        "limb_function"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEDHTBOE": {
-      "assessmentType": ["Strength"],
-      "clinicalDomain": ["motor_function", "limb_function"],
-      "dataType": ["motor_assessment"],
+      "assessmentType": [
+        "Strength"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "limb_function"
+      ],
+      "dataType": [
+        "motor_assessment"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEDHTELCR": {
-      "assessmentType": ["EligibilityCriteria"],
-      "clinicalDomain": ["subject_management", "eligibility_criteria"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "eligibility_criteria"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEDHTENCONF": {
-      "assessmentType": ["EligibilityConsent"],
-      "clinicalDomain": ["subject_management", "informed_consent"],
-      "dataType": ["clinical"],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "informed_consent"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEDHTFQ": {
-      "assessmentType": ["QualityOfLifeSurvey"],
-      "clinicalDomain": ["physical_mobility", "safety_monitoring"],
-      "dataType": ["surveyData"],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "clinicalDomain": [
+        "physical_mobility",
+        "safety_monitoring"
+      ],
+      "dataType": [
+        "surveyData"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEDHTPAS": {
-      "assessmentType": ["QualityOfLifeSurvey"],
-      "clinicalDomain": ["remote_monitoring", "compliance"],
-      "dataType": ["surveyData"],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "clinicalDomain": [
+        "remote_monitoring",
+        "compliance"
+      ],
+      "dataType": [
+        "surveyData"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEDHTPFD": {
-      "assessmentType": ["StudyDisposition"],
-      "clinicalDomain": ["subject_management", "study_completion"],
-      "dataType": ["study_completion"],
+      "assessmentType": [
+        "StudyDisposition"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "study_completion"
+      ],
+      "dataType": [
+        "study_completion"
+      ],
       "studyPhase": "endpoint"
     },
     "v_ALLALS_AS_ASSEDHTSAS": {
-      "assessmentType": ["QualityOfLifeSurvey"],
-      "clinicalDomain": ["physical_mobility", "motor_function", "limb_function"],
-      "dataType": ["surveyData"],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "clinicalDomain": [
+        "physical_mobility",
+        "motor_function",
+        "limb_function"
+      ],
+      "dataType": [
+        "surveyData"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEDHTTAMS": {
-      "assessmentType": ["QualityOfLifeSurvey"],
-      "clinicalDomain": ["remote_monitoring"],
-      "dataType": ["surveyData"],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "clinicalDomain": [
+        "remote_monitoring"
+      ],
+      "dataType": [
+        "surveyData"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEDHTUMUXS": {
-      "assessmentType": ["QualityOfLifeSurvey"],
-      "clinicalDomain": ["remote_monitoring"],
-      "dataType": ["surveyData"],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "clinicalDomain": [
+        "remote_monitoring"
+      ],
+      "dataType": [
+        "surveyData"
+      ],
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_AS_ASSEELIGCRIREG2": {
-      "assessmentType": ["EligibilityCriteria"],
-      "clinicalDomain": ["eligibility_criteria", "study_eligibility", "diagnosis_criteria"],
-      "dataType": ["diagnostic_criteria"],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "study_eligibility",
+        "diagnosis_criteria"
+      ],
+      "dataType": [
+        "diagnostic_criteria"
+      ],
       "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEELIGCRISYM2": {
-      "assessmentType": ["EligibilityCriteria"],
-      "clinicalDomain": ["eligibility_criteria", "study_eligibility", "symptom_onset"],
-      "dataType": ["diagnostic_criteria"],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "study_eligibility",
+        "symptom_onset"
+      ],
+      "dataType": [
+        "diagnostic_criteria"
+      ],
       "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSEDHTDFS": {
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "clinicalDomain": [
+        "remote_monitoring",
+        "compliance"
+      ],
+      "dataType": [
+        "surveyData"
+      ],
+      "studyPhase": "endpoint"
+    },
+    "ct_ALLALS_AS_Initial_SAE_Report_ASSESS": {
+      "assessmentType": [
+        "AdverseEventLog"
+      ],
+      "clinicalDomain": [
+        "adverse_events",
+        "safety_monitoring"
+      ],
+      "dataType": [
+        "adverse_events"
+      ],
+      "studyPhase": "longitudinal"
     }
   },
   "SiteUID": {
@@ -3888,6 +4240,1529 @@
   "dsreasos": {
     "description": "Other reason for early termination or withdrawal",
     "view": "v_ALLALS_AS_ASSEPARTFINDI",
+    "target": "",
+    "values": {}
+  },
+  "inc01_ieperf": {
+    "description": "Not Done INC01",
+    "view": "v_ALLALS_AS_ASSEDHTELCR",
+    "target": "",
+    "values": {}
+  },
+  "inc01_ieorres": {
+    "description": "Inclusion 1",
+    "view": "v_ALLALS_AS_ASSEDHTELCR",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "inc02_ieperf": {
+    "description": "Not Done INC02",
+    "view": "v_ALLALS_AS_ASSEDHTELCR",
+    "target": "",
+    "values": {}
+  },
+  "inc02_ieorres": {
+    "description": "Inclusion 2",
+    "view": "v_ALLALS_AS_ASSEDHTELCR",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "inc03_ieperf": {
+    "description": "Not Done INC03",
+    "view": "v_ALLALS_AS_ASSEDHTELCR",
+    "target": "",
+    "values": {}
+  },
+  "inc03_ieorres": {
+    "description": "Inclusion 3",
+    "view": "v_ALLALS_AS_ASSEDHTELCR",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "adherence_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTPAS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "adherence_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTPAS",
+    "target": "",
+    "values": {}
+  },
+  "adherence_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTPAS",
+    "target": "",
+    "values": {}
+  },
+  "adherence_q1": {
+    "description": "Compliance Throughout Study",
+    "view": "v_ALLALS_AS_ASSEDHTPAS",
+    "target": "",
+    "values": {
+      "1": "Very concerned",
+      "2": "Moderately concerned",
+      "3": "Mildly concerned",
+      "4": "Not concerned at all"
+    }
+  },
+  "adherence_q2": {
+    "description": "How Do You Feel About Device",
+    "view": "v_ALLALS_AS_ASSEDHTPAS",
+    "target": "",
+    "values": {
+      "1": "I am dreading using it",
+      "2": "I am not looking forward to using it but not dreading it",
+      "3": "I have no strong feelings about using it",
+      "4": "I am looking forward to using it but not excited to use it",
+      "5": "I am excited to use it"
+    }
+  },
+  "adherence_q3": {
+    "description": "How Compliant Will You Be",
+    "view": "v_ALLALS_AS_ASSEDHTPAS",
+    "target": "",
+    "values": {
+      "1": "I will probably not be able to wear the device as often as requested but will wear it sometimes",
+      "2": "I will probably wear the device most of the time when I am supposed to be wearing it for this study",
+      "3": "I will probably wear the device everyday for the duration of this study"
+    }
+  },
+  "saas_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "saas_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1": {
+    "description": "Mobility In Home",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "No",
+      "2": "Yes (please check all that apply)"
+    }
+  },
+  "saas_q1_cane": {
+    "description": "Cane",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_walker": {
+    "description": "Walker",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_crutch": {
+    "description": "Crutches",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_scooter": {
+    "description": "Scooter",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_transport": {
+    "description": "Transport wheelchair",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_manual": {
+    "description": "Manual wheelchair",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_power": {
+    "description": "Power wheelchair",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_ankle": {
+    "description": "Ankle braces",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_knee": {
+    "description": "Knee braces",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_oth": {
+    "description": "Other (please explain)",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q1_oths": {
+    "description": "Other In Home Mobility Device",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2": {
+    "description": "Mobility Outside of Home",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "No",
+      "2": "Yes (please check all that apply)"
+    }
+  },
+  "saas_q2_cane": {
+    "description": "Cane",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_walker": {
+    "description": "Walker",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_crutch": {
+    "description": "Crutches",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_scooter": {
+    "description": "Scooter",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_transport": {
+    "description": "Transport wheelchair",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_manual": {
+    "description": "Manual wheelchair",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_power": {
+    "description": "Power wheelchair",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_ankle": {
+    "description": "Ankle braces",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_knee": {
+    "description": "Knee braces",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_oth": {
+    "description": "Other (please explain)",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q2_oths": {
+    "description": "Other Outside Home Mobility Device",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_speech": {
+    "description": "Speech",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_swallow": {
+    "description": "Swallowing",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_neck": {
+    "description": "Neck",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_rarm": {
+    "description": "Right arm or hand",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_larm": {
+    "description": "Left arm or hand",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_trunk": {
+    "description": "Trunk/core/abdominal region",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_rleg": {
+    "description": "Right leg or ankle/foot",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_lleg": {
+    "description": "Left leg or ankle/foot",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_breath": {
+    "description": "Breathing",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_none": {
+    "description": "None",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_oth": {
+    "description": "Other (please explain):",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "saas_q3_oths": {
+    "description": "Other Changes",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {}
+  },
+  "groc_ra": {
+    "description": "Right Arm and Hand Function",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "Worse",
+      "2": "About the same",
+      "3": "Better"
+    }
+  },
+  "groc_ra_w": {
+    "description": "Right Arm How Much Worse?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little worse",
+      "3": "Somewhat worse",
+      "4": "Moderately worse",
+      "5": "A good deal worse",
+      "6": "A great deal worse",
+      "7": "A very great deal worse"
+    }
+  },
+  "groc_ra_b": {
+    "description": "Right Arm How Much Better?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little better",
+      "3": "Somewhat better",
+      "4": "Moderately better",
+      "5": "A good deal better",
+      "6": "A great deal better",
+      "7": "A very great deal better"
+    }
+  },
+  "groc_la": {
+    "description": "Left Arm and Hand Function",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "Worse",
+      "2": "About the same",
+      "3": "Better"
+    }
+  },
+  "groc_la_w": {
+    "description": "Left Arm How Much Worse?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little worse",
+      "3": "Somewhat worse",
+      "4": "Moderately worse",
+      "5": "A good deal worse",
+      "6": "A great deal worse",
+      "7": "A very great deal worse"
+    }
+  },
+  "groc_la_b": {
+    "description": "Left Arm How Much Better?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little better",
+      "3": "Somewhat better",
+      "4": "Moderately better",
+      "5": "A good deal better",
+      "6": "A great deal better",
+      "7": "A very great deal better"
+    }
+  },
+  "groc_rl": {
+    "description": "Right Leg Function",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "Worse",
+      "2": "About the same",
+      "3": "Better"
+    }
+  },
+  "groc_rl_w": {
+    "description": "Right Leg How Much Worse?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little worse",
+      "3": "Somewhat worse",
+      "4": "Moderately worse",
+      "5": "A good deal worse",
+      "6": "A great deal worse",
+      "7": "A very great deal worse"
+    }
+  },
+  "groc_rl_b": {
+    "description": "Right Leg How Much Better?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little better",
+      "3": "Somewhat better",
+      "4": "Moderately better",
+      "5": "A good deal better",
+      "6": "A great deal better",
+      "7": "A very great deal better"
+    }
+  },
+  "groc_ll": {
+    "description": "Left Leg Function",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "Worse",
+      "2": "About the same",
+      "3": "Better"
+    }
+  },
+  "groc_ll_w": {
+    "description": "Left Leg How Much Worse?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little worse",
+      "3": "Somewhat worse",
+      "4": "Moderately worse",
+      "5": "A good deal worse",
+      "6": "A great deal worse",
+      "7": "A very great deal worse"
+    }
+  },
+  "groc_ll_b": {
+    "description": "Left Leg How Much Better?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little better",
+      "3": "Somewhat better",
+      "4": "Moderately better",
+      "5": "A good deal better",
+      "6": "A great deal better",
+      "7": "A very great deal better"
+    }
+  },
+  "groc_m": {
+    "description": "Mobility Status",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "1": "Worse",
+      "2": "About the same",
+      "3": "Better"
+    }
+  },
+  "groc_m_w": {
+    "description": "Mobility How Much Worse?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little worse",
+      "3": "Somewhat worse",
+      "4": "Moderately worse",
+      "5": "A good deal worse",
+      "6": "A great deal worse",
+      "7": "A very great deal worse"
+    }
+  },
+  "groc_m_b": {
+    "description": "Mobility How Much Better?",
+    "view": "v_ALLALS_AS_ASSEDHTSAS",
+    "target": "",
+    "values": {
+      "2": "A little better",
+      "3": "Somewhat better",
+      "4": "Moderately better",
+      "5": "A good deal better",
+      "6": "A great deal better",
+      "7": "A very great deal better"
+    }
+  },
+  "aal_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "aal_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "aal_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "aal_dh": {
+    "description": "Dominant Hand",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {
+      "1": "Right",
+      "2": "Left",
+      "3": "Ambidextrous"
+    }
+  },
+  "coval_1": {
+    "description": "Comments: Dominant Hand",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "aal_side": {
+    "description": "Most Affected Side",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {
+      "1": "Right",
+      "2": "Left",
+      "3": "Neither"
+    }
+  },
+  "aal_agree": {
+    "description": "Agreeable to Wear Device on Dominant Side",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "aal_devside": {
+    "description": "What Side Participant Wearing Device",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {
+      "1": "Right",
+      "2": "Left"
+    }
+  },
+  "coval_2": {
+    "description": "Comments: Empatica Device Side",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "aal_full_arm": {
+    "description": "Full Arm (Measurement 1)",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "aal_low_arm": {
+    "description": "Lower Arm (Measurement 2)",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "aal_full_leg": {
+    "description": "Full Leg (Measurement 1)",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "aal_low_leg": {
+    "description": "Lower Leg (Measurement 2)",
+    "view": "v_ALLALS_AS_ASSEDHTAL",
+    "target": "",
+    "values": {}
+  },
+  "fall_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTFQ",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "fall_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTFQ",
+    "target": "",
+    "values": {}
+  },
+  "fall_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTFQ",
+    "target": "",
+    "values": {}
+  },
+  "fall_yn": {
+    "description": "Falls in Past 4 Months?",
+    "view": "v_ALLALS_AS_ASSEDHTFQ",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "fall_freq": {
+    "description": "How Often Are Falls?",
+    "view": "v_ALLALS_AS_ASSEDHTFQ",
+    "target": "",
+    "values": {
+      "1": "Less than one time per month",
+      "5": "Multiple falls per day"
+    }
+  },
+  "fall_freq_num": {
+    "description": "Number of Falls in Past Week",
+    "view": "v_ALLALS_AS_ASSEDHTFQ",
+    "target": "",
+    "values": {}
+  },
+  "boe_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "boe_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "boe_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "boetimhh": {
+    "description": "Time of Session Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "boetimmm": {
+    "description": "Time of Session Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "boe_device": {
+    "description": "Which side are they wearing the devices",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {
+      "1": "Right",
+      "2": "Left"
+    }
+  },
+  "rek_perf": {
+    "description": "RIGHT Elbow Flexions Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_timhh_start": {
+    "description": "REF Time Started Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_timmm_start": {
+    "description": "REF Time Started Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_timss_start": {
+    "description": "REF Time Started Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_timhh_stop": {
+    "description": "REF Time Stopped Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_timmm_stop": {
+    "description": "REF Time Stopped Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_timss_stop": {
+    "description": "REF Time Stopped Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_norc": {
+    "description": "REF Number of Repetitions Completed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_tts": {
+    "description": "REF Total Time Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "ref_order": {
+    "description": "REF Order Performed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {
+      "1": "1st",
+      "2": "2nd",
+      "3": "3rd",
+      "4": "4th"
+    }
+  },
+  "lef_perf": {
+    "description": "LEFT Elbow Flexions Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_timhh_start": {
+    "description": "LEF Time Started Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_timmm_start": {
+    "description": "LEF Time Started Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_timss_start": {
+    "description": "LEF Time Started Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_timhh_stop": {
+    "description": "LEF Time Stopped Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_timmm_stop": {
+    "description": "LEF Time Stopped Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_timss_stop": {
+    "description": "LEF Time Stopped Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_norc": {
+    "description": "LEF Number of Repetitions Completed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_tts": {
+    "description": "LEF Total Time Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lef_order": {
+    "description": "LEF Order Performed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {
+      "1": "1st",
+      "2": "2nd",
+      "3": "3rd",
+      "4": "4th"
+    }
+  },
+  "rke_perf": {
+    "description": "RIGHT Knee Extensions Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_timhh_start": {
+    "description": "RKE Time Started Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_timmm_start": {
+    "description": "RKE Time Started Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_timss_start": {
+    "description": "RKE Time Started Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_timhh_stop": {
+    "description": "RKE Time Stopped Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_timmm_stop": {
+    "description": "RKE Time Stopped Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_timss_stop": {
+    "description": "RKE Time Stopped Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_norc": {
+    "description": "RKE Number of Repetitions Completed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_tts": {
+    "description": "RKE Total Time Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "rke_order": {
+    "description": "RKE Order Performed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {
+      "1": "1st",
+      "2": "2nd",
+      "3": "3rd",
+      "4": "4th"
+    }
+  },
+  "lke_perf": {
+    "description": "LEFT Knee Extensions Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_timhh_start": {
+    "description": "LKE Time Started Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_timmm_start": {
+    "description": "LKE Time Started Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_timss_start": {
+    "description": "LKE Time Started Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_timhh_stop": {
+    "description": "LKE Time Stopped Hours",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_timmm_stop": {
+    "description": "LKE Time Stopped Minutes",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_timss_stop": {
+    "description": "LKE Time Stopped Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_norc": {
+    "description": "LKE Number of Repetitions Completed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_tts": {
+    "description": "LKE Total Time Seconds",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "lke_order": {
+    "description": "LKE Order Performed",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {
+      "1": "1st",
+      "2": "2nd",
+      "3": "3rd",
+      "4": "4th"
+    }
+  },
+  "boe_rfs": {
+    "description": "Reason for Stopping",
+    "view": "v_ALLALS_AS_ASSEDHTBOE",
+    "target": "",
+    "values": {}
+  },
+  "tam_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "tam_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {}
+  },
+  "tam_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {}
+  },
+  "tam_q1": {
+    "description": "Learning Was Easy",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Somewhat agree",
+      "5": "Agree",
+      "6": "Strongly agree"
+    }
+  },
+  "tam_q2": {
+    "description": "Device Do What I Want It To",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Somewhat agree",
+      "5": "Agree",
+      "6": "Strongly agree"
+    }
+  },
+  "tam_q3": {
+    "description": "Interaction Was Clear And Smooth",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Somewhat agree",
+      "5": "Agree",
+      "6": "Strongly agree"
+    }
+  },
+  "tam_q4": {
+    "description": "Device Was Flexible",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Somewhat agree",
+      "5": "Agree",
+      "6": "Strongly agree"
+    }
+  },
+  "tam_q5": {
+    "description": "Device Let Me Be Agile",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Somewhat agree",
+      "5": "Agree",
+      "6": "Strongly agree"
+    }
+  },
+  "tam_q6": {
+    "description": "Device Easy To Use",
+    "view": "v_ALLALS_AS_ASSEDHTTAMS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Somewhat agree",
+      "5": "Agree",
+      "6": "Strongly agree"
+    }
+  },
+  "umux_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTUMUXS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "umux_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTUMUXS",
+    "target": "",
+    "values": {}
+  },
+  "umux_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTUMUXS",
+    "target": "",
+    "values": {}
+  },
+  "umux_q1": {
+    "description": "Meet Requirements",
+    "view": "v_ALLALS_AS_ASSEDHTUMUXS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Neither agree or disagree",
+      "5": "Somewhat agree",
+      "6": "Agree",
+      "7": "Strongly agree"
+    }
+  },
+  "umux_q2": {
+    "description": "Device Is Frustrating",
+    "view": "v_ALLALS_AS_ASSEDHTUMUXS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Neither agree or disagree",
+      "5": "Somewhat agree",
+      "6": "Agree",
+      "7": "Strongly agree"
+    }
+  },
+  "umux_q3": {
+    "description": "Device Is Easy To Use",
+    "view": "v_ALLALS_AS_ASSEDHTUMUXS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Neither agree or disagree",
+      "5": "Somewhat agree",
+      "6": "Agree",
+      "7": "Strongly agree"
+    }
+  },
+  "umux_q4": {
+    "description": "Spent Too Much Time Adjusting Device",
+    "view": "v_ALLALS_AS_ASSEDHTUMUXS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Neither agree or disagree",
+      "5": "Somewhat agree",
+      "6": "Agree",
+      "7": "Strongly agree"
+    }
+  },
+  "feedback_stat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "feedback_reasnd": {
+    "description": "Reason Not Done",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_dat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q1": {
+    "description": "Use Device Again?",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Neither agree nor disagree",
+      "5": "Somewhat agree",
+      "6": "Agree",
+      "7": "Strongly agree"
+    }
+  },
+  "feedback_q2": {
+    "description": "Decide Not To Use Device?",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "feedback_q3_a": {
+    "description": "Time consuming",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_b": {
+    "description": "Uncomfortable to wear",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_c": {
+    "description": "I did not remember to wear it",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_d": {
+    "description": "It is burdensome to wear",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_e": {
+    "description": "I am afraid it will reveal things about my disease",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_f": {
+    "description": "I do not feel comfortable handling technology",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_g": {
+    "description": "It is difficult to put on or take off",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_h": {
+    "description": "It was charging",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_i": {
+    "description": "Something else (please explain)",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q3_hpe": {
+    "description": "Something Else (Please Explain): Not Wearing",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_a": {
+    "description": "Improve the design",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_b": {
+    "description": "Send reminders",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_c": {
+    "description": "Make the wearing period shorter",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_d": {
+    "description": "Provide more remuneration",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_e": {
+    "description": "Provide better tech support",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_f": {
+    "description": "Nothing needs to be changed",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_g": {
+    "description": "Something else (please explain)",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q4_gpe": {
+    "description": "Something Else (Please Explain): Improve",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {}
+  },
+  "feedback_q5": {
+    "description": "Wear Device Earlier?",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Neither agree nor disagree",
+      "5": "Somewhat agree",
+      "6": "Agree",
+      "7": "Strongly agree"
+    }
+  },
+  "feedback_q6": {
+    "description": "Incorporate Device Into Trials?",
+    "view": "v_ALLALS_AS_ASSEDHTDFS",
+    "target": "",
+    "values": {
+      "1": "Strongly disagree",
+      "2": "Disagree",
+      "3": "Somewhat disagree",
+      "4": "Neither agree nor disagree",
+      "5": "Somewhat agree",
+      "6": "Agree",
+      "7": "Strongly agree"
+    }
+  },
+  "USUBJID": {
+    "description": "Study Specific ID",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "RPRTTYPE": {
+    "description": "Report Type",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "0": "Initial",
+      "1": "Follow-Up"
+    }
+  },
+  "AEDAT": {
+    "description": "Date SAE First Reported to Coordination Center",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "AESPID": {
+    "description": "Adverse Event Identifier",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "0": "***"
+    }
+  },
+  "AETERM": {
+    "description": "Verbatim Term",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "AETERM_SUPPAE": {
+    "description": "Description of SAE",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "AESEV": {
+    "description": "Highest Severity Attained",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Mild",
+      "2": "Moderate",
+      "3": "Severe"
+    }
+  },
+  "AEREL": {
+    "description": "Relationship to Study Procedure(s)",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Definite",
+      "2": "Probable",
+      "3": "Possible",
+      "4": "Unlikely",
+      "5": "Not Related"
+    }
+  },
+  "AEACN": {
+    "description": "Action Taken with Study Procedure(s)",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "None",
+      "2": "Medication Therapy",
+      "3": "Medical Procedure",
+      "4": "Hospitalization",
+      "90": "Unknown",
+      "99": "Other (specify):"
+    }
+  },
+  "AEACNOTHSP": {
+    "description": "Other Action Taken",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "SAEDTC": {
+    "description": "Date Adverse Event Became Serious",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "AESDTH": {
+    "description": "Death",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "AESDISAB": {
+    "description": "Significant Disability",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "AESHOSP": {
+    "description": "Hospitalization",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "HOSTDAT": {
+    "description": "Admission Date",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "HOENDAT": {
+    "description": "Discharge Date",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "AESLIFE": {
+    "description": "Life-Threatening",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "AESDISAB_AESCONG": {
+    "description": "Congenital Anomaly or Birth Defect",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "AESMIE": {
+    "description": "Other Medically Important Event",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "AEOUT": {
+    "description": "Outcome",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {
+      "1": "Recovered/Resolved",
+      "2": "Recovered/Resolved with Sequelae (Specify below)",
+      "3": "Recovering/Resolving",
+      "4": "Not Recovered/Not Resolved",
+      "5": "Fatal",
+      "90": "Unknown"
+    }
+  },
+  "SEQUELA": {
+    "description": "SAE Outcome with Sequelae",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "AEENDAT": {
+    "description": "Date of Outcome",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "ADDINFO_ACN_SUPPAE": {
+    "description": "Request for Additional Information:",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "REJECT_ACN_SUPPAE": {
+    "description": "Please Specify Reason for Rejection or Disapproval:",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
+    "target": "",
+    "values": {}
+  },
+  "ADDLINFO": {
+    "description": "Additional information",
+    "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
     "target": "",
     "values": {}
   }

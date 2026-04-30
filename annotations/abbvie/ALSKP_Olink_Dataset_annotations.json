@@ -1,0 +1,611 @@
+{
+  "syn74389802": {
+    "Bridged_Metadata.csv": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        "ALS Knowledge Portal"
+      ],
+      "collectionDate": "",
+      "contributor": [
+        "AbbVie"
+      ],
+      "country": "",
+      "creator": [
+        "AbbVie"
+      ],
+      "dataSourcePrefix": "abbvie",
+      "dataType": [
+        "metadata"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "genomeReference": "",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "metadata",
+        "sample level metadata"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "AbbVie",
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "fileFormat": "CSV",
+      "title": "Bridged Olink Metadata",
+      "url": "",
+      "visitType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "File",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-24T16:07:41.541193"
+    }
+  },
+  "syn74389806": {
+    "Bridged_Olink.csv": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": "",
+      "analysisTypes": [
+        "Normalized Protein Expression (NPX)",
+        "proteomics_analysis"
+      ],
+      "annotations": [
+        "HGNC"
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Knowledge Portal"
+      ],
+      "collectionDate": "",
+      "contributor": [
+        "AbbVie"
+      ],
+      "country": "",
+      "creator": [
+        "AbbVie"
+      ],
+      "dataSourcePrefix": "abbvie",
+      "dataType": [
+        "protein_abundance",
+        "proteomics"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "CSV",
+      "genomeReference": "",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "Olink NPX/count data",
+        "protein_abundance"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "site_of_onset": "",
+      "source": "AbbVie",
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "Bridged Olink Counts",
+      "url": "",
+      "variantType": [
+        ""
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-24T16:07:41.541237"
+    }
+  },
+  "syn74389573": {
+    "Phase1_Metadata.csv": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        "ALS Knowledge Portal"
+      ],
+      "collectionDate": "",
+      "contributor": [
+        "AbbVie"
+      ],
+      "country": "",
+      "creator": [
+        "AbbVie"
+      ],
+      "dataSourcePrefix": "abbvie",
+      "dataType": [
+        "metadata"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "genomeReference": "",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "metadata",
+        "sample level metadata"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "AbbVie",
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "fileFormat": "CSV",
+      "title": "Phase 1 Olink Metadata",
+      "url": "",
+      "visitType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "File",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-24T16:07:41.541193"
+    }
+  },
+  "syn74389574": {
+    "Phase1_Olink.csv": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": "",
+      "analysisTypes": [
+        "Normalized Protein Expression (NPX)",
+        "proteomics_analysis"
+      ],
+      "annotations": [
+        "HGNC"
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Knowledge Portal"
+      ],
+      "collectionDate": "",
+      "contributor": [
+        "AbbVie"
+      ],
+      "country": "",
+      "creator": [
+        "AbbVie"
+      ],
+      "dataSourcePrefix": "abbvie",
+      "dataType": [
+        "protein_abundance",
+        "proteomics"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "CSV",
+      "genomeReference": "",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "Olink NPX/count data",
+        "protein_abundance"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "site_of_onset": "",
+      "source": "AbbVie",
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "Phase 1 Olink Counts",
+      "url": "",
+      "variantType": [
+        ""
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-24T16:07:41.541237"
+    }
+  },
+  "syn74389642": {
+    "Phase2_Metadata.csv": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        "ALS Knowledge Portal"
+      ],
+      "collectionDate": "",
+      "contributor": [
+        "AbbVie"
+      ],
+      "country": "",
+      "creator": [
+        "AbbVie"
+      ],
+      "dataSourcePrefix": "abbvie",
+      "dataType": [
+        "metadata"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "CSV",
+      "genomeReference": "",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "metadata",
+        "sample level metadata"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "sameAs": "",
+      "sampleType": "",
+      "sex": "",
+      "source": "AbbVie",
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "title": "Bridged Olink Metadata",
+      "url": "",
+      "visitType": "",
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "File",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-24T16:07:41.541193"
+    }
+  },
+  "syn74389643": {
+    "Phase2_Olink.csv": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": "",
+      "analysisTypes": [
+        "Normalized Protein Expression (NPX)",
+        "proteomics_analysis"
+      ],
+      "annotations": [
+        "HGNC"
+      ],
+      "assay": [
+        ""
+      ],
+      "biospecimenType": [
+        ""
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "collection": [
+        "ALS Knowledge Portal"
+      ],
+      "collectionDate": "",
+      "contributor": [
+        "AbbVie"
+      ],
+      "country": "",
+      "creator": [
+        "AbbVie"
+      ],
+      "dataSourcePrefix": "abbvie",
+      "dataType": [
+        "protein_abundance",
+        "proteomics"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": "CSV",
+      "genomeReference": "",
+      "globalSubjectId": "",
+      "heightCm": null,
+      "includedInDataCatalog": "",
+      "keywords": [
+        "Olink NPX/count data",
+        "protein_abundance"
+      ],
+      "libraryLayout": [
+        ""
+      ],
+      "libraryPreparationMethod": "",
+      "libraryStrategy": "",
+      "license": "",
+      "originalSampleId": "",
+      "originalSubjectId": "",
+      "platform": [
+        ""
+      ],
+      "processingLevel": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "publisher": "",
+      "race": "",
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": "",
+      "site_of_onset": "",
+      "source": "AbbVie",
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": "Phase 1 Olink Counts",
+      "url": "",
+      "variantType": [
+        ""
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "OmicFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-24T16:07:41.541237"
+    }
+  }
+}

@@ -12,6 +12,7 @@ classes:
       title:
         title: Title
         range: string
+        multivalued: true
         required: false
       keywords:
         title: Keywords

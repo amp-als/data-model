@@ -27,8 +27,11 @@
     },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
+      "items": {
+        "type": "string"
+      },
       "title": "Alternate Name",
-      "type": "string"
+      "type": "array"
     },
     "analysisTypes": {
       "description": "Computational and statistical analysis methods applied to the data.",
@@ -468,8 +471,11 @@
     },
     "description": {
       "description": "Brief description; should be no more than 500 characters.",
+      "items": {
+        "type": "string"
+      },
       "title": "Description",
-      "type": "string"
+      "type": "array"
     },
     "disease": {
       "description": "Disease(s) or condition(s) associated with the data.",
@@ -829,8 +835,11 @@
     },
     "source": {
       "description": "Host platform from which the resource was sourced.",
+      "items": {
+        "type": "string"
+      },
       "title": "Source",
-      "type": "string"
+      "type": "array"
     },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
@@ -869,8 +878,11 @@
       "type": "array"
     },
     "title": {
+      "items": {
+        "type": "string"
+      },
       "title": "Title",
-      "type": "string"
+      "type": "array"
     },
     "url": {
       "description": "URL for the original resource location at source.",
@@ -879,8 +891,11 @@
     },
     "visitType": {
       "description": "Type of clinical visit (baseline, follow-up, etc.)",
+      "items": {
+        "type": "string"
+      },
       "title": "Visit Type",
-      "type": "string"
+      "type": "array"
     },
     "weightKg": {
       "description": "Weight of subject in kilograms.",

@@ -41,6 +41,7 @@ classes:
         title: Visit Type
         range: string
         description: Type of clinical visit (baseline, follow-up, etc.)
+        multivalued: true
         required: false
 
   OmicFileMixin:

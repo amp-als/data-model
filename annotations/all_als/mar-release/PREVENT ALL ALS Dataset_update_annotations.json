@@ -32,6 +32,9 @@
       "creator": [
         "ALL ALS"
       ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
       "dataType": [
         "clinical"
       ],
@@ -93,7 +96,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.712889",
+      "_created_timestamp": "2026-04-27T19:05:46.390101",
       "viewName": [
         "v_ALLALS_PR_PREVDSAUI"
       ],
@@ -106,11 +109,8 @@
       "recordCount": [
         352
       ],
-      "individualCount": [
+      "participant_count": [
         352
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -118,7 +118,7 @@
       "completenessLevel": [
         "high"
       ],
-      "_staging_id": "syn73806558"
+      "_staging_id": "syn74144624"
     }
   },
   "syn68905797": {
@@ -147,6 +147,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -195,9 +198,9 @@
       "visitType": [
         "Key Study Events"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.714937",
+      "_created_timestamp": "2026-04-27T19:05:46.391139",
       "viewName": [
         "v_ALLALS_PR_PREVELCONLMP"
       ],
@@ -217,14 +220,11 @@
       "assessmentType": [
         "EligibilityConsent"
       ],
-      "individualCount": [
+      "participant_count": [
         193
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -238,7 +238,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806560"
+      "_staging_id": "syn74144627"
     }
   },
   "syn68905830": {
@@ -267,6 +267,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "cognitive_assessment",
@@ -316,9 +319,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.716185",
+      "_created_timestamp": "2026-04-27T19:05:46.391782",
       "viewName": [
         "v_ALLALS_PR_PREVMIRSTYP"
       ],
@@ -342,14 +345,11 @@
       "assessmentType": [
         "cognitive_assessment"
       ],
-      "individualCount": [
+      "participant_count": [
         132
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -363,7 +363,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806582"
+      "_staging_id": "syn74144651"
     }
   },
   "syn68905798": {
@@ -391,6 +391,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -439,9 +442,9 @@
       "visitType": [
         "Screening"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.718327",
+      "_created_timestamp": "2026-04-27T19:05:46.393017",
       "viewName": [
         "v_ALLALS_PR_PREVELCONREG"
       ],
@@ -462,14 +465,11 @@
       "assessmentType": [
         "EligibilityConsent"
       ],
-      "individualCount": [
+      "participant_count": [
         359
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -483,7 +483,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "_staging_id": "syn73806561"
+      "_staging_id": "syn74144630"
     }
   },
   "syn68905820": {
@@ -513,6 +513,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "cognitive_assessment",
@@ -562,9 +565,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.720289",
+      "_created_timestamp": "2026-04-27T19:05:46.394098",
       "viewName": [
         "v_ALLALS_PR_PREVMIRPARTI"
       ],
@@ -588,14 +591,11 @@
       "assessmentType": [
         "cognitive_assessment"
       ],
-      "individualCount": [
+      "participant_count": [
         134
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -609,7 +609,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806580"
+      "_staging_id": "syn74144646"
     }
   },
   "syn68905831": {
@@ -636,6 +636,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "genetic_testing",
@@ -673,9 +676,9 @@
       "title": "",
       "url": "",
       "visitType": "",
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.722465",
+      "_created_timestamp": "2026-04-27T19:05:46.399233",
       "viewName": [
         "v_ALLALS_PR_PREVPREGENCONAP"
       ],
@@ -698,28 +701,19 @@
       "assessmentType": [
         "genetic_counseling"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
       "completenessLevel": [
         "high"
       ],
-      "hasLongitudinalData": [
-        false
-      ],
       "administrationMode": [
         "In_Person"
       ],
-      "individualCount": [
-        0
+      "hasLongitudinalData": [
+        false
       ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144609"
     }
   },
   "syn71824506": {
@@ -749,6 +743,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -796,9 +793,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.722625",
+      "_created_timestamp": "2026-04-27T19:05:46.400146",
       "viewName": [
         "v_ALLALS_PR_PREVVITSIGN"
       ],
@@ -822,14 +819,11 @@
       "assessmentType": [
         "VitalSigns"
       ],
-      "individualCount": [
+      "participant_count": [
         8
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -843,7 +837,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806547"
+      "_staging_id": "syn74144608"
     }
   },
   "syn68905799": {
@@ -874,6 +868,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "medication_history",
@@ -923,9 +920,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.723048",
+      "_created_timestamp": "2026-04-27T19:05:46.400340",
       "viewName": [
         "v_ALLALS_PR_PREVCONMD"
       ],
@@ -949,14 +946,11 @@
       "assessmentType": [
         "ConcomitantMedications"
       ],
-      "individualCount": [
+      "participant_count": [
         319
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -970,7 +964,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806553"
+      "_staging_id": "syn74144623"
     }
   },
   "syn68905810": {
@@ -1000,6 +994,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -1049,9 +1046,9 @@
       "visitType": [
         "Key Study Events"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.734606",
+      "_created_timestamp": "2026-04-27T19:05:46.407347",
       "viewName": [
         "v_ALLALS_PR_PREVGENCRPL"
       ],
@@ -1074,14 +1071,11 @@
       "assessmentType": [
         "CohortParticipation"
       ],
-      "individualCount": [
+      "participant_count": [
         298
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -1095,7 +1089,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806572"
+      "_staging_id": "syn74144639"
     }
   },
   "syn68905821": {
@@ -1124,6 +1118,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "cognitive_assessment",
@@ -1173,9 +1170,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.736808",
+      "_created_timestamp": "2026-04-27T19:05:46.408651",
       "viewName": [
         "v_ALLALS_PR_PREVMIRSCRPR"
       ],
@@ -1199,14 +1196,11 @@
       "assessmentType": [
         "cognitive_assessment"
       ],
-      "individualCount": [
+      "participant_count": [
         140
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -1215,12 +1209,15 @@
         "medium"
       ],
       "administrationMode": [
-        "In_Person"
+        "In_Person",
+        "Telephone",
+        "Video_Call",
+        "Other"
       ],
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806581"
+      "_staging_id": "syn74144649"
     }
   },
   "syn68905832": {
@@ -1249,6 +1246,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "quality_of_life",
@@ -1298,9 +1298,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.742402",
+      "_created_timestamp": "2026-04-27T19:05:46.413045",
       "viewName": [
         "v_ALLALS_PR_PREVSYMPQUES"
       ],
@@ -1324,14 +1324,11 @@
       "assessmentType": [
         "QualityOfLifeSurvey"
       ],
-      "individualCount": [
+      "participant_count": [
         37
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -1345,7 +1342,83 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806543"
+      "_staging_id": "syn74144611"
+    }
+  },
+  "syn68905789": {
+    "Data_Dictionary_ALLALS_PREVENT.csv": {
+      "alternateName": "",
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "collection": [
+        ""
+      ],
+      "contributor": [
+        ""
+      ],
+      "creator": [
+        ""
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "dataType": [
+        "clinical",
+        "metadata"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "globalSubjectId": "",
+      "includedInDataCatalog": "",
+      "keywords": [
+        ""
+      ],
+      "license": "",
+      "originalSubjectId": "",
+      "publisher": "",
+      "sameAs": "",
+      "sampleType": "",
+      "source": ["all_als"],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": "",
+      "subject": [
+        ""
+      ],
+      "title": "",
+      "url": "",
+      "visitType": "",
+      "_file_type": "ClinicalFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-04-27T19:05:46.417423",
+      "fileFormat": [
+        "csv"
+      ],
+      "datasetReference": [
+        "trehalose"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "hasLongitudinalData": [
+        false
+      ]
     }
   },
   "syn68905800": {
@@ -1379,6 +1452,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "demographics",
@@ -1443,7 +1519,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.745128",
+      "_created_timestamp": "2026-04-27T19:05:46.419197",
       "viewName": [
         "v_ALLALS_PR_PREVDEMOG"
       ],
@@ -1456,19 +1532,15 @@
       "recordCount": [
         135
       ],
-      "individualCount": [
+      "participant_count": [
         135
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
       ],
       "completenessLevel": [
         "high"
-      ],
-      "_staging_id": "syn73806554"
+      ]
     }
   },
   "syn68905811": {
@@ -1497,6 +1569,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "diagnostic_criteria",
@@ -1546,9 +1621,9 @@
       "visitType": [
         "Screening"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.747717",
+      "_created_timestamp": "2026-04-27T19:05:46.419262",
       "viewName": [
         "v_ALLALS_PR_PREVELIGCRITREG"
       ],
@@ -1572,14 +1647,11 @@
       "assessmentType": [
         "EligibilityCriteria"
       ],
-      "individualCount": [
+      "participant_count": [
         250
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -1593,7 +1665,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "_staging_id": "syn73806564"
+      "_staging_id": "syn74144633"
     }
   },
   "syn68905822": {
@@ -1622,6 +1694,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "cognitive_assessment",
@@ -1671,9 +1746,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.749692",
+      "_created_timestamp": "2026-04-27T19:05:46.420410",
       "viewName": [
         "v_ALLALS_PR_PREVMIRSCRSP"
       ],
@@ -1697,14 +1772,11 @@
       "assessmentType": [
         "cognitive_assessment"
       ],
-      "individualCount": [
+      "participant_count": [
         132
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -1718,7 +1790,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806583"
+      "_staging_id": "syn74144650"
     }
   },
   "syn68905833": {
@@ -1745,6 +1817,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "genetic_testing",
@@ -1782,9 +1857,9 @@
       "title": "",
       "url": "",
       "visitType": "",
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.751956",
+      "_created_timestamp": "2026-04-27T19:05:46.425528",
       "viewName": [
         "v_ALLALS_PR_PREVPSTGENCONAP"
       ],
@@ -1806,28 +1881,19 @@
       "assessmentType": [
         "genetic_counseling"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
       "completenessLevel": [
         "high"
       ],
-      "hasLongitudinalData": [
-        false
-      ],
       "administrationMode": [
         "In_Person"
       ],
-      "individualCount": [
-        0
+      "hasLongitudinalData": [
+        false
       ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144610"
     }
   },
   "syn68905801": {
@@ -1854,6 +1920,9 @@
       "creator": [
         "ALL ALS"
       ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
       "dataType": [
         "clinical"
       ],
@@ -1889,9 +1958,9 @@
       "title": "",
       "url": "",
       "visitType": "",
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.752090",
+      "_created_timestamp": "2026-04-27T19:05:46.428450",
       "viewName": [
         "v_ALLALS_PR_PREVELIGCRITA2"
       ],
@@ -1912,9 +1981,6 @@
       "assessmentType": [
         "EligibilityCriteria"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -1924,123 +1990,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "administrationMode": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
-    }
-  },
-  "syn68905812": {
-    "Eligibility Criteria 2 (PREVENT Genetic Testing Sub-Study)": {
-      "alternateName": "",
-      "analysisTypes": [
-        ""
-      ],
-      "annotations": [
-        ""
-      ],
-      "citation": [
-        ""
-      ],
-      "clinicalDomain": [
-        "genetic_testing",
-        "study_eligibility"
-      ],
-      "collection": [
-        "all_als"
-      ],
-      "contributor": [
-        "ALL ALS"
-      ],
-      "creator": [
-        "ALL ALS"
-      ],
-      "dataType": [
-        "clinical"
-      ],
-      "description": "",
-      "disease": [
-        "ALS"
-      ],
-      "diseaseSubtype": [
-        ""
-      ],
-      "globalSubjectId": "",
-      "includedInDataCatalog": "",
-      "keywords": [
-        ""
-      ],
-      "license": "",
-      "originalSubjectId": "",
-      "publisher": "",
-      "sameAs": "",
-      "sampleType": "",
-      "source": [
-        "all_als"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "studyPhase": [
-        "screening"
-      ],
-      "subject": [
-        ""
-      ],
-      "title": "",
-      "url": "",
-      "visitType": "",
-      "_file_type": "File",
-      "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.752226",
-      "viewName": [
-        "v_ALLALS_PR_PREVELIGCRTGEN2"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "keyMeasures": [
-        "genetic_inclusion_criteria",
-        "genetic_exclusion_criteria",
-        "enrollment_confirmation"
-      ],
-      "recordCount": [
-        0
-      ],
-      "assessmentType": [
-        "EligibilityCriteria"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "prevent"
-      ],
-      "completenessLevel": [
-        "low"
-      ],
-      "hasLongitudinalData": [
-        false
-      ],
-      "administrationMode": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144626"
     }
   },
   "syn68905823": {
@@ -2070,6 +2020,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -2118,9 +2071,9 @@
       "visitType": [
         "Screening"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.752354",
+      "_created_timestamp": "2026-04-27T19:05:46.429508",
       "viewName": [
         "v_ALLALS_PR_PREVICF"
       ],
@@ -2144,14 +2097,11 @@
       "assessmentType": [
         "InformedConsentForm"
       ],
-      "individualCount": [
+      "participant_count": [
         349
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -2165,13 +2115,14 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806575"
+      "_staging_id": "syn74144643"
     }
   },
   "syn68905834": {
     "Visit Type.csv": {
       "administrationMode": [
-        "In_Person"
+        "In_Person",
+        "Video_Call"
       ],
       "alternateName": [
         "v_ALLALS_PR_PREVVISTYPE"
@@ -2199,6 +2150,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -2257,7 +2211,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.755958",
+      "_created_timestamp": "2026-04-27T19:05:46.431642",
       "viewName": [
         "v_ALLALS_PR_PREVVISTYPE"
       ],
@@ -2270,11 +2224,8 @@
       "recordCount": [
         1215
       ],
-      "individualCount": [
+      "participant_count": [
         366
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -2282,7 +2233,7 @@
       "completenessLevel": [
         "high"
       ],
-      "_staging_id": "syn73806546"
+      "_staging_id": "syn74144615"
     }
   },
   "syn72663798": {
@@ -2312,6 +2263,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "functional_assessment",
@@ -2359,9 +2313,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.761540",
+      "_created_timestamp": "2026-04-27T19:05:46.435468",
       "viewName": [
         "v_ALLALS_PR_PREVDHTAL"
       ],
@@ -2385,9 +2339,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -2397,20 +2348,11 @@
       "hasLongitudinalData": [
         true
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144988"
     }
   },
   "syn68905802": {
-    "Eligibility Criteria (PREVENT Genetic Testing SubStudy).csv": {
+    "Eligibility Criteria 2 (PREVENT Genetic Testing Sub-Study).csv": {
       "alternateName": [
         "v_ALLALS_PR_PREVELIGCRITGEN"
       ],
@@ -2437,13 +2379,14 @@
       "creator": [
         "ALL ALS"
       ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
       "dataType": [
         "diagnostic_criteria",
         "clinical"
       ],
-      "description": [
-        "Genetic testing sub-study eligibility review and attestation"
-      ],
+      "description": "",
       "disease": [
         "ALS"
       ],
@@ -2486,11 +2429,11 @@
       "visitType": [
         "Genetic Testing Sub-Study"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.761679",
+      "_created_timestamp": "2026-04-27T19:05:46.439882",
       "viewName": [
-        "v_ALLALS_PR_PREVELIGCRITGEN"
+        "v_ALLALS_PR_PREVELIGCRITGEN2"
       ],
       "studyType": [
         "Clinical Trial"
@@ -2512,14 +2455,11 @@
       "assessmentType": [
         "EligibilityCriteria"
       ],
-      "individualCount": [
+      "participant_count": [
         64
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -2533,7 +2473,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "_staging_id": "syn73806566"
+      "_staging_id": "syn74144631"
     }
   },
   "syn68905813": {
@@ -2564,6 +2504,9 @@
       "creator": [
         "ALL ALS"
       ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
       "dataType": [
         "genetic_testing",
         "clinical"
@@ -2575,7 +2518,20 @@
         "ALS"
       ],
       "diseaseSubtype": [
-        ""
+        "SOD1",
+        "C9orf72",
+        "VCP-ALS",
+        "SPG11-ALS",
+        "DCTN1-ALS",
+        "SETX-ALS",
+        "ALS2-ALS",
+        "FUS",
+        "Other genetic ALS",
+        "OPTN-ALS",
+        "UNC13A-ALS",
+        "ATXN2-ALS",
+        "NEK1-ALS",
+        "ANXA11-ALS"
       ],
       "globalSubjectId": "",
       "includedInDataCatalog": "",
@@ -2612,9 +2568,9 @@
       "visitType": [
         "Genetic Counseling Visit"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.762284",
+      "_created_timestamp": "2026-04-27T19:05:46.440303",
       "viewName": [
         "v_ALLALS_PR_PREVGENTSTRES"
       ],
@@ -2638,14 +2594,11 @@
       "assessmentType": [
         "genetic_testing"
       ],
-      "individualCount": [
+      "participant_count": [
         48
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -2659,7 +2612,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806573"
+      "_staging_id": "syn74144640"
     }
   },
   "syn68905824": {
@@ -2688,6 +2641,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "study_completion",
@@ -2736,9 +2692,9 @@
       "visitType": [
         "Key Study Events"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.762974",
+      "_created_timestamp": "2026-04-27T19:05:46.440725",
       "viewName": [
         "v_ALLALS_PR_PREVPARTFINDIS"
       ],
@@ -2762,14 +2718,11 @@
       "assessmentType": [
         "StudyDisposition"
       ],
-      "individualCount": [
+      "participant_count": [
         37
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -2783,7 +2736,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "_staging_id": "syn73806585"
+      "_staging_id": "syn74144653"
     }
   },
   "syn68905835": {
@@ -2812,6 +2765,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "respiratory_assessment",
@@ -2860,9 +2816,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.763471",
+      "_created_timestamp": "2026-04-27T19:05:46.441015",
       "viewName": [
         "v_ALLALS_PR_PREVVC"
       ],
@@ -2886,14 +2842,11 @@
       "assessmentType": [
         "PulmonaryFunction"
       ],
-      "individualCount": [
+      "participant_count": [
         341
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -2907,7 +2860,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806545"
+      "_staging_id": "syn74144614"
     }
   },
   "syn72663799": {
@@ -2937,6 +2890,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "motor_assessment",
@@ -2984,9 +2940,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.767347",
+      "_created_timestamp": "2026-04-27T19:05:46.443430",
       "viewName": [
         "v_ALLALS_PR_PREVDHTBOE"
       ],
@@ -3011,9 +2967,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -3023,16 +2976,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144987"
     }
   },
   "syn68905803": {
@@ -3062,6 +3006,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -3110,9 +3057,9 @@
       "visitType": [
         "Genetic Testing Sub-Study"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.767483",
+      "_created_timestamp": "2026-04-27T19:05:46.447832",
       "viewName": [
         "v_ALLALS_PR_PREVELCONGEN"
       ],
@@ -3133,14 +3080,11 @@
       "assessmentType": [
         "EligibilityConsent"
       ],
-      "individualCount": [
+      "participant_count": [
         92
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -3154,7 +3098,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "_staging_id": "syn73806559"
+      "_staging_id": "syn74144628"
     }
   },
   "syn68905814": {
@@ -3185,6 +3129,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "motor_assessment",
@@ -3234,9 +3181,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.768239",
+      "_created_timestamp": "2026-04-27T19:05:46.448313",
       "viewName": [
         "v_ALLALS_PR_PREVGST"
       ],
@@ -3260,14 +3207,11 @@
       "assessmentType": [
         "Strength"
       ],
-      "individualCount": [
+      "participant_count": [
         345
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -3281,7 +3225,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806574"
+      "_staging_id": "syn74144641"
     }
   },
   "syn68905825": {
@@ -3310,6 +3254,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "functional_assessment",
@@ -3358,9 +3305,9 @@
       "visitType": [
         "Screening"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.771885",
+      "_created_timestamp": "2026-04-27T19:05:46.450526",
       "viewName": [
         "v_ALLALS_PR_PREVNUROEX"
       ],
@@ -3384,14 +3331,11 @@
       "assessmentType": [
         "neurological_examination"
       ],
-      "individualCount": [
+      "participant_count": [
         346
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -3405,7 +3349,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806586"
+      "_staging_id": "syn74144654"
     }
   },
   "syn68905836": {
@@ -3432,6 +3376,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -3468,9 +3415,9 @@
       "title": "",
       "url": "",
       "visitType": "",
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.802230",
+      "_created_timestamp": "2026-04-27T19:05:46.471504",
       "viewName": [
         "v_ALLALS_PR_PREVVITSIGN"
       ],
@@ -3492,9 +3439,6 @@
       "assessmentType": [
         "VitalSigns"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -3503,17 +3447,7 @@
       ],
       "hasLongitudinalData": [
         true
-      ],
-      "administrationMode": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
+      ]
     }
   },
   "syn68905804": {
@@ -3542,6 +3476,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "cognitive_assessment",
@@ -3591,9 +3528,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.802380",
+      "_created_timestamp": "2026-04-27T19:05:46.471572",
       "viewName": [
         "v_ALLALS_PR_PREVECAS"
       ],
@@ -3617,14 +3554,11 @@
       "assessmentType": [
         "ECAS"
       ],
-      "individualCount": [
+      "participant_count": [
         342
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -3633,12 +3567,13 @@
         "medium"
       ],
       "administrationMode": [
-        "In_Person"
+        "In_Person",
+        "Video_Call"
       ],
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806556"
+      "_staging_id": "syn74144629"
     }
   },
   "syn68905815": {
@@ -3665,6 +3600,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "motor_assessment",
@@ -3702,9 +3640,9 @@
       "title": "",
       "url": "",
       "visitType": "",
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.807471",
+      "_created_timestamp": "2026-04-27T19:05:46.477652",
       "viewName": [
         "v_ALLALS_PR_PREVHHD"
       ],
@@ -3724,9 +3662,6 @@
       "assessmentType": [
         "HandHeldDynamometry"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -3736,16 +3671,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "administrationMode": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144652"
     }
   },
   "syn68905826": {
@@ -3775,6 +3701,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "disease_progression",
@@ -3826,9 +3755,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.807608",
+      "_created_timestamp": "2026-04-27T19:05:46.489994",
       "viewName": [
         "v_ALLALS_PR_PREVPHENOCONVER"
       ],
@@ -3852,14 +3781,11 @@
       "assessmentType": [
         "neurological_examination"
       ],
-      "individualCount": [
+      "participant_count": [
         51
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -3873,7 +3799,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806540"
+      "_staging_id": "syn74144613"
     }
   },
   "syn68905837": {
@@ -3903,6 +3829,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "vital_signs",
@@ -3952,9 +3881,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.808433",
+      "_created_timestamp": "2026-04-27T19:05:46.490584",
       "viewName": [
         "v_ALLALS_PR_PREVWEIGHT"
       ],
@@ -3978,14 +3907,11 @@
       "assessmentType": [
         "VitalSigns"
       ],
-      "individualCount": [
+      "participant_count": [
         166
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -3999,7 +3925,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806548"
+      "_staging_id": "syn74144616"
     }
   },
   "syn72663801": {
@@ -4028,6 +3954,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "diagnostic_criteria",
@@ -4075,9 +4004,9 @@
       "visitType": [
         "Screening"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.810069",
+      "_created_timestamp": "2026-04-27T19:05:46.491565",
       "viewName": [
         "v_ALLALS_PR_PREVDHTELCR"
       ],
@@ -4101,9 +4030,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -4113,16 +4039,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144986"
     }
   },
   "syn68905805": {
@@ -4147,10 +4064,13 @@
         "all_als"
       ],
       "contributor": [
-        "ALL ALS"
+        ""
       ],
       "creator": [
-        "ALL ALS"
+        ""
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "cognitive_assessment",
@@ -4200,9 +4120,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.810208",
+      "_created_timestamp": "2026-04-27T19:05:46.491792",
       "viewName": [
         "v_ALLALS_PR_PREVECASCGI"
       ],
@@ -4226,14 +4146,11 @@
       "assessmentType": [
         "ECAS"
       ],
-      "individualCount": [
+      "participant_count": [
         331
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -4247,11 +4164,11 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": ""
+      "_staging_id": "syn74144625"
     }
   },
   "syn68905816": {
-    "Informed Consent Log (Genetic Testing)": {
+    "Informed Consent Log Genetic Testing Sub-Study.csv": {
       "alternateName": "",
       "analysisTypes": [
         ""
@@ -4263,17 +4180,21 @@
         ""
       ],
       "clinicalDomain": [
+        "subject_management",
         "genetic_testing",
         "informed_consent"
       ],
       "collection": [
-        "all_als"
+        ""
       ],
       "contributor": [
-        "ALL ALS"
+        ""
       ],
       "creator": [
-        "ALL ALS"
+        ""
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -4295,9 +4216,7 @@
       "publisher": "",
       "sameAs": "",
       "sampleType": "",
-      "source": [
-        "all_als"
-      ],
+      "source": ["all_als"],
       "species": [
         "Homo sapiens"
       ],
@@ -4310,9 +4229,9 @@
       "title": "",
       "url": "",
       "visitType": "",
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.810339",
+      "_created_timestamp": "2026-04-27T19:05:46.495235",
       "viewName": [
         "v_ALLALS_PR_PREVICFGEN"
       ],
@@ -4333,9 +4252,6 @@
       "assessmentType": [
         "InformedConsentForm"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -4345,16 +4261,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "administrationMode": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144644"
     }
   },
   "syn68905827": {
@@ -4383,6 +4290,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -4430,9 +4340,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.810468",
+      "_created_timestamp": "2026-04-27T19:05:46.495735",
       "viewName": [
         "v_ALLALS_PR_PREVPDEVAD"
       ],
@@ -4456,14 +4366,11 @@
       "assessmentType": [
         "ProtocolDeviation"
       ],
-      "individualCount": [
+      "participant_count": [
         203
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -4477,7 +4384,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806587"
+      "_staging_id": "syn74144655"
     }
   },
   "syn72663802": {
@@ -4506,6 +4413,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -4552,9 +4462,9 @@
       "visitType": [
         "Screening"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.815664",
+      "_created_timestamp": "2026-04-27T19:05:46.498824",
       "viewName": [
         "v_ALLALS_PR_PREVDHTENCONF"
       ],
@@ -4575,9 +4485,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -4587,16 +4494,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144990"
     }
   },
   "syn68905806": {
@@ -4625,6 +4523,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "diagnostic_criteria",
@@ -4674,9 +4575,9 @@
       "visitType": [
         "Key Study Events"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.815802",
+      "_created_timestamp": "2026-04-27T19:05:46.499042",
       "viewName": [
         "v_ALLALS_PR_PREVELIGCRITLMP"
       ],
@@ -4700,14 +4601,11 @@
       "assessmentType": [
         "EligibilityCriteria"
       ],
-      "individualCount": [
+      "participant_count": [
         201
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -4721,7 +4619,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "_staging_id": "syn73806565"
+      "_staging_id": "syn74144632"
     }
   },
   "syn68905817": {
@@ -4757,6 +4655,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "family_history",
@@ -4822,7 +4723,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.817513",
+      "_created_timestamp": "2026-04-27T19:05:46.500051",
       "viewName": [
         "v_ALLALS_PR_PREVFAMHIST"
       ],
@@ -4835,11 +4736,8 @@
       "recordCount": [
         1475
       ],
-      "individualCount": [
+      "participant_count": [
         346
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -4847,7 +4745,7 @@
       "completenessLevel": [
         "high"
       ],
-      "_staging_id": "syn73806570"
+      "_staging_id": "syn74144638"
     }
   },
   "syn68905828": {
@@ -4876,6 +4774,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "functional_assessment",
@@ -4924,9 +4825,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.836312",
+      "_created_timestamp": "2026-04-27T19:05:46.511118",
       "viewName": [
         "v_ALLALS_PR_PREVPHEXM"
       ],
@@ -4950,14 +4851,11 @@
       "assessmentType": [
         "PhysicalExam"
       ],
-      "individualCount": [
+      "participant_count": [
         8
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -4971,7 +4869,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806544"
+      "_staging_id": "syn74144607"
     }
   },
   "syn72663803": {
@@ -5002,6 +4900,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "functional_assessment",
@@ -5049,9 +4950,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.836718",
+      "_created_timestamp": "2026-04-27T19:05:46.511324",
       "viewName": [
         "v_ALLALS_PR_PREVDHTFQ"
       ],
@@ -5073,9 +4974,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -5085,16 +4983,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144985"
     }
   },
   "syn68905807": {
@@ -5124,6 +5013,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "electrophysiology",
@@ -5173,9 +5065,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.836860",
+      "_created_timestamp": "2026-04-27T19:05:46.511540",
       "viewName": [
         "v_ALLALS_PR_PREVEMG"
       ],
@@ -5199,14 +5091,11 @@
       "assessmentType": [
         "EMG"
       ],
-      "individualCount": [
+      "participant_count": [
         90
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -5220,7 +5109,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806567"
+      "_staging_id": "syn74144642"
     }
   },
   "syn68905818": {
@@ -5250,6 +5139,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
@@ -5298,9 +5190,9 @@
       "visitType": [
         "Key Study Events"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.838554",
+      "_created_timestamp": "2026-04-27T19:05:46.512566",
       "viewName": [
         "v_ALLALS_PR_PREVKEYDEV"
       ],
@@ -5324,14 +5216,11 @@
       "assessmentType": [
         "KeyDevicesProcedures"
       ],
-      "individualCount": [
+      "participant_count": [
         182
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -5345,7 +5234,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806578"
+      "_staging_id": "syn74144645"
     }
   },
   "syn68905829": {
@@ -5375,6 +5264,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "genetic_testing",
@@ -5465,9 +5357,9 @@
       "visitType": [
         "Screening"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.840657",
+      "_created_timestamp": "2026-04-27T19:05:46.513783",
       "viewName": [
         "v_ALLALS_PR_PREVPRALSGENTST"
       ],
@@ -5491,14 +5383,11 @@
       "assessmentType": [
         "genetic_testing"
       ],
-      "individualCount": [
+      "participant_count": [
         338
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -5512,7 +5401,7 @@
       "hasLongitudinalData": [
         false
       ],
-      "_staging_id": "syn73806539"
+      "_staging_id": "syn74144612"
     }
   },
   "syn72663804": {
@@ -5544,6 +5433,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "functional_assessment",
@@ -5593,9 +5485,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.843882",
+      "_created_timestamp": "2026-04-27T19:05:46.515749",
       "viewName": [
         "v_ALLALS_PR_PREVDHTSAS"
       ],
@@ -5620,9 +5512,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -5632,16 +5521,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144989"
     }
   },
   "syn68905808": {
@@ -5677,6 +5557,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "study_completion",
@@ -5741,7 +5624,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.844039",
+      "_created_timestamp": "2026-04-27T19:05:46.516091",
       "viewName": [
         "v_ALLALS_PR_PREVENDVISFRM"
       ],
@@ -5754,11 +5637,8 @@
       "recordCount": [
         388
       ],
-      "individualCount": [
+      "participant_count": [
         340
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -5766,7 +5646,7 @@
       "completenessLevel": [
         "medium"
       ],
-      "_staging_id": "syn73806568"
+      "_staging_id": "syn74144635"
     }
   },
   "syn68905819": {
@@ -5802,6 +5682,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "medical_history",
@@ -5867,7 +5750,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.847302",
+      "_created_timestamp": "2026-04-27T19:05:46.517942",
       "viewName": [
         "v_ALLALS_PR_PREVMEDHX"
       ],
@@ -5880,11 +5763,8 @@
       "recordCount": [
         2536
       ],
-      "individualCount": [
+      "participant_count": [
         338
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -5892,7 +5772,7 @@
       "completenessLevel": [
         "high"
       ],
-      "_staging_id": "syn73806579"
+      "_staging_id": "syn74144648"
     }
   },
   "syn72663805": {
@@ -5921,6 +5801,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "surveyData",
@@ -5968,9 +5851,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.861703",
+      "_created_timestamp": "2026-04-27T19:05:46.526043",
       "viewName": [
         "v_ALLALS_PR_PREVDHTPAS"
       ],
@@ -5992,9 +5875,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -6004,16 +5884,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144991"
     }
   },
   "syn68905809": {
@@ -6043,6 +5914,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "genetic_testing",
@@ -6092,9 +5966,9 @@
       "visitType": [
         "Key Study Events"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.861862",
+      "_created_timestamp": "2026-04-27T19:05:46.526265",
       "viewName": [
         "v_ALLALS_PR_PREVGENCOUNREF"
       ],
@@ -6118,14 +5992,11 @@
       "assessmentType": [
         "genetic_counseling"
       ],
-      "individualCount": [
+      "participant_count": [
         337
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -6139,7 +6010,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806571"
+      "_staging_id": "syn74144636"
     }
   },
   "syn72663806": {
@@ -6169,6 +6040,9 @@
       "creator": [
         "ALL ALS"
       ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
       "dataType": [
         "surveyData",
         "clinical"
@@ -6179,7 +6053,9 @@
       "disease": [
         "ALS"
       ],
-      "diseaseSubtype": [],
+      "diseaseSubtype": [
+        ""
+      ],
       "globalSubjectId": "",
       "includedInDataCatalog": "",
       "keywords": [
@@ -6214,9 +6090,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.864342",
+      "_created_timestamp": "2026-04-27T19:05:46.527635",
       "viewName": [
         "v_ALLALS_PR_PREVDHTTAMS"
       ],
@@ -6240,9 +6116,6 @@
       "subjectIdColumn": [
         "SubjectUID"
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
       "datasetReference": [
         "prevent"
       ],
@@ -6252,22 +6125,14 @@
       "hasLongitudinalData": [
         true
       ],
-      "completenessLevel": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "recordCount": [
-        0
-      ],
-      "_staging_id": ""
+      "_staging_id": "syn74144992"
     }
   },
   "syn71824493": {
     "Optional Genetic Counseling Visit History.csv": {
       "administrationMode": [
-        "In_Person"
+        "In_Person",
+        "Video_Call"
       ],
       "alternateName": [
         "v_ALLALS_PR_PREVOGCVH"
@@ -6297,6 +6162,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "genetic_testing",
@@ -6359,7 +6227,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.864486",
+      "_created_timestamp": "2026-04-27T19:05:46.527857",
       "viewName": [
         "v_ALLALS_PR_PREVOGCVH"
       ],
@@ -6372,11 +6240,8 @@
       "recordCount": [
         1
       ],
-      "individualCount": [
+      "participant_count": [
         1
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -6384,27 +6249,26 @@
       "completenessLevel": [
         "low"
       ],
-      "_staging_id": "syn73806584"
+      "_staging_id": "syn74144647"
     }
   },
-  "syn71824484": {
-    "Informed Consent Log Genetic Testing SubStudy.csv": {
+  "syn73806563": {
+    "Eligibility Criteria (PREVENT Genetic Testing Sub-Study).csv": {
       "alternateName": [
-        "v_ALLALS_PR_PREVICFGEN"
+        "v_ALLALS_PR_PREVELIGCRITGEN"
       ],
       "analysisTypes": [
-        "consent_management"
+        ""
       ],
       "annotations": [
-        "SNOMED",
-        "HGNC"
+        ""
       ],
       "citation": [
         ""
       ],
       "clinicalDomain": [
-        "genetic_testing",
-        "informed_consent"
+        "eligibility_criteria",
+        "genetic_testing"
       ],
       "collection": [
         "all_als"
@@ -6415,12 +6279,12 @@
       "creator": [
         "ALL ALS"
       ],
+      "dataSourcePrefix": "",
       "dataType": [
+        "diagnostic_criteria",
         "clinical"
       ],
-      "description": [
-        "Genetic testing sub-study informed consent approvals and versions"
-      ],
+      "description": "",
       "disease": [
         "ALS"
       ],
@@ -6430,15 +6294,9 @@
       "globalSubjectId": "",
       "includedInDataCatalog": "",
       "keywords": [
-        "genetic_testing",
-        "InformedConsentForm",
-        "consent_version",
-        "subject_management",
-        "clinical"
+        ""
       ],
-      "license": [
-        "UNKNOWN"
-      ],
+      "license": "",
       "originalSubjectId": "",
       "publisher": "",
       "sameAs": "",
@@ -6453,60 +6311,21 @@
         "screening"
       ],
       "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
+        ""
       ],
-      "title": [
-        "Informed Consent Log: Genetic Testing Sub-Study"
-      ],
+      "title": "",
       "url": "",
-      "visitType": [
-        "Genetic Testing Sub-Study"
-      ],
-      "_file_type": "File",
+      "visitType": "",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.864777",
+      "_created_timestamp": "2026-04-27T19:05:46.528026",
       "viewName": [
-        "v_ALLALS_PR_PREVICFGEN"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "keyMeasures": [
-        "dsyn",
-        "dsreasnd",
-        "dsicfdat"
-      ],
-      "recordCount": [
-        96
+        "v_ALLALS_PR_PREVELIGCRITGEN"
       ],
       "assessmentType": [
-        "InformedConsentForm"
+        "EligibilityCriteria"
       ],
-      "individualCount": [
-        94
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "prevent"
-      ],
-      "completenessLevel": [
-        "medium"
-      ],
-      "administrationMode": [
-        "In_Person"
-      ],
-      "hasLongitudinalData": [
-        true
-      ],
-      "_staging_id": "syn73806576"
+      "_staging_id": "syn74144634"
     }
   },
   "syn71824485": {
@@ -6536,6 +6355,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "motor_assessment",
@@ -6585,9 +6407,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.865579",
+      "_created_timestamp": "2026-04-27T19:05:46.530843",
       "viewName": [
         "v_ALLALS_PR_PREVHHD"
       ],
@@ -6611,14 +6433,11 @@
       "assessmentType": [
         "HandHeldDynamometry"
       ],
-      "individualCount": [
+      "participant_count": [
         344
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -6631,8 +6450,7 @@
       ],
       "hasLongitudinalData": [
         true
-      ],
-      "_staging_id": "syn73806577"
+      ]
     }
   },
   "syn68905790": {
@@ -6663,6 +6481,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "adverse_events",
@@ -6712,9 +6533,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.883854",
+      "_created_timestamp": "2026-04-27T19:05:46.530904",
       "viewName": [
         "v_ALLALS_PR_PREVAELOG"
       ],
@@ -6738,14 +6559,11 @@
       "assessmentType": [
         "AdverseEventLog"
       ],
-      "individualCount": [
+      "participant_count": [
         137
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -6759,7 +6577,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806549"
+      "_staging_id": "syn74144617"
     }
   },
   "syn68905791": {
@@ -6795,6 +6613,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "bulbar_assessment",
@@ -6858,7 +6679,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.885279",
+      "_created_timestamp": "2026-04-27T19:05:46.531688",
       "viewName": [
         "v_ALLALS_PR_PREVDSA"
       ],
@@ -6871,11 +6692,8 @@
       "recordCount": [
         550
       ],
-      "individualCount": [
+      "participant_count": [
         345
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -6883,7 +6701,7 @@
       "completenessLevel": [
         "medium"
       ],
-      "_staging_id": "syn73806555"
+      "_staging_id": "syn74144622"
     }
   },
   "syn68905792": {
@@ -6902,20 +6720,23 @@
         "subject_management"
       ],
       "collection": [
-        "all_als"
+        ""
       ],
       "contributor": [
-        "ALL ALS"
+        ""
       ],
       "creator": [
-        "ALL ALS"
+        ""
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "clinical"
       ],
       "description": "",
       "disease": [
-        "ALS"
+        ""
       ],
       "diseaseSubtype": [
         ""
@@ -6930,14 +6751,12 @@
       "publisher": "",
       "sameAs": "",
       "sampleType": "",
-      "source": [
-        "all_als"
-      ],
+      "source": ["all_als"],
       "species": [
         "Homo sapiens"
       ],
       "studyPhase": [
-        "longitudinal"
+        "screening"
       ],
       "subject": [
         ""
@@ -6945,9 +6764,9 @@
       "title": "",
       "url": "",
       "visitType": "",
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.888431",
+      "_created_timestamp": "2026-04-27T19:05:46.535474",
       "viewName": [
         "v_ALLALS_PR_NPROREG"
       ],
@@ -6965,10 +6784,7 @@
         176
       ],
       "assessmentType": [
-        "CohortParticipation"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
+        "ClinicalExamination"
       ],
       "datasetReference": [
         "prevent"
@@ -6978,17 +6794,7 @@
       ],
       "hasLongitudinalData": [
         false
-      ],
-      "administrationMode": [
-        ""
-      ],
-      "individualCount": [
-        0
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "_staging_id": ""
+      ]
     }
   },
   "syn71824499": {
@@ -7018,6 +6824,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "genetic_testing",
@@ -7067,9 +6876,9 @@
       "visitType": [
         "Genetic Counseling Visit"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.888566",
+      "_created_timestamp": "2026-04-27T19:05:46.538955",
       "viewName": [
         "v_ALLALS_PR_PREVPREGENCONAP"
       ],
@@ -7093,14 +6902,11 @@
       "assessmentType": [
         "genetic_counseling"
       ],
-      "individualCount": [
+      "participant_count": [
         77
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -7113,8 +6919,7 @@
       ],
       "hasLongitudinalData": [
         false
-      ],
-      "_staging_id": "syn73806541"
+      ]
     }
   },
   "syn71824500": {
@@ -7144,6 +6949,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "genetic_testing",
@@ -7193,9 +7001,9 @@
       "visitType": [
         "Genetic Counseling Visit"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.889976",
+      "_created_timestamp": "2026-04-27T19:05:46.543039",
       "viewName": [
         "v_ALLALS_PR_PREVPSTGENCONAP"
       ],
@@ -7219,14 +7027,11 @@
       "assessmentType": [
         "genetic_counseling"
       ],
-      "individualCount": [
+      "participant_count": [
         58
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -7239,8 +7044,7 @@
       ],
       "hasLongitudinalData": [
         true
-      ],
-      "_staging_id": "syn73806542"
+      ]
     }
   },
   "syn68905793": {
@@ -7269,6 +7073,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "biomarker_data",
@@ -7318,9 +7125,9 @@
       "visitType": [
         "Remote Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.890791",
+      "_created_timestamp": "2026-04-27T19:05:46.543104",
       "viewName": [
         "v_ALLALS_PR_PREVBLDCOLREM"
       ],
@@ -7344,14 +7151,11 @@
       "assessmentType": [
         "BiomarkerSerumCollection"
       ],
-      "individualCount": [
+      "participant_count": [
         158
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -7365,7 +7169,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806550"
+      "_staging_id": "syn74144618"
     }
   },
   "syn71824478": {
@@ -7401,6 +7205,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "followup_visit",
@@ -7463,7 +7270,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.892914",
+      "_created_timestamp": "2026-04-27T19:05:46.547065",
       "viewName": [
         "v_ALLALS_PR_PREVFUTELEV"
       ],
@@ -7476,11 +7283,8 @@
       "recordCount": [
         10
       ],
-      "individualCount": [
+      "participant_count": [
         10
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -7488,7 +7292,7 @@
       "completenessLevel": [
         "medium"
       ],
-      "_staging_id": "syn73806569"
+      "_staging_id": "syn74144637"
     }
   },
   "syn68905794": {
@@ -7517,6 +7321,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "biomarker_data",
@@ -7566,9 +7373,9 @@
       "visitType": [
         "In-Clinic Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.893392",
+      "_created_timestamp": "2026-04-27T19:05:46.550360",
       "viewName": [
         "v_ALLALS_PR_PREVBLDCOLINC"
       ],
@@ -7592,14 +7399,11 @@
       "assessmentType": [
         "BiomarkerSerumCollection"
       ],
-      "individualCount": [
+      "participant_count": [
         351
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -7613,7 +7417,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806551"
+      "_staging_id": "syn74144619"
     }
   },
   "syn68905795": {
@@ -7642,6 +7446,9 @@
       ],
       "creator": [
         "ALL ALS"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
       ],
       "dataType": [
         "biomarker_data",
@@ -7692,9 +7499,9 @@
       "visitType": [
         "Follow-up"
       ],
-      "_file_type": "File",
+      "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.896285",
+      "_created_timestamp": "2026-04-27T19:05:46.552072",
       "viewName": [
         "v_ALLALS_PR_PREVCSFCO"
       ],
@@ -7718,14 +7525,11 @@
       "assessmentType": [
         "Laboratory"
       ],
-      "individualCount": [
+      "participant_count": [
         168
       ],
       "subjectIdColumn": [
         "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
       ],
       "datasetReference": [
         "prevent"
@@ -7739,558 +7543,7 @@
       "hasLongitudinalData": [
         true
       ],
-      "_staging_id": "syn73806552"
-    }
-  },
-  "syn71824458": {
-    "Enrollment in NeuroPRO.csv": {
-      "alternateName": [
-        "v_ALLALS_PR_NPROREG"
-      ],
-      "analysisTypes": [
-        "enrollment_tracking"
-      ],
-      "annotations": [
-        "SNOMED"
-      ],
-      "citation": [
-        ""
-      ],
-      "clinicalDomain": [
-        "subject_management"
-      ],
-      "collection": [
-        "all_als"
-      ],
-      "contributor": [
-        "ALL ALS"
-      ],
-      "creator": [
-        "ALL ALS"
-      ],
-      "dataType": [
-        "clinical"
-      ],
-      "description": [
-        "Enrollment status for the NeuroPRO registry during PREVENT key study events"
-      ],
-      "disease": [
-        "ALS"
-      ],
-      "diseaseSubtype": [
-        ""
-      ],
-      "globalSubjectId": "",
-      "includedInDataCatalog": "",
-      "keywords": [
-        "NeuroPRO",
-        "registry_enrollment",
-        "subject_management",
-        "CohortParticipation",
-        "clinical"
-      ],
-      "license": [
-        "UNKNOWN"
-      ],
-      "originalSubjectId": "",
-      "publisher": "",
-      "sameAs": "",
-      "sampleType": "",
-      "source": [
-        "all_als"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "studyPhase": [
-        "longitudinal"
-      ],
-      "subject": [
-        "Amyotrophic lateral sclerosis--Patients"
-      ],
-      "title": [
-        "Enrollment in NeuroPRO"
-      ],
-      "url": "",
-      "visitType": [
-        "Key Study Events"
-      ],
-      "_file_type": "File",
-      "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.897651",
-      "viewName": [
-        "v_ALLALS_PR_NPROREG"
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "keyMeasures": [
-        "npro_enroll",
-        "nprodat"
-      ],
-      "recordCount": [
-        366
-      ],
-      "assessmentType": [
-        "CohortParticipation"
-      ],
-      "individualCount": [
-        366
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "prevent"
-      ],
-      "completenessLevel": [
-        "high"
-      ],
-      "administrationMode": [
-        "In_Person"
-      ],
-      "hasLongitudinalData": [
-        true
-      ],
-      "_staging_id": ""
-    }
-  },
-  "syn73806088": {
-    "Data_Dictionary_ALLALS_PREVENT.csv": {
-      "alternateName": [
-        "ALL ALS PREVENT Data Dictionary"
-      ],
-      "analysisTypes": [
-        ""
-      ],
-      "annotations": [
-        ""
-      ],
-      "citation": [
-        ""
-      ],
-      "clinicalDomain": [
-        ""
-      ],
-      "collection": [
-        "all_als"
-      ],
-      "contributor": [
-        "ALL ALS"
-      ],
-      "creator": [
-        "ALL ALS"
-      ],
-      "dataType": [
-        ""
-      ],
-      "description": [
-        "A data dictionary that defines the schema for the ALL ALS PREVENT study, including information on subjects, visits, and forms."
-      ],
-      "disease": [
-        "ALS"
-      ],
-      "diseaseSubtype": [
-        ""
-      ],
-      "globalSubjectId": "",
-      "includedInDataCatalog": "",
-      "keywords": [
-        "data dictionary"
-      ],
-      "license": "",
-      "originalSubjectId": "",
-      "publisher": "",
-      "sameAs": "",
-      "sampleType": "",
-      "source": [
-        "ALL ALS"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "studyPhase": "",
-      "subject": [
-        ""
-      ],
-      "title": [
-        "Data Dictionary for the ALL ALS PREVENT Study"
-      ],
-      "url": "",
-      "visitType": "",
-      "_file_type": "File",
-      "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.897785",
-      "administrationMode": [
-        ""
-      ],
-      "assessmentType": [
-        ""
-      ],
-      "completenessLevel": [
-        ""
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "prevent"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "hasLongitudinalData": [
-        true
-      ],
-      "individualCount": [
-        0
-      ],
-      "keyMeasures": [
-        ""
-      ],
-      "recordCount": [
-        0
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ],
-      "viewName": [
-        ""
-      ],
-      "_staging_id": ""
-    }
-  },
-  "syn73806557": {
-    "ECAS (Edinburgh Cognitive and Behavioral ALS Screen) - Caregiver Interview.csv": {
-      "alternateName": [
-        "v_ALLALS_PR_PREVECASCGI"
-      ],
-      "analysisTypes": [
-        ""
-      ],
-      "annotations": [
-        ""
-      ],
-      "citation": [
-        ""
-      ],
-      "clinicalDomain": [
-        "cognitive_function",
-        "subject_management"
-      ],
-      "collection": [
-        "all_als"
-      ],
-      "contributor": [
-        "ALL ALS"
-      ],
-      "creator": [
-        "ALL ALS"
-      ],
-      "dataType": [
-        "cognitive_assessment",
-        "clinical"
-      ],
-      "description": "",
-      "disease": [
-        "ALS"
-      ],
-      "diseaseSubtype": [
-        ""
-      ],
-      "globalSubjectId": "",
-      "includedInDataCatalog": "",
-      "keywords": [
-        ""
-      ],
-      "license": "",
-      "originalSubjectId": "",
-      "publisher": "",
-      "sameAs": "",
-      "sampleType": "",
-      "source": [
-        "all_als"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "studyPhase": [
-        "longitudinal"
-      ],
-      "subject": [
-        ""
-      ],
-      "title": "",
-      "url": "",
-      "visitType": "",
-      "_file_type": "File",
-      "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.897912",
-      "_staging_id": "syn73806557",
-      "viewName": [
-        "v_ALLALS_PR_PREVECASCGI"
-      ],
-      "assessmentType": [
-        "ECAS"
-      ],
-      "administrationMode": [
-        ""
-      ],
-      "completenessLevel": [
-        ""
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "prevent"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "hasLongitudinalData": [
-        true
-      ],
-      "individualCount": [
-        0
-      ],
-      "keyMeasures": [
-        ""
-      ],
-      "recordCount": [
-        0
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ]
-    }
-  },
-  "syn73806562": {
-    "Eligibility Criteria (PREVENT).csv": {
-      "alternateName": [
-        "v_ALLALS_PR_PREVELIGCRITREG"
-      ],
-      "analysisTypes": [
-        ""
-      ],
-      "annotations": [
-        ""
-      ],
-      "citation": [
-        ""
-      ],
-      "clinicalDomain": [
-        "eligibility_criteria",
-        "diagnosis_criteria"
-      ],
-      "collection": [
-        "all_als"
-      ],
-      "contributor": [
-        "ALL ALS"
-      ],
-      "creator": [
-        "ALL ALS"
-      ],
-      "dataType": [
-        "diagnostic_criteria",
-        "clinical"
-      ],
-      "description": "",
-      "disease": [
-        "ALS"
-      ],
-      "diseaseSubtype": [
-        ""
-      ],
-      "globalSubjectId": "",
-      "includedInDataCatalog": "",
-      "keywords": [
-        ""
-      ],
-      "license": "",
-      "originalSubjectId": "",
-      "publisher": "",
-      "sameAs": "",
-      "sampleType": "",
-      "source": [
-        "all_als"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "studyPhase": [
-        "screening"
-      ],
-      "subject": [
-        ""
-      ],
-      "title": "",
-      "url": "",
-      "visitType": "",
-      "_file_type": "File",
-      "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.903175",
-      "_staging_id": "syn73806562",
-      "viewName": [
-        "v_ALLALS_PR_PREVELIGCRITREG"
-      ],
-      "assessmentType": [
-        "EligibilityCriteria"
-      ],
-      "administrationMode": [
-        ""
-      ],
-      "completenessLevel": [
-        ""
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "prevent"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "hasLongitudinalData": [
-        true
-      ],
-      "individualCount": [
-        0
-      ],
-      "keyMeasures": [
-        ""
-      ],
-      "recordCount": [
-        0
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ]
-    }
-  },
-  "syn73806563": {
-    "Eligibility Criteria (PREVENT Genetic Testing Sub-Study).csv": {
-      "alternateName": [
-        "v_ALLALS_PR_PREVELIGCRITGEN"
-      ],
-      "analysisTypes": [
-        ""
-      ],
-      "annotations": [
-        ""
-      ],
-      "citation": [
-        ""
-      ],
-      "clinicalDomain": [
-        "eligibility_criteria",
-        "genetic_testing"
-      ],
-      "collection": [
-        "all_als"
-      ],
-      "contributor": [
-        "ALL ALS"
-      ],
-      "creator": [
-        "ALL ALS"
-      ],
-      "dataType": [
-        "diagnostic_criteria",
-        "clinical"
-      ],
-      "description": "",
-      "disease": [
-        "ALS"
-      ],
-      "diseaseSubtype": [
-        ""
-      ],
-      "globalSubjectId": "",
-      "includedInDataCatalog": "",
-      "keywords": [
-        ""
-      ],
-      "license": "",
-      "originalSubjectId": "",
-      "publisher": "",
-      "sameAs": "",
-      "sampleType": "",
-      "source": [
-        "all_als"
-      ],
-      "species": [
-        "Homo sapiens"
-      ],
-      "studyPhase": [
-        "screening"
-      ],
-      "subject": [
-        ""
-      ],
-      "title": "",
-      "url": "",
-      "visitType": "",
-      "_file_type": "File",
-      "_schema_source": "json-schema",
-      "_created_timestamp": "2026-03-17T02:27:35.904602",
-      "_staging_id": "syn73806563",
-      "viewName": [
-        "v_ALLALS_PR_PREVELIGCRITGEN"
-      ],
-      "assessmentType": [
-        "EligibilityCriteria"
-      ],
-      "administrationMode": [
-        ""
-      ],
-      "completenessLevel": [
-        ""
-      ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
-      "datasetReference": [
-        "prevent"
-      ],
-      "fileFormat": [
-        "csv"
-      ],
-      "hasLongitudinalData": [
-        true
-      ],
-      "individualCount": [
-        0
-      ],
-      "keyMeasures": [
-        ""
-      ],
-      "recordCount": [
-        0
-      ],
-      "studyType": [
-        "Clinical Trial"
-      ],
-      "subjectIdColumn": [
-        "SubjectUID"
-      ]
+      "_staging_id": "syn74144621"
     }
   }
 }

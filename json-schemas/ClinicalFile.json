@@ -8,22 +8,30 @@
   "properties": {
     "administrationMode": {
       "description": "The method by which the assessment or data collection was performed",
+      "items": {
+        "description": "",
+        "enum": [
+          "In_Person",
+          "Telephone",
+          "Video_Call",
+          "Self_Administered",
+          "Caregiver_Assisted",
+          "Other",
+          "partner_assessment"
+        ],
+        "title": "AdministrationModeEnum",
+        "type": "string"
+      },
       "title": "Administration Mode",
-      "enum": [
-        "In_Person",
-        "Telephone",
-        "Video_Call",
-        "Self_Administered",
-        "Caregiver_Assisted",
-        "Other",
-        "partner_assessment"
-      ],
-      "type": "string"
+      "type": "array"
     },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
+      "items": {
+        "type": "string"
+      },
       "title": "Alternate Name",
-      "type": "string"
+      "type": "array"
     },
     "analysisTypes": {
       "description": "Computational and statistical analysis methods applied to the data.",
@@ -258,6 +266,21 @@
       "title": "Collection",
       "type": "array"
     },
+    "completenessLevel": {
+      "description": "General assessment of data completeness based on non-null values",
+      "items": {
+        "description": "",
+        "enum": [
+          "high",
+          "medium",
+          "low"
+        ],
+        "title": "CompletenessLevelEnum",
+        "type": "string"
+      },
+      "title": "Completeness Level",
+      "type": "array"
+    },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the resource.",
       "items": {
@@ -335,10 +358,21 @@
       "title": "Data Type",
       "type": "array"
     },
+    "datasetReference": {
+      "description": "Reference to dataset this file belongs to",
+      "items": {
+        "type": "string"
+      },
+      "title": "Dataset Reference",
+      "type": "array"
+    },
     "description": {
       "description": "Brief description; should be no more than 500 characters.",
+      "items": {
+        "type": "string"
+      },
       "title": "Description",
-      "type": "string"
+      "type": "array"
     },
     "disease": {
       "description": "Disease(s) or condition(s) associated with the data.",
@@ -576,6 +610,14 @@
       "title": "Disease Subtype",
       "type": "array"
     },
+    "fileFormat": {
+      "description": "Format of the clinical data file (CSV, TSV, etc.)",
+      "items": {
+        "type": "string"
+      },
+      "title": "File Format",
+      "type": "array"
+    },
     "globalSubjectId": {
       "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
       "pattern": "^[a-zA-Z0-9_-]+$",
@@ -584,8 +626,11 @@
     },
     "hasLongitudinalData": {
       "description": "Indicates whether the data contains multiple timepoints per subject",
+      "items": {
+        "type": "boolean"
+      },
       "title": "Has Longitudinal Data",
-      "type": "boolean"
+      "type": "array"
     },
     "includedInDataCatalog": {
       "description": "Link(s) to known data catalog(s) this resource is included in.",
@@ -616,10 +661,26 @@
       "title": "Original Subject ID",
       "type": "string"
     },
+    "participant_count": {
+      "description": "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
+      "items": {
+        "type": "integer"
+      },
+      "title": "Participant Count",
+      "type": "array"
+    },
     "publisher": {
       "description": "Name of the organization or person responsible for making the resource available.",
       "title": "Publisher",
       "type": "string"
+    },
+    "recordCount": {
+      "description": "Number of records (rows) contained in the data file",
+      "items": {
+        "type": "integer"
+      },
+      "title": "Record Count",
+      "type": "array"
     },
     "sameAs": {
       "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
@@ -632,8 +693,11 @@
     },
     "source": {
       "description": "Host platform from which the resource was sourced.",
+      "items": {
+        "type": "string"
+      },
       "title": "Source",
-      "type": "string"
+      "type": "array"
     },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
@@ -660,16 +724,55 @@
     },
     "studyPhase": {
       "description": "The phase or timepoint in the study when the data was collected",
+      "items": {
+        "description": "",
+        "enum": [
+          "screening",
+          "baseline",
+          "treatment_phase",
+          "follow_up",
+          "longitudinal",
+          "endpoint"
+        ],
+        "title": "StudyPhaseEnum",
+        "type": "string"
+      },
       "title": "Study Phase",
-      "enum": [
-        "screening",
-        "baseline",
-        "treatment_phase",
-        "follow_up",
-        "longitudinal",
-        "endpoint"
-      ],
-      "type": "string"
+      "type": "array"
+    },
+    "studyType": {
+      "description": "Study type for dataset (longitudinal, cross-sectional, etc.)",
+      "items": {
+        "description": "",
+        "enum": [
+          "Patient Registry Study",
+          "Natural History Study",
+          "Clinical Trial",
+          "Observational Study",
+          "Case-Control Study",
+          "Cohort Study",
+          "Cross-Sectional Study",
+          "Longitudinal Study",
+          "Discovery Study",
+          "Validation Study",
+          "Multi-Omics Study",
+          "Comparative Study",
+          "Pilot Study",
+          "Replication Study",
+          "Time Series Study",
+          "Population Study",
+          "Harmonized Study Collection",
+          "Unknown",
+          "individual",
+          "aggregate",
+          "summary_level",
+          "meta_analysis"
+        ],
+        "title": "StudyLevelEnum",
+        "type": "string"
+      },
+      "title": "Study Type",
+      "type": "array"
     },
     "subject": {
       "description": "Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
@@ -681,22 +784,39 @@
     },
     "subjectIdColumn": {
       "description": "Name of the column containing subject identifiers",
+      "items": {
+        "type": "string"
+      },
       "title": "Subject ID Column",
-      "type": "string"
+      "type": "array"
     },
     "title": {
+      "items": {
+        "type": "string"
+      },
       "title": "Title",
-      "type": "string"
+      "type": "array"
     },
     "url": {
       "description": "URL for the original resource location at source.",
       "title": "URL",
       "type": "string"
     },
+    "viewName": {
+      "description": "Name of the Synapse view or query used to generate the file",
+      "items": {
+        "type": "string"
+      },
+      "title": "View Name",
+      "type": "array"
+    },
     "visitType": {
       "description": "Type of clinical visit (baseline, follow-up, etc.)",
+      "items": {
+        "type": "string"
+      },
       "title": "Visit Type",
-      "type": "string"
+      "type": "array"
     }
   },
   "required": [

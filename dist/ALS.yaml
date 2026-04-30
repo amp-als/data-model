@@ -4684,6 +4684,7 @@ classes:
       title:
         title: Title
         range: string
+        multivalued: true
         required: false
       keywords:
         title: Keywords
@@ -6699,23 +6700,71 @@ classes:
         title: Administration Mode
         range: AdministrationModeEnum
         description: The method by which the assessment or data collection was performed
+        multivalued: true
         required: false
       studyPhase:
         title: Study Phase
         range: StudyPhaseEnum
         description: The phase or timepoint in the study when the data was collected
+        multivalued: true
         required: false
       # Data characteristics
       hasLongitudinalData:
         title: Has Longitudinal Data
         range: boolean
         description: Indicates whether the data contains multiple timepoints per subject
+        multivalued: true
+        required: false
+      # File metadata
+      viewName:
+        title: View Name
+        range: string
+        description: Name of the Synapse view or query used to generate the file
+        multivalued: true
+        required: false
+      fileFormat:
+        title: File Format
+        range: string
+        description: Format of the clinical data file (CSV, TSV, etc.)
+        multivalued: true
+        required: false
+      recordCount:
+        title: Record Count
+        range: integer
+        description: Number of records (rows) contained in the data file
+        multivalued: true
+        required: false
+      datasetReference:
+        title: Dataset Reference
+        range: string
+        description: Reference to dataset this file belongs to
+        multivalued: true
+        required: false
+      completenessLevel:
+        title: Completeness Level
+        range: CompletenessLevelEnum
+        description: General assessment of data completeness based on non-null values
+        multivalued: true
+        required: false
+      studyType:
+        title: Study Type
+        range: StudyLevelEnum
+        description: Study type for dataset (longitudinal, cross-sectional, etc.)
+        multivalued: true
+        required: false
+      # Participant information
+      participant_count:
+        title: Participant Count
+        range: integer
+        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
+        multivalued: true
         required: false
       # Subject tracking
       subjectIdColumn:
         title: Subject ID Column
         range: string
         description: Name of the column containing subject identifiers
+        multivalued: true
         required: false
   OmicDataset:
     is_a: BaseDataset
@@ -7648,11 +7697,13 @@ classes:
         title: Description
         range: string
         description: Brief description; should be no more than 500 characters.
+        multivalued: true
         required: false
       alternateName:
         title: Alternate Name
         description: An alternate name that can be used for search and discovery improvement.
         range: string
+        multivalued: true
         required: false
       creator:
         title: Creator
@@ -7709,6 +7760,7 @@ classes:
         title: Source
         range: string
         description: Host platform from which the resource was sourced.
+        multivalued: true
         required: true
       url:
         title: URL
@@ -7828,6 +7880,7 @@ classes:
         title: Visit Type
         range: string
         description: Type of clinical visit (baseline, follow-up, etc.)
+        multivalued: true
         required: false
   OmicFileMixin:
     mixin: true

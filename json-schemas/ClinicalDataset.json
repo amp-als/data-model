@@ -16,8 +16,11 @@
     },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
+      "items": {
+        "type": "string"
+      },
       "title": "Alternate Name",
-      "type": "string"
+      "type": "array"
     },
     "assessmentTypes": {
       "description": "Types of clinical assessments included in the dataset",
@@ -171,8 +174,11 @@
     },
     "description": {
       "description": "Brief description; should be no more than 500 characters.",
+      "items": {
+        "type": "string"
+      },
       "title": "Description",
-      "type": "string"
+      "type": "array"
     },
     "disease": {
       "description": "Disease(s) or condition(s) associated with the data.",
@@ -468,8 +474,11 @@
     },
     "source": {
       "description": "Host platform from which the resource was sourced.",
+      "items": {
+        "type": "string"
+      },
       "title": "Source",
-      "type": "string"
+      "type": "array"
     },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
