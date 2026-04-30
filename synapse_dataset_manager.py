@@ -113,10 +113,22 @@ class Config:
             return value.lower() in ("true", "1", "yes", "y")
         return bool(value)
 
-    def get_dataset_config(self, dataset_name):
-        """Get dataset-specific configuration"""
+    def get_dataset_config(self, dataset_name, dataset_id=None):
+        """Get dataset-specific configuration by name or dataset_id."""
         datasets = self.full_config.get('datasets', {})
-        return datasets.get(dataset_name, {})
+        # Try exact name match first
+        if dataset_name in datasets:
+            return datasets[dataset_name]
+        # Fall back to matching by dataset_id
+        if dataset_id:
+            for _key, cfg in datasets.items():
+                if cfg.get('dataset_id') == dataset_id:
+                    return cfg
+        # Fall back to matching by dataset_id across all entries using dataset_name as key
+        for _key, cfg in datasets.items():
+            if cfg.get('dataset_id') == dataset_name:
+                return cfg
+        return {}
 
     def validate(self):
         """Validate configuration"""
@@ -527,6 +539,18 @@ def _is_null_like(value) -> bool:
     return value.strip().lower() in _NULL_LIKE_VALUES
 
 
+def format_size(size_bytes):
+    """Format byte count as human-readable string."""
+    if size_bytes is None:
+        return "unknown"
+    size_bytes = float(size_bytes)
+    for unit in ['B', 'KB', 'MB', 'GB']:
+        if size_bytes < 1024:
+            return f"{size_bytes:.1f} {unit}"
+        size_bytes /= 1024
+    return f"{size_bytes:.1f} TB"
+
+
 def clean_annotations_for_synapse(annotation):
     """Remove metadata fields and empty values before applying to Synapse"""
     cleaned = {}
@@ -652,6 +676,10 @@ def load_mapping_dict(path) -> dict:
     # Strip line-level and inline # comments, but preserve strings
     lines = []
     for line in raw.splitlines():
+        # Full-line comments: skip lines whose first non-whitespace char is #
+        if line.lstrip().startswith('#'):
+            lines.append('')
+            continue
         # Remove inline comments (not inside strings) — simple heuristic
         stripped = re.sub(r'\s*#[^"]*$', '', line)
         lines.append(stripped)
@@ -717,6 +745,11 @@ def extract_form_name_from_csv(path: str) -> str | None:
     Read a CSV file and return the Form Name value from the first data row.
     Fuzzy-matches the column header: case-insensitive, treats spaces/underscores/hyphens
     as equivalent (so "Form Name", "form_name", "FORM-NAME" all match).
+
+    Falls back to checking for "form_name" as a cell value in the first column
+    (transposed/metadata-style layout where the first column contains field labels
+    and the second column contains values).
+
     Returns None if column not found or file is empty.
     """
     import re as _re
@@ -730,9 +763,20 @@ def extract_form_name_from_csv(path: str) -> str | None:
     def _norm(s): return _re.sub(r'[\s_\-]+', '', s).lower()
     target = _norm('form name')
     col = next((k for k in rows[0] if _norm(k) == target), None)
-    if col is None:
-        return None
-    return rows[0].get(col, '').strip() or None
+    if col is not None:
+        return rows[0].get(col, '').strip() or None
+
+    # Fallback: check if "form_name" appears as a cell value in the first column
+    # (transposed layout where col1 = field labels, col2 = values)
+    headers = list(rows[0].keys())
+    if len(headers) >= 2:
+        label_col, value_col = headers[0], headers[1]
+        for row in rows:
+            cell = row.get(label_col, '')
+            if _norm(cell) == target:
+                return row.get(value_col, '').strip() or None
+
+    return None
 
 
 def sanitize_synapse_filename(name: str, ext: str = '.csv') -> str:
@@ -756,7 +800,7 @@ def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) ->
     Falls back to the staging filename if no Form Name column is found.
 
     Returns:
-        form_map       — {lower_clean_name: (staging_syn_id, clean_name)}
+        form_map       — {lower_clean_name: [(staging_syn_id, clean_name), ...]}
         name_map       — {staging_syn_id: clean_name}  (human-readable form name)
         local_path_map — {staging_syn_id: local_file_path}  (None if download failed)
         view_map       — {staging_syn_id: view_name}  (raw staging filename w/o extension = view name)
@@ -782,7 +826,8 @@ def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) ->
         else:
             clean = staging_filename  # fall back to original name
 
-        form_map[_norm_filename_for_match(clean)] = (staging_syn_id, clean)
+        norm_key = _norm_filename_for_match(clean)
+        form_map.setdefault(norm_key, []).append((staging_syn_id, clean))
         name_map[staging_syn_id] = clean
         # Raw staging filename (without extension) IS the view name (e.g. v_ALLALS_AS_ASSEECASCGI)
         view_map[staging_syn_id] = os.path.splitext(staging_filename)[0]
@@ -802,12 +847,54 @@ def _get_data_dict_views(path: str) -> list:
 
 
 def _norm_filename_for_match(name: str) -> str:
-    """Normalize a filename for fuzzy matching: lowercase and strip hyphens.
+    """Normalize a filename for fuzzy matching.
 
-    Existing Synapse files omit hyphens (ALSFRSR.csv) while form names retain
-    them (ALSFRS-R.csv). Stripping hyphens from both sides aligns them.
+    Strips punctuation differences that commonly appear between staging and
+    existing filenames (hyphens, extra whitespace, en-dashes, underscores)
+    and collapses runs of whitespace so that e.g.
+      "ECAS (...) - Caregiver Interview.csv"  matches
+      "ECAS (...) Caregiver Interview.csv"
     """
-    return name.replace('-', '').lower()
+    # Strip extension first so ".csv" vs ".CSV" don't interfere
+    stem, ext = os.path.splitext(name)
+    stem = stem.lower()
+    # Remove hyphens, en-dashes, em-dashes, underscores
+    stem = re.sub(r'[-\u2013\u2014_]+', ' ', stem)
+    # Collapse runs of whitespace to single space and strip
+    stem = re.sub(r'\s+', ' ', stem).strip()
+    return stem + ext.lower()
+
+
+def _fuzzy_match_filename(name: str, form_map: dict, threshold: float = 0.82,
+                          exclude_ids: set | None = None) -> tuple | None:
+    """Find the best fuzzy match for *name* in form_map.
+
+    Uses SequenceMatcher ratio on the normalized stems.  Returns the
+    first unclaimed (staging_syn_id, clean_name) tuple from the best-
+    scoring key whose score exceeds *threshold*, or None.
+
+    *form_map* values are lists: ``{norm_key: [(syn_id, clean_name), ...]}``.
+    *exclude_ids* — staging syn IDs already claimed by a prior match.
+    """
+    from difflib import SequenceMatcher
+    norm_name = _norm_filename_for_match(name)
+    best_score = 0.0
+    best_value = None
+    for key, candidates in form_map.items():
+        score = SequenceMatcher(None, norm_name, key).ratio()
+        if score > best_score:
+            # Pick first unclaimed candidate at this key
+            pick = next(
+                (c for c in candidates if not (exclude_ids and c[0] in exclude_ids)),
+                None,
+            )
+            if pick:
+                best_score = score
+                best_value = pick
+    if best_score >= threshold and best_value:
+        print(f"    ↳ Fuzzy matched ({best_score:.0%}): {name!r} → {best_value[1]!r}")
+        return best_value
+    return None
 
 
 # Maps friendly view-filter names to the segment code used in view names
@@ -993,6 +1080,9 @@ def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
     existing = json.loads(cleaned, strict=False)
 
     merged = dict(existing)
+    new_columns = []
+    new_views = []
+    new_values = []
     for col, entry in new_mapping.items():
         if col == "_views":
             # Merge view scaffolds: add new views, never overwrite existing
@@ -1000,19 +1090,40 @@ def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
             for view_name, scaffold in entry.items():
                 if view_name not in existing_views:
                     existing_views[view_name] = scaffold
+                    new_views.append(view_name)
             continue
         if col not in merged:
             merged[col] = entry
+            new_columns.append(col)
         elif isinstance(merged[col], dict) and isinstance(entry, dict):
             existing_vals = merged[col].get("values", {})
             new_vals = entry.get("values", {})
             for v in new_vals:
                 if v not in existing_vals:
                     existing_vals[v] = new_vals[v]  # carry over parsed label
+                    new_values.append((col, v))
             merged[col]["values"] = existing_vals
             # Carry over view field if missing from existing entry
             if "view" not in merged[col] and "view" in entry:
                 merged[col]["view"] = entry["view"]
+
+    # Report new additions that need user attention
+    if new_columns or new_views or new_values:
+        print(f"\n  ── New mapping additions ──")
+        if new_views:
+            print(f"  New views added ({len(new_views)}) — fill in assessmentType, clinicalDomain, etc.:")
+            for v in new_views:
+                print(f"    + {v}")
+        if new_columns:
+            print(f"  New columns added ({len(new_columns)}) — fill in 'target' field:")
+            for c in new_columns:
+                print(f"    + {c}")
+        if new_values:
+            print(f"  New values added ({len(new_values)}) — verify mapped labels:")
+            for col, val in new_values[:20]:
+                print(f"    + {col}: {val}")
+            if len(new_values) > 20:
+                print(f"    ... and {len(new_values) - 20} more")
     return merged
 
 
@@ -2531,11 +2642,18 @@ def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose
                 print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations ({change_str}) to {filename}{label_str}")
                 success_count += 1
             else:
-                entity.annotations = cleaned
-                if version_comment:
-                    entity['versionComment'] = version_comment
-                syn.store(entity, forceVersion=bool(version_label),
-                          versionLabel=version_label or None)
+                if version_label:
+                    # Use syn.store() only when versioning is requested
+                    entity.annotations = cleaned
+                    if version_comment:
+                        entity['versionComment'] = version_comment
+                    syn.store(entity, forceVersion=True,
+                              versionLabel=version_label)
+                else:
+                    # Use set_annotations to avoid creating a new version
+                    annos = syn.get_annotations(syn_id)
+                    annos.update(cleaned)
+                    syn.set_annotations(annos)
 
                 if verbose:
                     print(f"  ✓ Applied annotations to {filename}")
@@ -2598,13 +2716,17 @@ def apply_dataset_annotations(syn, dataset_syn_id, annotations, all_schemas, dry
         return True
 
     try:
-        entity = syn.get(dataset_syn_id, downloadFile=False)
-        entity.annotations = cleaned
-        if entity_description:
-            entity.description = entity_description
-        syn.store(entity)
+        # Use set_annotations to avoid creating a new version
+        annos = syn.get_annotations(dataset_syn_id)
+        annos.update(cleaned)
+        syn.set_annotations(annos)
         print(f"  ✓ Applied {len(cleaned)} annotations to {dataset_syn_id}")
+
+        # Description is an entity property, must use store — but only if needed
         if entity_description:
+            entity = syn.get(dataset_syn_id, downloadFile=False)
+            entity.description = entity_description
+            syn.store(entity, forceVersion=False)
             print(f"  ✓ Set description")
         return True
     except Exception as e:
@@ -3331,12 +3453,18 @@ def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
                 print(f"  ✓ Added {syn_id} to dataset {dataset_id}")
 
             # 3. Apply annotations (and version label if provided)
-            entity = syn.get(syn_id, downloadFile=False)
-            entity.annotations = cleaned
-            if version_comment:
-                entity['versionComment'] = version_comment
-            syn.store(entity, forceVersion=bool(version_label),
-                      versionLabel=version_label or None)
+            if version_label:
+                entity = syn.get(syn_id, downloadFile=False)
+                entity.annotations = cleaned
+                if version_comment:
+                    entity['versionComment'] = version_comment
+                syn.store(entity, forceVersion=True,
+                          versionLabel=version_label)
+            else:
+                # Use set_annotations to avoid creating a new version
+                annos = syn.get_annotations(syn_id)
+                annos.update(cleaned)
+                syn.set_annotations(annos)
             if verbose:
                 label_str = f" with label '{version_label}'" if version_label else ""
                 print(f"  ✓ Applied {len(cleaned)} annotations to {filename}{label_str}")
@@ -3767,6 +3895,296 @@ def delete_file_versions_by_label(syn, syn_id, version_labels, dry_run=True, ver
         errors += 1
 
     return deleted, skipped, errors
+
+
+def fetch_all_versions_with_metadata(syn, syn_id):
+    """
+    Fetch all versions of a Synapse file entity with their metadata and annotations.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse entity ID
+
+    Returns:
+        list of dicts sorted by versionNumber ascending, each with keys:
+            versionNumber, versionLabel, versionComment,
+            modifiedOn, modifiedBy, contentSize, contentMd5,
+            annotations (dict)
+    """
+    # Paginate through version history
+    versions = []
+    offset = 0
+    limit = 100
+    while True:
+        page = syn.restGET(f"/entity/{syn_id}/version?offset={offset}&limit={limit}")
+        batch = page.get('results', [])
+        versions.extend(batch)
+        if len(batch) < limit:
+            break
+        offset += limit
+
+    # Fetch annotations for each version
+    enriched = []
+    for v in versions:
+        ver_num = v['versionNumber']
+        try:
+            entity = syn.get(syn_id, version=ver_num, downloadFile=False)
+            annotations = dict(entity.annotations) if hasattr(entity, 'annotations') and entity.annotations else {}
+        except Exception:
+            annotations = {}
+
+        enriched.append({
+            'versionNumber': ver_num,
+            'versionLabel': v.get('versionLabel', str(ver_num)),
+            'versionComment': v.get('versionComment', ''),
+            'modifiedOn': v.get('modifiedOn', ''),
+            'modifiedBy': v.get('modifiedBy', ''),
+            'contentSize': v.get('contentSize'),
+            'contentMd5': v.get('contentMd5', ''),
+            'annotations': annotations,
+        })
+
+    # Sort ascending by version number
+    enriched.sort(key=lambda x: x['versionNumber'])
+    return enriched
+
+
+def display_version_selection_prompt(file_1_synid, file_1_name, file_1_versions,
+                                     file_2_synid, file_2_name, file_2_versions):
+    """
+    Display an interactive prompt showing versions from both files and
+    collect user selection and ordering.
+
+    Args:
+        file_1_synid: Synapse ID of file 1
+        file_1_name: Name of file 1
+        file_1_versions: list of version dicts from fetch_all_versions_with_metadata
+        file_2_synid: Synapse ID of file 2
+        file_2_name: Name of file 2
+        file_2_versions: list of version dicts from fetch_all_versions_with_metadata
+
+    Returns:
+        list of tuples: [(source_syn_id, version_dict), ...]
+        ordered by user selection, where version_dict contains all version metadata
+    """
+    # Build tag lookup
+    tag_map = {}
+    for v in file_1_versions:
+        tag = f"File_1-v{v['versionNumber']}"
+        tag_map[tag] = (file_1_synid, v)
+    for v in file_2_versions:
+        tag = f"File_2-v{v['versionNumber']}"
+        tag_map[tag] = (file_2_synid, v)
+
+    # Display table
+    print("\n" + "=" * 80)
+    print("AVAILABLE VERSIONS")
+    print("=" * 80)
+
+    header = f"  {'Tag':<18}| {'Ver#':>4} | {'Label':<20}| {'Comment':<25}| {'Modified':<20}| {'Size':<10}"
+    separator = "  " + "-" * 76
+
+    print(f"\nFile 1: {file_1_synid} ({file_1_name})")
+    print(header)
+    print(separator)
+    for v in file_1_versions:
+        tag = f"File_1-v{v['versionNumber']}"
+        modified = v['modifiedOn'][:10] if v['modifiedOn'] else ''
+        size = format_size(v['contentSize'])
+        label = v['versionLabel'] or ''
+        comment = (v['versionComment'] or '')[:23]
+        print(f"  {tag:<18}| {v['versionNumber']:>4} | {label:<20}| {comment:<25}| {modified:<20}| {size:<10}")
+
+    print(f"\nFile 2: {file_2_synid} ({file_2_name})")
+    print(header)
+    print(separator)
+    for v in file_2_versions:
+        tag = f"File_2-v{v['versionNumber']}"
+        modified = v['modifiedOn'][:10] if v['modifiedOn'] else ''
+        size = format_size(v['contentSize'])
+        label = v['versionLabel'] or ''
+        comment = (v['versionComment'] or '')[:23]
+        print(f"  {tag:<18}| {v['versionNumber']:>4} | {label:<20}| {comment:<25}| {modified:<20}| {size:<10}")
+
+    # Build a suggested order: all versions sorted by modifiedOn ascending
+    all_tags_sorted = sorted(tag_map.keys(),
+                             key=lambda t: tag_map[t][1].get('modifiedOn', '') or '')
+    suggested = ','.join(all_tags_sorted)
+
+    print("\n" + "=" * 80)
+    print("\nSUGGESTED ORDER (sorted by original modified date, earliest first):")
+    print("=" * 80)
+
+    sug_header = (f"  {'Version':>7}  {'Tag':<18}  {'Label':<20}  "
+                  f"{'Modified':<12}  {'Comment':<25}  {'Size':<10}")
+    sug_separator = "  " + "-" * 100
+    print(sug_header)
+    print(sug_separator)
+
+    sug_rows = []
+    for new_ver, tag in enumerate(all_tags_sorted, start=1):
+        _, v = tag_map[tag]
+        modified = v['modifiedOn'][:10] if v.get('modifiedOn') else ''
+        comment = (v['versionComment'] or '')[:23]
+        size = format_size(v['contentSize'])
+        label = v['versionLabel'] or ''
+        sug_rows.append((new_ver, tag, label, modified, comment, size))
+
+    # Display descending (latest first) like Synapse UI
+    for new_ver, tag, label, modified, comment, size in reversed(sug_rows):
+        current = " (current)" if new_ver == len(sug_rows) else ""
+        print(f"  {new_ver:>7}  {tag:<18}  {label:<20}  "
+              f"{modified:<12}  {comment:<25}  {size:<10}{current}")
+
+    print()
+    print("Edit the suggested order below (remove tags you don't want, reorder as needed):")
+    print()
+
+    # Use readline to pre-fill input with the suggested order so the user
+    # can edit it in-place using arrow keys, backspace, etc.
+    import readline
+
+    def _prefill_hook():
+        readline.insert_text(suggested)
+        readline.redisplay()
+
+    while True:
+        readline.set_pre_input_hook(_prefill_hook)
+        try:
+            selection = input("Selection: ").strip()
+        finally:
+            readline.set_pre_input_hook()
+
+        if not selection:
+            print("  No selection provided. Please enter at least one tag.")
+            # On retry, don't pre-fill again — let the user type fresh
+            _prefill_hook = lambda: None
+            continue
+
+        tags = [t.strip() for t in selection.split(',') if t.strip()]
+
+        # Validate
+        invalid = [t for t in tags if t not in tag_map]
+        if invalid:
+            print(f"  Invalid tag(s): {', '.join(invalid)}")
+            print(f"  Valid tags: {', '.join(sorted(tag_map.keys()))}")
+            _prefill_hook = lambda: None
+            continue
+
+        duplicates = [t for t in tags if tags.count(t) > 1]
+        if duplicates:
+            print(f"  Duplicate tag(s): {', '.join(set(duplicates))}")
+            _prefill_hook = lambda: None
+            continue
+
+        if len(tags) == 0:
+            print("  At least one version must be selected.")
+            _prefill_hook = lambda: None
+            continue
+
+        return [(tag_map[t][0], tag_map[t][1]) for t in tags]
+
+
+def resolve_duplicate_version_labels(selected_versions):
+    """
+    Check for duplicate version labels in the selected versions and interactively
+    resolve them by having the user pick one or rename.
+
+    Args:
+        selected_versions: list of (source_syn_id, version_dict) tuples
+
+    Returns:
+        Updated list of (source_syn_id, version_dict) tuples with labels resolved
+    """
+    # Find duplicate labels
+    label_positions = {}
+    for i, (syn_id, v) in enumerate(selected_versions):
+        label = v['versionLabel']
+        if label not in label_positions:
+            label_positions[label] = []
+        label_positions[label].append(i)
+
+    duplicates = {label: positions for label, positions in label_positions.items()
+                  if len(positions) > 1}
+
+    if not duplicates:
+        return selected_versions
+
+    print("\n" + "=" * 80)
+    print("DUPLICATE VERSION LABELS DETECTED")
+    print("=" * 80)
+
+    for label, positions in duplicates.items():
+        print(f"\n  Label '{label}' appears in {len(positions)} selected versions:")
+        for pos in positions:
+            syn_id, v = selected_versions[pos]
+            print(f"    Position {pos + 1}: {syn_id} version {v['versionNumber']} "
+                  f"(comment: '{v['versionComment'] or 'none'}')")
+
+        print(f"\n  Options for label '{label}':")
+        print(f"    drop <position>   - Remove that version from the merge")
+        print(f"    rename <position> <new_label> - Rename that version's label")
+        print()
+
+        while True:
+            action = input(f"  Resolve '{label}': ").strip()
+            if not action:
+                print("    Please enter a resolution.")
+                continue
+
+            parts = action.split(None, 2)
+            command = parts[0].lower()
+
+            if command == 'drop' and len(parts) == 2:
+                try:
+                    drop_pos = int(parts[1]) - 1  # Convert to 0-based
+                    if drop_pos not in positions:
+                        print(f"    Position {parts[1]} is not one of the conflicting versions.")
+                        continue
+                    selected_versions[drop_pos] = None  # Mark for removal
+                    print(f"    Dropped version at position {parts[1]}.")
+                    break
+                except ValueError:
+                    print("    Invalid position number.")
+                    continue
+
+            elif command == 'rename' and len(parts) == 3:
+                try:
+                    rename_pos = int(parts[1]) - 1  # Convert to 0-based
+                    new_label = parts[2]
+                    if rename_pos not in positions:
+                        print(f"    Position {parts[1]} is not one of the conflicting versions.")
+                        continue
+                    # Check new label doesn't also conflict
+                    existing_labels = {item[1]['versionLabel'] for item in selected_versions
+                                       if item is not None}
+                    existing_labels.discard(label)  # The current label will be changed
+                    if new_label in existing_labels:
+                        print(f"    Label '{new_label}' already exists. Choose a different name.")
+                        continue
+                    selected_versions[rename_pos][1]['versionLabel'] = new_label
+                    print(f"    Renamed position {parts[1]} label to '{new_label}'.")
+                    break
+                except ValueError:
+                    print("    Invalid position number.")
+                    continue
+            else:
+                print("    Usage: 'drop <position>' or 'rename <position> <new_label>'")
+                continue
+
+    # Remove dropped versions
+    selected_versions = [item for item in selected_versions if item is not None]
+
+    # Re-check for any remaining duplicates (recursive)
+    remaining_labels = {}
+    for i, (_, v) in enumerate(selected_versions):
+        label = v['versionLabel']
+        if label in remaining_labels:
+            print("\n  Still have duplicate labels — resolving again...")
+            return resolve_duplicate_version_labels(selected_versions)
+        remaining_labels[label] = i
+
+    return selected_versions
 
 
 def add_dataset_to_collection(syn, dataset_id, collection_id, dry_run=True):
@@ -5535,9 +5953,9 @@ def handle_create_from_annotations(args, config):
             print(f"  [DRY_RUN] Would set acknowledgementStatement: {acknowledgement_statement}")
         else:
             try:
-                dataset = syn.get(dataset_id, downloadFile=False)
-                dataset.annotations['acknowledgementStatement'] = acknowledgement_statement
-                syn.store(dataset, forceVersion=False)
+                annos = syn.get_annotations(dataset_id)
+                annos['acknowledgementStatement'] = acknowledgement_statement
+                syn.set_annotations(annos)
                 print(f"  ✓ Acknowledgement statement set")
             except Exception as e:
                 print(f"  ✗ Error setting acknowledgement statement: {e}")
@@ -5678,7 +6096,7 @@ def handle_update_workflow(args, config):
     # Get dataset name for config lookup
     dataset_entity = syn.get(args.dataset_id, downloadFile=False)
     dataset_name = dataset_entity.name
-    dataset_config = config.get_dataset_config(dataset_name)
+    dataset_config = config.get_dataset_config(dataset_name, dataset_id=args.dataset_id)
     if dataset_config.get('dataset_type'):
         print(f"Using configured dataset type: {dataset_config['dataset_type']}")
 
@@ -5703,7 +6121,7 @@ def handle_update_workflow(args, config):
             print(f"Found {len(staging_annotations)} files in staging")
 
         # Step 2c: Extract Form Names from staging files (if staging folder provided)
-        form_map = {}        # {lower_clean_name: (staging_syn_id, clean_name)}
+        form_map = {}        # {lower_clean_name: [(staging_syn_id, clean_name), ...]}
         name_map = {}        # {staging_syn_id: clean_name}
         local_path_map = {}  # {staging_syn_id: local_file_path}
         view_map = {}        # {staging_syn_id: view_name (raw staging filename w/o ext)}
@@ -5735,6 +6153,13 @@ def handle_update_workflow(args, config):
         if mapping_path and os.path.exists(mapping_path):
             mapping = load_mapping_dict(mapping_path)
             print(f"  Loaded mapping dict: {mapping_path}  ({len(mapping)} entries)")
+
+            # Also merge new data dict columns into existing mapping if data_dict provided
+            if data_dict_path and os.path.exists(data_dict_path):
+                parsed = parse_data_dictionary(data_dict_path, view_name=data_dict_view)
+                new_mapping = build_mapping_from_data_dict(parsed)
+                mapping = merge_into_existing_mapping(mapping_path, new_mapping)
+                write_mapping_file(mapping_path, mapping)
 
         elif data_dict_path:
             print("\n" + "=" * 60)
@@ -5772,20 +6197,71 @@ def handle_update_workflow(args, config):
         annotations_output = {}
         matched_staging_ids = set()
 
+        # Build reverse view_map: {view_name: staging_syn_id} for viewName-based matching
+        reverse_view_map = {}  # {view_name_lower: staging_syn_id}
+        for staging_syn_id, vname in view_map.items():
+            if vname:
+                reverse_view_map[vname.lower()] = staging_syn_id
+
         # For each existing file, create merged template
         for syn_id, file_data in existing_annotations.items():
             filename = list(file_data.keys())[0]
             old_annot = file_data[filename]
 
-            # Check if there's a staging version (form-name-based match, fallback to syn_id)
+            # Match staging file to existing file using multiple strategies:
+            # 1) Exact normalized form-name match (use viewName to break ties)
+            # 2) Fuzzy form-name match
+            # 3) viewName-only match (for files whose form name changed entirely)
+            # 4) Direct syn_id fallback
             new_annot = {}
             matched_staging_id = None
+
+            # Resolve the existing file's viewName for tie-breaking
+            existing_view = old_annot.get('viewName')
+            if isinstance(existing_view, list):
+                existing_view = existing_view[0] if existing_view else None
+
+            # Strategy 1: Exact normalized form-name match
             if form_map:
-                match = form_map.get(_norm_filename_for_match(filename))
+                norm_key = _norm_filename_for_match(filename)
+                candidates = form_map.get(norm_key, [])
+                unclaimed = [c for c in candidates if c[0] not in matched_staging_ids]
+                if len(unclaimed) == 1:
+                    match = unclaimed[0]
+                elif len(unclaimed) > 1 and existing_view:
+                    # Multiple staging files share this form name — use viewName
+                    # to pick the right one (staging raw filename == viewName)
+                    match = next(
+                        (c for c in unclaimed
+                         if view_map.get(c[0], '').lower() == existing_view.lower()),
+                        unclaimed[0],  # fall back to first unclaimed if no viewName hit
+                    )
+                elif unclaimed:
+                    match = unclaimed[0]
+                else:
+                    match = None
+
                 if match:
                     matched_staging_id, _ = match
                     new_annot = list(staging_annotations[matched_staging_id].values())[0]
-            elif syn_id in staging_annotations:  # fallback: direct syn_id match
+
+            # Strategy 2: Fuzzy form-name match
+            if not matched_staging_id and form_map:
+                match = _fuzzy_match_filename(filename, form_map,
+                                              exclude_ids=matched_staging_ids)
+                if match:
+                    matched_staging_id, _ = match
+                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
+
+            # Strategy 3: viewName-only match (form name changed entirely)
+            if not matched_staging_id and existing_view:
+                candidate_id = reverse_view_map.get(existing_view.lower())
+                if candidate_id and candidate_id not in matched_staging_ids:
+                    matched_staging_id = candidate_id
+                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
+
+            # Strategy 4: Direct syn_id fallback
+            if not matched_staging_id and syn_id in staging_annotations:
                 matched_staging_id = syn_id
                 new_annot = list(staging_annotations[syn_id].values())[0]
 
@@ -5831,6 +6307,26 @@ def handle_update_workflow(args, config):
 
             annotations_output[syn_id] = {filename: merged}
 
+        # Extract common dataset-level fields from existing files to seed new files.
+        # Fields like dataSourcePrefix, source, collection, species, studyType are
+        # constant across all files in a dataset but aren't in _views or file contents.
+        _COMMON_FIELDS = [
+            'collection', 'dataSourcePrefix', 'source', 'species', 'studyType',
+            'disease', 'includedInDataCatalog', 'publisher', 'license',
+        ]
+        common_values = {}
+        if annotations_output:
+            # Sample from the first existing file that has these fields populated
+            for _fd in annotations_output.values():
+                sample_annot = list(_fd.values())[0]
+                for field in _COMMON_FIELDS:
+                    if field not in common_values:
+                        val = sample_annot.get(field)
+                        if val and val not in ('', [], [''], None):
+                            common_values[field] = val
+                if len(common_values) == len(_COMMON_FIELDS):
+                    break
+
         # Add unmatched staging files as new entries (form name as filename, empty template)
         for staging_syn_id, file_data in staging_annotations.items():
             if staging_syn_id in matched_staging_ids:
@@ -5839,6 +6335,11 @@ def handle_update_workflow(args, config):
             file_type = detect_file_type(clean_name, all_schemas=all_schemas, dataset_config=dataset_config)
             template = create_annotation_template(all_schemas, file_type)
             template['_staging_id'] = staging_syn_id
+
+            # Seed common dataset-level fields from existing files
+            for field, val in common_values.items():
+                if field in template and template[field] in ('', [], [''], None):
+                    template[field] = val
 
             # Fill from file contents for new files too
             if mapping:
@@ -6091,7 +6592,7 @@ def handle_annotate_dataset(args, config):
         else:
             try:
                 entity.description = description
-                syn.store(entity)
+                syn.store(entity, forceVersion=False)
                 print(f"  ✓ Description set on {args.dataset_id}")
             except Exception as e:
                 print(f"  ❌ Error setting description: {e}")
@@ -6208,7 +6709,7 @@ def handle_set_version(args, config):
             try:
                 entity = syn.get(args.dataset_id, downloadFile=False)
                 entity.description = description
-                syn.store(entity)
+                syn.store(entity, forceVersion=False)
                 print(f"  ✓ Description set on {args.dataset_id}")
             except Exception as e:
                 print(f"  ✗ Error setting description: {e}")
@@ -6378,8 +6879,8 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
         str: 'renamed', 'merged', 'added', 'skipped', 'conflict', 'error'
     """
     try:
-        entity = syn.get(entity_id, downloadFile=False)
-        annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+        annos = syn.get_annotations(entity_id)
+        annotations = dict(annos)
 
         has_old = old_key in annotations
         has_new = new_key in annotations
@@ -6390,9 +6891,8 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
                 print(f"  [DRY_RUN] {entity_name} ({entity_id}): neither key found — would add '{new_key}' with empty value")
                 return 'added'
             else:
-                annotations[new_key] = ""
-                entity.annotations = annotations
-                syn.store(entity)
+                annos[new_key] = ""
+                syn.set_annotations(annos)
                 print(f"  + {entity_name} ({entity_id}): added '{new_key}' with empty value")
                 return 'added'
 
@@ -6411,10 +6911,9 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
                 print(f"  [DRY_RUN] {entity_name} ({entity_id}): would rename '{old_key}' → '{new_key}' (WARNING: empty value)")
                 return 'renamed'
             else:
-                annotations[new_key] = old_value
-                del annotations[old_key]
-                entity.annotations = annotations
-                syn.store(entity)
+                annos[new_key] = old_value
+                del annos[old_key]
+                syn.set_annotations(annos)
                 print(f"  ⚠️  {entity_name} ({entity_id}): renamed '{old_key}' → '{new_key}' (empty value)")
                 return 'renamed'
 
@@ -6424,10 +6923,9 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
                 print(f"  [DRY_RUN] {entity_name} ({entity_id}): would rename '{old_key}' → '{new_key}' (value: {old_value})")
                 return 'renamed'
             else:
-                annotations[new_key] = old_value
-                del annotations[old_key]
-                entity.annotations = annotations
-                syn.store(entity)
+                annos[new_key] = old_value
+                del annos[old_key]
+                syn.set_annotations(annos)
                 print(f"  ✓ {entity_name} ({entity_id}): renamed '{old_key}' → '{new_key}' (value: {old_value})")
                 return 'renamed'
 
@@ -6443,9 +6941,8 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
                     print(f"  [DRY_RUN] {entity_name} ({entity_id}): values match — would remove '{old_key}' (value: {old_value})")
                     return 'merged'
                 else:
-                    del annotations[old_key]
-                    entity.annotations = annotations
-                    syn.store(entity)
+                    del annos[old_key]
+                    syn.set_annotations(annos)
                     print(f"  ✓ {entity_name} ({entity_id}): values match — removed '{old_key}' (kept '{new_key}': {new_value})")
                     return 'merged'
 
@@ -6473,10 +6970,9 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
                     return 'skipped'
 
                 keep_value = old_value if choice == '1' else new_value
-                annotations[new_key] = keep_value
-                del annotations[old_key]
-                entity.annotations = annotations
-                syn.store(entity)
+                annos[new_key] = keep_value
+                del annos[old_key]
+                syn.set_annotations(annos)
                 print(f"  ✓ {entity_name} ({entity_id}): set '{new_key}' = {keep_value}, removed '{old_key}'")
                 return 'conflict'
 
@@ -6529,8 +7025,8 @@ def migrate_annotation_values_on_entity(syn, entity_id, entity_name,
         str: 'migrated', 'skipped', 'no_match', 'error'
     """
     try:
-        entity = syn.get(entity_id, downloadFile=False)
-        annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+        annos = syn.get_annotations(entity_id)
+        annotations = dict(annos)
 
         if source_key not in annotations:
             if verbose:
@@ -6570,17 +7066,16 @@ def migrate_annotation_values_on_entity(syn, entity_id, entity_name,
             print(f"  [DRY_RUN] {entity_name} ({entity_id}): would {action}")
             return 'migrated'
 
-        # Apply changes
-        annotations[target_key] = new_target
+        # Apply changes using set_annotations to avoid creating new versions
+        annos[target_key] = new_target
         if remaining:
-            annotations[source_key] = remaining
+            annos[source_key] = remaining
         elif remove_empty_source:
-            del annotations[source_key]
+            del annos[source_key]
         else:
-            annotations[source_key] = []
+            annos[source_key] = []
 
-        entity.annotations = annotations
-        syn.store(entity)
+        syn.set_annotations(annos)
         kept_msg = f"; kept {remaining} in '{source_key}'" if remaining else f"; removed '{source_key}'"
         print(f"  ✓ {entity_name} ({entity_id}): moved {to_move} → '{target_key}'{kept_msg}")
         return 'migrated'
@@ -6588,6 +7083,296 @@ def migrate_annotation_values_on_entity(syn, entity_id, entity_name,
     except Exception as e:
         print(f"  ✗ Error on {entity_name} ({entity_id}): {e}")
         return 'error'
+
+
+def handle_merge_file_versions(args, config):
+    """
+    Merge version histories of two Synapse file entities into one new file entity.
+
+    Workflow:
+    1. Validate both entities exist and share the same parent folder
+    2. Fetch all versions with metadata for both files
+    3. Interactive version selection and ordering
+    4. Resolve duplicate version labels interactively
+    5. Create temp folder, upload versions in order
+    6. Print summary with next steps
+    """
+    import shutil
+    import tempfile
+    from datetime import datetime
+
+    print("\n" + "=" * 60)
+    print("MERGE FILE VERSIONS")
+    print("=" * 60)
+
+    syn = connect_to_synapse(config)
+    dry_run = config.DRY_RUN
+
+    # ── Step 1: Validate both entities ──────────────────────────
+    print("\n── Step 1: Validating file entities ──")
+
+    try:
+        entity_1 = syn.get(args.file_1_synid, downloadFile=False)
+        entity_2 = syn.get(args.file_2_synid, downloadFile=False)
+    except Exception as e:
+        print(f"  ✗ Error retrieving entities: {e}")
+        return
+
+    # Check both are files
+    for eid, entity in [(args.file_1_synid, entity_1), (args.file_2_synid, entity_2)]:
+        concrete = getattr(entity, 'concreteType', '') or str(entity.properties.get('concreteType', ''))
+        if 'FileEntity' not in concrete:
+            print(f"  ✗ {eid} is not a file entity (type: {concrete})")
+            return
+
+    parent_1 = entity_1.properties.get('parentId', getattr(entity_1, 'parentId', None))
+    parent_2 = entity_2.properties.get('parentId', getattr(entity_2, 'parentId', None))
+
+    if parent_1 != parent_2:
+        print(f"  ✗ Files are in different parent folders:")
+        print(f"    File 1 ({args.file_1_synid}): parent = {parent_1}")
+        print(f"    File 2 ({args.file_2_synid}): parent = {parent_2}")
+        return
+
+    parent_id = parent_1
+    file_1_name = entity_1.name
+    file_2_name = entity_2.name
+    merged_name = getattr(args, 'merged_name', None) or file_1_name
+
+    print(f"  File 1: {args.file_1_synid} ({file_1_name})")
+    print(f"  File 2: {args.file_2_synid} ({file_2_name})")
+    print(f"  Parent folder: {parent_id}")
+    print(f"  Merged file name: {merged_name}")
+
+    # ── Step 2: Fetch version histories ─────────────────────────
+    print("\n── Step 2: Fetching version histories ──")
+
+    file_1_versions = fetch_all_versions_with_metadata(syn, args.file_1_synid)
+    file_2_versions = fetch_all_versions_with_metadata(syn, args.file_2_synid)
+
+    print(f"  File 1 ({args.file_1_synid}): {len(file_1_versions)} version(s)")
+    print(f"  File 2 ({args.file_2_synid}): {len(file_2_versions)} version(s)")
+
+    # ── Step 3: Interactive version selection ────────────────────
+    print("\n── Step 3: Select and order versions ──")
+
+    selected_versions = display_version_selection_prompt(
+        args.file_1_synid, file_1_name, file_1_versions,
+        args.file_2_synid, file_2_name, file_2_versions
+    )
+
+    if not selected_versions:
+        print("  No versions selected. Aborting.")
+        return
+
+    # ── Step 4: Resolve duplicate labels ────────────────────────
+    selected_versions = resolve_duplicate_version_labels(selected_versions)
+
+    if not selected_versions:
+        print("  No versions remaining after resolution. Aborting.")
+        return
+
+    # ── Step 5: Confirmation — preview resulting version history ─
+    total_size = sum(int(v['contentSize'] or 0) for _, v in selected_versions)
+
+    print("\n" + "=" * 80)
+    print(f"RESULTING VERSION HISTORY — {merged_name}")
+    print("=" * 80)
+    mode_str = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"  Mode: {mode_str}")
+    print(f"  Total versions: {len(selected_versions)}")
+    print(f"  Total download size: ~{format_size(total_size)}")
+    print()
+
+    # Show the table in descending order (latest first) like Synapse UI
+    header = (f"  {'Version':>7}  {'Label':<22}  {'Source':<28}  "
+              f"{'Comment':<30}  {'Size':<10}")
+    separator = "  " + "-" * 100
+    print(header)
+    print(separator)
+
+    rows = []
+    for new_ver, (syn_id, v) in enumerate(selected_versions, start=1):
+        source = f"{syn_id} v{v['versionNumber']}"
+        orig_date = v['modifiedOn'][:10] if v.get('modifiedOn') else ''
+        orig_comment = (v['versionComment'] or '')[:18]
+        comment_display = f"{orig_date}  {orig_comment}".strip() if orig_date else orig_comment
+        size = format_size(v['contentSize'])
+        label = v['versionLabel']
+        rows.append((new_ver, label, source, comment_display, size))
+
+    for new_ver, label, source, comment, size in reversed(rows):
+        current = " (current)" if new_ver == len(rows) else ""
+        print(f"  {new_ver:>7}  {label:<22}  {source:<28}  {comment:<30}  {size:<10}{current}")
+
+    print()
+    confirm = input("Does this look correct? Proceed? [y/N]: ").strip().lower()
+    if confirm not in ('y', 'yes'):
+        print("  Aborted by user.")
+        return
+
+    # ── Step 6: Create temp folder ──────────────────────────────
+    print("\n── Step 6: Creating temp folder ──")
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    temp_folder_name = f"_merge_temp_{timestamp}"
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would create folder '{temp_folder_name}' in {parent_id}")
+        temp_folder_id = "syn_DRYRUN_FOLDER"
+    else:
+        import synapseclient as sc_module
+        folder_entity = sc_module.Folder(name=temp_folder_name, parent=parent_id)
+        folder_entity = syn.store(folder_entity)
+        temp_folder_id = folder_entity.id
+        print(f"  Created temp folder: {temp_folder_id} ({temp_folder_name})")
+
+    # ── Step 7: Download and upload versions ────────────────────
+    print("\n── Step 7: Uploading versions ──")
+
+    local_temp_dir = tempfile.mkdtemp(prefix='sdm_merge_')
+    new_file_id = None
+    success_count = 0
+    error_count = 0
+
+    for i, (source_syn_id, v) in enumerate(selected_versions, start=1):
+        ver_num = v['versionNumber']
+        ver_label = v['versionLabel']
+        # Prepend original modified date to comment since Synapse always
+        # sets modifiedOn to the upload time and there's no API to override it
+        original_date = v['modifiedOn'][:10] if v.get('modifiedOn') else ''
+        original_comment = v['versionComment'] or ''
+        if original_date and original_comment:
+            ver_comment = f"[Original date: {original_date}] {original_comment}"
+        elif original_date:
+            ver_comment = f"[Original date: {original_date}]"
+        else:
+            ver_comment = original_comment
+        annotations = v['annotations']
+
+        print(f"\n  Version {i}/{len(selected_versions)}: "
+              f"label='{ver_label}' from {source_syn_id} v{ver_num}")
+
+        if dry_run:
+            if i == 1:
+                print(f"    [DRY_RUN] Would download {source_syn_id} v{ver_num}")
+                print(f"    [DRY_RUN] Would create new file entity '{merged_name}' in {temp_folder_id}")
+                if annotations:
+                    cleaned = clean_annotations_for_synapse(annotations)
+                    print(f"    [DRY_RUN] Would apply {len(cleaned)} annotation(s)")
+                new_file_id = "syn_DRYRUN_FILE"
+            else:
+                print(f"    [DRY_RUN] Would download {source_syn_id} v{ver_num}")
+                print(f"    [DRY_RUN] Would upload as new version of {new_file_id}")
+                if annotations:
+                    cleaned = clean_annotations_for_synapse(annotations)
+                    print(f"    [DRY_RUN] Would apply {len(cleaned)} annotation(s)")
+            success_count += 1
+            continue
+
+        # Download specific version into a unique subdirectory
+        ver_download_dir = os.path.join(local_temp_dir, f"v{i}_{source_syn_id}_{ver_num}")
+        os.makedirs(ver_download_dir, exist_ok=True)
+
+        try:
+            # Clear stale Synapse client cache for this version before downloading.
+            # The cache can serve files from previous runs (e.g. /tmp/sdm_upload_*)
+            # instead of actually downloading the requested version.
+            try:
+                entity_meta = syn.get(source_syn_id, version=ver_num, downloadFile=False)
+                fh_id = entity_meta.properties.get('dataFileHandleId') or \
+                        getattr(entity_meta, 'dataFileHandleId', None)
+                if fh_id:
+                    syn.cache.remove(int(fh_id))
+            except Exception:
+                pass
+
+            downloaded = syn.get(source_syn_id, version=ver_num,
+                                 downloadLocation=ver_download_dir,
+                                 ifcollision='overwrite.local')
+            local_path = downloaded.path
+
+            actual_size = os.path.getsize(local_path)
+            expected_size = int(v['contentSize'] or 0)
+            print(f"    Downloaded: {os.path.basename(local_path)} "
+                  f"({format_size(actual_size)})")
+            if expected_size and abs(actual_size - expected_size) > 100:
+                print(f"    ⚠ Size mismatch: expected ~{format_size(expected_size)}, "
+                      f"got {format_size(actual_size)}")
+        except Exception as e:
+            print(f"    ✗ Error downloading {source_syn_id} v{ver_num}: {e}")
+            error_count += 1
+            continue
+
+        cleaned = clean_annotations_for_synapse(annotations) if annotations else {}
+
+        try:
+            if i == 1:
+                # Create new file entity (Synapse auto-assigns version label
+                # on creation, so we create first then update the label)
+                file_entity = File(
+                    path=local_path,
+                    parent_id=temp_folder_id,
+                    name=merged_name,
+                    version_comment=ver_comment,
+                    annotations=cleaned,
+                )
+                file_entity = file_entity.store()
+                new_file_id = file_entity.id
+
+                # Update the auto-assigned version 1 label to our desired label.
+                # Synapse defaults version 1 label to "1" which would collide
+                # if another selected version also has label "1".
+                entity = syn.get(new_file_id, downloadFile=False)
+                entity.versionLabel = ver_label
+                syn.store(entity, forceVersion=False)
+
+                print(f"    ✓ Created new entity: {new_file_id} (label='{ver_label}')")
+            else:
+                # Upload as new version of existing entity
+                file_entity = File(
+                    path=local_path,
+                    id=new_file_id,
+                    name=merged_name,
+                    version_label=ver_label,
+                    version_comment=ver_comment,
+                    annotations=cleaned,
+                )
+                file_entity.store()
+                print(f"    ✓ Uploaded version {i} (label='{ver_label}', "
+                      f"{format_size(actual_size)})")
+
+            success_count += 1
+
+        except Exception as e:
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"    ✗ Version label '{ver_label}' already exists on {new_file_id} — skipping")
+            else:
+                print(f"    ✗ Error uploading version {i}: {e}")
+            error_count += 1
+
+    # ── Step 8: Cleanup local temp ──────────────────────────────
+    shutil.rmtree(local_temp_dir, ignore_errors=True)
+
+    # ── Step 9: Summary ─────────────────────────────────────────
+    print("\n" + "=" * 60)
+    print("MERGE SUMMARY")
+    print("=" * 60)
+    print(f"  New file entity   : {new_file_id}")
+    print(f"  Temp folder       : {temp_folder_id} ({temp_folder_name})")
+    print(f"  Versions uploaded : {success_count}")
+    print(f"  Errors            : {error_count}")
+    print(f"  Original File 1   : {args.file_1_synid} (NOT deleted)")
+    print(f"  Original File 2   : {args.file_2_synid} (NOT deleted)")
+
+    if not dry_run and new_file_id and new_file_id != "syn_DRYRUN_FILE":
+        print(f"\n  NEXT STEPS:")
+        print(f"    1. Verify the merged file at https://www.synapse.org/Synapse:{new_file_id}")
+        print(f"    2. Move {new_file_id} from temp folder to parent folder {parent_id}")
+        print(f"    3. Delete original files {args.file_1_synid} and {args.file_2_synid}")
+        print(f"    4. Delete temp folder {temp_folder_id}")
+    print()
 
 
 def handle_migrate_annotation_values(args, config):
@@ -7506,6 +8291,22 @@ Examples:
     migrate_values_parser.add_argument('--dry-run', action='store_true',
         help='Dry run mode (default)')
 
+    # MERGE-FILE-VERSIONS command
+    merge_parser = subparsers.add_parser(
+        'merge-file-versions',
+        help='Merge version histories of two file entities into one new file entity'
+    )
+    merge_parser.add_argument('--file-1-synid', required=True,
+        help='Synapse ID of the first file entity')
+    merge_parser.add_argument('--file-2-synid', required=True,
+        help='Synapse ID of the second file entity')
+    merge_parser.add_argument('--merged-name',
+        help='Name for the merged file entity (default: file 1 name)')
+    merge_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    merge_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -7695,7 +8496,8 @@ Examples:
     # Only validate config for commands that need Synapse connection
     if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
-                        'rename-annotation', 'rename-folders', 'migrate-annotation-values']:
+                        'rename-annotation', 'rename-folders', 'migrate-annotation-values',
+                        'merge-file-versions']:
         config.validate()
 
     # Route to appropriate handler
@@ -7728,6 +8530,8 @@ Examples:
         handle_rename_folders(args, config)
     elif args.command == 'migrate-annotation-values':
         handle_migrate_annotation_values(args, config)
+    elif args.command == 'merge-file-versions':
+        handle_merge_file_versions(args, config)
 
 
 if __name__ == "__main__":
