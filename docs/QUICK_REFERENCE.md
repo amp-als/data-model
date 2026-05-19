@@ -110,6 +110,21 @@ finally:
     os.unlink(temp.name)
 ```
 
+## 4. Reorder Dataset Columns
+
+```bash
+# Dry run (default) — auto-detects dataset type from annotations
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345
+
+# Explicit dataset type
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 --dataset-type OmicDataset
+
+# Execute
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 --dataset-type OmicDataset --execute
+```
+
+This adds any missing columns, reorders them per the type-aware template, and verifies the final layout. If `--dataset-type` is omitted, it auto-detects from the dataset's annotations.
+
 ## Help Commands
 
 ```bash

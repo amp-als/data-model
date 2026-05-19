@@ -76,6 +76,26 @@ The enhancements happen **automatically**:
 - ✅ Dataset columns get reordered (STEP 7b)
 - ✅ Dataset columns verified if verbose (STEP 7c)
 
+### Standalone CLI (Existing Datasets)
+
+Use the `reorder-columns` command to add missing columns and reorder on an existing dataset:
+
+```bash
+# Dry run — auto-detects dataset type from annotations
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345
+
+# Explicit dataset type
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 --dataset-type OmicDataset
+
+# Execute
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 --dataset-type OmicDataset --execute
+```
+
+This runs three steps:
+1. **Add missing columns** — adds any columns defined in the schema that don't yet exist on the dataset
+2. **Reorder columns** — reorders all columns per the type-aware priority template
+3. **Verify columns** — prints the final column layout for confirmation
+
 ### Manual (Programmatic)
 
 ```python
