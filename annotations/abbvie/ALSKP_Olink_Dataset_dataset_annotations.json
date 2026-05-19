@@ -1,8 +1,9 @@
 {
+  "$schema": "../../json-schemas/OmicDataset.json",
   "FACSPopulation": "",
   "GEOSuperSeries": "",
   "acknowledgementStatement": [
-    ""
+    "syn64892175/wiki/640823"
   ],
   "alternateName": "",
   "assay": [
@@ -25,7 +26,10 @@
   ],
   "collectionDate": "",
   "contributor": [
-    "AbbVie"
+    "Abbvie Inc.",
+    "Answer ALS",
+    "NEALS",
+    "Target ALS"
   ],
   "creator": [
     ""
@@ -36,7 +40,9 @@
   ],
   "dataset_code": "",
   "datePublished": null,
-  "description": "",
+  "description": [
+    "This observational, multi-cohort clinical proteomics study profiled plasma samples from ALS patients and controls using the Olink HT platform. Phase 1 included sporadic ALS, familial ALS, and healthy controls; Phase 2 added ALS and non-neurological controls from the Target ALS clinical cohort and was integrated using Olink bridging normalization. Differential protein abundance and pathway enrichment analyses identified reproducible ALS-associated plasma protein signatures across cohorts, with NEFL emerging as a robust biomarker after adjustment for age and sex. Muscle, actin, and muscle fiber-related pathways were consistently upregulated, supporting biomarker discovery, cross-cohort validation, and investigation of ALS disease biology."
+  ],
   "disease": [
     "ALS"
   ],
@@ -62,7 +68,12 @@
   ],
   "publisher": "",
   "sameAs": "",
-  "source": "AbbVie",
+  "source": [
+    "Abbvie Inc.",
+    "Answer ALS",
+    "NEALS",
+    "Target ALS"
+  ],
   "species": [
     "Homo sapiens"
   ],
@@ -74,7 +85,7 @@
   ],
   "title": "ALSKP Olink Dataset",
   "url": "",
-  "_file_type": "Dataset",
+  "_dataset_type": "OmicDataset",
   "_schema_source": "json-schema",
   "_created_timestamp": "2026-04-24T16:07:41.541978"
 }

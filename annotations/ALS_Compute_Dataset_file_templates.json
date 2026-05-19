@@ -1,4 +1,5 @@
 {
+  "$schema": "../json-schemas/OmicFileNested.json",
   "syn73974831": {
     "ALL_CHR_freeze2.CSQ_annotated.vcf.bgz": {
       "FACSPopulation": "",
@@ -40,7 +41,9 @@
       "dataType": [
         "variant_calls"
       ],
-      "description": "joint variant calls",
+      "description": [
+        "joint variant calls"
+      ],
       "disease": [
         "ALS",
         "FTD",
@@ -58,22 +61,21 @@
         "VCP myopathy",
         "Hirayama disease",
         "Kennedy's disease",
-        "Spinal muscular atrophy"
+        "Spinal muscular atrophy",
+        "Spastic paraparesis"
       ],
       "diseaseSubtype": [
         "ALS Spectrum MND",
         "pre-fALS",
         "Asymptomatic C9orf72",
-        "Spastic paraparesis",
         "Asymptomatic NEK1",
         "Asymptomatic C9",
         "Asymptomatic SOD1",
-        "MUISK myasthenia",
-        "",
+        "MUISK myasthenia"
       ],
       "ethnicity": "",
       "fileFormat": "VCF",
-      "genomeReference":[
+      "genomeReference": [
         "GRChb38H"
       ],
       "globalSubjectId": "",
@@ -85,7 +87,7 @@
       "libraryLayout": [
         "paired-end"
       ],
-      "libraryPreparationMethod":[
+      "libraryPreparationMethod": [
         "Illumina SeqLab DNA PCR-free library",
         "PCR-Free",
         "Illumina TruSeq Nano DNA Library Prep"
@@ -96,7 +98,7 @@
       "originalSubjectId": "",
       "platform": [
         "Illumina HiSeq X",
-        "Illumina NovaSeq 6000",
+        "Illumina NovaSeq 6000"
       ],
       "processingLevel": [
         "processed"
@@ -112,7 +114,7 @@
       "sampleIdColumn": "",
       "sampleType": "",
       "sex": "",
-      "site_of_onset":[
+      "site_of_onset": [
         "Bulbar",
         "Limb",
         "Lumbar",
@@ -122,10 +124,10 @@
         "Other",
         "Cognitive",
         "Head Drop"
-      ]
+      ],
       "source": "ALS Compute",
       "species": [
-        "Homo Sapiens"
+        "Homo sapiens"
       ],
       "storageContainer": "",
       "subject": [

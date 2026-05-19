@@ -1,4 +1,5 @@
 {
+  "$schema": "../../json-schemas/OmicFileNested.json",
   "syn74389802": {
     "Bridged_Metadata.csv": {
       "FACSPopulation": "",
@@ -24,19 +25,19 @@
       "citation": [
         ""
       ],
-      "clinicalDomain": [
-        ""
-      ],
       "collection": [
         "ALS Knowledge Portal"
       ],
       "collectionDate": "",
       "contributor": [
-        "AbbVie"
+        "Abbvie Inc.",
+        "Answer ALS",
+        "NEALS",
+        "Target ALS"
       ],
       "country": "",
       "creator": [
-        "AbbVie"
+        "Abbvie Inc."
       ],
       "dataSourcePrefix": "abbvie",
       "dataType": [
@@ -75,7 +76,9 @@
       "sameAs": "",
       "sampleType": "",
       "sex": "",
-      "source": "AbbVie",
+      "source": [
+        "Abbvie Inc."
+      ],
       "species": [
         "Homo sapiens"
       ],
@@ -84,13 +87,15 @@
         ""
       ],
       "fileFormat": "CSV",
-      "title": "Bridged Olink Metadata",
+      "title": [
+        "Bridged Olink Metadata"
+      ],
       "url": "",
       "visitType": "",
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
-      "_file_type": "File",
+      "_file_type": "OmicFile",
       "_schema_source": "json-schema",
       "_created_timestamp": "2026-04-24T16:07:41.541193"
     }
@@ -126,11 +131,14 @@
       ],
       "collectionDate": "",
       "contributor": [
-        "AbbVie"
+        "Abbvie Inc.",
+        "Answer ALS",
+        "NEALS",
+        "Target ALS"
       ],
       "country": "",
       "creator": [
-        "AbbVie"
+        "Abbvie Inc."
       ],
       "dataSourcePrefix": "abbvie",
       "dataType": [
@@ -166,7 +174,7 @@
         ""
       ],
       "processingLevel": [
-        ""
+        "processed"
       ],
       "propAfricanGeneticAncestry": null,
       "propEastAsianGeneticAncestry": null,
@@ -181,7 +189,9 @@
       "sampleType": "",
       "sex": "",
       "site_of_onset": "",
-      "source": "AbbVie",
+      "source": [
+        "Abbvie Inc."
+      ],
       "species": [
         "Homo sapiens"
       ],
@@ -189,7 +199,9 @@
       "subject": [
         ""
       ],
-      "title": "Bridged Olink Counts",
+      "title": [
+        "Bridged Olink Counts"
+      ],
       "url": "",
       "variantType": [
         ""
@@ -227,19 +239,18 @@
       "citation": [
         ""
       ],
-      "clinicalDomain": [
-        ""
-      ],
       "collection": [
         "ALS Knowledge Portal"
       ],
       "collectionDate": "",
       "contributor": [
-        "AbbVie"
+        "Abbvie Inc.",
+        "Answer ALS",
+        "NEALS"
       ],
       "country": "",
       "creator": [
-        "AbbVie"
+        "Abbvie Inc."
       ],
       "dataSourcePrefix": "abbvie",
       "dataType": [
@@ -278,7 +289,9 @@
       "sameAs": "",
       "sampleType": "",
       "sex": "",
-      "source": "AbbVie",
+      "source": [
+        "Abbvie Inc."
+      ],
       "species": [
         "Homo sapiens"
       ],
@@ -287,13 +300,15 @@
         ""
       ],
       "fileFormat": "CSV",
-      "title": "Phase 1 Olink Metadata",
+      "title": [
+        "Phase 1 Olink Metadata"
+      ],
       "url": "",
       "visitType": "",
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
-      "_file_type": "File",
+      "_file_type": "OmicFile",
       "_schema_source": "json-schema",
       "_created_timestamp": "2026-04-24T16:07:41.541193"
     }
@@ -329,11 +344,13 @@
       ],
       "collectionDate": "",
       "contributor": [
-        "AbbVie"
+        "Abbvie Inc.",
+        "Answer ALS",
+        "NEALS"
       ],
       "country": "",
       "creator": [
-        "AbbVie"
+        "Abbvie Inc."
       ],
       "dataSourcePrefix": "abbvie",
       "dataType": [
@@ -369,7 +386,7 @@
         ""
       ],
       "processingLevel": [
-        ""
+        "processed"
       ],
       "propAfricanGeneticAncestry": null,
       "propEastAsianGeneticAncestry": null,
@@ -384,7 +401,9 @@
       "sampleType": "",
       "sex": "",
       "site_of_onset": "",
-      "source": "AbbVie",
+      "source": [
+        "Abbvie Inc."
+      ],
       "species": [
         "Homo sapiens"
       ],
@@ -392,7 +411,9 @@
       "subject": [
         ""
       ],
-      "title": "Phase 1 Olink Counts",
+      "title": [
+        "Phase 1 Olink Counts"
+      ],
       "url": "",
       "variantType": [
         ""
@@ -430,19 +451,17 @@
       "citation": [
         ""
       ],
-      "clinicalDomain": [
-        ""
-      ],
       "collection": [
         "ALS Knowledge Portal"
       ],
       "collectionDate": "",
       "contributor": [
-        "AbbVie"
+        "Abbvie Inc.",
+        "Target ALS"
       ],
       "country": "",
       "creator": [
-        "AbbVie"
+        "Abbvie Inc."
       ],
       "dataSourcePrefix": "abbvie",
       "dataType": [
@@ -482,7 +501,9 @@
       "sameAs": "",
       "sampleType": "",
       "sex": "",
-      "source": "AbbVie",
+      "source": [
+        "Abbvie Inc."
+      ],
       "species": [
         "Homo sapiens"
       ],
@@ -490,13 +511,15 @@
       "subject": [
         ""
       ],
-      "title": "Bridged Olink Metadata",
+      "title": [
+        "Bridged Olink Metadata"
+      ],
       "url": "",
       "visitType": "",
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
-      "_file_type": "File",
+      "_file_type": "OmicFile",
       "_schema_source": "json-schema",
       "_created_timestamp": "2026-04-24T16:07:41.541193"
     }
@@ -532,11 +555,12 @@
       ],
       "collectionDate": "",
       "contributor": [
-        "AbbVie"
+        "Abbvie Inc.",
+        "Target ALS"
       ],
       "country": "",
       "creator": [
-        "AbbVie"
+        "Abbvie Inc."
       ],
       "dataSourcePrefix": "abbvie",
       "dataType": [
@@ -572,7 +596,7 @@
         ""
       ],
       "processingLevel": [
-        ""
+        "processed"
       ],
       "propAfricanGeneticAncestry": null,
       "propEastAsianGeneticAncestry": null,
@@ -587,7 +611,9 @@
       "sampleType": "",
       "sex": "",
       "site_of_onset": "",
-      "source": "AbbVie",
+      "source": [
+        "Abbvie Inc."
+      ],
       "species": [
         "Homo sapiens"
       ],
@@ -595,7 +621,9 @@
       "subject": [
         ""
       ],
-      "title": "Phase 1 Olink Counts",
+      "title": [
+        "Phase 1 Olink Counts"
+      ],
       "url": "",
       "variantType": [
         ""
