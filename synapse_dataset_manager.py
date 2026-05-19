@@ -3100,6 +3100,44 @@ def verify_dataset_columns(syn, dataset_id, verbose=True):
         return False
 
 
+def handle_reorder_columns(args, config):
+    """Handle REORDER-COLUMNS workflow — add missing columns and reorder on an existing dataset."""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: REORDER DATASET COLUMNS")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    dataset_id = args.dataset_id
+    dataset_type = args.dataset_type
+
+    # Step 1: Add missing columns
+    print("\n--- Adding missing columns ---")
+    add_dataset_columns(
+        syn, dataset_id, all_schemas,
+        dataset_type=dataset_type,
+        dry_run=config.DRY_RUN
+    )
+
+    # Step 2: Reorder columns
+    print("\n--- Reordering columns ---")
+    reorder_dataset_columns(syn, dataset_id, dataset_type=dataset_type, dry_run=config.DRY_RUN)
+
+    # Step 3: Verify
+    print("\n--- Verifying columns ---")
+    verify_dataset_columns(syn, dataset_id, config.VERBOSE)
+
+    if config.DRY_RUN:
+        print("\n✅ DRY RUN COMPLETE — re-run with --execute to apply changes")
+    else:
+        print("\n✅ COLUMN REORDER COMPLETE")
+    print("=" * 60)
+
+
 def add_staging_folder_to_dataset(syn, dataset_id, staging_folder_id, dry_run=True):
     """
     Recursively add entire staging folder contents to dataset.
@@ -5152,15 +5190,24 @@ def handle_generate_template(args, config):
     # Ensure parent directory exists
     os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
 
+    # Inject $schema pointing to the schema file (relative to output location)
+    schema_file = f"{dataset_type}.json"
+    schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
+    output_abs = os.path.abspath(output_path)
+    schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
+    template_with_schema = {"$schema": schema_rel}
+    template_with_schema.update(template)
+
     # Save template
     with open(output_path, 'w') as f:
-        json.dump(template, f, indent=2)
+        json.dump(template_with_schema, f, indent=2)
 
     print("\n" + "=" * 60)
     print("✅ TEMPLATE GENERATED SUCCESSFULLY")
     print("=" * 60)
     print(f"Output file: {output_path}")
     print(f"Dataset type: {dataset_type}")
+    print(f"Schema: {schema_rel}")
     print(f"Fields: {len([k for k in template.keys() if not k.startswith('_')])}")
     print("\n💡 Edit this file to add your dataset metadata")
     if args.type == 'Dataset':
@@ -5327,12 +5374,26 @@ def handle_generate_file_templates(args, config):
         output_path = os.path.join(config.ANNOTATIONS_DIR, f"{name}_file_templates.json")
 
     os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
-    save_annotation_file(annotations_output, output_path)
+
+    # Inject $schema pointing to the nested wrapper schema (relative to output location)
+    file_type_map = {
+        'Clinical': 'ClinicalFileNested.json',
+        'Omic': 'OmicFileNested.json',
+    }
+    schema_file = file_type_map.get(args.type, 'FileNested.json')
+    schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
+    output_abs = os.path.abspath(output_path)
+    schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
+    output_with_schema = {"$schema": schema_rel}
+    output_with_schema.update(annotations_output)
+
+    save_annotation_file(output_with_schema, output_path)
 
     print("\n" + "=" * 60)
     print("✅ FILE TEMPLATES GENERATED SUCCESSFULLY")
     print("=" * 60)
     print(f"Output file: {output_path}")
+    print(f"Schema: {schema_rel}")
     print(f"Total files: {len(annotations_output)}")
     print("\n💡 Edit this file to fill in annotation values")
 
@@ -5352,6 +5413,8 @@ def handle_apply_file_annotations(args, config):
 
     with open(args.annotations_file) as f:
         file_annotations = json.load(f)
+    # Remove $schema key used for editor LSP validation
+    file_annotations.pop('$schema', None)
     print(f"✓ Loaded annotations from {args.annotations_file} ({len(file_annotations)} file entries)")
 
     print("\nConnecting to Synapse...")
@@ -6866,6 +6929,8 @@ def handle_annotate_dataset(args, config):
 
         with open(annotations_file) as f:
             annotations = json.load(f)
+        # Remove $schema key used for editor LSP validation
+        annotations.pop('$schema', None)
         print(f"✓ Loaded annotations from {annotations_file}")
 
         print("\n" + "=" * 60)
@@ -8598,6 +8663,22 @@ Examples:
     upload_local_parser.add_argument('--dry-run', action='store_true',
                                      help='Dry run mode (default)')
 
+    # REORDER-COLUMNS command
+    reorder_cols_parser = subparsers.add_parser(
+        'reorder-columns',
+        help='Add missing columns and reorder columns on an existing dataset'
+    )
+    reorder_cols_parser.add_argument('--dataset-id', required=True,
+        help='Synapse ID of existing dataset entity')
+    reorder_cols_parser.add_argument('--dataset-type',
+        choices=['ClinicalDataset', 'OmicDataset'],
+        default=None,
+        help='Dataset type for column schema (auto-detected from annotations if omitted)')
+    reorder_cols_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    reorder_cols_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
     args = parser.parse_args()
 
     if not args.command:
@@ -8826,6 +8907,8 @@ Examples:
         handle_merge_file_versions(args, config)
     elif args.command == 'upload-local':
         handle_upload_local_workflow(args, config)
+    elif args.command == 'reorder-columns':
+        handle_reorder_columns(args, config)
 
 
 if __name__ == "__main__":

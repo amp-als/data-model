@@ -18,7 +18,11 @@ ALS.ttl: dist/ALS.yaml
 linkml_jsonld:
 	gen-jsonld dist/ALS.yaml > dist/ALS_linkml.jsonld
 
-# Compile certain json schemas with LinkML with selective import of props, enums, and template 
+# Post-processing filter: allow empty string ("") alongside enum values for annotation template editing.
+# Transforms "enum": [...] into "anyOf": [{"enum": [...]}, {"const": ""}] so jsonls won't flag blanks.
+JQ_ALLOW_EMPTY = jq 'walk(if type == "object" and has("enum") and (.enum | type) == "array" then .anyOf = [{"enum": .enum}, {"const": ""}] | del(.enum) else . end)'
+
+# Compile certain json schemas with LinkML with selective import of props, enums, and template
 # LinkML output needs to be dereferenced bc Synapse doesn't suppport full JSON schema specs such as $defs
 Dataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
@@ -26,7 +30,7 @@ Dataset:
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/portal/Dataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
-	jq '."$$defs".Dataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json > json-schemas/Dataset.json
+	jq '."$$defs".Dataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/Dataset.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/Dataset.json ---"
 
@@ -36,7 +40,7 @@ ClinicalDataset:
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/clinical/domains.yaml modules/datasets/ClinicalDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
-	jq '."$$defs".ClinicalDataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json > json-schemas/ClinicalDataset.json
+	jq '."$$defs".ClinicalDataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalDataset.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/ClinicalDataset.json ---"
 
@@ -46,7 +50,7 @@ OmicDataset:
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/datasets/OmicDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
-	jq '."$$defs".OmicDataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json > json-schemas/OmicDataset.json
+	jq '."$$defs".OmicDataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/OmicDataset.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/OmicDataset.json ---"
 
@@ -56,7 +60,7 @@ File:
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/portal/File.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
-	jq '."$$defs".File as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json > json-schemas/File.json
+	jq '."$$defs".File as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/File.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/File.json ---"
 
@@ -66,7 +70,7 @@ ClinicalFile:
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
-	jq '."$$defs".ClinicalFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json > json-schemas/ClinicalFile.json
+	jq '."$$defs".ClinicalFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalFile.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/ClinicalFile.json ---"
 
@@ -76,7 +80,7 @@ OmicFile:
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
-	jq '."$$defs".OmicFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json > json-schemas/OmicFile.json
+	jq '."$$defs".OmicFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/OmicFile.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/OmicFile.json ---"
 

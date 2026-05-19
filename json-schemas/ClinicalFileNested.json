@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Nested Clinical File Annotations",
+  "description": "Wrapper for annotation templates where ClinicalFile properties are nested under synID -> filename",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "additionalProperties": {
+      "$ref": "ClinicalFile.json"
+    }
+  }
+}
