@@ -7697,7 +7697,7 @@ classes:
         title: Description
         range: string
         description: Brief description; should be no more than 500 characters.
-        multivalued: true
+        multivalued: false
         required: false
       alternateName:
         title: Alternate Name

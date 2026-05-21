@@ -527,11 +527,8 @@
     },
     "description": {
       "description": "Brief description; should be no more than 500 characters.",
-      "items": {
-        "type": "string"
-      },
       "title": "Description",
-      "type": "array"
+      "type": "string"
     },
     "disease": {
       "description": "Disease(s) or condition(s) associated with the data.",

@@ -1,10 +1,13 @@
 {
+  "$schema": "../../json-schemas/OmicDataset.json",
   "FACSPopulation": "",
   "GEOSuperSeries": "",
   "acknowledgementStatement": [
     "syn64892175/wiki/640100"
   ],
-  "alternateName": "phs004288.v1.p1",
+  "alternateName": [
+    "phs004288.v1.p1"
+  ],
   "assay": [
     "RNA-seq"
   ],
@@ -35,7 +38,7 @@
   ],
   "dataset_code": "",
   "datePublished": null,
-  "description": "Whole blood RNA-seq study in ALS cases (n=388) and controls examining gene expression to predict disease status and survival using machine learning. Multi-omic integration analysis identifies therapeutic candidates leveraging the exposome, epigenome, metabolome, and inflammasome.",
+  "description": "Whole blood RNA-seq study in ALS cases and controls (n=388) examining gene expression to predict disease status and survival using machine learning. Multi-omic integration analysis identifies therapeutic candidates leveraging the exposome, epigenome, metabolome, and inflammasome.",
   "disease": [
     "ALS",
     "Control"
@@ -48,9 +51,6 @@
   "keywords": [
     "ALS",
     "exposome",
-    "epigenome",
-    "metabolome",
-    "inflammasome",
     "RNA-seq",
     "machine learning",
     "case-control",
@@ -70,7 +70,9 @@
   ],
   "publisher": "University of Michigan",
   "sameAs": "phs004288.v1.p1",
-  "source": "dbGaP (NINDS_ALS_Omics)",
+  "source": [
+    "dbGaP (NINDS_ALS_Omics)"
+  ],
   "species": [
     "Homo sapiens"
   ],
@@ -84,7 +86,7 @@
   ],
   "title": "Developing Novel Strategies for Personalized Treatment and Prevention of ALS: Leveraging the Global Exposome, Genome, Epigenome, Metabolome, and Inflammasome with Data Science in a Case/Control Cohort",
   "url": "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1",
-  "_file_type": "OmicDataset",
+  "_dataset_type": "OmicDataset",
   "_schema_source": "json-schema",
   "_created_timestamp": "2026-04-15T19:24:35.710939"
 }
