@@ -91,6 +91,31 @@
       "title": "Clinical Domain",
       "type": "array"
     },
+    "cohortType": {
+      "description": "Types of cohorts available in this dataset.",
+      "items": {
+        "description": "",
+        "title": "CohortTypeEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Case-Control"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Cohort Type",
+      "type": "array"
+    },
+    "cohort_count": {
+      "description": "Number of cohorts in this dataset.",
+      "title": "Cohort Count",
+      "type": "integer"
+    },
     "collection": {
       "description": "Associated collection(s).",
       "items": {
@@ -617,6 +642,11 @@
       "title": "Study type",
       "type": "array"
     },
+    "study_count": {
+      "description": "Number of studies in this dataset.",
+      "title": "Study Count",
+      "type": "integer"
+    },
     "subject": {
       "description": "Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
       "items": {
@@ -643,6 +673,9 @@
   "required": [
     "title",
     "keywords",
+    "cohortType",
+    "cohort_count",
+    "study_count",
     "source"
   ]
 }

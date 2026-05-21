@@ -795,6 +795,10 @@ enums:
         description: Under embargo until specific date
       Controlled:
         description: Controlled access requiring DUC or similar agreement
+  CohortTypeEnum:
+    permissible_values:
+      Case-Control:
+        description: Case-control cohort comparing disease cases and healthy controls
   FormStatusEnum:
     permissible_values:
       New:
@@ -4670,6 +4674,22 @@ classes:
         description: Portal release version(s) in which this dataset is included (e.g. "2025.2").
         multivalued: true
         required: false
+      cohortType:
+        title: Cohort Type
+        range: CohortTypeEnum
+        description: Types of cohorts available in this dataset.
+        multivalued: true
+        required: true
+      cohort_count:
+        title: Cohort Count
+        range: integer
+        description: Number of cohorts in this dataset.
+        required: true
+      study_count:
+        title: Study Count
+        range: integer
+        description: Number of studies in this dataset.
+        required: true
       acknowledgementStatement:
         title: Acknowledgement Statement
         range: string

@@ -5206,6 +5206,17 @@
     "sms:displayName" : "ImpactEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:CohortTypeEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "CohortTypeEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "CohortTypeEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:VolumeUnitsEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17230,6 +17241,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Large",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Case-Control",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Case-Control",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Case-Control",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Lack_of_Efficacy",
