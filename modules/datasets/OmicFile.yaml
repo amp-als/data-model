@@ -61,6 +61,7 @@ classes:
         title: Site of Onset
         range: SiteOfOnsetEnum
         description: Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)
+        multivalued: true
         required: false
 
       # Sample tracking

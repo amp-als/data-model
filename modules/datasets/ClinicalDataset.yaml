@@ -46,64 +46,8 @@ classes:
         description: Description of visit schedule (e.g., "Baseline, 3, 6, 12 months")
         required: false
 
-enums:
-  ClinicalDataTypeEnum:
-    permissible_values:
-      clinical_assessment:
-        description: Clinical assessment data
-      treatment:
-        description: Treatment and medication data
-      medical_history:
-        description: Medical history data
-      laboratory_results:
-        description: Laboratory test results
-      vital_signs:
-        description: Vital signs measurements
-      neurological_assessment:
-        description: Neurological examination data
-      psychiatric_assessment:
-        description: Psychiatric evaluation data
-      electrophysiology:
-        description: Electrophysiology assessment data
-      hand_held_dynamometry:
-        description: Hand-held dynamometry measurements
-      genetic_profile:
-        description: Genetic testing results
-      study_management:
-        description: Study management metadata
-      data_management:
-        description: Data management and quality metrics
-
-  StudyDesignEnum:
-    permissible_values:
-      longitudinal:
-        description: Longitudinal study with repeated measures
-      cross_sectional:
-        description: Cross-sectional study at single timepoint
-      case_control:
-        description: Case-control study design
-      cohort:
-        description: Cohort study design
-      interventional:
-        description: Interventional clinical trial
-      observational:
-        description: Observational study
-
-  AssessmentTypeEnum:
-    permissible_values:
-      alsfrs_r:
-        description: ALS Functional Rating Scale - Revised
-      neurological_exam:
-        description: Neurological examination
-      psychiatric_eval:
-        description: Psychiatric evaluation
-      vital_signs:
-        description: Vital signs assessment
-      laboratory:
-        description: Laboratory assessments
-      electrophysiology:
-        description: Electrophysiology testing
-      dynamometry:
-        description: Hand-held dynamometry testing
-      genetic_testing:
-        description: Genetic profiling
+# Enums for this class are defined canonically in dedicated modules and shared
+# with the file-level ClinicalFile schema (see Makefile ClinicalDataset target):
+#   ClinicalDataTypeEnum -> modules/clinical/data-types.yaml
+#   AssessmentTypeEnum   -> modules/clinical/assessment-types.yaml
+#   StudyDesignEnum      -> modules/clinical/study-design.yaml

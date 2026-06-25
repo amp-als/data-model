@@ -582,9 +582,6 @@
               "TARDBP",
               "sporadic",
               "familial",
-              "bulbar_onset",
-              "limb_onset",
-              "respiratory_onset",
               "Unknown",
               "C9-ALS",
               "Asymptomatic C9",
@@ -784,10 +781,6 @@
       "description": "Ethnicity of subject.",
       "title": "Ethnicity"
     },
-    "genomeReference": {
-      "description": "Reference genome used for alignment.",
-      "title": "Reference Genome"
-    },
     "globalSubjectId": {
       "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
       "pattern": "^[a-zA-Z0-9_-]+$",
@@ -834,7 +827,9 @@
     },
     "libraryPreparationMethod": {
       "description": "Method or kit used for library preparation.",
-      "title": "Library Preparation Method"
+      "items": {},
+      "title": "Library Preparation Method",
+      "type": "array"
     },
     "license": {
       "description": "Unless information for license is clear, this should default to UNKNOWN.",

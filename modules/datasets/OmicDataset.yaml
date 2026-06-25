@@ -42,42 +42,8 @@ classes:
         multivalued: true
         required: false
 
-enums:
-  OmicDataTypeEnum:
-    permissible_values:
-      genomics:
-        description: Genomic sequencing data
-      transcriptomics:
-        description: Gene expression data
-      proteomics:
-        description: Protein expression data
-      metabolomics:
-        description: Metabolite profiling data
-      epigenomics:
-        description: Epigenetic modification data
-      metagenomics:
-        description: Metagenomic sequencing data
-      single_cell:
-        description: Single-cell analysis data
-      multi_omics:
-        description: Multi-omic integrated data
-
-  LibraryStrategyEnum:
-    permissible_values:
-      RNA_seq:
-        description: RNA sequencing
-      WGS:
-        description: Whole genome sequencing
-      WES:
-        description: Whole exome sequencing
-      ChIP_seq:
-        description: Chromatin immunoprecipitation sequencing
-      ATAC_seq:
-        description: Assay for transposase-accessible chromatin
-      bisulfite_seq:
-        description: Bisulfite sequencing
-      amplicon_seq:
-        description: Amplicon sequencing
-      targeted_seq:
-        description: Targeted sequencing panel
+# Enums for this class are defined canonically in dedicated modules and shared
+# with the file-level OmicFile schema (see Makefile OmicDataset target):
+#   OmicDataTypeEnum    -> modules/omics/data-types.yaml
+#   LibraryStrategyEnum -> modules/omics/library-strategy.yaml
 

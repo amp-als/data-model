@@ -1,0 +1,21 @@
+#######################################
+# Study Design
+# Canonical StudyDesignEnum for clinical dataset schemas.
+#######################################
+
+enums:
+  StudyDesignEnum:
+    description: Type of clinical study design
+    permissible_values:
+      longitudinal:
+        description: Longitudinal study with repeated measures
+      cross_sectional:
+        description: Cross-sectional study at single timepoint
+      case_control:
+        description: Case-control study design
+      cohort:
+        description: Cohort study design
+      interventional:
+        description: Interventional clinical trial
+      observational:
+        description: Observational study

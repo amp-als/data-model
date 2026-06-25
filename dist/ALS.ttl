@@ -8,18 +8,18 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
+    sh:declare [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
+            sh:prefix "als" ],
+        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
             sh:prefix "skos" ],
-        [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
-            sh:prefix "prov" ],
+        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
+            sh:prefix "linkml" ],
         [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
             sh:prefix "schema" ],
-        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
-            sh:prefix "als" ],
+        [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
+            sh:prefix "prov" ],
         [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
-            sh:prefix "linkml" ] ;
+            sh:prefix "rdfs" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -102,6 +102,7 @@
         <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ClinicalDomainEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ClinicalPhenotypeEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/CohortEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CohortTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CollectionEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CollectionMethodEnum>,
@@ -218,7 +219,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-05-21T17:34:39"^^xsd:dateTime ;
+    linkml:generation_date "2026-06-23T20:17:28"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -274,6 +275,7 @@
         <https://w3id.org/synapse/amp-als/vocab/author>,
         <https://w3id.org/synapse/amp-als/vocab/auxiliaryAsset>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__acknowledgementStatement>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
@@ -732,7 +734,6 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__GEOSuperSeries>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__alignmentMethod>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__assay>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__genomeReference>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryLayout>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryPreparationMethod>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__originalSampleId>,
@@ -907,8 +908,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-05-21T17:34:36"^^xsd:dateTime ;
-    linkml:source_file_size 357661 ;
+    linkml:source_file_date "2026-06-23T20:17:26"^^xsd:dateTime ;
+    linkml:source_file_size 365341 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -973,9 +974,19 @@
 
 <https://w3id.org/synapse/amp-als/vocab/AD> linkml:description "Alzheimer's Disease" .
 
+<https://w3id.org/synapse/amp-als/vocab/ALS%20Aggregate/Reference> linkml:description "Aggregate or reference cohort summarizing ALS data." .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS%20Case> linkml:description "ALS case cohort in a case-control study." .
+
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Knowledge%20Portal> linkml:description "Default collection" .
 
+<https://w3id.org/synapse/amp-als/vocab/ALS%20Natural-History> linkml:description "ALS natural-history cohort followed observationally." .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS%20Postmortem%20TDP-43-Negative%20Neuronal%20Nuclei> linkml:description "ALS postmortem neuronal nuclei with loss of nuclear TDP-43." .
+
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Spectrum%20MND> linkml:description "range of motor neuron diseases sharing similar biological underpinnings, including variants that primarily affect only upper or lower motor neurons" .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS%20Survey%20Participants> linkml:description "Participants in an ALS analysis and assessment survey study." .
 
 <https://w3id.org/synapse/amp-als/vocab/ALS%20UMN-Predominant> linkml:description "ALS with upper motor neuron predominant presentation" .
 
@@ -984,6 +995,16 @@
 <https://w3id.org/synapse/amp-als/vocab/ALS%2C%20Dementia%20%28NOS%29> linkml:description "ALS with dementia (NOS)" .
 
 <https://w3id.org/synapse/amp-als/vocab/ALS-%20LMND%20%28lower%20motor%20neuron%20dominant%29> linkml:description "ALS with lower motor neuron dominant presentation" .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS-Glial> linkml:description "ALS molecular subtype with activated glia or glial dysfunction signatures." .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS-Ox> linkml:description "ALS molecular subtype with oxidative and proteotoxic stress signatures." .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS-TE> linkml:description "ALS molecular subtype with elevated transposable element or retrotransposon expression and TDP-43 dysfunction signature." .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS/FTD%20Case> linkml:description "ALS and/or FTD case cohort in a case-control WGS collection." .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS/FTD%20Disease%20Model%20and%20ALS%20Samples> linkml:description "ALS/FTD disease-model cohort and ALS disease sample cohort used in RNA methylation analyses." .
 
 <https://w3id.org/synapse/amp-als/vocab/ALS2-ALS> linkml:description "ALS2 ALS" .
 
@@ -1042,6 +1063,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Age_Criteria> linkml:description "Failed age inclusion criteria" .
 
+<https://w3id.org/synapse/amp-als/vocab/Aggregate-Reference> linkml:description "Aggregate summary/reference cohort where participant-level cohort membership is not available in the dataset." .
+
 <https://w3id.org/synapse/amp-als/vocab/AggregatedData> linkml:description "Summary or group-level data." .
 
 <https://w3id.org/synapse/amp-als/vocab/Agilent%2044Karray> linkml:description "" .
@@ -1052,6 +1075,8 @@
     linkml:meaning "https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=aligned_reads"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/Alzheimer> linkml:description "Alzheimer's disease" .
+
+<https://w3id.org/synapse/amp-als/vocab/Alzheimer%27s%20Disease> linkml:description "Alzheimer's disease comparator cohort." .
 
 <https://w3id.org/synapse/amp-als/vocab/Amber> linkml:description "Amber/dark yellow" .
 
@@ -1088,6 +1113,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Anxiety%20for%20ALS> linkml:description "Subject presenting with anxiety about ALS without confirmed diagnosis" .
 
+<https://w3id.org/synapse/amp-als/vocab/Apobec-YTH> linkml:description "HEK293T DART-seq experimental group treated or transfected with APOBEC-YTH construct." .
+
+<https://w3id.org/synapse/amp-als/vocab/Apobec-YTHmut> linkml:description "HEK293T DART-seq experimental group treated or transfected with mutant APOBEC-YTH control construct." .
+
 <https://w3id.org/synapse/amp-als/vocab/As_Needed> linkml:description "As needed (PRN)" .
 
 <https://w3id.org/synapse/amp-als/vocab/Asian> linkml:description "Asian" .
@@ -1098,9 +1127,13 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Asymptomatic%20C9orf72> linkml:description "Asymptomatic C9orf72 gene mutation" .
 
+<https://w3id.org/synapse/amp-als/vocab/Asymptomatic%20Genetic%20ALS%20At-Risk> linkml:description "Asymptomatic participants at risk for genetic forms of ALS." .
+
 <https://w3id.org/synapse/amp-als/vocab/Asymptomatic%20NEK1> linkml:description "Asymptomatic NEK1 Carrier" .
 
 <https://w3id.org/synapse/amp-als/vocab/Asymptomatic%20SOD1> linkml:description "Asymptomatic SOD1 carrier" .
+
+<https://w3id.org/synapse/amp-als/vocab/At-Risk> linkml:description "Cohort composed of participants at elevated genetic or familial risk who may be presymptomatic at enrollment." .
 
 <https://w3id.org/synapse/amp-als/vocab/Athena> linkml:description "Athena Diagnostics laboratory" .
 
@@ -1179,7 +1212,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Burden_of_Participation> linkml:description "Withdrew due to burden of participation" .
 
-<https://w3id.org/synapse/amp-als/vocab/C9-FTD> linkml:description "C9orf72-associated FTD" .
+<https://w3id.org/synapse/amp-als/vocab/C9ALS> linkml:description "Familial ALS due to C9orf72 mutation." .
+
+<https://w3id.org/synapse/amp-als/vocab/C9ALS/FTD> linkml:description "ALS/FTD cases carrying a C9orf72 repeat expansion." .
 
 <https://w3id.org/synapse/amp-als/vocab/C9ORF72> linkml:description "C9orf72 gene" .
 
@@ -1273,9 +1308,15 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Caregiver_Assisted> linkml:description "Caregiver-assisted administration" .
 
-<https://w3id.org/synapse/amp-als/vocab/Case-Control> linkml:description "Case-control cohort comparing disease cases and healthy controls" .
+<https://w3id.org/synapse/amp-als/vocab/Case-Control> linkml:description "Case-control cohort comparing disease cases and controls." .
 
 <https://w3id.org/synapse/amp-als/vocab/Case-Control%20Study> linkml:description "Comparison between disease cases and healthy controls" .
+
+<https://w3id.org/synapse/amp-als/vocab/Ceftriaxone%202%20g/day> linkml:description "Ceftriaxone 2 grams per day treatment arm in the ALS ceftriaxone clinical trial." .
+
+<https://w3id.org/synapse/amp-als/vocab/Ceftriaxone%204%20g/day> linkml:description "Ceftriaxone 4 grams per day treatment arm in the ALS ceftriaxone clinical trial." .
+
+<https://w3id.org/synapse/amp-als/vocab/Ceftriaxone%20Treatment> linkml:description "Ceftriaxone treatment arm." .
 
 <https://w3id.org/synapse/amp-als/vocab/CellRanger> linkml:description "10x Genomics Cell Ranger alignment pipeline" .
 
@@ -1461,8 +1502,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Consent_Process> linkml:description "Informed consent process deviation" .
 
-<https://w3id.org/synapse/amp-als/vocab/Control> linkml:description "Healthy control" .
-
 <https://w3id.org/synapse/amp-als/vocab/Controlled> linkml:description "Controlled access requiring DUC or similar agreement" .
 
 <https://w3id.org/synapse/amp-als/vocab/CopyNumberVariants> linkml:description "Copy number variants" ;
@@ -1587,6 +1626,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Discovery%20Study> linkml:description "Exploratory study to identify patterns or biomarkers" .
 
+<https://w3id.org/synapse/amp-als/vocab/Disease-Only> linkml:description "Cohort composed of participants or specimens with the target disease/condition and no explicit control group." .
+
 <https://w3id.org/synapse/amp-als/vocab/Disease_Stage> linkml:description "Failed disease stage criteria" .
 
 <https://w3id.org/synapse/amp-als/vocab/Distal%20Myopathy> linkml:description "Distal myopathy" .
@@ -1678,11 +1719,19 @@
 
 <https://w3id.org/synapse/amp-als/vocab/FSHD> linkml:description "Facioscapulohumeral muscular dystrophy" .
 
+<https://w3id.org/synapse/amp-als/vocab/FTD%20Aggregate/Reference> linkml:description "Aggregate or reference cohort summarizing FTD data." .
+
+<https://w3id.org/synapse/amp-als/vocab/FTD%20Postmortem%20TDP-43-Negative%20Neuronal%20Nuclei> linkml:description "FTD postmortem neuronal nuclei with loss of nuclear TDP-43." .
+
 <https://w3id.org/synapse/amp-als/vocab/FTD%2C%20PSP> linkml:description "FTD with progressive supranuclear palsy" .
+
+<https://w3id.org/synapse/amp-als/vocab/FTD-GRN> linkml:description "Frontotemporal dementia associated with GRN mutation." .
 
 <https://w3id.org/synapse/amp-als/vocab/FTIR%20spectroscopy> linkml:description """Fourier transform infrared (FTIR) spectroscopy is a technique used to obtain an infrared spectrum of absorption or emission of a solid, liquid or gas.  An FTIR spectrometer simultaneously collects high-resolution spectral data over a wide spectral range.
 """ ;
     linkml:meaning "http://purl.obolibrary.org/obo/CHMO_0000636"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/FTLD-TDP> linkml:description "Frontotemporal lobar degeneration with TDP-43 pathology." .
 
 <https://w3id.org/synapse/amp-als/vocab/FUS-ALS> linkml:description "FUS ALS" .
 
@@ -1788,7 +1837,6 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__GEOSuperSeries>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__alignmentMethod>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__assay>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__genomeReference>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryLayout>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryPreparationMethod>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__originalSampleId>,
@@ -1966,6 +2014,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Half_Sister> linkml:description "Half sister" .
 
+<https://w3id.org/synapse/amp-als/vocab/Halo> linkml:description "HEK293T DART-seq HaloTag control group." .
+
 <https://w3id.org/synapse/amp-als/vocab/HandHeldDynamometry> linkml:description "Hand-held dynamometry strength testing" .
 
 <https://w3id.org/synapse/amp-als/vocab/Handle> linkml:description "Handle system identifier" .
@@ -1973,6 +2023,10 @@
 <https://w3id.org/synapse/amp-als/vocab/Harmonized%20Study%20Collection> linkml:description "A curated collection of harmonized datasets aggregated across multiple studies or cohorts" .
 
 <https://w3id.org/synapse/amp-als/vocab/Head%20Drop> linkml:description "Dropped Head Syndrome (DHS) as the very first manifestation of a disease. severe weakness in the neck extensor muscles. Patients find it difficult or impossible to hold their head upright, leading to a \"chin-on-chest\" posture." .
+
+<https://w3id.org/synapse/amp-als/vocab/Healthy%20Control> linkml:description "Unaffected or healthy control participants or specimens." .
+
+<https://w3id.org/synapse/amp-als/vocab/Healthy-Control> linkml:description "Cohort composed of unaffected or healthy control participants/specimens." .
 
 <https://w3id.org/synapse/amp-als/vocab/Heavy> linkml:description "Heavy use (> 14 drinks/week)" .
 
@@ -2090,9 +2144,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Illumina%20Tn5%20Transposase> dcterms:source "https://www.illumina.com/techniques/multiomics/epigenetics/atac-seq-chromatin-accessibility.html"^^xsd:anyURI ;
     linkml:description "Tn5 simultaneously fragments DNA, preferentially inserts into open chromatin sites, and adds sequencing primers (a process known as tagmentation)." .
 
-<https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20DNA%20Nano> linkml:description "" .
-
-<https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20Nano%20DNA%20Library%20Prep> linkml:description "TrueSeq Nano library preparation" .
+<https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20Nano%20DNA> dcterms:source "https://www.illumina.com/products/by-type/sequencing-kits/library-prep-kits/truseq-nano-dna.html"^^xsd:anyURI ;
+    linkml:description "High-efficiency library preparation kit that enables comprehensive whole-genome sequencing from low-input DNA samples by minimizing library bias and avoiding gel-based size selection." .
 
 <https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20RNA%20Library%20Prep%20Kit> linkml:description "Illumina TruSeq RNA library preparation kit" .
 
@@ -2102,6 +2155,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Illumina%20h650> linkml:description "" .
 
 <https://w3id.org/synapse/amp-als/vocab/Immunology> linkml:description "Immunology" .
+
+<https://w3id.org/synapse/amp-als/vocab/In-Vitro-Experimental> linkml:description "In vitro experimental cohort or condition groups, including engineered cell-line treatment, perturbation, or assay-control groups." .
 
 <https://w3id.org/synapse/amp-als/vocab/In_Person> linkml:description "In-person administration" .
 
@@ -2130,6 +2185,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Intersex> linkml:description "A person with variations in sex characteristics that do not fit typical binary notions of male or female bodies" ;
     linkml:meaning "http://purl.obolibrary.org/obo/NCIT_C45908"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/Interventional-Treatment> linkml:description "Cohort receiving an investigational or active treatment in a clinical trial or expanded-access protocol." .
 
 <https://w3id.org/synapse/amp-als/vocab/Interview> linkml:description "A conversation with an individual regarding his or her background and other personal and professional details, opinions on specific subjects posed by the interviewer, etc." ;
     linkml:meaning "http://purl.obolibrary.org/obo/NCIT_C16751"^^xsd:anyURI .
@@ -2216,6 +2273,10 @@
     linkml:description "(From vendor) Portable 3D imaging system for skin microstructure analysis." .
 
 <https://w3id.org/synapse/amp-als/vocab/Life_Threatening> linkml:description "Life-threatening" .
+
+<https://w3id.org/synapse/amp-als/vocab/Like-C9%20Sporadic%20ALS/FTD> linkml:description "Sporadic non-C9 ALS/FTD cases with C9-like hnRNP H-target splicing dysregulation." .
+
+<https://w3id.org/synapse/amp-als/vocab/Like-Control%20Sporadic%20ALS/FTD> linkml:description "Sporadic non-C9 ALS/FTD cases without the C9-like splicing dysregulation signature." .
 
 <https://w3id.org/synapse/amp-als/vocab/Likely_Benign> linkml:description "Likely benign variant" .
 
@@ -2395,6 +2456,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Natural%20History%20Study> linkml:description "Observational study tracking disease progression" .
 
+<https://w3id.org/synapse/amp-als/vocab/Natural-History> linkml:description "Observational cohort followed longitudinally to characterize disease course without protocol-assigned intervention." .
+
 <https://w3id.org/synapse/amp-als/vocab/Negative%20Control> linkml:description "Negative control sample" .
 
 <https://w3id.org/synapse/amp-als/vocab/NeuN%2B%20neurons> linkml:description "NeuN-positive neurons" .
@@ -2408,6 +2471,8 @@
 <https://w3id.org/synapse/amp-als/vocab/No> linkml:description "No known family history" .
 
 <https://w3id.org/synapse/amp-als/vocab/No_Effect> linkml:description "No apparent effect" .
+
+<https://w3id.org/synapse/amp-als/vocab/Non-ALS%20Control> linkml:description "Non-ALS control comparison cohort." .
 
 <https://w3id.org/synapse/amp-als/vocab/Non-ALS%20MND%2C%20Seizures> linkml:description "Non-ALS motor neuron disease with seizures" .
 
@@ -2493,6 +2558,10 @@
 <https://w3id.org/synapse/amp-als/vocab/Oryctolagus%20cuniculus> linkml:description "Oryctolagus cuniculus with taxonomy ID: 9986 and Genbank common name: rabbit" ;
     linkml:meaning "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=9986&lvl=3&lin=f&keep=1&srchmode=1&unlock"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/Other%20Motor%20Neuron%20Disease> linkml:description "Comparator cohort with motor neuron disease other than ALS." .
+
+<https://w3id.org/synapse/amp-als/vocab/Other%20Neurological%20Disorders> linkml:description "Comparator cohort with neurological disorders other than the primary disease focus." .
+
 <https://w3id.org/synapse/amp-als/vocab/Other%20Platform> linkml:description "Placeholder for platform not in list." .
 
 <https://w3id.org/synapse/amp-als/vocab/Other%20genetic%20ALS> linkml:description "ALS associated with other or unspecified gene variant" .
@@ -2558,6 +2627,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/PSP> linkml:description "Progressive supranuclear palsy" .
 
+<https://w3id.org/synapse/amp-als/vocab/PSP/FTLD-tau> linkml:description "Progressive supranuclear palsy or FTLD-tau disease-control cohort without frontal cortex TDP-43 pathology." .
+
 <https://w3id.org/synapse/amp-als/vocab/PURL> linkml:description "Persistent URL" .
 
 <https://w3id.org/synapse/amp-als/vocab/PacBio%20RS%20II> dcterms:source "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL21311"^^xsd:anyURI ;
@@ -2580,6 +2651,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Paraffin_Block> linkml:description "Paraffin-embedded tissue block" .
 
 <https://w3id.org/synapse/amp-als/vocab/Parkinson> linkml:description "Parkinson's disease" .
+
+<https://w3id.org/synapse/amp-als/vocab/Parkinson%27s%20Disease> linkml:description "Parkinson's disease comparator cohort." .
 
 <https://w3id.org/synapse/amp-als/vocab/Paternal> linkml:description "Paternal side of family" .
 
@@ -2664,6 +2737,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Pilot%20Study> linkml:description "Small-scale preliminary study" .
 
+<https://w3id.org/synapse/amp-als/vocab/Placebo> linkml:description "Placebo or standard-of-care control arm in an interventional clinical trial." .
+
+<https://w3id.org/synapse/amp-als/vocab/Placebo-Control> linkml:description "Cohort receiving placebo or standard-of-care control in an interventional clinical trial." .
+
 <https://w3id.org/synapse/amp-als/vocab/Plain> linkml:description "Plain tube (no additive)" .
 
 <https://w3id.org/synapse/amp-als/vocab/Plasma> linkml:description "Plasma specimen" .
@@ -2685,6 +2762,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Possibly_Related> linkml:description "Possibly related to study" .
 
 <https://w3id.org/synapse/amp-als/vocab/Post-Polio%20Syndrome> linkml:description "Post-polio syndrome" .
+
+<https://w3id.org/synapse/amp-als/vocab/Pre-fALS> linkml:description "Presymptomatic or at-risk familial ALS cohort." .
 
 <https://w3id.org/synapse/amp-als/vocab/Pre-fALS%2C%20MCI> linkml:description "Pre-symptomatic familial ALS with mild cognitive impairment" .
 
@@ -2813,6 +2892,16 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Reference%20Metadata> linkml:description "Information about the contents and quality of statistical data." .
 
+<https://w3id.org/synapse/amp-als/vocab/Registry> linkml:description "Registry or survey cohort assembled from participant-reported or routinely collected clinical data." .
+
+<https://w3id.org/synapse/amp-als/vocab/Reldesemtiv%20Treatment> linkml:description "Reldesemtiv treatment arm." .
+
+<https://w3id.org/synapse/amp-als/vocab/Reldesemtiv/CK-2127107%20150%20mg%20Twice%20Daily> linkml:description "Reldesemtiv/CK-2127107 150 mg twice-daily treatment arm." .
+
+<https://w3id.org/synapse/amp-als/vocab/Reldesemtiv/CK-2127107%20300%20mg%20Twice%20Daily> linkml:description "Reldesemtiv/CK-2127107 300 mg twice-daily treatment arm." .
+
+<https://w3id.org/synapse/amp-als/vocab/Reldesemtiv/CK-2127107%20450%20mg%20Twice%20Daily> linkml:description "Reldesemtiv/CK-2127107 450 mg twice-daily treatment arm." .
+
 <https://w3id.org/synapse/amp-als/vocab/Remote> linkml:description "Remote location" .
 
 <https://w3id.org/synapse/amp-als/vocab/Removed> linkml:description "Device has been removed" .
@@ -2852,6 +2941,8 @@
 <https://w3id.org/synapse/amp-als/vocab/SETX-ALS> linkml:description "SETX ALS" .
 
 <https://w3id.org/synapse/amp-als/vocab/SNOMED> linkml:description "SNOMED Clinical Terms" .
+
+<https://w3id.org/synapse/amp-als/vocab/SNP> linkml:description "Single nucleotide polymoprphisms" .
 
 <https://w3id.org/synapse/amp-als/vocab/SNP%20array> linkml:description "SNP measurements captured by array technology" ;
     linkml:meaning "http://purl.obolibrary.org/obo/OBI_0001204"^^xsd:anyURI .
@@ -3062,6 +3153,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Symptomatic> linkml:description "Symptomatic treatment" .
 
+<https://w3id.org/synapse/amp-als/vocab/Symptomatic%20ALS> linkml:description "Participants living with symptomatic ALS." .
+
 <https://w3id.org/synapse/amp-als/vocab/Synapse> linkml:description "synapse.org" .
 
 <https://w3id.org/synapse/amp-als/vocab/T%20cell%20receptor%20repertoire%20sequencing> linkml:description "A sequencing assay that determines the sequences of DNA or RNA molecules that encode the repertoire of T cell receptors within an input sample." ;
@@ -3078,6 +3171,10 @@
 <https://w3id.org/synapse/amp-als/vocab/TBK1> linkml:description "TANK binding kinase 1 gene" .
 
 <https://w3id.org/synapse/amp-als/vocab/TBK1-ALS> linkml:description "TBK1 ALS" .
+
+<https://w3id.org/synapse/amp-als/vocab/TDP-43-Negative%20Neuronal%20Nuclei> linkml:description "Neuronal nuclei with loss of nuclear TDP-43 from FTD/ALS patient postmortem frontal cortex." .
+
+<https://w3id.org/synapse/amp-als/vocab/TDP-43-Positive%20Neuronal%20Nuclei> linkml:description "Neuronal nuclei retaining nuclear TDP-43 from FTD/ALS patient postmortem frontal cortex." .
 
 <https://w3id.org/synapse/amp-als/vocab/TIDE> dcterms:source "https://tide.nki.nl/"^^xsd:anyURI ;
     linkml:description """Tracking of Indels by Decomposition (TIDE) is a simple and accurate assay to precisely determine the spectrum and frequency of targeted mutations generated  in a pool of cells by genome editing tools such as CRISPR/Cas9, TALENs and ZFNs.
@@ -3120,6 +3217,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Topical> linkml:description "Topical administration" .
 
+<https://w3id.org/synapse/amp-als/vocab/Topiramate%20Treatment> linkml:description "Topiramate treatment arm." .
+
 <https://w3id.org/synapse/amp-als/vocab/Toshiba%20Vantage%20Titan%201.5T> dcterms:source "https://www.oncologysystems.com/inventory/medical-equipment-for-sale/used-mri-systems/toshiba-vantage-titan-wide-bore-1-5t-mri-systems"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/Tracheostomy> linkml:description "Tracheostomy and mechanical ventilation" .
@@ -3129,6 +3228,10 @@
 <https://w3id.org/synapse/amp-als/vocab/Translocations> linkml:description "Translocation structural variants" .
 
 <https://w3id.org/synapse/amp-als/vocab/TreatmentAdministration> linkml:description "Treatment or intervention administration" .
+
+<https://w3id.org/synapse/amp-als/vocab/Trehalose%20Expanded-Access%20Biomarker%20Treatment> linkml:description "ALS participants receiving trehalose in the expanded-access biomarker dataset." .
+
+<https://w3id.org/synapse/amp-als/vocab/Trehalose%20Expanded-Access%20Treatment> linkml:description "ALS participants receiving trehalose through an expanded-access protocol." .
 
 <https://w3id.org/synapse/amp-als/vocab/TriKinetics%20activity%20monitoring> dcterms:source "https://trikinetics.com/"^^xsd:anyURI ;
     linkml:description "TriKinetics systems quantify animal movement over time, and can be used to measure circadian rhythm, sleep, longevity, social interaction, geotaxis, learning, phototaxis, and drug response in various species of flies, mosquitoes, bees, spiders, ants, cockroaches, beetles, moths, zooplankton, and fish, among others." .
@@ -3751,8 +3854,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/bulbar_function> linkml:description "Speech, swallowing, and bulbar function" .
 
-<https://w3id.org/synapse/amp-als/vocab/bulbar_onset> linkml:description "Bulbar onset presentation" .
-
 <https://w3id.org/synapse/amp-als/vocab/bulk> linkml:description "Bulk sample analysis" .
 
 <https://w3id.org/synapse/amp-als/vocab/bulk%20cell> dcterms:source "https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json"^^xsd:anyURI ;
@@ -3942,8 +4043,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
 
 <https://w3id.org/synapse/amp-als/vocab/cognitive_function> linkml:description "Memory, executive function, and other aspects of cognition" .
-
-<https://w3id.org/synapse/amp-als/vocab/cohort> linkml:description "Cohort study design" .
 
 <https://w3id.org/synapse/amp-als/vocab/cohortType> a linkml:SlotDefinition ;
     dcterms:title "Cohort Type" ;
@@ -4328,8 +4427,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/dataset_code> a linkml:SlotDefinition ;
     dcterms:title "Dataset Code" ;
-    linkml:description "Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates." ;
-    linkml:pattern "^(src|omop|sdtm|send|adam)_als\\d+$" ;
+    linkml:description """Stable dataset code (lowercase letters, digits, and underscores; excludes version dates). For C-Path datasets, use the standardized convention combining data model type and dataset identifier, e.g. sdtm_als1003, omop_als1001 (prefixes: src, omop, sdtm, send, adam). Other datasets without an established standard may use a descriptive code, e.g. als_compute.
+""" ;
+    linkml:pattern "^[a-z0-9_]+$" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/dateCreated> a linkml:SlotDefinition ;
@@ -5185,11 +5285,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/genetic_risk_assessment> linkml:description "Genetic variant and risk assessment" .
 
-<https://w3id.org/synapse/amp-als/vocab/genomeReference> a linkml:SlotDefinition ;
-    dcterms:title "Reference Genome" ;
-    linkml:description "Reference genome used for alignment." ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/GenomicReferenceEnum> .
-
 <https://w3id.org/synapse/amp-als/vocab/genome_annotation> linkml:description "Genome annotation data (GFF, GTF)" .
 
 <https://w3id.org/synapse/amp-als/vocab/genomic%20DNA> linkml:description "Total genomic DNA" .
@@ -5558,7 +5653,7 @@
 
 <https://w3id.org/synapse/amp-als/vocab/laboratory> linkml:description "Laboratory assessments" .
 
-<https://w3id.org/synapse/amp-als/vocab/laboratory_results> linkml:description "Laboratory test results" .
+<https://w3id.org/synapse/amp-als/vocab/laboratory_results> linkml:description "Clinical laboratory test results" .
 
 <https://w3id.org/synapse/amp-als/vocab/landingPage> a linkml:SlotDefinition ;
     linkml:description "URL to dataset landing page or repository entry" ;
@@ -5614,8 +5709,6 @@
     linkml:meaning "http://purl.obolibrary.org/obo/CHMO_0000166"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/limb_function> linkml:description "Hand, arm, and leg function" .
-
-<https://w3id.org/synapse/amp-als/vocab/limb_onset> linkml:description "Limb onset presentation" .
 
 <https://w3id.org/synapse/amp-als/vocab/lipemiaLevel> a linkml:SlotDefinition ;
     dcterms:title "Lipemia Level" ;
@@ -6597,8 +6690,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/respiratory_monitoring> linkml:description "Respiratory function monitoring" .
 
-<https://w3id.org/synapse/amp-als/vocab/respiratory_onset> linkml:description "Respiratory onset presentation" .
-
 <https://w3id.org/synapse/amp-als/vocab/result> a linkml:SlotDefinition ;
     dcterms:title "Result Value" ;
     linkml:description "Laboratory test result value" ;
@@ -6681,6 +6772,8 @@
     dcterms:title "Route Other" ;
     linkml:description "Specify other route." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
+<https://w3id.org/synapse/amp-als/vocab/sALS> linkml:description "Sporadic ALS." .
 
 <https://w3id.org/synapse/amp-als/vocab/safety_event_review> linkml:description "Adverse event and safety monitoring review" .
 
@@ -7654,14 +7747,17 @@
 <https://w3id.org/synapse/amp-als/vocab/Active> linkml:description "Condition is currently active",
         "Device is currently active/in use" .
 
-<https://w3id.org/synapse/amp-als/vocab/C9-ALS> linkml:description "C9orf72 ALS (gene-carrier notation)",
-        "C9orf72-associated ALS" .
+<https://w3id.org/synapse/amp-als/vocab/C9-FTD> linkml:description "C9orf72-associated FTD",
+        "FTD donors with C9orf72 repeat expansion." .
 
 <https://w3id.org/synapse/amp-als/vocab/Clear> linkml:description "Clear",
         "Colorless/clear" .
 
 <https://w3id.org/synapse/amp-als/vocab/Completed> linkml:description "Study completed per protocol",
         "Visit completed successfully" .
+
+<https://w3id.org/synapse/amp-als/vocab/Control> linkml:description "Control cohort or study group, including healthy, unaffected, placebo, or no-remarkable-pathology controls as appropriate for the dataset.",
+        "Healthy control" .
 
 <https://w3id.org/synapse/amp-als/vocab/Dataset> a linkml:ClassDefinition ;
     skos:editorialNote "There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*",
@@ -7677,6 +7773,7 @@
         <https://w3id.org/synapse/amp-als/vocab/OmicDatasetMixin> ;
     linkml:slot_usage [ ] ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseDataset__acknowledgementStatement>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
@@ -9717,6 +9814,13 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/visuospatialScore"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/cohort> a linkml:SlotDefinition ;
+    dcterms:title "Cohort" ;
+    linkml:description "Cohort study design",
+        "Distinct cohorts, arms, or study groups represented in the dataset." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CohortEnum> .
+
 <https://w3id.org/synapse/amp-als/vocab/collectionSite> a linkml:SlotDefinition ;
     dcterms:title "Collection Site" ;
     linkml:description "Anatomical site where specimen was collected",
@@ -10214,7 +10318,7 @@
 <https://w3id.org/synapse/amp-als/vocab/drug_administration> linkml:description "Drug administration and dosing data",
         "Treatment and drug administration" .
 
-<https://w3id.org/synapse/amp-als/vocab/electrophysiology> linkml:description "Electrophysiology assessment data",
+<https://w3id.org/synapse/amp-als/vocab/electrophysiology> linkml:description "Electrophysiological test data",
         "Electrophysiology testing" .
 
 <https://w3id.org/synapse/amp-als/vocab/eligibility__ageEligible> a linkml:SlotDefinition ;
@@ -11368,6 +11472,7 @@
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod"^^xsd:anyURI ;
     linkml:description "Method or kit used for library preparation.",
         "Method used for library preparation" ;
+    linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/LibraryPreparationMethodEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod"^^xsd:anyURI .
 
@@ -11801,7 +11906,7 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/thyroidDisease"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/medical_history> linkml:description "Medical history data",
+<https://w3id.org/synapse/amp-als/vocab/medical_history> linkml:description "Patient medical history data",
         "Subject’s past and current medical history" .
 
 <https://w3id.org/synapse/amp-als/vocab/meta_analysis> linkml:description "Meta-analysis across studies",
@@ -12324,6 +12429,7 @@
     skos:prefLabel "site_of_onset" ;
     linkml:description "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)" ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
+    linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/site_of_onset"^^xsd:anyURI .
@@ -12721,9 +12827,9 @@
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
     linkml:description "Biological sex of subject.",
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
@@ -13736,9 +13842,6 @@
 <https://w3id.org/synapse/amp-als/vocab/4%2B> linkml:description "4+",
         "4+ (≥2000 mg/dL)" .
 
-<https://w3id.org/synapse/amp-als/vocab/ALS> linkml:description "Amyotrophic Lateral Sclerosis",
-        "Amyotrophic lateral sclerosis" .
-
 <https://w3id.org/synapse/amp-als/vocab/ALSGeneEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/ALSGeneEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ANG>,
@@ -13875,6 +13978,10 @@
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/BA4>,
         <https://w3id.org/synapse/amp-als/vocab/BA9> .
 
+<https://w3id.org/synapse/amp-als/vocab/C9-ALS> linkml:description "ALS donors with C9orf72 repeat expansion.",
+        "C9orf72 ALS (gene-carrier notation)",
+        "C9orf72-associated ALS" .
+
 <https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/dorsolateral%20prefrontal%20cortex>,
@@ -13911,9 +14018,71 @@
         <https://w3id.org/synapse/amp-als/vocab/ALS-FTD>,
         <https://w3id.org/synapse/amp-als/vocab/FTD> .
 
+<https://w3id.org/synapse/amp-als/vocab/CohortEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CohortEnum"^^xsd:anyURI ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Aggregate/Reference>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Case>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Natural-History>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Postmortem%20TDP-43-Negative%20Neuronal%20Nuclei>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Survey%20Participants>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS-Glial>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS-Ox>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS-TE>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS/FTD%20Case>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS/FTD%20Disease%20Model%20and%20ALS%20Samples>,
+        <https://w3id.org/synapse/amp-als/vocab/Alzheimer%27s%20Disease>,
+        <https://w3id.org/synapse/amp-als/vocab/Apobec-YTH>,
+        <https://w3id.org/synapse/amp-als/vocab/Apobec-YTHmut>,
+        <https://w3id.org/synapse/amp-als/vocab/Asymptomatic%20Genetic%20ALS%20At-Risk>,
+        <https://w3id.org/synapse/amp-als/vocab/C9-ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/C9-FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/C9ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/C9ALS/FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/Ceftriaxone%202%20g/day>,
+        <https://w3id.org/synapse/amp-als/vocab/Ceftriaxone%204%20g/day>,
+        <https://w3id.org/synapse/amp-als/vocab/Ceftriaxone%20Treatment>,
+        <https://w3id.org/synapse/amp-als/vocab/Control>,
+        <https://w3id.org/synapse/amp-als/vocab/FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/FTD%20Aggregate/Reference>,
+        <https://w3id.org/synapse/amp-als/vocab/FTD%20Postmortem%20TDP-43-Negative%20Neuronal%20Nuclei>,
+        <https://w3id.org/synapse/amp-als/vocab/FTD-GRN>,
+        <https://w3id.org/synapse/amp-als/vocab/FTLD-TDP>,
+        <https://w3id.org/synapse/amp-als/vocab/Halo>,
+        <https://w3id.org/synapse/amp-als/vocab/Healthy%20Control>,
+        <https://w3id.org/synapse/amp-als/vocab/Like-C9%20Sporadic%20ALS/FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/Like-Control%20Sporadic%20ALS/FTD>,
+        <https://w3id.org/synapse/amp-als/vocab/Non-ALS%20Control>,
+        <https://w3id.org/synapse/amp-als/vocab/Other%20Motor%20Neuron%20Disease>,
+        <https://w3id.org/synapse/amp-als/vocab/Other%20Neurological%20Disorders>,
+        <https://w3id.org/synapse/amp-als/vocab/PSP/FTLD-tau>,
+        <https://w3id.org/synapse/amp-als/vocab/Parkinson%27s%20Disease>,
+        <https://w3id.org/synapse/amp-als/vocab/Placebo>,
+        <https://w3id.org/synapse/amp-als/vocab/Pre-fALS>,
+        <https://w3id.org/synapse/amp-als/vocab/Reldesemtiv%20Treatment>,
+        <https://w3id.org/synapse/amp-als/vocab/Reldesemtiv/CK-2127107%20150%20mg%20Twice%20Daily>,
+        <https://w3id.org/synapse/amp-als/vocab/Reldesemtiv/CK-2127107%20300%20mg%20Twice%20Daily>,
+        <https://w3id.org/synapse/amp-als/vocab/Reldesemtiv/CK-2127107%20450%20mg%20Twice%20Daily>,
+        <https://w3id.org/synapse/amp-als/vocab/Symptomatic%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/TDP-43-Negative%20Neuronal%20Nuclei>,
+        <https://w3id.org/synapse/amp-als/vocab/TDP-43-Positive%20Neuronal%20Nuclei>,
+        <https://w3id.org/synapse/amp-als/vocab/Topiramate%20Treatment>,
+        <https://w3id.org/synapse/amp-als/vocab/Trehalose%20Expanded-Access%20Biomarker%20Treatment>,
+        <https://w3id.org/synapse/amp-als/vocab/Trehalose%20Expanded-Access%20Treatment>,
+        <https://w3id.org/synapse/amp-als/vocab/sALS> .
+
 <https://w3id.org/synapse/amp-als/vocab/CohortTypeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CohortTypeEnum"^^xsd:anyURI ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Case-Control> .
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Aggregate-Reference>,
+        <https://w3id.org/synapse/amp-als/vocab/At-Risk>,
+        <https://w3id.org/synapse/amp-als/vocab/Case-Control>,
+        <https://w3id.org/synapse/amp-als/vocab/Disease-Only>,
+        <https://w3id.org/synapse/amp-als/vocab/Healthy-Control>,
+        <https://w3id.org/synapse/amp-als/vocab/In-Vitro-Experimental>,
+        <https://w3id.org/synapse/amp-als/vocab/Interventional-Treatment>,
+        <https://w3id.org/synapse/amp-als/vocab/Natural-History>,
+        <https://w3id.org/synapse/amp-als/vocab/Placebo-Control>,
+        <https://w3id.org/synapse/amp-als/vocab/Registry> .
 
 <https://w3id.org/synapse/amp-als/vocab/CollectionEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CollectionEnum"^^xsd:anyURI ;
@@ -14286,16 +14455,13 @@
         <https://w3id.org/synapse/amp-als/vocab/VAPB-ALS>,
         <https://w3id.org/synapse/amp-als/vocab/VCP-ALS>,
         <https://w3id.org/synapse/amp-als/vocab/Vascular%20Dementia>,
-        <https://w3id.org/synapse/amp-als/vocab/bulbar_onset>,
         <https://w3id.org/synapse/amp-als/vocab/bvFTD>,
         <https://w3id.org/synapse/amp-als/vocab/bvFTD%2C%20svPPA>,
         <https://w3id.org/synapse/amp-als/vocab/familial>,
-        <https://w3id.org/synapse/amp-als/vocab/limb_onset>,
         <https://w3id.org/synapse/amp-als/vocab/lvPPA>,
         <https://w3id.org/synapse/amp-als/vocab/naPPA>,
         <https://w3id.org/synapse/amp-als/vocab/naPPA%2C%20FTD>,
         <https://w3id.org/synapse/amp-als/vocab/pre-fALS>,
-        <https://w3id.org/synapse/amp-als/vocab/respiratory_onset>,
         <https://w3id.org/synapse/amp-als/vocab/sporadic>,
         <https://w3id.org/synapse/amp-als/vocab/svPPA> .
 
@@ -14329,9 +14495,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Not%20Reported>,
         <https://w3id.org/synapse/amp-als/vocab/Prefer%20Not%20to%20Disclose>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
-
-<https://w3id.org/synapse/amp-als/vocab/FTD> linkml:description "Frontotemporal Dementia",
-        "Frontotemporal dementia" .
 
 <https://w3id.org/synapse/amp-als/vocab/FTDPrimarySyndromeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/FTDPrimarySyndromeEnum"^^xsd:anyURI ;
@@ -14414,6 +14577,17 @@
         <https://w3id.org/synapse/amp-als/vocab/Twice_Weekly>,
         <https://w3id.org/synapse/amp-als/vocab/Weekly> .
 
+<https://w3id.org/synapse/amp-als/vocab/GenomicReferenceEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/GenomicReferenceEnum"^^xsd:anyURI ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/GRCh37>,
+        <https://w3id.org/synapse/amp-als/vocab/GRCh38>,
+        <https://w3id.org/synapse/amp-als/vocab/GRCh38_Verily_v1>,
+        <https://w3id.org/synapse/amp-als/vocab/GRChb38H>,
+        <https://w3id.org/synapse/amp-als/vocab/HRC>,
+        <https://w3id.org/synapse/amp-als/vocab/MMUL1.0>,
+        <https://w3id.org/synapse/amp-als/vocab/hg19>,
+        <https://w3id.org/synapse/amp-als/vocab/hg38> .
+
 <https://w3id.org/synapse/amp-als/vocab/HemolysisEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/HemolysisEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Moderate>,
@@ -14471,8 +14645,7 @@
         <https://w3id.org/synapse/amp-als/vocab/Illumina%20Ribo-Zero%20Plus>,
         <https://w3id.org/synapse/amp-als/vocab/Illumina%20SeqLab%20DNA%20PCR-free%20library>,
         <https://w3id.org/synapse/amp-als/vocab/Illumina%20Tn5%20Transposase>,
-        <https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20DNA%20Nano>,
-        <https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20Nano%20DNA%20Library%20Prep>,
+        <https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20Nano%20DNA>,
         <https://w3id.org/synapse/amp-als/vocab/Illumina%20TruSeq%20RNA%20Library%20Prep%20Kit>,
         <https://w3id.org/synapse/amp-als/vocab/KAPA%20HyperPrep%20Kit%20PCR-free>,
         <https://w3id.org/synapse/amp-als/vocab/KAPA%20RNA%20HyperPrep%20Kit%20with%20RiboErase%20%28HMR%29>,
@@ -15000,6 +15173,7 @@
     linkml:description "Anatomical site where symptoms first appeared",
         "Site of ALS onset.",
         "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)" ;
+    linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/spinal_cord> linkml:description "Spinal cord",
@@ -15031,8 +15205,12 @@
         <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/vital_signs> linkml:description "Clinical vital signs such as temperature, blood pressure, heart rate, and respiratory rate",
-        "Vital signs assessment",
-        "Vital signs measurements" .
+        "Vital signs and physical measurements",
+        "Vital signs assessment" .
+
+<https://w3id.org/synapse/amp-als/vocab/ALS> linkml:description "Amyotrophic Lateral Sclerosis",
+        "Amyotrophic lateral sclerosis",
+        "Amyotrophic lateral sclerosis disease cohort." .
 
 <https://w3id.org/synapse/amp-als/vocab/AlignmentMethodEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/AlignmentMethodEnum"^^xsd:anyURI ;
@@ -15388,6 +15566,10 @@
         "Excellent quality specimen",
         "Excellent tolerability" .
 
+<https://w3id.org/synapse/amp-als/vocab/FTD> linkml:description "Frontotemporal Dementia",
+        "Frontotemporal dementia",
+        "Frontotemporal dementia disease cohort." .
+
 <https://w3id.org/synapse/amp-als/vocab/GeneticLabEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/GeneticLabEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Ambry>,
@@ -15649,6 +15831,7 @@
         <https://w3id.org/synapse/amp-als/vocab/MNVs>,
         <https://w3id.org/synapse/amp-als/vocab/Other>,
         <https://w3id.org/synapse/amp-als/vocab/Repeat_Expansion>,
+        <https://w3id.org/synapse/amp-als/vocab/SNP>,
         <https://w3id.org/synapse/amp-als/vocab/SNV>,
         <https://w3id.org/synapse/amp-als/vocab/SNVs/SNPs>,
         <https://w3id.org/synapse/amp-als/vocab/SVs>,
@@ -15808,16 +15991,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/assay"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/omicFileMixin__genomeReference> a linkml:SlotDefinition ;
-    dcterms:title "Reference Genome" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "genomeReference" ;
-    linkml:description "Reference genome used for alignment." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/GenomicReferenceEnum> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/genomeReference"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryLayout> a linkml:SlotDefinition ;
     dcterms:title "Library Layout" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -15835,6 +16008,7 @@
     skos:prefLabel "libraryPreparationMethod" ;
     linkml:description "Method or kit used for library preparation." ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> ;
+    linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/LibraryPreparationMethodEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod"^^xsd:anyURI .
@@ -15905,17 +16079,6 @@
     linkml:slot_usage [ ] ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/fileAnnotationsMixin__analysisTypes> .
 
-<https://w3id.org/synapse/amp-als/vocab/GenomicReferenceEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/GenomicReferenceEnum"^^xsd:anyURI ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/GRCh37>,
-        <https://w3id.org/synapse/amp-als/vocab/GRCh38>,
-        <https://w3id.org/synapse/amp-als/vocab/GRCh38_Verily_v1>,
-        <https://w3id.org/synapse/amp-als/vocab/GRChb38H>,
-        <https://w3id.org/synapse/amp-als/vocab/HRC>,
-        <https://w3id.org/synapse/amp-als/vocab/MMUL1.0>,
-        <https://w3id.org/synapse/amp-als/vocab/hg19>,
-        <https://w3id.org/synapse/amp-als/vocab/hg38> .
-
 <https://w3id.org/synapse/amp-als/vocab/HandednessEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/HandednessEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Ambidextrous>,
@@ -15974,6 +16137,17 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/acknowledgementStatement"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort> a linkml:SlotDefinition ;
+    dcterms:title "Cohort" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    skos:prefLabel "cohort" ;
+    linkml:description "Distinct cohorts, arms, or study groups represented in the dataset." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CohortEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/cohort"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType> a linkml:SlotDefinition ;
     dcterms:title "Cohort Type" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16011,10 +16185,11 @@
     dcterms:title "Dataset Code" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "dataset_code" ;
-    linkml:description "Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates." ;
+    linkml:description """Stable dataset code (lowercase letters, digits, and underscores; excludes version dates). For C-Path datasets, use the standardized convention combining data model type and dataset identifier, e.g. sdtm_als1003, omop_als1001 (prefixes: src, omop, sdtm, send, adam). Other datasets without an established standard may use a descriptive code, e.g. als_compute.
+""" ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
-    linkml:pattern "^(src|omop|sdtm|send|adam)_als\\d+$" ;
+    linkml:pattern "^[a-z0-9_]+$" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataset_code"^^xsd:anyURI .
 
@@ -16987,6 +17162,7 @@
     linkml:mixins <https://w3id.org/synapse/amp-als/vocab/OmicDatasetMixin> ;
     linkml:slot_usage [ ] ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseDataset__acknowledgementStatement>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
@@ -17162,6 +17338,7 @@
     linkml:mixins <https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin> ;
     linkml:slot_usage [ ] ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseDataset__acknowledgementStatement>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
@@ -17243,6 +17420,54 @@
         <https://w3id.org/synapse/amp-als/vocab/metadataAttribute__validValues>,
         <https://w3id.org/synapse/amp-als/vocab/metadataAttribute__validationRules> .
 
+<https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> a linkml:ClassDefinition ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
+        <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
+        <https://w3id.org/synapse/amp-als/vocab/alignmentMethod>,
+        <https://w3id.org/synapse/amp-als/vocab/assay>,
+        <https://w3id.org/synapse/amp-als/vocab/libraryLayout>,
+        <https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod>,
+        <https://w3id.org/synapse/amp-als/vocab/originalSampleId> ;
+    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/OmicFileMixin"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/OmicFileMixin"^^xsd:anyURI ;
+    linkml:description "Mixin for omic file specific attributes" ;
+    linkml:mixin true ;
+    linkml:mixins <https://w3id.org/synapse/amp-als/vocab/FileAnnotationsMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/SpecimenTypeMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/SubjectDemographicsMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/fileAnnotationsMixin__analysisTypes>,
+        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__FACSPopulation>,
+        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__GEOSuperSeries>,
+        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__alignmentMethod>,
+        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__assay>,
+        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryLayout>,
+        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryPreparationMethod>,
+        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__originalSampleId>,
+        <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
+        <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
+        <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__collectionDate>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__age>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__country>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__ethnicity>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__heightCm>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propAfricanGeneticAncestry>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propEastAsianGeneticAncestry>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propEuropeanGeneticAncestry>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propNativeAmericanGeneticAncestry>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propSouthAsianGeneticAncestry>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__race>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__sex>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__weightKg>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfDiagnosis>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
+
 <https://w3id.org/synapse/amp-als/vocab/Visit> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/earlyTermination>,
@@ -17272,56 +17497,6 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitName>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> .
-
-<https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> a linkml:ClassDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
-        <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
-        <https://w3id.org/synapse/amp-als/vocab/alignmentMethod>,
-        <https://w3id.org/synapse/amp-als/vocab/assay>,
-        <https://w3id.org/synapse/amp-als/vocab/genomeReference>,
-        <https://w3id.org/synapse/amp-als/vocab/libraryLayout>,
-        <https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod>,
-        <https://w3id.org/synapse/amp-als/vocab/originalSampleId> ;
-    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/OmicFileMixin"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/OmicFileMixin"^^xsd:anyURI ;
-    linkml:description "Mixin for omic file specific attributes" ;
-    linkml:mixin true ;
-    linkml:mixins <https://w3id.org/synapse/amp-als/vocab/FileAnnotationsMixin>,
-        <https://w3id.org/synapse/amp-als/vocab/SpecimenTypeMixin>,
-        <https://w3id.org/synapse/amp-als/vocab/SubjectDemographicsMixin>,
-        <https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/fileAnnotationsMixin__analysisTypes>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__FACSPopulation>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__GEOSuperSeries>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__alignmentMethod>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__assay>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__genomeReference>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryLayout>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryPreparationMethod>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__originalSampleId>,
-        <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
-        <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
-        <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__collectionDate>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__age>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__country>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__ethnicity>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__heightCm>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propAfricanGeneticAncestry>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propEastAsianGeneticAncestry>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propEuropeanGeneticAncestry>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propNativeAmericanGeneticAncestry>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__propSouthAsianGeneticAncestry>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__race>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__sex>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__weightKg>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfDiagnosis>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
 <https://w3id.org/synapse/amp-als/vocab/clinicalRecordMixin__visitId> a linkml:SlotDefinition ;
     dcterms:title "Visit ID" ;
@@ -17656,7 +17831,6 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__FACSPopulation>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__GEOSuperSeries>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__assay>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__genomeReference>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryLayout>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__libraryPreparationMethod>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__originalSampleId>,
@@ -17952,58 +18126,6 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
-<https://w3id.org/synapse/amp-als/vocab/BaseDataset> a linkml:ClassDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:abstract true ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/acknowledgementStatement>,
-        <https://w3id.org/synapse/amp-als/vocab/cohortType>,
-        <https://w3id.org/synapse/amp-als/vocab/cohort_count>,
-        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/dataset_code>,
-        <https://w3id.org/synapse/amp-als/vocab/datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/funder>,
-        <https://w3id.org/synapse/amp-als/vocab/keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/participant_count>,
-        <https://w3id.org/synapse/amp-als/vocab/portalRelease>,
-        <https://w3id.org/synapse/amp-als/vocab/studyType>,
-        <https://w3id.org/synapse/amp-als/vocab/study_count>,
-        <https://w3id.org/synapse/amp-als/vocab/title> ;
-    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/BaseDataset"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/BaseDataset"^^xsd:anyURI ;
-    linkml:description "Base schema for all dataset types with common metadata attributes" ;
-    linkml:mixins <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin>,
-        <https://w3id.org/synapse/amp-als/vocab/DiseaseMixin> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseDataset__acknowledgementStatement>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__portalRelease>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__studyType>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__study_count>,
-        <https://w3id.org/synapse/amp-als/vocab/baseDataset__title>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__citation>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__collection>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__creator>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__description>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__includedInDataCatalog>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__license>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__publisher>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__source>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__species>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__url>,
-        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__disease>,
-        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype> .
-
 <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/alternateName>,
@@ -18075,6 +18197,60 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__weightKg>,
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfDiagnosis>,
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset> .
+
+<https://w3id.org/synapse/amp-als/vocab/BaseDataset> a linkml:ClassDefinition ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:abstract true ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/acknowledgementStatement>,
+        <https://w3id.org/synapse/amp-als/vocab/cohort>,
+        <https://w3id.org/synapse/amp-als/vocab/cohortType>,
+        <https://w3id.org/synapse/amp-als/vocab/cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/dataset_code>,
+        <https://w3id.org/synapse/amp-als/vocab/datePublished>,
+        <https://w3id.org/synapse/amp-als/vocab/funder>,
+        <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/participant_count>,
+        <https://w3id.org/synapse/amp-als/vocab/portalRelease>,
+        <https://w3id.org/synapse/amp-als/vocab/studyType>,
+        <https://w3id.org/synapse/amp-als/vocab/study_count>,
+        <https://w3id.org/synapse/amp-als/vocab/title> ;
+    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/BaseDataset"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/BaseDataset"^^xsd:anyURI ;
+    linkml:description "Base schema for all dataset types with common metadata attributes" ;
+    linkml:mixins <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/DiseaseMixin> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseDataset__acknowledgementStatement>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__funder>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__participant_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__portalRelease>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__studyType>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__study_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__title>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__citation>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__collection>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__creator>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__description>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__includedInDataCatalog>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__license>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__publisher>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__source>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__species>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__url>,
+        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype> .
 
 <https://w3id.org/synapse/amp-als/vocab/LaboratoryCollection> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;

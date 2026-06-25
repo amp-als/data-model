@@ -328,6 +328,75 @@
       "title": "Clinical Domain",
       "type": "array"
     },
+    "cohort": {
+      "description": "Distinct cohorts, arms, or study groups represented in the dataset.",
+      "items": {
+        "description": "",
+        "title": "CohortEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "ALS",
+              "ALS-TE",
+              "ALS-Ox",
+              "ALS-Glial",
+              "FTD",
+              "Control",
+              "Healthy Control",
+              "C9ALS",
+              "sALS",
+              "FTD-GRN",
+              "FTLD-TDP",
+              "PSP/FTLD-tau",
+              "Pre-fALS",
+              "C9-ALS",
+              "C9-FTD",
+              "C9ALS/FTD",
+              "Like-C9 Sporadic ALS/FTD",
+              "Like-Control Sporadic ALS/FTD",
+              "Non-ALS Control",
+              "Parkinson's Disease",
+              "Alzheimer's Disease",
+              "Other Neurological Disorders",
+              "Other Motor Neuron Disease",
+              "FTD Postmortem TDP-43-Negative Neuronal Nuclei",
+              "ALS Postmortem TDP-43-Negative Neuronal Nuclei",
+              "TDP-43-Positive Neuronal Nuclei",
+              "TDP-43-Negative Neuronal Nuclei",
+              "ALS/FTD Disease Model and ALS Samples",
+              "Apobec-YTH",
+              "Apobec-YTHmut",
+              "Halo",
+              "Trehalose Expanded-Access Treatment",
+              "Trehalose Expanded-Access Biomarker Treatment",
+              "Symptomatic ALS",
+              "Asymptomatic Genetic ALS At-Risk",
+              "Placebo",
+              "Reldesemtiv/CK-2127107 150 mg Twice Daily",
+              "Reldesemtiv/CK-2127107 300 mg Twice Daily",
+              "Reldesemtiv/CK-2127107 450 mg Twice Daily",
+              "Reldesemtiv Treatment",
+              "ALS Survey Participants",
+              "Ceftriaxone Treatment",
+              "Ceftriaxone 2 g/day",
+              "Ceftriaxone 4 g/day",
+              "ALS Aggregate/Reference",
+              "FTD Aggregate/Reference",
+              "Topiramate Treatment",
+              "ALS Natural-History",
+              "ALS Case",
+              "ALS/FTD Case"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Cohort",
+      "type": "array"
+    },
     "cohortType": {
       "description": "Types of cohorts available in this dataset.",
       "items": {
@@ -337,7 +406,16 @@
         "anyOf": [
           {
             "enum": [
-              "Case-Control"
+              "Case-Control",
+              "Disease-Only",
+              "Healthy-Control",
+              "At-Risk",
+              "Natural-History",
+              "Interventional-Treatment",
+              "Placebo-Control",
+              "Registry",
+              "Aggregate-Reference",
+              "In-Vitro-Experimental"
             ]
           },
           {
@@ -454,8 +532,8 @@
       "type": "array"
     },
     "dataset_code": {
-      "description": "Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.",
-      "pattern": "^(src|omop|sdtm|send|adam)_als\\d+$",
+      "description": "Stable dataset code (lowercase letters, digits, and underscores; excludes version dates). For C-Path datasets, use the standardized convention combining data model type and dataset identifier, e.g. sdtm_als1003, omop_als1001 (prefixes: src, omop, sdtm, send, adam). Other datasets without an established standard may use a descriptive code, e.g. als_compute.\n",
+      "pattern": "^[a-z0-9_]+$",
       "title": "Dataset Code",
       "type": "string"
     },
@@ -521,9 +599,6 @@
               "TARDBP",
               "sporadic",
               "familial",
-              "bulbar_onset",
-              "limb_onset",
-              "respiratory_onset",
               "Unknown",
               "C9-ALS",
               "Asymptomatic C9",

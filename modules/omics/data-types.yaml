@@ -82,6 +82,14 @@ enums:
       kinomics:
         description: Kinomics is the study of protein kinases and protein kinase signaling.
         source: http://www.kinomecore.com/what-is-kinomics/
+      genomics:
+        description: Genomic sequencing data
+      metagenomics:
+        description: Metagenomic sequencing data
+      single_cell:
+        description: Single-cell analysis data
+      multi_omics:
+        description: Multi-omic integrated data
       
       # Migrated from reference/data-types.yaml - Specific Data Types
       isoformExpression:

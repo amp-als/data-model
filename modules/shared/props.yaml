@@ -307,6 +307,7 @@ slots:
   libraryPreparationMethod:
     description: Method used for library preparation
     range: LibraryPreparationMethodEnum
+    multivalued: true
     required: false
   assessmentType:
     description: The specific type of clinical assessment or data collection method used

@@ -124,7 +124,7 @@
     "assessmentType": {
       "description": "Type of clinical assessment contained in the file",
       "items": {
-        "description": "",
+        "description": "Type of clinical assessment, instrument, or data collection method",
         "title": "AssessmentTypeEnum",
         "type": "string",
         "anyOf": [
@@ -172,7 +172,14 @@
               "genetic_counseling",
               "genetic_testing",
               "motor_assessment",
-              "cognitive_assessment"
+              "cognitive_assessment",
+              "alsfrs_r",
+              "neurological_exam",
+              "psychiatric_eval",
+              "vital_signs",
+              "laboratory",
+              "electrophysiology",
+              "dynamometry"
             ]
           },
           {
@@ -403,7 +410,15 @@
               "data_dictionary",
               "metadata",
               "dht_speech_vitals",
-              "dht_respiratory_assessment"
+              "dht_respiratory_assessment",
+              "clinical_assessment",
+              "treatment",
+              "neurological_assessment",
+              "psychiatric_assessment",
+              "hand_held_dynamometry",
+              "genetic_profile",
+              "study_management",
+              "data_management"
             ]
           },
           {
@@ -479,9 +494,6 @@
               "TARDBP",
               "sporadic",
               "familial",
-              "bulbar_onset",
-              "limb_onset",
-              "respiratory_onset",
               "Unknown",
               "C9-ALS",
               "Asymptomatic C9",

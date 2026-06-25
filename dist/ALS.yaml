@@ -222,12 +222,6 @@ enums:
         description: Sporadic (non-familial) form
       familial:
         description: Familial (inherited) form
-      bulbar_onset:
-        description: Bulbar onset presentation
-      limb_onset:
-        description: Limb onset presentation
-      respiratory_onset:
-        description: Respiratory onset presentation
       Unknown:
         description: Disease subtype unknown or not applicable
       C9-ALS:
@@ -798,7 +792,231 @@ enums:
   CohortTypeEnum:
     permissible_values:
       Case-Control:
-        description: Case-control cohort comparing disease cases and healthy controls
+        description: Case-control cohort comparing disease cases and controls.
+      Disease-Only:
+        description: Cohort composed of participants or specimens with the target disease/condition and no explicit control group.
+      Healthy-Control:
+        description: Cohort composed of unaffected or healthy control participants/specimens.
+      At-Risk:
+        description: Cohort composed of participants at elevated genetic or familial risk who may be presymptomatic at enrollment.
+      Natural-History:
+        description: Observational cohort followed longitudinally to characterize disease course without protocol-assigned intervention.
+      Interventional-Treatment:
+        description: Cohort receiving an investigational or active treatment in a clinical trial or expanded-access protocol.
+      Placebo-Control:
+        description: Cohort receiving placebo or standard-of-care control in an interventional clinical trial.
+      Registry:
+        description: Registry or survey cohort assembled from participant-reported or routinely collected clinical data.
+      Aggregate-Reference:
+        description: Aggregate summary/reference cohort where participant-level cohort membership is not available in the dataset.
+      In-Vitro-Experimental:
+        description: In vitro experimental cohort or condition groups, including engineered cell-line treatment, perturbation, or assay-control groups.
+  CohortEnum:
+    permissible_values:
+      ALS:
+        description: Amyotrophic lateral sclerosis disease cohort.
+      ALS-TE:
+        description: ALS molecular subtype with elevated transposable element or retrotransposon expression and TDP-43 dysfunction signature.
+      ALS-Ox:
+        description: ALS molecular subtype with oxidative and proteotoxic stress signatures.
+      ALS-Glial:
+        description: ALS molecular subtype with activated glia or glial dysfunction signatures.
+      FTD:
+        description: Frontotemporal dementia disease cohort.
+      Control:
+        description: Control cohort or study group, including healthy, unaffected, placebo, or no-remarkable-pathology controls as appropriate for the dataset.
+      Healthy Control:
+        description: Unaffected or healthy control participants or specimens.
+      C9ALS:
+        description: Familial ALS due to C9orf72 mutation.
+      sALS:
+        description: Sporadic ALS.
+      FTD-GRN:
+        description: Frontotemporal dementia associated with GRN mutation.
+      FTLD-TDP:
+        description: Frontotemporal lobar degeneration with TDP-43 pathology.
+      PSP/FTLD-tau:
+        description: Progressive supranuclear palsy or FTLD-tau disease-control cohort without frontal cortex TDP-43 pathology.
+      Pre-fALS:
+        description: Presymptomatic or at-risk familial ALS cohort.
+      C9-ALS:
+        description: ALS donors with C9orf72 repeat expansion.
+      C9-FTD:
+        description: FTD donors with C9orf72 repeat expansion.
+      C9ALS/FTD:
+        description: ALS/FTD cases carrying a C9orf72 repeat expansion.
+      Like-C9 Sporadic ALS/FTD:
+        description: Sporadic non-C9 ALS/FTD cases with C9-like hnRNP H-target splicing dysregulation.
+      Like-Control Sporadic ALS/FTD:
+        description: Sporadic non-C9 ALS/FTD cases without the C9-like splicing dysregulation signature.
+      Non-ALS Control:
+        description: Non-ALS control comparison cohort.
+      Parkinson's Disease:
+        description: Parkinson's disease comparator cohort.
+      Alzheimer's Disease:
+        description: Alzheimer's disease comparator cohort.
+      Other Neurological Disorders:
+        description: Comparator cohort with neurological disorders other than the primary disease focus.
+      Other Motor Neuron Disease:
+        description: Comparator cohort with motor neuron disease other than ALS.
+      FTD Postmortem TDP-43-Negative Neuronal Nuclei:
+        description: FTD postmortem neuronal nuclei with loss of nuclear TDP-43.
+      ALS Postmortem TDP-43-Negative Neuronal Nuclei:
+        description: ALS postmortem neuronal nuclei with loss of nuclear TDP-43.
+      TDP-43-Positive Neuronal Nuclei:
+        description: Neuronal nuclei retaining nuclear TDP-43 from FTD/ALS patient postmortem frontal cortex.
+      TDP-43-Negative Neuronal Nuclei:
+        description: Neuronal nuclei with loss of nuclear TDP-43 from FTD/ALS patient postmortem frontal cortex.
+      ALS/FTD Disease Model and ALS Samples:
+        description: ALS/FTD disease-model cohort and ALS disease sample cohort used in RNA methylation analyses.
+      Apobec-YTH:
+        description: HEK293T DART-seq experimental group treated or transfected with APOBEC-YTH construct.
+      Apobec-YTHmut:
+        description: HEK293T DART-seq experimental group treated or transfected with mutant APOBEC-YTH control construct.
+      Halo:
+        description: HEK293T DART-seq HaloTag control group.
+      Trehalose Expanded-Access Treatment:
+        description: ALS participants receiving trehalose through an expanded-access protocol.
+      Trehalose Expanded-Access Biomarker Treatment:
+        description: ALS participants receiving trehalose in the expanded-access biomarker dataset.
+      Symptomatic ALS:
+        description: Participants living with symptomatic ALS.
+      Asymptomatic Genetic ALS At-Risk:
+        description: Asymptomatic participants at risk for genetic forms of ALS.
+      Placebo:
+        description: Placebo or standard-of-care control arm in an interventional clinical trial.
+      Reldesemtiv/CK-2127107 150 mg Twice Daily:
+        description: Reldesemtiv/CK-2127107 150 mg twice-daily treatment arm.
+      Reldesemtiv/CK-2127107 300 mg Twice Daily:
+        description: Reldesemtiv/CK-2127107 300 mg twice-daily treatment arm.
+      Reldesemtiv/CK-2127107 450 mg Twice Daily:
+        description: Reldesemtiv/CK-2127107 450 mg twice-daily treatment arm.
+      Reldesemtiv Treatment:
+        description: Reldesemtiv treatment arm.
+      ALS Survey Participants:
+        description: Participants in an ALS analysis and assessment survey study.
+      Ceftriaxone Treatment:
+        description: Ceftriaxone treatment arm.
+      Ceftriaxone 2 g/day:
+        description: Ceftriaxone 2 grams per day treatment arm in the ALS ceftriaxone clinical trial.
+      Ceftriaxone 4 g/day:
+        description: Ceftriaxone 4 grams per day treatment arm in the ALS ceftriaxone clinical trial.
+      ALS Aggregate/Reference:
+        description: Aggregate or reference cohort summarizing ALS data.
+      FTD Aggregate/Reference:
+        description: Aggregate or reference cohort summarizing FTD data.
+      Topiramate Treatment:
+        description: Topiramate treatment arm.
+      ALS Natural-History:
+        description: ALS natural-history cohort followed observationally.
+      ALS Case:
+        description: ALS case cohort in a case-control study.
+      ALS/FTD Case:
+        description: ALS and/or FTD case cohort in a case-control WGS collection.
+  AssessmentTypeEnum:
+    description: Type of clinical assessment, instrument, or data collection method
+    permissible_values:
+      ALSFRS-R:
+        description: ALS Functional Rating Scale-Revised
+      ECAS:
+        description: Edinburgh Cognitive ALS Screen
+      Strength:
+        description: Muscle strength testing
+      PulmonaryFunction:
+        description: Pulmonary function testing
+      SpeechFunction:
+        description: Speech Function testing
+      ALSAQ-40:
+        description: ALS Assessment Questionnaire-40
+      Neurological:
+        description: Neurological examination
+      HandHeldDynamometry:
+        description: Hand-held dynamometry strength testing
+      VitalSigns:
+        description: Vital signs measurement
+      PhysicalExam:
+        description: Physical examination
+      EMG:
+        description: Electromyography
+      NCS:
+        description: Nerve conduction studies
+      SuicideRisk:
+        description: Suicide risk assessment
+      Laboratory:
+        description: Laboratory testing
+      Demographics:
+        description: Demographics and baseline characteristics
+      MedicalHistory:
+        description: Medical history and disease characteristics
+      ClinicalExamination:
+        description: Clinical examination and diagnostic assessment
+      QualityOfLifeSurvey:
+        description: Quality of life assessment
+      TreatmentAdministration:
+        description: Treatment or intervention administration
+      VisitScheduling:
+        description: Visit dates and scheduling information
+      EligibilityCriteria:
+        description: Study eligibility assessment
+      StudyDisposition:
+        description: Participant completion status, early termination, or withdrawal
+      EligibilityConsent:
+        description: Documentation of consent and eligibility confirmation
+      ConcomitantMedications:
+        description: Use of concomitant medications during the study
+      CohortParticipation:
+        description: Cohort or study group assignment
+      BiomarkerSerumCollection:
+        description: Collection of serum samples for biomarker analysis
+      AdverseEventLog:
+        description: Documentation of adverse events and their outcomes
+      InformedConsentForm:
+        description: Informed consent form approval, versioning, and participant signature
+      InfusionVitalSigns:
+        description: Vital signs monitoring during study drug infusion
+      KeyDevicesProcedures:
+        description: Documentation of supportive devices and procedures
+      clinician_administered_exam:
+        description: Examination administered directly by a clinician
+      neurological_examination:
+        description: Structured neurological examination of participant
+      PermanentAssistedVentilation:
+        description: Documentation of permanent assisted ventilation initiation and status
+      PhoneCallVisit:
+        description: Remote study visit conducted via telephone call
+      Pregnancy:
+        description: Pregnancy exposure and outcomes in participants or partners
+      ProtocolDeviation:
+        description: Documentation of protocol deviations and corrective actions
+      SlowVitalCapacity (SVC):
+        description: Slow vital capacity pulmonary function testing
+      ExposureProtocolChanges:
+        description: Study treatment exposure and dosage change documentation
+      SurvivalStatus:
+        description: Documentation of participant survival, mortality, and autopsy details
+      genetic_counseling:
+        description: Clinical service providing risk assessment and guidance on genetic contributions to disease.
+      genetic_testing:
+        description: Laboratory analysis of DNA or RNA to detect genetic variants associated with disease risk, diagnosis, or treatment response.
+      motor_assessment:
+        description: Evaluation of motor function through standardized clinical measures of strength, coordination, and mobility.
+      cognitive_assessment:
+        description: Targeted evaluation of mental processes such as memory, attention, language, and executive function.
+      # Migrated from dataset-level AssessmentTypeEnum (unified, snake_case variants)
+      alsfrs_r:
+        description: ALS Functional Rating Scale - Revised
+      neurological_exam:
+        description: Neurological examination
+      psychiatric_eval:
+        description: Psychiatric evaluation
+      vital_signs:
+        description: Vital signs assessment
+      laboratory:
+        description: Laboratory assessments
+      electrophysiology:
+        description: Electrophysiology testing
+      dynamometry:
+        description: Hand-held dynamometry testing
   FormStatusEnum:
     permissible_values:
       New:
@@ -923,7 +1141,7 @@ enums:
         description: Quality of life assessment data
       # Medical History Data Types
       medical_history:
-        description: Medical history data
+        description: Patient medical history data
       family_history:
         description: Family medical history data
       medication_history:
@@ -959,13 +1177,13 @@ enums:
         description: Study completion and withdrawal data
       # Laboratory Data Types
       laboratory_results:
-        description: Laboratory test results
+        description: Clinical laboratory test results
       vital_signs:
-        description: Vital signs measurements
+        description: Vital signs and physical measurements
       neuroimaging:
         description: Neuroimaging and brain scan data
       electrophysiology:
-        description: Electrophysiology assessment data
+        description: Electrophysiological test data
       # Data Processing Levels
       raw_clinical_data:
         description: Raw, unprocessed clinical data
@@ -1015,6 +1233,7 @@ enums:
         description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
       dht_respiratory_assessment:
         description: Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)
+      # Migrated from dataset-level ClinicalDataTypeEnum (unified)
       clinical_assessment:
         description: Clinical assessment data
       treatment:
@@ -1639,6 +1858,21 @@ enums:
         description: "Corticobasal Syndrome (CBS)"
       "Progressive Supranuclear Palsy":
         description: "Progressive Supranuclear Palsy"
+  StudyDesignEnum:
+    description: Type of clinical study design
+    permissible_values:
+      longitudinal:
+        description: Longitudinal study with repeated measures
+      cross_sectional:
+        description: Cross-sectional study at single timepoint
+      case_control:
+        description: Case-control study design
+      cohort:
+        description: Cohort study design
+      interventional:
+        description: Interventional clinical trial
+      observational:
+        description: Observational study
   CompletionStatusEnum:
     permissible_values:
       Completed:
@@ -1963,275 +2197,6 @@ enums:
         description: Visit was cancelled
       In_Progress:
         description: Visit is currently in progress
-  StudyDesignEnum:
-    permissible_values:
-      longitudinal:
-        description: Longitudinal study with repeated measures
-      cross_sectional:
-        description: Cross-sectional study at single timepoint
-      case_control:
-        description: Case-control study design
-      cohort:
-        description: Cohort study design
-      interventional:
-        description: Interventional clinical trial
-      observational:
-        description: Observational study
-  AssessmentTypeEnum:
-    permissible_values:
-      alsfrs_r:
-        description: ALS Functional Rating Scale - Revised
-      neurological_exam:
-        description: Neurological examination
-      psychiatric_eval:
-        description: Psychiatric evaluation
-      vital_signs:
-        description: Vital signs assessment
-      laboratory:
-        description: Laboratory assessments
-      electrophysiology:
-        description: Electrophysiology testing
-      dynamometry:
-        description: Hand-held dynamometry testing
-      genetic_testing:
-        description: Laboratory analysis of DNA or RNA to detect genetic variants associated with disease risk, diagnosis, or treatment response.
-      ALSFRS-R:
-        description: ALS Functional Rating Scale-Revised
-      ECAS:
-        description: Edinburgh Cognitive ALS Screen
-      Strength:
-        description: Muscle strength testing
-      PulmonaryFunction:
-        description: Pulmonary function testing
-      SpeechFunction:
-        description: Speech Function testing
-      ALSAQ-40:
-        description: ALS Assessment Questionnaire-40
-      Neurological:
-        description: Neurological examination
-      HandHeldDynamometry:
-        description: Hand-held dynamometry strength testing
-      VitalSigns:
-        description: Vital signs measurement
-      PhysicalExam:
-        description: Physical examination
-      EMG:
-        description: Electromyography
-      NCS:
-        description: Nerve conduction studies
-      SuicideRisk:
-        description: Suicide risk assessment
-      Laboratory:
-        description: Laboratory testing
-      Demographics:
-        description: Demographics and baseline characteristics
-      MedicalHistory:
-        description: Medical history and disease characteristics
-      ClinicalExamination:
-        description: Clinical examination and diagnostic assessment
-      QualityOfLifeSurvey:
-        description: Quality of life assessment
-      TreatmentAdministration:
-        description: Treatment or intervention administration
-      VisitScheduling:
-        description: Visit dates and scheduling information
-      EligibilityCriteria:
-        description: Study eligibility assessment
-      StudyDisposition:
-        description: Participant completion status, early termination, or withdrawal
-      EligibilityConsent:
-        description: Documentation of consent and eligibility confirmation
-      ConcomitantMedications:
-        description: Use of concomitant medications during the study
-      CohortParticipation:
-        description: Cohort or study group assignment
-      BiomarkerSerumCollection:
-        description: Collection of serum samples for biomarker analysis
-      AdverseEventLog:
-        description: Documentation of adverse events and their outcomes
-      InformedConsentForm:
-        description: Informed consent form approval, versioning, and participant signature
-      InfusionVitalSigns:
-        description: Vital signs monitoring during study drug infusion
-      KeyDevicesProcedures:
-        description: Documentation of supportive devices and procedures
-      clinician_administered_exam:
-        description: Examination administered directly by a clinician
-      neurological_examination:
-        description: Structured neurological examination of participant
-      PermanentAssistedVentilation:
-        description: Documentation of permanent assisted ventilation initiation and status
-      PhoneCallVisit:
-        description: Remote study visit conducted via telephone call
-      Pregnancy:
-        description: Pregnancy exposure and outcomes in participants or partners
-      ProtocolDeviation:
-        description: Documentation of protocol deviations and corrective actions
-      SlowVitalCapacity (SVC):
-        description: Slow vital capacity pulmonary function testing
-      ExposureProtocolChanges:
-        description: Study treatment exposure and dosage change documentation
-      SurvivalStatus:
-        description: Documentation of participant survival, mortality, and autopsy details
-      genetic_counseling:
-        description: Clinical service providing risk assessment and guidance on genetic contributions to disease.
-      motor_assessment:
-        description: Evaluation of motor function through standardized clinical measures of strength, coordination, and mobility.
-      cognitive_assessment:
-        description: Targeted evaluation of mental processes such as memory, attention, language, and executive function.
-  OmicDataTypeEnum:
-    permissible_values:
-      genomics:
-        description: Genomic sequencing data
-      transcriptomics:
-        description: Comprehensive analysis of RNA transcripts to study gene expression patterns and regulatory mechanisms
-      # Migrated from reference/data-types.yaml - Broad Omics Fields
-      proteomics:
-        description: Protein and peptide identification, especially in the study of whole proteomes of organisms.
-        meaning: http://edamontology.org/topic_0121
-      metabolomics:
-        description: The systematic study of metabolites, the chemical processes they are involved, and the chemical fingerprints of specific cellular processes in a whole cell, tissue, organ or organism.
-        meaning: http://edamontology.org/topic_3172
-      epigenomics:
-        description: Study of heritable changes in gene expression without DNA sequence changes
-      metagenomics:
-        description: Metagenomic sequencing data
-      single_cell:
-        description: Single-cell analysis data
-      multi_omics:
-        description: Multi-omic integrated data
-      # Genomics Data Types
-      raw_sequencing:
-        description: Raw sequencing data (FASTQ, BCL)
-      aligned_reads:
-        description: Aligned sequencing reads (BAM, SAM, CRAM)
-      variant_calls:
-        description: Variant calling results (VCF, BCF)
-      genome_annotation:
-        description: Genome annotation data (GFF, GTF)
-      # Transcriptomics Data Types
-      gene_expression:
-        description: Gene expression quantification data
-      transcript_counts:
-        description: Transcript-level count data
-      differential_expression:
-        description: Differential gene expression results
-      splice_variants:
-        description: Alternative splicing analysis results
-      # Epigenomics Data Types
-      methylation:
-        description: DNA methylation data
-      chromatin_accessibility:
-        description: Chromatin accessibility data (ATAC-seq, FAIRE-seq)
-      histone_modification:
-        description: Histone modification ChIP-seq data
-      # Proteomics Data Types
-      protein_abundance:
-        description: Protein abundance quantification
-      peptide_identification:
-        description: Peptide identification results
-      protein_modification:
-        description: Post-translational modification data
-      # Metabolomics Data Types
-      metabolite_abundance:
-        description: Metabolite abundance quantification
-      metabolic_pathways:
-        description: Metabolic pathway analysis results
-      # Multi-omics Data Types
-      integrated_omics:
-        description: Multi-omics integration results
-      network_analysis:
-        description: Molecular network analysis results
-      # Processing Levels
-      raw_data:
-        description: Unprocessed raw data
-      processed_data:
-        description: Processed and normalized data
-      analyzed_results:
-        description: Analysis results and interpretations
-      geneExpression:
-        description: The analysis of levels and patterns of synthesis of gene products (proteins and functional RNA) including interpretation in functional terms of gene expression data.
-        meaning: http://edamontology.org/topic_0203
-      transcriptomics_nascent:
-        description: Nascent transcriptomics data from newly transcribed RNA
-      kinomics:
-        description: Kinomics is the study of protein kinases and protein kinase signaling.
-        source: http://www.kinomecore.com/what-is-kinomics/
-      # Migrated from reference/data-types.yaml - Specific Data Types
-      isoformExpression:
-        description: Expression of protein isoforms formed from alternative splicings or other post-translational modifications of a single gene through RNA splicing mechanisms.
-        source: https://en.wikipedia.org/wiki/Protein_isoform
-      chromatinActivity:
-        description: Chromatin activity that allow access of condensed genomic DNA and potentially control gene expression.
-        meaning: https://en.wikipedia.org/wiki/Chromatin_remodeling
-      AlignedReads:
-        description: Aligned reads output from alignment workflows
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=aligned_reads
-      genomicVariants:
-        description: >
-          Genomic alterations, including single nucleotide polymorphisms, short indels and structural variants. Use more specific term if possible, esp. if data is only of one specific subset.
-
-        meaning: http://edamontology.org/operation_3227
-      genomicFeatures:
-        description: Data of sequence feature (continuous extent of biological sequence) that is of genomic origin.
-        meaning: http://purl.obolibrary.org/obo/GENO_0000481
-        see_also: https://en.wikipedia.org/wiki/General_feature_format
-      SomaticVariants:
-        description: Called somatic variants
-        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_somatic_mutation
-      GermlineVariants:
-        description: Called germline variants
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_germline_variation
-      CopyNumberVariants:
-        description: Copy number variants
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=copy_number_variation
-      StructuralVariants:
-        description: Genomic variants data that covers deletions, duplications, CNVs, insertions, inversions, and translocations, which may be derived from specialized variant calling workflows.
-        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=structural_variation
-      AnnotatedSomaticVariants:
-        description: Somatic variants annotated with some annotation workflow
-        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=annotated_somatic_mutation
-      AnnotatedGermlineVariants:
-        description: Germline variants annotated with some annotation workflow
-      raw_counts:
-        description: The number or amount of something.
-        meaning: http://purl.obolibrary.org/obo/NCIT_C25463
-      RawIntensities:
-        description: Raw intensity values from the instrument.
-      NormalizedIntensities:
-        description: Normalized intensity values from the instrument/machine.
-      data_dictionary:
-        description: Data dictionary file describing variable definitions, codings, and metadata for a dataset
-      metadata:
-        description: Metadata files containing information about data collection, processing, or file manifests
-      # Digital Health Technology (DHT) Data Types
-      dht_speech_vitals:
-        description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
-      dht_respiratory_assessment:
-        description: Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)
-      md5:
-        description: MD5 checksum file for data integrity verification
-      index:
-        description: Index file for a sequencing or genomic data file (e.g., BAI, TBI, CSI)
-    description: Types of omic data contained in files
-  LibraryStrategyEnum:
-    permissible_values:
-      RNA_seq:
-        description: RNA sequencing
-      WGS:
-        description: Whole genome sequencing
-      WES:
-        description: Whole exome sequencing
-      ChIP_seq:
-        description: Chromatin immunoprecipitation sequencing
-      ATAC_seq:
-        description: Assay for transposase-accessible chromatin
-      bisulfite_seq:
-        description: Bisulfite sequencing
-      amplicon_seq:
-        description: Amplicon sequencing
-      targeted_seq:
-        description: Targeted sequencing panel
   TreatmentEnum:
     permissible_values:
       control:
@@ -3338,6 +3303,160 @@ enums:
         description: ''
       small molecule library screen:
         description: ''
+  OmicDataTypeEnum:
+    description: Types of omic data contained in files
+    permissible_values:
+      # Genomics Data Types
+      raw_sequencing:
+        description: Raw sequencing data (FASTQ, BCL)
+      aligned_reads:
+        description: Aligned sequencing reads (BAM, SAM, CRAM)
+      variant_calls:
+        description: Variant calling results (VCF, BCF)
+      genome_annotation:
+        description: Genome annotation data (GFF, GTF)
+      # Transcriptomics Data Types
+      gene_expression:
+        description: Gene expression quantification data
+      transcript_counts:
+        description: Transcript-level count data
+      differential_expression:
+        description: Differential gene expression results
+      splice_variants:
+        description: Alternative splicing analysis results
+      # Epigenomics Data Types
+      methylation:
+        description: DNA methylation data
+      chromatin_accessibility:
+        description: Chromatin accessibility data (ATAC-seq, FAIRE-seq)
+      histone_modification:
+        description: Histone modification ChIP-seq data
+      # Proteomics Data Types
+      protein_abundance:
+        description: Protein abundance quantification
+      peptide_identification:
+        description: Peptide identification results
+      protein_modification:
+        description: Post-translational modification data
+      # Metabolomics Data Types
+      metabolite_abundance:
+        description: Metabolite abundance quantification
+      metabolic_pathways:
+        description: Metabolic pathway analysis results
+      # Multi-omics Data Types
+      integrated_omics:
+        description: Multi-omics integration results
+      network_analysis:
+        description: Molecular network analysis results
+      # Processing Levels
+      raw_data:
+        description: Unprocessed raw data
+      processed_data:
+        description: Processed and normalized data
+      analyzed_results:
+        description: Analysis results and interpretations
+      # Migrated from reference/data-types.yaml - Broad Omics Fields
+      proteomics:
+        description: Protein and peptide identification, especially in the study of whole proteomes of organisms.
+        meaning: http://edamontology.org/topic_0121
+      geneExpression:
+        description: The analysis of levels and patterns of synthesis of gene products (proteins and functional RNA) including interpretation in functional terms of gene expression data.
+        meaning: http://edamontology.org/topic_0203
+      transcriptomics:
+        description: Comprehensive analysis of RNA transcripts to study gene expression patterns and regulatory mechanisms
+      transcriptomics_nascent:
+        description: Nascent transcriptomics data from newly transcribed RNA
+      epigenomics:
+        description: Study of heritable changes in gene expression without DNA sequence changes
+      metabolomics:
+        description: The systematic study of metabolites, the chemical processes they are involved, and the chemical fingerprints of specific cellular processes in a whole cell, tissue, organ or organism.
+        meaning: http://edamontology.org/topic_3172
+      kinomics:
+        description: Kinomics is the study of protein kinases and protein kinase signaling.
+        source: http://www.kinomecore.com/what-is-kinomics/
+      genomics:
+        description: Genomic sequencing data
+      metagenomics:
+        description: Metagenomic sequencing data
+      single_cell:
+        description: Single-cell analysis data
+      multi_omics:
+        description: Multi-omic integrated data
+      # Migrated from reference/data-types.yaml - Specific Data Types
+      isoformExpression:
+        description: Expression of protein isoforms formed from alternative splicings or other post-translational modifications of a single gene through RNA splicing mechanisms.
+        source: https://en.wikipedia.org/wiki/Protein_isoform
+      chromatinActivity:
+        description: Chromatin activity that allow access of condensed genomic DNA and potentially control gene expression.
+        meaning: https://en.wikipedia.org/wiki/Chromatin_remodeling
+      AlignedReads:
+        description: Aligned reads output from alignment workflows
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=aligned_reads
+      genomicVariants:
+        description: >
+          Genomic alterations, including single nucleotide polymorphisms, short indels and structural variants. Use more specific term if possible, esp. if data is only of one specific subset.
+
+        meaning: http://edamontology.org/operation_3227
+      genomicFeatures:
+        description: Data of sequence feature (continuous extent of biological sequence) that is of genomic origin.
+        meaning: http://purl.obolibrary.org/obo/GENO_0000481
+        see_also: https://en.wikipedia.org/wiki/General_feature_format
+      SomaticVariants:
+        description: Called somatic variants
+        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_somatic_mutation
+      GermlineVariants:
+        description: Called germline variants
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=simple_germline_variation
+      CopyNumberVariants:
+        description: Copy number variants
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=copy_number_variation
+      StructuralVariants:
+        description: Genomic variants data that covers deletions, duplications, CNVs, insertions, inversions, and translocations, which may be derived from specialized variant calling workflows.
+        source: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=structural_variation
+      AnnotatedSomaticVariants:
+        description: Somatic variants annotated with some annotation workflow
+        meaning: https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=annotated_somatic_mutation
+      AnnotatedGermlineVariants:
+        description: Germline variants annotated with some annotation workflow
+      raw_counts:
+        description: The number or amount of something.
+        meaning: http://purl.obolibrary.org/obo/NCIT_C25463
+      RawIntensities:
+        description: Raw intensity values from the instrument.
+      NormalizedIntensities:
+        description: Normalized intensity values from the instrument/machine.
+      data_dictionary:
+        description: Data dictionary file describing variable definitions, codings, and metadata for a dataset
+      metadata:
+        description: Metadata files containing information about data collection, processing, or file manifests
+      # Digital Health Technology (DHT) Data Types
+      dht_speech_vitals:
+        description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
+      dht_respiratory_assessment:
+        description: Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)
+      md5:
+        description: MD5 checksum file for data integrity verification
+      index:
+        description: Index file for a sequencing or genomic data file (e.g., BAI, TBI, CSI)
+  LibraryStrategyEnum:
+    description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
+    permissible_values:
+      RNA_seq:
+        description: RNA sequencing
+      WGS:
+        description: Whole genome sequencing
+      WES:
+        description: Whole exome sequencing
+      ChIP_seq:
+        description: Chromatin immunoprecipitation sequencing
+      ATAC_seq:
+        description: Assay for transposase-accessible chromatin
+      bisulfite_seq:
+        description: Bisulfite sequencing
+      amplicon_seq:
+        description: Amplicon sequencing
+      targeted_seq:
+        description: Targeted sequencing panel
   ChannelEnum:
     permissible_values:
       Cy3:
@@ -3368,7 +3487,7 @@ enums:
         description: CRE Recombinase catalyses site-specific recombination between two 34 base pair loxp sites and maintains the phage genome as a monomeric unit-copy plasmid in the lysogenic state.
         meaning: http://purl.obolibrary.org/obo/NCIT_C17285
       CRISPR:
-        description: ''
+        description: ""
       RNAi:
         description: High throughput sample analysis of RNAi molecules for potential application in gene knockdown or gene silencing of target genes
         meaning: http://purl.obolibrary.org/obo/ERO_0001688
@@ -3421,10 +3540,11 @@ enums:
       GTAC@WUSTL in-house prep:
         description: Non-stranded library prep that uses a TruSeq-like (in-house) library design (includes cDNA generation, end-repair, A-tailing, ligation, and PCR amplification with unique dual indexing)
       IDT xGen Exome Research Panel:
-        description: ''
+        description: ""
         source: https://www.idtdna.com/pages/products/next-generation-sequencing/targeted-sequencing/hybridization-capture/predesigned-panels/xgen-exome-research-panel-v2
-      Illumina TruSeq DNA Nano:
-        description: ''
+      Illumina TruSeq Nano DNA:
+        description: "High-efficiency library preparation kit that enables comprehensive whole-genome sequencing from low-input DNA samples by minimizing library bias and avoiding gel-based size selection."
+        source: https://www.illumina.com/products/by-type/sequencing-kits/library-prep-kits/truseq-nano-dna.html
       Illumina Tn5 Transposase:
         description: Tn5 simultaneously fragments DNA, preferentially inserts into open chromatin sites, and adds sequencing primers (a process known as tagmentation).
         source: https://www.illumina.com/techniques/multiomics/epigenetics/atac-seq-chromatin-accessibility.html
@@ -3458,7 +3578,7 @@ enums:
         description: TruSeq library preparation
         source: https://github.com/HumanCellAtlas/metadata-schema/blob/master/json_schema/type/process/sequencing/library_preparation_process.json
       TruSeq standard total RNA library kit:
-        description: ''
+        description: ""
         source: https://www.illumina.com/products/by-type/sequencing-kits/library-prep-kits/truseq-stranded-total-rna.html
       Oxford Nanopore Direct RNA Sequencing Kit:
         description: Vendor catalog SQK-RNA004.
@@ -3483,18 +3603,16 @@ enums:
         description: Illumina SeqLab DNA PCR-free library preparation
       PCR-Free:
         description: PCR-free library preparation
-      Illumina TruSeq Nano DNA Library Prep:
-        description: TrueSeq Nano library preparation
   MRISequenceEnum:
     permissible_values:
       PD-weighted:
-        description: ''
+        description: ""
       Short Tau Inversion Recovery:
-        description: ''
+        description: ""
       T1-weighted:
-        description: ''
+        description: ""
       T2-weighted:
-        description: ''
+        description: ""
   NucleicAcidSourceEnum:
     permissible_values:
       bulk cell:
@@ -3630,6 +3748,8 @@ enums:
         description: Other alignment method not listed
   VariantTypeEnum:
     permissible_values:
+      SNP:
+        description: Single nucleotide polymoprphisms
       SNV:
         description: Single nucleotide variant
       SNVs/SNPs:
@@ -4665,9 +4785,11 @@ classes:
       dataset_code:
         title: Dataset Code
         range: string
-        description: Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.
+        description: >
+          Stable dataset code (lowercase letters, digits, and underscores; excludes version dates). For C-Path datasets, use the standardized convention combining data model type and dataset identifier, e.g. sdtm_als1003, omop_als1001 (prefixes: src, omop, sdtm, send, adam). Other datasets without an established standard may use a descriptive code, e.g. als_compute.
+
         required: false
-        pattern: "^(src|omop|sdtm|send|adam)_als\\d+$"
+        pattern: "^[a-z0-9_]+$"
       portalRelease:
         title: Portal Release
         range: string
@@ -4680,6 +4802,12 @@ classes:
         description: Types of cohorts available in this dataset.
         multivalued: true
         required: true
+      cohort:
+        title: Cohort
+        range: CohortEnum
+        description: Distinct cohorts, arms, or study groups represented in the dataset.
+        multivalued: true
+        required: false
       cohort_count:
         title: Cohort Count
         range: integer
@@ -6683,12 +6811,6 @@ classes:
         range: string
         description: Description of visit schedule (e.g., "Baseline, 3, 6, 12 months")
         required: false
-      studyType:
-        title: Study type
-        range: StudyLevelEnum
-        description: Study type for dataset (longitudinal, cross-sectional, etc.)
-        required: false
-        multivalued: true
   ClinicalFile:
     is_a: BaseFile
     mixins: [ClinicalFileMixin]
@@ -6880,6 +7002,7 @@ classes:
         title: Site of Onset
         range: SiteOfOnsetEnum
         description: Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)
+        multivalued: true
         required: false
       # Sample tracking
       sampleIdColumn:
@@ -7938,16 +8061,12 @@ classes:
         title: Library Preparation Method
         range: LibraryPreparationMethodEnum
         description: Method or kit used for library preparation.
+        multivalued: true
         required: false
       alignmentMethod:
         title: Alignment Method
         range: AlignmentMethodEnum
         description: Tool or method used for sequence alignment.
-        required: false
-      genomeReference:
-        title: Reference Genome
-        range: GenomicReferenceEnum
-        description: Reference genome used for alignment.
         required: false
   Dataset:
     is_a: BaseDataset
@@ -8183,6 +8302,7 @@ slots:
   libraryPreparationMethod:
     description: Method used for library preparation
     range: LibraryPreparationMethodEnum
+    multivalued: true
     required: false
   assessmentType:
     description: The specific type of clinical assessment or data collection method used
@@ -8214,3 +8334,7 @@ slots:
     description: General assessment of data completeness based on non-null values
     range: CompletenessLevelEnum
     required: false
+# Enums for this class are defined canonically in dedicated modules and shared
+# with the file-level OmicFile schema (see Makefile OmicDataset target):
+#   OmicDataTypeEnum    -> modules/omics/data-types.yaml
+#   LibraryStrategyEnum -> modules/omics/library-strategy.yaml

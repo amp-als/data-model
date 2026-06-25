@@ -121,3 +121,21 @@ enums:
         description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
       dht_respiratory_assessment:
         description: Respiratory function measurements collected via digital health technology devices (e.g., ZephyrX spirometry)
+
+      # Migrated from dataset-level ClinicalDataTypeEnum (unified)
+      clinical_assessment:
+        description: Clinical assessment data
+      treatment:
+        description: Treatment and medication data
+      neurological_assessment:
+        description: Neurological examination data
+      psychiatric_assessment:
+        description: Psychiatric evaluation data
+      hand_held_dynamometry:
+        description: Hand-held dynamometry measurements
+      genetic_profile:
+        description: Genetic testing results
+      study_management:
+        description: Study management metadata
+      data_management:
+        description: Data management and quality metrics

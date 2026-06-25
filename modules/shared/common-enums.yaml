@@ -46,17 +46,17 @@ enums:
         description: Healthy control
       Unknown:
         description: Disease status unknown
-      PLS: 
+      PLS:
         description: Primary Lateral Sclerosis
-      LBD: 
+      LBD:
         description: Lewy Body Dementia
-      AD: 
+      AD:
         description: Alzheimer's Disease
-      PMA: 
+      PMA:
         description: Progressive Muscular Atrophy
       PBP:
         description: Progressive Bulbar Palsy
-      Mitocondrial Myopathy: 
+      Mitocondrial Myopathy:
         description: group of genetic, often progressive neuromuscular diseases causing, primarily, severe muscle weakness and exercise intolerance, resulting from dysfunctional mitochondria failing to produce enough energy (ATP)
       PD:
         description: Parkinson's Disease
@@ -66,9 +66,9 @@ enums:
         description: Multipel System Atrophy is a rare, progressive neurodegenerative disorder affecting involuntary functions (blood pressure, digestion) and motor control
       VCP myopathy:
         description: a rare, autosomal dominant genetic disease caused by mutations in the VCP gene
-      Hirayama disease: 
+      Hirayama disease:
         description: It is a rare, benign, self-limiting neurological disorder that typically affects males aged 15–25, causing progressive weakness and muscle atrophy in one or both forearms and hands that usually stabilizes within 3–5 years and is thought to result from dynamic cervical cord compression during neck flexion
-      Kennedy's disease: 
+      Kennedy's disease:
         description: Kennedy's disease, or spinal and bulbar muscular atrophy (SBMA), is a rare, X-linked genetic neurodegenerative disorder primarily affecting men, characterized by slow progressive muscle weakness and wasting
       Spinal muscular atrophy:
         description: spinal muscular atrophy (SMA) is a rare, inherited genetic disease causing progressive muscle weakness and atrophy (wasting) due to the loss of motor neurons in the spinal cord
@@ -90,12 +90,6 @@ enums:
         description: Sporadic (non-familial) form
       familial:
         description: Familial (inherited) form
-      bulbar_onset:
-        description: Bulbar onset presentation
-      limb_onset:
-        description: Limb onset presentation
-      respiratory_onset:
-        description: Respiratory onset presentation
       Unknown:
         description: Disease subtype unknown or not applicable
       C9-ALS:
@@ -150,7 +144,7 @@ enums:
         description: NEFH ALS
       NEK1-ALS:
         description: NEK1 ALS
-      Asymptomatic NEK1: 
+      Asymptomatic NEK1:
         description: Asymptomatic NEK1 Carrier
       OPTN-ALS:
         description: OPTN ALS
@@ -194,7 +188,6 @@ enums:
         description: ALS associated with other or unspecified gene variant
       ALS Spectrum MND:
         description: range of motor neuron diseases sharing similar biological underpinnings, including variants that primarily affect only upper or lower motor neurons
-
       # El Escorial Revised Diagnostic Criteria
       Definite_ALS:
         description: Definite ALS by El Escorial revised criteria - UMN and LMN signs in 3+ regions
@@ -210,12 +203,10 @@ enums:
         description: Pre-symptomatic Familial Amyotrophic Lateral Sclerosis
       MUSK Myasthenia:
         description: Muscle-specific tyrosine kinase (MuSK) myasthenia gravis (MG) is a rare, severe autoimmune subtype of MG (5–8% of cases) characterized by antibodies attacking the MuSK receptor
-
       Anxiety for ALS:
         description: Subject presenting with anxiety about ALS without confirmed diagnosis
       Atypical for GM1 ab:
         description: Atypical presentation for GM1 antibody-associated disease
-
       # ALS clinical subtypes
       LMND:
         description: ALS with predominant lower motor neuron involvement
@@ -248,7 +239,6 @@ enums:
         description: Progressive muscular atrophy with lower motor neuron signs only
       PLS or PMA:
         description: Diagnosis of either PLS or PMA
-
       # FTD and PPA subtypes
       bvFTD:
         description: Behavioral variant frontotemporal dementia
@@ -282,13 +272,11 @@ enums:
         description: bvFTD co-occurring with semantic variant PPA
       naPPA, FTD:
         description: Nonfluent PPA with frontotemporal dementia
-
       # DLB / Lewy Body subtypes
       Clinical DLB (Probable):
         description: Probable clinical diagnosis of dementia with Lewy bodies
       Clinical PDD:
         description: Clinical Parkinson's disease dementia
-
       # Pathological subtypes - FTLD
       Pathological FTLD NOS:
         description: Pathological FTLD, not otherwise specified
@@ -314,7 +302,6 @@ enums:
         description: Pathological FTLD with ubiquitin-positive, tau-negative inclusions
       Pathological FTLD-H:
         description: Pathological FTLD-H
-
       # Pathological subtypes - DLB
       Pathological Neocortical DLB:
         description: Pathological DLB with neocortical Lewy body distribution
@@ -326,7 +313,6 @@ enums:
         description: Pathological DLB with amygdala-predominant Lewy body distribution
       Pathological DLB NOS:
         description: Pathological DLB, not otherwise specified
-
       # Other neurodegenerative diseases not in DiseaseEnum
       CBS:
         description: Corticobasal syndrome
@@ -340,13 +326,11 @@ enums:
         description: Dementia, not otherwise specified
       HSP:
         description: Hereditary spastic paraplegia
-
       # Carriers
       NEK1 Family:
         description: Family member with NEK1 variant
       Pre-fALS, MCI:
         description: Pre-symptomatic familial ALS with mild cognitive impairment
-
       # Non-neurological controls
       Non-Neurological Control with family history of ALS:
         description: Non-neurological control subject with family history of ALS
@@ -354,7 +338,6 @@ enums:
         description: Non-neurological control with family history of FTD and AD
       Non-Neurological Control with family history of AD, FTD:
         description: Non-neurological control with family history of AD and FTD
-
       # ALS with comorbidities
       Classical/Typical ALS, FTD:
         description: Classical ALS with frontotemporal dementia
@@ -434,7 +417,6 @@ enums:
         description: Classical ALS with FTD and metastatic carcinoma of the left superior parietal lobe
       ALS, Dementia (NOS):
         description: ALS with dementia (NOS)
-
       # PLS / PMA / PBP with comorbidities
       PLS, FTD:
         description: PLS with frontotemporal dementia
@@ -452,7 +434,6 @@ enums:
         description: Progressive muscular atrophy (variant notation)
       Progressive Bulbar Palsy, PD:
         description: Progressive bulbar palsy with Parkinson's disease
-
       # FTD / dementia with comorbidities
       FTD, PSP:
         description: FTD with progressive supranuclear palsy
@@ -460,7 +441,6 @@ enums:
         description: Dementia (NOS) with progressive aphasia
       DLB, Peripheral Neuropathy:
         description: DLB with peripheral neuropathy
-
       # Neuromuscular and other conditions
       IBM-myositis:
         description: Inclusion body myositis
@@ -494,7 +474,6 @@ enums:
         description: Meralgia paresthetica
       Migraine (without paralysis):
         description: Migraine without paralysis
-
 
   # Cell types
   CellTypeEnum:
@@ -569,11 +548,11 @@ enums:
         description: Respiratory onset
       Generalized:
         description: Generalized onset across multiple regions
-      Other: 
+      Other:
         description: other onset sites
       Cognitive:
-        description: cognitive or behavioral changes (Frontotemporal Dementia) may be the first sign of the disease, appearing months or even years before any muscle weakness. 
-      Head Drop: 
+        description: cognitive or behavioral changes (Frontotemporal Dementia) may be the first sign of the disease, appearing months or even years before any muscle weakness.
+      Head Drop:
         description: Dropped Head Syndrome (DHS) as the very first manifestation of a disease. severe weakness in the neck extensor muscles. Patients find it difficult or impossible to hold their head upright, leading to a "chin-on-chest" posture.
       Unknown:
         description: Site of onset unknown

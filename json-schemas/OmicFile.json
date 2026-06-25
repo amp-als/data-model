@@ -535,6 +535,10 @@
               "epigenomics",
               "metabolomics",
               "kinomics",
+              "genomics",
+              "metagenomics",
+              "single_cell",
+              "multi_omics",
               "isoformExpression",
               "chromatinActivity",
               "AlignedReads",
@@ -622,9 +626,6 @@
               "TARDBP",
               "sporadic",
               "familial",
-              "bulbar_onset",
-              "limb_onset",
-              "respiratory_onset",
               "Unknown",
               "C9-ALS",
               "Asymptomatic C9",
@@ -829,28 +830,6 @@
       "title": "File Format",
       "type": "string"
     },
-    "genomeReference": {
-      "description": "Reference genome used for alignment.",
-      "title": "Reference Genome",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "GRCh38",
-            "GRCh38_Verily_v1",
-            "GRChb38H",
-            "GRCh37",
-            "hg19",
-            "hg38",
-            "MMUL1.0",
-            "HRC"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
-    },
     "globalSubjectId": {
       "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
       "pattern": "^[a-zA-Z0-9_-]+$",
@@ -899,51 +878,73 @@
     },
     "libraryPreparationMethod": {
       "description": "Method or kit used for library preparation.",
+      "items": {
+        "description": "",
+        "title": "LibraryPreparationMethodEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "10x",
+              "CEL-seq",
+              "Drop-Seq",
+              "GTAC@WUSTL in-house prep",
+              "IDT xGen Exome Research Panel",
+              "Illumina TruSeq Nano DNA",
+              "Illumina Tn5 Transposase",
+              "Illumina Ribo-Zero Plus",
+              "KAPA HyperPrep Kit PCR-free",
+              "KAPA RNA HyperPrep Kit with RiboErase (HMR)",
+              "KAPA mRNA HyperPrep Kit",
+              "NEBNext mRNA Library Prep Reagent Set for Illumina",
+              "Omni-ATAC",
+              "QuantSeq FWD V2 with UDI",
+              "Smart-seq2",
+              "Smart-seq4",
+              "TruSeq",
+              "TruSeq standard total RNA library kit",
+              "Oxford Nanopore Direct RNA Sequencing Kit",
+              "QIAseq FX DNA Library Kit",
+              "unknown",
+              "Illumina TruSeq RNA Library Prep Kit",
+              "Buenrostro et al. Nat Methods 2024 ATAC-seq",
+              "NEBNext Ultra II DNA Library Prep Kit for Illumina",
+              "10x Chromium Next GEM Single Cell ATAC",
+              "10x Chromium Next GEM Single Cell 3'",
+              "Takara SMARTer Stranded Total RNA-seq Pico-Input v2",
+              "Illumina SeqLab DNA PCR-free library",
+              "PCR-Free"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
       "title": "Library Preparation Method",
+      "type": "array"
+    },
+    "libraryStrategy": {
+      "description": "Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)",
+      "title": "Library Strategy",
       "type": "string",
       "anyOf": [
         {
           "enum": [
-            "10x",
-            "CEL-seq",
-            "Drop-Seq",
-            "GTAC@WUSTL in-house prep",
-            "IDT xGen Exome Research Panel",
-            "Illumina TruSeq DNA Nano",
-            "Illumina Tn5 Transposase",
-            "Illumina Ribo-Zero Plus",
-            "KAPA HyperPrep Kit PCR-free",
-            "KAPA RNA HyperPrep Kit with RiboErase (HMR)",
-            "KAPA mRNA HyperPrep Kit",
-            "NEBNext mRNA Library Prep Reagent Set for Illumina",
-            "Omni-ATAC",
-            "QuantSeq FWD V2 with UDI",
-            "Smart-seq2",
-            "Smart-seq4",
-            "TruSeq",
-            "TruSeq standard total RNA library kit",
-            "Oxford Nanopore Direct RNA Sequencing Kit",
-            "QIAseq FX DNA Library Kit",
-            "unknown",
-            "Illumina TruSeq RNA Library Prep Kit",
-            "Buenrostro et al. Nat Methods 2024 ATAC-seq",
-            "NEBNext Ultra II DNA Library Prep Kit for Illumina",
-            "10x Chromium Next GEM Single Cell ATAC",
-            "10x Chromium Next GEM Single Cell 3'",
-            "Takara SMARTer Stranded Total RNA-seq Pico-Input v2",
-            "Illumina SeqLab DNA PCR-free library",
-            "PCR-Free",
-            "Illumina TruSeq Nano DNA Library Prep"
+            "RNA_seq",
+            "WGS",
+            "WES",
+            "ChIP_seq",
+            "ATAC_seq",
+            "bisulfite_seq",
+            "amplicon_seq",
+            "targeted_seq"
           ]
         },
         {
           "const": ""
         }
       ]
-    },
-    "libraryStrategy": {
-      "description": "Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)",
-      "title": "Library Strategy"
     },
     "license": {
       "description": "Unless information for license is clear, this should default to UNKNOWN.",
@@ -1201,27 +1202,32 @@
     },
     "site_of_onset": {
       "description": "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)",
+      "items": {
+        "description": "Site of disease onset",
+        "title": "SiteOfOnsetEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Bulbar",
+              "Limb",
+              "Lumbar",
+              "Axial",
+              "Respiratory",
+              "Generalized",
+              "Other",
+              "Cognitive",
+              "Head Drop",
+              "Unknown"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
       "title": "Site of Onset",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "Bulbar",
-            "Limb",
-            "Lumbar",
-            "Axial",
-            "Respiratory",
-            "Generalized",
-            "Other",
-            "Cognitive",
-            "Head Drop",
-            "Unknown"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
+      "type": "array"
     },
     "source": {
       "description": "Host platform from which the resource was sourced.",
@@ -1295,6 +1301,7 @@
         "anyOf": [
           {
             "enum": [
+              "SNP",
               "SNV",
               "SNVs/SNPs",
               "Indel",

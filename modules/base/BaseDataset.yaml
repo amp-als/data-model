@@ -47,9 +47,13 @@ classes:
       dataset_code:
         title: Dataset Code
         range: string
-        description: Stable dataset code combining data model type and dataset identifier (e.g., sdtm_als1003, omop_als1001). Excludes version dates.
+        description: >
+          Stable dataset code (lowercase letters, digits, and underscores; excludes version dates).
+          For C-Path datasets, use the standardized convention combining data model type and
+          dataset identifier, e.g. sdtm_als1003, omop_als1001 (prefixes: src, omop, sdtm, send, adam).
+          Other datasets without an established standard may use a descriptive code, e.g. als_compute.
         required: false
-        pattern: "^(src|omop|sdtm|send|adam)_als\\d+$"
+        pattern: "^[a-z0-9_]+$"
       portalRelease:
         title: Portal Release
         range: string
@@ -62,6 +66,12 @@ classes:
         description: Types of cohorts available in this dataset.
         multivalued: true
         required: true
+      cohort:
+        title: Cohort
+        range: CohortEnum
+        description: Distinct cohorts, arms, or study groups represented in the dataset.
+        multivalued: true
+        required: false
       cohort_count:
         title: Cohort Count
         range: integer
@@ -83,4 +93,124 @@ enums:
   CohortTypeEnum:
     permissible_values:
       Case-Control:
-        description: Case-control cohort comparing disease cases and healthy controls
+        description: Case-control cohort comparing disease cases and controls.
+      Disease-Only:
+        description: Cohort composed of participants or specimens with the target disease/condition and no explicit control group.
+      Healthy-Control:
+        description: Cohort composed of unaffected or healthy control participants/specimens.
+      At-Risk:
+        description: Cohort composed of participants at elevated genetic or familial risk who may be presymptomatic at enrollment.
+      Natural-History:
+        description: Observational cohort followed longitudinally to characterize disease course without protocol-assigned intervention.
+      Interventional-Treatment:
+        description: Cohort receiving an investigational or active treatment in a clinical trial or expanded-access protocol.
+      Placebo-Control:
+        description: Cohort receiving placebo or standard-of-care control in an interventional clinical trial.
+      Registry:
+        description: Registry or survey cohort assembled from participant-reported or routinely collected clinical data.
+      Aggregate-Reference:
+        description: Aggregate summary/reference cohort where participant-level cohort membership is not available in the dataset.
+      In-Vitro-Experimental:
+        description: In vitro experimental cohort or condition groups, including engineered cell-line treatment, perturbation, or assay-control groups.
+  CohortEnum:
+    permissible_values:
+      ALS:
+        description: Amyotrophic lateral sclerosis disease cohort.
+      ALS-TE:
+        description: ALS molecular subtype with elevated transposable element or retrotransposon expression and TDP-43 dysfunction signature.
+      ALS-Ox:
+        description: ALS molecular subtype with oxidative and proteotoxic stress signatures.
+      ALS-Glial:
+        description: ALS molecular subtype with activated glia or glial dysfunction signatures.
+      FTD:
+        description: Frontotemporal dementia disease cohort.
+      Control:
+        description: Control cohort or study group, including healthy, unaffected, placebo, or no-remarkable-pathology controls as appropriate for the dataset.
+      Healthy Control:
+        description: Unaffected or healthy control participants or specimens.
+      C9ALS:
+        description: Familial ALS due to C9orf72 mutation.
+      sALS:
+        description: Sporadic ALS.
+      FTD-GRN:
+        description: Frontotemporal dementia associated with GRN mutation.
+      FTLD-TDP:
+        description: Frontotemporal lobar degeneration with TDP-43 pathology.
+      PSP/FTLD-tau:
+        description: Progressive supranuclear palsy or FTLD-tau disease-control cohort without frontal cortex TDP-43 pathology.
+      Pre-fALS:
+        description: Presymptomatic or at-risk familial ALS cohort.
+      C9-ALS:
+        description: ALS donors with C9orf72 repeat expansion.
+      C9-FTD:
+        description: FTD donors with C9orf72 repeat expansion.
+      C9ALS/FTD:
+        description: ALS/FTD cases carrying a C9orf72 repeat expansion.
+      Like-C9 Sporadic ALS/FTD:
+        description: Sporadic non-C9 ALS/FTD cases with C9-like hnRNP H-target splicing dysregulation.
+      Like-Control Sporadic ALS/FTD:
+        description: Sporadic non-C9 ALS/FTD cases without the C9-like splicing dysregulation signature.
+      Non-ALS Control:
+        description: Non-ALS control comparison cohort.
+      Parkinson's Disease:
+        description: Parkinson's disease comparator cohort.
+      Alzheimer's Disease:
+        description: Alzheimer's disease comparator cohort.
+      Other Neurological Disorders:
+        description: Comparator cohort with neurological disorders other than the primary disease focus.
+      Other Motor Neuron Disease:
+        description: Comparator cohort with motor neuron disease other than ALS.
+      FTD Postmortem TDP-43-Negative Neuronal Nuclei:
+        description: FTD postmortem neuronal nuclei with loss of nuclear TDP-43.
+      ALS Postmortem TDP-43-Negative Neuronal Nuclei:
+        description: ALS postmortem neuronal nuclei with loss of nuclear TDP-43.
+      TDP-43-Positive Neuronal Nuclei:
+        description: Neuronal nuclei retaining nuclear TDP-43 from FTD/ALS patient postmortem frontal cortex.
+      TDP-43-Negative Neuronal Nuclei:
+        description: Neuronal nuclei with loss of nuclear TDP-43 from FTD/ALS patient postmortem frontal cortex.
+      ALS/FTD Disease Model and ALS Samples:
+        description: ALS/FTD disease-model cohort and ALS disease sample cohort used in RNA methylation analyses.
+      Apobec-YTH:
+        description: HEK293T DART-seq experimental group treated or transfected with APOBEC-YTH construct.
+      Apobec-YTHmut:
+        description: HEK293T DART-seq experimental group treated or transfected with mutant APOBEC-YTH control construct.
+      Halo:
+        description: HEK293T DART-seq HaloTag control group.
+      Trehalose Expanded-Access Treatment:
+        description: ALS participants receiving trehalose through an expanded-access protocol.
+      Trehalose Expanded-Access Biomarker Treatment:
+        description: ALS participants receiving trehalose in the expanded-access biomarker dataset.
+      Symptomatic ALS:
+        description: Participants living with symptomatic ALS.
+      Asymptomatic Genetic ALS At-Risk:
+        description: Asymptomatic participants at risk for genetic forms of ALS.
+      Placebo:
+        description: Placebo or standard-of-care control arm in an interventional clinical trial.
+      Reldesemtiv/CK-2127107 150 mg Twice Daily:
+        description: Reldesemtiv/CK-2127107 150 mg twice-daily treatment arm.
+      Reldesemtiv/CK-2127107 300 mg Twice Daily:
+        description: Reldesemtiv/CK-2127107 300 mg twice-daily treatment arm.
+      Reldesemtiv/CK-2127107 450 mg Twice Daily:
+        description: Reldesemtiv/CK-2127107 450 mg twice-daily treatment arm.
+      Reldesemtiv Treatment:
+        description: Reldesemtiv treatment arm.
+      ALS Survey Participants:
+        description: Participants in an ALS analysis and assessment survey study.
+      Ceftriaxone Treatment:
+        description: Ceftriaxone treatment arm.
+      Ceftriaxone 2 g/day:
+        description: Ceftriaxone 2 grams per day treatment arm in the ALS ceftriaxone clinical trial.
+      Ceftriaxone 4 g/day:
+        description: Ceftriaxone 4 grams per day treatment arm in the ALS ceftriaxone clinical trial.
+      ALS Aggregate/Reference:
+        description: Aggregate or reference cohort summarizing ALS data.
+      FTD Aggregate/Reference:
+        description: Aggregate or reference cohort summarizing FTD data.
+      Topiramate Treatment:
+        description: Topiramate treatment arm.
+      ALS Natural-History:
+        description: ALS natural-history cohort followed observationally.
+      ALS Case:
+        description: ALS case cohort in a case-control study.
+      ALS/FTD Case:
+        description: ALS and/or FTD case cohort in a case-control WGS collection.
