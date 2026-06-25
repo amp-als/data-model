@@ -2354,10 +2354,14 @@ def create_annotation_template(all_schemas, file_type='ClinicalFile'):
     """
     schema = get_schema_for_type(file_type, all_schemas)
 
+    # Dataset types are tracked under '_dataset_type' (consistent with the
+    # dataset apply/create/update code path); file types use '_file_type'.
+    type_key = '_dataset_type' if file_type.endswith('Dataset') else '_file_type'
+
     if not schema:
         print(f"⚠️  Schema not found for {file_type}, using empty template")
         return {
-            '_file_type': file_type,
+            type_key: file_type,
             '_schema_source': 'data-model',
             '_created_timestamp': datetime.now().isoformat()
         }
@@ -2377,7 +2381,7 @@ def create_annotation_template(all_schemas, file_type='ClinicalFile'):
             template[field_name] = ''
 
     # Add metadata fields
-    template['_file_type'] = file_type
+    template[type_key] = file_type
     template['_schema_source'] = 'json-schema'
     template['_created_timestamp'] = datetime.now().isoformat()
 
@@ -2685,7 +2689,11 @@ def apply_dataset_annotations(syn, dataset_syn_id, annotations, all_schemas, dry
     Returns:
         bool: True if successful, False otherwise
     """
-    dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+    # Template generator stamps the type under '_file_type'; fall back to legacy
+    # '_dataset_type' for older annotation files.
+    dataset_type = (annotations.get('_file_type')
+                    or annotations.get('_dataset_type')
+                    or 'ClinicalDataset')
 
     is_valid, errors, warnings = validate_annotation_against_schema(
         annotations, dataset_type, all_schemas
@@ -3251,6 +3259,147 @@ def move_files_to_release(syn, staging_folder_id, file_ids, release_folder_id,
                 error_count += 1
 
         return success_count, error_count
+
+
+def _get_concrete_type(entity):
+    """Return the concreteType string for a classic Synapse entity."""
+    return getattr(entity, 'concreteType', '') or str(entity.properties.get('concreteType', ''))
+
+
+def collect_files_to_move(syn, source_ids, recursive=False, verbose=False):
+    """
+    Expand a list of source Synapse IDs into a flat list of file IDs to move.
+
+    Each source ID may be a File (added directly) or a Folder (all contained
+    files are added; subfolders are descended into when recursive=True).
+
+    Args:
+        syn: Synapse client
+        source_ids: List of File and/or Folder Synapse IDs
+        recursive: If True, descend into subfolders of folder sources
+        verbose: Show detailed output
+
+    Returns:
+        List of (file_id, file_name) tuples, de-duplicated, preserving order
+    """
+    seen = set()
+    files = []
+
+    def add_file(fid, fname):
+        if fid not in seen:
+            seen.add(fid)
+            files.append((fid, fname))
+
+    def walk_folder(folder_id):
+        for child in syn.getChildren(folder_id, includeTypes=["file", "folder"]):
+            ctype = child.get('type', '')
+            if 'FileEntity' in ctype:
+                add_file(child['id'], child.get('name', child['id']))
+            elif 'Folder' in ctype and recursive:
+                if verbose:
+                    print(f"    ↳ descending into folder {child['id']} ({child.get('name', '')})")
+                walk_folder(child['id'])
+
+    for sid in source_ids:
+        try:
+            entity = syn.get(sid, downloadFile=False)
+        except Exception as e:
+            print(f"  ✗ Could not retrieve source {sid}: {e}")
+            continue
+
+        concrete = _get_concrete_type(entity)
+        if 'FileEntity' in concrete:
+            add_file(sid, getattr(entity, 'name', sid))
+        elif 'Folder' in concrete or 'Project' in concrete:
+            if verbose:
+                print(f"  Expanding folder {sid} ({getattr(entity, 'name', '')})")
+            walk_folder(sid)
+        else:
+            print(f"  ⚠️  Skipping {sid}: unsupported entity type ({concrete or 'unknown'})")
+
+    return files
+
+
+def handle_move_files(args, config):
+    """Handle MOVE workflow — move individual files, several files, or all files
+    within source folder(s) to a single target folder."""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: MOVE FILES")
+    print("=" * 60)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    target_id = args.target
+
+    # Validate target is a container (Folder or Project)
+    try:
+        target = syn.get(target_id, downloadFile=False)
+    except Exception as e:
+        print(f"✗ Could not retrieve target {target_id}: {e}")
+        return
+    target_concrete = _get_concrete_type(target)
+    if 'Folder' not in target_concrete and 'Project' not in target_concrete:
+        print(f"✗ Target {target_id} is not a Folder or Project (type: {target_concrete or 'unknown'})")
+        return
+
+    verbose = args.verbose
+    print(f"\nTarget folder : {target_id} ({getattr(target, 'name', '')})")
+    print(f"Sources       : {', '.join(args.source)}")
+    print(f"Recursive     : {args.recursive}")
+
+    print("\nCollecting files to move...")
+    files = collect_files_to_move(syn, args.source, recursive=args.recursive, verbose=verbose)
+
+    if not files:
+        print("\n⚠️  No files found to move.")
+        return
+
+    # Skip files already in the target folder
+    pending = []
+    for fid, fname in files:
+        try:
+            entity = syn.get(fid, downloadFile=False)
+        except Exception as e:
+            print(f"  ✗ Could not retrieve {fid}: {e}")
+            continue
+        current_parent = entity.properties.get('parentId', getattr(entity, 'parentId', None))
+        if current_parent == target_id:
+            if verbose:
+                print(f"  - {fname} ({fid}) already in target, skipping")
+            continue
+        pending.append((fid, fname, entity))
+
+    print(f"\n{len(files)} file(s) collected, {len(pending)} to move "
+          f"({len(files) - len(pending)} already in target).")
+
+    if not pending:
+        print("\n✓ Nothing to move — all files already in target folder.")
+        return
+
+    success_count = 0
+    error_count = 0
+    for fid, fname, entity in pending:
+        if config.DRY_RUN:
+            print(f"  [DRY_RUN] Would move {fname} ({fid}) → {target_id}")
+            success_count += 1
+            continue
+        try:
+            entity.parentId = target_id
+            syn.store(entity, forceVersion=False)
+            print(f"  ✓ Moved {fname} ({fid}) → {target_id}")
+            success_count += 1
+        except Exception as e:
+            print(f"  ✗ Error moving {fname} ({fid}): {e}")
+            error_count += 1
+
+    print("\n" + "=" * 60)
+    if config.DRY_RUN:
+        print(f"DRY RUN complete: {success_count} file(s) would be moved.")
+        print("Re-run with --execute to perform the move.")
+    else:
+        print(f"MOVE complete: {success_count} moved, {error_count} errors.")
+    print("=" * 60)
 
 
 def set_file_versions(syn, file_ids, version_label, version_comment=None, dry_run=True, verbose=False):
@@ -7831,6 +7980,428 @@ def handle_migrate_annotation_values(args, config):
         print("\nRe-run with --execute to apply changes.")
 
 
+def _schema_sync_is_filled(value):
+    """Return True when an annotation value should be treated as populated."""
+    return value not in (None, "", [], [""])
+
+
+def _schema_sync_scalar(value):
+    """Unwrap single-value Synapse annotation lists for JSON Schema validation."""
+    if isinstance(value, list) and len(value) == 1:
+        return value[0]
+    return value
+
+
+def _schema_sync_normalize_for_schema(annotation, schema):
+    """
+    Convert Synapse annotation values into the shapes expected by JSON Schema.
+
+    Synapse annotations often store every value as a list, while the JSON Schema
+    may define some fields as scalar strings/integers/numbers. This normalization
+    is for validation/reporting only; it does not mutate Synapse.
+    """
+    properties = schema.get('properties', {}) if schema else {}
+    normalized = {}
+    for key, value in annotation.items():
+        if key.startswith('_') or not _schema_sync_is_filled(value):
+            continue
+        prop_type = properties.get(key, {}).get('type')
+        if prop_type != 'array':
+            value = _schema_sync_scalar(value)
+        if prop_type == 'integer' and isinstance(value, str) and value.strip().isdigit():
+            value = int(value.strip())
+        elif prop_type == 'number' and isinstance(value, str):
+            try:
+                value = float(value.strip())
+            except ValueError:
+                pass
+        normalized[key] = value
+    return normalized
+
+
+def _schema_sync_detect_file_type(file_name, annotations, all_schemas):
+    """Infer the file schema class from current annotations/name without downloading file content."""
+    explicit = annotations.get('_file_type') or annotations.get('fileType')
+    explicit = _schema_sync_scalar(explicit)
+    if explicit in all_schemas:
+        return explicit
+
+    keys = set(annotations.keys())
+    omic_keys = {
+        'assay', 'platform', 'libraryStrategy', 'processingLevel', 'sampleType',
+        'biospecimenType', 'cellType', 'tissue', 'libraryLayout', 'specimenID'
+    }
+    clinical_keys = {
+        'assessmentType', 'assessmentTypes', 'clinicalDomain', 'visit',
+        'visitName', 'formName', 'dataSubtype'
+    }
+    if keys & omic_keys:
+        return 'OmicFile'
+    if keys & clinical_keys:
+        return 'ClinicalFile'
+
+    lname = file_name.lower()
+    if any(tok in lname for tok in [
+        'fastq', 'bam', 'cram', 'vcf', 'rna', 'atac', 'chip', 'counts',
+        'expression', 'genotype', 'variant', 'proteom', 'metabolom'
+    ]):
+        return 'OmicFile'
+    return 'ClinicalFile' if 'ClinicalFile' in all_schemas else 'File'
+
+
+def _schema_sync_detect_dataset_type(dataset_name, annotations, all_schemas):
+    """Infer the dataset schema class from current annotations/name without reading files."""
+    explicit = annotations.get('_dataset_type') or annotations.get('datasetType')
+    explicit = _schema_sync_scalar(explicit)
+    if explicit in all_schemas:
+        return explicit
+
+    keys = set(annotations.keys())
+    omic_keys = {
+        'assay', 'platform', 'libraryStrategy', 'processingLevel', 'sampleType',
+        'biospecimenType', 'cellType', 'tissue', 'libraryLayout'
+    }
+    clinical_keys = {
+        'studyDesign', 'assessmentTypes', 'visitSchedule', 'primaryOutcome',
+        'clinicalDomain', 'studyPhase'
+    }
+    if keys & omic_keys:
+        return 'OmicDataset'
+    if keys & clinical_keys:
+        return 'ClinicalDataset'
+
+    lname = dataset_name.lower()
+    if any(tok in lname for tok in [
+        'rna', 'atac', 'chip', 'methyl', 'tdp', 'cortex', 'neuron', 'glia',
+        'genome', 'transcript', 'proteom', 'metabolom', 'epigenome'
+    ]):
+        return 'OmicDataset'
+    return 'ClinicalDataset' if 'ClinicalDataset' in all_schemas else 'Dataset'
+
+
+def _schema_sync_annotation_dict(annotations_obj):
+    """Convert syn.get_annotations output to a plain annotation dict."""
+    metadata_keys = {'id', 'etag', 'creationDate', 'createdBy', 'modifiedOn', 'modifiedBy'}
+    return {k: v for k, v in dict(annotations_obj).items() if k not in metadata_keys}
+
+
+def _schema_sync_get_dataset_ids(syn, collection_id=None, dataset_id=None):
+    """Return [(dataset_id, dataset_name)] for a collection or single dataset."""
+    if dataset_id:
+        entity = syn.get(dataset_id, downloadFile=False)
+        return [(dataset_id, entity.name)]
+
+    dataset_collection = DatasetCollection(id=collection_id).get()
+    items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+    dataset_ids = []
+    for item in items:
+        item_id = item.entity_id if hasattr(item, 'entity_id') else (item.id if hasattr(item, 'id') else str(item))
+        entity = syn.get(item_id, downloadFile=False)
+        dataset_ids.append((item_id, entity.name))
+    return dataset_ids
+
+
+def _schema_sync_load_update_file(path):
+    """Load an optional review/proposal JSON file keyed by Synapse ID."""
+    if not path:
+        return {}
+    with open(path, 'r') as f:
+        return json.load(f)
+
+
+def _schema_sync_extract_delta(update_file_data, dataset_id):
+    """Extract a flat annotation delta for dataset_id from supported review-file shapes."""
+    record = update_file_data.get(dataset_id, {}) if update_file_data else {}
+    if not record:
+        return {}
+    if all(not isinstance(v, dict) for v in record.values()):
+        return record
+    # Expected shape: {synId: {datasetName: {field: value}}}
+    first_value = next(iter(record.values()), {})
+    return first_value if isinstance(first_value, dict) else {}
+
+
+def _schema_sync_clean_delta(delta, require_approved=False):
+    """Remove review metadata and empty values from a proposed annotation delta."""
+    if require_approved and delta.get('_review_status') != 'approved':
+        return {}
+    return clean_annotations_for_synapse({k: v for k, v in delta.items() if not k.startswith('_')})
+
+
+def _schema_sync_validate_delta(delta, schema):
+    """Validate only proposed changed fields against a dataset schema."""
+    if not delta:
+        return []
+    properties = schema.get('properties', {}) if schema else {}
+    mini_schema = {
+        'type': 'object',
+        'additionalProperties': {},
+        'properties': {k: properties[k] for k in delta.keys() if k in properties},
+    }
+    unknown = [k for k in delta.keys() if k not in properties]
+    errors = [f"{k}: not in schema" for k in unknown]
+    normalized = _schema_sync_normalize_for_schema(delta, mini_schema)
+    validator = Draft7Validator(mini_schema)
+    for err in validator.iter_errors(normalized):
+        field = '.'.join(str(p) for p in err.path) if err.path else 'root'
+        errors.append(f"{field}: {err.message}")
+    return errors
+
+
+def handle_sync_dataset_schema_annotations(args, config):
+    """
+    Validate dataset-level annotations against current schemas and optionally
+    apply reviewed annotation deltas. Metadata-only: does not download dataset
+    contents or files.
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    collection_id = getattr(args, 'collection_id', None) or config.DATASETS_COLLECTION_ID
+    dataset_id = getattr(args, 'dataset_id', None)
+    output_dir = Path(getattr(args, 'output_dir', None) or os.path.join(config.ANNOTATIONS_DIR, 'dataset_schema_sync'))
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, verbose=False)
+    update_file_data = _schema_sync_load_update_file(getattr(args, 'updates_file', None))
+    require_approved = getattr(args, 'require_approved', False)
+
+    dataset_ids = _schema_sync_get_dataset_ids(syn, collection_id=collection_id, dataset_id=dataset_id)
+    print(f"\n{'='*60}")
+    print(f"DATASET SCHEMA ANNOTATION SYNC {'[DRY RUN]' if dry_run else '[EXECUTE]'}")
+    print(f"{'='*60}")
+    print(f"Datasets: {len(dataset_ids)}")
+    print(f"Target  : {dataset_id or collection_id}")
+    print(f"Output  : {output_dir}")
+    if getattr(args, 'updates_file', None):
+        print(f"Updates : {args.updates_file} ({'approved only' if require_approved else 'all entries'})")
+    template_mode = getattr(args, 'template_mode', 'both')
+    print(f"Templates: {template_mode}")
+
+    report = []
+    templates = {}
+    missing_templates = {}
+    deltas = {}
+    applied = 0
+    skipped = 0
+    failed = 0
+
+    for ds_id, ds_name in dataset_ids:
+        current = _schema_sync_annotation_dict(syn.get_annotations(ds_id))
+        dataset_type = _schema_sync_detect_dataset_type(ds_name, current, all_schemas)
+        schema = get_schema_for_type(dataset_type, all_schemas)
+        template = create_annotation_template(all_schemas, dataset_type)
+        merged_template = merge_annotations_smartly(current, template)
+        missing_fields = [k for k in schema.get('properties', {}) if not _schema_sync_is_filled(current.get(k))]
+
+        normalized_current = _schema_sync_normalize_for_schema(current, schema)
+        validation_errors = []
+        if schema:
+            validator = Draft7Validator(schema)
+            for err in validator.iter_errors(normalized_current):
+                field = '.'.join(str(p) for p in err.path) if err.path else 'root'
+                validation_errors.append(f"{field}: {err.message}")
+
+        raw_delta = _schema_sync_extract_delta(update_file_data, ds_id)
+        delta = _schema_sync_clean_delta(raw_delta, require_approved=require_approved)
+        delta_errors = _schema_sync_validate_delta(delta, schema)
+        if delta:
+            deltas[ds_id] = {ds_name: delta}
+
+        status = 'valid' if not validation_errors else 'invalid'
+        delta_status = 'none' if not delta else ('valid' if not delta_errors else 'invalid')
+        print(f"{ds_id}  {status:7}  missing={len(missing_fields):2d}  delta={delta_status:7}  {ds_name}")
+
+        if delta and not delta_errors:
+            if dry_run:
+                print(f"  [DRY_RUN] Would update: {', '.join(delta.keys())}")
+            else:
+                try:
+                    annos = syn.get_annotations(ds_id)
+                    annos.update(delta)
+                    syn.set_annotations(annos)
+                    applied += 1
+                    print(f"  ✓ Updated: {', '.join(delta.keys())}")
+                except Exception as e:
+                    failed += 1
+                    print(f"  ✗ Failed update: {e}")
+        elif delta and delta_errors:
+            skipped += 1
+            print(f"  ⚠️  Skipping invalid delta: {'; '.join(delta_errors[:3])}")
+        elif raw_delta and require_approved:
+            skipped += 1
+
+        missing_template = {k: template[k] for k in missing_fields if k in template}
+        missing_template['_dataset_type'] = dataset_type
+        missing_template['_schema_source'] = template.get('_schema_source', 'json-schema')
+        missing_template['_created_timestamp'] = template.get('_created_timestamp')
+        if template_mode in ('merged', 'both'):
+            templates[ds_id] = {ds_name: merged_template}
+        if template_mode in ('missing', 'both'):
+            missing_templates[ds_id] = {ds_name: missing_template}
+        report.append({
+            'synId': ds_id,
+            'name': ds_name,
+            'dataset_type': dataset_type,
+            'schema_status': status,
+            'schema_error_count': len(validation_errors),
+            'schema_errors': validation_errors,
+            'missing_field_count': len(missing_fields),
+            'missing_fields': missing_fields,
+            'delta_status': delta_status,
+            'delta_fields': sorted(delta.keys()),
+            'delta_errors': delta_errors,
+        })
+
+    with open(output_dir / 'schema_validation_report.json', 'w') as f:
+        json.dump(report, f, indent=2, sort_keys=True)
+    if template_mode in ('merged', 'both'):
+        with open(output_dir / 'schema_merged_annotation_templates.json', 'w') as f:
+            json.dump(templates, f, indent=2, sort_keys=True)
+    if template_mode in ('missing', 'both'):
+        with open(output_dir / 'schema_missing_annotation_templates.json', 'w') as f:
+            json.dump(missing_templates, f, indent=2, sort_keys=True)
+    file_report = []
+    file_templates = {}
+    file_missing_templates = {}
+    if getattr(args, 'include_files', False):
+        print(f"\n{'='*60}")
+        print("FILE-LEVEL SCHEMA VALIDATION (metadata only; no downloads)")
+        print(f"{'='*60}")
+        for ds_id, ds_name in dataset_ids:
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+            except Exception as e:
+                print(f"{ds_id}  could not enumerate dataset items: {e}")
+                file_report.append({
+                    'datasetSynId': ds_id,
+                    'datasetName': ds_name,
+                    'synId': None,
+                    'name': None,
+                    'file_type': None,
+                    'schema_status': 'enumeration_error',
+                    'schema_error_count': 1,
+                    'schema_errors': [str(e)],
+                    'missing_field_count': None,
+                    'missing_fields': [],
+                })
+                continue
+
+            print(f"{ds_id}  files={len(file_rows)}  {ds_name}")
+            for _, row in file_rows.iterrows():
+                file_id = row.get('id') or row.iloc[0]
+                file_name = row.get('name', file_id)
+                try:
+                    current = _schema_sync_annotation_dict(syn.get_annotations(file_id))
+                    file_type = _schema_sync_detect_file_type(str(file_name), current, all_schemas)
+                    schema = get_schema_for_type(file_type, all_schemas)
+                    template = create_annotation_template(all_schemas, file_type)
+                    merged_template = merge_annotations_smartly(current, template)
+                    missing_fields = [k for k in schema.get('properties', {}) if not _schema_sync_is_filled(current.get(k))]
+                    missing_template = {k: template[k] for k in missing_fields if k in template}
+                    missing_template['_file_type'] = file_type
+                    missing_template['_schema_source'] = template.get('_schema_source', 'json-schema')
+                    missing_template['_created_timestamp'] = template.get('_created_timestamp')
+                    if template_mode in ('merged', 'both'):
+                        file_templates[file_id] = {file_name: merged_template}
+                    if template_mode in ('missing', 'both'):
+                        file_missing_templates[file_id] = {file_name: missing_template}
+                    normalized_current = _schema_sync_normalize_for_schema(current, schema)
+                    validation_errors = []
+                    if schema:
+                        validator = Draft7Validator(schema)
+                        for err in validator.iter_errors(normalized_current):
+                            field = '.'.join(str(p) for p in err.path) if err.path else 'root'
+                            validation_errors.append(f"{field}: {err.message}")
+                    status = 'valid' if not validation_errors else 'invalid'
+                    file_report.append({
+                        'datasetSynId': ds_id,
+                        'datasetName': ds_name,
+                        'synId': file_id,
+                        'name': file_name,
+                        'file_type': file_type,
+                        'schema_status': status,
+                        'schema_error_count': len(validation_errors),
+                        'schema_errors': validation_errors,
+                        'missing_field_count': len(missing_fields),
+                        'missing_fields': missing_fields,
+                    })
+                except Exception as e:
+                    file_report.append({
+                        'datasetSynId': ds_id,
+                        'datasetName': ds_name,
+                        'synId': file_id,
+                        'name': file_name,
+                        'file_type': None,
+                        'schema_status': 'error',
+                        'schema_error_count': 1,
+                        'schema_errors': [str(e)],
+                        'missing_field_count': None,
+                        'missing_fields': [],
+                    })
+
+        with open(output_dir / 'file_schema_validation_report.json', 'w') as f:
+            json.dump(file_report, f, indent=2, sort_keys=True)
+        if template_mode in ('merged', 'both'):
+            with open(output_dir / 'file_schema_merged_annotation_templates.json', 'w') as f:
+                json.dump(file_templates, f, indent=2, sort_keys=True)
+        if template_mode in ('missing', 'both'):
+            with open(output_dir / 'file_schema_missing_annotation_templates.json', 'w') as f:
+                json.dump(file_missing_templates, f, indent=2, sort_keys=True)
+        file_csv_path = output_dir / 'file_schema_validation_report.csv'
+        with open(file_csv_path, 'w', newline='') as f:
+            fieldnames = ['datasetSynId', 'datasetName', 'synId', 'name', 'file_type',
+                          'schema_status', 'schema_error_count', 'missing_field_count', 'missing_fields']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in file_report:
+                writer.writerow({
+                    **{k: row.get(k) for k in fieldnames if k != 'missing_fields'},
+                    'missing_fields': ';'.join(row.get('missing_fields') or []),
+                })
+
+    with open(output_dir / 'schema_update_deltas_to_apply.json', 'w') as f:
+        json.dump(deltas, f, indent=2, sort_keys=True)
+
+    csv_path = output_dir / 'schema_validation_report.csv'
+    with open(csv_path, 'w', newline='') as f:
+        fieldnames = ['synId', 'name', 'dataset_type', 'schema_status', 'schema_error_count',
+                      'missing_field_count', 'missing_fields', 'delta_status', 'delta_fields']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in report:
+            writer.writerow({
+                **{k: row[k] for k in fieldnames if k in row and k not in {'missing_fields', 'delta_fields'}},
+                'missing_fields': ';'.join(row['missing_fields']),
+                'delta_fields': ';'.join(row['delta_fields']),
+            })
+
+    print(f"\nWrote validation report: {output_dir / 'schema_validation_report.json'}")
+    print(f"Wrote CSV report       : {csv_path}")
+    if template_mode in ('merged', 'both'):
+        print(f"Wrote merged templates : {output_dir / 'schema_merged_annotation_templates.json'}")
+    if template_mode in ('missing', 'both'):
+        print(f"Wrote missing templates: {output_dir / 'schema_missing_annotation_templates.json'}")
+    print(f"Wrote deltas to apply  : {output_dir / 'schema_update_deltas_to_apply.json'}")
+    if getattr(args, 'include_files', False):
+        print(f"Wrote file report      : {output_dir / 'file_schema_validation_report.json'}")
+        if template_mode in ('merged', 'both'):
+            print(f"Wrote file merged tmpl : {output_dir / 'file_schema_merged_annotation_templates.json'}")
+        if template_mode in ('missing', 'both'):
+            print(f"Wrote file missing tmpl: {output_dir / 'file_schema_missing_annotation_templates.json'}")
+    if not dry_run:
+        print(f"Applied={applied}, skipped={skipped}, failed={failed}")
+
+
 def handle_rename_annotation(args, config):
     """
     Rename/migrate an annotation key across all datasets in a collection,
@@ -8466,6 +9037,25 @@ Examples:
     apply_file_parser.add_argument('--force-update-all', action='store_true',
         help='Force update all files even if annotations are unchanged (default: skip unchanged files)')
 
+    # MOVE command
+    move_parser = subparsers.add_parser(
+        'move',
+        help='Move files (individual, several, or all in a folder) to a target folder'
+    )
+    move_parser.add_argument('--source', nargs='+', required=True, metavar='SYN_ID',
+        help='One or more source Synapse IDs (files and/or folders). Folders move all '
+             'contained files; use --recursive to include subfolders.')
+    move_parser.add_argument('--target', required=True, metavar='SYN_ID',
+        help='Target folder (or project) Synapse ID to move files into')
+    move_parser.add_argument('--recursive', action='store_true',
+        help='When a source is a folder, also move files in its subfolders')
+    move_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN — actually move files)')
+    move_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default — prints what would be moved)')
+    move_parser.add_argument('--verbose', action='store_true',
+        help='Show detailed per-file output')
+
     # ADD-LINK-FILE command
     link_parser = subparsers.add_parser('add-link-file',
                                        help='Create link file entity (external URL reference) and add to dataset')
@@ -8537,6 +9127,30 @@ Examples:
                                help='Execute deletions (default is dry-run)')
     delete_parser.add_argument('--dry-run', action='store_true',
                                help='Dry run mode (default)')
+
+    # SYNC-DATASET-SCHEMA-ANNOTATIONS command
+    sync_schema_parser = subparsers.add_parser(
+        'sync-dataset-schema-annotations',
+        help='Validate dataset annotations against current schemas and optionally apply reviewed metadata-only deltas'
+    )
+    sync_schema_parser.add_argument('--collection-id',
+        help='Synapse ID of a DatasetCollection to validate/update (defaults to DATASETS_COLLECTION_ID)')
+    sync_schema_parser.add_argument('--dataset-id',
+        help='Synapse ID of a single Dataset to validate/update instead of a collection')
+    sync_schema_parser.add_argument('--updates-file',
+        help='Reviewed dataset-level JSON deltas keyed by Synapse ID. Supports proposed_dataset_annotation_deltas.json shape.')
+    sync_schema_parser.add_argument('--include-files', action='store_true',
+        help='Also validate file-level annotations for files referenced by each Dataset. Metadata only; no file downloads.')
+    sync_schema_parser.add_argument('--require-approved', action='store_true',
+        help='Only apply/use delta records with _review_status set to "approved"')
+    sync_schema_parser.add_argument('--output-dir',
+        help='Directory for validation reports and templates (default: annotations/dataset_schema_sync)')
+    sync_schema_parser.add_argument('--template-mode', choices=['merged', 'missing', 'both'], default='both',
+        help='Template outputs to write: merged=current annotations plus schema blanks, missing=only missing schema fields, both=write both (default)')
+    sync_schema_parser.add_argument('--execute', action='store_true',
+        help='Apply valid reviewed deltas to Synapse (default is dry-run/report only)')
+    sync_schema_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default — writes reports but does not update Synapse)')
 
     # RENAME-ANNOTATION command
     rename_parser = subparsers.add_parser(
@@ -8860,8 +9474,8 @@ Examples:
         if hasattr(args, 'dry_run') and args.dry_run:
             config.DRY_RUN = True
 
-    # Validate/default arguments for migrate-annotation-values command
-    if args.command == 'migrate-annotation-values':
+    # Validate/default arguments for collection-scoped annotation commands
+    if args.command in ['migrate-annotation-values', 'sync-dataset-schema-annotations']:
         if not getattr(args, 'collection_id', None) and not getattr(args, 'dataset_id', None):
             args.collection_id = config.DATASETS_COLLECTION_ID
             print(f"Using default collection from config: {args.collection_id}")
@@ -8870,7 +9484,8 @@ Examples:
     if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
                         'rename-annotation', 'rename-folders', 'migrate-annotation-values',
-                        'merge-file-versions', 'upload-local']:
+                        'sync-dataset-schema-annotations', 'merge-file-versions', 'upload-local',
+                        'move']:
         config.validate()
 
     # Route to appropriate handler
@@ -8903,12 +9518,16 @@ Examples:
         handle_rename_folders(args, config)
     elif args.command == 'migrate-annotation-values':
         handle_migrate_annotation_values(args, config)
+    elif args.command == 'sync-dataset-schema-annotations':
+        handle_sync_dataset_schema_annotations(args, config)
     elif args.command == 'merge-file-versions':
         handle_merge_file_versions(args, config)
     elif args.command == 'upload-local':
         handle_upload_local_workflow(args, config)
     elif args.command == 'reorder-columns':
         handle_reorder_columns(args, config)
+    elif args.command == 'move':
+        handle_move_files(args, config)
 
 
 if __name__ == "__main__":
