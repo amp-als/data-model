@@ -1,0 +1,218 @@
+{
+  "current_annotations": {
+    "collection": [
+      "ALS Compute"
+    ],
+    "contributor": [
+      "ALS Compute"
+    ],
+    "creator": [
+      "ALS Compute"
+    ],
+    "curationLevel": [
+      "Standardized"
+    ],
+    "dataType": [
+      "genomics",
+      "transcriptomics"
+    ],
+    "dataset_code": [
+      "als_compute"
+    ],
+    "disease": [
+      "ALS",
+      "FTD"
+    ],
+    "keywords": [
+      "ALS",
+      "FTD",
+      "WGS",
+      "whole genome sequencing",
+      "harmonized dataset",
+      "variants"
+    ],
+    "libraryStrategy": [
+      "WGS"
+    ],
+    "participant_count": [
+      12638
+    ],
+    "processingLevel": [
+      "processed"
+    ],
+    "publisher": [
+      "ALS Compute"
+    ],
+    "source": [
+      "ALS Compute"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "aggregate",
+      "summary_level"
+    ],
+    "title": [
+      "ALS Compute Dataset"
+    ],
+    "url": [
+      "https://alscompute.org/"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "FACSPopulation": "",
+    "GEOSuperSeries": "",
+    "_created_timestamp": "2026-05-29T18:11:35.452979+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      ""
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      ""
+    ],
+    "biospecimenType": [
+      ""
+    ],
+    "cellType": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "ALS Compute"
+    ],
+    "collectionDate": "",
+    "contributor": [
+      "ALS Compute"
+    ],
+    "creator": [
+      "ALS Compute"
+    ],
+    "curationLevel": [
+      "Standardized"
+    ],
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "genomics",
+      "transcriptomics"
+    ],
+    "dataset_code": [
+      "als_compute"
+    ],
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS",
+      "FTD"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "ALS",
+      "FTD",
+      "WGS",
+      "whole genome sequencing",
+      "harmonized dataset",
+      "variants"
+    ],
+    "libraryLayout": [
+      ""
+    ],
+    "libraryStrategy": [
+      "WGS"
+    ],
+    "license": "",
+    "originalSampleId": "",
+    "participant_count": [
+      12638
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      ""
+    ],
+    "processingLevel": [
+      "processed"
+    ],
+    "publisher": [
+      "ALS Compute"
+    ],
+    "sameAs": "",
+    "source": [
+      "ALS Compute"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "aggregate",
+      "summary_level"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "ALS Compute Dataset"
+    ],
+    "url": [
+      "https://alscompute.org/"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "GEOSuperSeries",
+    "acknowledgementStatement",
+    "alternateName",
+    "assay",
+    "biospecimenType",
+    "cellType",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collectionDate",
+    "dataFormat",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "funder",
+    "includedInDataCatalog",
+    "libraryLayout",
+    "license",
+    "originalSampleId",
+    "platform",
+    "portalRelease",
+    "sameAs",
+    "study_count",
+    "subject"
+  ],
+  "name": "ALS Compute Dataset",
+  "publication_hints": [],
+  "synId": "syn73686173",
+  "wiki_pages": [
+    {
+      "id": "639106",
+      "markdown": "**Summary**\nAmyotrophic Lateral Sclerosis (ALS) is a fatal neurodegenerative disorder characterized by the progressive loss of brain and spinal cord motor neurons. Half of ALS patients display cognitive symptoms of frontotemporal dementia (FTD); reciprocally, about 40% of FTD patients show motor neuron deficits, and approximately 15% develop overt ALS. The clinical overlap between ALS and FTD means that the two conditions are thought to represent a disease spectrum (ALS/FTD).\n\nIn recent years, the identification of several genetic causes of ALS/FTD has contributed significantly to our understanding of disease pathogenesis. Unfortunately, one-third of the underlying genetic causes of familial cases and ~90% of sporadic cases of ALS/FTD remain unexplained. As such, there is a dire need to identify additional genetic factors contributing to ALS/FTD. Such studies require huge cohorts of harmonized whole genome sequencing (WGS) data sets from cases and controls.\n\nCurrently, there are several major ongoing sequencing efforts for ALS patients. Numerous centers lead to inefficiency, especially in terms of overall costs. At a minimum, this includes the cost of high-performance computing, the storage of large data files, and the duplication of effort between groups. This lack of data harmonization between groups precludes sharing of genetic information and weakens collaborative efforts. The cost and logistics are also a barrier to attracting talented investigators to the ALS/FTD field.\n\nTo overcome this unmet need, we have founded the ALS Compute project. We are centralizing the storage of ALS/FTD WGS data from every significant sequencing effort in the United States and beyond within a single Cloud environment. This approach will facilitate data harmonization and improve accessibility to the data. To accomplish this, we have made the data and the computational infrastructure available via the Terra platform hosted by NHGRI's Genomic Data Science Analysis, Visualization, and Informatics Lab-Space (AnVIL). This will allow researchers worldwide to access this wealth of data, develop new theories of the disease, and yield breakthroughs in our understanding of ALS/FTD. \n\n**ALS Compute Dataset Links: **\n[ALS Compute Portal ](https://alscompute.org)\n[ALS Compute dbGAP] (https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/collection.cgi?study_id=phs003184.v1.p1)\n",
+      "title": ""
+    }
+  ]
+}

@@ -1,13 +1,14 @@
 {
+  "$schema": "../json-schemas/OmicFileNested.json",
   "syn73974831": {
     "ALL_CHR_freeze2.CSQ_annotated.vcf.bgz": {
       "FACSPopulation": "",
       "GEOSuperSeries": "",
       "age": null,
-      "alignmentMethod": [
-        "BWA-MEM"
+      "alignmentMethod": "BWA-MEM",
+      "alternateName": [
+        ""
       ],
-      "alternateName": "",
       "analysisTypes": [
         "joint_variant_call"
       ],
@@ -29,6 +30,7 @@
       "collection": [
         "ALS Compute"
       ],
+      "collectionDate": "",
       "collectionSite": "",
       "contributor": [
         "ALS Compute"
@@ -37,6 +39,7 @@
       "creator": [
         "ALS Compute"
       ],
+      "dataSourcePrefix": "",
       "dataType": [
         "variant_calls"
       ],
@@ -58,24 +61,20 @@
         "VCP myopathy",
         "Hirayama disease",
         "Kennedy's disease",
-        "Spinal muscular atrophy"
+        "Spinal muscular atrophy",
+        "Spastic paraparesis"
       ],
       "diseaseSubtype": [
         "ALS Spectrum MND",
         "pre-fALS",
         "Asymptomatic C9orf72",
-        "Spastic paraparesis",
         "Asymptomatic NEK1",
         "Asymptomatic C9",
         "Asymptomatic SOD1",
-        "MUISK myasthenia",
-        "",
+        "MUSK Myasthenia"
       ],
       "ethnicity": "",
       "fileFormat": "VCF",
-      "genomeReference":[
-        "GRChb38H"
-      ],
       "globalSubjectId": "",
       "heightCm": null,
       "includedInDataCatalog": "",
@@ -85,10 +84,10 @@
       "libraryLayout": [
         "paired-end"
       ],
-      "libraryPreparationMethod":[
+      "libraryPreparationMethod": [
         "Illumina SeqLab DNA PCR-free library",
         "PCR-Free",
-        "Illumina TruSeq Nano DNA Library Prep"
+        "Illumina TruSeq DNA Nano"
       ],
       "libraryStrategy": "WGS",
       "license": "",
@@ -96,7 +95,7 @@
       "originalSubjectId": "",
       "platform": [
         "Illumina HiSeq X",
-        "Illumina NovaSeq 6000",
+        "Illumina NovaSeq 6000"
       ],
       "processingLevel": [
         "processed"
@@ -108,11 +107,12 @@
       "propSouthAsianGeneticAncestry": null,
       "publisher": "",
       "race": "",
+      "referenceGenome": "GRChb38H",
       "sameAs": "",
       "sampleIdColumn": "",
       "sampleType": "",
       "sex": "",
-      "site_of_onset":[
+      "site_of_onset": [
         "Bulbar",
         "Limb",
         "Lumbar",
@@ -122,24 +122,31 @@
         "Other",
         "Cognitive",
         "Head Drop"
-      ]
-      "source": "ALS Compute",
+      ],
+      "source": [
+        "ALS Compute"
+      ],
       "species": [
-        "Homo Sapiens"
+        "Homo sapiens"
       ],
       "storageContainer": "",
       "subject": [
         ""
       ],
-      "title": "",
+      "title": [
+        ""
+      ],
       "url": "",
-      "variantType": "",
+      "variantType": [
+        "SNP",
+        "INDELs"
+      ],
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
       "_file_type": "OmicFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-04-02T17:18:54.528956"
+      "_created_timestamp": "2026-06-23T18:01:20.468290"
     }
   },
   "syn73974832": {
@@ -147,7 +154,10 @@
       "FACSPopulation": "",
       "GEOSuperSeries": "",
       "age": null,
-      "alternateName": "",
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
       "analysisTypes": [
         ""
       ],
@@ -169,6 +179,7 @@
       "collection": [
         "ALS Compute"
       ],
+      "collectionDate": "",
       "collectionSite": "",
       "contributor": [
         "ALS Compute"
@@ -177,6 +188,7 @@
       "creator": [
         "ALS Compute"
       ],
+      "dataSourcePrefix": "",
       "dataType": [
         "md5"
       ],
@@ -198,7 +210,9 @@
       "libraryLayout": [
         ""
       ],
-      "libraryPreparationMethod": "",
+      "libraryPreparationMethod": [
+        ""
+      ],
       "libraryStrategy": "",
       "license": "",
       "originalSampleId": "",
@@ -216,11 +230,17 @@
       "propSouthAsianGeneticAncestry": null,
       "publisher": "",
       "race": "",
+      "referenceGenome": "",
       "sameAs": "",
       "sampleIdColumn": "",
       "sampleType": "",
       "sex": "",
-      "source": "",
+      "site_of_onset": [
+        ""
+      ],
+      "source": [
+        "ALS Compute"
+      ],
       "species": [
         ""
       ],
@@ -228,15 +248,19 @@
       "subject": [
         ""
       ],
-      "title": "",
+      "title": [
+        ""
+      ],
       "url": "",
-      "variantType": "",
+      "variantType": [
+        ""
+      ],
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
       "_file_type": "OmicFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-04-02T17:18:54.528989"
+      "_created_timestamp": "2026-06-23T18:01:20.468412"
     }
   },
   "syn73974833": {
@@ -244,7 +268,10 @@
       "FACSPopulation": "",
       "GEOSuperSeries": "",
       "age": null,
-      "alternateName": "",
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
       "analysisTypes": [
         ""
       ],
@@ -266,6 +293,7 @@
       "collection": [
         "ALS Compute"
       ],
+      "collectionDate": "",
       "collectionSite": "",
       "contributor": [
         "ALS Compute"
@@ -274,6 +302,7 @@
       "creator": [
         "ALS Compute"
       ],
+      "dataSourcePrefix": "",
       "dataType": [
         "index"
       ],
@@ -295,7 +324,9 @@
       "libraryLayout": [
         ""
       ],
-      "libraryPreparationMethod": "",
+      "libraryPreparationMethod": [
+        ""
+      ],
       "libraryStrategy": "",
       "license": "",
       "originalSampleId": "",
@@ -313,11 +344,17 @@
       "propSouthAsianGeneticAncestry": null,
       "publisher": "",
       "race": "",
+      "referenceGenome": "",
       "sameAs": "",
       "sampleIdColumn": "",
       "sampleType": "",
       "sex": "",
-      "source": "",
+      "site_of_onset": [
+        ""
+      ],
+      "source": [
+        "ALS Compute"
+      ],
       "species": [
         ""
       ],
@@ -325,15 +362,19 @@
       "subject": [
         ""
       ],
-      "title": "",
+      "title": [
+        ""
+      ],
       "url": "",
-      "variantType": "",
+      "variantType": [
+        ""
+      ],
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
       "_file_type": "OmicFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-04-02T17:18:54.529015"
+      "_created_timestamp": "2026-06-23T18:01:20.468508"
     }
   },
   "syn73974834": {
@@ -341,7 +382,10 @@
       "FACSPopulation": "",
       "GEOSuperSeries": "",
       "age": null,
-      "alternateName": "",
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
       "analysisTypes": [
         ""
       ],
@@ -363,6 +407,7 @@
       "collection": [
         "ALS Compute"
       ],
+      "collectionDate": "",
       "collectionSite": "",
       "contributor": [
         "ALS Compute"
@@ -371,6 +416,7 @@
       "creator": [
         "ALS Compute"
       ],
+      "dataSourcePrefix": "",
       "dataType": [
         "md5"
       ],
@@ -392,7 +438,9 @@
       "libraryLayout": [
         ""
       ],
-      "libraryPreparationMethod": "",
+      "libraryPreparationMethod": [
+        ""
+      ],
       "libraryStrategy": "",
       "license": "",
       "originalSampleId": "",
@@ -410,11 +458,17 @@
       "propSouthAsianGeneticAncestry": null,
       "publisher": "",
       "race": "",
+      "referenceGenome": "",
       "sameAs": "",
       "sampleIdColumn": "",
       "sampleType": "",
       "sex": "",
-      "source": "",
+      "site_of_onset": [
+        ""
+      ],
+      "source": [
+        "ALS Compute"
+      ],
       "species": [
         ""
       ],
@@ -422,15 +476,19 @@
       "subject": [
         ""
       ],
-      "title": "",
+      "title": [
+        ""
+      ],
       "url": "",
-      "variantType": "",
+      "variantType": [
+        ""
+      ],
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
       "_file_type": "OmicFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-04-02T17:18:54.529041"
+      "_created_timestamp": "2026-06-23T18:01:20.468592"
     }
   },
   "syn68753422": {
@@ -438,7 +496,10 @@
       "FACSPopulation": "",
       "GEOSuperSeries": "",
       "age": null,
-      "alternateName": "",
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
       "analysisTypes": [
         ""
       ],
@@ -460,6 +521,7 @@
       "collection": [
         "ALS Compute"
       ],
+      "collectionDate": "",
       "collectionSite": "",
       "contributor": [
         "ALS Compute"
@@ -468,6 +530,7 @@
       "creator": [
         "ALS Compute"
       ],
+      "dataSourcePrefix": "",
       "dataType": [
         "metadata",
         "data_dictionary"
@@ -491,7 +554,9 @@
       "libraryLayout": [
         ""
       ],
-      "libraryPreparationMethod": "",
+      "libraryPreparationMethod": [
+        ""
+      ],
       "libraryStrategy": "",
       "license": "",
       "originalSampleId": "",
@@ -509,11 +574,17 @@
       "propSouthAsianGeneticAncestry": null,
       "publisher": "",
       "race": "",
+      "referenceGenome": "",
       "sameAs": "",
       "sampleIdColumn": "",
       "sampleType": "",
       "sex": "",
-      "source": "",
+      "site_of_onset": [
+        ""
+      ],
+      "source": [
+        "ALS Compute"
+      ],
       "species": [
         ""
       ],
@@ -521,15 +592,19 @@
       "subject": [
         ""
       ],
-      "title": "ALS Compute Data Dictionary/Metadata",
+      "title": [
+        "ALS Compute Data Dictionary/Metadata"
+      ],
       "url": "",
-      "variantType": "",
+      "variantType": [
+        ""
+      ],
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
       "_file_type": "OmicFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-04-02T17:18:54.529067"
+      "_created_timestamp": "2026-06-23T18:01:20.468673"
     }
   },
   "syn74024032": {
@@ -537,7 +612,10 @@
       "FACSPopulation": "",
       "GEOSuperSeries": "",
       "age": null,
-      "alternateName": "",
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
       "analysisTypes": [
         ""
       ],
@@ -559,6 +637,7 @@
       "collection": [
         "ALS Compute"
       ],
+      "collectionDate": "",
       "collectionSite": "",
       "contributor": [
         "ALS Compute"
@@ -567,6 +646,7 @@
       "creator": [
         "ALS Compute"
       ],
+      "dataSourcePrefix": "",
       "dataType": [
         "metadata"
       ],
@@ -588,7 +668,9 @@
       "libraryLayout": [
         ""
       ],
-      "libraryPreparationMethod": "",
+      "libraryPreparationMethod": [
+        ""
+      ],
       "libraryStrategy": "",
       "license": "",
       "originalSampleId": "",
@@ -606,11 +688,17 @@
       "propSouthAsianGeneticAncestry": null,
       "publisher": "",
       "race": "",
+      "referenceGenome": "",
       "sameAs": "",
       "sampleIdColumn": "",
       "sampleType": "",
       "sex": "",
-      "source": "",
+      "site_of_onset": [
+        ""
+      ],
+      "source": [
+        "ALS Compute"
+      ],
       "species": [
         ""
       ],
@@ -618,15 +706,19 @@
       "subject": [
         ""
       ],
-      "title": "ALS Compute SampleSheet",
+      "title": [
+        "ALS Compute SampleSheet"
+      ],
       "url": "",
-      "variantType": "",
+      "variantType": [
+        ""
+      ],
       "weightKg": null,
       "yearOfDiagnosis": null,
       "yearOfSymptomOnset": null,
       "_file_type": "OmicFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-04-02T17:18:54.529093"
+      "_created_timestamp": "2026-06-23T18:01:20.468754"
     }
   }
 }

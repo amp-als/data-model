@@ -1,0 +1,233 @@
+{
+  "current_annotations": {
+    "CNSRegion": [
+      "frontal cortex",
+      "occipital cortex",
+      "temporal lobe cortex",
+      "Unknown"
+    ],
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenSubtype": [
+      "sorted nuclei"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "cellType": [
+      ""
+    ],
+    "creator": [
+      "Gerrits E"
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "disease": [
+      "Control",
+      "FTD"
+    ],
+    "keywords": [
+      "Frontotemporal Dementia",
+      "brain tissue",
+      "sorted nuclei",
+      "RNA-seq",
+      "transcriptomics"
+    ],
+    "libraryLayout": [
+      "single-end",
+      "paired-end"
+    ],
+    "participant_count": [
+      "93"
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "sameAs": [
+      "geo:GSE163122"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "title": [
+      "Neurovascular dysfunction in GRN-associated frontotemporal dementia identified by single-nucleus RNA-sequencing of human cerebral cortex"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE163122"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "CNSRegion": [
+      "frontal cortex",
+      "occipital cortex",
+      "temporal lobe cortex",
+      "Unknown"
+    ],
+    "FACSPopulation": "",
+    "GEOSuperSeries": "",
+    "_created_timestamp": "2026-05-29T18:11:21.749963+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenSubtype": [
+      "sorted nuclei"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "cellType": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      ""
+    ],
+    "collectionDate": "",
+    "contributor": [
+      ""
+    ],
+    "creator": [
+      "Gerrits E"
+    ],
+    "curationLevel": "",
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "Control",
+      "FTD"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "Frontotemporal Dementia",
+      "brain tissue",
+      "sorted nuclei",
+      "RNA-seq",
+      "transcriptomics"
+    ],
+    "libraryLayout": [
+      "single-end",
+      "paired-end"
+    ],
+    "libraryStrategy": "",
+    "license": "",
+    "originalSampleId": "",
+    "participant_count": [
+      "93"
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "processingLevel": [
+      ""
+    ],
+    "publisher": "",
+    "sameAs": [
+      "geo:GSE163122"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "Neurovascular dysfunction in GRN-associated frontotemporal dementia identified by single-nucleus RNA-sequencing of human cerebral cortex"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE163122"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "GEOSuperSeries",
+    "alternateName",
+    "cellType",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collection",
+    "collectionDate",
+    "contributor",
+    "curationLevel",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "funder",
+    "includedInDataCatalog",
+    "libraryStrategy",
+    "license",
+    "originalSampleId",
+    "platform",
+    "processingLevel",
+    "publisher",
+    "study_count",
+    "subject"
+  ],
+  "name": "Neurovascular dysfunction in GRN-associated frontotemporal dementia identified by single-nucleus RNA-sequencing of human cerebral cortex",
+  "publication_hints": [
+    "10.1038/s41593-022-01124-3",
+    "10.1038/s41593-022-01124-3)",
+    "PMID:35879464",
+    "doi.org/10.1038/s41593-022-01124-3",
+    "pubmed.ncbi.nlm.nih.gov/35879464"
+  ],
+  "synId": "syn67719824",
+  "wiki_pages": [
+    {
+      "id": "633914",
+      "markdown": "**Summary:** Frontotemporal dementia (FTD) is the second most prevalent form of early-onset dementia, affecting predominantly frontal and temporal cerebral lobes. Heterozygous mutations in the progranulin gene (GRN) cause autosomal-dominant FTD (FTD-GRN), associated with TDP-43 inclusions, neuronal loss, axonal degeneration and gliosis, but FTD-GRN pathogenesis is largely unresolved. Here we report single-nucleus RNA sequencing of microglia, astrocytes and the neurovasculature from frontal, temporal and occipital cortical tissue from control and FTD-GRN brains. We show that fibroblast and mesenchymal cell numbers were enriched in FTD-GRN, and we identified disease-associated subtypes of astrocytes and endothelial cells. Expression of gene modules associated with blood\u2013brain barrier (BBB) dysfunction was significantly enriched in FTD-GRN endothelial cells. The vasculature supportive function and capillary coverage by pericytes was reduced in FTD-GRN tissue, with increased and hypertrophic vascularization and an enrichment of perivascular T cells. Our results indicate a perturbed BBB and suggest that the neurovascular unit is severely affected in FTD-GRN.\n\n**Overall Design:** Bulk RNAseq of NEUNpos and OLIG2pos nuclei from CTR and FTD-GRN brains. Single-nucleus RNAseq of NEUNnegOLIG2neg nuclei from the same samples.\n\n**Contact:** Emma Gerrits, UMCG\n\n**Contributors:** Emma Gerrits, Lucia Giannini, Nieske Brouwer, Shamiram Melhem, Danielle Seilhean, Isabelle Le Ber, Alwin Kamermans, Gijs Kooij, Helga de Vries, Erik Boddeke, Harro Seelaar, John van Swieten, Bart Eggen\n\n**Publications:**\n- ***Neurovascular dysfunction in GRN-associated frontotemporal dementia identified by single-nucleus RNA sequencing of human cerebral cortex***\nNature Neuroscience 2022 Aug [10.1038/s41593-022-01124-3](https://doi.org/10.1038/s41593-022-01124-3)\n[PMID:35879464](https://pubmed.ncbi.nlm.nih.gov/35879464)\n<br />\n",
+      "title": ""
+    }
+  ]
+}

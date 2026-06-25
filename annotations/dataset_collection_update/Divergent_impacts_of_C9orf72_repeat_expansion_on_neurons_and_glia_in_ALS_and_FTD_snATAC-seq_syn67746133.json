@@ -1,0 +1,235 @@
+{
+  "current_annotations": {
+    "CNSRegion": [
+      "dorsolateral prefrontal cortex",
+      "primary motor cortex"
+    ],
+    "GEOSuperSeries": [
+      "GSE219281"
+    ],
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "assay": [
+      "snATAC-seq"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "cellType": [
+      ""
+    ],
+    "creator": [
+      "Li J"
+    ],
+    "dataType": [
+      "epigenomics"
+    ],
+    "disease": [
+      "ALS",
+      "FTD",
+      "Control"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "C9-FTD"
+    ],
+    "keywords": [
+      "C9orf72+",
+      "Frontotemporal Dementia",
+      "Amyotrophic Lateral Sclerosis",
+      "brain tissue",
+      "snATAC-seq",
+      "epigenomics",
+      "post-mortem tissue"
+    ],
+    "libraryLayout": [
+      "paired-end"
+    ],
+    "participant_count": [
+      "28"
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "sameAs": [
+      "geo:GSE219279"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "title": [
+      "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snATAC-seq)"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE219279"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "CNSRegion": [
+      "dorsolateral prefrontal cortex",
+      "primary motor cortex"
+    ],
+    "FACSPopulation": "",
+    "GEOSuperSeries": [
+      "GSE219281"
+    ],
+    "_created_timestamp": "2026-05-29T18:11:19.872712+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      "snATAC-seq"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "cellType": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      ""
+    ],
+    "collectionDate": "",
+    "contributor": [
+      ""
+    ],
+    "creator": [
+      "Li J"
+    ],
+    "curationLevel": "",
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "epigenomics"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS",
+      "FTD",
+      "Control"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "C9-FTD"
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "C9orf72+",
+      "Frontotemporal Dementia",
+      "Amyotrophic Lateral Sclerosis",
+      "brain tissue",
+      "snATAC-seq",
+      "epigenomics",
+      "post-mortem tissue"
+    ],
+    "libraryLayout": [
+      "paired-end"
+    ],
+    "libraryStrategy": "",
+    "license": "",
+    "originalSampleId": "",
+    "participant_count": [
+      "28"
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "processingLevel": [
+      ""
+    ],
+    "publisher": "",
+    "sameAs": [
+      "geo:GSE219279"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snATAC-seq)"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE219279"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "alternateName",
+    "cellType",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collection",
+    "collectionDate",
+    "contributor",
+    "curationLevel",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "funder",
+    "includedInDataCatalog",
+    "libraryStrategy",
+    "license",
+    "originalSampleId",
+    "platform",
+    "processingLevel",
+    "publisher",
+    "study_count",
+    "subject"
+  ],
+  "name": "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snATAC-seq)",
+  "publication_hints": [
+    "10.1038/s41467-023-41033-y",
+    "10.1038/s41467-023-41033-y)",
+    "PMID:37714849",
+    "doi.org/10.1038/s41467-023-41033-y",
+    "pubmed.ncbi.nlm.nih.gov/37714849"
+  ],
+  "synId": "syn67746133",
+  "wiki_pages": [
+    {
+      "id": "633911",
+      "markdown": "**Summary:** Neurodegenerative diseases, such as amyotrophic lateral sclerosis (ALS) and frontotemporal dementia (FTD), are strongly influenced by inherited genetic variation, but environmental and epigenetic factors also play key roles in the course of these diseases. A hexanucleotide repeat expansion in the C9orf72 (C9) gene is the most common genetic cause of ALS and FTD. To determine the cellular alterations associated with the C9 repeat expansion, we performed single nucleus transcriptomics (snRNA-seq) and epigenomics (snATAC-seq) in postmortem samples of motor and frontal cortices from C9-ALS and C9-FTD donors. We found pervasive alterations of  gene expression across multiple cortical cell types in C9-ALS, with the largest number of affected genes in astrocytes and excitatory neurons. Astrocytes increased expression of markers of activation and pathways associated with structural remodeling. Excitatory neurons in upper and deep layers increased expression of genes related to proteostasis, metabolism, and protein expression, and decreased expression of genes related to neuronal function. Epigenetic analyses revealed concordant changes in chromatin accessibility, histone modifications, and gene expression in specific cell types. C9-FTD patients had a distinct pattern of changes, including loss of neurons in frontal cortex and altered expression of thousands of genes in astrocytes and oligodendrocyte-lineage cells. Overall, these findings demonstrate a context-dependent molecular disruption in C9-ALS and C9-FTD, resulting in distinct effects across cell types, brain regions, and disease phenotypes.\n\n**Overall Design:** Single nucleus ATAC sequencing (snATAC-seq) of nuclei isolated from the adult autopsied human motor and frontal cortices of C9orf72(C9)-ALS, C9-FTD, and control donors. snATAC-seq was performed using 10X Genomics platform.\n\n**Contact:** Stella Dracheva, Icahn School Of Medicine at Mount Sinai\n\n**Contributors:** Junhao Li, ManojK Jaiswal, Jo-Fan Chien, Alexey Kozlenkov, Ping Zhou, VeroniqueV Belzil, EranA Mukamel, Stella Dracheva\n\n**Publications:**\n- ***Divergent single cell transcriptome and epigenome alterations in ALS and FTD patients with C9orf72 mutation***\nNature Communications 2023 Sep 15 [10.1038/s41467-023-41033-y](https://doi.org/10.1038/s41467-023-41033-y)\n[PMID:37714849](https://pubmed.ncbi.nlm.nih.gov/37714849)\n<br />\n\n**Related Datasets:** This dataset is part of GEO SuperSeries GSE219281.\n- [**Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (bulk H3K27ac ChIP-seq)**](https://ampals.synapse.org/Explore/Datasets/DetailsPage?id=67740891)\n- [**Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snATAC-seq)**](https://ampals.synapse.org/Explore/Datasets/DetailsPage?id=67746133)\n- [**Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snRNA-seq)**](https://ampals.synapse.org/Explore/Datasets/DetailsPage?id=67748058)",
+      "title": ""
+    }
+  ]
+}

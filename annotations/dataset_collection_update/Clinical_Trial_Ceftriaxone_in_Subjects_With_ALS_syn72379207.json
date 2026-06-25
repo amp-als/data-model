@@ -1,0 +1,183 @@
+{
+  "current_annotations": {
+    "collection": [
+      "ALS Knowledge Portal"
+    ],
+    "contributor": [
+      "Massachusetts General Hospital"
+    ],
+    "creator": [
+      "Massachusetts General Hospital"
+    ],
+    "curationLevel": [
+      "Non-Standardized"
+    ],
+    "dataType": [
+      "clinical"
+    ],
+    "dataset_code": [
+      "src_als1001"
+    ],
+    "disease": [
+      "ALS"
+    ],
+    "keywords": [
+      "ALS, Amyotrophic Lateral Sclerosis, disorder, neurodegenerative, placebo, cephalosporin antibiotic, motor neurons"
+    ],
+    "participant_count": [
+      ""
+    ],
+    "publisher": [
+      "Critical Path Institute"
+    ],
+    "sameAs": [
+      "cpath:1959"
+    ],
+    "source": [
+      "Critical Path Institute"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "Clinical Trial, Natural History Study, Patient Registry Study"
+    ],
+    "subject": [
+      "amyotrophic lateral sclerosis"
+    ],
+    "title": [
+      "Clinical Trial Ceftriaxone in Subjects With ALS"
+    ],
+    "url": [
+      "https://fair.dap.c-path.org/#/data/datasets/src_als1001"
+    ]
+  },
+  "dataset_type": "ClinicalDataset",
+  "merged_annotation_template": {
+    "_created_timestamp": "2026-05-29T18:11:26.654138+00:00",
+    "_dataset_type": "ClinicalDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset",
+    "acknowledgementStatement": [
+      ""
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assessmentTypes": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "clinicalDomain": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "ALS Knowledge Portal"
+    ],
+    "contributor": [
+      "Massachusetts General Hospital"
+    ],
+    "creator": [
+      "Massachusetts General Hospital"
+    ],
+    "curationLevel": [
+      "Non-Standardized"
+    ],
+    "dataType": [
+      "clinical"
+    ],
+    "dataset_code": [
+      "src_als1001"
+    ],
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "followUpDuration": null,
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "ALS, Amyotrophic Lateral Sclerosis, disorder, neurodegenerative, placebo, cephalosporin antibiotic, motor neurons"
+    ],
+    "license": "",
+    "participant_count": null,
+    "portalRelease": [
+      ""
+    ],
+    "primaryOutcome": "",
+    "publisher": [
+      "Critical Path Institute"
+    ],
+    "sameAs": [
+      "cpath:1959"
+    ],
+    "source": [
+      "Critical Path Institute"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": "",
+    "studyType": [
+      "Clinical Trial, Natural History Study, Patient Registry Study"
+    ],
+    "study_count": null,
+    "subject": [
+      "amyotrophic lateral sclerosis"
+    ],
+    "title": [
+      "Clinical Trial Ceftriaxone in Subjects With ALS"
+    ],
+    "url": [
+      "https://fair.dap.c-path.org/#/data/datasets/src_als1001"
+    ],
+    "visitSchedule": ""
+  },
+  "missing_fields": [
+    "acknowledgementStatement",
+    "alternateName",
+    "assessmentTypes",
+    "citation",
+    "clinicalDomain",
+    "cohortType",
+    "cohort_count",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "followUpDuration",
+    "funder",
+    "includedInDataCatalog",
+    "license",
+    "participant_count",
+    "portalRelease",
+    "primaryOutcome",
+    "studyDesign",
+    "study_count",
+    "visitSchedule"
+  ],
+  "name": "Clinical Trial Ceftriaxone in Subjects With ALS",
+  "publication_hints": [
+    "10.1016/S1474-4422(14)70222-4.",
+    "10.1212/WNL.0000000000004534.",
+    "10.1371/journal.pone.0061177."
+  ],
+  "synId": "syn72379207",
+  "wiki_pages": [
+    {
+      "id": "639706",
+      "markdown": "\n**Summary:** The purpose of the study is to evaluate the safety and efficacy of ceftriaxone treatment in amyotrophic lateral sclerosis (ALS).  Ceftriaxone is approved by the U.S. Food and Drug Administration (FDA) for treating bacterial infections but not for treating ALS. Also, ceftriaxone has not been given to people over a long period of time, such as months or years. The goals of this study are to evaluate the safety and effectiveness of ceftriaxone as a treatment for ALS, and to determine the safety and effectiveness of long-term use of the drug in people with ALS.\n\n<details>\n\n<summary>Show More</summary>\n<b>Contact:</b>\n- Critical Path Institute: rdcadap@c-path.org\n\n<b> Publications</b> \n- McDonnell E, Schoenfeld D, Paganoni S, Atassi N. Causal inference methods to study gastric tube use in amyotrophic lateral sclerosis. Neurology. 2017 Oct 3;89(14):1483-1489. doi: 10.1212/WNL.0000000000004534. Epub 2017 Sep 1.\n- Cudkowicz ME, Titus S, Kearney M, Yu H, Sherman A, Schoenfeld D, Hayden D, Shui A, Brooks B, Conwit R, Felsenstein D, Greenblatt DJ, Keroack M, Kissel JT, Miller R, Rosenfeld J, Rothstein JD, Simpson E, Tolkoff-Rubin N, Zinman L, Shefner JM; Ceftriaxone Study Investigators. Safety and efficacy of ceftriaxone for amyotrophic lateral sclerosis: a multi-stage, randomised, double-blind, placebo-controlled trial. Lancet Neurol. 2014 Nov;13(11):1083-1091. doi: 10.1016/S1474-4422(14)70222-4. Epub 2014 Oct 5.\n- Berry JD, Shefner JM, Conwit R, Schoenfeld D, Keroack M, Felsenstein D, Krivickas L, David WS, Vriesendorp F, Pestronk A, Caress JB, Katz J, Simpson E, Rosenfeld J, Pascuzzi R, Glass J, Rezania K, Rothstein JD, Greenblatt DJ, Cudkowicz ME; Northeast ALS Consortium. Design and initial results of a multi-phase randomized trial of ceftriaxone in amyotrophic lateral sclerosis. PLoS One. 2013 Apr 17;8(4):e61177. doi: 10.1371/journal.pone.0061177. Print 2013.\n</details>\n",
+      "title": ""
+    }
+  ]
+}

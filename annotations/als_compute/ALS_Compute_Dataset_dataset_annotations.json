@@ -1,20 +1,37 @@
 {
+  "$schema": "../json-schemas/OmicDataset.json",
   "FACSPopulation": "",
   "GEOSuperSeries": "",
-  "alternateName": "",
+  "acknowledgementStatement": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
   "assay": [
     "whole genome sequencing"
   ],
   "biospecimenType": [
+    ""
   ],
   "cellType": [
+    ""
   ],
   "citation": [
     ""
   ],
+  "cohort": [
+    "ALS/FTD Case",
+    "Control"
+  ],
+  "cohortType": [
+    "Case-Control"
+  ],
+  "cohort_count": 2,
   "collection": [
     "ALS Compute"
   ],
+  "collectionDate": "",
   "contributor": [
     "ALS Compute"
   ],
@@ -31,7 +48,6 @@
     "variant_calls",
     "metadata",
     "data_dictionary"
-
   ],
   "dataset_code": "als_compute",
   "datePublished": null,
@@ -59,17 +75,15 @@
     "ALS Spectrum MND",
     "pre-fALS",
     "Asymptomatic C9orf72",
-    "Spastic paraparesis",
     "Asymptomatic NEK1",
     "Asymptomatic C9",
     "Asymptomatic SOD1",
-    "MUISK myasthenia",
+    "MUSK Myasthenia"
   ],
   "funder": [
     ""
   ],
   "includedInDataCatalog": "",
-  "participant_count": 12638,
   "keywords": [
     "ALS",
     "FTD",
@@ -83,20 +97,23 @@
   ],
   "libraryStrategy": "WGS",
   "license": "",
-  "originalSampleName": "",
+  "originalSampleId": "",
+  "participant_count": 12638,
   "platform": [
-        "Illumina HiSeq X",
-        "Illumina NovaSeq 6000",
+    "Illumina HiSeq X",
+    "Illumina NovaSeq 6000"
   ],
-  "processingLevel": "processed",
+  "portalRelease": [
+    "2026.3"
+  ],
+  "processingLevel": [
+    "processed"
+  ],
   "publisher": "ALS Compute",
-  "sameAs": [
-    "phs001963",
-    "phs003067",
-    "phs001585",
-    "phs002973",
+  "sameAs": "phs001963, phs003067, phs001585, phs002973",
+  "source": [
+    "ALS Compute"
   ],
-  "source": "ALS Compute",
   "species": [
     "Homo sapiens"
   ],
@@ -104,15 +121,15 @@
     "Longitudinal Study",
     "Case-Control Study",
     "Cohort Study",
-    "aggregate",
-    "Harmonized Dataset Collection"
+    "aggregate"
   ],
+  "study_count": 4,
   "subject": [
     ""
   ],
   "title": "ALS Compute Dataset",
   "url": "https://alscompute.org/",
-  "_file_type": "OmicDataset",
+  "_dataset_type": "OmicDataset",
   "_schema_source": "json-schema",
-  "_created_timestamp": "2026-02-09T18:35:44.135781"
+  "_created_timestamp": "2026-06-23T19:39:04.866693"
 }

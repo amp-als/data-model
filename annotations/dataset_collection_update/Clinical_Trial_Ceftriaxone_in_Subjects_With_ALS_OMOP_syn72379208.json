@@ -1,0 +1,179 @@
+{
+  "current_annotations": {
+    "collection": [
+      "ALS Knowledge Portal"
+    ],
+    "contributor": [
+      "Massachusetts General Hospital"
+    ],
+    "creator": [
+      "Massachusetts General Hospital"
+    ],
+    "curationLevel": [
+      "Standardized"
+    ],
+    "dataType": [
+      "clinical"
+    ],
+    "dataset_code": [
+      "omop_als1001"
+    ],
+    "disease": [
+      "ALS"
+    ],
+    "keywords": [
+      "ALS, Amyotrophic Lateral Sclerosis, disorder, neurodegenerative, placebo, cephalosporin antibiotic, motor neurons"
+    ],
+    "participant_count": [
+      ""
+    ],
+    "publisher": [
+      "Critical Path Institute"
+    ],
+    "sameAs": [
+      "cpath:1960"
+    ],
+    "source": [
+      "Critical Path Institute"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "Clinical Trial, Natural History Study, Patient Registry Study"
+    ],
+    "subject": [
+      "amyotrophic lateral sclerosis"
+    ],
+    "title": [
+      "Clinical Trial Ceftriaxone in Subjects With ALS [OMOP]"
+    ],
+    "url": [
+      "https://fair.dap.c-path.org/#/data/datasets/omop_als1001"
+    ]
+  },
+  "dataset_type": "ClinicalDataset",
+  "merged_annotation_template": {
+    "_created_timestamp": "2026-05-29T18:11:28.046299+00:00",
+    "_dataset_type": "ClinicalDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset",
+    "acknowledgementStatement": [
+      ""
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assessmentTypes": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "clinicalDomain": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "ALS Knowledge Portal"
+    ],
+    "contributor": [
+      "Massachusetts General Hospital"
+    ],
+    "creator": [
+      "Massachusetts General Hospital"
+    ],
+    "curationLevel": [
+      "Standardized"
+    ],
+    "dataType": [
+      "clinical"
+    ],
+    "dataset_code": [
+      "omop_als1001"
+    ],
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "followUpDuration": null,
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "ALS, Amyotrophic Lateral Sclerosis, disorder, neurodegenerative, placebo, cephalosporin antibiotic, motor neurons"
+    ],
+    "license": "",
+    "participant_count": null,
+    "portalRelease": [
+      ""
+    ],
+    "primaryOutcome": "",
+    "publisher": [
+      "Critical Path Institute"
+    ],
+    "sameAs": [
+      "cpath:1960"
+    ],
+    "source": [
+      "Critical Path Institute"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": "",
+    "studyType": [
+      "Clinical Trial, Natural History Study, Patient Registry Study"
+    ],
+    "study_count": null,
+    "subject": [
+      "amyotrophic lateral sclerosis"
+    ],
+    "title": [
+      "Clinical Trial Ceftriaxone in Subjects With ALS [OMOP]"
+    ],
+    "url": [
+      "https://fair.dap.c-path.org/#/data/datasets/omop_als1001"
+    ],
+    "visitSchedule": ""
+  },
+  "missing_fields": [
+    "acknowledgementStatement",
+    "alternateName",
+    "assessmentTypes",
+    "citation",
+    "clinicalDomain",
+    "cohortType",
+    "cohort_count",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "followUpDuration",
+    "funder",
+    "includedInDataCatalog",
+    "license",
+    "participant_count",
+    "portalRelease",
+    "primaryOutcome",
+    "studyDesign",
+    "study_count",
+    "visitSchedule"
+  ],
+  "name": "Clinical Trial Ceftriaxone in Subjects With ALS (OMOP)",
+  "publication_hints": [],
+  "synId": "syn72379208",
+  "wiki_pages": [
+    {
+      "id": "639707",
+      "markdown": "\n**Summary:** The purpose of the study is to evaluate the safety and efficacy of ceftriaxone treatment in amyotrophic lateral sclerosis (ALS).  Ceftriaxone is approved by the U.S. Food and Drug Administration (FDA) for treating bacterial infections but not for treating ALS. Also, ceftriaxone has not been given to people over a long period of time, such as months or years. The goals of this study are to evaluate the safety and effectiveness of ceftriaxone as a treatment for ALS, and to determine the safety and effectiveness of long-term use of the drug in people with ALS.\n\n<details>\n\n<summary>Show More</summary>\n<b>Contact:</b>\n- Critical Path Institute: rdcadap@c-path.org\n</details>\n",
+      "title": ""
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "current_annotations": {
+    "CNSRegion": [
+      ""
+    ],
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "assay": [
+      "BruChase-seq",
+      "Bru-seq"
+    ],
+    "biospecimenType": [
+      "primary cell culture"
+    ],
+    "cellType": [
+      "fibroblasts",
+      "iPSC"
+    ],
+    "contributor": [
+      "Barmada Lab - University of Michigan"
+    ],
+    "creator": [
+      "Tank EM"
+    ],
+    "dataType": [
+      "transcriptomics (nascent)"
+    ],
+    "disease": [
+      "Control",
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "sporadic ALS"
+    ],
+    "keywords": [
+      "C9orf72+",
+      "Amyotrophic Lateral Sclerosis",
+      "primary cell culture",
+      "BruChase-seq",
+      "Bru-seq",
+      "transcriptomics (nascent)"
+    ],
+    "libraryLayout": [
+      "single-end"
+    ],
+    "participant_count": [
+      "60"
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "sameAs": [
+      "geo:GSE115310"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "title": [
+      "Abnormal RNA stability in amyotrophic lateral sclerosis"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE115310"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "FACSPopulation": "",
+    "GEOSuperSeries": "",
+    "_created_timestamp": "2026-05-29T18:11:29.408562+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      "BruChase-seq",
+      "Bru-seq"
+    ],
+    "biospecimenType": [
+      "primary cell culture"
+    ],
+    "cellType": [
+      "fibroblasts",
+      "iPSC"
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      ""
+    ],
+    "collectionDate": "",
+    "contributor": [
+      "Barmada Lab - University of Michigan"
+    ],
+    "creator": [
+      "Tank EM"
+    ],
+    "curationLevel": "",
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "transcriptomics (nascent)"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "Control",
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "sporadic ALS"
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "C9orf72+",
+      "Amyotrophic Lateral Sclerosis",
+      "primary cell culture",
+      "BruChase-seq",
+      "Bru-seq",
+      "transcriptomics (nascent)"
+    ],
+    "libraryLayout": [
+      "single-end"
+    ],
+    "libraryStrategy": "",
+    "license": "",
+    "originalSampleId": "",
+    "participant_count": [
+      "60"
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "processingLevel": [
+      ""
+    ],
+    "publisher": "",
+    "sameAs": [
+      "geo:GSE115310"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "Abnormal RNA stability in amyotrophic lateral sclerosis"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE115310"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "GEOSuperSeries",
+    "alternateName",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collection",
+    "collectionDate",
+    "curationLevel",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "funder",
+    "includedInDataCatalog",
+    "libraryStrategy",
+    "license",
+    "originalSampleId",
+    "platform",
+    "processingLevel",
+    "publisher",
+    "study_count",
+    "subject"
+  ],
+  "name": "Abnormal RNA stability in amyotrophic lateral sclerosis",
+  "publication_hints": [
+    "10.1038/s41467-018-05049-z",
+    "10.1038/s41467-018-05049-z)",
+    "PMID:30030424",
+    "doi.org/10.1038/s41467-018-05049-z",
+    "pubmed.ncbi.nlm.nih.gov/30030424"
+  ],
+  "synId": "syn67713129",
+  "wiki_pages": [
+    {
+      "id": "633913",
+      "markdown": "**Summary:** Amyotrophic lateral sclerosis (ALS) and frontotemporal dementia (FTD) share key features, including accumulation of the RNA binding protein TDP-43. TDP-43 regulatesRNA homeostasis, but it remains unclear whether RNA stability is affected in these disorders. We used Bru-seq and BruChase-seq to assessgenome-wide RNA stabilityinALS patient-derived cells,demonstratingprofound destabilization of ribosomal and mitochondrial transcripts. This pattern wasrecapitulatedbyTDP-43 overexpression, suggesting a primary role for TDP-43 in RNA destabilization, and in post-mortem samples from ALS and FTD patients. Proteomics and functional studies illustrated corresponding reductionsin mitochondrial components and compensatory increasesin protein synthesis. Collectively, these observations suggest that TDP-43 deposition leads to targeted RNA instability in ALS and FTD, ultimately causing cell death by disrupting energy production and protein synthesis pathways.\n\n**Overall Design:** Genome-wide assessment of RNA synthesis and stability was done using Bru-seq and BruChase-seq in fibroblasts and human induced pluripotent stem cells (iPSCs) derived from individuals with sporadic (sALS) and familial ALS due to C9orf72 mutations (C9ALS).  There are biological replicates for the iPSC samples.\n\n**Contact:** Mats Ljungman, University of Michigan\n\n**Contributors:** EM Tank, C Figueroa-Romero, LM Hinder, K Bedi, HC Archbold, X Li, K Weskamp, N Safren, X Paez-Colasante, C Pacut, S Thumma, MT Paulsen, K Guo, J Hur, M Ljungman, EL Feldman, SJ Barmada\n\n**Publications:**\n- ***Abnormal RNA stability in amyotrophic lateral sclerosis***\nNature Communications 2018 Jul 20 [10.1038/s41467-018-05049-z](https://doi.org/10.1038/s41467-018-05049-z)\n[PMID:30030424](https://pubmed.ncbi.nlm.nih.gov/30030424)\n<br />\n\n**Related Datasets**\n\n- Corresponding mass spectrometry proteomics data have been added to the ProteomeXchange Consortium via the PRIDE partner repository under identifier PXD009969.",
+      "title": ""
+    }
+  ]
+}

@@ -1,0 +1,234 @@
+{
+  "current_annotations": {
+    "acknowledgementStatement": [
+      "syn64892175/wiki/639331"
+    ],
+    "alternateName": [
+      "NEALS Topiramate Trial"
+    ],
+    "assessmentTypes": [
+      "alsfrs_r",
+      "vital_signs",
+      "laboratory",
+      "neurological_exam"
+    ],
+    "citation": [
+      "doi:10.1212/WNL.61.4.456"
+    ],
+    "clinicalDomain": [
+      "motor_function",
+      "respiratory_function",
+      "functional_assessment",
+      "drug_administration"
+    ],
+    "contributor": [
+      "Merit E. Cudkowicz MD, MSC"
+    ],
+    "creator": [
+      "Merit E. Cudkowicz MD, MSC"
+    ],
+    "curationLevel": [
+      "Standardized"
+    ],
+    "dataType": [
+      "clinical_assessment",
+      "treatment",
+      "medical_history",
+      "laboratory_results",
+      "vital_signs"
+    ],
+    "disease": [
+      "ALS"
+    ],
+    "followUpDuration": [
+      12
+    ],
+    "funder": [
+      "National Institutes of Health",
+      "Ortho-McNeil Pharmaceutical",
+      "Muscular Dystrophy Association"
+    ],
+    "keywords": [
+      "ALS",
+      "topiramate",
+      "clinical trial",
+      "motor function",
+      "MVIC",
+      "ALSFRS",
+      "neuroprotection",
+      "glutamate",
+      "randomized controlled trial",
+      "multicenter study"
+    ],
+    "participant_count": [
+      296
+    ],
+    "portalRelease": [
+      "2026.1"
+    ],
+    "primaryOutcome": [
+      "Rate of change in upper extremity motor function measured by maximum voluntary isometric contraction (MVIC) strength"
+    ],
+    "source": [
+      "Synapse"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": [
+      "interventional"
+    ],
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "title": [
+      "A randomized, placebo-controlled trial of topiramate in amyotrophic lateral sclerosis"
+    ],
+    "visitSchedule": [
+      "Baseline, Month 1, Month 3, Month 6, Month 9, Month 12, Open Label, Post-Treatment"
+    ]
+  },
+  "dataset_type": "ClinicalDataset",
+  "merged_annotation_template": {
+    "_created_timestamp": "2026-05-29T18:11:23.176354+00:00",
+    "_dataset_type": "ClinicalDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/639331"
+    ],
+    "alternateName": [
+      "NEALS Topiramate Trial"
+    ],
+    "assessmentTypes": [
+      "alsfrs_r",
+      "vital_signs",
+      "laboratory",
+      "neurological_exam"
+    ],
+    "citation": [
+      "doi:10.1212/WNL.61.4.456"
+    ],
+    "clinicalDomain": [
+      "motor_function",
+      "respiratory_function",
+      "functional_assessment",
+      "drug_administration"
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      ""
+    ],
+    "contributor": [
+      "Merit E. Cudkowicz MD, MSC"
+    ],
+    "creator": [
+      "Merit E. Cudkowicz MD, MSC"
+    ],
+    "curationLevel": [
+      "Standardized"
+    ],
+    "dataType": [
+      "clinical_assessment",
+      "treatment",
+      "medical_history",
+      "laboratory_results",
+      "vital_signs"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "followUpDuration": [
+      12
+    ],
+    "funder": [
+      "National Institutes of Health",
+      "Ortho-McNeil Pharmaceutical",
+      "Muscular Dystrophy Association"
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "ALS",
+      "topiramate",
+      "clinical trial",
+      "motor function",
+      "MVIC",
+      "ALSFRS",
+      "neuroprotection",
+      "glutamate",
+      "randomized controlled trial",
+      "multicenter study"
+    ],
+    "license": "",
+    "participant_count": [
+      296
+    ],
+    "portalRelease": [
+      "2026.1"
+    ],
+    "primaryOutcome": [
+      "Rate of change in upper extremity motor function measured by maximum voluntary isometric contraction (MVIC) strength"
+    ],
+    "publisher": "",
+    "sameAs": "",
+    "source": [
+      "Synapse"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": [
+      "interventional"
+    ],
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "A randomized, placebo-controlled trial of topiramate in amyotrophic lateral sclerosis"
+    ],
+    "url": "",
+    "visitSchedule": [
+      "Baseline, Month 1, Month 3, Month 6, Month 9, Month 12, Open Label, Post-Treatment"
+    ]
+  },
+  "missing_fields": [
+    "cohortType",
+    "cohort_count",
+    "collection",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "includedInDataCatalog",
+    "license",
+    "publisher",
+    "sameAs",
+    "study_count",
+    "subject",
+    "url"
+  ],
+  "name": "Clinical Trial of Topiramate in ALS",
+  "publication_hints": [
+    "10.1212/WNL.61.4.456"
+  ],
+  "synId": "syn73882344",
+  "wiki_pages": [
+    {
+      "id": "639302",
+      "markdown": "## Summary\n\nThis dataset derives from a double-blind, placebo-controlled, multicenter randomized clinical trial testing whether **long-term topiramate** is safe and slows progression in **amyotrophic lateral sclerosis (ALS)**. Participants with ALS (**n=296**) were randomized **2:1** to topiramate (maximum tolerated dose up to **800 mg/day**) or placebo for **12 months**; the primary endpoint was the **rate of change in upper-extremity strength** measured by **MVIC** across **eight arm muscle groups**, with secondary endpoints including **safety**, **FVC**, **grip strength**, **ALSFRS**, and **survival**. \nTopiramate-treated participants showed a **faster decline in arm strength** than placebo (33.3% faster; **0.0997 vs 0.0748 units/month**, p=0.012), with **no significant benefit** on FVC, ALSFRS, or survival; adverse events (e.g., anorexia, depression, thinking abnormalities, weight loss, thromboembolic events) were more frequent on topiramate, and the study concluded high-dose topiramate is **not warranted** in ALS. \n\n## Overall Design\n\n* **Study type:** Randomized, double-blind, placebo-controlled RCT; randomized **2:1** (topiramate:placebo), stratified by clinical site, with blinded staff/evaluators. \n* **Setting / sample size:** **20 sites**; **296** ALS participants enrolled (July 1999\u2013Aug 2000). \n* **Key eligibility:** Age **18\u201380**, definite/probable ALS; **FVC \u226550% predicted**; limb weakness; disease duration \u22643 years; riluzole allowed if stable. \n* **Intervention & schedule:** Oral topiramate tablets (or matching placebo), titrated over **16 weeks** to maximum tolerated dose (max **800 mg/day**), taken **twice daily**; visits included baseline and follow-ups at months **1, 3, 6, 9, 12**.  \n* **Measures captured (longitudinal):** Arm MVIC \u201cmegascore,\u201d plus FVC, grip strength, ALSFRS; survival and safety/adverse events.  \n\n## Contact\n\nMerit Cudkowicz \u2014 Massachusetts General Hospital; **[mcudkowicz@partners.org](mailto:mcudkowicz@partners.org)** \n\n## Contributors\nMerit Cudkowicz \u2014 Massachusetts General Hospital; **[mcudkowicz@partners.org](mailto:mcudkowicz@partners.org)** \nNortheast ALS Consortium (**NEALS**) investigators and participating clinical sites; study drug supplied by **Ortho-McNeil Pharmaceutical, Inc.**  \n\n## Publications\n\n- **A randomized, placebo-controlled trial of topiramate in amyotrophic lateral sclerosis** (Neurology, 2003;61:456\u2013464). **DOI:** 10.1212/WNL.61.4.456  \n",
+      "title": ""
+    }
+  ]
+}

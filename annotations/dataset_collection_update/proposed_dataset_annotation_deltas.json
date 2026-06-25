@@ -1,0 +1,475 @@
+{
+  "syn67713129": {
+    "Abnormal RNA stability in amyotrophic lateral sclerosis": {
+      "_cohort_update_rationale": "GSE115310/Nat Commun paper includes C9ALS, sporadic ALS (sALS), and healthy control patient-derived cell cohorts.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41467-018-05049-z"
+      ],
+      "cohortType": [
+        "Case-Control",
+        "Healthy-Control"
+      ],
+      "cohort": [
+        "C9ALS",
+        "sALS",
+        "Healthy Control"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn67719824": {
+    "Neurovascular dysfunction in GRN-associated frontotemporal dementia identified by single-nucleus RNA-sequencing of human cerebral cortex": {
+      "_cohort_update_rationale": "FTD-GRN and control human cerebral cortex cohorts in GSE163122/Nat Neurosci paper.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41593-022-01124-3"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "FTD-GRN",
+        "Control"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  },
+  "syn67729513": {
+    "Unexpected similarities between C9ORF72 and sporadic forms of ALS-FTD suggest a common disease mechanism": {
+      "_cohort_update_rationale": "Primary eLife paper stratifies postmortem ALS/FTD samples into C9ALS/FTD, like-C9 sporadic ALS/FTD, like-control sporadic ALS/FTD, and non-ALS control analytic cohorts based on hnRNP H-target splicing signatures.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41586-022-04424-7",
+        "doi:10.1038/s41586-022-04436-3",
+        "doi:10.1101/gr.265298.120",
+        "doi:10.7554/eLife.37754"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "C9ALS/FTD",
+        "Like-C9 Sporadic ALS/FTD",
+        "Like-Control Sporadic ALS/FTD",
+        "Non-ALS Control"
+      ],
+      "cohort_count": 4,
+      "study_count": 1
+    }
+  },
+  "syn67733559": {
+    "Truncated stathmin-2 is a marker of TDP-43 pathology in frontotemporal dementia": {
+      "_cohort_update_rationale": "Primary JCI paper evaluates truncated STMN2 across FTLD-TDP cases, PSP/FTLD-tau disease controls, and controls; broad disease labels in sample annotations are not the analytic cohort grouping.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41586-022-04424-7",
+        "doi:10.1038/s41586-022-04436-3",
+        "doi:10.1172/JCI139741"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "FTLD-TDP",
+        "PSP/FTLD-tau",
+        "Control"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn67737779": {
+    "Postmortem Cortex Samples Identify Distinct Molecular Subtypes of ALS - Retrotransposon Activation, Oxidative Stress, and Activated Glia": {
+      "_cohort_update_rationale": "Current disease annotations list ALS, FTD, Control, Pre-fALS, Alzheimer's Disease, Other Neurological Disorders, and Other Motor Neuron Disease.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1016/j.celrep.2019.09.066",
+        "doi:10.1038/s41586-022-04424-7",
+        "doi:10.1038/s41586-022-04436-3"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "ALS-TE",
+        "ALS-Ox",
+        "ALS-Glial",
+        "Control"
+      ],
+      "cohort_count": 4,
+      "study_count": 1
+    }
+  },
+  "syn67740891": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (bulk H3K27ac ChIP-seq)": {
+      "_cohort_update_rationale": "Nat Commun paper Methods state the bulk H3K27ac ChIP-seq studies used a separate group of C9-ALS donors and normal/control donors with no remarkable pathology.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41467-023-41033-y"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "Control"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  },
+  "syn67743547": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (bulk RNA-seq)": {
+      "_cohort_update_rationale": "C9-ALS, C9-FTD, and control postmortem cortex cohorts in GSE219278/Nat Commun paper.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41467-023-41033-y"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "C9-FTD",
+        "Control"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn67746133": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snATAC-seq)": {
+      "_cohort_update_rationale": "C9-ALS, C9-FTD, and control postmortem cortex cohorts in GSE219279/Nat Commun paper.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41467-023-41033-y"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "C9-FTD",
+        "Control"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn67748058": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snRNA-seq)": {
+      "_cohort_update_rationale": "C9-ALS, C9-FTD, and control postmortem cortex cohorts in GSE219280/Nat Commun paper.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1038/s41467-023-41033-y"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "C9-FTD",
+        "Control"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn67751280": {
+    "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons (ATAC-Seq)": {
+      "_cohort_update_rationale": "GSE126541 ATAC-seq design compares neuronal nuclei that retained TDP-43 versus neuronal nuclei that lost TDP-43, extracted from FTD/ALS patient postmortem frontal cortex; healthy controls and HeLa validation experiments are not the primary deposited ATAC-seq cohorts.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1016/j.celrep.2019.04.003",
+        "doi:10.1038/s41586-022-04424-7"
+      ],
+      "cohortType": [
+        "Disease-Only"
+      ],
+      "cohort": [
+        "TDP-43-Positive Neuronal Nuclei",
+        "TDP-43-Negative Neuronal Nuclei"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  },
+  "syn67754663": {
+    "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons (RNA-Seq)": {
+      "_cohort_update_rationale": "GSE126542 RNA-seq design compares neuronal nuclei that retained TDP-43 versus neuronal nuclei that lost TDP-43, extracted from FTD/ALS patient postmortem frontal cortex; healthy controls and HeLa validation experiments are not the primary deposited RNA-seq cohorts.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1016/j.celrep.2019.04.003",
+        "doi:10.1038/s41586-022-04424-7"
+      ],
+      "cohortType": [
+        "Disease-Only"
+      ],
+      "cohort": [
+        "TDP-43-Positive Neuronal Nuclei",
+        "TDP-43-Negative Neuronal Nuclei"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  },
+  "syn68932658": {
+    "RNA methylation influences TDP43 binding and disease pathogenesis in models of amyotrophic lateral sclerosis and frontotemporal dementia": {
+      "_cohort_update_rationale": "Deposited SRP413231/PRJNA912644 RNA-seq data contain HEK293T DART-seq experimental treatment/control groups from BioSample treatment metadata: Apobec-YTH, Apobec-YTHmut, and Halo.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1016/j.molcel.2022.12.019"
+      ],
+      "cohortType": [
+        "In-Vitro-Experimental"
+      ],
+      "cohort": [
+        "Apobec-YTH",
+        "Apobec-YTHmut",
+        "Halo"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn69694420": {
+    "Trehalose Expanded Access Protocol Dataset": {
+      "_cohort_update_rationale": "Trehalose expanded-access protocol; open-label non-randomized treatment cohort.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1002/mus.70011"
+      ],
+      "cohortType": [
+        "Interventional-Treatment"
+      ],
+      "cohort": [
+        "Trehalose Expanded-Access Treatment"
+      ],
+      "cohort_count": 1,
+      "study_count": 1
+    }
+  },
+  "syn69694463": {
+    "ASSESS ALL ALS Dataset": {
+      "_cohort_update_rationale": "ASSESS ALL ALS prospective observational study enrolling symptomatic ALS and control participants.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1002/mus.28244"
+      ],
+      "cohortType": [
+        "Case-Control",
+        "Natural-History"
+      ],
+      "cohort": [
+        "Symptomatic ALS",
+        "Control"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  },
+  "syn69694674": {
+    "PREVENT ALL ALS Dataset": {
+      "_cohort_update_rationale": "ALL ALS paper describes PREVENT ALL ALS as enrolling asymptomatic participants at risk for genetic ALS; control participants are described under ASSESS ALL ALS rather than as a dedicated PREVENT cohort.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1002/mus.28244"
+      ],
+      "cohortType": [
+        "At-Risk",
+        "Natural-History"
+      ],
+      "cohort": [
+        "Asymptomatic Genetic ALS At-Risk"
+      ],
+      "cohort_count": 1,
+      "study_count": 1
+    }
+  },
+  "syn72016774": {
+    "Trehalose Biomarker Dataset": {
+      "_cohort_update_rationale": "Trehalose expanded-access biomarker dataset; open-label non-randomized treatment cohort.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1002/mus.70011"
+      ],
+      "cohortType": [
+        "Interventional-Treatment"
+      ],
+      "cohort": [
+        "Trehalose Expanded-Access Biomarker Treatment"
+      ],
+      "cohort_count": 1,
+      "study_count": 1
+    }
+  },
+  "syn72379204": {
+    "A Study to Evaluate Efficacy Safety and Tolerability of CK-2127107 in Patients With ALS (SDTM)": {
+      "_cohort_update_rationale": "Phase 2 randomized dose-ranging trial: placebo plus 150, 300, and 450 mg reldesemtiv arms.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1080/21678421.2019.1612922",
+        "doi:10.1080/21678421.2020.1822410",
+        "doi:10.1080/21678421.2021.1946083",
+        "doi:10.1080/21678421.2022.2154678",
+        "doi:10.1080/21678421.2023.2216223"
+      ],
+      "cohortType": [
+        "Interventional-Treatment",
+        "Placebo-Control"
+      ],
+      "cohort": [
+        "Placebo",
+        "Reldesemtiv/CK-2127107 150 mg Twice Daily",
+        "Reldesemtiv/CK-2127107 300 mg Twice Daily",
+        "Reldesemtiv/CK-2127107 450 mg Twice Daily"
+      ],
+      "cohort_count": 4,
+      "study_count": 1
+    }
+  },
+  "syn72379205": {
+    "A Study to Evaluate the Efficacy and Safety of Reldesemtiv in Patients With ALS (Phase 3) (SDTM)": {
+      "_cohort_update_rationale": "COURAGE-ALS Phase 3 randomized trial: reldesemtiv and placebo arms.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1001/jamaneurol.2025.0241",
+        "doi:10.1002/mus.70150",
+        "doi:10.1080/21678421.2023.2216223",
+        "doi:10.1080/21678421.2025.2523941"
+      ],
+      "cohortType": [
+        "Interventional-Treatment",
+        "Placebo-Control"
+      ],
+      "cohort": [
+        "Reldesemtiv Treatment",
+        "Placebo"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  },
+  "syn72379206": {
+    "ALS Analysis and Assessment Survey Study": {
+      "_cohort_update_rationale": "ALS Analysis and Assessment Survey Study is a survey/registry-style observational dataset.",
+      "_review_status": "pending",
+      "cohortType": [
+        "Registry"
+      ],
+      "cohort": [
+        "ALS Survey Participants"
+      ],
+      "cohort_count": 1,
+      "study_count": 1
+    }
+  },
+  "syn72379207": {
+    "Clinical Trial Ceftriaxone in Subjects With ALS": {
+      "_cohort_update_rationale": "Ceftriaxone ALS trial was a multi-stage randomized placebo-controlled trial with placebo, ceftriaxone 2 g/day, and ceftriaxone 4 g/day arms across stages.",
+      "_review_status": "pending",
+      "citation": [
+        "doi:10.1016/S1474-4422(14)70222-4",
+        "doi:10.1212/WNL.0000000000004534",
+        "doi:10.1371/journal.pone.0061177"
+      ],
+      "cohortType": [
+        "Interventional-Treatment",
+        "Placebo-Control"
+      ],
+      "cohort": [
+        "Placebo",
+        "Ceftriaxone 2 g/day",
+        "Ceftriaxone 4 g/day"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn72379208": {
+    "Clinical Trial Ceftriaxone in Subjects With ALS (OMOP)": {
+      "_cohort_update_rationale": "OMOP representation of the ceftriaxone ALS multi-stage randomized placebo-controlled trial with placebo, ceftriaxone 2 g/day, and ceftriaxone 4 g/day arms.",
+      "_review_status": "pending",
+      "cohortType": [
+        "Interventional-Treatment",
+        "Placebo-Control"
+      ],
+      "cohort": [
+        "Placebo",
+        "Ceftriaxone 2 g/day",
+        "Ceftriaxone 4 g/day"
+      ],
+      "cohort_count": 3,
+      "study_count": 1
+    }
+  },
+  "syn73686173": {
+    "ALS Compute Dataset": {
+      "_cohort_update_rationale": "dbGaP collection phs003184.v1.p1 describes ALS Compute as a centralized multi-study ALS/FTD WGS case-control collection including cases and controls across four authorized-access studies.",
+      "_review_status": "pending",
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "ALS/FTD Case",
+        "Control"
+      ],
+      "cohort_count": 2,
+      "study_count": 4
+    }
+  },
+  "syn73882344": {
+    "Clinical Trial of Topiramate in ALS": {
+      "_cohort_update_rationale": "Neurology 2003 randomized placebo-controlled ALS trial randomized participants to topiramate treatment or placebo.",
+      "_review_status": "pending",
+      "cohortType": [
+        "Interventional-Treatment",
+        "Placebo-Control"
+      ],
+      "cohort": [
+        "Topiramate Treatment",
+        "Placebo"
+      ],
+      "cohort_count": 2,
+      "study_count": 1,
+      "citation": [
+        "doi:10.1212/WNL.61.4.456"
+      ]
+    }
+  },
+  "syn73965826": {
+    "Target ALS": {
+      "_cohort_update_rationale": "Target ALS is an ongoing observational longitudinal natural-history study enrolling ALS participants diagnosed at participating ALS clinics and healthy control participants, with clinical data and biospecimens collected for molecular datasets.",
+      "_review_status": "pending",
+      "cohortType": [
+        "Case-Control",
+        "Healthy-Control",
+        "Natural-History"
+      ],
+      "cohort": [
+        "ALS Natural-History",
+        "Healthy Control"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  },
+  "syn74483113": {
+    "Developing Novel Strategies for Personalized Treatment and Prevention of ALS  Leveraging the Global Exposome  Genome  Epigenome  Metabolome  and Inflammasome with Data Science in a Case Control Cohort": {
+      "_cohort_update_rationale": "Title and annotations describe an ALS case/control cohort (dbGaP phs004288.v1.p1).",
+      "_review_status": "pending",
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort": [
+        "ALS Case",
+        "Control"
+      ],
+      "cohort_count": 2,
+      "study_count": 1
+    }
+  }
+}

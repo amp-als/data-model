@@ -1,0 +1,272 @@
+{
+  "current_annotations": {
+    "CNSRegion": [
+      "frontal cortex",
+      "medial motor cortex",
+      "lateral motor cortex",
+      "motor cortex"
+    ],
+    "GEOSuperSeries": [
+      "GSE137810"
+    ],
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "contributor": [
+      "NYGC ALS Consortium",
+      "Target ALS"
+    ],
+    "dataSubtype": [
+      "bulk"
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "disease": [
+      "ALS",
+      "FTD",
+      "Control",
+      "Pre-fALS",
+      "Alzheimer's Disease",
+      "Other Neurological Disorders",
+      "Other Motor Neuron Disease"
+    ],
+    "isPostMortem": [
+      "True",
+      "Unknown"
+    ],
+    "keywords": [
+      "Alzheimer's Disease",
+      "Other Neurological Disorders",
+      "Other Motor Neuron Disease",
+      "Frontotemporal Dementia",
+      "Amyotrophic Lateral Sclerosis",
+      "brain tissue",
+      "RNA-seq",
+      "transcriptomics",
+      "post-mortem tissue"
+    ],
+    "libraryLayout": [
+      "paired-end"
+    ],
+    "libraryPreparationMethod": [
+      "KAPA Stranded RNA-Seq Kit with RiboErase"
+    ],
+    "participant_count": [
+      "95"
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "sameAs": [
+      "geo:GSE124439"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE124439"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "CNSRegion": [
+      "frontal cortex",
+      "medial motor cortex",
+      "lateral motor cortex",
+      "motor cortex"
+    ],
+    "FACSPopulation": "",
+    "GEOSuperSeries": [
+      "GSE137810"
+    ],
+    "_created_timestamp": "2026-05-29T18:11:27.338311+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "cellType": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      ""
+    ],
+    "collectionDate": "",
+    "contributor": [
+      "NYGC ALS Consortium",
+      "Target ALS"
+    ],
+    "creator": [
+      ""
+    ],
+    "curationLevel": "",
+    "dataFormat": [
+      ""
+    ],
+    "dataSubtype": [
+      "bulk"
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS",
+      "FTD",
+      "Control",
+      "Pre-fALS",
+      "Alzheimer's Disease",
+      "Other Neurological Disorders",
+      "Other Motor Neuron Disease"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "isPostMortem": [
+      "True",
+      "Unknown"
+    ],
+    "keywords": [
+      "Alzheimer's Disease",
+      "Other Neurological Disorders",
+      "Other Motor Neuron Disease",
+      "Frontotemporal Dementia",
+      "Amyotrophic Lateral Sclerosis",
+      "brain tissue",
+      "RNA-seq",
+      "transcriptomics",
+      "post-mortem tissue"
+    ],
+    "libraryLayout": [
+      "paired-end"
+    ],
+    "libraryPreparationMethod": [
+      "KAPA Stranded RNA-Seq Kit with RiboErase"
+    ],
+    "libraryStrategy": "",
+    "license": "",
+    "originalSampleId": "",
+    "participant_count": [
+      "95"
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "processingLevel": [
+      ""
+    ],
+    "publisher": "",
+    "sameAs": [
+      "geo:GSE124439"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": "",
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE124439"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "alternateName",
+    "cellType",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collection",
+    "collectionDate",
+    "creator",
+    "curationLevel",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "funder",
+    "includedInDataCatalog",
+    "libraryStrategy",
+    "license",
+    "originalSampleId",
+    "platform",
+    "processingLevel",
+    "publisher",
+    "study_count",
+    "subject",
+    "title"
+  ],
+  "name": "Postmortem Cortex Samples Identify Distinct Molecular Subtypes of ALS - Retrotransposon Activation, Oxidative Stress, and Activated Glia",
+  "publication_hints": [
+    "10.1016/j.celrep.2019.09.066",
+    "10.1016/j.celrep.2019.09.066)",
+    "10.1038/s41586-022-04424-7",
+    "10.1038/s41586-022-04424-7)",
+    "10.1038/s41586-022-04436-3",
+    "10.1038/s41586-022-04436-3)",
+    "PMID:31665631",
+    "PMID:35197626",
+    "PMID:35197628",
+    "doi.org/10.1016/j.celrep.2019.09.066",
+    "doi.org/10.1038/s41586-022-04424-7",
+    "doi.org/10.1038/s41586-022-04436-3",
+    "pubmed.ncbi.nlm.nih.gov/31665631",
+    "pubmed.ncbi.nlm.nih.gov/35197626",
+    "pubmed.ncbi.nlm.nih.gov/35197628"
+  ],
+  "synId": "syn67737779",
+  "wiki_pages": [
+    {
+      "id": "633584",
+      "markdown": "**Summary:** Amyotrophic Lateral Sclerosis (ALS) is a fatal neurodegenerative disease characterized by the progressive loss of motor neurons. While several pathogenic mutations have been identified, the vast majority of ALS cases have no family history of disease. Thus, for most ALS cases, the disease may be a product of multiple pathways contributing to varying degrees in each patient. Using machine learning algorithms, we stratified the transcriptomes of 148 ALS postmortem cortex samples into three distinct molecular subtypes. The largest cluster, identified in 61% of patient samples, displayed hallmarks of oxidative and proteotoxic stress. Another 19% of the samples showed predominant signatures of glial activation. Finally, a third group (20%) exhibited high levels of retrotransposon expression and signatures of TARDBP/TDP-43 dysfunction. We further demonstrated that TDP-43 (1) directly binds a subset of retrotransposon transcripts and contributes to their silencing in vitro, and (2) pathological TDP-43 aggregation correlates with retrotransposon de-silencing in vivo.\n\n**Overall Design:** RNA-seq analysis of ALS patient samples and individuals without neurological disorders Contributor: NYGC ALS Consortium https://www.nygenome.org/research-areas/neurodegenerative-diseases/als-consortium/ Contributor: The Target ALS Human Postmortem Tissue Core http://www.targetals.org/ \n\n**Contact:** Delphine Fagegaltier, New York Genome Center\n\n**Contributors:** Delphine Fagegaltier, Hemali Phatnani, OliverH Tam, MollyG Hammell\n\n**Publications:**\n- ***Postmortem Cortex Samples Identify Distinct Molecular Subtypes of ALS: Retrotransposon Activation, Oxidative Stress, and Activated Glia***\nCell Reports 2019 Oct 29 [10.1016/j.celrep.2019.09.066](https://doi.org/10.1016/j.celrep.2019.09.066)\n[PMID:31665631](https://pubmed.ncbi.nlm.nih.gov/31665631)\n- ***TDP-43 represses cryptic exon inclusion in the FTD-ALS gene UNC13A***\nNature 2022 Mar [10.1038/s41586-022-04424-7](https://doi.org/10.1038/s41586-022-04424-7)\n[PMID:35197626](https://pubmed.ncbi.nlm.nih.gov/35197626)\n- ***TDP-43 loss and ALS-risk SNPs drive mis-splicing and depletion of UNC13A***\nNature 2022 Mar [10.1038/s41586-022-04436-3](https://doi.org/10.1038/s41586-022-04436-3)\n[PMID:35197628](https://pubmed.ncbi.nlm.nih.gov/35197628)\n<br />\n",
+      "title": ""
+    }
+  ]
+}

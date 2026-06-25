@@ -1,0 +1,241 @@
+{
+  "current_annotations": {
+    "CNSRegion": [
+      "middle frontal cortex"
+    ],
+    "GEOSuperSeries": [
+      "GSE126543"
+    ],
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "assay": [
+      "ATAC-seq"
+    ],
+    "biospecimenSubtype": [
+      "sorted nuclei"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "cellType": [
+      "NeuN+ neurons"
+    ],
+    "contributor": [
+      "Edward Lee Lab \u2013 University of Pennsylvania"
+    ],
+    "creator": [
+      "Liu EY"
+    ],
+    "dataType": [
+      "epigenomics"
+    ],
+    "disease": [
+      "FTD",
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "FTD-ALS"
+    ],
+    "keywords": [
+      "Frontotemporal Dementia",
+      "Amyotrophic Lateral Sclerosis",
+      "brain tissue",
+      "sorted nuclei",
+      "ATAC-seq",
+      "epigenomics",
+      "post-mortem tissue"
+    ],
+    "libraryLayout": [
+      "single-end"
+    ],
+    "participant_count": [
+      "14"
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "sameAs": [
+      "geo:GSE126541"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "title": [
+      "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons, ATAC-Seq"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE126541"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "CNSRegion": [
+      "middle frontal cortex"
+    ],
+    "FACSPopulation": "",
+    "GEOSuperSeries": [
+      "GSE126543"
+    ],
+    "_created_timestamp": "2026-05-29T18:11:18.435838+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633970"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      "ATAC-seq"
+    ],
+    "biospecimenSubtype": [
+      "sorted nuclei"
+    ],
+    "biospecimenType": [
+      "brain tissue"
+    ],
+    "cellType": [
+      "NeuN+ neurons"
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      ""
+    ],
+    "collectionDate": "",
+    "contributor": [
+      "Edward Lee Lab \u2013 University of Pennsylvania"
+    ],
+    "creator": [
+      "Liu EY"
+    ],
+    "curationLevel": "",
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "epigenomics"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "FTD",
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "FTD-ALS"
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "Frontotemporal Dementia",
+      "Amyotrophic Lateral Sclerosis",
+      "brain tissue",
+      "sorted nuclei",
+      "ATAC-seq",
+      "epigenomics",
+      "post-mortem tissue"
+    ],
+    "libraryLayout": [
+      "single-end"
+    ],
+    "libraryStrategy": "",
+    "license": "",
+    "originalSampleId": "",
+    "participant_count": [
+      "14"
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "processingLevel": [
+      ""
+    ],
+    "publisher": "",
+    "sameAs": [
+      "geo:GSE126541"
+    ],
+    "source": [
+      "Gene Expression Omnibus"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons, ATAC-Seq"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE126541"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "alternateName",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collection",
+    "collectionDate",
+    "curationLevel",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "funder",
+    "includedInDataCatalog",
+    "libraryStrategy",
+    "license",
+    "originalSampleId",
+    "platform",
+    "processingLevel",
+    "publisher",
+    "study_count",
+    "subject"
+  ],
+  "name": "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons (ATAC-Seq)",
+  "publication_hints": [
+    "10.1016/j.celrep.2019.04.003",
+    "10.1016/j.celrep.2019.04.003)",
+    "10.1038/s41586-022-04424-7",
+    "10.1038/s41586-022-04424-7)",
+    "PMID:31042469",
+    "PMID:35197626",
+    "doi.org/10.1016/j.celrep.2019.04.003",
+    "doi.org/10.1038/s41586-022-04424-7",
+    "pubmed.ncbi.nlm.nih.gov/31042469",
+    "pubmed.ncbi.nlm.nih.gov/35197626"
+  ],
+  "synId": "syn67751280",
+  "wiki_pages": [
+    {
+      "id": "633922",
+      "markdown": "**Summary:** Loss of the nuclear RNA binding protein TAR DNA binding protein-43 (TDP-43) into cytoplasmic aggregates is the strongest correlate to neurodegeneration in amyotrophic lateral sclerosis and frontotemporal degeneration. The molecular changes associated with the loss of nuclear TDP-43 in human tissues are not entirely known. Using a novel subcellular fractionation and fluorescent activated cell sorting method to enrich for diseased neuronal nuclei without TDP-43 from post-mortem FTD-ALS human brain, we characterized the effects of TDP-43 loss on the transcriptome and chromatin accessibility. Nuclear TDP-43 loss is associated with gene expression changes that affect RNA processing, nucleocytoplasmic transport, histone processing and DNA damage. Loss of nuclear TDP-43 was also associated with chromatin decondensation around long interspersed nuclear elements (LINEs) and increased LINE1 DNA content. Moreover, loss of TDP-43 leads to increased retrotransposition that can be inhibited with antiretroviral drugs, suggesting that TDP-43 neuropathology is associated with altered chromatin structure including decondensation of LINEs.\n\n**Overall Design:** Examination of gene expression profiles and chromatin accessibility in neuronal nuclei, which have either retained or lossed TDP-43, extracted from FTD/ALS patient post-mortem frontal cortex\n\n**Contact:** EdwardB Lee, Perelman School of Medicine at the University of Pennsylvania\n\n**Contributors:** ElaineY Liu, Jenny Russ, ChristopherP Cali, JessicaM Phan, Alexandre Amlie-Wolf, EdwardB Lee\n\n**Publications:**\n- ***Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons***\nCell Reports 2019 Apr 30 [10.1016/j.celrep.2019.04.003](https://doi.org/10.1016/j.celrep.2019.04.003)\n[PMID:31042469](https://pubmed.ncbi.nlm.nih.gov/31042469)\n- ***TDP-43 represses cryptic exon inclusion in the FTD-ALS gene UNC13A***\nNature 2022 Mar [10.1038/s41586-022-04424-7](https://doi.org/10.1038/s41586-022-04424-7)\n[PMID:35197626](https://pubmed.ncbi.nlm.nih.gov/35197626)\n<br />\n\n**Related Datasets:** This dataset is part of GEO SuperSeriesGSE126543 which includes the following additional datasets\n- [**Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons (RNA-seq-Seq)**](https://ampals.synapse.org/Explore/Datasets/DetailsPage?id=67754663)",
+      "title": ""
+    }
+  ]
+}

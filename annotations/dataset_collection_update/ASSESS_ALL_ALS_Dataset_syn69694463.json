@@ -1,0 +1,352 @@
+{
+  "current_annotations": {
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633965"
+    ],
+    "alternateName": [
+      "ASSESS ALL ALS"
+    ],
+    "assessmentTypes": [
+      "alsfrs_r",
+      "vital_signs",
+      "laboratory",
+      "dynamometry",
+      "genetic_testing"
+    ],
+    "clinicalDomain": [
+      "motor_function",
+      "bulbar_function",
+      "respiratory_function",
+      "disease_progression",
+      "genetic_testing",
+      "biomarkers",
+      "cognitive_assessment"
+    ],
+    "collection": [
+      "all_als"
+    ],
+    "contributor": [
+      "Access for All in ALS (ALL ALS)"
+    ],
+    "creator": [
+      "Access for All in ALS (ALL ALS)"
+    ],
+    "curationLevel": [
+      "tier2"
+    ],
+    "dataType": [
+      "clinical_assessment",
+      "medical_history",
+      "laboratory_results",
+      "vital_signs",
+      "hand_held_dynamometry",
+      "genetic_profile",
+      "study_management"
+    ],
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "SOD1-ALS",
+      "ANG-ALS",
+      "ANXA11-ALS",
+      "ARHGEF28-ALS",
+      "ATXN2-ALS",
+      "CFAP410-ALS",
+      "CHCHD10-ALS",
+      "CHMP2B-ALS",
+      "DAO-ALS",
+      "DCTN1-ALS",
+      "ERBB4-ALS",
+      "FIG4-ALS",
+      "FUS-ALS",
+      "HNRNPA1-ALS",
+      "HNRNPA2B1-ALS",
+      "KIF5A-ALS",
+      "MATR3-ALS",
+      "MOBP-ALS",
+      "NEFH-ALS",
+      "NEK1-ALS",
+      "OPTN-ALS",
+      "PFN1-ALS",
+      "SETX-ALS",
+      "SQSTM1-ALS",
+      "TAF15-ALS",
+      "TARDBP-ALS",
+      "TBK1-ALS",
+      "TUBA4A-ALS",
+      "UBQLN2-ALS",
+      "UNC13A-ALS",
+      "VAPB-ALS",
+      "VCP-ALS",
+      "ALS2-ALS",
+      "ELP3-ALS",
+      "EPHA4-ALS",
+      "EWSR1-ALS",
+      "KIKAP3-ALS",
+      "PRPH-ALS",
+      "SPG4-ALS",
+      "SPG11-ALS"
+    ],
+    "funder": [
+      "National Institutes of Health"
+    ],
+    "keywords": [
+      "ALS",
+      "motor_neuron",
+      "longitudinal",
+      "ALSFRS-R",
+      "ALSAQ-40",
+      "ECAS",
+      "motor_function",
+      "bulbar",
+      "respiratory",
+      "cognitive",
+      "depression",
+      "strength",
+      "pulmonary",
+      "QOL",
+      "biospecimen",
+      "eligibility",
+      "CRF",
+      "biomarker",
+      "progression",
+      "phenotype"
+    ],
+    "participant_count": [
+      947
+    ],
+    "portalRelease": [
+      "2026.2"
+    ],
+    "primaryOutcome": [
+      "ALSFRS-R total score and rate of functional decline"
+    ],
+    "publisher": [
+      "Sage Bionetworks"
+    ],
+    "source": [
+      "ALL ALS"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": [
+      "longitudinal"
+    ],
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "subject": [
+      "Amyotrophic lateral sclerosis--Patients",
+      "Motor neuron diseases--Research",
+      "Neurodegenerative diseases--Diagnosis"
+    ],
+    "title": [
+      "ASSESS ALS Dataset"
+    ],
+    "visitSchedule": [
+      "Screening; Visits 1, 1a, 2\u20137; Control Visits 2\u20133; DHT sub-study visits; Early Termination"
+    ]
+  },
+  "dataset_type": "ClinicalDataset",
+  "merged_annotation_template": {
+    "_created_timestamp": "2026-05-29T18:11:31.561017+00:00",
+    "_dataset_type": "ClinicalDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633965"
+    ],
+    "alternateName": [
+      "ASSESS ALL ALS"
+    ],
+    "assessmentTypes": [
+      "alsfrs_r",
+      "vital_signs",
+      "laboratory",
+      "dynamometry",
+      "genetic_testing"
+    ],
+    "citation": [
+      ""
+    ],
+    "clinicalDomain": [
+      "motor_function",
+      "bulbar_function",
+      "respiratory_function",
+      "disease_progression",
+      "genetic_testing",
+      "biomarkers",
+      "cognitive_assessment"
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "all_als"
+    ],
+    "contributor": [
+      "Access for All in ALS (ALL ALS)"
+    ],
+    "creator": [
+      "Access for All in ALS (ALL ALS)"
+    ],
+    "curationLevel": [
+      "tier2"
+    ],
+    "dataType": [
+      "clinical_assessment",
+      "medical_history",
+      "laboratory_results",
+      "vital_signs",
+      "hand_held_dynamometry",
+      "genetic_profile",
+      "study_management"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "SOD1-ALS",
+      "ANG-ALS",
+      "ANXA11-ALS",
+      "ARHGEF28-ALS",
+      "ATXN2-ALS",
+      "CFAP410-ALS",
+      "CHCHD10-ALS",
+      "CHMP2B-ALS",
+      "DAO-ALS",
+      "DCTN1-ALS",
+      "ERBB4-ALS",
+      "FIG4-ALS",
+      "FUS-ALS",
+      "HNRNPA1-ALS",
+      "HNRNPA2B1-ALS",
+      "KIF5A-ALS",
+      "MATR3-ALS",
+      "MOBP-ALS",
+      "NEFH-ALS",
+      "NEK1-ALS",
+      "OPTN-ALS",
+      "PFN1-ALS",
+      "SETX-ALS",
+      "SQSTM1-ALS",
+      "TAF15-ALS",
+      "TARDBP-ALS",
+      "TBK1-ALS",
+      "TUBA4A-ALS",
+      "UBQLN2-ALS",
+      "UNC13A-ALS",
+      "VAPB-ALS",
+      "VCP-ALS",
+      "ALS2-ALS",
+      "ELP3-ALS",
+      "EPHA4-ALS",
+      "EWSR1-ALS",
+      "KIKAP3-ALS",
+      "PRPH-ALS",
+      "SPG4-ALS",
+      "SPG11-ALS"
+    ],
+    "followUpDuration": null,
+    "funder": [
+      "National Institutes of Health"
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "ALS",
+      "motor_neuron",
+      "longitudinal",
+      "ALSFRS-R",
+      "ALSAQ-40",
+      "ECAS",
+      "motor_function",
+      "bulbar",
+      "respiratory",
+      "cognitive",
+      "depression",
+      "strength",
+      "pulmonary",
+      "QOL",
+      "biospecimen",
+      "eligibility",
+      "CRF",
+      "biomarker",
+      "progression",
+      "phenotype"
+    ],
+    "license": "",
+    "participant_count": [
+      947
+    ],
+    "portalRelease": [
+      "2026.2"
+    ],
+    "primaryOutcome": [
+      "ALSFRS-R total score and rate of functional decline"
+    ],
+    "publisher": [
+      "Sage Bionetworks"
+    ],
+    "sameAs": "",
+    "source": [
+      "ALL ALS"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": [
+      "longitudinal"
+    ],
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "study_count": null,
+    "subject": [
+      "Amyotrophic lateral sclerosis--Patients",
+      "Motor neuron diseases--Research",
+      "Neurodegenerative diseases--Diagnosis"
+    ],
+    "title": [
+      "ASSESS ALS Dataset"
+    ],
+    "url": "",
+    "visitSchedule": [
+      "Screening; Visits 1, 1a, 2\u20137; Control Visits 2\u20133; DHT sub-study visits; Early Termination"
+    ]
+  },
+  "missing_fields": [
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "followUpDuration",
+    "includedInDataCatalog",
+    "license",
+    "sameAs",
+    "study_count",
+    "url"
+  ],
+  "name": "ASSESS ALL ALS Dataset",
+  "publication_hints": [
+    "10.1002/mus.28244",
+    "10.1002/mus.28244)",
+    "doi.org/10.1002/mus.28244"
+  ],
+  "synId": "syn69694463",
+  "wiki_pages": [
+    {
+      "id": "634788",
+      "markdown": "**Summary:** The ALL ALS Clinical Research Consortium is establishing research to collect a wide range of samples, clinical information and measurements from Amyotrophic Lateral Sclerosis (ALS) symptomatic, ALS gene carriers and control cohorts. This consortium is being funded by the National Institutes of Health/National Institute of Neurological Disorders and Stroke (NIH/NINDS) and managed by two clinical coordinating centers (CCC) at Barrow Neurological Institute and Massachusetts General Hospital. The clinical sites are distributed across the country, and led by a group of collaborative principal investigators. \nASSESS ALL ALS is a prospective, observational cohort study enrolling individuals who are currently living with ALS (Symptomatic cohort) and individuals without ALS or known ALS gene mutations (Control cohort). Symptomatic cohort participants have options of both on-site and off-site/remote enrollment.\nThe overarching goal of ASSESS ALL ALS is to prospectively collect, store and harmonize a large set of longitudinal data, which will be shared through the AMP ALS central portal, and biospecimens that will be linked to the clinical data for open science sharing with the research community. More information about the consortium and studies can be found at all-als.org\n\n**Overall Design:**\nIn ASSESS study, the participants will be followed for 24 months (2 years), and will include collection of medical history, clinical outcomes, and blood samples once in 4 months for Symptomatic cohort and once in 12 months for Control cohort. \nStandard Clinical outcome measures for Symptomatic cohort include on-site assessments of handheld dynamometry (HHD) of 3 hand muscles bilaterally and vital capacity (VC), and both on-site and remote assessments of ALSFRS-R, Edinburgh Cognitive and Behavioral ALS Screen (ECAS), and Minimally Important Difference (MID) anchor questionnaires. Additionally, regular digital data collection of self-reported electronic Patient Reported Outcomes (ePROs) and speech measures were collected. The ePROs include ALS Functional Rating Scale-Revised Self entry (ALSFRS-RSE), ALS Impairment Multi-domain scale (AIMS), Environmental History and Social Determinants of Health (SDOH).\nBiospecimens include plasma, serum, RNA, whole blood for generation of induced pluripotent stem cells (iPSCs) and DNA for whole genome sequencing, and cerebrospinal fluid (CSF) via lumbar puncture (LP). \n\n<details>\n  <summary><b>Show More</b></summary>\n\n**Contact:**\n- James Berry, MGH\n    - jdberry@mgh.harvard.edu\n- Robert Bowser, BNI\n    - robert.bowser@commonspirit.org\n- Alex Sherman, MGH\n    - avsherman@mgh.harvard.edu\n- Sabrina Paganoni, MGH\n    - spaganoni@mgh.harvard.edu\n- Suma Babu, MGH\n    - sbabu@mgh.harvard.edu\n- Jeremy Shefner, BNI\n    - jeremy.shefner@commonspirit.org\n- Brent Harris, Georgetown University \n    - bth@georgetown.edu\n- Timothy Miller, Washington University \n    - miller.t@wustl.edu\n- Matthew Harms, Columbia \n    - mh3607@cumc.columbia.edu\n- Neil Shneider, Columbia\n    - ns327@cumc.columbia.edu\n- Hemali Phatnani, Columbia\n    - hp2286@cumc.columbia.edu\n- Frank Provenzano, Columbia\n    - frank.provenzano@columbia.edu\n- Jinsy Andrews, NYU\n    - jinsy.andrews@nyulangone.org\n \n**Contributors:** \n| Site Name                                       | Site Investigator       |\n|-------------------------------------------------|-------------------------|\n| MGH                                             | James Berry             |\n| Henry Ford Health                               | Ximena Arcila-Londono   |\n| Columbia University                             | Matthew Harms           |\n| Dartmouth-Hitchcock Clinic                      | Mark Garret             |\n| Duke University                                 | Xiaoyan Li              |\n| Johns Hopkins University                        | Nicholas Maragakis      |\n| Mayo Clinic Florida                             | Bjorn Oskarsson         |\n| University of California - San Francisco        | Laura Rosow             |\n| Washington University                           | Timothy Miller          |\n| Indiana University                              | Cynthia Bodkin          |\n| Georgetown University                           | Brent Harris            |\n| UCSD                                            | John Ravits             |\n| Ohio State University                           | Stephen Kolb            |\n| Providence ALS Center                           | Nicholas Olney          |\n| Pennsylvania State University                   | Zachary Simmons         |\n| Texas Neurology, PA                             | Daragh Heitzman         |\n| UC Irvine                                       | Namita Goyal            |\n| University of Colorado                          | Laura Foster            |\n| University of Michigan                          | Eva Feldman             |\n| University of Utah                              | Mark Bromberg           |\n| University of Washington                        | Michael Weiss           |\n| Northwestern University                         | Senda Ajroud-Driss      |\n| NIH/NINDs                                       | Justin Kwan             |\n| University of Puerto Rico Medical Sciences Campus | Valerie Wojna Mu\u00f1iz    |\n| Hospital for Special Care                       | Kevin Felice            |\n| University of Nebraska Medical Center           | Joseph Americo Fernandes|\n| Barrow Neurological Institute                   | Shafeeq Ladha           |\n| Virginia Commonwealth University                | Kelly Gwathmey          |\n| Temple University                               | Terry Heiman-Patterson  |\n| Saint Alphonsus Regional Medical Center         | Jackie Whitesell        |\n| University of Minnesota                         | David Walk              |\n| Nova Southeastern University                    | Eduardo Locatelli       |\n| University of Alabama at Birmingham             | Nan Jiang               |\n\n**Publications:**\n- Berry J, Paganoni, S, Harms M, et al, Access for ALL in ALS: A large-scale, inclusive, collaborative consortium to unlock the molecular and genetic mechanisms of amyotrophic lateral sclerosis. Muscle and Nerve. 2024; 70(6): 1140-1150.\n[**DOI:** 10.1002/mus.28244](https://doi.org/10.1002/mus.28244)\n\n**Note:**\nALL ALS Consortium dataset content on the ALS Knowledge Portal is dynamic and may change over time.\u00a0While best efforts are made to ensure data quality, this data is provided 'as is,' and changes are periodically released.\u00a0 Forms with active queries are not transferred from the ALL ALS Data Coordination Center to the ALS KP and may appear in future releases. Please review dataset DOI numbers and timestamps when requesting, downloading, or analyzing data.\n</details>",
+      "title": "Dataset Documentation"
+    }
+  ]
+}

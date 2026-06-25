@@ -1,0 +1,193 @@
+{
+  "current_annotations": {
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633969"
+    ],
+    "collection": [
+      "ALS Knowledge Portal"
+    ],
+    "contributor": [
+      "Sean M. Healey and AMG Center for ALS"
+    ],
+    "dataType": [
+      "clinical"
+    ],
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "ANG-ALS",
+      "C9-ALS",
+      "FUS-ALS",
+      "PROGRANULIN-ALS",
+      "SETX-ALS",
+      "SOD1-ALS",
+      "TAU-ALS",
+      "TDP43-ALS",
+      "VAPB-ALS",
+      "VCP-ALS",
+      "Other genetic ALS"
+    ],
+    "keywords": [
+      "Amyotrophic Lateral Sclerosis",
+      "trehalose",
+      "clinical trial",
+      "ALSFRS-R"
+    ],
+    "participant_count": [
+      70
+    ],
+    "portalRelease": [
+      "2025.2"
+    ],
+    "source": [
+      "Sean M. Healey and AMG Center for ALS"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "title": [
+      "Trehalose Expanded Access Protocols Dataset"
+    ]
+  },
+  "dataset_type": "ClinicalDataset",
+  "merged_annotation_template": {
+    "_created_timestamp": "2026-05-29T18:11:33.709690+00:00",
+    "_dataset_type": "ClinicalDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633969"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assessmentTypes": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "clinicalDomain": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "ALS Knowledge Portal"
+    ],
+    "contributor": [
+      "Sean M. Healey and AMG Center for ALS"
+    ],
+    "creator": [
+      ""
+    ],
+    "curationLevel": "",
+    "dataType": [
+      "clinical"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "ANG-ALS",
+      "C9-ALS",
+      "FUS-ALS",
+      "PROGRANULIN-ALS",
+      "SETX-ALS",
+      "SOD1-ALS",
+      "TAU-ALS",
+      "TDP43-ALS",
+      "VAPB-ALS",
+      "VCP-ALS",
+      "Other genetic ALS"
+    ],
+    "followUpDuration": null,
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "Amyotrophic Lateral Sclerosis",
+      "trehalose",
+      "clinical trial",
+      "ALSFRS-R"
+    ],
+    "license": "",
+    "participant_count": [
+      70
+    ],
+    "portalRelease": [
+      "2025.2"
+    ],
+    "primaryOutcome": "",
+    "publisher": "",
+    "sameAs": "",
+    "source": [
+      "Sean M. Healey and AMG Center for ALS"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": "",
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "Trehalose Expanded Access Protocols Dataset"
+    ],
+    "url": "",
+    "visitSchedule": ""
+  },
+  "missing_fields": [
+    "alternateName",
+    "assessmentTypes",
+    "citation",
+    "clinicalDomain",
+    "cohortType",
+    "cohort_count",
+    "creator",
+    "curationLevel",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "followUpDuration",
+    "funder",
+    "includedInDataCatalog",
+    "license",
+    "primaryOutcome",
+    "publisher",
+    "sameAs",
+    "studyDesign",
+    "study_count",
+    "subject",
+    "url",
+    "visitSchedule"
+  ],
+  "name": "Trehalose Expanded Access Protocol Dataset",
+  "publication_hints": [
+    "10.1002/mus.70011",
+    "10.1002/mus.70011)",
+    "10.1002/mus.70011.",
+    "doi.org/10.1002/mus.70011"
+  ],
+  "synId": "syn69694420",
+  "wiki_pages": [
+    {
+      "id": "634786",
+      "markdown": "**Summary:** The study describes the first large-scale, NIH-funded multicenter Expanded Access Protocol (EAP) for ALS in the United States, offering investigational intravenous trehalose (SLS-005) to individuals with ALS who were ineligible for concurrent randomized clinical trials (RCTs). Over 24 weeks, 70 participants enrolled at 20 sites received trehalose infusions and provided detailed clinical and biomarker data. No significant benefit was found for neurofilament light levels, functional status, or survival compared to historical controls. Biomarker and clinical data, as well as additional banked serum samples, are now available to the research community for further study.\n\n**Overall Design:**\n- Multicenter, open-label, non-randomized EAP for ALS patients ineligible for RCTs.\n- Conducted at 20 sites across the US, involving up to 24 weeks of weekly intravenous trehalose infusion.\n- Two participant cohorts: (1) ALS patients na\u00efve to trehalose and trial-ineligible and (2) previous trial participants needing continued drug access.\n- Outcomes included safety/tolerability, neurofilament light chain (NfL) biomarker, ALS Functional Rating Scale-Revised (ALSFRS-R), slow vital capacity, survival, and quality of life.\n- Data and serum samples shared in public repositories for further research; protocol included patient and caregiver involvement, and remote/home infusions when possible.\n\n<details>\n\n<summary>Show More</summary>\n<b>Contact:</b>\n\n- Sabrina Paganoni, MD, PhD; spaganoni@mgh.harvard.edu.\n- Sean M. Healey & AMG Center for ALS and Neurological Clinical Research Institute, Massachusetts General Hospital, Harvard Medical School, Boston, MA, USA  \n\n<b>Contributors:</b>  Senda Ajroud-Driss, Suma Babu, James D. Berry, Cynthia Bodkin, Namita A. Goyal, Kelly Gwathmey, Daragh Heitzman, Shafeeq Ladha, Courtney E. McIlduff, Sabrina Paganoni, Laura Rosow, Mr. Alexander V. Sherman, David Walk, Jackie Whitesell, Eufrosina Young, Warren Wasiewski\n\n<b>Publication:</b>\n\n- Krivickas B, Scirocco E, Giacomelli E, Sharma S, et al. Multicenter Expanded Access Protocol for Research Through Access to Trehalose in People With Amyotrophic Lateral Sclerosis. *Muscle & Nerve*. 2025;0:1\u20139. doi: 10.1002/mus.70011.\n[**DOI:** 10.1002/mus.70011](https://doi.org/10.1002/mus.70011)\n\n</details>\n\n\n\n",
+      "title": "Dataset Documentation"
+    }
+  ]
+}

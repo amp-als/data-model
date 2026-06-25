@@ -1,0 +1,217 @@
+{
+  "current_annotations": {
+    "acknowledgementStatement": [
+      "syn64892175/wiki/634029"
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenType": [
+      "primary cell culture"
+    ],
+    "cellType": [
+      "HEK293T"
+    ],
+    "collection": [
+      "National Institutes of Health"
+    ],
+    "contributor": [
+      "Barmada Lab - University of Michigan"
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "disease": [
+      "ALS"
+    ],
+    "keywords": [
+      "RNA-seq",
+      "APOBEC",
+      "Halo",
+      "HEK293T",
+      "treatment",
+      "cell line"
+    ],
+    "libraryLayout": [
+      "paired-end"
+    ],
+    "license": [
+      "public"
+    ],
+    "participant_count": [
+      9
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "sameAs": [
+      "srp:SRP413231"
+    ],
+    "source": [
+      "Sequencing Read Archive"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "title": [
+      "RNA methylation influences TDP43 binding and disease pathogenesis in models of amyotrophic lateral sclerosis and frontotemporal dementia"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA912644"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "FACSPopulation": "",
+    "GEOSuperSeries": "",
+    "_created_timestamp": "2026-05-29T18:11:32.313244+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/634029"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenType": [
+      "primary cell culture"
+    ],
+    "cellType": [
+      "HEK293T"
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "National Institutes of Health"
+    ],
+    "collectionDate": "",
+    "contributor": [
+      "Barmada Lab - University of Michigan"
+    ],
+    "creator": [
+      ""
+    ],
+    "curationLevel": "",
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "RNA-seq",
+      "APOBEC",
+      "Halo",
+      "HEK293T",
+      "treatment",
+      "cell line"
+    ],
+    "libraryLayout": [
+      "paired-end"
+    ],
+    "libraryStrategy": "",
+    "license": [
+      "public"
+    ],
+    "originalSampleId": "",
+    "participant_count": [
+      9
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      "2025.1"
+    ],
+    "processingLevel": [
+      ""
+    ],
+    "publisher": "",
+    "sameAs": [
+      "srp:SRP413231"
+    ],
+    "source": [
+      "Sequencing Read Archive"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "experimental study"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "RNA methylation influences TDP43 binding and disease pathogenesis in models of amyotrophic lateral sclerosis and frontotemporal dementia"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA912644"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "GEOSuperSeries",
+    "alternateName",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collectionDate",
+    "creator",
+    "curationLevel",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "funder",
+    "includedInDataCatalog",
+    "libraryStrategy",
+    "originalSampleId",
+    "platform",
+    "processingLevel",
+    "publisher",
+    "study_count",
+    "subject"
+  ],
+  "name": "RNA methylation influences TDP43 binding and disease pathogenesis in models of amyotrophic lateral sclerosis and frontotemporal dementia",
+  "publication_hints": [
+    "10.1016/j.molcel.2022.12.019",
+    "10.1016/j.molcel.2022.12.019)",
+    "doi.org/10.1016/j.molcel.2022.12.019",
+    "pubmed.ncbi.nlm.nih.gov/36634675"
+  ],
+  "synId": "syn68932658",
+  "wiki_pages": [
+    {
+      "id": "634004",
+      "markdown": "**Summary:** N6-methyladenosine (m6A) is among the most prevalent RNA modifications, regulating RNA stability, localization, and translation. In amyotrophic lateral sclerosis (ALS), prior studies have linked RNA destabilization to the accumulation of the RNA-binding protein TDP43, which is mislocalized from the nucleus in over 95% of ALS cases. Here, we demonstrate that TDP43 specifically recognizes m6A-modified RNA, and that this methylation is essential for both TDP43 binding and its autoregulatory mechanisms. In ALS spinal cord samples, we observed widespread hypermethylation of coding and noncoding RNAs, many of which overlap with TDP43-bound transcripts. Highlighting the functional relevance of m6A, we identified multiple m6A regulators that either enhance or mitigate TDP43-driven toxicity using a single-cell CRISPR-Cas9 screen in primary neurons. Notably, the canonical m6A reader YTHDF2 accumulated in spinal motor neurons from ALS postmortem tissue, and its knockdown extended the survival of human neurons harboring ALS-linked mutations. Together, these findings reveal that m6A modifications critically influence TDP43\u2013RNA interactions and underscore the central role of m6A in TDP43-mediated neurodegeneration in ALS.\n\n**Overall Design:** Integrated biochemical, sequencing, and genetic approaches to test whether TDP43 recognizes m6A-modified RNA and how m6A machinery modulates TDP43-dependent neurotoxicity\n- TDP43\u2013RNA binding assays via HaloTag immunoaffinity pull-down and dot blots in HEK293T cells;\n- mapping m6A sites on TDP43 substrates with DART-seq and an epitranscriptomic (m6A) array; \n- quantifying RNA hypermethylation and YTHDF2 accumulation in post-mortem spinal cord (4 sporadic ALS, 3 controls); and \n- single-cell CRISPR/Cas9 perturbations with longitudinal survival imaging in rodent primary neurons and validation in human iPSC-derived neurons to identify modifiers (notably YTHDF2).\n\n**Contact:** Sami J Barmada, sbarmada@umich.edu\n\n**Contributors:** Barmada Lab - University of Michigan\n\n**Publications:**\n- **RNA methylation influences TDP43 binding and disease pathogenesis in models of amyotrophic lateral sclerosis and frontotemporal dementia ** \nMolecular Cell, Volume 83, Issue 2, 219 - 236.e7 \n[**DOI:** 10.1016/j.molcel.2022.12.019](https://doi.org/10.1016/j.molcel.2022.12.019)\n[**PMID:** PMC9899051](https://pubmed.ncbi.nlm.nih.gov/36634675/) \n",
+      "title": "Dataset Documentation"
+    }
+  ]
+}

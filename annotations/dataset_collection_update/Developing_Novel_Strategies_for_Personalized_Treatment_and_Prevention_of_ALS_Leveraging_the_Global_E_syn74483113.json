@@ -1,0 +1,248 @@
+{
+  "current_annotations": {
+    "acknowledgementStatement": [
+      "syn64892175/wiki/640100"
+    ],
+    "alternateName": [
+      "phs004288.v1.p1"
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenType": [
+      "blood"
+    ],
+    "cellType": [
+      "whole_blood"
+    ],
+    "collection": [
+      "National Institutes of Health"
+    ],
+    "contributor": [
+      "Eva Feldman"
+    ],
+    "creator": [
+      "Eva Feldman",
+      "Yue Zhao",
+      "Stephen Goutman",
+      "Maureen Sartor",
+      "Stuart Batterman"
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "disease": [
+      "ALS",
+      "Control"
+    ],
+    "funder": [
+      "National Institutes of Health"
+    ],
+    "includedInDataCatalog": [
+      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1"
+    ],
+    "keywords": [
+      "ALS",
+      "exposome",
+      "RNA-seq",
+      "machine learning",
+      "case-control",
+      "whole blood",
+      "gene expression"
+    ],
+    "libraryStrategy": [
+      "RNA_seq"
+    ],
+    "license": [
+      "DS-ALS-IRB-PUB-COL-NPU"
+    ],
+    "participant_count": [
+      388
+    ],
+    "processingLevel": [
+      "raw",
+      "processed"
+    ],
+    "publisher": [
+      "University of Michigan"
+    ],
+    "sameAs": [
+      "phs004288.v1.p1"
+    ],
+    "source": [
+      "dbGaP (NINDS_ALS_Omics)"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "Case-Control Study"
+    ],
+    "subject": [
+      "Amyotrophic lateral sclerosis",
+      "Gene expression",
+      "RNA-Seq"
+    ],
+    "title": [
+      "Developing Novel Strategies for Personalized Treatment and Prevention of ALS: Leveraging the Global Exposome, Genome, Epigenome, Metabolome, and Inflammasome with Data Science in a Case/Control Cohort"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "FACSPopulation": "",
+    "GEOSuperSeries": "",
+    "_created_timestamp": "2026-05-29T18:11:30.149956+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/640100"
+    ],
+    "alternateName": [
+      "phs004288.v1.p1"
+    ],
+    "assay": [
+      "RNA-seq"
+    ],
+    "biospecimenType": [
+      "blood"
+    ],
+    "cellType": [
+      "whole_blood"
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "National Institutes of Health"
+    ],
+    "collectionDate": "",
+    "contributor": [
+      "Eva Feldman"
+    ],
+    "creator": [
+      "Eva Feldman",
+      "Yue Zhao",
+      "Stephen Goutman",
+      "Maureen Sartor",
+      "Stuart Batterman"
+    ],
+    "curationLevel": "",
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "transcriptomics"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS",
+      "Control"
+    ],
+    "diseaseSubtype": [
+      ""
+    ],
+    "funder": [
+      "National Institutes of Health"
+    ],
+    "includedInDataCatalog": [
+      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1"
+    ],
+    "keywords": [
+      "ALS",
+      "exposome",
+      "RNA-seq",
+      "machine learning",
+      "case-control",
+      "whole blood",
+      "gene expression"
+    ],
+    "libraryLayout": [
+      ""
+    ],
+    "libraryStrategy": [
+      "RNA_seq"
+    ],
+    "license": [
+      "DS-ALS-IRB-PUB-COL-NPU"
+    ],
+    "originalSampleId": "",
+    "participant_count": [
+      388
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      ""
+    ],
+    "processingLevel": [
+      "raw",
+      "processed"
+    ],
+    "publisher": [
+      "University of Michigan"
+    ],
+    "sameAs": [
+      "phs004288.v1.p1"
+    ],
+    "source": [
+      "dbGaP (NINDS_ALS_Omics)"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "Case-Control Study"
+    ],
+    "study_count": null,
+    "subject": [
+      "Amyotrophic lateral sclerosis",
+      "Gene expression",
+      "RNA-Seq"
+    ],
+    "title": [
+      "Developing Novel Strategies for Personalized Treatment and Prevention of ALS: Leveraging the Global Exposome, Genome, Epigenome, Metabolome, and Inflammasome with Data Science in a Case/Control Cohort"
+    ],
+    "url": [
+      "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "GEOSuperSeries",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collectionDate",
+    "curationLevel",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "diseaseSubtype",
+    "libraryLayout",
+    "originalSampleId",
+    "platform",
+    "portalRelease",
+    "study_count"
+  ],
+  "name": "Developing Novel Strategies for Personalized Treatment and Prevention of ALS  Leveraging the Global Exposome  Genome  Epigenome  Metabolome  and Inflammasome with Data Science in a Case Control Cohort",
+  "publication_hints": [],
+  "synId": "syn74483113",
+  "wiki_pages": [
+    {
+      "id": "640102",
+      "markdown": "## Summary\n\n- **Background + Gap:** Amyotrophic lateral sclerosis (ALS) is a rare fatal neurodegenerative disease. ALS incurs a lengthy diagnostic process because the disease remains difficult to identify in routine clinical practice and patients manifest symptoms and signs similar to other more common illnesses, leading to frequent misdiagnoses and errors. Moreover, although most patients survive only 2 to 4 years from diagnosis, they lack information on their specific anticipated disease course due to a lack of prognostic tools. Although ALS is a heterogeneous disease of varied etiology, peripheral immune system dysfunction is ubiquitous, reflected in altered whole blood transcriptome.\n- **Study type & approach + Key findings:** Herein, we profiled whole blood gene expression by RNA sequencing (RNA-seq) in a large cohort of ALS cases versus controls. Several machine learning classifiers trained on our gene expression dataset predicted case-control status and survival, and integration analysis with early ALS cell models and human disease tissues identified drug candidates.\n- **Impact / utility:** Data available via ALS Knowledge Portal includes de-identified subject- and sample-level data: raw and processed RNA-seq (BAM, gene expression count matrices) and key clinical phenotypes (diagnosis, demographics, survival). Of the 694 study participants, 388 consented to share their individual-level data.\n \n<details>\n<summary>Show More</summary>\n\n## Overall Design\n\n- **Study category:** Clinical (case-control)\n- **Setting:** Single-site\n\n## Population / Models\n\n- **Humans:** Inclusion criteria: Age >18 years, can communicate in English. ALS cases must have an ALS diagnosis by the Gold Coast criteria while the revised El Escorial criteria were collected as part of their diagnostic workup.\n- **Biospecimens:** Whole blood\n\n## Arms / Cohorts\n\n- **Cohort 1:** ALS cases\n- **Controls:** Healthy participants that were without ALS and without first- or second-degree relatives with ALS\n\n## Timepoints\n\n- Cross-sectional\n\n## Replicates / Sample Size\n\n- ALS (n = 422; shared samples n= 204) and control (n = 272; shared samples n = 184) participants, one biosample and single replicate from each participant\n\n## Primary Outcomes / Endpoints\n\n- **Clinical:** Case-control prediction, case survival prediction\n- **Molecular readouts:** Whole blood RNA-seq\n\n## Comparators\n\n- Case versus control for case-control prediction\n- Shorter versus intermediate versus longer surviving cases for case survival prediction\n\n## Data Sharing\n\n- Raw and processed RNA-seq (BAM, gene expression count matrices) and key clinical phenotypes (diagnosis, demographics, survival) available via dbGaP\n\n## Data Types and Outputs\n\n### Generated Datasets\n\n- RNA-seq / clinical phenotypes\n\n### Key Derived Outputs\n\n- Differential gene expression\n\n### File Formats (optional)\n\n- BAM, text\n\n## Participant / Sample Details\n\n- **Inclusion criteria:** Age >18 years, can communicate in English. ALS cases must have an ALS diagnosis by the Gold Coast criteria while the revised El Escorial criteria were collected as part of their diagnostic workup.\n- **Exclusion criteria:** Controls cannot have ALS or a first- or second-degree relative with ALS.\n- **Demographics captured:** Age at blood draw, sex, self-reported race for both cases and controls.\n- **Clinical metadata captured:** Family history of ALS for both ALS cases and controls. Additionally for cases, revised El Escorial criteria at first visit, onset segment, ALSFRS-R score, diagnosis disease, subject age at symptom onset, subject age at diagnosis, follow up time from symptom onset, is subject dead or not, subject age at last contact, subject age at death, and C9orf72 status in a subset.\n- **Sample metadata captured:** Sample type, participant age at sample collection.\n\n## Methods\n\n### Clinical Procedures (if applicable)\n\n- **Assessments:** Revised El Escorial criteria at first visit, ALSFRS-R score\n- **Biospecimen collection:** Whole blood into PAXgene tubes and frozen and stored at \u201380 \u00b0C until RNA extraction\n\n### Molecular / Omics (if applicable)\n\n- **Assays:** RNA-seq\n- **Processing:** polyA selection, rRNA depletion\n\n## Key Findings\n\n- **Finding 1:** Whole blood RNA-seq identified a strong ALS signal: In a large case-control cohort, whole-blood transcriptomic profiles distinguished people with ALS from controls with good accuracy.\n- **Finding 2:** Blood gene-expression data added prognostic value: Combining transcriptomic features with clinical data improved prediction of ALS survival.\n- **Finding 3:** The blood signature reflected ALS biology and suggested drug candidates.\n\n## Limitations\n\n- Of the 694 study participants, 388 consented to share their individual-level data.\n\n## Data Access and Reuse Notes\n\n- **Where to access:** dbGaP (`phs004288.v1.p1`)\n- **What\u2019s available:** Raw and processed RNA-seq (BAM, gene expression count matrices) and key clinical phenotypes (diagnosis, demographics, survival)\n- **Governance:** DUA required\n\n## Contact\n\n- **Name:** Stacey Sakowski Jacoby\n- **Email:** staceysa@med.umich.edu\n\n## Contributors\n\n| Role in Study | Name | Affiliation or Institute |\n|---|---|---|\n| Principal Investigator | Eva L. Feldman, MD, PhD | University of Michigan, Ann Arbor, MI USA |\n| Principal Investigator | Stephen A. Goutman, MD | University of Michigan, Ann Arbor, MI USA |\n| Principal Investigator | Maureen A. Sartor, PhD | University of Michigan, Ann Arbor, MI USA |\n| Principal Investigator | Stuart A. Batterman, PhD | University of Michigan, Ann Arbor, MI USA |\n| Co-Investigator | Yue Zhao, PhD | University of Michigan, Ann Arbor, MI USA |\n| Project Manager | Stacey Sakowski Jacoby, PhD | University of Michigan, Ann Arbor, MI USA |\n| Funding Source | R01NS127188 | National Institutes of Health, Bethesda, MD, USA |\n\n## Publications\n\n- **PMID:** 39369616\n- **PMID:** 41173979\n\n## Related Datasets\n\n- The RNA-seq data generated in this study have also been deposited in the European Genome-Phenome Archive (EGA) database under accession code `EGAS50000001019`\n\n## Keywords\n\n- Amyotrophic lateral sclerosis (ALS)\n- Biomarker discovery\n- Case-control classification\n- Case survival prediction\n- Drug perturbation analysis\n- Machine learning\n- Motor neuron disease\n- RNA sequencing\n- Whole blood gene expression\n\n\n</details>\n",
+      "title": ""
+    }
+  ]
+}

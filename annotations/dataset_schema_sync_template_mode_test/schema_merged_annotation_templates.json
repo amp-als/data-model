@@ -1,0 +1,183 @@
+{
+  "syn69694463": {
+    "ASSESS ALL ALS Dataset": {
+      "_created_timestamp": "2026-06-12T18:00:33.824135",
+      "_file_type": "ClinicalDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633965"
+      ],
+      "alternateName": [
+        "ASSESS ALL ALS"
+      ],
+      "assessmentTypes": [
+        "alsfrs_r",
+        "vital_signs",
+        "laboratory",
+        "dynamometry",
+        "genetic_testing"
+      ],
+      "citation": [
+        "doi:10.1002/mus.28244"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "disease_progression",
+        "genetic_testing",
+        "biomarkers",
+        "cognitive_assessment"
+      ],
+      "cohort": [
+        "Symptomatic ALS",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control",
+        "Natural-History"
+      ],
+      "cohort_count": [
+        2
+      ],
+      "collection": [
+        "all_als"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        "tier2"
+      ],
+      "dataType": [
+        "clinical_assessment",
+        "medical_history",
+        "laboratory_results",
+        "vital_signs",
+        "hand_held_dynamometry",
+        "genetic_profile",
+        "study_management"
+      ],
+      "dataset_code": "",
+      "datePublished": null,
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "SOD1-ALS",
+        "ANG-ALS",
+        "ANXA11-ALS",
+        "ARHGEF28-ALS",
+        "ATXN2-ALS",
+        "CFAP410-ALS",
+        "CHCHD10-ALS",
+        "CHMP2B-ALS",
+        "DAO-ALS",
+        "DCTN1-ALS",
+        "ERBB4-ALS",
+        "FIG4-ALS",
+        "FUS-ALS",
+        "HNRNPA1-ALS",
+        "HNRNPA2B1-ALS",
+        "KIF5A-ALS",
+        "MATR3-ALS",
+        "MOBP-ALS",
+        "NEFH-ALS",
+        "NEK1-ALS",
+        "OPTN-ALS",
+        "PFN1-ALS",
+        "SETX-ALS",
+        "SQSTM1-ALS",
+        "TAF15-ALS",
+        "TARDBP-ALS",
+        "TBK1-ALS",
+        "TUBA4A-ALS",
+        "UBQLN2-ALS",
+        "UNC13A-ALS",
+        "VAPB-ALS",
+        "VCP-ALS",
+        "ALS2-ALS",
+        "ELP3-ALS",
+        "EPHA4-ALS",
+        "EWSR1-ALS",
+        "KIKAP3-ALS",
+        "PRPH-ALS",
+        "SPG4-ALS",
+        "SPG11-ALS"
+      ],
+      "followUpDuration": null,
+      "funder": [
+        "National Institutes of Health"
+      ],
+      "includedInDataCatalog": "",
+      "keywords": [
+        "ALS",
+        "motor_neuron",
+        "longitudinal",
+        "ALSFRS-R",
+        "ALSAQ-40",
+        "ECAS",
+        "motor_function",
+        "bulbar",
+        "respiratory",
+        "cognitive",
+        "depression",
+        "strength",
+        "pulmonary",
+        "QOL",
+        "biospecimen",
+        "eligibility",
+        "CRF",
+        "biomarker",
+        "progression",
+        "phenotype"
+      ],
+      "license": "",
+      "participant_count": [
+        947
+      ],
+      "portalRelease": [
+        "2026.2"
+      ],
+      "primaryOutcome": [
+        "ALSFRS-R total score and rate of functional decline"
+      ],
+      "publisher": [
+        "Sage Bionetworks"
+      ],
+      "sameAs": "",
+      "source": [
+        "ALL ALS"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyDesign": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients",
+        "Motor neuron diseases--Research",
+        "Neurodegenerative diseases--Diagnosis"
+      ],
+      "title": [
+        "ASSESS ALS Dataset"
+      ],
+      "url": "",
+      "visitSchedule": [
+        "Screening; Visits 1, 1a, 2\u20137; Control Visits 2\u20133; DHT sub-study visits; Early Termination"
+      ]
+    }
+  }
+}

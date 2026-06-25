@@ -1,0 +1,236 @@
+{
+  "current_annotations": {
+    "acknowledgementStatement": [
+      "syn64892175/wiki/639413"
+    ],
+    "biospecimenType": [
+      "blood",
+      "csf",
+      "spinal_cord"
+    ],
+    "collection": [
+      "Target ALS"
+    ],
+    "contributor": [
+      "Target ALS"
+    ],
+    "creator": [
+      "Target ALS"
+    ],
+    "curationLevel": [
+      "Raw"
+    ],
+    "dataType": [
+      "genomics"
+    ],
+    "disease": [
+      "ALS",
+      "Control"
+    ],
+    "diseaseSubtype": [
+      "Definite_ALS",
+      "Possible_ALS",
+      "Probable_ALS",
+      "Probable_ALS_Lab_Supported"
+    ],
+    "keywords": [
+      "whole genome sequencing",
+      "genomicVariants",
+      "haplotype calls",
+      "qc reports",
+      "variant_calls",
+      ""
+    ],
+    "libraryLayout": [
+      "single-end"
+    ],
+    "libraryStrategy": [
+      "WGS"
+    ],
+    "participant_count": [
+      86
+    ],
+    "portalRelease": [
+      "2026.1"
+    ],
+    "processingLevel": [
+      "raw",
+      "processed"
+    ],
+    "site_of_onset": [
+      "Bulbar",
+      "Limb"
+    ],
+    "source": [
+      "Target ALS"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "Natural History Study"
+    ],
+    "title": [
+      "Target ALS Dataset"
+    ],
+    "url": [
+      "https://targetals.org/"
+    ]
+  },
+  "dataset_type": "OmicDataset",
+  "merged_annotation_template": {
+    "FACSPopulation": "",
+    "GEOSuperSeries": "",
+    "_created_timestamp": "2026-05-29T18:11:28.645575+00:00",
+    "_dataset_type": "OmicDataset",
+    "_schema_source": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/639413"
+    ],
+    "alternateName": [
+      ""
+    ],
+    "assay": [
+      ""
+    ],
+    "biospecimenType": [
+      "blood",
+      "csf",
+      "spinal_cord"
+    ],
+    "cellType": [
+      ""
+    ],
+    "citation": [
+      ""
+    ],
+    "cohortType": [
+      ""
+    ],
+    "cohort_count": null,
+    "collection": [
+      "Target ALS"
+    ],
+    "collectionDate": "",
+    "contributor": [
+      "Target ALS"
+    ],
+    "creator": [
+      "Target ALS"
+    ],
+    "curationLevel": [
+      "Raw"
+    ],
+    "dataFormat": [
+      ""
+    ],
+    "dataType": [
+      "genomics"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS",
+      "Control"
+    ],
+    "diseaseSubtype": [
+      "Definite_ALS",
+      "Possible_ALS",
+      "Probable_ALS",
+      "Probable_ALS_Lab_Supported"
+    ],
+    "funder": [
+      ""
+    ],
+    "includedInDataCatalog": "",
+    "keywords": [
+      "whole genome sequencing",
+      "genomicVariants",
+      "haplotype calls",
+      "qc reports",
+      "variant_calls",
+      ""
+    ],
+    "libraryLayout": [
+      "single-end"
+    ],
+    "libraryStrategy": [
+      "WGS"
+    ],
+    "license": "",
+    "originalSampleId": "",
+    "participant_count": [
+      86
+    ],
+    "platform": [
+      ""
+    ],
+    "portalRelease": [
+      "2026.1"
+    ],
+    "processingLevel": [
+      "raw",
+      "processed"
+    ],
+    "publisher": "",
+    "sameAs": "",
+    "site_of_onset": [
+      "Bulbar",
+      "Limb"
+    ],
+    "source": [
+      "Target ALS"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyType": [
+      "Natural History Study"
+    ],
+    "study_count": null,
+    "subject": [
+      ""
+    ],
+    "title": [
+      "Target ALS Dataset"
+    ],
+    "url": [
+      "https://targetals.org/"
+    ]
+  },
+  "missing_fields": [
+    "FACSPopulation",
+    "GEOSuperSeries",
+    "alternateName",
+    "assay",
+    "cellType",
+    "citation",
+    "cohortType",
+    "cohort_count",
+    "collectionDate",
+    "dataFormat",
+    "dataset_code",
+    "datePublished",
+    "description",
+    "funder",
+    "includedInDataCatalog",
+    "license",
+    "originalSampleId",
+    "platform",
+    "publisher",
+    "sameAs",
+    "study_count",
+    "subject"
+  ],
+  "name": "Target ALS",
+  "publication_hints": [],
+  "synId": "syn73965826",
+  "wiki_pages": [
+    {
+      "id": "639434",
+      "markdown": "# Target ALS \u2013 ALS Global Research Initiative (AGRI) Global Natural History Study (GNHS)\n\n### **Summary:**\n\n**Background:**\nAmyotrophic lateral sclerosis (ALS) is a progressive neurodegenerative disease characterized by degeneration of motor neurons, leading to paralysis and death. A major challenge in ALS research is the lack of large genetically-diverse, longitudinal datasets integrating clinical phenotypes with molecular and genomic measurements.\n\n**Study overview:**\nThe Target ALS Global Natural History Study (GNHS), part of the ALS Global Research Initiative (AGRI), is an international, multicenter observational study designed to generate a comprehensive, longitudinal multi-omic dataset to support ALS biomarker discovery and disease-mechanism research. The study aims to recruit 800 ALS patients and 200 healthy controls across 18 international clinical sites.\n\nParticipants undergo longitudinal clinical assessments and biospecimen collection. These samples are used to generate genomic, proteomic, and digital biomarker datasets that are integrated with clinical metadata.\n\n**Impact:**\nThe GNHS dataset provides one of the largest integrated ALS datasets combining clinical phenotyping, multi-omics, and digital health measurements, enabling studies of disease progression, biomarker discovery, and patient stratification.\n<details>\n  <summary><b>Show More</b></summary>\n## Overall Design\n\n**Study type:**\nOn-going observational longitudinal natural history study.\n\n**Setting:**\n18 site, multicenter international study with 11 participating sites in the United States (including Puerto Rico).\n\n**Participants:**\n\n  * ALS patients diagnosed at participating ALS clinics\n  * Healthy control participants\n\n**Target enrollment:**\n\n  * 800 ALS participants\n  * 200 healthy controls\n\n**Data collection:**\nParticipants contribute clinical data and biospecimens that are processed to generate multiple molecular datasets.\n\n## Data Types and Outputs\n\nThis subset of the GNHS dataset comes from participants who have completed the study and currently includes the following data modalities:\n\n  * Demographic metadata and longitudinal clinical data, including spirometry, cognitive assessments, and ALSFRS-R functional scores\n  * Short-read whole genome sequencing (Illumina)\n  * Plasma and CSF Olink proteomics\n  * Longitudinal plasma and CSF neurofilament light chain (NfL) Simoa measurements\n  * Longitudinal speech data from the Linus/Aural Analytics Speech Vitals platform\n  * Longitudinal respiratory function measurements from ZEPHYRx\n\nData are linked across modalities using a unique patient identifier. Not all modalities or timepoints are available for every participant.\n\n## Methods (Brief)\n\nGenomic sequencing and molecular assays are generated through collaboration with several sequencing centers and technology partners, including:\n\n  * New York Genome Center (NYGC)\n  * Psomagen\n  * University of Gothenburg\n\nWhole-genome sequencing includes short-read Illumina sequencing to enable detection of single nucleotide variants, structural variants, and repeat expansions such as C9orf72.\n\nProteomic profiling of plasma and CSF samples is performed using the Olink Explore HT platform, and neurofilament light chain (NfL) concentrations are quantified using Quanterix Simoa assays.\n\nAll samples undergo rigorous quality control during sample processing, library preparation, sequencing, and downstream analysis.\n\n## Data Access\n\nIn addition to the datasets described above, available through the AMP-ALS Knowledge Portal, all data from the GNHS and our other collections are also available through the [Target ALS Data Engine](https://dataengine.targetals.org/collections).\n\nDatasets are updated as new participants complete study visits and additional molecular assays are generated.\n\n## Related Resources\n\nAdditional information about the study can be found at:\n<https://www.targetals.org/resource/longitudinal-biofluids-core/>\n\n## Keywords\n\n  * Amyotrophic Lateral Sclerosis\n  * ALS\n  * Natural History Study\n  * Whole Genome Sequencing\n  * WGS\n  * Proteomics\n  * Olink\n  * Simoa\n  * NfL\n  * Digital Biomarkers\n  * Digital Health Technology\n  * DHT\n  * Linus\n  * Aural Analytics\n  * Speech Vitals\n  * ZEPHYRx\n  * Spirometry\n\n</details>",
+      "title": ""
+    }
+  ]
+}
