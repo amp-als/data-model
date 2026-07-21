@@ -8,6 +8,9 @@ classes:
     is_a: BaseFile
     mixins: [OmicFileMixin]
     description: File containing omic data such as sequencing, expression, or proteomics data
+    slots:
+      - fileFormat
+      - platform
     attributes:
       # Omic-specific data types
       dataType:
@@ -16,40 +19,10 @@ classes:
         description: Omic data types (genomics, transcriptomics, proteomics, etc.)
         multivalued: true
         required: false
-      # Sequencing and platform metadata
-      platform:
-        title: Platform
-        range: PlatformEnum
-        description: Sequencing or analysis platform used
-        multivalued: true
-        required: false
-      libraryStrategy:
-        title: Library Strategy
-        range: LibraryStrategyEnum
-        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
-        required: false
       referenceGenome:
         title: Reference Genome
         range: GenomicReferenceEnum
         description: Reference genome used for alignment
-        required: false
-      alignmentMethod:
-        title: Alignment Method
-        range: AlignmentMethodEnum
-        description: Tool or method used for sequence alignment
-        required: false
-      # Processing information
-      processingLevel:
-        title: Processing Level
-        range: ProcessingLevelEnum
-        description: Level of data processing (raw, processed, analyzed)
-        multivalued: true
-        required: false
-      # File format details
-      fileFormat:
-        title: File Format
-        range: string
-        description: Format of the omic data file (FASTQ, BAM, VCF, etc.)
         required: false
       variantType:
         title: Variant Type

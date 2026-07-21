@@ -323,37 +323,6 @@ enums:
       other:
         description: Other treatment type
         
-  CellTypeEnum:
-    permissible_values:
-      primary_cell:
-        description: Primary cells directly from tissue
-      immortalized_cell_line:
-        description: Immortalized cell line
-      stem_cell:
-        description: Stem cell culture
-      differentiated_cell:
-        description: Differentiated cell type
-      organoid:
-        description: Organoid culture
-      fibroblasts:
-        description: Fibroblast cells
-      iPSC:
-        description: Induced pluripotent stem cells
-      NeuN+ neurons:
-        description: NeuN-positive neurons
-      neurons:
-        description: Neuronal cells
-      oligodendrocyte lineage cells:
-        description: Cells of oligodendrocyte lineage
-      astrocytes:
-        description: Astrocyte glial cells
-      microglia:
-        description: Microglial cells
-      other glia:
-        description: Other types of glial cells
-      other:
-        description: Other cell type
-        
   TissueEnum:
     permissible_values:
       brain:

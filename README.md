@@ -54,6 +54,8 @@ make OmicDataset
 make File
 make ClinicalFile
 make OmicFile
+make SpeechDataset
+make SpeechFile
 
 # Force rebuild
 make -B
@@ -74,20 +76,22 @@ The project follows a hierarchical module organization that reflects the logical
 │   │   └── BaseFile.yaml             # Abstract base for all file types
 │   │
 │   ├── mixins/                        # 🧩 COMPONENTS: Reusable attribute mixins
-│   │   ├── DatasetMixins.yaml        # Clinical + omic dataset mixins
-│   │   └── FileMixins.yaml           # Clinical + omic file mixins (libraryPreparationMethod, alignmentMethod, genomeReference, etc.)
+│   │   ├── CommonMixins.yaml         # Cross-cutting mixins (DiseaseMixin, CommonMetadataMixin, SubjectDemographicsMixin, etc.)
+│   │   ├── DatasetMixins.yaml        # Clinical + omic dataset mixins (reference slots from props.yaml)
+│   │   └── FileMixins.yaml           # Clinical + omic file mixins (reference slots from props.yaml)
 │   │
 │   ├── datasets/                      # 📊 DATASET TYPES: Domain-specific datasets/files
 │   │   ├── ClinicalDataset.yaml
 │   │   ├── OmicDataset.yaml
+│   │   ├── SpeechDataset.yaml        # Speech assessment dataset (SDTM FT domain)
 │   │   ├── ClinicalFile.yaml
-│   │   └── OmicFile.yaml             # Omic file schema (site_of_onset, referenceGenome, alignmentMethod, variantType)
+│   │   ├── OmicFile.yaml             # Omic file schema (site_of_onset, referenceGenome, variantType)
+│   │   └── SpeechFile.yaml           # Speech file/folder schema (subject, session, and archive levels)
 │   │
 │   ├── entities/                      # 🗂️ CORE ENTITIES: Primary domain objects
 │   │   ├── Subject.yaml              # Multi-source subject identification
 │   │   ├── Biospecimen.yaml          # Biological specimen metadata
-│   │   ├── ClinicalAssessment.yaml   # Clinical assessment data
-│   │   └── AllDatasets.yaml          # Legacy combined datasets file
+│   │   └── ClinicalAssessment.yaml   # Clinical assessment data
 │   │
 │   ├── clinical/                      # 🏥 CLINICAL DOMAIN: Clinical-specific modules
 │   │   ├── assessments/              # Clinical assessment types
@@ -129,11 +133,11 @@ The project follows a hierarchical module organization that reflects the logical
 │   │   └── portals.yaml
 │   │
 │   └── shared/                        # 🔧 SHARED UTILITIES: Common properties
-│       ├── analysis-methods.yaml      # AnalysisMethodEnum (joint_genotype_calling added)
+│       ├── analysis-methods.yaml      # AnalysisMethodEnum
 │       ├── annotations.yaml
-│       ├── common-enums.yaml          # DiseaseEnum, DiseaseSubtypeEnum, SiteOfOnsetEnum, and more
+│       ├── common-enums.yaml          # DiseaseEnum, DiseaseSubtypeEnum, CurationLevelEnum, LibraryLayoutEnum, and more
 │       ├── metadata-schema-template.yaml
-│       └── props.yaml
+│       └── props.yaml                 # Canonical shared slots (in_subset: [portal]); all reusable cross-class fields live here
 │
 ├── mapping/                           # Data transformation mappings
 │   ├── *.jsonata                      # Source-to-schema mappings
@@ -169,11 +173,12 @@ The ALS data model uses a **hierarchical inheritance architecture** that promote
 
 #### Key Architectural Principles:
 
-1. **Single Source of Truth**: `base/BaseDataset.yaml` defines common attributes once
-2. **Composition over Duplication**: Mixins provide reusable attribute groups
-3. **Clear Separation**: Each layer has a distinct responsibility
-4. **Semantic Hierarchy**: Structure reflects logical relationships
-5. **Extensibility**: Easy to add new dataset types or portal schemas
+1. **Define everything exactly once**: Every field, enum, and class has a single canonical location. Search before adding.
+2. **Shared slots live in `props.yaml`**: Reusable cross-class fields are defined as `slots:` with `in_subset: [portal]` in `modules/shared/props.yaml`. Classes and mixins reference them via `slots:` lists, never by redefining inline.
+3. **Composition over Duplication**: Mixins provide reusable attribute groups; domain-specific overrides use `slot_usage:` rather than re-declaring inline.
+4. **Clear Separation**: Each layer has a distinct responsibility — slots define the field, mixins group related fields, classes apply them to a domain.
+5. **Semantic Hierarchy**: Structure reflects logical relationships.
+6. **Extensibility**: Easy to add new dataset types or portal schemas.
 
 #### Inheritance Flow:
 
@@ -243,9 +248,9 @@ Experimental methodology details:
 
 #### 🧩 **mixins/** - Reusable Components
 - **Purpose**: Composable attribute groups for specific domains
-- **Content**: Classes marked as `mixin: true` with focused attribute sets
+- **Content**: Classes marked as `mixin: true`. Most fields are referenced via `slots:` pointing to `props.yaml`; only truly local one-off fields stay as inline `attributes:`.
 - **Usage**: Combined in portal schemas using `mixins: [MixinName]`
-- **Examples**: `ClinicalDatasetMixin`, `OmicDatasetMixin`
+- **Examples**: `ClinicalDatasetMixin`, `OmicDatasetMixin`, `OmicFileMixin`, `CommonMetadataMixin`
 
 #### 📊 **datasets/** - Domain Dataset Types
 - **Purpose**: Specific dataset implementations for different domains
@@ -281,8 +286,8 @@ Experimental methodology details:
 
 #### 🔧 **shared/** - Common Utilities
 - **Purpose**: Shared properties and cross-cutting enumerations
-- **Content**: `props.yaml` (portal subset slots), `common-enums.yaml`
-- **Special**: `props.yaml` uses `in_subset: [portal]` for build filtering
+- **Content**: `props.yaml` (canonical portal slots), `common-enums.yaml` (shared enums used across domains)
+- **Special**: `props.yaml` is the single source of truth for all reusable cross-class fields. Only slots marked `in_subset: [portal]` are included in per-schema builds via `relevant_props.yaml`. Every field that appears in more than one class or mixin must be defined here — never duplicated inline.
 
 ### Benefits of This Organization
 
@@ -457,6 +462,8 @@ make OmicDataset
 make File
 make ClinicalFile
 make OmicFile
+make SpeechDataset
+make SpeechFile
 make -B
 
 # Validate schema format
@@ -565,72 +572,73 @@ The repository includes automated testing that:
 
 ## Recent Schema Changes
 
-### Shared Enums (`modules/shared/`)
+For a full chronological change log, see [`docs/DATA_MODEL_CHANGES_JULY_2026.md`](docs/DATA_MODEL_CHANGES_JULY_2026.md).
 
-#### `common-enums.yaml`
-- Added `SiteOfOnsetEnum` — captures disease site of onset (`Bulbar`, `Limb`, `Lumbar`, `Respiratory`, `Generalized`, `Unknown`); used by both clinical and omic modules
-- Expanded `DiseaseSubtypeEnum` with a comprehensive set of clinical subtypes organized into categories: ALS variants, PLS/PMA subtypes, FTD/PPA subtypes, DLB subtypes, pathological FTLD/DLB subtypes, other neurodegenerative diseases, carrier statuses, non-neurological controls, and ALS/PLS/PMA/FTD comorbidity combinations
-- Removed family history entries from `DiseaseSubtypeEnum` (moved to `FamilyHistorySubtypeEnum` in `clinical/genetic-profile.yaml`)
+### July 2026 — Slot Deduplication & DRY Cleanup
 
-#### `analysis-methods.yaml`
-- Added `joint_genotype_calling` to `AnalysisMethodEnum` — multi-sample VCF joint genotype calling
+The primary focus of this work was eliminating duplicate field definitions and enforcing the rule that every reusable field is defined exactly once in `props.yaml`.
 
-#### `props.yaml`
-- Removed `genomeReference` slot (moved to `OmicFileMixin` in `mixins/FileMixins.yaml`)
+**`modules/shared/props.yaml`**
+- Promoted to the canonical source of truth for all cross-class fields
+- Added `in_subset: [portal]` and corrected `multivalued`/`required` for 15 existing slots that were previously dead code (`assay`, `fileFormat`, `libraryLayout`, `libraryPreparationMethod`, `assessmentType`, `clinicalDomain`, `administrationMode`, `studyPhase`, `keyMeasures`, `hasLongitudinalData`, `completenessLevel`, `contributor`, `species`, `citation`, `creator`)
+- Added 8 new slots promoted from inline duplicates: `platform`, `keywords`, `curationLevel`, `studyType`, `GEOSuperSeries`, `FACSPopulation`, `participant_count`, `alignmentMethod`
+- Fixed `funder` slot: `range: string` → `range: FunderEnum`, added `multivalued: true`
+- Fixed `dataType` slot: added `multivalued: true`, `required: false`
 
----
+**`modules/mixins/` and `modules/base/`**
+- Removed all inline `attributes:` definitions for fields that are now canonical slots in `props.yaml`
+- `CommonMetadataMixin`: `description`, `creator`, `contributor`, `species`, `citation` → `slots:` references
+- `BaseDataset`: `title`, `keywords`, `curationLevel`, `studyType`, `participant_count` → `slots:` references; introduced `slot_usage: keywords: required: true` for dataset-level override
+- `BaseFile`: `keywords`, `curationLevel` → `slots:` references
+- `OmicDatasetMixin`: `assay`, `libraryLayout`, `libraryPreparationMethod`, `GEOSuperSeries`, `FACSPopulation` → `slots:` references
+- `ClinicalDatasetMixin`: `clinicalDomain`, `studyType`, removed dead `dataType: range: Data` definition
+- `OmicFileMixin`: `assay`, `libraryLayout`, `libraryPreparationMethod`, `GEOSuperSeries`, `FACSPopulation`, `alignmentMethod` → `slots:` references
+- `ClinicalFileMixin`: `clinicalDomain`, `studyPhase` → `slots:` references; corrected `studyPhase` range from `string` to `StudyPhaseEnum`
 
-### Clinical Modules (`modules/clinical/`)
+**`modules/datasets/`**
+- `OmicDataset`, `OmicFile`: `platform` → slot; `libraryPreparationMethod` removed from class (now via mixin slot)
+- `OmicFile`: `alignmentMethod` removed from class (now via mixin slot); `fileFormat` → slot
+- `ClinicalFile`, `SpeechFile`: `fileFormat` → slot; `ClinicalFile` additionally: `assessmentType`, `administrationMode`, `studyPhase`, `keyMeasures`, `hasLongitudinalData`, `completenessLevel`, `studyType`, `participant_count` → slots
 
-#### `phenoconversion.yaml`
-- Renamed field `alsSiteOfOnset` → `site_of_onset`
-- Updated range from removed `ALSSiteOfOnsetEnum` → shared `SiteOfOnsetEnum`
-- Removed local `ALSSiteOfOnsetEnum` definition
+**`modules/portal/Dataset.yaml`**
+- Added `slots: [dataType]` + `slot_usage: dataType: required: false` so the union schema retains `dataType` without the deprecated `Data` class range
 
-#### `genetic-profile.yaml`
-- Added `familyHistory` attribute to `FamilyHistory` class (range: `FamilyHistorySubtypeEnum`)
-- Added `FamilyHistorySubtypeEnum` with 19 combined family history values (e.g. "Family history of ALS and FTD")
-- Removed `VariantTypeEnum` (moved to `omics/parameters.yaml`)
-
-#### `assessments/symptom-questionnaire.yaml` → `assessments/symptoms.yaml`
-- Renamed file to `symptoms.yaml`
-- Renamed class `SymptomQuestionnaire` → `Symptoms`
-
----
-
-### Omics Modules (`modules/omics/`)
-
-#### `parameters.yaml`
-- Added `LibraryPreparationMethodEnum` — `Illumina SeqLab DNA PCR-free library`, `PCR-Free`, `Nano`
-- Added `AlignmentMethodEnum` — 13 common aligners including `STAR`, `BWA-MEM`, `BWA-MEM2`, `HISAT2`, `DRAGEN`, `minimap2`, `CellRanger`, `STARsolo`, and others
-- Added `VariantTypeEnum` (moved from `clinical/genetic-profile.yaml`) — expanded to include `SNVs/SNPs`, `INDELs`, `SVs`, `MNVs`, `Germline`, `Somatic`, `Deletions`, `CNVs`, `Inversions`, `Translocations` alongside existing values
-
-#### `data-types.yaml`
-- Added `md5` and `index` to `OmicDataTypeEnum`
+**`Makefile`**
+- Removed dead `modules/omics/library-strategy.yaml` reference (file deleted in prior commit)
+- Added missing enum files to targets to fix previously unconstrained fields: `file-formats.yaml` to OmicFile/ClinicalFile/File; `parameters.yaml` to OmicDataset/Dataset; `platforms.yaml` to Dataset/File; `assessment-types.yaml` and `ClinicalAssessment.yaml` to File/Dataset
 
 ---
 
-### Mixins (`modules/mixins/`)
+### July 2026 — Speech Schema Addition
 
-#### `FileMixins.yaml`
-- Added `libraryPreparationMethod` to `OmicFileMixin` (range: `LibraryPreparationMethodEnum`)
-- Added `alignmentMethod` to `OmicFileMixin` (range: `AlignmentMethodEnum`)
-- Added `genomeReference` to `OmicFileMixin` (range: `GenomicReferenceEnum`) — moved from `props.yaml`
+**`modules/datasets/SpeechDataset.yaml`** (new)
+- Covers digital speech assessment datasets sourced from SDTM FT domain records
+- Fields: `dataType` (SpeechDataTypeEnum), SDTM-derived aggregates (`ftTests`, `ftTestCodes`, `ftStresuValues`), `vendor`, `collectionLocation`, `sdtmDomain`
+
+**`modules/datasets/SpeechFile.yaml`** (new)
+- Covers three entity types: sample folders, session folders, and ZIP archives
+- Subject identifiers: `nihguid`, `neurostamps`, `neuroguid`, `subjid`
+- SDTM FT fields at sample level: `ftStresu`, `ftGrpId`, `ftRefId`, `ftTstDtl`, `ftDtc`
+- SDTM FT fields at session level: `ftTest`, `ftTestCd`, `ftStat`, `ftReasnd`, `ftNam`, `suppLoc`, `sdtmDomain`, `sessionId`
+- Enum: `FTMeasurementDetailEnum` (`Aggregate`, `Step`)
+
+**`modules/speech/data-types.yaml`** (new)
+- `SpeechDataTypeEnum` with speech-specific data type values
 
 ---
 
-### Datasets (`modules/datasets/`)
+### July 2026 — Enum & Attribute Consolidation
 
-#### `OmicFile.yaml`
-- Added `site_of_onset` field (range: `SiteOfOnsetEnum`)
-- Added `referenceGenome` field (range: `GenomicReferenceEnum`)
-- Added `alignmentMethod` field (range: `AlignmentMethodEnum`)
-- Made `variantType` multivalued (array)
+See [`docs/DATA_MODEL_CHANGES_JULY_2026.md`](docs/DATA_MODEL_CHANGES_JULY_2026.md) §1–12 for full details. Highlights:
 
----
-
-### Build (`Makefile`)
-- Added `modules/omics/parameters.yaml` to the `OmicFile` build target so `LibraryPreparationMethodEnum`, `AlignmentMethodEnum`, `GenomicReferenceEnum`, and `VariantTypeEnum` resolve correctly
+- **`CurationLevelEnum`** unified from two divergent definitions into `common-enums.yaml`; `processingLevel` attribute merged into `curationLevel`
+- **`libraryStrategy` removed** — consolidated into `assay`; `modules/omics/library-strategy.yaml` deleted
+- **`funder`** given a controlled vocabulary (`FunderEnum` in `portals.yaml`)
+- **`program`** renamed from `collection` / `CollectionEnum` → `ProgramEnum`
+- **`originalRepository`** renamed from `source`, now wired to `OriginalRepositoryEnum`
+- **`dataFormat` removed** — `fileFormat` is the canonical file-format field
+- **`CohortTypeEnum`, `CohortEnum`** added to `BaseDataset` for cohort-level metadata
+- **`SpeechDataset`/`SpeechFile`** added to Makefile as build targets
 
 ---
 

@@ -8,6 +8,16 @@ classes:
     is_a: BaseFile
     mixins: [ClinicalFileMixin]
     description: File containing clinical data such as assessments, visits, treatments, or medical history
+    slots:
+      - fileFormat
+      - assessmentType
+      - administrationMode
+      - studyPhase
+      - keyMeasures
+      - hasLongitudinalData
+      - completenessLevel
+      - studyType
+      - participant_count
     attributes:
       # Clinical-specific data types
       dataType:
@@ -16,51 +26,11 @@ classes:
         description: Clinical data types (assessments, treatments, medical history, etc.)
         multivalued: true
         required: false
-      # Assessment-specific attributes
-      assessmentType:
-        title: Assessment Type
-        range: AssessmentTypeEnum
-        description: Type of clinical assessment contained in the file
-        multivalued: true
-        required: false
-      # Key outcome measures
-      keyMeasures:
-        title: Key Measures
-        range: string
-        description: Primary outcome measures or endpoints captured in this data
-        multivalued: true
-        required: false
-      # Data collection methodology
-      administrationMode:
-        title: Administration Mode
-        range: AdministrationModeEnum
-        description: The method by which the assessment or data collection was performed
-        multivalued: true
-        required: false
-      studyPhase:
-        title: Study Phase
-        range: StudyPhaseEnum
-        description: The phase or timepoint in the study when the data was collected
-        multivalued: true
-        required: false
-      # Data characteristics
-      hasLongitudinalData:
-        title: Has Longitudinal Data
-        range: boolean
-        description: Indicates whether the data contains multiple timepoints per subject
-        multivalued: true
-        required: false
       # File metadata
       viewName:
         title: View Name
         range: string
         description: Name of the Synapse view or query used to generate the file
-        multivalued: true
-        required: false
-      fileFormat:
-        title: File Format
-        range: string
-        description: Format of the clinical data file (CSV, TSV, etc.)
         multivalued: true
         required: false
       recordCount:
@@ -73,25 +43,6 @@ classes:
         title: Dataset Reference
         range: string
         description: Reference to dataset this file belongs to
-        multivalued: true
-        required: false
-      completenessLevel:
-        title: Completeness Level
-        range: CompletenessLevelEnum
-        description: General assessment of data completeness based on non-null values
-        multivalued: true
-        required: false
-      studyType:
-        title: Study Type
-        range: StudyLevelEnum
-        description: Study type for dataset (longitudinal, cross-sectional, etc.)
-        multivalued: true
-        required: false
-      # Participant information
-      participant_count:
-        title: Participant Count
-        range: integer
-        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
         multivalued: true
         required: false
       # Subject tracking

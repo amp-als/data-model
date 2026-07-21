@@ -25,18 +25,10 @@ classes:
     mixin: true
     description: Mixin for clinical file specific attributes
     mixins: [SubjectIdentifierMixin, FileAnnotationsMixin]
+    slots:
+      - clinicalDomain
+      - studyPhase
     attributes:
-      clinicalDomain:
-        title: Clinical Domain
-        description: The primary clinical domain or area of focus for the data
-        range: ClinicalDomainEnum
-        multivalued: true
-        required: false
-      studyPhase:
-        title: Study Phase
-        range: string
-        description: Phase or stage of the clinical study when file was generated
-        required: false
       visitType:
         title: Visit Type
         range: string
@@ -48,42 +40,21 @@ classes:
     mixin: true
     description: Mixin for omic file specific attributes
     mixins: [SubjectIdentifierMixin, SpecimenTypeMixin, FileAnnotationsMixin, SubjectDemographicsMixin]
+    slots:
+      - assay
+      - libraryLayout
+      - libraryPreparationMethod
+      - GEOSuperSeries
+      - FACSPopulation
+      - alignmentMethod
     attributes:
-      assay:
-        title: Measurement Technique
-        range: AssayEnum
-        multivalued: true
-        description: What's used to generate data in file, typically referring to the assay. Omit if not applicable.
-        required: false
-      GEOSuperSeries:
-        title: GEO SuperSeries
-        range: string
-        description: GEO SuperSeries identifier
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
         required: false
       originalSampleId:
         title: Original Sample ID
         range: string
         description: Original sample identifier as provided by the data source.
-        required: false
-      FACSPopulation:
-        title: FACS Population
-        range: string
-        description: FACS-sorted cell population description
-        required: false
-      libraryLayout:
-        title: Library Layout
-        range: LibraryLayoutEnum
-        description: Single-end or paired-end sequencing layout for files containing sequencing data.
-        multivalued: true
-        required: false
-      libraryPreparationMethod:
-        title: Library Preparation Method
-        range: LibraryPreparationMethodEnum
-        description: Method or kit used for library preparation.
-        multivalued: true
-        required: false
-      alignmentMethod:
-        title: Alignment Method
-        range: AlignmentMethodEnum
-        description: Tool or method used for sequence alignment.
         required: false

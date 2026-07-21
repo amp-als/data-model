@@ -1,5 +1,6 @@
 #######################################
-# Common Enums Shared Across All Modules
+# Speech Data Types
+# Data types specific to speech assessment data (DHT / SDTM FT domain)
 #######################################
 id: https://amp-als.org/schemas/MetadataSchema
 name: metadata-schema
@@ -121,8 +122,9 @@ enums:
         description: Metabolic pathway analysis
       signaling_pathway:
         description: Cell signaling pathway analysis
-  # Access and permissions
-  AccessTypeEnum:
+  # Data Use Modifiers — access types and DUO codes
+  DataUseModifierEnum:
+    description: Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used.
     permissible_values:
       open:
         description: Open access, no restrictions
@@ -132,23 +134,48 @@ enums:
         description: Private access, restricted to specific users
       embargo:
         description: Under embargo, restricted until release date
-      Federated: Authenticate with passport to provide access.
-    description: (Draft) Labels for how the AMP-ALS federated network defines access
+      GRU:
+        description: General Research Use — Use is allowed for any research purpose, including methods development and population/ancestry research.
+        meaning: DUO:0000042
+      HMB:
+        description: Health or Medical or Biomedical Research — Use is allowed for health, medical, or biomedical research purposes.
+        meaning: DUO:0000006
+      DS:
+        description: Disease Specific Research — Use is allowed for research into the specified disease or condition.
+        meaning: DUO:0000007
+      NCU:
+        description: Non-Commercial Use Only — Use is limited to non-commercial purposes.
+        meaning: DUO:0000046
+      NPUNCU:
+        description: Not-for-Profit, Non-Commercial Use Only — Use is limited to not-for-profit organizations for non-commercial purposes.
+        meaning: DUO:0000018
+      US:
+        description: User Specific Restriction — Use is limited to specified, approved users.
+        meaning: DUO:0000026
   # Data governance
   CurationLevelEnum:
+    description: Level of data processing and curation applied to a dataset or file
     permissible_values:
+      Raw:
+        description: Raw, unprocessed data (alternate notation)
+      Processed:
+        description: Processed data (aligned, normalized)
+      Analyzed:
+        description: Analyzed data with statistical results
+      Integrated:
+        description: Integrated multi-sample analysis
       tier1:
         description: Tier 1 - Raw data, minimal curation
       tier2:
         description: Tier 2 - Validated data with quality control
       tier3:
         description: Tier 3 - Analysis-ready data with comprehensive metadata
-      unknown:
-        description: Curation level unknown
-      Raw:
       Standardized:
+        description: Data standardized to a common format or schema
       Non-Standardized:
+        description: Data not yet standardized
       Unknown:
+        description: Curation level unknown
   # Library layouts for sequencing
   LibraryLayoutEnum:
     permissible_values:
@@ -197,6 +224,10 @@ enums:
         description: Kennedy's disease, or spinal and bulbar muscular atrophy (SBMA), is a rare, X-linked genetic neurodegenerative disorder primarily affecting men, characterized by slow progressive muscle weakness and wasting
       Spinal muscular atrophy:
         description: spinal muscular atrophy (SMA) is a rare, inherited genetic disease causing progressive muscle weakness and atrophy (wasting) due to the loss of motor neurons in the spinal cord
+      Other Motor Neuron Disease:
+        description: Motor neuron disease not otherwise classified as ALS, PLS, PMA, or PBP
+      Other Neurological Disorders:
+        description: Neurological disorder not otherwise classified in this enum
       C9-ALS:
         description: C9orf72-associated ALS
       sporadic ALS:
@@ -208,17 +239,13 @@ enums:
   DiseaseSubtypeEnum:
     description: Specific subtypes or variants of neurodegenerative diseases
     permissible_values:
-      C9orf72:
-        description: C9orf72 gene mutation
-      Asymptomatic C9orf72:
-        description: Asymptomatic C9orf72 gene mutation
       SOD1:
         description: SOD1 gene mutation
       FUS:
         description: FUS gene mutation
       TARDBP:
         description: TARDBP gene mutation
-      sporadic:
+      sporadic ALS:
         description: Sporadic (non-familial) form
       familial:
         description: Familial (inherited) form
@@ -226,6 +253,8 @@ enums:
         description: Disease subtype unknown or not applicable
       C9-ALS:
         description: C9orf72 ALS (gene-carrier notation)
+      C9-FTD:
+        description: C9orf72 FTD (gene-carrier notation)
       Asymptomatic C9:
         description: C9 Asymptomatic carrier
       SOD1-ALS:
@@ -236,6 +265,8 @@ enums:
         description: FUS ALS
       TARDBP-ALS:
         description: TARDBP ALS
+      TDP43-ALS:
+        description: TDP-43 ALS (alternate notation for TARDBP-ALS)
       ANG-ALS:
         description: ANG ALS
       ANXA11-ALS:
@@ -260,6 +291,8 @@ enums:
         description: FIG4 ALS
       GRN-ALS:
         description: GRN (Progranulin) ALS
+      PROGRANULIN-ALS:
+        description: Progranulin ALS (alternate notation for GRN-ALS)
       HNRNPA1-ALS:
         description: HNRNPA1 ALS
       HNRNPA2B1-ALS:
@@ -268,6 +301,8 @@ enums:
         description: KIF5A ALS
       MAPT-ALS:
         description: MAPT (Tau) ALS
+      TAU-ALS:
+        description: Tau ALS (alternate notation for MAPT-ALS)
       MATR3-ALS:
         description: MATR3 ALS
       MOBP-ALS:
@@ -608,23 +643,41 @@ enums:
         description: Migraine without paralysis
   # Cell types
   CellTypeEnum:
+    description: Type of cell or cell line
     permissible_values:
+      # Neuronal
       motor_neuron:
         description: Motor neurons
+      neurons:
+        description: Neuronal cells
+      NeuN+ neurons:
+        description: NeuN-positive neurons
+      # Glial
+      astrocytes:
+        description: Astrocyte glial cells
       astrocyte:
-        description: Astrocytes
+        description: Astrocytes (alternate notation)
       microglia:
-        description: Microglia
+        description: Microglial cells
+      oligodendrocyte lineage cells:
+        description: Cells of oligodendrocyte lineage
       oligodendrocyte:
         description: Oligodendrocytes
-      fibroblast:
-        description: Fibroblasts
-      pbmc:
-        description: Peripheral blood mononuclear cells
+      other glia:
+        description: Other types of glial cells
+      # Blood-derived
       whole_blood:
         description: Whole blood
-      unknown:
-        description: Cell type unknown
+      pbmc:
+        description: Peripheral blood mononuclear cells
+      # Fibroblasts
+      fibroblasts:
+        description: Fibroblast cells
+      fibroblast:
+        description: Fibroblasts (alternate notation)
+      # Stem cells and iPSC-derived cultures
+      iPSC:
+        description: Induced pluripotent stem cells
       primary_cell:
         description: Primary cells directly from tissue
       immortalized_cell_line:
@@ -635,33 +688,11 @@ enums:
         description: Differentiated cell type
       organoid:
         description: Organoid culture
-      fibroblasts:
-        description: Fibroblast cells
-      iPSC:
-        description: Induced pluripotent stem cells
-      NeuN+ neurons:
-        description: NeuN-positive neurons
-      neurons:
-        description: Neuronal cells
-      oligodendrocyte lineage cells:
-        description: Cells of oligodendrocyte lineage
-      astrocytes:
-        description: Astrocyte glial cells
-      other glia:
-        description: Other types of glial cells
+      # Other
+      unknown:
+        description: Cell type unknown
       other:
         description: Other cell type
-  # Data processing levels
-  ProcessingLevelEnum:
-    permissible_values:
-      raw:
-        description: Raw, unprocessed data
-      processed:
-        description: Processed data (aligned, normalized)
-      analyzed:
-        description: Analyzed data with statistical results
-      integrated:
-        description: Integrated multi-sample analysis
   # Biospecimen types
   BiospecimenTypeEnum:
     permissible_values:
@@ -685,10 +716,10 @@ enums:
         description: Induced pluripotent stem cells
       motor_neuron:
         description: Cultured motor neurons
+      primary cell culture:
+        description: biological specimens sourced directly from living tissues or organs (e.g., biopsies, blood) and disaggregated into viable cells
       unknown:
         description: Biospecimen type unknown
-      primary cell culture:
-        description: Cells cultured directly from tissue
       brain tissue:
         description: Brain tissue specimen
       rna:
@@ -827,8 +858,6 @@ enums:
         description: Control cohort or study group, including healthy, unaffected, placebo, or no-remarkable-pathology controls as appropriate for the dataset.
       Healthy Control:
         description: Unaffected or healthy control participants or specimens.
-      C9ALS:
-        description: Familial ALS due to C9orf72 mutation.
       sALS:
         description: Sporadic ALS.
       FTD-GRN:
@@ -843,7 +872,7 @@ enums:
         description: ALS donors with C9orf72 repeat expansion.
       C9-FTD:
         description: FTD donors with C9orf72 repeat expansion.
-      C9ALS/FTD:
+      C9-ALS/FTD:
         description: ALS/FTD cases carrying a C9orf72 repeat expansion.
       Like-C9 Sporadic ALS/FTD:
         description: Sporadic non-C9 ALS/FTD cases with C9-like hnRNP H-target splicing dysregulation.
@@ -2197,6 +2226,13 @@ enums:
         description: Visit was cancelled
       In_Progress:
         description: Visit is currently in progress
+  FTMeasurementDetailEnum:
+    description: Measurement granularity level for SDTM FT domain functional tests (FTTSTDTL)
+    permissible_values:
+      Aggregate:
+        description: Measurement is an aggregate summary across all steps of the test session
+      Step:
+        description: Measurement corresponds to an individual step within the test session
   TreatmentEnum:
     permissible_values:
       control:
@@ -2599,8 +2635,10 @@ enums:
         description: Summary statistics
       meta_analysis:
         description: Meta-analysis results
-  CollectionEnum:
-    description: Original collection, e.g. the consortium that the dataset comes from.
+      experimental study:
+        description: scientific investigation where researchers deliberately manipulate one or more independent variables to observe their effect on dependent variables
+  ProgramEnum:
+    description: Research consortium or program that produced or funded the dataset.
     permissible_values:
       ALS Knowledge Portal:
         description: Default collection
@@ -2610,38 +2648,130 @@ enums:
       New York Genome Center ALS Consortium:
       National Institutes of Health:
       Project MinE:
-      ALS Compute:
       Target ALS:
         description: Target ALS consortium
-      amp_als:
+      AMP ALS:
         description: AMP-ALS Knowledge Portal
-      target_als:
-        description: Target ALS consortium
-      all_als:
+      ALL ALS:
         description: ALL ALS consortium
-      c_path:
-        description: Critical Path Institute
-      alsdb:
-        description: ALS Database
-      geo:
-        description: Gene Expression Omnibus
-      sra:
-        description: Sequence Read Archive
-      als_compute:
-        description: ALS Compute Portal
-  SourceNode:
-    description: Source nodes within the federated network.
-    permissible_values:
       Critical Path Institute:
-        description: https://www.c-path.org/
-      Gene Expression Omnibus:
-        description: https://www.ncbi.nlm.nih.gov/geo/
+        description: Critical Path Institute
       ALS Compute:
-        description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
+        description: ALS Compute Portal
+  FunderEnum:
+    description: Organization(s) that funded the dataset or study.
+    permissible_values:
+      NIH:
+        description: National Institutes of Health
+      NIA:
+        description: National Institute on Aging
+      NINDS:
+        description: National Institute of Neurological Disorders and Stroke
+      DoD:
+        description: U.S. Department of Defense
+      MDA:
+        description: Muscular Dystrophy Association
+      CZI:
+        description: Chan Zuckerberg Initiative
+      ERC:
+        description: European Research Council
       Target ALS:
-        description: targetals.org
+        description: Target ALS Foundation
+      ALSA:
+        description: ALS Association
+      Answer ALS:
+        description: Answer ALS Foundation
+      Perelman School of Medicine at the University of Pennsylvania:
+        description: Perelman School of Medicine at the University of Pennsylvania
+      VA:
+        description: U.S. Department of Veterans Affairs
+      NIMH:
+        description: National Institute of Mental Health
+      PsychEncode Consortium:
+        description: PsychEncode Consortium
+      Mayo Clinic:
+        description: Mayo Clinic
+      Einstein Aging Study:
+        description: Einstein Aging Study
+      NIH Office of the Director:
+        description: NIH Office of the Director
+      Amyotrophic Lateral Sclerosis Association:
+        description: Amyotrophic Lateral Sclerosis Association
+      The Tow Foundation:
+        description: The Tow Foundation
+      The University of Groningen Graduate School of Medical Sciences:
+        description: The University of Groningen Graduate School of Medical Sciences
+      PIA:
+        description: "Investissements d'avenir (Investments for the Future Program)"
+      The FTLD-exome Program Hospitalier de Recherche Clinique:
+        description: The FTLD-exome Program Hospitalier de Recherche Clinique
+      ZonMw:
+        description: ZonMw (Netherlands Organisation for Health Research and Development)
+      The Bluefield Project to Cure Frontotemporal Dementia:
+        description: The Bluefield Project to Cure Frontotemporal Dementia
+      Alzheimer Nederland:
+        description: Alzheimer Nederland
+      Ministry of Economic Affairs and Climate Policy:
+        description: Ministry of Economic Affairs and Climate Policy
+      Ride For Life Foundation:
+        description: Ride For Life Foundation
+      Rita Allen Foundation:
+        description: Rita Allen Foundation
+      O'Neil Charitable Trust:
+        description: O'Neil Charitable Trust
+      NIDDK:
+        description: National Institute of Diabetes and Digestive and Kidney Diseases
+      MICHR:
+        description: Michigan Institute for Clinical and Health Research
+      AFTD:
+        description: The Association for Frontotemporal Degeneration
+      Active Against ALS:
+        description: Active Against ALS
+      Packard Center:
+        description: The Robert Packard Center for ALS Research
+      Taubman Institute:
+        description: A. Alfred Taubman Medical Research Institute
+      University of Michigan:
+        description: University of Michigan Internal Programs
+      M-Cubed Program:
+        description: M-Cubed Program (University of Michigan)
+      Protein Folding Diseases Initiative:
+        description: Protein Folding Diseases Initiative (University of Michigan)
+      Program for Neurology Research and Discovery:
+        description: Program for Neurology Research and Discovery (University of Michigan)
+      NIGMS:
+        description: National Institute of General Medical Sciences
+      NCI:
+        description: National Cancer Institute
+      Ann Arbor Active Against ALS:
+        description: Ann Arbor Active Against ALS
+      UM Brain Bank and Alzheimer's Disease Research Center:
+        description: UM Brain Bank and Alzheimer's Disease Research Center
+      Rogel Cancer Center:
+        description: Rogel Cancer Center Tissue and Molecular Pathology Shared Resource Laboratory
+      The Dobson-Welch Family:
+        description: The family of Angela Dobson and Lyndon Welch
+      The Danto Family:
+        description: The Danto Family
+      Other:
+        description: Other funding organization not listed
+  OriginalRepositoryEnum:
+    description: Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.
+    permissible_values:
       Synapse:
-        description: synapse.org
+        description: Synapse data platform (synapse.org)
+      Gene Expression Omnibus:
+        description: NCBI Gene Expression Omnibus (ncbi.nlm.nih.gov/geo)
+      dbGaP:
+        description: NCBI Database of Genotypes and Phenotypes (ncbi.nlm.nih.gov/gap)
+      ALS Compute:
+        description: ALS Compute AnVIL portal (anvilproject.org)
+      Critical Path Institute:
+        description: Critical Path Institute data platform (c-path.org)
+      Target ALS:
+        description: Target ALS data portal (targetals.org)
+      Sequencing Read Archive:
+        description: Sequence Read Archive
   AssayEnum:
     title: Assay
     permissible_values:
@@ -3438,25 +3568,11 @@ enums:
         description: MD5 checksum file for data integrity verification
       index:
         description: Index file for a sequencing or genomic data file (e.g., BAI, TBI, CSI)
-  LibraryStrategyEnum:
-    description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
-    permissible_values:
-      RNA_seq:
-        description: RNA sequencing
-      WGS:
-        description: Whole genome sequencing
-      WES:
-        description: Whole exome sequencing
-      ChIP_seq:
-        description: Chromatin immunoprecipitation sequencing
-      ATAC_seq:
-        description: Assay for transposase-accessible chromatin
-      bisulfite_seq:
-        description: Bisulfite sequencing
-      amplicon_seq:
-        description: Amplicon sequencing
-      targeted_seq:
-        description: Targeted sequencing panel
+      # Clinical DataTypes for Merged Datasets 
+      clinical:
+        description: omic datasets that contain clinical information
+      biomarker:
+        description: Biomarker datasets compile physiological, genomic, or clinical data used to diagnose, monitor, or predict disease
   ChannelEnum:
     permissible_values:
       Cy3:
@@ -3931,6 +4047,9 @@ enums:
         meaning: https://www.illumina.com/systems/sequencing-platforms/novaseq-x-plus.html
       Illumina NovaSeq X Plus:
         description: A DNA sequencer which is manufactured by the Illumina corporation, with three flow cell types and up to 8 Tb outpet per run. Ultra-high-density flow cells and ultra-high-resolution optics enable output of up to 26 billion single reads per flow cell.
+        meaning: https://www.illumina.com/systems/sequencing-platforms/novaseq-x-plus.html
+      Illumina NovaSeq X Plus (300 Cycle):
+        description: Illumina NovaSeq X Plus with 300 cycle kit configuration.
         meaning: https://www.illumina.com/systems/sequencing-platforms/novaseq-x-plus.html
       Illumina Omni2pt5M:
         description: ''
@@ -4531,6 +4650,9 @@ enums:
       h5:
         description: HDF5 format file, commonly used for single-cell data
         meaning: http://edamontology.org/format_3590
+      wav:
+        description: Waveform Audio File Format; an uncompressed audio file format standard for storing audio bitstreams on PCs
+        meaning: http://purl.obolibrary.org/obo/NCIT_C182073
       zip:
         description: zip is a format standard of a digital entity that is conformant with the PKWARE .ZIP file format specification
         meaning: http://purl.obolibrary.org/obo/OBI_0000325
@@ -4585,6 +4707,21 @@ enums:
       Mus musculus:
         description: 'Mus musculus with taxonomy ID: 10090 and Genbank common name: house mouse'
         meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=10090&lvl=3&lin=f&keep=1&srchmode=1&unlock
+  SpeechDataTypeEnum:
+    description: Types of speech assessment and acoustic data from digital health technology platforms and SDTM FT domain records
+    permissible_values:
+      raw_audio:
+        description: Raw audio recordings (WAV format) captured during speech assessment sessions
+      dht_speech_vitals:
+        description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
+      sdtm_functional_tests:
+        description: SDTM FT domain functional test records for speech assessments
+      aggregate_measures:
+        description: Aggregate-level summary measures across all steps of a speech test session
+      step_measures:
+        description: Step-level measurement data from individual steps within a speech assessment session
+      metadata:
+        description: Metadata files describing the speech dataset structure or variable definitions
 title: Metadata Schema Template
 description: >-
   A template schema for defining metadata schemas used to document clinical, omics, and study metadata attributes. This schema allows users to specify column definitions, data types, valid values, and validation rules.
@@ -4746,41 +4883,27 @@ classes:
     abstract: true
     description: Base schema for all dataset types with common metadata attributes
     mixins: [DiseaseMixin, CommonMetadataMixin]
-    attributes:
-      title:
-        title: Title
-        range: string
-        required: true
+    slots:
+      - funder
+      - title
+      - keywords
+      - curationLevel
+      - studyType
+      - participant_count
+    slot_usage:
       keywords:
-        title: Keywords
-        range: string
-        multivalued: true
         required: true
-      funder:
-        title: Funder
-        range: string
+    attributes:
+      dataUseModifiers:
+        title: Data Use Modifiers
+        range: DataUseModifierEnum
+        description: Data Use Ontology (DUO) codes specifying conditions under which this dataset may be used.
         multivalued: true
         required: false
-      participant_count:
-        title: Participant Count
-        range: integer
-        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
-        required: false
-      curationLevel:
-        title: Curation level
-        range: CurationLevelEnum
-        description: TBD
-        required: false
-      studyType:
-        title: Study type
-        range: StudyLevelEnum
-        description: Study type for dataset
-        required: false
-        multivalued: true
       datePublished:
         title: Date Published
         description: Date data were published/available on Synapse.
-        range: integer
+        range: date
         required: false
       dataset_code:
         title: Dataset Code
@@ -4828,14 +4951,12 @@ classes:
     abstract: true
     description: Base schema for all file types with common metadata attributes
     mixins: [DiseaseMixin, CommonMetadataMixin]
+    slots:
+      - keywords
+      - curationLevel
     attributes:
       title:
         title: Title
-        range: string
-        multivalued: true
-        required: false
-      keywords:
-        title: Keywords
         range: string
         multivalued: true
         required: false
@@ -6815,6 +6936,16 @@ classes:
     is_a: BaseFile
     mixins: [ClinicalFileMixin]
     description: File containing clinical data such as assessments, visits, treatments, or medical history
+    slots:
+      - fileFormat
+      - assessmentType
+      - administrationMode
+      - studyPhase
+      - keyMeasures
+      - hasLongitudinalData
+      - completenessLevel
+      - studyType
+      - participant_count
     attributes:
       # Clinical-specific data types
       dataType:
@@ -6823,51 +6954,11 @@ classes:
         description: Clinical data types (assessments, treatments, medical history, etc.)
         multivalued: true
         required: false
-      # Assessment-specific attributes
-      assessmentType:
-        title: Assessment Type
-        range: AssessmentTypeEnum
-        description: Type of clinical assessment contained in the file
-        multivalued: true
-        required: false
-      # Key outcome measures
-      keyMeasures:
-        title: Key Measures
-        range: string
-        description: Primary outcome measures or endpoints captured in this data
-        multivalued: true
-        required: false
-      # Data collection methodology
-      administrationMode:
-        title: Administration Mode
-        range: AdministrationModeEnum
-        description: The method by which the assessment or data collection was performed
-        multivalued: true
-        required: false
-      studyPhase:
-        title: Study Phase
-        range: StudyPhaseEnum
-        description: The phase or timepoint in the study when the data was collected
-        multivalued: true
-        required: false
-      # Data characteristics
-      hasLongitudinalData:
-        title: Has Longitudinal Data
-        range: boolean
-        description: Indicates whether the data contains multiple timepoints per subject
-        multivalued: true
-        required: false
       # File metadata
       viewName:
         title: View Name
         range: string
         description: Name of the Synapse view or query used to generate the file
-        multivalued: true
-        required: false
-      fileFormat:
-        title: File Format
-        range: string
-        description: Format of the clinical data file (CSV, TSV, etc.)
         multivalued: true
         required: false
       recordCount:
@@ -6882,25 +6973,6 @@ classes:
         description: Reference to dataset this file belongs to
         multivalued: true
         required: false
-      completenessLevel:
-        title: Completeness Level
-        range: CompletenessLevelEnum
-        description: General assessment of data completeness based on non-null values
-        multivalued: true
-        required: false
-      studyType:
-        title: Study Type
-        range: StudyLevelEnum
-        description: Study type for dataset (longitudinal, cross-sectional, etc.)
-        multivalued: true
-        required: false
-      # Participant information
-      participant_count:
-        title: Participant Count
-        range: integer
-        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
-        multivalued: true
-        required: false
       # Subject tracking
       subjectIdColumn:
         title: Subject ID Column
@@ -6912,43 +6984,23 @@ classes:
     is_a: BaseDataset
     mixins: [OmicDatasetMixin]
     description: Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata
+    slots:
+      - platform
     attributes:
       # Omic-specific data types
       dataType:
         title: Data Type
         range: OmicDataTypeEnum
         description: Omic data types (genomics, transcriptomics, proteomics, etc.)
-        multivalued: true
-        required: false
-      # Sequencing and platform metadata
-      platform:
-        title: Platform
-        range: PlatformEnum
-        description: Sequencing or analysis platform used
-        multivalued: true
-        required: false
-      libraryStrategy:
-        title: Library Strategy
-        range: LibraryStrategyEnum
-        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
-        required: false
-      # Processing information
-      processingLevel:
-        title: Processing Level
-        range: ProcessingLevelEnum
-        description: Level of data processing (raw, processed, analyzed)
-        multivalued: true
-        required: false
-      dataFormat:
-        title: Data Format
-        range: Data
-        description: File format of the omic data
         multivalued: true
         required: false
   OmicFile:
     is_a: BaseFile
     mixins: [OmicFileMixin]
     description: File containing omic data such as sequencing, expression, or proteomics data
+    slots:
+      - fileFormat
+      - platform
     attributes:
       # Omic-specific data types
       dataType:
@@ -6957,40 +7009,10 @@ classes:
         description: Omic data types (genomics, transcriptomics, proteomics, etc.)
         multivalued: true
         required: false
-      # Sequencing and platform metadata
-      platform:
-        title: Platform
-        range: PlatformEnum
-        description: Sequencing or analysis platform used
-        multivalued: true
-        required: false
-      libraryStrategy:
-        title: Library Strategy
-        range: LibraryStrategyEnum
-        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
-        required: false
       referenceGenome:
         title: Reference Genome
         range: GenomicReferenceEnum
         description: Reference genome used for alignment
-        required: false
-      alignmentMethod:
-        title: Alignment Method
-        range: AlignmentMethodEnum
-        description: Tool or method used for sequence alignment
-        required: false
-      # Processing information
-      processingLevel:
-        title: Processing Level
-        range: ProcessingLevelEnum
-        description: Level of data processing (raw, processed, analyzed)
-        multivalued: true
-        required: false
-      # File format details
-      fileFormat:
-        title: File Format
-        range: string
-        description: Format of the omic data file (FASTQ, BAM, VCF, etc.)
         required: false
       variantType:
         title: Variant Type
@@ -7020,6 +7042,190 @@ classes:
         title: Storage Container
         description: Container or repository where biospecimen is stored
         range: string
+        required: false
+  SpeechDataset:
+    is_a: BaseDataset
+    description: >
+      Dataset containing digital speech assessment data including raw audio files organized by subject (sample) and session, with metrics derived from SDTM FT domain records. Subjects are identified by NIH GUID, NeuroStamps, and NeuroGUID; metrics are mapped per subject using the NeuroStamps column from SDTM source files.
+
+    attributes:
+      # Speech-specific data types (overrides BaseFile.dataType)
+      dataType:
+        title: Data Type
+        range: SpeechDataTypeEnum
+        description: Speech-specific data types present in this dataset
+        multivalued: true
+        required: false
+      # Aggregated SDTM FT domain descriptors (rolled up across all samples)
+      ftTests:
+        title: Functional Tests (FTTEST)
+        range: string
+        description: >
+          Distinct speech functional test names present across all samples in this dataset, sourced from the SDTM FTTEST column.
+
+        multivalued: true
+        required: false
+      ftTestCodes:
+        title: Functional Test Codes (FTTESTCD)
+        range: string
+        description: >
+          Short codes for all speech functional tests in this dataset, sourced from the SDTM FTTESTCD column.
+
+        multivalued: true
+        required: false
+      ftStresuValues:
+        title: Standard Units (FTSTRESU)
+        range: string
+        description: >
+          All standard units of measurement used for test results across this dataset, sourced from the SDTM FTSTRESU column.
+
+        multivalued: true
+        required: false
+      vendor:
+        title: Vendor / Device (FTNAM)
+        range: string
+        description: Name of the vendor or device used for speech data collection (SDTM FTNAM)
+        required: false
+      collectionLocation:
+        title: Collection Location (SUPPLOC)
+        range: string
+        description: >
+          Setting where speech data was collected (SDTM SUPPLOC), e.g. "In Clinic" or null for remote/home collection.
+
+        required: false
+      sdtmDomain:
+        title: SDTM Domain
+        range: string
+        description: SDTM domain abbreviation for functional test records (typically "FT")
+        required: false
+  SpeechFile:
+    is_a: BaseFile
+    description: >
+      File or folder containing speech assessment data. Covers sample-level folders (subject annotations), session-level folders (per-test SDTM annotations), and compressed audio archives (zip files of raw WAV recordings).
+
+    slots:
+      - fileFormat
+    attributes:
+      # Speech-specific data type (overrides BaseFile.dataType)
+      dataType:
+        title: Data Type
+        range: SpeechDataTypeEnum
+        description: Speech-specific data type(s) for this file or folder
+        multivalued: true
+        required: false
+      # -----------------------------------------------------------------------
+      # Subject identifiers
+      # -----------------------------------------------------------------------
+      nihguid:
+        title: NIH GUID
+        range: string
+        description: NIH Global Unique Identifier for the subject
+        required: false
+      neurostamps:
+        title: NeuroStamps
+        range: string
+        description: NeuroStamps identifier(s) for the subject; used to map available speech metrics from SDTM
+        multivalued: true
+        required: false
+      neuroguid:
+        title: NeuroGUID
+        range: string
+        description: NeuroGUID identifier for the subject
+        required: false
+      subjid:
+        title: Subject ID (SUBJID)
+        range: string
+        description: Local subject identifier as provided in the SDTM source (SDTM SUBJID)
+        required: false
+      # -----------------------------------------------------------------------
+      # SDTM FT domain fields — sample-level (aggregated per subject folder)
+      # -----------------------------------------------------------------------
+      ftStresu:
+        title: Standard Units (FTSTRESU)
+        range: string
+        description: Standard units of measurement for test results (SDTM FTSTRESU)
+        multivalued: true
+        required: false
+      ftGrpId:
+        title: Group ID (FTGRPID)
+        range: string
+        description: Group or session identifier (SDTM FTGRPID)
+        multivalued: true
+        required: false
+      ftRefId:
+        title: Reference ID (FTREFID)
+        range: string
+        description: >
+          Reference identifier; SessionID when measurement is Aggregate, STEPID when measurement is Step-level (SDTM FTREFID)
+
+        multivalued: true
+        required: false
+      ftTstDtl:
+        title: Measurement Detail (FTTSTDTL)
+        range: FTMeasurementDetailEnum
+        description: >
+          Indicates whether the measurement is Aggregate (summary across all steps) or Step-level (individual step within the test) (SDTM FTTSTDTL)
+
+        multivalued: true
+        required: false
+      ftDtc:
+        title: Date/Time of Test (FTDTC)
+        range: string
+        description: ISO 8601 date/time when the functional test was performed (SDTM FTDTC)
+        multivalued: true
+        required: false
+      # -----------------------------------------------------------------------
+      # SDTM FT domain fields — session-level (per session folder and zip file)
+      # -----------------------------------------------------------------------
+      ftTest:
+        title: Test Name (FTTEST)
+        range: string
+        description: Name of the speech functional test performed in this session (SDTM FTTEST)
+        multivalued: true
+        required: false
+      ftTestCd:
+        title: Test Code (FTTESTCD)
+        range: string
+        description: Short code for the speech functional test performed in this session (SDTM FTTESTCD)
+        multivalued: true
+        required: false
+      ftStat:
+        title: Completion Status (FTSTAT)
+        range: string
+        description: >
+          Completion status of the test. Set to "Not Done" when the test was not completed; leave empty or null when completed (SDTM FTSTAT).
+
+        required: false
+      ftReasnd:
+        title: Reason Not Done (FTREASND)
+        range: string
+        description: >
+          Reason the test was not completed. Only applicable when ftStat = "Not Done" (SDTM FTREASND).
+
+        required: false
+      ftNam:
+        title: Vendor Name (FTNAM)
+        range: string
+        description: Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)
+        required: false
+      suppLoc:
+        title: Collection Location (SUPPLOC)
+        range: string
+        description: >
+          Location where the speech session was recorded (SDTM SUPPLOC). Typically "In Clinic" for clinic-based collection or null/empty for remote.
+
+        required: false
+      sdtmDomain:
+        title: SDTM Domain (DOMAIN)
+        range: string
+        description: SDTM domain abbreviation; always "FT" for functional test records (SDTM DOMAIN)
+        required: false
+      sessionId:
+        title: Session ID
+        range: string
+        description: >
+          Session identifier used to link this session folder or archive to the corresponding SDTM FT record (corresponds to FTREFID when Aggregate).
+
         required: false
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
@@ -7739,11 +7945,6 @@ classes:
         description: Type of cell or cell line used.
         multivalued: true
         required: false
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date when the specimen was collected.
-        required: false
   SubjectDemographicsMixin:
     mixin: true
     description: Mixin for subject demographic and phenotypic attributes shared across subject records and omic files
@@ -7835,29 +8036,17 @@ classes:
   CommonMetadataMixin:
     mixin: true
     description: Mixin for metadata attributes shared across all file and dataset types
+    slots:
+      - description
+      - creator
+      - contributor
+      - species
+      - citation
     attributes:
-      description:
-        title: Description
-        range: string
-        description: Brief description; should be no more than 500 characters.
-        multivalued: false
-        required: false
       alternateName:
         title: Alternate Name
         description: An alternate name that can be used for search and discovery improvement.
         range: string
-        multivalued: true
-        required: false
-      creator:
-        title: Creator
-        range: string
-        description: Properly formatted name of the organization or person that is creator of the resource (e.g. "Sage Bionetworks" or "John Doe"), not an id.
-        multivalued: true
-        required: false
-      contributor:
-        title: Contributor(s)
-        range: string
-        description: Institution or person responsible for collecting and managing the files and records in the resource.
         multivalued: true
         required: false
       subject:
@@ -7866,49 +8055,23 @@ classes:
         description: Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
         multivalued: true
         required: false
-      species:
-        title: Species
-        range: SpeciesEnum
-        description: Species of the organism(s) from which the data were generated. Omit if not applicable.
+      program:
+        title: Program
+        range: ProgramEnum
+        description: Research consortium(s) or program(s) that produced or funded this resource.
         multivalued: true
         required: false
-      collection:
-        title: Collection
-        range: CollectionEnum
-        description: Associated collection(s).
-        multivalued: true
-        required: false
-      includedInDataCatalog:
-        title: Included In Data Catalog
-        description: Link(s) to known data catalog(s) this resource is included in.
-        range: string
-        required: false
-      citation:
-        title: Citation
-        range: string
-        multivalued: true
-        description: Academic articles recommended by the data provider to cite in addition to the resource itself.
-        required: false
-      publisher:
-        title: Publisher
-        range: string
-        description: Name of the organization or person responsible for making the resource available.
-        required: false
-      license:
-        title: License
-        range: License
-        description: Unless information for license is clear, this should default to UNKNOWN.
-        required: false
-      source:
-        title: Source
-        range: string
-        description: Host platform from which the resource was sourced.
+      originalRepository:
+        title: Original Repository
+        range: OriginalRepositoryEnum
+        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
         multivalued: true
         required: true
       url:
         title: URL
         range: string
-        description: URL for the original resource location at source.
+        description: URL(s) for the resource, including its original location and any external data catalogs where it is listed.
+        multivalued: true
         required: false
       sameAs:
         title: Same As
@@ -7934,65 +8097,19 @@ classes:
   ClinicalDatasetMixin:
     mixin: true
     description: Mixin for clinical dataset specific attributes
-    attributes:
-      clinicalDomain:
-        title: Clinical Domain
-        description: The primary clinical domain or area of focus for the data
-        range: ClinicalDomainEnum
-        multivalued: true
-        required: false
-      studyType:
-        title: Study type
-        range: StudyLevelEnum
-        description: Study type for dataset
-        required: false
-        multivalued: true
-      # Clinical-specific data types using union enum
-      dataType:
-        title: Data Type
-        range: Data
-        description: Reflects the data types within the dataset.
-        multivalued: true
-        required: false
+    slots:
+      - clinicalDomain
+      - studyType
   OmicDatasetMixin:
     mixin: true
     description: Mixin for omic dataset specific attributes
     mixins: [SpecimenTypeMixin]
-    attributes:
-      assay:
-        title: Measurement Technique
-        range: AssayEnum
-        multivalued: true
-        description: What's used to generate data in dataset, typically referring to the assay. Omit if not applicable.
-        required: false
-      libraryLayout:
-        title: Library Layout
-        range: LibraryLayoutEnum
-        description: Single-end or paired-end sequencing layout for datasets containing sequencing data.
-        multivalued: true
-        required: false
-      GEOSuperSeries:
-        title: GEO SuperSeries
-        range: string
-        description: GEO SuperSeries identifier
-        required: false
-      originalSampleId:
-        title: Original Sample ID
-        range: string
-        description: Original sample identifier as provided by the data source.
-        required: false
-      FACSPopulation:
-        title: FACS Population
-        range: string
-        description: FACS-sorted cell population description
-        required: false
-      # Override dataType for omic datasets if needed
-      dataType:
-        title: Data Type
-        range: Data
-        description: Reflects the data types within the dataset.
-        multivalued: true
-        required: false
+    slots:
+      - assay
+      - libraryLayout
+      - libraryPreparationMethod
+      - GEOSuperSeries
+      - FACSPopulation
   FileAnnotationsMixin:
     mixin: true
     description: Mixin for biological annotation and analysis method attributes shared across file types
@@ -8007,18 +8124,10 @@ classes:
     mixin: true
     description: Mixin for clinical file specific attributes
     mixins: [SubjectIdentifierMixin, FileAnnotationsMixin]
+    slots:
+      - clinicalDomain
+      - studyPhase
     attributes:
-      clinicalDomain:
-        title: Clinical Domain
-        description: The primary clinical domain or area of focus for the data
-        range: ClinicalDomainEnum
-        multivalued: true
-        required: false
-      studyPhase:
-        title: Study Phase
-        range: string
-        description: Phase or stage of the clinical study when file was generated
-        required: false
       visitType:
         title: Visit Type
         range: string
@@ -8029,49 +8138,33 @@ classes:
     mixin: true
     description: Mixin for omic file specific attributes
     mixins: [SubjectIdentifierMixin, SpecimenTypeMixin, FileAnnotationsMixin, SubjectDemographicsMixin]
+    slots:
+      - assay
+      - libraryLayout
+      - libraryPreparationMethod
+      - GEOSuperSeries
+      - FACSPopulation
+      - alignmentMethod
     attributes:
-      assay:
-        title: Measurement Technique
-        range: AssayEnum
-        multivalued: true
-        description: What's used to generate data in file, typically referring to the assay. Omit if not applicable.
-        required: false
-      GEOSuperSeries:
-        title: GEO SuperSeries
-        range: string
-        description: GEO SuperSeries identifier
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
         required: false
       originalSampleId:
         title: Original Sample ID
         range: string
         description: Original sample identifier as provided by the data source.
         required: false
-      FACSPopulation:
-        title: FACS Population
-        range: string
-        description: FACS-sorted cell population description
-        required: false
-      libraryLayout:
-        title: Library Layout
-        range: LibraryLayoutEnum
-        description: Single-end or paired-end sequencing layout for files containing sequencing data.
-        multivalued: true
-        required: false
-      libraryPreparationMethod:
-        title: Library Preparation Method
-        range: LibraryPreparationMethodEnum
-        description: Method or kit used for library preparation.
-        multivalued: true
-        required: false
-      alignmentMethod:
-        title: Alignment Method
-        range: AlignmentMethodEnum
-        description: Tool or method used for sequence alignment.
-        required: false
   Dataset:
     is_a: BaseDataset
     mixins: [ClinicalDatasetMixin, OmicDatasetMixin]
     description: Model for dataset on the AMP-ALS portal - union of clinical and omic dataset types
+    slots:
+      - dataType
+    slot_usage:
+      dataType:
+        required: false
     notes:
       - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
       - This schema inherits from BaseDataset and combines attributes from both clinical and omic dataset types for backward compatibility
@@ -8094,19 +8187,15 @@ slots:
   accessRequirements:
     description: Statement describing access requirements for an entity.
     required: false
-  accessType:
-    description: Indicates access type / possible procedures needed for access to the resource.
-    range: AccessTypeEnum
-    required: true
-    see_also:
-      - accessRequirements
   acknowledgementStatements:
     description: Statement describing how resource use should be acknowledged.
     required: false
   assay:
-    description: The technology used to generate the data in this file.
+    title: Measurement Technique
+    description: The technology used to generate the data in this entity, typically referring to the assay. Omit if not applicable.
     range: AssayEnum
-    required: true
+    multivalued: true
+    required: false
   assayTarget:
     description: Target of the assay such as a HUGO gene symbol, cell type, or tissue region depending on the capabilities of the assay.
     required: false
@@ -8131,6 +8220,7 @@ slots:
     title: Citation
     description: Citation (e.g. doi) that usage of data or resource should be cited with.
     range: string
+    multivalued: true
     required: false
   comments:
     title: Comments
@@ -8149,8 +8239,10 @@ slots:
       - Used by schematic (entities with value = dataset) to detect which folders to surface.
     required: false
   contributor:
-    description: An entity responsible for making contributions to the resource.
+    title: Contributor(s)
+    description: Institution or person responsible for collecting and managing the files and records in the resource.
     range: string
+    multivalued: true
     required: false
     see_also: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#contributor
   createdBy:
@@ -8160,11 +8252,13 @@ slots:
     description: Refers to when the resource was created.
     required: false
   creator:
-    description: An entity responsible for making the resource.
+    title: Creator
+    description: Properly formatted name of the organization or person that is creator of the resource (e.g. "Sage Bionetworks" or "John Doe"), not an id.
     notes:
       - Recommended practice is to identify the creator with a URI. If this is not possible or feasible, a literal value that identifies the creator may be provided.
     range: string
-    required: true
+    multivalued: true
+    required: false
     see_also: https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#creator
   currentVersion:
     description: (Versionable entities only) The current version number of the resource.
@@ -8181,7 +8275,8 @@ slots:
     description: >
       Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
 
-    required: true
+    multivalued: true
+    required: false
   datasetItemCount:
     description: Count of files in dataset. Auto-calculated by Synapse.
     required: false
@@ -8217,15 +8312,18 @@ slots:
       - This is auto-generated by Synapse for datasets.
     required: false
   fileFormat:
-    description: Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software
+    title: File Format
+    description: Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software.
     range: FileFormatEnum
-    required: true
+    required: false
   fileSize:
     description: Size of file in bytes.
     required: false
   funder:
+    title: Funder
     description: Refers to the funding organization for the generated resource. This annotation is handled by the DCC.
-    range: string
+    range: FunderEnum
+    multivalued: true
     required: false
   grantDOI:
     description: Doi of a grant (e.g. in ProposalCentral) that can be associated with the entity.
@@ -8247,9 +8345,11 @@ slots:
     description: Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other.
     required: false
   species:
-    description: The name of a species (typically a taxonomic group) of organism.
+    title: Species
+    description: Species of the organism(s) from which the data were generated. Omit if not applicable.
     range: SpeciesEnum
-    required: true
+    multivalued: true
+    required: false
   specimenID:
     description: >
       A unique identifier (non-PII) that represents the subspecimen (subsample) from which the data came,  e.g. an ID that distinguishes between different parts of the same parent tumor specimen.
@@ -8275,6 +8375,7 @@ slots:
     range: string
     required: true
   title:
+    title: Title
     description: Title of a resource.
     range: string
     required: true
@@ -8288,8 +8389,10 @@ slots:
     range: integer
     required: false
   libraryLayout:
-    description: Single-end or paired-end sequencing layout
+    title: Library Layout
+    description: Single-end or paired-end sequencing layout for files or datasets containing sequencing data.
     range: LibraryLayoutEnum
+    multivalued: true
     required: false
   softwareAndVersion:
     description: Software and version used for data processing
@@ -8300,41 +8403,95 @@ slots:
     range: NucleicAcidSourceEnum
     required: false
   libraryPreparationMethod:
-    description: Method used for library preparation
+    title: Library Preparation Method
+    description: Method or kit used for library preparation.
     range: LibraryPreparationMethodEnum
     multivalued: true
     required: false
   assessmentType:
-    description: The specific type of clinical assessment or data collection method used
+    title: Assessment Type
+    description: The specific type of clinical assessment or data collection method used.
     range: AssessmentTypeEnum
+    multivalued: true
     required: false
   clinicalDomain:
-    description: The primary clinical domain or area of focus for the data
+    title: Clinical Domain
+    description: The primary clinical domain or area of focus for the data.
     range: ClinicalDomainEnum
     multivalued: true
     required: false
   administrationMode:
-    description: The method by which the assessment or data collection was performed
+    title: Administration Mode
+    description: The method by which the assessment or data collection was performed.
     range: AdministrationModeEnum
+    multivalued: true
     required: false
   studyPhase:
-    description: The phase or timepoint in the study when the data was collected
+    title: Study Phase
+    description: The phase or timepoint in the study when the data was collected.
     range: StudyPhaseEnum
+    multivalued: true
     required: false
   keyMeasures:
-    description: Primary outcome measures or endpoints captured in this data
+    title: Key Measures
+    description: Primary outcome measures or endpoints captured in this data.
     range: string
     multivalued: true
     required: false
   hasLongitudinalData:
-    description: Indicates whether the data contains multiple timepoints per subject
+    title: Has Longitudinal Data
+    description: Indicates whether the data contains multiple timepoints per subject.
     range: boolean
     required: false
   completenessLevel:
-    description: General assessment of data completeness based on non-null values
+    title: Completeness Level
+    description: General assessment of data completeness based on non-null values.
     range: CompletenessLevelEnum
     required: false
-# Enums for this class are defined canonically in dedicated modules and shared
-# with the file-level OmicFile schema (see Makefile OmicDataset target):
-#   OmicDataTypeEnum    -> modules/omics/data-types.yaml
-#   LibraryStrategyEnum -> modules/omics/library-strategy.yaml
+  platform:
+    title: Platform
+    description: Sequencing or analysis platform used to generate the data.
+    range: PlatformEnum
+    multivalued: true
+    required: false
+  keywords:
+    title: Keywords
+    description: Descriptive keywords or terms for improved search and discovery.
+    range: string
+    multivalued: true
+    required: false
+  curationLevel:
+    title: Curation Level
+    description: Level of data processing and curation applied to this entity.
+    range: CurationLevelEnum
+    multivalued: true
+    required: false
+  studyType:
+    title: Study Type
+    description: Type of study design (e.g., longitudinal, cross-sectional).
+    range: StudyLevelEnum
+    multivalued: true
+    required: false
+  GEOSuperSeries:
+    title: GEO SuperSeries
+    description: GEO SuperSeries identifier for the dataset or file.
+    range: string
+    required: false
+  FACSPopulation:
+    title: FACS Population
+    description: FACS-sorted cell population description.
+    range: string
+    multivalued: true
+    required: false
+  participant_count:
+    title: Participant Count
+    description: Number of unique individuals included in this entity (individual-level or aggregate data). Omit if not applicable or unknown.
+    range: integer
+    required: false
+  alignmentMethod:
+    title: Alignment Method
+    description: Tool or method used for sequence alignment.
+    range: AlignmentMethodEnum
+    required: false
+# SpeechDataTypeEnum is defined canonically in modules/speech/data-types.yaml.
+# FileFormatEnum is defined canonically in modules/reference/file-formats.yaml.

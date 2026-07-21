@@ -7,7 +7,7 @@
   "additionalProperties": {},
   "properties": {
     "administrationMode": {
-      "description": "The method by which the assessment or data collection was performed",
+      "description": "The method by which the assessment or data collection was performed.",
       "items": {
         "description": "",
         "title": "AdministrationModeEnum",
@@ -122,7 +122,7 @@
       "type": "array"
     },
     "assessmentType": {
-      "description": "Type of clinical assessment contained in the file",
+      "description": "The specific type of clinical assessment or data collection method used.",
       "items": {
         "description": "Type of clinical assessment, instrument, or data collection method",
         "title": "AssessmentTypeEnum",
@@ -191,7 +191,7 @@
       "type": "array"
     },
     "citation": {
-      "description": "Academic articles recommended by the data provider to cite in addition to the resource itself.",
+      "description": "Citation (e.g. doi) that usage of data or resource should be cited with.",
       "items": {
         "type": "string"
       },
@@ -199,7 +199,7 @@
       "type": "array"
     },
     "clinicalDomain": {
-      "description": "The primary clinical domain or area of focus for the data",
+      "description": "The primary clinical domain or area of focus for the data.",
       "items": {
         "description": "Primary clinical domains for ALS research and assessment",
         "title": "ClinicalDomainEnum",
@@ -279,63 +279,22 @@
       "title": "Clinical Domain",
       "type": "array"
     },
-    "collection": {
-      "description": "Associated collection(s).",
-      "items": {
-        "description": "Original collection, e.g. the consortium that the dataset comes from.",
-        "title": "CollectionEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "ALS Knowledge Portal",
-              "Answer ALS",
-              "CReATe Consortium",
-              "Genomic Translation for ALS Care (GTAC)",
-              "New York Genome Center ALS Consortium",
-              "National Institutes of Health",
-              "Project MinE",
-              "ALS Compute",
-              "Target ALS",
-              "amp_als",
-              "target_als",
-              "all_als",
-              "c_path",
-              "alsdb",
-              "geo",
-              "sra",
-              "als_compute"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Collection",
-      "type": "array"
-    },
     "completenessLevel": {
-      "description": "General assessment of data completeness based on non-null values",
-      "items": {
-        "description": "",
-        "title": "CompletenessLevelEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "high",
-              "medium",
-              "low"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
+      "description": "General assessment of data completeness based on non-null values.",
       "title": "Completeness Level",
-      "type": "array"
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "high",
+            "medium",
+            "low"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
     },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the resource.",
@@ -351,6 +310,35 @@
         "type": "string"
       },
       "title": "Creator",
+      "type": "array"
+    },
+    "curationLevel": {
+      "description": "Level of data processing and curation applied to this entity.",
+      "items": {
+        "description": "Level of data processing and curation applied to a dataset or file",
+        "title": "CurationLevelEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Raw",
+              "Processed",
+              "Analyzed",
+              "Integrated",
+              "tier1",
+              "tier2",
+              "tier3",
+              "Standardized",
+              "Non-Standardized",
+              "Unknown"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Curation Level",
       "type": "array"
     },
     "dataSourcePrefix": {
@@ -438,8 +426,7 @@
       "type": "array"
     },
     "description": {
-      "description": "Brief description; should be no more than 500 characters.",
-      "title": "Description",
+      "description": "Text describing a resource.",
       "type": "string"
     },
     "disease": {
@@ -467,7 +454,9 @@
               "VCP myopathy",
               "Hirayama disease",
               "Kennedy's disease",
-              "Spinal muscular atrophy"
+              "Spinal muscular atrophy",
+              "Other Motor Neuron Disease",
+              "Other Neurological Disorders"
             ]
           },
           {
@@ -487,20 +476,20 @@
         "anyOf": [
           {
             "enum": [
-              "C9orf72",
-              "Asymptomatic C9orf72",
               "SOD1",
               "FUS",
               "TARDBP",
-              "sporadic",
+              "sporadic ALS",
               "familial",
               "Unknown",
               "C9-ALS",
+              "C9-FTD",
               "Asymptomatic C9",
               "SOD1-ALS",
               "Asymptomatic SOD1",
               "FUS-ALS",
               "TARDBP-ALS",
+              "TDP43-ALS",
               "ANG-ALS",
               "ANXA11-ALS",
               "ARHGEF28-ALS",
@@ -513,10 +502,12 @@
               "ERBB4-ALS",
               "FIG4-ALS",
               "GRN-ALS",
+              "PROGRANULIN-ALS",
               "HNRNPA1-ALS",
               "HNRNPA2B1-ALS",
               "KIF5A-ALS",
               "MAPT-ALS",
+              "TAU-ALS",
               "MATR3-ALS",
               "MOBP-ALS",
               "NEFH-ALS",
@@ -690,12 +681,134 @@
       "type": "array"
     },
     "fileFormat": {
-      "description": "Format of the clinical data file (CSV, TSV, etc.)",
-      "items": {
-        "type": "string"
-      },
+      "description": "Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software.",
       "title": "File Format",
-      "type": "array"
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "7z",
+            "DICOM",
+            "MATLAB data",
+            "MATLAB script",
+            "NWB",
+            "PAR",
+            "Python script",
+            "R script",
+            "RCC",
+            "RData",
+            "REC",
+            "SDAT",
+            "SPAR",
+            "Sentrix descriptor file",
+            "ab1",
+            "abf",
+            "ai",
+            "avi",
+            "bai",
+            "bam",
+            "bash script",
+            "bcf",
+            "bed",
+            "bed broadPeak",
+            "bed gappedPeak",
+            "bed narrowPeak",
+            "bedgraph",
+            "bgzip",
+            "bigwig",
+            "bmp",
+            "bpm",
+            "cel",
+            "chp",
+            "cnn",
+            "cnr",
+            "cns",
+            "cram",
+            "crai",
+            "csi",
+            "csv",
+            "ctab",
+            "czi",
+            "dat",
+            "dna",
+            "doc",
+            "docker image",
+            "dup",
+            "edat3",
+            "excel",
+            "fasta",
+            "fastq",
+            "fcs",
+            "fig",
+            "flagstat",
+            "gb",
+            "gct",
+            "gff3",
+            "gtf",
+            "gzip",
+            "hdf5",
+            "hdr",
+            "hic",
+            "html",
+            "hyperlink",
+            "idat",
+            "idx",
+            "img",
+            "jpg",
+            "js",
+            "json",
+            "lif",
+            "locs",
+            "maf",
+            "md",
+            "mov",
+            "MPEG-4",
+            "msf",
+            "mtx",
+            "mzML",
+            "nii",
+            "ome-tiff",
+            "pdf",
+            "plink",
+            "png",
+            "powerpoint",
+            "pzfx",
+            "psydat",
+            "raw",
+            "rds",
+            "recal",
+            "rmd",
+            "sam",
+            "sav",
+            "sdf",
+            "seg",
+            "sf",
+            "sif",
+            "sqlite",
+            "sra",
+            "svg",
+            "svs",
+            "tagAlign",
+            "tar",
+            "tbi",
+            "tif",
+            "tom",
+            "tranches",
+            "tsv",
+            "txt",
+            "vcf",
+            "wiggle",
+            "xml",
+            "yaml",
+            "h5",
+            "wav",
+            "zip"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
     },
     "globalSubjectId": {
       "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
@@ -704,20 +817,12 @@
       "type": "string"
     },
     "hasLongitudinalData": {
-      "description": "Indicates whether the data contains multiple timepoints per subject",
-      "items": {
-        "type": "boolean"
-      },
+      "description": "Indicates whether the data contains multiple timepoints per subject.",
       "title": "Has Longitudinal Data",
-      "type": "array"
-    },
-    "includedInDataCatalog": {
-      "description": "Link(s) to known data catalog(s) this resource is included in.",
-      "title": "Included In Data Catalog",
-      "type": "string"
+      "type": "boolean"
     },
     "keyMeasures": {
-      "description": "Primary outcome measures or endpoints captured in this data",
+      "description": "Primary outcome measures or endpoints captured in this data.",
       "items": {
         "type": "string"
       },
@@ -725,15 +830,38 @@
       "type": "array"
     },
     "keywords": {
+      "description": "Descriptive keywords or terms for improved search and discovery.",
       "items": {
         "type": "string"
       },
       "title": "Keywords",
       "type": "array"
     },
-    "license": {
-      "description": "Unless information for license is clear, this should default to UNKNOWN.",
-      "title": "License"
+    "originalRepository": {
+      "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
+      "items": {
+        "description": "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.",
+        "title": "OriginalRepositoryEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Synapse",
+              "Gene Expression Omnibus",
+              "dbGaP",
+              "ALS Compute",
+              "Critical Path Institute",
+              "Target ALS",
+              "Sequencing Read Archive"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Original Repository",
+      "type": "array"
     },
     "originalSubjectId": {
       "description": "Original subject identifier as provided by the data source.",
@@ -741,17 +869,40 @@
       "type": "string"
     },
     "participant_count": {
-      "description": "Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.",
-      "items": {
-        "type": "integer"
-      },
+      "description": "Number of unique individuals included in this entity (individual-level or aggregate data). Omit if not applicable or unknown.",
       "title": "Participant Count",
-      "type": "array"
+      "type": "integer"
     },
-    "publisher": {
-      "description": "Name of the organization or person responsible for making the resource available.",
-      "title": "Publisher",
-      "type": "string"
+    "program": {
+      "description": "Research consortium(s) or program(s) that produced or funded this resource.",
+      "items": {
+        "description": "Research consortium or program that produced or funded the dataset.",
+        "title": "ProgramEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "ALS Knowledge Portal",
+              "Answer ALS",
+              "CReATe Consortium",
+              "Genomic Translation for ALS Care (GTAC)",
+              "New York Genome Center ALS Consortium",
+              "National Institutes of Health",
+              "Project MinE",
+              "Target ALS",
+              "AMP ALS",
+              "ALL ALS",
+              "Critical Path Institute",
+              "ALS Compute"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Program",
+      "type": "array"
     },
     "recordCount": {
       "description": "Number of records (rows) contained in the data file",
@@ -769,14 +920,6 @@
     "sampleType": {
       "description": "Classification of the sample (e.g. actual sample vs. control type).",
       "title": "Sample Type"
-    },
-    "source": {
-      "description": "Host platform from which the resource was sourced.",
-      "items": {
-        "type": "string"
-      },
-      "title": "Source",
-      "type": "array"
     },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
@@ -809,7 +952,7 @@
       "type": "array"
     },
     "studyPhase": {
-      "description": "The phase or timepoint in the study when the data was collected",
+      "description": "The phase or timepoint in the study when the data was collected.",
       "items": {
         "description": "",
         "title": "StudyPhaseEnum",
@@ -834,7 +977,7 @@
       "type": "array"
     },
     "studyType": {
-      "description": "Study type for dataset (longitudinal, cross-sectional, etc.)",
+      "description": "Type of study design (e.g., longitudinal, cross-sectional).",
       "items": {
         "description": "",
         "title": "StudyLevelEnum",
@@ -863,7 +1006,8 @@
               "individual",
               "aggregate",
               "summary_level",
-              "meta_analysis"
+              "meta_analysis",
+              "experimental study"
             ]
           },
           {
@@ -898,9 +1042,12 @@
       "type": "array"
     },
     "url": {
-      "description": "URL for the original resource location at source.",
+      "description": "URL(s) for the resource, including its original location and any external data catalogs where it is listed.",
+      "items": {
+        "type": "string"
+      },
       "title": "URL",
-      "type": "string"
+      "type": "array"
     },
     "viewName": {
       "description": "Name of the Synapse view or query used to generate the file",
@@ -920,6 +1067,6 @@
     }
   },
   "required": [
-    "source"
+    "originalRepository"
   ]
 }

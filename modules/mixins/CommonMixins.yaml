@@ -58,11 +58,6 @@ classes:
         description: Type of cell or cell line used.
         multivalued: true
         required: false
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date when the specimen was collected.
-        required: false
 
   SubjectDemographicsMixin:
     mixin: true
@@ -156,29 +151,17 @@ classes:
   CommonMetadataMixin:
     mixin: true
     description: Mixin for metadata attributes shared across all file and dataset types
+    slots:
+      - description
+      - creator
+      - contributor
+      - species
+      - citation
     attributes:
-      description:
-        title: Description
-        range: string
-        description: Brief description; should be no more than 500 characters.
-        multivalued: false
-        required: false
       alternateName:
         title: Alternate Name
         description: An alternate name that can be used for search and discovery improvement.
         range: string
-        multivalued: true
-        required: false
-      creator:
-        title: Creator
-        range: string
-        description: Properly formatted name of the organization or person that is creator of the resource (e.g. "Sage Bionetworks" or "John Doe"), not an id.
-        multivalued: true
-        required: false
-      contributor:
-        title: Contributor(s)
-        range: string
-        description: Institution or person responsible for collecting and managing the files and records in the resource.
         multivalued: true
         required: false
       subject:
@@ -187,49 +170,23 @@ classes:
         description: Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.
         multivalued: true
         required: false
-      species:
-        title: Species
-        range: SpeciesEnum
-        description: Species of the organism(s) from which the data were generated. Omit if not applicable.
+      program:
+        title: Program
+        range: ProgramEnum
+        description: Research consortium(s) or program(s) that produced or funded this resource.
         multivalued: true
         required: false
-      collection:
-        title: Collection
-        range: CollectionEnum
-        description: Associated collection(s).
-        multivalued: true
-        required: false
-      includedInDataCatalog:
-        title: Included In Data Catalog
-        description: Link(s) to known data catalog(s) this resource is included in.
-        range: string
-        required: false
-      citation:
-        title: Citation
-        range: string
-        multivalued: true
-        description: Academic articles recommended by the data provider to cite in addition to the resource itself.
-        required: false
-      publisher:
-        title: Publisher
-        range: string
-        description: Name of the organization or person responsible for making the resource available.
-        required: false
-      license:
-        title: License
-        range: License
-        description: Unless information for license is clear, this should default to UNKNOWN.
-        required: false
-      source:
-        title: Source
-        range: string
-        description: Host platform from which the resource was sourced.
+      originalRepository:
+        title: Original Repository
+        range: OriginalRepositoryEnum
+        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
         multivalued: true
         required: true
       url:
         title: URL
         range: string
-        description: URL for the original resource location at source.
+        description: URL(s) for the resource, including its original location and any external data catalogs where it is listed.
+        multivalued: true
         required: false
       sameAs:
         title: Same As

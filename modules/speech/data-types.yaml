@@ -1,0 +1,21 @@
+#######################################
+# Speech Data Types
+# Data types specific to speech assessment data (DHT / SDTM FT domain)
+#######################################
+
+enums:
+  SpeechDataTypeEnum:
+    description: Types of speech assessment and acoustic data from digital health technology platforms and SDTM FT domain records
+    permissible_values:
+      raw_audio:
+        description: Raw audio recordings (WAV format) captured during speech assessment sessions
+      dht_speech_vitals:
+        description: Speech vitals and acoustic measures collected via digital health technology platforms (e.g., Linus Aural Analytics)
+      sdtm_functional_tests:
+        description: SDTM FT domain functional test records for speech assessments
+      aggregate_measures:
+        description: Aggregate-level summary measures across all steps of a speech test session
+      step_measures:
+        description: Step-level measurement data from individual steps within a speech assessment session
+      metadata:
+        description: Metadata files describing the speech dataset structure or variable definitions

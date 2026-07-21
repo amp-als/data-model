@@ -1,0 +1,67 @@
+#######################################
+# Speech Dataset Schema
+# For speech assessment data collections with SDTM FT domain sourced annotations
+#######################################
+
+classes:
+  SpeechDataset:
+    is_a: BaseDataset
+    description: >
+      Dataset containing digital speech assessment data including raw audio files organized
+      by subject (sample) and session, with metrics derived from SDTM FT domain records.
+      Subjects are identified by NIH GUID, NeuroStamps, and NeuroGUID; metrics are mapped
+      per subject using the NeuroStamps column from SDTM source files.
+    attributes:
+      # Speech-specific data types (overrides BaseFile.dataType)
+      dataType:
+        title: Data Type
+        range: SpeechDataTypeEnum
+        description: Speech-specific data types present in this dataset
+        multivalued: true
+        required: false
+      # Aggregated SDTM FT domain descriptors (rolled up across all samples)
+      ftTests:
+        title: Functional Tests (FTTEST)
+        range: string
+        description: >
+          Distinct speech functional test names present across all samples in this dataset,
+          sourced from the SDTM FTTEST column.
+        multivalued: true
+        required: false
+      ftTestCodes:
+        title: Functional Test Codes (FTTESTCD)
+        range: string
+        description: >
+          Short codes for all speech functional tests in this dataset,
+          sourced from the SDTM FTTESTCD column.
+        multivalued: true
+        required: false
+      ftStresuValues:
+        title: Standard Units (FTSTRESU)
+        range: string
+        description: >
+          All standard units of measurement used for test results across this dataset,
+          sourced from the SDTM FTSTRESU column.
+        multivalued: true
+        required: false
+      vendor:
+        title: Vendor / Device (FTNAM)
+        range: string
+        description: Name of the vendor or device used for speech data collection (SDTM FTNAM)
+        required: false
+      collectionLocation:
+        title: Collection Location (SUPPLOC)
+        range: string
+        description: >
+          Setting where speech data was collected (SDTM SUPPLOC), e.g. "In Clinic" or null
+          for remote/home collection.
+        required: false
+      sdtmDomain:
+        title: SDTM Domain
+        range: string
+        description: SDTM domain abbreviation for functional test records (typically "FT")
+        required: false
+
+# Enum for this class is defined in modules/speech/data-types.yaml (SpeechDataTypeEnum).
+# BaseDataset contributes: title, keywords, cohort, cohortType, cohort_count, study_count,
+# studyType, curationLevel, dataset_code, portalRelease, participant_count, etc.

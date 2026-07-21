@@ -148,3 +148,11 @@ enums:
         description: MD5 checksum file for data integrity verification
       index:
         description: Index file for a sequencing or genomic data file (e.g., BAI, TBI, CSI)
+      
+      # Clinical DataTypes for Merged Datasets 
+      clinical:
+        description: omic datasets that contain clinical information
+      biomarker: 
+        description: Biomarker datasets compile physiological, genomic, or clinical data used to diagnose, monitor, or predict disease
+
+

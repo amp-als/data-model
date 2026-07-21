@@ -8,6 +8,8 @@ classes:
     is_a: BaseDataset
     mixins: [OmicDatasetMixin]
     description: Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata
+    slots:
+      - platform
     attributes:
       # Omic-specific data types
       dataType:
@@ -16,34 +18,9 @@ classes:
         description: Omic data types (genomics, transcriptomics, proteomics, etc.)
         multivalued: true
         required: false
-      # Sequencing and platform metadata
-      platform:
-        title: Platform
-        range: PlatformEnum
-        description: Sequencing or analysis platform used
-        multivalued: true
-        required: false
-      libraryStrategy:
-        title: Library Strategy
-        range: LibraryStrategyEnum
-        description: Sequencing library strategy (RNA-seq, WGS, ChIP-seq, etc.)
-        required: false
-      # Processing information
-      processingLevel:
-        title: Processing Level
-        range: ProcessingLevelEnum
-        description: Level of data processing (raw, processed, analyzed)
-        multivalued: true
-        required: false
-      dataFormat:
-        title: Data Format
-        range: Data
-        description: File format of the omic data
-        multivalued: true
-        required: false
 
 # Enums for this class are defined canonically in dedicated modules and shared
 # with the file-level OmicFile schema (see Makefile OmicDataset target):
-#   OmicDataTypeEnum    -> modules/omics/data-types.yaml
-#   LibraryStrategyEnum -> modules/omics/library-strategy.yaml
+#   OmicDataTypeEnum          -> modules/omics/data-types.yaml
+#   LibraryPreparationMethodEnum -> modules/omics/parameters.yaml (via OmicDatasetMixin slot)
 

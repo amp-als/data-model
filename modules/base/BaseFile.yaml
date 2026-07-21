@@ -8,14 +8,12 @@ classes:
     abstract: true
     description: Base schema for all file types with common metadata attributes
     mixins: [DiseaseMixin, CommonMetadataMixin]
+    slots:
+      - keywords
+      - curationLevel
     attributes:
       title:
         title: Title
-        range: string
-        multivalued: true
-        required: false
-      keywords:
-        title: Keywords
         range: string
         multivalued: true
         required: false

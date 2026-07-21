@@ -1,0 +1,157 @@
+#######################################
+# Speech File Schema
+# For speech assessment files and session/sample folders within a SpeechDataset.
+#
+# Three entity types share this schema:
+#   1. Sample folders   — annotated with subject IDs + aggregated SDTM fields for that subject
+#   2. Session folders  — annotated with per-session SDTM fields (FTTEST, FTSTAT, FTNAM, etc.)
+#   3. ZIP archives     — one zip per session folder; add fileFormat + dataType on top of
+#                         the parent session folder annotations.
+#######################################
+
+classes:
+  SpeechFile:
+    is_a: BaseFile
+    description: >
+      File or folder containing speech assessment data. Covers sample-level folders
+      (subject annotations), session-level folders (per-test SDTM annotations), and
+      compressed audio archives (zip files of raw WAV recordings).
+    slots:
+      - fileFormat
+    attributes:
+      # Speech-specific data type (overrides BaseFile.dataType)
+      dataType:
+        title: Data Type
+        range: SpeechDataTypeEnum
+        description: Speech-specific data type(s) for this file or folder
+        multivalued: true
+        required: false
+
+      # -----------------------------------------------------------------------
+      # Subject identifiers
+      # -----------------------------------------------------------------------
+      nihguid:
+        title: NIH GUID
+        range: string
+        description: NIH Global Unique Identifier for the subject
+        required: false
+      neurostamps:
+        title: NeuroStamps
+        range: string
+        description: NeuroStamps identifier(s) for the subject; used to map available speech metrics from SDTM
+        multivalued: true
+        required: false
+      neuroguid:
+        title: NeuroGUID
+        range: string
+        description: NeuroGUID identifier for the subject
+        required: false
+      subjid:
+        title: Subject ID (SUBJID)
+        range: string
+        description: Local subject identifier as provided in the SDTM source (SDTM SUBJID)
+        required: false
+
+      # -----------------------------------------------------------------------
+      # SDTM FT domain fields — sample-level (aggregated per subject folder)
+      # -----------------------------------------------------------------------
+      ftStresu:
+        title: Standard Units (FTSTRESU)
+        range: string
+        description: Standard units of measurement for test results (SDTM FTSTRESU)
+        multivalued: true
+        required: false
+      ftGrpId:
+        title: Group ID (FTGRPID)
+        range: string
+        description: Group or session identifier (SDTM FTGRPID)
+        multivalued: true
+        required: false
+      ftRefId:
+        title: Reference ID (FTREFID)
+        range: string
+        description: >
+          Reference identifier; SessionID when measurement is Aggregate,
+          STEPID when measurement is Step-level (SDTM FTREFID)
+        multivalued: true
+        required: false
+      ftTstDtl:
+        title: Measurement Detail (FTTSTDTL)
+        range: FTMeasurementDetailEnum
+        description: >
+          Indicates whether the measurement is Aggregate (summary across all steps)
+          or Step-level (individual step within the test) (SDTM FTTSTDTL)
+        multivalued: true
+        required: false
+      ftDtc:
+        title: Date/Time of Test (FTDTC)
+        range: string
+        description: ISO 8601 date/time when the functional test was performed (SDTM FTDTC)
+        multivalued: true
+        required: false
+
+      # -----------------------------------------------------------------------
+      # SDTM FT domain fields — session-level (per session folder and zip file)
+      # -----------------------------------------------------------------------
+      ftTest:
+        title: Test Name (FTTEST)
+        range: string
+        description: Name of the speech functional test performed in this session (SDTM FTTEST)
+        multivalued: true
+        required: false
+      ftTestCd:
+        title: Test Code (FTTESTCD)
+        range: string
+        description: Short code for the speech functional test performed in this session (SDTM FTTESTCD)
+        multivalued: true
+        required: false
+      ftStat:
+        title: Completion Status (FTSTAT)
+        range: string
+        description: >
+          Completion status of the test. Set to "Not Done" when the test was not completed;
+          leave empty or null when completed (SDTM FTSTAT).
+        required: false
+      ftReasnd:
+        title: Reason Not Done (FTREASND)
+        range: string
+        description: >
+          Reason the test was not completed. Only applicable when ftStat = "Not Done"
+          (SDTM FTREASND).
+        required: false
+      ftNam:
+        title: Vendor Name (FTNAM)
+        range: string
+        description: Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)
+        required: false
+      suppLoc:
+        title: Collection Location (SUPPLOC)
+        range: string
+        description: >
+          Location where the speech session was recorded (SDTM SUPPLOC).
+          Typically "In Clinic" for clinic-based collection or null/empty for remote.
+        required: false
+      sdtmDomain:
+        title: SDTM Domain (DOMAIN)
+        range: string
+        description: SDTM domain abbreviation; always "FT" for functional test records (SDTM DOMAIN)
+        required: false
+      sessionId:
+        title: Session ID
+        range: string
+        description: >
+          Session identifier used to link this session folder or archive to the
+          corresponding SDTM FT record (corresponds to FTREFID when Aggregate).
+        required: false
+
+enums:
+  FTMeasurementDetailEnum:
+    description: Measurement granularity level for SDTM FT domain functional tests (FTTSTDTL)
+    permissible_values:
+      Aggregate:
+        description: Measurement is an aggregate summary across all steps of the test session
+      Step:
+        description: Measurement corresponds to an individual step within the test session
+
+# SpeechDataTypeEnum is defined canonically in modules/speech/data-types.yaml.
+# FileFormatEnum is defined canonically in modules/reference/file-formats.yaml.

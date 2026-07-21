@@ -8,41 +8,27 @@ classes:
     abstract: true
     description: Base schema for all dataset types with common metadata attributes
     mixins: [DiseaseMixin, CommonMetadataMixin]
-    attributes:
-      title:
-        title: Title
-        range: string
-        required: true
+    slots:
+      - funder
+      - title
+      - keywords
+      - curationLevel
+      - studyType
+      - participant_count
+    slot_usage:
       keywords:
-        title: Keywords
-        range: string
-        multivalued: true
         required: true
-      funder:
-        title: Funder
-        range: string
+    attributes:
+      dataUseModifiers:
+        title: Data Use Modifiers
+        range: DataUseModifierEnum
+        description: Data Use Ontology (DUO) codes specifying conditions under which this dataset may be used.
         multivalued: true
         required: false
-      participant_count:
-        title: Participant Count
-        range: integer
-        description: Number of unique individuals included in the dataset (whether as individual-level or as aggregate data). Omit if not applicable/unknown.
-        required: false
-      curationLevel:
-        title: Curation level
-        range: CurationLevelEnum
-        description: TBD
-        required: false
-      studyType:
-        title: Study type
-        range: StudyLevelEnum
-        description: Study type for dataset
-        required: false
-        multivalued: true
       datePublished:
         title: Date Published
         description: Date data were published/available on Synapse.
-        range: integer
+        range: date
         required: false
       dataset_code:
         title: Dataset Code
@@ -128,8 +114,6 @@ enums:
         description: Control cohort or study group, including healthy, unaffected, placebo, or no-remarkable-pathology controls as appropriate for the dataset.
       Healthy Control:
         description: Unaffected or healthy control participants or specimens.
-      C9ALS:
-        description: Familial ALS due to C9orf72 mutation.
       sALS:
         description: Sporadic ALS.
       FTD-GRN:
@@ -144,7 +128,7 @@ enums:
         description: ALS donors with C9orf72 repeat expansion.
       C9-FTD:
         description: FTD donors with C9orf72 repeat expansion.
-      C9ALS/FTD:
+      C9-ALS/FTD:
         description: ALS/FTD cases carrying a C9orf72 repeat expansion.
       Like-C9 Sporadic ALS/FTD:
         description: Sporadic non-C9 ALS/FTD cases with C9-like hnRNP H-target splicing dysregulation.

@@ -1,12 +1,6 @@
 ### AMP-ALS portal-specific enums
 
 enums:
-  CurationLevelEnum:
-    permissible_values:
-      Raw:
-      Standardized:
-      Non-Standardized:
-      Unknown:
   StudyLevelEnum:
     permissible_values:
       # Clinical study types
@@ -56,12 +50,10 @@ enums:
         description: Summary statistics
       meta_analysis:
         description: Meta-analysis results
-  AccessTypeEnum:
-    description: (Draft) Labels for how the AMP-ALS federated network defines access
-    permissible_values:
-      Federated: Authenticate with passport to provide access.
-  CollectionEnum:
-    description: Original collection, e.g. the consortium that the dataset comes from.
+      experimental study: 
+        description: scientific investigation where researchers deliberately manipulate one or more independent variables to observe their effect on dependent variables
+  ProgramEnum:
+    description: Research consortium or program that produced or funded the dataset.
     permissible_values:
       ALS Knowledge Portal:
         description: Default collection
@@ -71,35 +63,128 @@ enums:
       New York Genome Center ALS Consortium:
       National Institutes of Health:
       Project MinE:
-      ALS Compute:
       Target ALS:
         description: Target ALS consortium 
-      amp_als:
+      AMP ALS:
         description: AMP-ALS Knowledge Portal
-      target_als:
-        description: Target ALS consortium
-      all_als:
+      ALL ALS:
         description: ALL ALS consortium
-      c_path:
-        description: Critical Path Institute
-      alsdb:
-        description: ALS Database
-      geo:
-        description: Gene Expression Omnibus
-      sra:
-        description: Sequence Read Archive
-      als_compute:
-        description: ALS Compute Portal
-  SourceNode:
-    description: Source nodes within the federated network.
-    permissible_values:
       Critical Path Institute:
-        description: https://www.c-path.org/
-      Gene Expression Omnibus:
-        description: https://www.ncbi.nlm.nih.gov/geo/
+        description: Critical Path Institute
       ALS Compute:
-        description: https://anvilproject.org/news/2023/09/05/data-release-als-compute-project
+        description: ALS Compute Portal
+  FunderEnum:
+    description: Organization(s) that funded the dataset or study.
+    permissible_values:
+      NIH:
+        description: National Institutes of Health
+      NIA:
+        description: National Institute on Aging
+      NINDS:
+        description: National Institute of Neurological Disorders and Stroke
+      DoD:
+        description: U.S. Department of Defense
+      MDA:
+        description: Muscular Dystrophy Association
+      CZI:
+        description: Chan Zuckerberg Initiative
+      ERC:
+        description: European Research Council
       Target ALS:
-        description: targetals.org
+        description: Target ALS Foundation
+      ALSA:
+        description: ALS Association
+      Answer ALS:
+        description: Answer ALS Foundation
+      Perelman School of Medicine at the University of Pennsylvania:
+        description: Perelman School of Medicine at the University of Pennsylvania
+      VA:
+        description: U.S. Department of Veterans Affairs
+      NIMH:
+        description: National Institute of Mental Health
+      PsychEncode Consortium:
+        description: PsychEncode Consortium
+      Mayo Clinic:
+        description: Mayo Clinic
+      Einstein Aging Study:
+        description: Einstein Aging Study
+      NIH Office of the Director:
+        description: NIH Office of the Director
+      Amyotrophic Lateral Sclerosis Association:
+        description: Amyotrophic Lateral Sclerosis Association
+      The Tow Foundation:
+        description: The Tow Foundation
+      The University of Groningen Graduate School of Medical Sciences:
+        description: The University of Groningen Graduate School of Medical Sciences
+      PIA:
+        description: "Investissements d'avenir (Investments for the Future Program)"
+      The FTLD-exome Program Hospitalier de Recherche Clinique:
+        description: The FTLD-exome Program Hospitalier de Recherche Clinique
+      ZonMw:
+        description: ZonMw (Netherlands Organisation for Health Research and Development)
+      The Bluefield Project to Cure Frontotemporal Dementia:
+        description: The Bluefield Project to Cure Frontotemporal Dementia
+      Alzheimer Nederland:
+        description: Alzheimer Nederland
+      Ministry of Economic Affairs and Climate Policy:
+        description: Ministry of Economic Affairs and Climate Policy
+      Ride For Life Foundation:
+        description: Ride For Life Foundation
+      Rita Allen Foundation:
+        description: Rita Allen Foundation
+      O'Neil Charitable Trust:
+        description: O'Neil Charitable Trust
+      NIDDK:
+        description: National Institute of Diabetes and Digestive and Kidney Diseases
+      MICHR:
+        description: Michigan Institute for Clinical and Health Research
+      AFTD:
+        description: The Association for Frontotemporal Degeneration
+      Active Against ALS:
+        description: Active Against ALS
+      Packard Center:
+        description: The Robert Packard Center for ALS Research
+      Taubman Institute:
+        description: A. Alfred Taubman Medical Research Institute
+      University of Michigan:
+        description: University of Michigan Internal Programs
+      M-Cubed Program:
+        description: M-Cubed Program (University of Michigan)
+      Protein Folding Diseases Initiative:
+        description: Protein Folding Diseases Initiative (University of Michigan)
+      Program for Neurology Research and Discovery:
+        description: Program for Neurology Research and Discovery (University of Michigan)
+      NIGMS:
+        description: National Institute of General Medical Sciences
+      NCI:
+        description: National Cancer Institute
+      Ann Arbor Active Against ALS:
+        description: Ann Arbor Active Against ALS
+      UM Brain Bank and Alzheimer's Disease Research Center:
+        description: UM Brain Bank and Alzheimer's Disease Research Center
+      Rogel Cancer Center:
+        description: Rogel Cancer Center Tissue and Molecular Pathology Shared Resource Laboratory
+      The Dobson-Welch Family:
+        description: The family of Angela Dobson and Lyndon Welch
+      The Danto Family:
+        description: The Danto Family
+      Other:
+        description: Other funding organization not listed
+
+  OriginalRepositoryEnum:
+    description: Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.
+    permissible_values:
       Synapse:
-        description: synapse.org
+        description: Synapse data platform (synapse.org)
+      Gene Expression Omnibus:
+        description: NCBI Gene Expression Omnibus (ncbi.nlm.nih.gov/geo)
+      dbGaP:
+        description: NCBI Database of Genotypes and Phenotypes (ncbi.nlm.nih.gov/gap)
+      ALS Compute:
+        description: ALS Compute AnVIL portal (anvilproject.org)
+      Critical Path Institute:
+        description: Critical Path Institute data platform (c-path.org)
+      Target ALS:
+        description: Target ALS data portal (targetals.org)
+      Sequencing Read Archive:
+        description: Sequence Read Archive

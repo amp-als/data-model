@@ -146,6 +146,9 @@ enums:
       Illumina NovaSeq X Plus:
         description: A DNA sequencer which is manufactured by the Illumina corporation, with three flow cell types and up to 8 Tb outpet per run. Ultra-high-density flow cells and ultra-high-resolution optics enable output of up to 26 billion single reads per flow cell.
         meaning: https://www.illumina.com/systems/sequencing-platforms/novaseq-x-plus.html
+      Illumina NovaSeq X Plus (300 Cycle):
+        description: Illumina NovaSeq X Plus with 300 cycle kit configuration.
+        meaning: https://www.illumina.com/systems/sequencing-platforms/novaseq-x-plus.html
       Illumina Omni2pt5M:
         description: ''
       Illumina Omni5M:

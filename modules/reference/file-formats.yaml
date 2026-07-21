@@ -348,6 +348,9 @@ enums:
       h5:
         description: HDF5 format file, commonly used for single-cell data
         meaning: http://edamontology.org/format_3590
+      wav:
+        description: Waveform Audio File Format; an uncompressed audio file format standard for storing audio bitstreams on PCs
+        meaning: http://purl.obolibrary.org/obo/NCIT_C182073
       zip:
         description: zip is a format standard of a digital entity that is conformant with the PKWARE .ZIP file format specification
         meaning: http://purl.obolibrary.org/obo/OBI_0000325

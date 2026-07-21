@@ -3,8 +3,9 @@
 #######################################
 
 enums:
-  # Access and permissions
-  AccessTypeEnum:
+  # Data Use Modifiers — access types and DUO codes
+  DataUseModifierEnum:
+    description: Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used.
     permissible_values:
       open:
         description: Open access, no restrictions
@@ -14,17 +15,48 @@ enums:
         description: Private access, restricted to specific users
       embargo:
         description: Under embargo, restricted until release date
+      GRU:
+        description: General Research Use — Use is allowed for any research purpose, including methods development and population/ancestry research.
+        meaning: DUO:0000042
+      HMB:
+        description: Health or Medical or Biomedical Research — Use is allowed for health, medical, or biomedical research purposes.
+        meaning: DUO:0000006
+      DS:
+        description: Disease Specific Research — Use is allowed for research into the specified disease or condition.
+        meaning: DUO:0000007
+      NCU:
+        description: Non-Commercial Use Only — Use is limited to non-commercial purposes.
+        meaning: DUO:0000046
+      NPUNCU:
+        description: Not-for-Profit, Non-Commercial Use Only — Use is limited to not-for-profit organizations for non-commercial purposes.
+        meaning: DUO:0000018
+      US:
+        description: User Specific Restriction — Use is limited to specified, approved users.
+        meaning: DUO:0000026
 
   # Data governance
   CurationLevelEnum:
+    description: Level of data processing and curation applied to a dataset or file
     permissible_values:
+      Raw:
+        description: Raw, unprocessed data (alternate notation)
+      Processed:
+        description: Processed data (aligned, normalized)
+      Analyzed:
+        description: Analyzed data with statistical results
+      Integrated:
+        description: Integrated multi-sample analysis
       tier1:
         description: Tier 1 - Raw data, minimal curation
       tier2:
         description: Tier 2 - Validated data with quality control
       tier3:
         description: Tier 3 - Analysis-ready data with comprehensive metadata
-      unknown:
+      Standardized:
+        description: Data standardized to a common format or schema
+      Non-Standardized:
+        description: Data not yet standardized
+      Unknown:
         description: Curation level unknown
 
   # Library layouts for sequencing
@@ -72,21 +104,21 @@ enums:
         description: Kennedy's disease, or spinal and bulbar muscular atrophy (SBMA), is a rare, X-linked genetic neurodegenerative disorder primarily affecting men, characterized by slow progressive muscle weakness and wasting
       Spinal muscular atrophy:
         description: spinal muscular atrophy (SMA) is a rare, inherited genetic disease causing progressive muscle weakness and atrophy (wasting) due to the loss of motor neurons in the spinal cord
+      Other Motor Neuron Disease:
+        description: Motor neuron disease not otherwise classified as ALS, PLS, PMA, or PBP
+      Other Neurological Disorders:
+        description: Neurological disorder not otherwise classified in this enum
 
   DiseaseSubtypeEnum:
     description: Specific subtypes or variants of neurodegenerative diseases
     permissible_values:
-      C9orf72:
-        description: C9orf72 gene mutation
-      Asymptomatic C9orf72:
-        description: Asymptomatic C9orf72 gene mutation
       SOD1:
         description: SOD1 gene mutation
       FUS:
         description: FUS gene mutation
       TARDBP:
         description: TARDBP gene mutation
-      sporadic:
+      sporadic ALS:
         description: Sporadic (non-familial) form
       familial:
         description: Familial (inherited) form
@@ -94,6 +126,8 @@ enums:
         description: Disease subtype unknown or not applicable
       C9-ALS:
         description: C9orf72 ALS (gene-carrier notation)
+      C9-FTD:
+        description: C9orf72 FTD (gene-carrier notation)
       Asymptomatic C9:
         description: C9 Asymptomatic carrier
       SOD1-ALS:
@@ -104,6 +138,8 @@ enums:
         description: FUS ALS
       TARDBP-ALS:
         description: TARDBP ALS
+      TDP43-ALS:
+        description: TDP-43 ALS (alternate notation for TARDBP-ALS)
       ANG-ALS:
         description: ANG ALS
       ANXA11-ALS:
@@ -128,6 +164,8 @@ enums:
         description: FIG4 ALS
       GRN-ALS:
         description: GRN (Progranulin) ALS
+      PROGRANULIN-ALS:
+        description: Progranulin ALS (alternate notation for GRN-ALS)
       HNRNPA1-ALS:
         description: HNRNPA1 ALS
       HNRNPA2B1-ALS:
@@ -136,6 +174,8 @@ enums:
         description: KIF5A ALS
       MAPT-ALS:
         description: MAPT (Tau) ALS
+      TAU-ALS:
+        description: Tau ALS (alternate notation for MAPT-ALS)
       MATR3-ALS:
         description: MATR3 ALS
       MOBP-ALS:
@@ -477,35 +517,56 @@ enums:
 
   # Cell types
   CellTypeEnum:
+    description: Type of cell or cell line
     permissible_values:
+      # Neuronal
       motor_neuron:
         description: Motor neurons
+      neurons:
+        description: Neuronal cells
+      NeuN+ neurons:
+        description: NeuN-positive neurons
+      # Glial
+      astrocytes:
+        description: Astrocyte glial cells
       astrocyte:
-        description: Astrocytes
+        description: Astrocytes (alternate notation)
       microglia:
-        description: Microglia
+        description: Microglial cells
+      oligodendrocyte lineage cells:
+        description: Cells of oligodendrocyte lineage
       oligodendrocyte:
         description: Oligodendrocytes
-      fibroblast:
-        description: Fibroblasts
-      pbmc:
-        description: Peripheral blood mononuclear cells
+      other glia:
+        description: Other types of glial cells
+      # Blood-derived
       whole_blood:
         description: Whole blood
+      pbmc:
+        description: Peripheral blood mononuclear cells
+      # Fibroblasts
+      fibroblasts:
+        description: Fibroblast cells
+      fibroblast:
+        description: Fibroblasts (alternate notation)
+      # Stem cells and iPSC-derived cultures
+      iPSC:
+        description: Induced pluripotent stem cells
+      primary_cell:
+        description: Primary cells directly from tissue
+      immortalized_cell_line:
+        description: Immortalized cell line
+      stem_cell:
+        description: Stem cell culture
+      differentiated_cell:
+        description: Differentiated cell type
+      organoid:
+        description: Organoid culture
+      # Other
       unknown:
         description: Cell type unknown
-
-  # Data processing levels
-  ProcessingLevelEnum:
-    permissible_values:
-      raw:
-        description: Raw, unprocessed data
-      processed:
-        description: Processed data (aligned, normalized)
-      analyzed:
-        description: Analyzed data with statistical results
-      integrated:
-        description: Integrated multi-sample analysis
+      other:
+        description: Other cell type
 
   # Biospecimen types
   BiospecimenTypeEnum:
@@ -530,6 +591,8 @@ enums:
         description: Induced pluripotent stem cells
       motor_neuron:
         description: Cultured motor neurons
+      primary cell culture:
+        description: biological specimens sourced directly from living tissues or organs (e.g., biopsies, blood) and disaggregated into viable cells
       unknown:
         description: Biospecimen type unknown
 

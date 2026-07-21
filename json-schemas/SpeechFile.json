@@ -1,94 +1,17 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-dataset",
-  "title": "ClinicalDataset",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-speech-file",
+  "title": "SpeechFile",
   "type": "object",
-  "description": "Dataset containing subject-level longitudinal clinical data where each file contains aggregate level subject data across multiple timepoints",
+  "description": "File or folder containing speech assessment data. Covers sample-level folders (subject annotations), session-level folders (per-test SDTM annotations), and compressed audio archives (zip files of raw WAV recordings).",
   "additionalProperties": {},
   "properties": {
-    "acknowledgementStatement": {
-      "description": "Statement or link describing how use of this dataset should be acknowledged.",
-      "items": {
-        "type": "string"
-      },
-      "title": "Acknowledgement Statement",
-      "type": "array"
-    },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
       "items": {
         "type": "string"
       },
       "title": "Alternate Name",
-      "type": "array"
-    },
-    "assessmentTypes": {
-      "description": "Types of clinical assessments included in the dataset",
-      "items": {
-        "description": "Type of clinical assessment, instrument, or data collection method",
-        "title": "AssessmentTypeEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "ALSFRS-R",
-              "ECAS",
-              "Strength",
-              "PulmonaryFunction",
-              "SpeechFunction",
-              "ALSAQ-40",
-              "Neurological",
-              "HandHeldDynamometry",
-              "VitalSigns",
-              "PhysicalExam",
-              "EMG",
-              "NCS",
-              "SuicideRisk",
-              "Laboratory",
-              "Demographics",
-              "MedicalHistory",
-              "ClinicalExamination",
-              "QualityOfLifeSurvey",
-              "TreatmentAdministration",
-              "VisitScheduling",
-              "EligibilityCriteria",
-              "StudyDisposition",
-              "EligibilityConsent",
-              "ConcomitantMedications",
-              "CohortParticipation",
-              "BiomarkerSerumCollection",
-              "AdverseEventLog",
-              "InformedConsentForm",
-              "InfusionVitalSigns",
-              "KeyDevicesProcedures",
-              "clinician_administered_exam",
-              "neurological_examination",
-              "PermanentAssistedVentilation",
-              "PhoneCallVisit",
-              "Pregnancy",
-              "ProtocolDeviation",
-              "SlowVitalCapacity (SVC)",
-              "ExposureProtocolChanges",
-              "SurvivalStatus",
-              "genetic_counseling",
-              "genetic_testing",
-              "motor_assessment",
-              "cognitive_assessment",
-              "alsfrs_r",
-              "neurological_exam",
-              "psychiatric_eval",
-              "vital_signs",
-              "laboratory",
-              "electrophysiology",
-              "dynamometry"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Assessment Types",
       "type": "array"
     },
     "citation": {
@@ -98,142 +21,6 @@
       },
       "title": "Citation",
       "type": "array"
-    },
-    "clinicalDomain": {
-      "description": "The primary clinical domain or area of focus for the data.",
-      "items": {
-        "description": "Primary clinical domains for ALS research and assessment",
-        "title": "ClinicalDomainEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "motor_function",
-              "bulbar_function",
-              "respiratory_function",
-              "limb_function",
-              "disease_progression",
-              "symptom_onset",
-              "genetic_testing",
-              "diagnosis_criteria",
-              "drug_administration",
-              "drug_exposure",
-              "biomarkers",
-              "neuroimaging",
-              "cognitive_assessment",
-              "quality_of_life",
-              "functional_assessment"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Clinical Domain",
-      "type": "array"
-    },
-    "cohort": {
-      "description": "Distinct cohorts, arms, or study groups represented in the dataset.",
-      "items": {
-        "description": "",
-        "title": "CohortEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "ALS",
-              "ALS-TE",
-              "ALS-Ox",
-              "ALS-Glial",
-              "FTD",
-              "Control",
-              "Healthy Control",
-              "sALS",
-              "FTD-GRN",
-              "FTLD-TDP",
-              "PSP/FTLD-tau",
-              "Pre-fALS",
-              "C9-ALS",
-              "C9-FTD",
-              "C9-ALS/FTD",
-              "Like-C9 Sporadic ALS/FTD",
-              "Like-Control Sporadic ALS/FTD",
-              "Non-ALS Control",
-              "Parkinson's Disease",
-              "Alzheimer's Disease",
-              "Other Neurological Disorders",
-              "Other Motor Neuron Disease",
-              "FTD Postmortem TDP-43-Negative Neuronal Nuclei",
-              "ALS Postmortem TDP-43-Negative Neuronal Nuclei",
-              "TDP-43-Positive Neuronal Nuclei",
-              "TDP-43-Negative Neuronal Nuclei",
-              "ALS/FTD Disease Model and ALS Samples",
-              "Apobec-YTH",
-              "Apobec-YTHmut",
-              "Halo",
-              "Trehalose Expanded-Access Treatment",
-              "Trehalose Expanded-Access Biomarker Treatment",
-              "Symptomatic ALS",
-              "Asymptomatic Genetic ALS At-Risk",
-              "Placebo",
-              "Reldesemtiv/CK-2127107 150 mg Twice Daily",
-              "Reldesemtiv/CK-2127107 300 mg Twice Daily",
-              "Reldesemtiv/CK-2127107 450 mg Twice Daily",
-              "Reldesemtiv Treatment",
-              "ALS Survey Participants",
-              "Ceftriaxone Treatment",
-              "Ceftriaxone 2 g/day",
-              "Ceftriaxone 4 g/day",
-              "ALS Aggregate/Reference",
-              "FTD Aggregate/Reference",
-              "Topiramate Treatment",
-              "ALS Natural-History",
-              "ALS Case",
-              "ALS/FTD Case"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Cohort",
-      "type": "array"
-    },
-    "cohortType": {
-      "description": "Types of cohorts available in this dataset.",
-      "items": {
-        "description": "",
-        "title": "CohortTypeEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "Case-Control",
-              "Disease-Only",
-              "Healthy-Control",
-              "At-Risk",
-              "Natural-History",
-              "Interventional-Treatment",
-              "Placebo-Control",
-              "Registry",
-              "Aggregate-Reference",
-              "In-Vitro-Experimental"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Cohort Type",
-      "type": "array"
-    },
-    "cohort_count": {
-      "description": "Number of cohorts in this dataset.",
-      "title": "Cohort Count",
-      "type": "integer"
     },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the resource.",
@@ -281,67 +68,20 @@
       "type": "array"
     },
     "dataType": {
-      "description": "Clinical data types (assessments, treatments, medical history, etc.)",
+      "description": "Speech-specific data type(s) for this file or folder",
       "items": {
-        "description": "Types of clinical data contained in files",
-        "title": "ClinicalDataTypeEnum",
+        "description": "Types of speech assessment and acoustic data from digital health technology platforms and SDTM FT domain records",
+        "title": "SpeechDataTypeEnum",
         "type": "string",
         "anyOf": [
           {
             "enum": [
-              "motor_assessment",
-              "cognitive_assessment",
-              "respiratory_assessment",
-              "bulbar_assessment",
-              "functional_assessment",
-              "quality_of_life",
-              "medical_history",
-              "family_history",
-              "medication_history",
-              "disease_progression",
-              "diagnostic_criteria",
-              "symptom_onset",
-              "genetic_testing",
-              "biomarker_data",
-              "drug_administration",
-              "therapy_sessions",
-              "intervention_response",
-              "adverse_events",
-              "screening_visit",
-              "baseline_visit",
-              "followup_visit",
-              "study_completion",
-              "laboratory_results",
-              "vital_signs",
-              "neuroimaging",
-              "electrophysiology",
-              "raw_clinical_data",
-              "processed_clinical_data",
-              "derived_scores",
-              "summary_statistics",
-              "clinical",
-              "demographics",
-              "immunoassay",
-              "behavior_process",
-              "surveyData",
-              "Pharmacokinetic_Study",
-              "drugScreen",
-              "drugCombinationScreen",
-              "image",
-              "audio_transcript",
-              "cellularPhysiology",
-              "data_dictionary",
-              "metadata",
+              "raw_audio",
               "dht_speech_vitals",
-              "dht_respiratory_assessment",
-              "clinical_assessment",
-              "treatment",
-              "neurological_assessment",
-              "psychiatric_assessment",
-              "hand_held_dynamometry",
-              "genetic_profile",
-              "study_management",
-              "data_management"
+              "sdtm_functional_tests",
+              "aggregate_measures",
+              "step_measures",
+              "metadata"
             ]
           },
           {
@@ -351,47 +91,6 @@
       },
       "title": "Data Type",
       "type": "array"
-    },
-    "dataUseModifiers": {
-      "description": "Data Use Ontology (DUO) codes specifying conditions under which this dataset may be used.",
-      "items": {
-        "description": "Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used.",
-        "title": "DataUseModifierEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "open",
-              "controlled",
-              "private",
-              "embargo",
-              "GRU",
-              "HMB",
-              "DS",
-              "NCU",
-              "NPUNCU",
-              "US"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Data Use Modifiers",
-      "type": "array"
-    },
-    "dataset_code": {
-      "description": "Stable dataset code (lowercase letters, digits, and underscores; excludes version dates). For C-Path datasets, use the standardized convention combining data model type and dataset identifier, e.g. sdtm_als1003, omop_als1001 (prefixes: src, omop, sdtm, send, adam). Other datasets without an established standard may use a descriptive code, e.g. als_compute.\n",
-      "pattern": "^[a-z0-9_]+$",
-      "title": "Dataset Code",
-      "type": "string"
-    },
-    "datePublished": {
-      "description": "Date data were published/available on Synapse.",
-      "format": "date",
-      "title": "Date Published",
-      "type": "string"
     },
     "description": {
       "description": "Text describing a resource.",
@@ -648,67 +347,210 @@
       "title": "Disease Subtype",
       "type": "array"
     },
-    "followUpDuration": {
-      "description": "Study follow-up period in months",
-      "title": "Follow-up Duration",
-      "type": "number"
+    "fileFormat": {
+      "description": "Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software.",
+      "title": "File Format",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "7z",
+            "DICOM",
+            "MATLAB data",
+            "MATLAB script",
+            "NWB",
+            "PAR",
+            "Python script",
+            "R script",
+            "RCC",
+            "RData",
+            "REC",
+            "SDAT",
+            "SPAR",
+            "Sentrix descriptor file",
+            "ab1",
+            "abf",
+            "ai",
+            "avi",
+            "bai",
+            "bam",
+            "bash script",
+            "bcf",
+            "bed",
+            "bed broadPeak",
+            "bed gappedPeak",
+            "bed narrowPeak",
+            "bedgraph",
+            "bgzip",
+            "bigwig",
+            "bmp",
+            "bpm",
+            "cel",
+            "chp",
+            "cnn",
+            "cnr",
+            "cns",
+            "cram",
+            "crai",
+            "csi",
+            "csv",
+            "ctab",
+            "czi",
+            "dat",
+            "dna",
+            "doc",
+            "docker image",
+            "dup",
+            "edat3",
+            "excel",
+            "fasta",
+            "fastq",
+            "fcs",
+            "fig",
+            "flagstat",
+            "gb",
+            "gct",
+            "gff3",
+            "gtf",
+            "gzip",
+            "hdf5",
+            "hdr",
+            "hic",
+            "html",
+            "hyperlink",
+            "idat",
+            "idx",
+            "img",
+            "jpg",
+            "js",
+            "json",
+            "lif",
+            "locs",
+            "maf",
+            "md",
+            "mov",
+            "MPEG-4",
+            "msf",
+            "mtx",
+            "mzML",
+            "nii",
+            "ome-tiff",
+            "pdf",
+            "plink",
+            "png",
+            "powerpoint",
+            "pzfx",
+            "psydat",
+            "raw",
+            "rds",
+            "recal",
+            "rmd",
+            "sam",
+            "sav",
+            "sdf",
+            "seg",
+            "sf",
+            "sif",
+            "sqlite",
+            "sra",
+            "svg",
+            "svs",
+            "tagAlign",
+            "tar",
+            "tbi",
+            "tif",
+            "tom",
+            "tranches",
+            "tsv",
+            "txt",
+            "vcf",
+            "wiggle",
+            "xml",
+            "yaml",
+            "h5",
+            "wav",
+            "zip"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
     },
-    "funder": {
-      "description": "Refers to the funding organization for the generated resource. This annotation is handled by the DCC.",
+    "ftDtc": {
+      "description": "ISO 8601 date/time when the functional test was performed (SDTM FTDTC)",
       "items": {
-        "description": "Organization(s) that funded the dataset or study.",
-        "title": "FunderEnum",
+        "type": "string"
+      },
+      "title": "Date/Time of Test (FTDTC)",
+      "type": "array"
+    },
+    "ftGrpId": {
+      "description": "Group or session identifier (SDTM FTGRPID)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Group ID (FTGRPID)",
+      "type": "array"
+    },
+    "ftNam": {
+      "description": "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)",
+      "title": "Vendor Name (FTNAM)",
+      "type": "string"
+    },
+    "ftReasnd": {
+      "description": "Reason the test was not completed. Only applicable when ftStat = \"Not Done\" (SDTM FTREASND).\n",
+      "title": "Reason Not Done (FTREASND)",
+      "type": "string"
+    },
+    "ftRefId": {
+      "description": "Reference identifier; SessionID when measurement is Aggregate, STEPID when measurement is Step-level (SDTM FTREFID)\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "Reference ID (FTREFID)",
+      "type": "array"
+    },
+    "ftStat": {
+      "description": "Completion status of the test. Set to \"Not Done\" when the test was not completed; leave empty or null when completed (SDTM FTSTAT).\n",
+      "title": "Completion Status (FTSTAT)",
+      "type": "string"
+    },
+    "ftStresu": {
+      "description": "Standard units of measurement for test results (SDTM FTSTRESU)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Standard Units (FTSTRESU)",
+      "type": "array"
+    },
+    "ftTest": {
+      "description": "Name of the speech functional test performed in this session (SDTM FTTEST)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Test Name (FTTEST)",
+      "type": "array"
+    },
+    "ftTestCd": {
+      "description": "Short code for the speech functional test performed in this session (SDTM FTTESTCD)",
+      "items": {
+        "type": "string"
+      },
+      "title": "Test Code (FTTESTCD)",
+      "type": "array"
+    },
+    "ftTstDtl": {
+      "description": "Indicates whether the measurement is Aggregate (summary across all steps) or Step-level (individual step within the test) (SDTM FTTSTDTL)\n",
+      "items": {
+        "description": "Measurement granularity level for SDTM FT domain functional tests (FTTSTDTL)",
+        "title": "FTMeasurementDetailEnum",
         "type": "string",
         "anyOf": [
           {
             "enum": [
-              "NIH",
-              "NIA",
-              "NINDS",
-              "DoD",
-              "MDA",
-              "CZI",
-              "ERC",
-              "Target ALS",
-              "ALSA",
-              "Answer ALS",
-              "Perelman School of Medicine at the University of Pennsylvania",
-              "VA",
-              "NIMH",
-              "PsychEncode Consortium",
-              "Mayo Clinic",
-              "Einstein Aging Study",
-              "NIH Office of the Director",
-              "Amyotrophic Lateral Sclerosis Association",
-              "The Tow Foundation",
-              "The University of Groningen Graduate School of Medical Sciences",
-              "PIA",
-              "The FTLD-exome Program Hospitalier de Recherche Clinique",
-              "ZonMw",
-              "The Bluefield Project to Cure Frontotemporal Dementia",
-              "Alzheimer Nederland",
-              "Ministry of Economic Affairs and Climate Policy",
-              "Ride For Life Foundation",
-              "Rita Allen Foundation",
-              "O'Neil Charitable Trust",
-              "NIDDK",
-              "MICHR",
-              "AFTD",
-              "Active Against ALS",
-              "Packard Center",
-              "Taubman Institute",
-              "University of Michigan",
-              "M-Cubed Program",
-              "Protein Folding Diseases Initiative",
-              "Program for Neurology Research and Discovery",
-              "NIGMS",
-              "NCI",
-              "Ann Arbor Active Against ALS",
-              "UM Brain Bank and Alzheimer's Disease Research Center",
-              "Rogel Cancer Center",
-              "The Dobson-Welch Family",
-              "The Danto Family",
-              "Other"
+              "Aggregate",
+              "Step"
             ]
           },
           {
@@ -716,7 +558,7 @@
           }
         ]
       },
-      "title": "Funder",
+      "title": "Measurement Detail (FTTSTDTL)",
       "type": "array"
     },
     "keywords": {
@@ -726,6 +568,24 @@
       },
       "title": "Keywords",
       "type": "array"
+    },
+    "neuroguid": {
+      "description": "NeuroGUID identifier for the subject",
+      "title": "NeuroGUID",
+      "type": "string"
+    },
+    "neurostamps": {
+      "description": "NeuroStamps identifier(s) for the subject; used to map available speech metrics from SDTM",
+      "items": {
+        "type": "string"
+      },
+      "title": "NeuroStamps",
+      "type": "array"
+    },
+    "nihguid": {
+      "description": "NIH Global Unique Identifier for the subject",
+      "title": "NIH GUID",
+      "type": "string"
     },
     "originalRepository": {
       "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
@@ -752,24 +612,6 @@
       },
       "title": "Original Repository",
       "type": "array"
-    },
-    "participant_count": {
-      "description": "Number of unique individuals included in this entity (individual-level or aggregate data). Omit if not applicable or unknown.",
-      "title": "Participant Count",
-      "type": "integer"
-    },
-    "portalRelease": {
-      "description": "Portal release version(s) in which this dataset is included (e.g. \"2025.2\").",
-      "items": {
-        "type": "string"
-      },
-      "title": "Portal Release",
-      "type": "array"
-    },
-    "primaryOutcome": {
-      "description": "Primary clinical endpoint or outcome measure",
-      "title": "Primary Outcome Measure",
-      "type": "string"
     },
     "program": {
       "description": "Research consortium(s) or program(s) that produced or funded this resource.",
@@ -807,6 +649,16 @@
       "title": "Same As",
       "type": "string"
     },
+    "sdtmDomain": {
+      "description": "SDTM domain abbreviation; always \"FT\" for functional test records (SDTM DOMAIN)",
+      "title": "SDTM Domain (DOMAIN)",
+      "type": "string"
+    },
+    "sessionId": {
+      "description": "Session identifier used to link this session folder or archive to the corresponding SDTM FT record (corresponds to FTREFID when Aggregate).\n",
+      "title": "Session ID",
+      "type": "string"
+    },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
       "items": {
@@ -837,73 +689,6 @@
       "title": "Species",
       "type": "array"
     },
-    "studyDesign": {
-      "description": "Type of clinical study design",
-      "title": "Study Design",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "longitudinal",
-            "cross_sectional",
-            "case_control",
-            "cohort",
-            "interventional",
-            "observational"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
-    },
-    "studyType": {
-      "description": "Type of study design (e.g., longitudinal, cross-sectional).",
-      "items": {
-        "description": "",
-        "title": "StudyLevelEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "Patient Registry Study",
-              "Natural History Study",
-              "Clinical Trial",
-              "Observational Study",
-              "Case-Control Study",
-              "Cohort Study",
-              "Cross-Sectional Study",
-              "Longitudinal Study",
-              "Discovery Study",
-              "Validation Study",
-              "Multi-Omics Study",
-              "Comparative Study",
-              "Pilot Study",
-              "Replication Study",
-              "Time Series Study",
-              "Population Study",
-              "Harmonized Study Collection",
-              "Unknown",
-              "individual",
-              "aggregate",
-              "summary_level",
-              "meta_analysis",
-              "experimental study"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Study Type",
-      "type": "array"
-    },
-    "study_count": {
-      "description": "Number of studies in this dataset.",
-      "title": "Study Count",
-      "type": "integer"
-    },
     "subject": {
       "description": "Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
       "items": {
@@ -912,10 +697,22 @@
       "title": "Subject",
       "type": "array"
     },
-    "title": {
-      "description": "Title of a resource.",
-      "title": "Title",
+    "subjid": {
+      "description": "Local subject identifier as provided in the SDTM source (SDTM SUBJID)",
+      "title": "Subject ID (SUBJID)",
       "type": "string"
+    },
+    "suppLoc": {
+      "description": "Location where the speech session was recorded (SDTM SUPPLOC). Typically \"In Clinic\" for clinic-based collection or null/empty for remote.\n",
+      "title": "Collection Location (SUPPLOC)",
+      "type": "string"
+    },
+    "title": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Title",
+      "type": "array"
     },
     "url": {
       "description": "URL(s) for the resource, including its original location and any external data catalogs where it is listed.",
@@ -924,19 +721,9 @@
       },
       "title": "URL",
       "type": "array"
-    },
-    "visitSchedule": {
-      "description": "Description of visit schedule (e.g., \"Baseline, 3, 6, 12 months\")",
-      "title": "Visit Schedule",
-      "type": "string"
     }
   },
   "required": [
-    "title",
-    "keywords",
-    "cohortType",
-    "cohort_count",
-    "study_count",
     "originalRepository"
   ]
 }
