@@ -1,5 +1,5 @@
 {
-  "$schema": "../json-schemas/OmicDataset.json",
+  "$schema": "../../json-schemas/OmicDataset.json",
   "FACSPopulation": "",
   "GEOSuperSeries": "",
   "acknowledgementStatement": [
@@ -38,7 +38,9 @@
   "creator": [
     "ALS Compute"
   ],
-  "curationLevel": "Standardized",
+  "curationLevel": [
+    "Standardized"
+  ],
   "dataFormat": [
     ""
   ],
@@ -74,7 +76,6 @@
   "diseaseSubtype": [
     "ALS Spectrum MND",
     "pre-fALS",
-    "Asymptomatic C9orf72",
     "Asymptomatic NEK1",
     "Asymptomatic C9",
     "Asymptomatic SOD1",

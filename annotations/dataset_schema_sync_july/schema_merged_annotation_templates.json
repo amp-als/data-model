@@ -1,0 +1,3230 @@
+{
+  "syn67713129": {
+    "Abnormal RNA stability in amyotrophic lateral sclerosis": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "_created_timestamp": "2026-07-07T20:13:07.695207",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "BruChase-seq",
+        "Bru-seq"
+      ],
+      "biospecimenType": [
+        "primary cell culture"
+      ],
+      "cellType": [
+        "fibroblasts",
+        "iPSC"
+      ],
+      "citation": [
+        "doi:10.1038/s41467-018-05049-z"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "sALS",
+        "Healthy Control"
+      ],
+      "cohortType": [
+        "Case-Control",
+        "Healthy-Control"
+      ],
+      "cohort_count": [
+        3
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Barmada Lab - University of Michigan"
+      ],
+      "creator": [
+        "Tank EM"
+      ],
+      "curationLevel": [
+        "Processed",
+        "Raw"
+      ],
+      "dataType": [
+        "transcriptomics (nascent)"
+      ],
+      "dataset_code": "",
+      "datePublished": 2018-07-20,
+      "description": "Gene Expression Omnibus BruChase-seq and Bru-seq dataset profiling fibroblasts and iPSC cells from Control, C9-ALS, and sporadic ALS cases.",
+      "disease": [
+        "Control",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "sporadic ALS"
+      ],
+      "funder": [
+        "NIH",
+        "NINDS",
+        "NIA",
+        "NIDDK",
+        "MICHR",
+        "AFTD",
+        "Active Against ALS",
+        "Packard Center",
+        "Taubman Institute",
+        "University of Michigan",
+        "M-Cubed Program",
+        "Protein Folding Diseases Initiative",
+        "Program for Neurology Research and Discovery",
+      ],
+      "keywords": [
+        "C9orf72+",
+        "Amyotrophic Lateral Sclerosis",
+        "primary cell culture",
+        "BruChase-seq",
+        "Bru-seq",
+        "transcriptomics_nascent"
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "60"
+      ],
+      "platform": [
+        "Illumina HiSeq 2000"
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "geo:GSE115310"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Abnormal RNA stability in amyotrophic lateral sclerosis"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE115310"
+      ]
+    }
+  },
+  "syn67719824": {
+    "Neurovascular dysfunction in GRN-associated frontotemporal dementia identified by single-nucleus RNA-sequencing of human cerebral cortex": {
+      "CNSRegion": [
+        "frontal cortex",
+        "occipital cortex",
+        "temporal lobe cortex",
+        "Unknown"
+      ],
+      "FACSPopulation": [
+        "NeuN+",
+        "OLIG2+",
+        "Neun-/OLIG2-"
+      ],
+      "GEOSuperSeries": "",
+      "_created_timestamp": "2026-07-07T20:13:06.949950",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "RNA-seq"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        "doi:10.1038/s41593-022-01124-3"
+      ],
+      "cohort": [
+        "FTD-GRN",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        2
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Eggen Lab - University of Groningen",
+        "Boddeke Lab - University of Groningen",
+        "the de Vries Lab - Amsterdam UMC",
+        "Erasmus MC Frontotemporal Dementia Research Group"
+      ],
+      "creator": [
+        "Gerrits E"
+      ],
+      "curationLevel": [
+        "Raw",
+        "Processed"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2022-07-25,
+      "description": "Gene Expression Omnibus RNA-seq dataset profiling brain tissue samples from frontal cortex, occipital cortex, and temporal lobe cortex collected from Control and FTD cases.",
+      "disease": [
+        "Control",
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "funder": [
+        "The University of Groningen Graduate School of Medical Sciences",
+        "PIA",
+        "The FTLD-exome Program Hospitalier de Recherche Clinique",
+        "ZonMw",
+        "The Bluefield Project to Cure Frontotemporal Dementia",
+        "Alzheimer Nederland",
+        "Ministry of Economic Affairs and Climate Policy"
+      ],
+      "keywords": [
+        "Frontotemporal Dementia",
+        "brain tissue",
+        "sorted nuclei",
+        "RNA-seq",
+        "transcriptomics"
+      ],
+      "libraryLayout": [
+        "single",
+        "paired"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "93"
+      ],
+      "platform": [
+        "Illumina NextSeq 500"
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "geo:GSE163122"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Neurovascular dysfunction in GRN-associated frontotemporal dementia identified by single-nucleus RNA-sequencing of human cerebral cortex"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE163122"
+      ]
+    }
+  },
+  "syn67729513": {
+    "Unexpected similarities between C9ORF72 and sporadic forms of ALS-FTD suggest a common disease mechanism": {
+      "CNSRegion": [
+        "cerebellum",
+        "Unknown"
+      ],
+      "FACSPopulation": "",
+      "GEOSuperSeries": [
+        "GSE137810"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:06.889431",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "RNA-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        "doi:10.1038/s41586-022-04424-7",
+        "doi:10.1038/s41586-022-04436-3",
+        "doi:10.1101/gr.265298.120",
+        "doi:10.7554/eLife.37754"
+      ],
+      "cohort": [
+        "C9-ALS/FTD",
+        "Like-C9 Sporadic ALS/FTD",
+        "Like-Control Sporadic ALS/FTD",
+        "Non-ALS Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        4
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "NYGC ALS Consortium",
+        "Target ALS",
+        "New York Brain Bank"
+      ],
+      "creator": [
+        "Erin G Conlon"
+      ],
+      "curationLevel": [
+        "Raw",
+        "Processed"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2018-07-13,
+      "description": "Gene Expression Omnibus RNA-seq dataset profiling brain tissue samples from cerebellum collected from ALS, FTD, Control, Pre-fALS, Parkinson's Disease (PD), and Alzheimer's Disease (AD) cases.",
+      "disease": [
+        "ALS",
+        "FTD",
+        "Control",
+        "PD",
+        "AD"
+      ],
+      "diseaseSubtype": [
+        "pre-fALS"
+      ],
+      "funder": [
+        "NIH Office of the Director",
+        "Amyotrophic Lateral Sclerosis Association",
+        "The Tow Foundation"
+      ],
+      "isPostMortem": [
+        "True",
+        "Unknown"
+      ],
+      "keywords": [
+        "Parkinson's Disease (PD)",
+        "Alzheimer's Disease (AD)",
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "RNA-seq",
+        "transcriptomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "libraryPreparationMethod": [
+        "KAPA Stranded RNA-Seq Kit with RiboErase"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "75"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "geo:GSE116622"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": "Unexpected similarities between C9ORF72 and sporadic forms of ALS-FTD suggest a common disease mechanism",
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE116622"
+      ]
+    }
+  },
+  "syn67733559": {
+    "Truncated stathmin-2 is a marker of TDP-43 pathology in frontotemporal dementia": {
+      "CNSRegion": [
+        "lumbar spine",
+        "cervical spine",
+        "cerebellum",
+        "lateral motor cortex",
+        "frontal cortex",
+        "motor cortex",
+        "medial motor cortex",
+        "sensory cortex",
+        "occipital cortex",
+        "thoracic spine",
+        "temporal lobe cortex",
+        "hippocampus"
+      ],
+      "FACSPopulation": "",
+      "GEOSuperSeries": [
+        "GSE137810"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:08.012723",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "RNA-seq"
+      ],
+      "biospecimenType": [
+        "spinal_cord",
+        "brain_tissue"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        "doi:10.1038/s41586-022-04424-7",
+        "doi:10.1038/s41586-022-04436-3",
+        "doi:10.1172/JCI139741"
+      ],
+      "cohort": [
+        "FTLD-TDP",
+        "PSP/FTLD-tau",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        3
+      ],
+      "program": [
+        ""
+      ],
+      "contributor": [
+        "NYGC ALS Consortium",
+        "Target ALS"
+      ],
+      "creator": [
+        ""
+      ],
+      "curationLevel": [],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": null,
+      "description": "",
+      "disease": [
+        "ALS",
+        "FTD",
+        "Control",
+        "AD",
+        "PD",
+        "Other Neurological Disorders",
+        "Other Motor Neuron Disease"
+      ],
+      "diseaseSubtype": [
+        "pre-fALS"
+      ],
+      "funder": [
+        ""
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "keywords": [
+        "Alzheimer's Disease",
+        "Parkinson's Disease",
+        "Other Neurological Disorders",
+        "Other Motor Neuron Disease",
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "spinal cord tissue",
+        "brain tissue",
+        "RNA-seq",
+        "transcriptomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "libraryPreparationMethod": [
+        "KAPA Stranded RNA-Seq Kit with RiboErase"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "478"
+      ],
+      "platform": [
+        ""
+      ],
+      "portalRelease": [
+        "2025.4"
+      ],
+      "sameAs": [
+        "geo:GSE153960"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": "Truncated stathmin-2 is a marker of TDP-43 pathology in frontotemporal dementia",
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE153960"
+      ]
+    }
+  },
+  "syn67737779": {
+    "Postmortem Cortex Samples Identify Distinct Molecular Subtypes of ALS - Retrotransposon Activation, Oxidative Stress, and Activated Glia": {
+      "CNSRegion": [
+        "frontal cortex",
+        "medial motor cortex",
+        "lateral motor cortex",
+        "motor cortex"
+      ],
+      "FACSPopulation": "",
+      "GEOSuperSeries": [
+        "GSE137810"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:07.491867",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "RNA-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        "doi:10.1016/j.celrep.2019.09.066",
+        "doi:10.1038/s41586-022-04424-7",
+        "doi:10.1038/s41586-022-04436-3"
+      ],
+      "cohort": [
+        "ALS-TE",
+        "ALS-Ox",
+        "ALS-Glial",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        4
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "NYGC ALS Consortium",
+        "Target ALS"
+      ],
+      "creator": [
+        "Oliver H. Tam"
+      ],
+      "curationLevel": [
+        "Processed",
+        "Raw"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2019-10-29,
+      "description": "Gene Expression Omnibus RNA-seq dataset profiling brain tissue samples from frontal cortex, medial motor cortex, lateral motor cortex, and motor cortex collected from ALS, FTD, Control, Pre-fALS, Alzheimer's Disease, Other Neurological Disorders, and Other Motor Neuron Disease cases.",
+      "disease": [
+        "ALS",
+        "FTD",
+        "Control",
+        "AD",
+        "Other Neurological Disorders",
+        "Other Motor Neuron Disease",
+        "LBD",
+        "MSA",
+        "PLS",
+        "Kennedy's disease",
+        "PBP"
+      ],
+      "diseaseSubtype": [
+        "Pre-fALS",
+        "Mild Diffuse Subpial Gliosis",
+        "Mild Hypertensive Vasculopathy",
+        "Cerebrovascular Disease (Not Contributing to Dementia)"
+      ],
+      "funder": [
+        "CZI",
+        "Ride For Life Foundation",
+        "Rita Allen Foundation O’Neil Charitable Trust",
+        "NIH",
+        "NINDS",
+        "NIA",
+        "ALSA",
+        "The Tow Foundation"
+      ],
+      "isPostMortem": [
+        "True",
+        "Unknown"
+      ],
+      "keywords": [
+        "Alzheimer's Disease",
+        "Other Neurological Disorders",
+        "Other Motor Neuron Disease",
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "RNA-seq",
+        "transcriptomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "libraryPreparationMethod": [
+        "KAPA Stranded RNA-Seq Kit with RiboErase"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "95"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "geo:GSE124439"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": "Postmortem Cortex Samples Identify Distinct Molecular Subtypes of ALS - Retrotransposon Activation, Oxidative Stress, and Activated Glia",
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE124439"
+      ]
+    }
+  },
+  "syn67740891": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (bulk H3K27ac ChIP-seq)": {
+      "CNSRegion": [
+        "primary motor cortex"
+      ],
+      "FACSPopulation": [
+        "NeuN-/SOX10-/IRF5-",
+        "NeuN-/SOX10-/IRF5+",
+        "NeuN+/SOX10-",
+        "NeuN+/SOX10+"
+      ],
+      "GEOSuperSeries": [
+        "GSE219281"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:07.232520",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "ChIP-seq"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "astrocytes",
+        "microglia",
+        "neurons",
+        "oligodendrocyte lineage cells"
+      ],
+      "citation": [
+        "doi:10.1038/s41467-023-41033-y"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        2
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Dracheva Lab - Icahn School of Medicine at Mount Sinai"
+      ],
+      "creator": [
+        "Li J"
+      ],
+      "curationLevel": [
+        "Raw",
+        "Processed"
+      ],
+      "dataType": [
+        "epigenomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2023-09-15,
+      "description": "Gene Expression Omnibus H3K27ac ChIP-seq dataset profiling post-mortem primary motor cortex samples from C9-ALS and Control cases.",
+      "disease": [
+        "ALS",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS"
+      ],
+      "funder": [
+        "VA",
+        "NIMH",
+        "PsychEncode Consortium",
+        "Mayo Clinic",
+        "Einstein Aging Study"
+      ],
+      "keywords": [
+        "C9orf72+",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "sorted nuclei",
+        "ChIP-seq",
+        "epigenomics",
+        "H3K27ac",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "79"
+      ],
+      "platform": [
+        "Illumina NovaSeq 6000"
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "geo:GSE219277"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (bulk H3K27ac ChIP-seq)"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE219277"
+      ]
+    }
+  },
+  "syn67743547": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (bulk RNA-seq)": {
+      "CNSRegion": [
+        "dorsolateral prefrontal cortex",
+        "primary motor cortex"
+      ],
+      "FACSPopulation": [
+        "NeuN+/SOX10-",
+        "NeuN-/SOX10+",
+        "NeuN-/SOX10-"
+      ],
+      "GEOSuperSeries": [
+        "GSE219281"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:07.820161",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "RNA-seq"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "neurons",
+        "oligodendrocyte lineage cells",
+        "other glia"
+      ],
+      "citation": [
+        "doi:10.1038/s41467-023-41033-y"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "C9-FTD",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        3
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Dracheva Lab - Icahn School of Medicine at Mount Sinai"
+      ],
+      "creator": [
+        "Li J"
+      ],
+      "curationLevel": [
+        "Raw",
+        "Processed"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2023-09-15,
+      "description": "Gene Expression Omnibus RNA-seq dataset profiling post-mortem dorsolateral prefrontal cortex and primary motor cortex samples from C9-ALS, C9-FTD, and Control cases.",
+      "disease": [
+        "ALS",
+        "FTD",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "C9-FTD"
+      ],
+      "funder": [
+        "VA",
+        "NIMH",
+        "PsychEncode Consortium",
+        "Mayo Clinic",
+        "Einstein Aging Study"
+      ],
+      "keywords": [
+        "C9orf72+",
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "sorted nuclei",
+        "RNA-seq",
+        "transcriptomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "114"
+      ],
+      "platform": [
+        "Illumina NovaSeq 6000"
+      ],
+      "portalRelease": [
+        "2025.2"
+      ],
+      "sameAs": [
+        "geo:GSE219278"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (bulk RNA-seq)"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE219278"
+      ]
+    }
+  },
+  "syn67746133": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snATAC-seq)": {
+      "CNSRegion": [
+        "dorsolateral prefrontal cortex",
+        "primary motor cortex"
+      ],
+      "GEOSuperSeries": [
+        "GSE219281"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:06.767561",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "snATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        "doi:10.1038/s41467-023-41033-y"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "C9-FTD",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        3
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Dracheva Lab - Icahn School of Medicine at Mount Sinai"
+      ],
+      "creator": [
+        "Li J"
+      ],
+      "curationLevel": [
+        "Raw",
+        "Processed"
+      ],
+      "dataType": [
+        "epigenomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2023-09-15,
+      "description": "Gene Expression Omnibus snATAC-seq dataset profiling post-mortem dorsolateral prefrontal cortex and primary motor cortex samples from C9-ALS, C9-FTD, and Control cases.",
+      "disease": [
+        "ALS",
+        "FTD",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "C9-FTD"
+      ],
+      "funder": [
+        "VA",
+        "NIMH",
+        "PsychEncode Consortium",
+        "Mayo Clinic",
+        "Einstein Aging Study"
+      ],
+      "keywords": [
+        "C9orf72+",
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "snATAC-seq",
+        "epigenomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "28"
+      ],
+      "platform": [
+        "Illumina NovaSeq 6000"
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "geo:GSE219279"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snATAC-seq)"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE219279"
+      ]
+    }
+  },
+  "syn67748058": {
+    "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snRNA-seq)": {
+      "CNSRegion": [
+        "dorsolateral prefrontal cortex",
+        "primary motor cortex"
+      ],
+      "FACSPopulation": "",
+      "GEOSuperSeries": [
+        "GSE219281"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:06.671153",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "snRNA-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        ""
+      ],
+      "citation": [
+        "doi.org/10.1038/s41467-023-41033-y"
+      ],
+      "cohort": [
+        "C9-ALS",
+        "C9-FTD",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control"
+      ],
+      "cohort_count": [
+        3
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Dracheva Lab - Icahn School of Medicine at Mount Sinai"
+      ],
+      "creator": [
+        "Li J"
+      ],
+      "curationLevel": [
+        "Raw",
+        "Processed"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2023-09-15,
+      "description": "Gene Expression Omnibus snRNA-seq dataset profiling post-mortem dorsolateral prefrontal cortex and primary motor cortex samples from C9-ALS, C9-FTD, and Control cases.",
+      "disease": [
+        "ALS",
+        "FTD",
+        "Control"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "C9-FTD"
+      ],
+      "funder": [
+        "VA",
+        "NIMH",
+        "PsychEncode Consortium",
+        "Mayo Clinic",
+        "Einstein Aging Study"
+      ],
+      "keywords": [
+        "C9orf72+",
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "snRNA-seq",
+        "transcriptomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "34"
+      ],
+      "platform": [
+        "Illumina NovaSeq 6000"
+      ],
+      "portalRelease": [
+        "2025.2"
+      ],
+      "sameAs": [
+        "geo:GSE219280"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Divergent impacts of C9orf72 repeat expansion on neurons and glia in ALS and FTD (snRNA-seq)"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE219280"
+      ]
+    }
+  },
+  "syn67751280": {
+    "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons (ATAC-Seq)": {
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "FACSPopulation": "",
+      "GEOSuperSeries": [
+        "GSE126543"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:06.609869",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        "doi:10.1016/j.celrep.2019.04.003",
+        "doi:10.1038/s41586-022-04424-7"
+      ],
+      "cohort": [
+        "TDP-43-Positive Neuronal Nuclei",
+        "TDP-43-Negative Neuronal Nuclei"
+      ],
+      "cohortType": [
+        "Disease-Only"
+      ],
+      "cohort_count": [
+        2
+      ],
+      "program": [
+        ""
+      ],
+      "contributor": [
+        "Edward Lee Lab - University of Pennsylvania"
+      ],
+      "creator": [
+        "Liu EY"
+      ],
+      "curationLevel": [],
+      "dataType": [
+        "epigenomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2019-04-30,
+      "description": "Gene Expression Omnibus ATAC-seq dataset profiling post-mortem middle frontal cortex samples from FTD and FTD-ALS cases.",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [],
+      "funder": [
+        "NIH",
+        "NIA",
+        "NINDS",
+        "Perelman School of Medicine at the University of Pennsylvania"
+      ],
+      "keywords": [
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "sorted nuclei",
+        "ATAC-seq",
+        "epigenomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "14"
+      ],
+      "platform": [
+        ""
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "geo:GSE126541"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons, ATAC-Seq"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE126541"
+      ]
+    }
+  },
+  "syn67754663": {
+    "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons (RNA-Seq)": {
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "FACSPopulation": [
+        "NeuN+/TDP-43+",
+        "NeuN+/TDP-43-"
+      ],
+      "GEOSuperSeries": [
+        "GSE126543"
+      ],
+      "_created_timestamp": "2026-07-07T20:13:07.352613",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633970"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "RNA-seq"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        "doi:10.1016/j.celrep.2019.04.003",
+        "doi:10.1038/s41586-022-04424-7"
+      ],
+      "cohort": [
+        "TDP-43-Positive Neuronal Nuclei",
+        "TDP-43-Negative Neuronal Nuclei"
+      ],
+      "cohortType": [
+        "Disease-Only"
+      ],
+      "cohort_count": [
+        2
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Edward Lee Lab - University of Pennsylvania"
+      ],
+      "creator": [
+        "Liu EY"
+      ],
+      "curationLevel": [
+        "Raw",
+        "Processed"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": null,
+      "description": "",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        "FTD-ALS"
+      ],
+      "funder": [
+        "NIH",
+        "NIA",
+        "NINDS",
+        "Perelman School of Medicine at the University of Pennsylvania"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "keywords": [
+        "Frontotemporal Dementia",
+        "Amyotrophic Lateral Sclerosis",
+        "brain tissue",
+        "sorted nuclei",
+        "RNA-seq",
+        "transcriptomics",
+        "post-mortem tissue"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "libraryPreparationMethod": [
+        "NuGEN Ovation Ultralow Library System Kit"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        "7"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "portalRelease": [
+        "2025.2"
+      ],
+      "sameAs": [
+        "geo:GSE126542"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Loss of Nuclear TDP-43 Is Associated with Decondensation of LINE Retrotransposons, RNA-Seq"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE126542"
+      ]
+    }
+  },
+  "syn68932658": {
+    "RNA methylation influences TDP43 binding and disease pathogenesis in models of amyotrophic lateral sclerosis and frontotemporal dementia": {
+      "FACSPopulation": "",
+      "GEOSuperSeries": "",
+      "_created_timestamp": "2026-07-07T20:13:07.942611",
+      "_dataset_type": "OmicDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/634029"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assay": [
+        "RNA-seq"
+      ],
+      "biospecimenType": [
+        "primary cell culture"
+      ],
+      "cellType": [
+        "HEK293T"
+      ],
+      "citation": [
+        "doi:10.1016/j.molcel.2022.12.019"
+      ],
+      "cohort": [
+        "Apobec-YTH",
+        "Apobec-YTHmut",
+        "Halo"
+      ],
+      "cohortType": [
+        "In-Vitro-Experimental"
+      ],
+      "cohort_count": [
+        3
+      ],
+      "program": [
+        "National Institutes of Health"
+      ],
+      "contributor": [
+        "Barmada Lab - University of Michigan"
+      ],
+      "creator": [
+        "Michael McMillan"
+      ],
+      "curationLevel": [
+        "Raw"
+      ],
+      "dataType": [
+        "transcriptomics"
+      ],
+      "dataset_code": "",
+      "datePublished": 2023-01-19,
+      "description": "N6-methyladenosine (m6A) regulates TDP43–RNA interactions in ALS, with widespread hypermethylation and m6A regulators shaping neurodegeneration",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "funder": [
+        "NIH",
+        "NINDS",
+        "NIGMS",
+        "NIA",
+        "NCI",
+        "MICHR",
+        "Taubman Institute",
+        "Packard Center",
+        "Ann Arbor Active Against ALS",
+        "UM Brain Bank and Alzheimer’s Disease Research Center",
+        "Rogel Cancer Center",
+        "The Dobson-Welch Family",
+        "The Danto Family"
+      ],
+      "keywords": [
+        "RNA-seq",
+        "APOBEC",
+        "Halo",
+        "HEK293T",
+        "treatment",
+        "cell line"
+      ],
+      "libraryLayout": [
+        "paired"
+      ],
+      "license": [
+        "public"
+      ],
+      "participant_count": [
+        9
+      ],
+      "platform": [
+        "Illumina NovaSeq 6000"
+      ],
+      "portalRelease": [
+        "2025.1"
+      ],
+      "sameAs": [
+        "srp:SRP413231"
+      ],
+      "originalRepository": [
+        "Sequencing Read Archive"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyType": [
+        "experimental study"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "RNA methylation influences TDP43 binding and disease pathogenesis in models of amyotrophic lateral sclerosis and frontotemporal dementia"
+      ],
+      "url": [
+        "https://www.ncbi.nlm.nih.gov/bioproject/PRJNA912644"
+      ]
+    }
+  },
+  "syn69694420": {
+    "Trehalose Expanded Access Protocol Dataset": {
+      "_created_timestamp": "2026-07-07T20:13:08.100386",
+      "_dataset_type": "ClinicalDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633969"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "assessmentTypes": [
+        ""
+      ],
+      "citation": [
+        "doi:10.1002/mus.70011"
+      ],
+      "clinicalDomain": [
+        ""
+      ],
+      "cohort": [
+        "Trehalose Expanded-Access Treatment"
+      ],
+      "cohortType": [
+        "Interventional-Treatment"
+      ],
+      "cohort_count": [
+        1
+      ],
+      "program": [
+        "ALS Knowledge Portal"
+      ],
+      "contributor": [
+        "Sean M. Healey and AMG Center for ALS"
+      ],
+      "creator": [
+        ""
+      ],
+      "curationLevel": [],
+      "dataType": [
+        "clinical"
+      ],
+      "dataset_code": "",
+      "datePublished": null,
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        "ANG-ALS",
+        "C9-ALS",
+        "FUS-ALS",
+        "PROGRANULIN-ALS",
+        "SETX-ALS",
+        "SOD1-ALS",
+        "TAU-ALS",
+        "TDP43-ALS",
+        "VAPB-ALS",
+        "VCP-ALS",
+        "Other genetic ALS"
+      ],
+      "followUpDuration": null,
+      "funder": [
+        ""
+      ],
+      "keywords": [
+        "Amyotrophic Lateral Sclerosis",
+        "trehalose",
+        "clinical trial",
+        "ALSFRS-R"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        70
+      ],
+      "portalRelease": [
+        "2025.2"
+      ],
+      "primaryOutcome": "",
+      "sameAs": "",
+      "originalRepository": [
+        "Sean M. Healey and AMG Center for ALS"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyDesign": "",
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "study_count": [
+        1
+      ],
+      "subject": [
+        ""
+      ],
+      "title": [
+        "Trehalose Expanded Access Protocols Dataset"
+      ],
+      "url": "",
+      "visitSchedule": ""
+    }
+  },
+  "syn69694463": {
+    "ASSESS ALL ALS Dataset": {
+      "_created_timestamp": "2026-07-07T20:13:07.874229",
+      "_dataset_type": "ClinicalDataset",
+      "_schema_source": "json-schema",
+      "acknowledgementStatement": [
+        "syn64892175/wiki/633965"
+      ],
+      "alternateName": [
+        "ASSESS ALL ALS"
+      ],
+      "assessmentTypes": [
+        "alsfrs_r",
+        "vital_signs",
+        "laboratory",
+        "dynamometry",
+        "genetic_testing"
+      ],
+      "citation": [
+        "doi:10.1002/mus.28244"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "respiratory_function",
+        "disease_progression",
+        "genetic_testing",
+        "biomarkers",
+        "cognitive_assessment"
+      ],
+      "cohort": [
+        "Symptomatic ALS",
+        "Control"
+      ],
+      "cohortType": [
+        "Case-Control",
+        "Natural-History"
+      ],
+      "cohort_count": [
+        2
+      ],
+      "program": [
+        "all_als"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        "tier2"
+      ],
+      "dataType": [
+        "clinical_assessment",
+        "medical_history",
+        "laboratory_results",
+        "vital_signs",
+        "hand_held_dynamometry",
+        "genetic_profile",
+        "study_management"
+      ],
+      "dataset_code": "",
+      "datePublished": null,
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "SOD1-ALS",
+        "ANG-ALS",
+        "ANXA11-ALS",
+        "ARHGEF28-ALS",
+        "ATXN2-ALS",
+        "CFAP410-ALS",
+        "CHCHD10-ALS",
+        "CHMP2B-ALS",
+        "DAO-ALS",
+        "DCTN1-ALS",
+        "ERBB4-ALS",
+        "FIG4-ALS",
+        "FUS-ALS",
+        "HNRNPA1-ALS",
+        "HNRNPA2B1-ALS",
+        "KIF5A-ALS",
+        "MATR3-ALS",
+        "MOBP-ALS",
+        "NEFH-ALS",
+        "NEK1-ALS",
+        "OPTN-ALS",
+        "PFN1-ALS",
+        "SETX-ALS",
+        "SQSTM1-ALS",
+        "TAF15-ALS",
+        "TARDBP-ALS",
+        "TBK1-ALS",
+        "TUBA4A-ALS",
+        "UBQLN2-ALS",
+        "UNC13A-ALS",
+        "VAPB-ALS",
+        "VCP-ALS",
+        "ALS2-ALS",
+        "ELP3-ALS",
+        "EPHA4-ALS",
+        "EWSR1-ALS",
+        "KIKAP3-ALS",
+        "PRPH-ALS",
+        "SPG4-ALS",
+        "SPG11-ALS"
+      ],
+      "followUpDuration": null,
+      "funder": [
+        "National Institutes of Health"
+      ],
+      "keywords": [
+        "ALS",
+        "motor_neuron",
+        "longitudinal",
+        "ALSFRS-R",
+        "ALSAQ-40",
+        "ECAS",
+        "motor_function",
+        "bulbar",
+        "respiratory",
+        "cognitive",
+        "depression",
+        "strength",
+        "pulmonary",
+        "QOL",
+        "biospecimen",
+        "eligibility",
+        "CRF",
+        "biomarker",
+        "progression",
+        "phenotype"
+      ],
+      "dataUseModifiers": [
+        ""
+      ],
+      "participant_count": [
+        947
+      ],
+      "portalRelease": [
+        "2026.2"
+      ],
+      "primaryOutcome": [
+        "ALSFRS-R total score and rate of functional decline"
+      ],
+      "Sage Bionetworks"
+    ],
+    "sameAs": "",
+    "originalRepository": [
+      "ALL ALS"
+    ],
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": [
+      "longitudinal"
+    ],
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "study_count": [
+      1
+    ],
+    "subject": [
+      "Amyotrophic lateral sclerosis--Patients",
+      "Motor neuron diseases--Research",
+      "Neurodegenerative diseases--Diagnosis"
+    ],
+    "title": [
+      "ASSESS ALS Dataset"
+    ],
+    "url": "",
+    "visitSchedule": [
+      "Screening; Visits 1, 1a, 2\u20137; Control Visits 2\u20133; DHT sub-study visits; Early Termination"
+    ]
+  }
+},
+"syn69694674": {
+  "PREVENT ALL ALS Dataset": {
+    "_created_timestamp": "2026-07-07T20:13:08.171841",
+    "_dataset_type": "ClinicalDataset",
+    "_schema_source": "json-schema",
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633965"
+    ],
+    "alternateName": [
+      "PREVENT ALL ALS"
+    ],
+    "assessmentTypes": [
+      "neurological_exam",
+      "vital_signs",
+      "laboratory",
+      "electrophysiology",
+      "dynamometry",
+      "genetic_testing"
+    ],
+    "citation": [
+      "doi:10.1002/mus.28244"
+    ],
+    "clinicalDomain": [
+      "motor_function",
+      "respiratory_function",
+      "disease_progression",
+      "symptom_onset",
+      "genetic_testing",
+      "biomarkers",
+      "cognitive_assessment"
+    ],
+    "cohort": [
+      "Asymptomatic Genetic ALS At-Risk"
+    ],
+    "cohortType": [
+      "At-Risk",
+      "Natural-History"
+    ],
+    "cohort_count": [
+      1
+    ],
+    "program": [
+      "all_als"
+    ],
+    "contributor": [
+      "Access for All in ALS (ALL ALS)"
+    ],
+    "creator": [
+      "Access for All in ALS (ALL ALS)"
+    ],
+    "curationLevel": [
+      "tier2"
+    ],
+    "dataType": [
+      "clinical_assessment",
+      "medical_history",
+      "laboratory_results",
+      "vital_signs",
+      "neurological_assessment",
+      "electrophysiology",
+      "hand_held_dynamometry",
+      "genetic_profile",
+      "study_management"
+    ],
+    "dataset_code": "",
+    "datePublished": null,
+    "description": "",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "SOD1-ALS",
+      "ANG-ALS",
+      "ANXA11-ALS",
+      "ARHGEF28-ALS",
+      "ATXN2-ALS",
+      "CFAP410-ALS",
+      "CHCHD10-ALS",
+      "CHMP2B-ALS",
+      "DAO-ALS",
+      "DCTN1-ALS",
+      "ERBB4-ALS",
+      "FIG4-ALS",
+      "FUS-ALS",
+      "HNRNPA1-ALS",
+      "HNRNPA2B1-ALS",
+      "KIF5A-ALS",
+      "MATR3-ALS",
+      "MOBP-ALS",
+      "NEFH-ALS",
+      "NEK1-ALS",
+      "OPTN-ALS",
+      "PFN1-ALS",
+      "SETX-ALS",
+      "SQSTM1-ALS",
+      "TAF15-ALS",
+      "TARDBP-ALS",
+      "TBK1-ALS",
+      "TUBA4A-ALS",
+      "UBQLN2-ALS",
+      "UNC13A-ALS",
+      "VAPB-ALS",
+      "VCP-ALS",
+      "ALS2-ALS",
+      "ELP3-ALS",
+      "EPHA4-ALS",
+      "EWSR1-ALS",
+      "KIKAP3-ALS",
+      "PRPH-ALS",
+      "SPG4-ALS",
+      "SPG11-ALS",
+      "Other genetic ALS"
+    ],
+    "followUpDuration": null,
+    "funder": [
+      "National Institutes of Health"
+    ],
+    "keywords": [
+      "ALS prevention study",
+      "neurological exam",
+      "motor/cognitive screening",
+      "muscle & grip strength",
+      "handheld dynamometry",
+      "vital capacity",
+      "EMG/NCS",
+      "ECAS",
+      "MIR",
+      "ALS gene variants (C9ORF72,SOD1,FUS,TARDBP)",
+      "blood/serum/plasma",
+      "CSF via LP",
+      "longitudinal cohort"
+    ],
+    "dataUseModifiers": [
+      ""
+    ],
+    "participant_count": [
+      377
+    ],
+    "portalRelease": [
+      "2026.2"
+    ],
+    "primaryOutcome": [
+      "Phenoconversion to ALS and rate of neurological decline in at-risk gene carriers"
+    ],
+    "Sage Bionetworks"
+  ],
+  "sameAs": "",
+  "originalRepository": [
+    "ALL ALS"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyDesign": [
+    "longitudinal"
+  ],
+  "studyType": [
+    "Clinical Trial"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    "Amyotrophic lateral sclerosis--Prevention",
+    "Neurodegenerative diseases--Genetic aspects",
+    "Motor neuron diseases--Research"
+  ],
+  "title": [
+    "PREVENT ALL ALS Dataset"
+  ],
+  "url": "",
+  "visitSchedule": [
+    "Screening; Visits 1, 1a, 2\u20137; LP eligibility visits; Genetic counseling appointments; Follow-up telephone visits; DHT sub-study visits; Early Termination"
+  ]
+}
+},
+"syn72016774": {
+"Trehalose Biomarker Dataset": {
+  "FACSPopulation": "",
+  "GEOSuperSeries": "",
+  "_created_timestamp": "2026-07-07T20:13:06.832017",
+  "_dataset_type": "OmicDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    "syn64892175/wiki/633969"
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assay": [
+    "ELISA",
+    "quantitative PCR",
+    "miRNA-seq",
+    "liquid chromatography/tandem mass spectrometry",
+    "Olink Proximity Extension Assay",
+    "immunoassay",
+    "Protein target assay",
+    "SomaScan"
+  ],
+  "biospecimenType": [
+    ""
+  ],
+  "cellType": [
+    ""
+  ],
+  "citation": [
+    "doi:10.1002/mus.70011"
+  ],
+  "cohort": [
+    "Trehalose Expanded-Access Biomarker Treatment"
+  ],
+  "cohortType": [
+    "Interventional-Treatment"
+  ],
+  "cohort_count": [
+    1
+  ],
+  "program": [
+    "ALS Knowledge Portal"
+  ],
+  "contributor": [
+    "Sean M. Healey and AMG Center for ALS"
+  ],
+  "creator": [
+    "Sabrina Paganoni, MD, PhD"
+  ],
+  "curationLevel": [
+    "Raw",
+    "Processed"
+  ],
+  "dataType": [
+    "clinical",
+    "biomarker",
+    "metabolomics",
+    "proteomics"
+  ],
+  "dataset_code": "",
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "Amyotrophic Lateral Sclerosis",
+    "trehalose",
+    "biomarker",
+    "metabolomics",
+    "proteomics",
+    "SomaScan"
+  ],
+  "libraryLayout": [
+    ""
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": [
+    "70"
+  ],
+  "platform": [
+    ""
+  ],
+  "portalRelease": [
+    "2026.1"
+  ],
+  "sameAs": "",
+  "originalRepository": [
+    "Sean M. Healey and AMG Center for ALS"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyType": [
+    ""
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    ""
+  ],
+  "title": [
+    "Trehalose Biomarker Dataset"
+  ],
+  "url": [
+    "https://www.synapse.org/Synapse:syn68927891"
+  ]
+}
+},
+"syn72379204": {
+"A Study to Evaluate Efficacy Safety and Tolerability of CK-2127107 in Patients With ALS (SDTM)": {
+  "_created_timestamp": "2026-07-07T20:13:07.019438",
+  "_dataset_type": "ClinicalDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assessmentTypes": [
+    ""
+  ],
+  "citation": [
+    "doi:10.1080/21678421.2019.1612922",
+    "doi:10.1080/21678421.2020.1822410",
+    "doi:10.1080/21678421.2021.1946083",
+    "doi:10.1080/21678421.2022.2154678",
+    "doi:10.1080/21678421.2023.2216223"
+  ],
+  "clinicalDomain": [
+    ""
+  ],
+  "cohort": [
+    "Placebo",
+    "Reldesemtiv/CK-2127107 150 mg Twice Daily",
+    "Reldesemtiv/CK-2127107 300 mg Twice Daily",
+    "Reldesemtiv/CK-2127107 450 mg Twice Daily"
+  ],
+  "cohortType": [
+    "Interventional-Treatment",
+    "Placebo-Control"
+  ],
+  "cohort_count": [
+    4
+  ],
+  "program": [
+    "Critical Path Institute"
+  ],
+  "contributor": [
+    "Cytokinetics, Inc."
+  ],
+  "creator": [
+    "Cytokinetics, Inc."
+  ],
+  "curationLevel": [
+    "Standardized"
+  ],
+  "dataType": [
+    "clinical"
+  ],
+  "dataset_code": [
+    "sdtm_als1003"
+  ],
+  "datePublished": 2026-01-21,
+  "description": "The purpose of this study was to assess the effect of CK-2127107 (hereafter referred to as reldesemtiv) versus placebo on respiratory function and other measures of skeletal muscle function in patients with ALS. This was a phase 2, double-blind, randomized, placebo-controlled, dose ranging study of reldesemtiv in patients with ALS. Eligible patients were randomized (1:1:1:1) to receive placebo or one of three doses of reldesemtiv (150, 300, or 450 mg twice daily) for 12 weeks. Randomization was stratified by riluzole concomitant use/non-use and edaravone concomitant use/non-use. Concomitant riluzole and edaravone were allowed as long as the riluzole dose had been stable for at least 30 days prior to screening and edaravone had been taken for 2 cycles prior to screening; these drugs could not be initiated during the study. A total of 7 study visits were planned: screening, Day 1 (first dosing day), Weeks 2, 4, 8, and 12, and follow-up (4 weeks after the last dose of study drug).",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "followUpDuration": null,
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "Amyotrophic Lateral Sclerosis, Reldesemtiv, Placebo, Phase 2, respiratory, muscle function, ALSFRS-R, dynamometer, CK-2127107"
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": null,
+  "portalRelease": [
+    ""
+  ],
+  "primaryOutcome": "",
+  "sameAs": [
+    "cpath:1956"
+  ],
+  "originalRepository": [
+    "Critical Path Institute"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyDesign": "",
+  "studyType": [
+    "Clinical Trial"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    "amyotrophic lateral sclerosis"
+  ],
+  "title": [
+    "A Study to Evaluate Efficacy, Safety and Tolerability of CK-2127107 in Patients With ALS [SDTM]"
+  ],
+  "url": [
+    "https://fair.dap.c-path.org/#/data/datasets/sdtm_als1003"
+  ],
+  "visitSchedule": ""
+}
+},
+"syn72379205": {
+"A Study to Evaluate the Efficacy and Safety of Reldesemtiv in Patients With ALS (Phase 3) (SDTM)": {
+  "_created_timestamp": "2026-07-07T20:13:07.165082",
+  "_dataset_type": "ClinicalDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assessmentTypes": [
+    ""
+  ],
+  "citation": [
+    "doi:10.1001/jamaneurol.2025.0241",
+    "doi:10.1002/mus.70150",
+    "doi:10.1080/21678421.2023.2216223",
+    "doi:10.1080/21678421.2025.2523941"
+  ],
+  "clinicalDomain": [
+    ""
+  ],
+  "cohort": [
+    "Reldesemtiv Treatment",
+    "Placebo"
+  ],
+  "cohortType": [
+    "Interventional-Treatment",
+    "Placebo-Control"
+  ],
+  "cohort_count": [
+    2
+  ],
+  "program": [
+    "ALS Knowledge Portal"
+  ],
+  "contributor": [
+    "Cytokinetics, Inc."
+  ],
+  "creator": [
+    "Cytokinetics, Inc."
+  ],
+  "curationLevel": [
+    "Standardized"
+  ],
+  "dataType": [
+    "clinical"
+  ],
+  "dataset_code": [
+    "sdtm_als1002"
+  ],
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "followUpDuration": null,
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "Amyotrophic Lateral Sclerosis, ALS, CK-2127107, Reldesemtiv, COURAGE-ALS"
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": null,
+  "portalRelease": [
+    ""
+  ],
+  "primaryOutcome": "",
+  "sameAs": [
+    "cpath:1957"
+  ],
+  "originalRepository": [
+    "Critical Path Institute"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyDesign": "",
+  "studyType": [
+    "Clinical Trial"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    "amyotrophic lateral sclerosis"
+  ],
+  "title": [
+    " A Study to Evaluate the Efficacy and Safety of Reldesemtiv in Patients With ALS (Phase 3) [SDTM]"
+  ],
+  "url": [
+    "https://fair.dap.c-path.org/#/data/datasets/sdtm_als1002"
+  ],
+  "visitSchedule": ""
+}
+},
+"syn72379206": {
+"ALS Analysis and Assessment Survey Study": {
+  "_created_timestamp": "2026-07-07T20:13:07.284872",
+  "_dataset_type": "ClinicalDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assessmentTypes": [
+    ""
+  ],
+  "citation": [
+    ""
+  ],
+  "clinicalDomain": [
+    ""
+  ],
+  "cohort": [
+    "ALS Survey Participants"
+  ],
+  "cohortType": [
+    "Registry"
+  ],
+  "cohort_count": [
+    1
+  ],
+  "program": [
+    "ALS Knowledge Portal"
+  ],
+  "contributor": [
+    "Research Triangle Institute (RTI International)"
+  ],
+  "creator": [
+    "Research Triangle Institute (RTI International)"
+  ],
+  "curationLevel": [
+    "Non-Standardized"
+  ],
+  "dataType": [
+    "clinical"
+  ],
+  "dataset_code": [
+    "src_als1004"
+  ],
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "followUpDuration": null,
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "ALS, RTI, Amyotrophic Lateral Sclerosis, disorder, neurodegenerative, FRS, Functional Rating Scale"
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": null,
+  "portalRelease": [
+    ""
+  ],
+  "primaryOutcome": "",
+  "sameAs": [
+    "cpath:1958"
+  ],
+  "originalRepository": [
+    "Critical Path Institute"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyDesign": "",
+  "studyType": [
+    "Observational Study"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    "amyotrophic lateral sclerosis"
+  ],
+  "title": [
+    "ALS Analysis and Assessment Survey Study"
+  ],
+  "url": [
+    "https://fair.dap.c-path.org/#/data/datasets/src_als1004"
+  ],
+  "visitSchedule": ""
+}
+},
+"syn72379207": {
+"Clinical Trial Ceftriaxone in Subjects With ALS": {
+  "_created_timestamp": "2026-07-07T20:13:07.428004",
+  "_dataset_type": "ClinicalDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assessmentTypes": [
+    ""
+  ],
+  "citation": [
+    "doi:10.1016/S1474-4422(14)70222-4",
+    "doi:10.1212/WNL.0000000000004534",
+    "doi:10.1371/journal.pone.0061177"
+  ],
+  "clinicalDomain": [
+    ""
+  ],
+  "cohort": [
+    "Placebo",
+    "Ceftriaxone 2 g/day",
+    "Ceftriaxone 4 g/day"
+  ],
+  "cohortType": [
+    "Interventional-Treatment",
+    "Placebo-Control"
+  ],
+  "cohort_count": [
+    3
+  ],
+  "program": [
+    "ALS Knowledge Portal"
+  ],
+  "contributor": [
+    "Massachusetts General Hospital"
+  ],
+  "creator": [
+    "Massachusetts General Hospital"
+  ],
+  "curationLevel": [
+    "Non-Standardized"
+  ],
+  "dataType": [
+    "clinical"
+  ],
+  "dataset_code": [
+    "src_als1001"
+  ],
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "followUpDuration": null,
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "ALS, Amyotrophic Lateral Sclerosis, disorder, neurodegenerative, placebo, cephalosporin antibiotic, motor neurons"
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": null,
+  "portalRelease": [
+    ""
+  ],
+  "primaryOutcome": "",
+  "sameAs": [
+    "cpath:1959"
+  ],
+  "originalRepository": [
+    "Critical Path Institute"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyDesign": "",
+  "studyType": [
+    "Clinical Trial",
+    "Natural History Study",
+    "Patient Registry Study"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    "amyotrophic lateral sclerosis"
+  ],
+  "title": [
+    "Clinical Trial Ceftriaxone in Subjects With ALS"
+  ],
+  "url": [
+    "https://fair.dap.c-path.org/#/data/datasets/src_als1001"
+  ],
+  "visitSchedule": ""
+}
+},
+"syn72379208": {
+"Clinical Trial Ceftriaxone in Subjects With ALS (OMOP)": {
+  "_created_timestamp": "2026-07-07T20:13:07.543452",
+  "_dataset_type": "ClinicalDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assessmentTypes": [
+    ""
+  ],
+  "citation": [
+    ""
+  ],
+  "clinicalDomain": [
+    ""
+  ],
+  "cohort": [
+    "Placebo",
+    "Ceftriaxone 2 g/day",
+    "Ceftriaxone 4 g/day"
+  ],
+  "cohortType": [
+    "Interventional-Treatment",
+    "Placebo-Control"
+  ],
+  "cohort_count": [
+    3
+  ],
+  "program": [
+    "ALS Knowledge Portal"
+  ],
+  "contributor": [
+    "Massachusetts General Hospital"
+  ],
+  "creator": [
+    "Massachusetts General Hospital"
+  ],
+  "curationLevel": [
+    "Standardized"
+  ],
+  "dataType": [
+    "clinical"
+  ],
+  "dataset_code": [
+    "omop_als1001"
+  ],
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "followUpDuration": null,
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "ALS, Amyotrophic Lateral Sclerosis, disorder, neurodegenerative, placebo, cephalosporin antibiotic, motor neurons"
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": null,
+  "portalRelease": [
+    ""
+  ],
+  "primaryOutcome": "",
+  "sameAs": [
+    "cpath:1960"
+  ],
+  "originalRepository": [
+    "Critical Path Institute"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyDesign": "",
+  "studyType": [
+    "Clinical Trial",
+    "Natural History Study",
+    "Patient Registry Study"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    "amyotrophic lateral sclerosis"
+  ],
+  "title": [
+    "Clinical Trial Ceftriaxone in Subjects With ALS [OMOP]"
+  ],
+  "url": [
+    "https://fair.dap.c-path.org/#/data/datasets/omop_als1001"
+  ],
+  "visitSchedule": ""
+}
+},
+"syn73686173": {
+"ALS Compute Dataset": {
+  "FACSPopulation": "",
+  "GEOSuperSeries": "",
+  "_created_timestamp": "2026-07-07T20:13:08.239480",
+  "_dataset_type": "OmicDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assay": [
+    "whole genome sequencing"
+  ],
+  "biospecimenType": [
+    ""
+  ],
+  "cellType": [
+    ""
+  ],
+  "citation": [
+    ""
+  ],
+  "cohort": [
+    "ALS/FTD Case",
+    "Control"
+  ],
+  "cohortType": [
+    "Case-Control"
+  ],
+  "cohort_count": [
+    2
+  ],
+  "program": [
+    "ALS Compute"
+  ],
+  "contributor": [
+    "ALS Compute"
+  ],
+  "creator": [
+    "ALS Compute"
+  ],
+  "curationLevel": [
+    "Standardized",
+    "Processed"
+  ],
+  "dataType": [
+    "genomics",
+    "transcriptomics",
+    "variant_calls",
+    "metadata",
+    "data_dictionary"
+  ],
+  "dataset_code": [
+    "als_compute"
+  ],
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS",
+    "FTD",
+    "Control",
+    "PLS",
+    "LBD",
+    "AD",
+    "PMA",
+    "Mitocondrial Myopathy",
+    "VCP myopathy",
+    "PD",
+    "PBP",
+    "Spastic paraparesis",
+    "MSA",
+    "VCP myopathy",
+    "Hirayama disease",
+    "Kennedy's disease",
+    "Spinal muscular atrophy"
+  ],
+  "diseaseSubtype": [
+    "ALS Spectrum MND",
+    "pre-fALS",
+    "Asymptomatic C9orf72",
+    "Asymptomatic NEK1",
+    "Asymptomatic C9",
+    "Asymptomatic SOD1",
+    "MUSK Myasthenia"
+  ],
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "ALS",
+    "FTD",
+    "WGS",
+    "whole genome sequencing",
+    "harmonized dataset",
+    "variants"
+  ],
+  "libraryLayout": [
+    ""
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": [
+    12638
+  ],
+  "platform": [
+    "Illumina HiSeq X",
+    "Illumina NovaSeq 6000"
+  ],
+  "portalRelease": [
+    "2026.3"
+  ],
+  "sameAs": [
+    "phs001963, phs003067, phs001585, phs002973"
+  ],
+  "originalRepository": [
+    "ALS Compute"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyType": [
+    "Longitudinal Study",
+    "Case-Control Study",
+    "Cohort Study",
+    "aggregate"
+  ],
+  "study_count": [
+    4
+  ],
+  "subject": [
+    ""
+  ],
+  "title": [
+    "ALS Compute Dataset"
+  ],
+  "url": [
+    "https://alscompute.org/"
+  ]
+}
+},
+"syn73882344": {
+"Clinical Trial of Topiramate in ALS": {
+  "_created_timestamp": "2026-07-07T20:13:07.100881",
+  "_dataset_type": "ClinicalDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    "syn64892175/wiki/639331"
+  ],
+  "alternateName": [
+    "NEALS Topiramate Trial"
+  ],
+  "assessmentTypes": [
+    "alsfrs_r",
+    "vital_signs",
+    "laboratory",
+    "neurological_exam"
+  ],
+  "citation": [
+    "doi:10.1212/WNL.61.4.456"
+  ],
+  "clinicalDomain": [
+    "motor_function",
+    "respiratory_function",
+    "functional_assessment",
+    "drug_administration"
+  ],
+  "cohort": [
+    "Topiramate Treatment",
+    "Placebo"
+  ],
+  "cohortType": [
+    "Interventional-Treatment",
+    "Placebo-Control"
+  ],
+  "cohort_count": [
+    2
+  ],
+  "program": [
+    "ALS Knowledge Portal"
+  ],
+  "contributor": [
+    "Merit E. Cudkowicz MD, MSC"
+  ],
+  "creator": [
+    "Merit E. Cudkowicz MD, MSC"
+  ],
+  "curationLevel": [
+    "Standardized"
+  ],
+  "dataType": [
+    "clinical_assessment",
+    "treatment",
+    "medical_history",
+    "laboratory_results",
+    "vital_signs"
+  ],
+  "dataset_code": "",
+  "datePublished": null,
+  "description": "This dataset derives from a double-blind, placebo-controlled, multicenter randomized clinical trial testing whether long-term topiramate is safe and slows progression in amyotrophic lateral sclerosis (ALS). Participants with ALS (n=296) were randomized 2:1 to topiramate (maximum tolerated dose up to 800 mg/day) or placebo for 12 months; the primary endpoint was the rate of change in upper-extremity strength measured by MVIC across eight arm muscle groups, with secondary endpoints including safety, FVC, grip strength, ALSFRS, and survival.",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "followUpDuration": [
+    12
+  ],
+  "funder": [
+    "National Institutes of Health",
+    "Ortho-McNeil Pharmaceutical",
+    "Muscular Dystrophy Association"
+  ],
+  "keywords": [
+    "ALS",
+    "topiramate",
+    "clinical trial",
+    "motor function",
+    "MVIC",
+    "ALSFRS",
+    "neuroprotection",
+    "glutamate",
+    "randomized controlled trial",
+    "multicenter study"
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": [
+    296
+  ],
+  "portalRelease": [
+    "2026.1"
+  ],
+  "primaryOutcome": [
+    "Rate of change in upper extremity motor function measured by maximum voluntary isometric contraction (MVIC) strength"
+  ],
+  "sameAs": "",
+  "originalRepository": [
+    "Synapse"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyDesign": [
+    "interventional"
+  ],
+  "studyType": [
+    "Clinical Trial"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    ""
+  ],
+  "title": [
+    "A randomized, placebo-controlled trial of topiramate in amyotrophic lateral sclerosis"
+  ],
+  "url": "",
+  "visitSchedule": [
+    "Baseline, Month 1, Month 3, Month 6, Month 9, Month 12, Open Label, Post-Treatment"
+  ]
+}
+},
+"syn73965826": {
+"Target ALS": {
+  "FACSPopulation": "",
+  "GEOSuperSeries": "",
+  "_created_timestamp": "2026-07-07T20:13:07.609521",
+  "_dataset_type": "OmicDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    "syn64892175/wiki/639413"
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assay": [
+    "whole genome sequencing"
+  ],
+  "biospecimenType": [
+    "blood",
+    "csf",
+    "spinal_cord"
+  ],
+  "cellType": [
+    ""
+  ],
+  "citation": [
+    ""
+  ],
+  "cohort": [
+    "ALS Natural-History",
+    "Healthy Control"
+  ],
+  "cohortType": [
+    "Case-Control",
+    "Healthy-Control",
+    "Natural-History"
+  ],
+  "cohort_count": [
+    2
+  ],
+  "program": [
+    "Target ALS"
+  ],
+  "contributor": [
+    "Target ALS"
+  ],
+  "creator": [
+    "Target ALS"
+  ],
+  "curationLevel": [
+    "Raw",
+    "Processed"
+  ],
+  "dataType": [
+    "genomics"
+  ],
+  "dataset_code": "",
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS",
+    "Control"
+  ],
+  "diseaseSubtype": [
+    "Definite_ALS",
+    "Possible_ALS",
+    "Probable_ALS",
+    "Probable_ALS_Lab_Supported"
+  ],
+  "funder": [
+    ""
+  ],
+  "keywords": [
+    "whole genome sequencing",
+    "genomicVariants",
+    "haplotype calls",
+    "qc reports",
+    "variant_calls",
+    ""
+  ],
+  "libraryLayout": [
+    "single"
+  ],
+  "dataUseModifiers": [
+    ""
+  ],
+  "participant_count": [
+    86
+  ],
+  "platform": [
+    "Illumina NovaSeq X",
+    "Illumina NovaSeq X Plus (300 Cycle)",
+    "Illumina NovaSeq 6000"
+  ],
+  "portalRelease": [
+    "2026.1"
+  ],
+  "sameAs": "",
+  "site_of_onset": [
+    "Bulbar",
+    "Limb"
+  ],
+  "originalRepository": [
+    "Target ALS"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "studyType": [
+    "Natural History Study"
+  ],
+  "study_count": [
+    1
+  ],
+  "subject": [
+    ""
+  ],
+  "title": [
+    "Target ALS Dataset"
+  ],
+  "url": [
+    "https://dataengine.targetals.org/collections"
+  ]
+}
+},
+"syn74483113": {
+"Developing Novel Strategies for Personalized Treatment and Prevention of ALS  Leveraging the Global Exposome  Genome  Epigenome  Metabolome  and Inflammasome with Data Science in a Case Control Cohort": {
+  "FACSPopulation": "",
+  "GEOSuperSeries": "",
+  "_created_timestamp": "2026-07-07T20:13:07.737627",
+  "_dataset_type": "OmicDataset",
+  "_schema_source": "json-schema",
+  "acknowledgementStatement": [
+    "syn64892175/wiki/640100"
+  ],
+  "alternateName": [
+    "phs004288.v1.p1"
+  ],
+  "assay": [
+    "RNA-seq"
+  ],
+  "biospecimenType": [
+    "blood"
+  ],
+  "cellType": [
+    "whole_blood"
+  ],
+  "citation": [
+    ""
+  ],
+  "cohort": [
+    "ALS Case",
+    "Control"
+  ],
+  "cohortType": [
+    "Case-Control"
+  ],
+  "cohort_count": [
+    2
+  ],
+  "program": [
+    "National Institutes of Health"
+  ],
+  "contributor": [
+    "Eva Feldman"
+  ],
+  "creator": [
+    "Eva Feldman",
+    "Yue Zhao",
+    "Stephen Goutman",
+    "Maureen Sartor",
+    "Stuart Batterman"
+  ],
+  "curationLevel": [
+    "Raw",
+    "Processed"
+  ],
+  "dataType": [
+    "transcriptomics"
+  ],
+  "dataset_code": "",
+  "datePublished": null,
+  "description": "",
+  "disease": [
+    "ALS",
+    "Control"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "funder": [
+    "National Institutes of Health"
+  ],
+  "keywords": [
+    "ALS",
+    "exposome",
+    "RNA-seq",
+    "machine learning",
+    "case-control",
+    "whole blood",
+    "gene expression"
+  ],
+  "libraryLayout": [
+    ""
+  ],
+  "license": [
+    "DS-ALS-IRB-PUB-COL-NPU"
+  ],
+  "participant_count": [
+    388
+  ],
+  "platform": [
+    ""
+  ],
+  "portalRelease": [
+    ""
+  ],
+  "University of Michigan"
+],
+"sameAs": [
+  "phs004288.v1.p1"
+],
+"originalRepository": [
+  "dbGaP (NINDS_ALS_Omics)"
+],
+"species": [
+  "Homo sapiens"
+],
+"studyType": [
+  "Case-Control Study"
+],
+"study_count": [
+  1
+],
+"subject": [
+  "Amyotrophic lateral sclerosis",
+  "Gene expression",
+  "RNA-Seq"
+],
+"title": [
+  "Developing Novel Strategies for Personalized Treatment and Prevention of ALS: Leveraging the Global Exposome, Genome, Epigenome, Metabolome, and Inflammasome with Data Science in a Case/Control Cohort"
+],
+"url": [
+  "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs004288.v1.p1"
+]
+}
