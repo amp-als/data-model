@@ -13,6 +13,13 @@ mamba activate amp-als
 # Generate empty dataset annotation template
 python synapse_dataset_manager.py generate-template --type Clinical
 python synapse_dataset_manager.py generate-template --type Omic -o my_template.json
+
+# Excel template with enum dropdowns (see docs/XLSX_TEMPLATES.md)
+python synapse_dataset_manager.py generate-template --type Clinical --format xlsx
+# Blank file template (no Synapse folder needed)
+python synapse_dataset_manager.py generate-file-templates --type Clinical --format xlsx
+# Apply a filled-in .xlsx back to Synapse
+python synapse_dataset_manager.py apply-file-annotations --annotations-file filled.xlsx --execute
 ```
 
 ## 2. Link Dataset (No Files)
