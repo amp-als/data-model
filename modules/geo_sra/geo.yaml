@@ -1,0 +1,41 @@
+#######################################
+# GEO (Gene Expression Omnibus) identifiers
+# Slots and mixins for datasets/files sourced from NCBI GEO.
+# Canonical definitions — referenced by GEODataset / GEOFile via mixins.
+#######################################
+
+slots:
+  GSE:
+    title: GEO Series (GSE)
+    description: >
+      NCBI Gene Expression Omnibus Series accession(s) the entity belongs to
+      (e.g. GSE126541).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  GSM:
+    title: GEO Sample (GSM)
+    description: >
+      NCBI Gene Expression Omnibus Sample accession(s) for the sample this file
+      represents (e.g. GSM3603249).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+
+classes:
+  GEODatasetMixin:
+    mixin: true
+    description: Mixin for GEO (Gene Expression Omnibus) dataset-level identifiers.
+    slots:
+      - GSE
+
+  GEOFileMixin:
+    mixin: true
+    description: Mixin for GEO (Gene Expression Omnibus) file-level identifiers.
+    slots:
+      - GSE
+      - GSM

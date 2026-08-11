@@ -147,6 +147,16 @@ slots:
       - portal
     multivalued: true
     required: false
+  dataSubtype:
+    title: Data Subtype
+    description: >
+      Finer-grained classification of the data type. Dependent on dataType
+      (see the requiresDependency annotation on dataType).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
   datasetItemCount:
     description: Count of files in dataset. Auto-calculated by Synapse.
     in_subset:
@@ -202,6 +212,7 @@ slots:
     description: Defined format of the data file, typically corresponding to extension,
       but sometimes indicating more general group of files produced by the same tool or software.
     range: FileFormatEnum
+    multivalued: true
     in_subset:
       - portal
     required: false
@@ -297,12 +308,28 @@ slots:
     required: true
     see_also: https://www.w3.org/TR/vocab-dcat-3/#Property:resource_title
   readLength:
+    title: Read Length
     description: Length of sequencing reads in base pairs
     range: integer
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  totalBases:
+    title: Total Bases
+    description: Total number of sequenced bases
+    range: integer
+    in_subset:
+      - portal
     required: false
   totalReads:
-    description: Total number of sequencing reads
+    title: Total Reads
+    description: >
+      Total number of sequencing reads. Derived as totalBases / readLength
+      (i.e. Bases / AvgSpotLen from SRA run metadata).
     range: integer
+    in_subset:
+      - portal
     required: false
   libraryLayout:
     title: Library Layout
@@ -317,13 +344,45 @@ slots:
     range: string
     required: false
   nucleicAcidSource:
+    title: Nucleic Acid Source
     description: Source of nucleic acid for library preparation
     range: NucleicAcidSourceEnum
+    in_subset:
+      - portal
+    required: false
+  biospecimenSubtype:
+    title: Biospecimen Subtype
+    description: More specific biospecimen classification
+    range: string
+    in_subset:
+      - portal
+    required: false
+  isPostMortem:
+    title: Post-mortem Status
+    description: Whether specimen was collected post-mortem
+    range: boolean
+    in_subset:
+      - portal
+    required: false
+  CNSRegion:
+    title: CNS Region
+    description: Central nervous system region
+    range: CNSRegionEnum
+    in_subset:
+      - portal
     required: false
   libraryPreparationMethod:
     title: Library Preparation Method
     description: Method or kit used for library preparation.
     range: LibraryPreparationMethodEnum
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  librarySource:
+    title: Library Source
+    description: Type of source material used to construct the sequencing library (e.g. GENOMIC, TRANSCRIPTOMIC), independent of the biological data type.
+    range: LibrarySourceEnum
     multivalued: true
     in_subset:
       - portal

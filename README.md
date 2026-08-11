@@ -54,6 +54,10 @@ make OmicDataset
 make File
 make ClinicalFile
 make OmicFile
+make GEODataset
+make GEOFile
+make SRADataset
+make SRAFile
 make SpeechDataset
 make SpeechFile
 
@@ -84,9 +88,17 @@ The project follows a hierarchical module organization that reflects the logical
 │   │   ├── ClinicalDataset.yaml
 │   │   ├── OmicDataset.yaml
 │   │   ├── SpeechDataset.yaml        # Speech assessment dataset (SDTM FT domain)
+│   │   ├── GEODataset.yaml           # GEO dataset (is_a SRADataset; adds GSE)
+│   │   ├── SRADataset.yaml           # SRA dataset (is_a OmicDataset; adds BioProject)
 │   │   ├── ClinicalFile.yaml
 │   │   ├── OmicFile.yaml             # Omic file schema (site_of_onset, referenceGenome, variantType)
+│   │   ├── GEOFile.yaml              # GEO file (is_a SRAFile; adds GSE, GSM)
+│   │   ├── SRAFile.yaml              # SRA file (is_a OmicFile; adds SRR/SRS/SRX, BioProject, BioSample, readLength)
 │   │   └── SpeechFile.yaml           # Speech file/folder schema (subject, session, and archive levels)
+│   │
+│   ├── geo_sra/                       # 🧾 GEO/SRA: NCBI archive identifier slots + mixins
+│   │   ├── geo.yaml                  # GSE, GSM slots + GEODatasetMixin / GEOFileMixin
+│   │   └── sra.yaml                  # SRR, SRS, SRX, BioProject, BioSample slots + SRADatasetMixin / SRAFileMixin
 │   │
 │   ├── entities/                      # 🗂️ CORE ENTITIES: Primary domain objects
 │   │   ├── Subject.yaml              # Multi-source subject identification
@@ -462,6 +474,10 @@ make OmicDataset
 make File
 make ClinicalFile
 make OmicFile
+make GEODataset
+make GEOFile
+make SRADataset
+make SRAFile
 make SpeechDataset
 make SpeechFile
 make -B
@@ -573,6 +589,45 @@ The repository includes automated testing that:
 ## Recent Schema Changes
 
 For a full chronological change log, see [`docs/DATA_MODEL_CHANGES_JULY_2026.md`](docs/DATA_MODEL_CHANGES_JULY_2026.md).
+
+### July 2026 — GEO/SRA Schema Addition
+
+Added dedicated schemas for datasets/files sourced from the NCBI archives — **GEO**
+(Gene Expression Omnibus) and **SRA** (Sequence Read Archive) — as derivatives of the
+Omic schemas.
+
+**`modules/geo_sra/` (new folder)** — canonical home for all NCBI archive identifiers:
+- `geo.yaml`: slots `GSE`, `GSM` + mixins `GEODatasetMixin` (GSE), `GEOFileMixin` (GSE, GSM)
+- `sra.yaml`: slots `SRR`, `SRS`, `SRX`, `BioProject`, `BioSample` + mixins
+  `SRADatasetMixin` (BioProject), `SRAFileMixin` (SRR/SRS/SRX/BioProject/BioSample/readLength)
+- All identifier slots are `multivalued` strings, `in_subset: [portal]`
+
+**`modules/datasets/` (new classes)**
+- `SRAFile` (`is_a: OmicFile`) / `SRADataset` (`is_a: OmicDataset`) — SRA is the base:
+  raw reads can be submitted straight to SRA/BioProject with no GEO record.
+- `GEOFile` (`is_a: SRAFile`) / `GEODataset` (`is_a: SRADataset`) — **GEO specializes SRA.**
+  A sequencing GEO record is always mirrored in SRA, so a GEO entity *is* an SRA entity
+  plus GEO accessions (`GSE`/`GSM`). The inverse does not hold, hence the one-way
+  inheritance (`GEO → SRA → Omic`). GEO therefore inherits every SRA + Omic field.
+
+**`modules/shared/props.yaml`**
+- Promoted the previously dead `readLength` slot to `in_subset: [portal]` + `multivalued: true`
+  (range stays `integer`) so `SRAFileMixin` can reference it instead of redefining it.
+
+**`Makefile`**
+- New targets `GEODataset`, `GEOFile`, `SRADataset`, `SRAFile` (added to `all`). GEO targets
+  additionally merge the SRA source files so the `is_a SRA…` chain resolves. Nested wrappers
+  `json-schemas/GEOFileNested.json` and `SRAFileNested.json` support file-level annotation templates.
+
+**`synapse_dataset_manager.py`**
+- `GEO`/`SRA` added to `--type` choices (`generate-template`, `generate-file-templates`),
+  to `detect_file_type`/`detect_dataset_type`, and to the `dataset_type_map`/`file_type_map`
+  and `reorder-columns` type lists, making the new types usable end-to-end.
+
+**`geo` / `sra` in `DataSourceEnum`** (`modules/entities/Subject.yaml`) already existed as
+data-source prefixes and are unchanged.
+
+---
 
 ### July 2026 — Slot Deduplication & DRY Cleanup
 

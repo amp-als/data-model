@@ -1,0 +1,17 @@
+#######################################
+# SRA Dataset Schema
+# Omic dataset sourced from NCBI SRA (Sequence Read Archive).
+# Derivative of OmicDataset: inherits all omic dataset fields and adds the
+# BioProject identifier via SRADatasetMixin.
+#######################################
+
+classes:
+  SRADataset:
+    is_a: OmicDataset
+    mixins: [SRADatasetMixin]
+    description: >
+      Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive),
+      identified by an NCBI BioProject accession. Inherits all OmicDataset fields.
+
+# SRA/NCBI identifiers (BioProject) are defined canonically in modules/geo_sra/sra.yaml.
+# Omic dataset fields are inherited from OmicDataset (modules/datasets/OmicDataset.yaml).

@@ -271,6 +271,28 @@ enums:
       paired-end:
         description: Paired-end sequencing reads
 
+  LibrarySourceEnum:
+    description: Type of source material used to construct the sequencing library (NCBI SRA controlled vocabulary).
+    permissible_values:
+      genomic:
+        description: Genomic DNA (including PCR products).
+      genomic single cell:
+        description: Genomic DNA from a single cell.
+      transcriptomic:
+        description: Transcription products or non-genomic DNA (EST, cDNA, RT-PCR, screened libraries).
+      transcriptomic single cell:
+        description: Transcription products from a single cell.
+      metagenomic:
+        description: Mixed material from a metagenome.
+      metatranscriptomic:
+        description: Transcription products from community targets (metatranscriptome).
+      synthetic:
+        description: Synthetic DNA.
+      viral rna:
+        description: Viral RNA.
+      other:
+        description: Other, unspecified, or unknown library source material.
+
   AlignmentMethodEnum:
     description: Tool or method used for sequence alignment
     permissible_values:
@@ -337,5 +359,9 @@ enums:
         description: Small variants including SNVs and InDels
       Structural_Variant:
         description: Structural variants including deletions, insertions, duplications, inversions, and CNVs
+      TDP-43 positive:
+        description: Sample retaining normal nuclear TDP-43 protein localization (TDP-43 pathology absent).
+      TDP-43 negative:
+        description: Sample with loss of nuclear TDP-43 protein localization (TDP-43 pathology present).
       Other:
         description: Other variant type

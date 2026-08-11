@@ -122,6 +122,16 @@ enums:
         description: Metabolic pathway analysis
       signaling_pathway:
         description: Cell signaling pathway analysis
+  # CNS region of a central-nervous-system biospecimen. Shared by Biospecimen and
+  # omic file/dataset classes (referenced via the CNSRegion slot in props.yaml).
+  CNSRegionEnum:
+    permissible_values:
+      middle frontal cortex:
+        description: Middle frontal cortex brain region
+      primary motor cortex:
+        description: Primary motor cortex brain region
+      dorsolateral prefrontal cortex:
+        description: Dorsolateral prefrontal cortex brain region
   # Data Use Modifiers — access types and DUO codes
   DataUseModifierEnum:
     description: Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used.
@@ -2403,14 +2413,7 @@ enums:
         description: Cells derived from skin biopsy
       fibroblasts:
         description: Fibroblast cell source
-  CNSRegionEnum:
-    permissible_values:
-      middle frontal cortex:
-        description: Middle frontal cortex brain region
-      primary motor cortex:
-        description: Primary motor cortex brain region
-      dorsolateral prefrontal cortex:
-        description: Dorsolateral prefrontal cortex brain region
+  # CNSRegionEnum moved to modules/shared/common-enums.yaml (shared with SRA/GEO).
   BrodmannAreaEnum:
     permissible_values:
       BA4:
@@ -3835,6 +3838,27 @@ enums:
       micrometer:
       millimeter:
       centimeter:
+  LibrarySourceEnum:
+    description: Type of source material used to construct the sequencing library (NCBI SRA controlled vocabulary).
+    permissible_values:
+      genomic:
+        description: Genomic DNA (including PCR products).
+      genomic single cell:
+        description: Genomic DNA from a single cell.
+      transcriptomic:
+        description: Transcription products or non-genomic DNA (EST, cDNA, RT-PCR, screened libraries).
+      transcriptomic single cell:
+        description: Transcription products from a single cell.
+      metagenomic:
+        description: Mixed material from a metagenome.
+      metatranscriptomic:
+        description: Transcription products from community targets (metatranscriptome).
+      synthetic:
+        description: Synthetic DNA.
+      viral rna:
+        description: Viral RNA.
+      other:
+        description: Other, unspecified, or unknown library source material.
   AlignmentMethodEnum:
     description: Tool or method used for sequence alignment
     permissible_values:
@@ -3900,6 +3924,10 @@ enums:
         description: Small variants including SNVs and InDels
       Structural_Variant:
         description: Structural variants including deletions, insertions, duplications, inversions, and CNVs
+      TDP-43 positive:
+        description: Sample retaining normal nuclear TDP-43 protein localization (TDP-43 pathology absent).
+      TDP-43 negative:
+        description: Sample with loss of nuclear TDP-43 protein localization (TDP-43 pathology present).
       Other:
         description: Other variant type
   PlatformEnum:
@@ -6980,6 +7008,18 @@ classes:
         description: Name of the column containing subject identifiers
         multivalued: true
         required: false
+  GEODataset:
+    is_a: SRADataset
+    mixins: [GEODatasetMixin]
+    description: >
+      Dataset containing omic data sourced from NCBI GEO (Gene Expression Omnibus), identified by a GEO Series (GSE) accession. Specializes SRADataset, inheriting the NCBI BioProject identifier and all omic dataset fields.
+
+  GEOFile:
+    is_a: SRAFile
+    mixins: [GEOFileMixin]
+    description: >
+      File containing omic data sourced from NCBI GEO (Gene Expression Omnibus), annotated with GEO Series (GSE) and Sample (GSM) accessions. Specializes SRAFile, inheriting all SRA/NCBI identifiers and omic file fields.
+
   OmicDataset:
     is_a: BaseDataset
     mixins: [OmicDatasetMixin]
@@ -7043,6 +7083,18 @@ classes:
         description: Container or repository where biospecimen is stored
         range: string
         required: false
+  SRADataset:
+    is_a: OmicDataset
+    mixins: [SRADatasetMixin]
+    description: >
+      Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive), identified by an NCBI BioProject accession. Inherits all OmicDataset fields.
+
+  SRAFile:
+    is_a: OmicFile
+    mixins: [SRAFileMixin]
+    description: >
+      File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.
+
   SpeechDataset:
     is_a: BaseDataset
     description: >
@@ -7230,6 +7282,11 @@ classes:
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
     mixins: [SubjectIdentifierMixin, ClinicalRecordMixin, SpecimenTypeMixin]
+    slots:
+      # Canonical definitions in modules/shared/props.yaml (shared with SRA/GEO files).
+      - biospecimenSubtype
+      - isPostMortem
+      - CNSRegion
     attributes:
       # Core Identifiers
       globalBiospecimenId:
@@ -7457,25 +7514,10 @@ classes:
         range: TreatmentEnum
         description: Type of treatment applied to the biospecimen
         required: false
-      isPostMortem:
-        title: Post-mortem Status
-        range: boolean
-        description: Whether specimen was collected post-mortem
-        required: false
       primaryCellSource:
         title: Primary Cell Source
         range: PrimaryCellSourceEnum
         description: Source of primary cell culture
-        required: false
-      biospecimenSubtype:
-        title: Biospecimen Subtype
-        range: string
-        description: More specific biospecimen classification
-        required: false
-      CNSRegion:
-        title: CNS Region
-        range: CNSRegionEnum
-        description: Central nervous system region
         required: false
       BrodmannArea:
         title: Brodmann Area
@@ -7893,6 +7935,40 @@ classes:
         range: string
         description: ZIP or postal code
         required: false
+  GEODatasetMixin:
+    mixin: true
+    description: Mixin for GEO (Gene Expression Omnibus) dataset-level identifiers.
+    slots:
+      - GSE
+  GEOFileMixin:
+    mixin: true
+    description: Mixin for GEO (Gene Expression Omnibus) file-level identifiers.
+    slots:
+      - GSE
+      - GSM
+  SRADatasetMixin:
+    mixin: true
+    description: Mixin for SRA (Sequence Read Archive) / NCBI dataset-level identifiers.
+    slots:
+      - SRP
+      - BioProject
+  SRAFileMixin:
+    mixin: true
+    description: Mixin for SRA (Sequence Read Archive) / NCBI file-level identifiers.
+    slots:
+      - SRP
+      - SRR
+      - SRS
+      - SRX
+      - BioProject
+      - BioSample
+      - readLength
+      - totalBases
+      - totalReads
+      - nucleicAcidSource
+      - biospecimenSubtype
+      - isPostMortem
+      - CNSRegion
   SubjectIdentifierMixin:
     mixin: true
     description: Mixin for subject identifier attributes shared across subjects, files, and clinical records
@@ -8108,6 +8184,7 @@ classes:
       - assay
       - libraryLayout
       - libraryPreparationMethod
+      - librarySource
       - GEOSuperSeries
       - FACSPopulation
   FileAnnotationsMixin:
@@ -8142,6 +8219,7 @@ classes:
       - assay
       - libraryLayout
       - libraryPreparationMethod
+      - librarySource
       - GEOSuperSeries
       - FACSPopulation
       - alignmentMethod
@@ -8277,6 +8355,14 @@ slots:
 
     multivalued: true
     required: false
+  dataSubtype:
+    title: Data Subtype
+    description: >
+      Finer-grained classification of the data type. Dependent on dataType (see the requiresDependency annotation on dataType).
+
+    range: string
+    multivalued: true
+    required: false
   datasetItemCount:
     description: Count of files in dataset. Auto-calculated by Synapse.
     required: false
@@ -8315,6 +8401,7 @@ slots:
     title: File Format
     description: Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software.
     range: FileFormatEnum
+    multivalued: true
     required: false
   fileSize:
     description: Size of file in bytes.
@@ -8381,11 +8468,21 @@ slots:
     required: true
     see_also: https://www.w3.org/TR/vocab-dcat-3/#Property:resource_title
   readLength:
+    title: Read Length
     description: Length of sequencing reads in base pairs
+    range: integer
+    multivalued: true
+    required: false
+  totalBases:
+    title: Total Bases
+    description: Total number of sequenced bases
     range: integer
     required: false
   totalReads:
-    description: Total number of sequencing reads
+    title: Total Reads
+    description: >
+      Total number of sequencing reads. Derived as totalBases / readLength (i.e. Bases / AvgSpotLen from SRA run metadata).
+
     range: integer
     required: false
   libraryLayout:
@@ -8399,13 +8496,35 @@ slots:
     range: string
     required: false
   nucleicAcidSource:
+    title: Nucleic Acid Source
     description: Source of nucleic acid for library preparation
     range: NucleicAcidSourceEnum
+    required: false
+  biospecimenSubtype:
+    title: Biospecimen Subtype
+    description: More specific biospecimen classification
+    range: string
+    required: false
+  isPostMortem:
+    title: Post-mortem Status
+    description: Whether specimen was collected post-mortem
+    range: boolean
+    required: false
+  CNSRegion:
+    title: CNS Region
+    description: Central nervous system region
+    range: CNSRegionEnum
     required: false
   libraryPreparationMethod:
     title: Library Preparation Method
     description: Method or kit used for library preparation.
     range: LibraryPreparationMethodEnum
+    multivalued: true
+    required: false
+  librarySource:
+    title: Library Source
+    description: Type of source material used to construct the sequencing library (e.g. GENOMIC, TRANSCRIPTOMIC), independent of the biological data type.
+    range: LibrarySourceEnum
     multivalued: true
     required: false
   assessmentType:
@@ -8492,6 +8611,70 @@ slots:
     title: Alignment Method
     description: Tool or method used for sequence alignment.
     range: AlignmentMethodEnum
+    required: false
+  GSE:
+    title: GEO Series (GSE)
+    description: >
+      NCBI Gene Expression Omnibus Series accession(s) the entity belongs to (e.g. GSE126541).
+
+    range: string
+    multivalued: true
+    required: false
+  GSM:
+    title: GEO Sample (GSM)
+    description: >
+      NCBI Gene Expression Omnibus Sample accession(s) for the sample this file represents (e.g. GSM3603249).
+
+    range: string
+    multivalued: true
+    required: false
+  SRP:
+    title: SRA Study (SRP)
+    description: >
+      NCBI Sequence Read Archive Study accession(s) the entity belongs to (e.g. SRP186450).
+
+    range: string
+    multivalued: true
+    required: false
+  SRR:
+    title: SRA Run (SRR)
+    description: >
+      NCBI Sequence Read Archive Run accession(s) for the sequencing run this file represents (e.g. SRR8571953).
+
+    range: string
+    multivalued: true
+    required: false
+  SRS:
+    title: SRA Sample (SRS)
+    description: >
+      NCBI Sequence Read Archive Sample accession(s) associated with the entity (e.g. SRS4361197).
+
+    range: string
+    multivalued: true
+    required: false
+  SRX:
+    title: SRA Experiment (SRX)
+    description: >
+      NCBI Sequence Read Archive Experiment accession(s) associated with the entity (e.g. SRX5373084).
+
+    range: string
+    multivalued: true
+    required: false
+  BioProject:
+    title: BioProject
+    description: >
+      NCBI BioProject accession(s) the entity belongs to (e.g. PRJNA522296).
+
+    range: string
+    multivalued: true
+    required: false
+  BioSample:
+    title: BioSample
+    description: >
+      NCBI BioSample accession(s) associated with the sample this file represents (e.g. SAMN10926465).
+
+    range: string
+    multivalued: true
     required: false
 # SpeechDataTypeEnum is defined canonically in modules/speech/data-types.yaml.
 # FileFormatEnum is defined canonically in modules/reference/file-formats.yaml.

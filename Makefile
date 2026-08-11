@@ -1,4 +1,4 @@
-all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile OmicFile SpeechDataset SpeechFile MetadataSchema
+all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile OmicFile GEODataset GEOFile SRADataset SRAFile SpeechDataset SpeechFile MetadataSchema
 
 ALS.jsonld: dist/ALS.yaml
 	bb ./retold/retold as-jsonld --dir modules --out ALS.jsonld
@@ -83,6 +83,49 @@ OmicFile:
 	jq '."$$defs".OmicFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/OmicFile.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/OmicFile.json ---"
+
+# GEO/SRA schemas derive from OmicDataset/OmicFile (is_a), so their targets mirror
+# the Omic targets and additionally merge the OmicDataset/OmicFile source plus the
+# GEO/SRA mixin module (modules/geo_sra/*.yaml). Enum lists match the Omic targets.
+GEODataset:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/omics/data-types.yaml modules/datasets/OmicDataset.yaml modules/geo_sra/sra.yaml modules/datasets/SRADataset.yaml modules/geo_sra/geo.yaml modules/datasets/GEODataset.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".GEODataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-geo-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/GEODataset.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/GEODataset.json ---"
+
+GEOFile:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml modules/geo_sra/sra.yaml modules/datasets/SRAFile.yaml modules/geo_sra/geo.yaml modules/datasets/GEOFile.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".GEOFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-geo-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/GEOFile.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/GEOFile.json ---"
+
+SRADataset:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/omics/data-types.yaml modules/datasets/OmicDataset.yaml modules/geo_sra/sra.yaml modules/datasets/SRADataset.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".SRADataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-sra-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/SRADataset.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/SRADataset.json ---"
+
+SRAFile:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml modules/geo_sra/sra.yaml modules/datasets/SRAFile.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".SRAFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-sra-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/SRAFile.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/SRAFile.json ---"
 
 SpeechDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml

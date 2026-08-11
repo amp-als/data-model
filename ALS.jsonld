@@ -1158,6 +1158,8 @@
     }, {
       "@id" : "bts:libraryPreparationMethod"
     }, {
+      "@id" : "bts:librarySource"
+    }, {
       "@id" : "bts:GEOSuperSeries"
     }, {
       "@id" : "bts:FACSPopulation"
@@ -1697,6 +1699,35 @@
     "sms:displayName" : "PhysicalExam"
   }, {
     "rdfs:subClassOf" : [ {
+      "@id" : "bts:OmicDataset"
+    } ],
+    "@id" : "bts:SRADataset",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "SRADataset",
+    "rdfs:comment" : "Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive), identified by an NCBI BioProject accession. Inherits all OmicDataset fields.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:funder"
+    }, {
+      "@id" : "bts:title"
+    }, {
+      "@id" : "bts:keywords"
+    }, {
+      "@id" : "bts:curationLevel"
+    }, {
+      "@id" : "bts:studyType"
+    }, {
+      "@id" : "bts:participant_count"
+    }, {
+      "@id" : "bts:platform"
+    } ],
+    "sms:displayName" : "SRADataset"
+  }, {
+    "rdfs:subClassOf" : [ {
       "@id" : "bts:BaseFile"
     } ],
     "@id" : "bts:ClinicalFile",
@@ -1873,6 +1904,35 @@
       "@id" : "bts:dataType"
     } ],
     "sms:displayName" : "OmicDataset"
+  }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:SRADataset"
+    } ],
+    "@id" : "bts:GEODataset",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "GEODataset",
+    "rdfs:comment" : "Dataset containing omic data sourced from NCBI GEO (Gene Expression Omnibus), identified by a GEO Series (GSE) accession. Specializes SRADataset, inheriting the NCBI BioProject identifier and all omic dataset fields.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:funder"
+    }, {
+      "@id" : "bts:title"
+    }, {
+      "@id" : "bts:keywords"
+    }, {
+      "@id" : "bts:curationLevel"
+    }, {
+      "@id" : "bts:studyType"
+    }, {
+      "@id" : "bts:participant_count"
+    }, {
+      "@id" : "bts:platform"
+    } ],
+    "sms:displayName" : "GEODataset"
   }, {
     "rdfs:subClassOf" : [ {
       "@id" : "bts:ClinicalAssessment"
@@ -2186,6 +2246,35 @@
     } ],
     "sms:displayName" : "ValidValue"
   }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:SRAFileMixin",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "SRAFileMixin",
+    "rdfs:comment" : "Mixin for SRA (Sequence Read Archive) / NCBI file-level identifiers.",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:SRP"
+    }, {
+      "@id" : "bts:SRR"
+    }, {
+      "@id" : "bts:SRS"
+    }, {
+      "@id" : "bts:SRX"
+    }, {
+      "@id" : "bts:BioProject"
+    }, {
+      "@id" : "bts:BioSample"
+    }, {
+      "@id" : "bts:readLength"
+    }, {
+      "@id" : "bts:totalBases"
+    } ],
+    "sms:displayName" : "SRAFileMixin"
+  }, {
     "rdfs:subClassOf" : [ {
       "@id" : "bts:ClinicalAssessment"
     } ],
@@ -2361,6 +2450,29 @@
       "@id" : "bts:citationRecommendation"
     } ],
     "sms:displayName" : "MetadataSchema"
+  }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:SRAFile"
+    } ],
+    "@id" : "bts:GEOFile",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "GEOFile",
+    "rdfs:comment" : "File containing omic data sourced from NCBI GEO (Gene Expression Omnibus), annotated with GEO Series (GSE) and Sample (GSM) accessions. Specializes SRAFile, inheriting all SRA/NCBI identifiers and omic file fields.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:keywords"
+    }, {
+      "@id" : "bts:curationLevel"
+    }, {
+      "@id" : "bts:fileFormat"
+    }, {
+      "@id" : "bts:platform"
+    } ],
+    "sms:displayName" : "GEOFile"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:FileAnnotationsMixin",
@@ -2542,6 +2654,61 @@
       "@id" : "bts:antipsychoticName"
     } ],
     "sms:displayName" : "PsychiatricHistory"
+  }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:OmicFile"
+    } ],
+    "@id" : "bts:SRAFile",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "SRAFile",
+    "rdfs:comment" : "File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:keywords"
+    }, {
+      "@id" : "bts:curationLevel"
+    }, {
+      "@id" : "bts:fileFormat"
+    }, {
+      "@id" : "bts:platform"
+    } ],
+    "sms:displayName" : "SRAFile"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:GEODatasetMixin",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "GEODatasetMixin",
+    "rdfs:comment" : "Mixin for GEO (Gene Expression Omnibus) dataset-level identifiers.",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:GSE"
+    } ],
+    "sms:displayName" : "GEODatasetMixin"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:GEOFileMixin",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "GEOFileMixin",
+    "rdfs:comment" : "Mixin for GEO (Gene Expression Omnibus) file-level identifiers.",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:GSE"
+    }, {
+      "@id" : "bts:GSM"
+    } ],
+    "sms:displayName" : "GEOFileMixin"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:Comorbidity",
@@ -2958,6 +3125,23 @@
       "@id" : "bts:familyHistory"
     } ],
     "sms:displayName" : "FamilyHistory"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:SRADatasetMixin",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "SRADatasetMixin",
+    "rdfs:comment" : "Mixin for SRA (Sequence Read Archive) / NCBI dataset-level identifiers.",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:SRP"
+    }, {
+      "@id" : "bts:BioProject"
+    } ],
+    "sms:displayName" : "SRADatasetMixin"
   }, {
     "rdfs:subClassOf" : [ {
       "@id" : "bts:ClinicalAssessment"
@@ -5144,6 +5328,17 @@
     "sms:displayName" : "UrineNitriteEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:LibrarySourceEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "Type of source material used to construct the sequencing library (NCBI SRA controlled vocabulary).",
+    "rdfs:label" : "LibrarySourceEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "LibrarySourceEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:StudyDesignEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "Type of clinical study design",
@@ -5486,6 +5681,18 @@
     "sms:required" : "sms:false"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:BioSample",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "BioSample",
+    "rdfs:comment" : "NCBI BioSample accession(s) associated with the sample this file represents (e.g. SAMN10926465).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "BioSample"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:studyPhase",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -5591,6 +5798,18 @@
     "rdfs:comment" : "General assessment of data completeness based on non-null values.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "completenessLevel"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:SRR",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "SRR",
+    "rdfs:comment" : "NCBI Sequence Read Archive Run accession(s) for the sequencing run this file represents (e.g. SRR8571953).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "SRR"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:benefactorId",
@@ -5776,6 +5995,18 @@
     "rdfs:comment" : "Properly formatted name of the organization or person that is creator of the resource (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "creator"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:SRX",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "SRX",
+    "rdfs:comment" : "NCBI Sequence Read Archive Experiment accession(s) associated with the entity (e.g. SRX5373084).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "SRX"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:libraryPreparationMethod",
@@ -6634,6 +6865,18 @@
     "sms:displayName" : "hasLongitudinalData"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:GSM",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "GSM",
+    "rdfs:comment" : "NCBI Gene Expression Omnibus Sample accession(s) for the sample this file represents (e.g. GSM3603249).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "GSM"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:auxiliaryAsset",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -6680,6 +6923,18 @@
     "rdfs:comment" : "Size of dataset entity in bytes. Auto-calculated by Synapse.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "datasetSizeInBytes"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:BioProject",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "BioProject",
+    "rdfs:comment" : "NCBI BioProject accession(s) the entity belongs to (e.g. PRJNA522296).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "BioProject"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:title",
@@ -6743,6 +6998,18 @@
     "sms:displayName" : "documentation"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:GSE",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "GSE",
+    "rdfs:comment" : "NCBI Gene Expression Omnibus Series accession(s) the entity belongs to (e.g. GSE126541).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "GSE"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:studyName",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -6779,6 +7046,18 @@
     "sms:displayName" : "summary"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:SRS",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "SRS",
+    "rdfs:comment" : "NCBI Sequence Read Archive Sample accession(s) associated with the entity (e.g. SRS4361197).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "SRS"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:citation",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -6801,18 +7080,6 @@
     "rdfs:comment" : "Count of files in dataset. Auto-calculated by Synapse.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "datasetItemCount"
-  }, {
-    "rdfs:subClassOf" : [ ],
-    "@id" : "bts:totalReads",
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:required" : "sms:false",
-    "sms:validationRules" : [ ],
-    "rdfs:label" : "totalReads",
-    "rdfs:comment" : "Total number of sequencing reads",
-    "@type" : "rdfs:Class",
-    "sms:displayName" : "totalReads"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:contributor",
@@ -7026,6 +7293,18 @@
     "sms:displayName" : "experimentalCondition"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:totalBases",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "totalBases",
+    "rdfs:comment" : "Total number of sequenced bases",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "totalBases"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:contentType",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -7084,6 +7363,37 @@
     "rdfs:comment" : "Refers to a user who last modified the resource on the platform.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "modifiedBy"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:librarySource",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "schema:rangeIncludes" : [ {
+      "@id" : "bts:genomic"
+    }, {
+      "@id" : "bts:genomicsinglecell"
+    }, {
+      "@id" : "bts:transcriptomic"
+    }, {
+      "@id" : "bts:transcriptomicsinglecell"
+    }, {
+      "@id" : "bts:metagenomic"
+    }, {
+      "@id" : "bts:metatranscriptomic"
+    }, {
+      "@id" : "bts:synthetic"
+    }, {
+      "@id" : "bts:viralrna"
+    }, {
+      "@id" : "bts:other"
+    } ],
+    "rdfs:label" : "librarySource",
+    "rdfs:comment" : "Type of source material used to construct the sequencing library (e.g. GENOMIC, TRANSCRIPTOMIC), independent of the biological data type.",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "librarySource"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:assay",
@@ -7788,6 +8098,18 @@
     "rdfs:comment" : "Individuals with lead roles in a study.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "studyLeads"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:SRP",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "SRP",
+    "rdfs:comment" : "NCBI Sequence Read Archive Study accession(s) the entity belongs to (e.g. SRP186450).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "SRP"
   }, {
     "@id" : "bts:autoradiography",
     "@type" : "rdfs:Class",
@@ -16292,6 +16614,17 @@
     "sms:displayName" : "Geographic_Relocation",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:TDP-43negative",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "TDP-43negative",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "TDP-43 negative",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:IlluminaSeqLabDNAPCR-freelibrary",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17555,6 +17888,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "PAXgene_RNA",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:genomicsinglecell",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "genomicsinglecell",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "genomic single cell",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:sdf",
@@ -18987,6 +19331,17 @@
     "sms:displayName" : "Multiracial",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:viralrna",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "viralrna",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "viral rna",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:bulbar_assessment",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -19207,6 +19562,17 @@
     "sms:displayName" : "brightfield microscopy",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:metatranscriptomic",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "metatranscriptomic",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "metatranscriptomic",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:AffymetrixHumanGene1.0STArray",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -19403,6 +19769,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "units",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:transcriptomic",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "transcriptomic",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "transcriptomic",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Definitely_Related",
@@ -19843,6 +20220,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "cns",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:synthetic",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "synthetic",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "synthetic",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:FamilyhistoryofParkinson'sDisease(PD),BehavioralVariantFrontotemporalDementia(bvFTD),andDementia(NOS)",
@@ -23728,6 +24116,17 @@
     "sms:displayName" : "auditory brainstem response",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:genomic",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "genomic",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "genomic",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:US",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -25796,6 +26195,17 @@
     "sms:displayName" : "array",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:metagenomic",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "metagenomic",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "metagenomic",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:IlluminaTn5Transposase",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -26091,6 +26501,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "VAPB",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:TDP-43positive",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "TDP-43positive",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "TDP-43 positive",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Chemistry",
@@ -26916,6 +27337,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "MATLAB data",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:transcriptomicsinglecell",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "transcriptomicsinglecell",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "transcriptomic single cell",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Alzheimer",

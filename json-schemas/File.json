@@ -953,6 +953,34 @@
       "title": "Library Preparation Method",
       "type": "array"
     },
+    "librarySource": {
+      "description": "Type of source material used to construct the sequencing library (e.g. GENOMIC, TRANSCRIPTOMIC), independent of the biological data type.",
+      "items": {
+        "description": "Type of source material used to construct the sequencing library (NCBI SRA controlled vocabulary).",
+        "title": "LibrarySourceEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "genomic",
+              "genomic single cell",
+              "transcriptomic",
+              "transcriptomic single cell",
+              "metagenomic",
+              "metatranscriptomic",
+              "synthetic",
+              "viral rna",
+              "other"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Library Source",
+      "type": "array"
+    },
     "originalRepository": {
       "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
       "items": {

@@ -3,6 +3,17 @@
 #######################################
 
 enums:
+  # CNS region of a central-nervous-system biospecimen. Shared by Biospecimen and
+  # omic file/dataset classes (referenced via the CNSRegion slot in props.yaml).
+  CNSRegionEnum:
+    permissible_values:
+      middle frontal cortex:
+        description: Middle frontal cortex brain region
+      primary motor cortex:
+        description: Primary motor cortex brain region
+      dorsolateral prefrontal cortex:
+        description: Dorsolateral prefrontal cortex brain region
+
   # Data Use Modifiers — access types and DUO codes
   DataUseModifierEnum:
     description: Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used.

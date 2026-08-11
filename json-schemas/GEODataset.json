@@ -1,11 +1,19 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
-  "title": "OmicDataset",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-geo-dataset",
+  "title": "GEODataset",
   "type": "object",
-  "description": "Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata",
+  "description": "Dataset containing omic data sourced from NCBI GEO (Gene Expression Omnibus), identified by a GEO Series (GSE) accession. Specializes SRADataset, inheriting the NCBI BioProject identifier and all omic dataset fields.",
   "additionalProperties": {},
   "properties": {
+    "BioProject": {
+      "description": "NCBI BioProject accession(s) the entity belongs to (e.g. PRJNA522296).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "BioProject",
+      "type": "array"
+    },
     "FACSPopulation": {
       "description": "FACS-sorted cell population description.",
       "items": {
@@ -18,6 +26,22 @@
       "description": "GEO SuperSeries identifier for the dataset or file.",
       "title": "GEO SuperSeries",
       "type": "string"
+    },
+    "GSE": {
+      "description": "NCBI Gene Expression Omnibus Series accession(s) the entity belongs to (e.g. GSE126541).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "GEO Series (GSE)",
+      "type": "array"
+    },
+    "SRP": {
+      "description": "NCBI Sequence Read Archive Study accession(s) the entity belongs to (e.g. SRP186450).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "SRA Study (SRP)",
+      "type": "array"
     },
     "acknowledgementStatement": {
       "description": "Statement or link describing how use of this dataset should be acknowledged.",

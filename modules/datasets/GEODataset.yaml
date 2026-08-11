@@ -1,0 +1,23 @@
+#######################################
+# GEO Dataset Schema
+# Omic dataset sourced from NCBI GEO (Gene Expression Omnibus).
+#
+# A sequencing GEO Series is always mirrored in SRA/BioProject, so a GEO dataset
+# IS an SRA dataset with an additional GEO Series accession. GEODataset therefore
+# specializes SRADataset (is_a SRADataset -> OmicDataset) and adds only the GEO
+# Series identifier via GEODatasetMixin. The inverse does not hold: an SRA dataset
+# need not have a GEO record.
+#######################################
+
+classes:
+  GEODataset:
+    is_a: SRADataset
+    mixins: [GEODatasetMixin]
+    description: >
+      Dataset containing omic data sourced from NCBI GEO (Gene Expression Omnibus),
+      identified by a GEO Series (GSE) accession. Specializes SRADataset, inheriting
+      the NCBI BioProject identifier and all omic dataset fields.
+
+# GEO identifiers (GSE) are defined canonically in modules/geo_sra/geo.yaml.
+# SRA/NCBI identifiers and omic dataset fields are inherited from SRADataset
+# (modules/datasets/SRADataset.yaml -> OmicDataset).

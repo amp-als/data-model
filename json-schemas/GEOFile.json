@@ -1,11 +1,44 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-dataset",
-  "title": "OmicDataset",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-geo-file",
+  "title": "GEOFile",
   "type": "object",
-  "description": "Dataset containing sample-level omic data where typically each file represents a singular sample with technical and biological metadata",
+  "description": "File containing omic data sourced from NCBI GEO (Gene Expression Omnibus), annotated with GEO Series (GSE) and Sample (GSM) accessions. Specializes SRAFile, inheriting all SRA/NCBI identifiers and omic file fields.",
   "additionalProperties": {},
   "properties": {
+    "BioProject": {
+      "description": "NCBI BioProject accession(s) the entity belongs to (e.g. PRJNA522296).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "BioProject",
+      "type": "array"
+    },
+    "BioSample": {
+      "description": "NCBI BioSample accession(s) associated with the sample this file represents (e.g. SAMN10926465).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "BioSample",
+      "type": "array"
+    },
+    "CNSRegion": {
+      "description": "Central nervous system region",
+      "title": "CNS Region",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "middle frontal cortex",
+            "primary motor cortex",
+            "dorsolateral prefrontal cortex"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
+    },
     "FACSPopulation": {
       "description": "FACS-sorted cell population description.",
       "items": {
@@ -19,13 +52,84 @@
       "title": "GEO SuperSeries",
       "type": "string"
     },
-    "acknowledgementStatement": {
-      "description": "Statement or link describing how use of this dataset should be acknowledged.",
+    "GSE": {
+      "description": "NCBI Gene Expression Omnibus Series accession(s) the entity belongs to (e.g. GSE126541).\n",
       "items": {
         "type": "string"
       },
-      "title": "Acknowledgement Statement",
+      "title": "GEO Series (GSE)",
       "type": "array"
+    },
+    "GSM": {
+      "description": "NCBI Gene Expression Omnibus Sample accession(s) for the sample this file represents (e.g. GSM3603249).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "GEO Sample (GSM)",
+      "type": "array"
+    },
+    "SRP": {
+      "description": "NCBI Sequence Read Archive Study accession(s) the entity belongs to (e.g. SRP186450).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "SRA Study (SRP)",
+      "type": "array"
+    },
+    "SRR": {
+      "description": "NCBI Sequence Read Archive Run accession(s) for the sequencing run this file represents (e.g. SRR8571953).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "SRA Run (SRR)",
+      "type": "array"
+    },
+    "SRS": {
+      "description": "NCBI Sequence Read Archive Sample accession(s) associated with the entity (e.g. SRS4361197).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "SRA Sample (SRS)",
+      "type": "array"
+    },
+    "SRX": {
+      "description": "NCBI Sequence Read Archive Experiment accession(s) associated with the entity (e.g. SRX5373084).\n",
+      "items": {
+        "type": "string"
+      },
+      "title": "SRA Experiment (SRX)",
+      "type": "array"
+    },
+    "age": {
+      "description": "Age of subject in years.",
+      "title": "Age",
+      "type": "integer"
+    },
+    "alignmentMethod": {
+      "description": "Tool or method used for sequence alignment.",
+      "title": "Alignment Method",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "STAR",
+            "BWA-MEM",
+            "BWA-MEM2",
+            "HISAT2",
+            "minimap2",
+            "DRAGEN",
+            "bowtie2",
+            "GSNAP",
+            "TopHat2",
+            "CellRanger",
+            "STARsolo",
+            "Other"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
     },
     "alternateName": {
       "description": "An alternate name that can be used for search and discovery improvement.",
@@ -33,6 +137,87 @@
         "type": "string"
       },
       "title": "Alternate Name",
+      "type": "array"
+    },
+    "analysisTypes": {
+      "description": "Computational and statistical analysis methods applied to the data.",
+      "items": {
+        "description": "Computational and statistical analysis methods applied to the data",
+        "title": "AnalysisMethodEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Normalized Protein Expression (NPX)",
+              "GeneSetEnrichmentAnalysis",
+              "joint_variant_call",
+              "differential_expression",
+              "pathway_enrichment",
+              "network_analysis",
+              "proteomics_analysis",
+              "metabolomics_analysis",
+              "longitudinal_analysis",
+              "survival_analysis",
+              "meta_analysis",
+              "correlation_analysis",
+              "multivariate_analysis",
+              "machine_learning",
+              "safety_event_review",
+              "clinical_score_tracking",
+              "speech_monitoring",
+              "biospecimen_tracking",
+              "medication_tracking",
+              "subject_profile_review",
+              "eligibility_screening",
+              "enrollment_tracking",
+              "device_tracking",
+              "study_disposition_tracking",
+              "protocol_deviation_tracking",
+              "genetic_risk_assessment",
+              "respiratory_monitoring",
+              "visit_scheduling",
+              "consent_management"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Analysis Types",
+      "type": "array"
+    },
+    "annotations": {
+      "description": "Types of biological databases and annotations referenced in this file.",
+      "items": {
+        "description": "Types of biological databases and annotation references",
+        "title": "AnnotationTypeEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "KEGG",
+              "GO",
+              "UniProt",
+              "Ensembl",
+              "HGNC",
+              "RefSeq",
+              "MONDO",
+              "HPO",
+              "SNOMED",
+              "ICD",
+              "pathway_enrichment",
+              "protein_pathway",
+              "metabolic_pathway",
+              "signaling_pathway"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Biological Annotations",
       "type": "array"
     },
     "assay": {
@@ -260,6 +445,11 @@
       "title": "Measurement Technique",
       "type": "array"
     },
+    "biospecimenSubtype": {
+      "description": "More specific biospecimen classification",
+      "title": "Biospecimen Subtype",
+      "type": "string"
+    },
     "biospecimenType": {
       "description": "Type of biological specimen(s).",
       "items": {
@@ -339,107 +529,16 @@
       "title": "Citation",
       "type": "array"
     },
-    "cohort": {
-      "description": "Distinct cohorts, arms, or study groups represented in the dataset.",
-      "items": {
-        "description": "",
-        "title": "CohortEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "ALS",
-              "ALS-TE",
-              "ALS-Ox",
-              "ALS-Glial",
-              "FTD",
-              "Control",
-              "Healthy Control",
-              "sALS",
-              "FTD-GRN",
-              "FTLD-TDP",
-              "PSP/FTLD-tau",
-              "Pre-fALS",
-              "C9-ALS",
-              "C9-FTD",
-              "C9-ALS/FTD",
-              "Like-C9 Sporadic ALS/FTD",
-              "Like-Control Sporadic ALS/FTD",
-              "Non-ALS Control",
-              "Parkinson's Disease",
-              "Alzheimer's Disease",
-              "Other Neurological Disorders",
-              "Other Motor Neuron Disease",
-              "FTD Postmortem TDP-43-Negative Neuronal Nuclei",
-              "ALS Postmortem TDP-43-Negative Neuronal Nuclei",
-              "TDP-43-Positive Neuronal Nuclei",
-              "TDP-43-Negative Neuronal Nuclei",
-              "ALS/FTD Disease Model and ALS Samples",
-              "Apobec-YTH",
-              "Apobec-YTHmut",
-              "Halo",
-              "Trehalose Expanded-Access Treatment",
-              "Trehalose Expanded-Access Biomarker Treatment",
-              "Symptomatic ALS",
-              "Asymptomatic Genetic ALS At-Risk",
-              "Placebo",
-              "Reldesemtiv/CK-2127107 150 mg Twice Daily",
-              "Reldesemtiv/CK-2127107 300 mg Twice Daily",
-              "Reldesemtiv/CK-2127107 450 mg Twice Daily",
-              "Reldesemtiv Treatment",
-              "ALS Survey Participants",
-              "Ceftriaxone Treatment",
-              "Ceftriaxone 2 g/day",
-              "Ceftriaxone 4 g/day",
-              "ALS Aggregate/Reference",
-              "FTD Aggregate/Reference",
-              "Topiramate Treatment",
-              "ALS Natural-History",
-              "ALS Case",
-              "ALS/FTD Case"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Cohort",
-      "type": "array"
+    "collectionDate": {
+      "description": "Date when the specimen was collected.",
+      "format": "date",
+      "title": "Collection Date",
+      "type": "string"
     },
-    "cohortType": {
-      "description": "Types of cohorts available in this dataset.",
-      "items": {
-        "description": "",
-        "title": "CohortTypeEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "Case-Control",
-              "Disease-Only",
-              "Healthy-Control",
-              "At-Risk",
-              "Natural-History",
-              "Interventional-Treatment",
-              "Placebo-Control",
-              "Registry",
-              "Aggregate-Reference",
-              "In-Vitro-Experimental"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Cohort Type",
-      "type": "array"
-    },
-    "cohort_count": {
-      "description": "Number of cohorts in this dataset.",
-      "title": "Cohort Count",
-      "type": "integer"
+    "collectionSite": {
+      "description": "Site or institution where biospecimen was collected",
+      "title": "Collection Site",
+      "type": "string"
     },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the resource.",
@@ -448,6 +547,11 @@
       },
       "title": "Contributor(s)",
       "type": "array"
+    },
+    "country": {
+      "description": "Country of residence or data collection site.",
+      "title": "Country",
+      "type": "string"
     },
     "creator": {
       "description": "Properly formatted name of the organization or person that is creator of the resource (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id.",
@@ -485,6 +589,10 @@
       },
       "title": "Curation Level",
       "type": "array"
+    },
+    "dataSourcePrefix": {
+      "description": "Short identifier indicating the data source origin.",
+      "title": "Data Source Prefix"
     },
     "dataType": {
       "description": "Omic data types (genomics, transcriptomics, proteomics, etc.)",
@@ -558,47 +666,6 @@
       },
       "title": "Data Type",
       "type": "array"
-    },
-    "dataUseModifiers": {
-      "description": "Data Use Ontology (DUO) codes specifying conditions under which this dataset may be used.",
-      "items": {
-        "description": "Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used.",
-        "title": "DataUseModifierEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "open",
-              "controlled",
-              "private",
-              "embargo",
-              "GRU",
-              "HMB",
-              "DS",
-              "NCU",
-              "NPUNCU",
-              "US"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Data Use Modifiers",
-      "type": "array"
-    },
-    "dataset_code": {
-      "description": "Stable dataset code (lowercase letters, digits, and underscores; excludes version dates). For C-Path datasets, use the standardized convention combining data model type and dataset identifier, e.g. sdtm_als1003, omop_als1001 (prefixes: src, omop, sdtm, send, adam). Other datasets without an established standard may use a descriptive code, e.g. als_compute.\n",
-      "pattern": "^[a-z0-9_]+$",
-      "title": "Dataset Code",
-      "type": "string"
-    },
-    "datePublished": {
-      "description": "Date data were published/available on Synapse.",
-      "format": "date",
-      "title": "Date Published",
-      "type": "string"
     },
     "description": {
       "description": "Text describing a resource.",
@@ -855,62 +922,135 @@
       "title": "Disease Subtype",
       "type": "array"
     },
-    "funder": {
-      "description": "Refers to the funding organization for the generated resource. This annotation is handled by the DCC.",
+    "ethnicity": {
+      "description": "Ethnicity of subject.",
+      "title": "Ethnicity"
+    },
+    "fileFormat": {
+      "description": "Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software.",
       "items": {
-        "description": "Organization(s) that funded the dataset or study.",
-        "title": "FunderEnum",
+        "description": "",
+        "title": "FileFormatEnum",
         "type": "string",
         "anyOf": [
           {
             "enum": [
-              "NIH",
-              "NIA",
-              "NINDS",
-              "DoD",
-              "MDA",
-              "CZI",
-              "ERC",
-              "Target ALS",
-              "ALSA",
-              "Answer ALS",
-              "Perelman School of Medicine at the University of Pennsylvania",
-              "VA",
-              "NIMH",
-              "PsychEncode Consortium",
-              "Mayo Clinic",
-              "Einstein Aging Study",
-              "NIH Office of the Director",
-              "Amyotrophic Lateral Sclerosis Association",
-              "The Tow Foundation",
-              "The University of Groningen Graduate School of Medical Sciences",
-              "PIA",
-              "The FTLD-exome Program Hospitalier de Recherche Clinique",
-              "ZonMw",
-              "The Bluefield Project to Cure Frontotemporal Dementia",
-              "Alzheimer Nederland",
-              "Ministry of Economic Affairs and Climate Policy",
-              "Ride For Life Foundation",
-              "Rita Allen Foundation",
-              "O'Neil Charitable Trust",
-              "NIDDK",
-              "MICHR",
-              "AFTD",
-              "Active Against ALS",
-              "Packard Center",
-              "Taubman Institute",
-              "University of Michigan",
-              "M-Cubed Program",
-              "Protein Folding Diseases Initiative",
-              "Program for Neurology Research and Discovery",
-              "NIGMS",
-              "NCI",
-              "Ann Arbor Active Against ALS",
-              "UM Brain Bank and Alzheimer's Disease Research Center",
-              "Rogel Cancer Center",
-              "The Dobson-Welch Family",
-              "The Danto Family",
-              "Other"
+              "7z",
+              "DICOM",
+              "MATLAB data",
+              "MATLAB script",
+              "NWB",
+              "PAR",
+              "Python script",
+              "R script",
+              "RCC",
+              "RData",
+              "REC",
+              "SDAT",
+              "SPAR",
+              "Sentrix descriptor file",
+              "ab1",
+              "abf",
+              "ai",
+              "avi",
+              "bai",
+              "bam",
+              "bash script",
+              "bcf",
+              "bed",
+              "bed broadPeak",
+              "bed gappedPeak",
+              "bed narrowPeak",
+              "bedgraph",
+              "bgzip",
+              "bigwig",
+              "bmp",
+              "bpm",
+              "cel",
+              "chp",
+              "cnn",
+              "cnr",
+              "cns",
+              "cram",
+              "crai",
+              "csi",
+              "csv",
+              "ctab",
+              "czi",
+              "dat",
+              "dna",
+              "doc",
+              "docker image",
+              "dup",
+              "edat3",
+              "excel",
+              "fasta",
+              "fastq",
+              "fcs",
+              "fig",
+              "flagstat",
+              "gb",
+              "gct",
+              "gff3",
+              "gtf",
+              "gzip",
+              "hdf5",
+              "hdr",
+              "hic",
+              "html",
+              "hyperlink",
+              "idat",
+              "idx",
+              "img",
+              "jpg",
+              "js",
+              "json",
+              "lif",
+              "locs",
+              "maf",
+              "md",
+              "mov",
+              "MPEG-4",
+              "msf",
+              "mtx",
+              "mzML",
+              "nii",
+              "ome-tiff",
+              "pdf",
+              "plink",
+              "png",
+              "powerpoint",
+              "pzfx",
+              "psydat",
+              "raw",
+              "rds",
+              "recal",
+              "rmd",
+              "sam",
+              "sav",
+              "sdf",
+              "seg",
+              "sf",
+              "sif",
+              "sqlite",
+              "sra",
+              "svg",
+              "svs",
+              "tagAlign",
+              "tar",
+              "tbi",
+              "tif",
+              "tom",
+              "tranches",
+              "tsv",
+              "txt",
+              "vcf",
+              "wiggle",
+              "xml",
+              "yaml",
+              "h5",
+              "wav",
+              "zip"
             ]
           },
           {
@@ -918,8 +1058,24 @@
           }
         ]
       },
-      "title": "Funder",
+      "title": "File Format",
       "type": "array"
+    },
+    "globalSubjectId": {
+      "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "title": "Global Subject ID",
+      "type": "string"
+    },
+    "heightCm": {
+      "description": "Height of subject in centimeters.",
+      "title": "Height (cm)",
+      "type": "number"
+    },
+    "isPostMortem": {
+      "description": "Whether specimen was collected post-mortem",
+      "title": "Post-mortem Status",
+      "type": "boolean"
     },
     "keywords": {
       "description": "Descriptive keywords or terms for improved search and discovery.",
@@ -1028,6 +1184,29 @@
       "title": "Library Source",
       "type": "array"
     },
+    "nucleicAcidSource": {
+      "description": "Source of nucleic acid for library preparation",
+      "title": "Nucleic Acid Source",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "bulk cell",
+            "bulk nuclei",
+            "mitochondria",
+            "single cell",
+            "single nucleus",
+            "bromouridine-labeled total RNA",
+            "Tn5-accessible gDNA",
+            "genomic DNA",
+            "nuclear RNA"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
+    },
     "originalRepository": {
       "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
       "items": {
@@ -1054,10 +1233,15 @@
       "title": "Original Repository",
       "type": "array"
     },
-    "participant_count": {
-      "description": "Number of unique individuals included in this entity (individual-level or aggregate data). Omit if not applicable or unknown.",
-      "title": "Participant Count",
-      "type": "integer"
+    "originalSampleId": {
+      "description": "Original sample identifier as provided by the data source.",
+      "title": "Original Sample ID",
+      "type": "string"
+    },
+    "originalSubjectId": {
+      "description": "Original subject identifier as provided by the data source.",
+      "title": "Original Subject ID",
+      "type": "string"
     },
     "platform": {
       "description": "Sequencing or analysis platform used to generate the data.",
@@ -1193,14 +1377,6 @@
       "title": "Platform",
       "type": "array"
     },
-    "portalRelease": {
-      "description": "Portal release version(s) in which this dataset is included (e.g. \"2025.2\").",
-      "items": {
-        "type": "string"
-      },
-      "title": "Portal Release",
-      "type": "array"
-    },
     "program": {
       "description": "Research consortium(s) or program(s) that produced or funded this resource.",
       "items": {
@@ -1232,10 +1408,121 @@
       "title": "Program",
       "type": "array"
     },
+    "propAfricanGeneticAncestry": {
+      "description": "Proportion of African genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion African Genetic Ancestry",
+      "type": "number"
+    },
+    "propEastAsianGeneticAncestry": {
+      "description": "Proportion of East Asian genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion East Asian Genetic Ancestry",
+      "type": "number"
+    },
+    "propEuropeanGeneticAncestry": {
+      "description": "Proportion of European genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion European Genetic Ancestry",
+      "type": "number"
+    },
+    "propNativeAmericanGeneticAncestry": {
+      "description": "Proportion of Native American genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion Native American Genetic Ancestry",
+      "type": "number"
+    },
+    "propSouthAsianGeneticAncestry": {
+      "description": "Proportion of South Asian genetic ancestry from admixture analysis.",
+      "maximum": 1,
+      "minimum": 0,
+      "title": "Proportion South Asian Genetic Ancestry",
+      "type": "number"
+    },
+    "race": {
+      "description": "Race/ethnicity of subject.",
+      "title": "Race/Ethnicity"
+    },
+    "readLength": {
+      "description": "Length of sequencing reads in base pairs",
+      "items": {
+        "type": "integer"
+      },
+      "title": "Read Length",
+      "type": "array"
+    },
+    "referenceGenome": {
+      "description": "Reference genome used for alignment",
+      "title": "Reference Genome",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "GRCh38",
+            "GRCh38_Verily_v1",
+            "GRChb38H",
+            "GRCh37",
+            "hg19",
+            "hg38",
+            "MMUL1.0",
+            "HRC"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
+    },
     "sameAs": {
       "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
       "title": "Same As",
       "type": "string"
+    },
+    "sampleIdColumn": {
+      "description": "Name of the column containing sample identifiers",
+      "title": "Sample ID Column",
+      "type": "string"
+    },
+    "sampleType": {
+      "description": "Classification of the sample (e.g. actual sample vs. control type).",
+      "title": "Sample Type"
+    },
+    "sex": {
+      "description": "Biological sex of subject.",
+      "title": "Sex"
+    },
+    "site_of_onset": {
+      "description": "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)",
+      "items": {
+        "description": "Site of disease onset",
+        "title": "SiteOfOnsetEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Bulbar",
+              "Limb",
+              "Lumbar",
+              "Axial",
+              "Respiratory",
+              "Generalized",
+              "Other",
+              "Cognitive",
+              "Head Drop",
+              "Unknown"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Site of Onset",
+      "type": "array"
     },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
@@ -1267,52 +1554,10 @@
       "title": "Species",
       "type": "array"
     },
-    "studyType": {
-      "description": "Type of study design (e.g., longitudinal, cross-sectional).",
-      "items": {
-        "description": "",
-        "title": "StudyLevelEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "Patient Registry Study",
-              "Natural History Study",
-              "Clinical Trial",
-              "Observational Study",
-              "Case-Control Study",
-              "Cohort Study",
-              "Cross-Sectional Study",
-              "Longitudinal Study",
-              "Discovery Study",
-              "Validation Study",
-              "Multi-Omics Study",
-              "Comparative Study",
-              "Pilot Study",
-              "Replication Study",
-              "Time Series Study",
-              "Population Study",
-              "Harmonized Study Collection",
-              "Unknown",
-              "individual",
-              "aggregate",
-              "summary_level",
-              "meta_analysis",
-              "experimental study"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Study Type",
-      "type": "array"
-    },
-    "study_count": {
-      "description": "Number of studies in this dataset.",
-      "title": "Study Count",
-      "type": "integer"
+    "storageContainer": {
+      "description": "Container or repository where biospecimen is stored",
+      "title": "Storage Container",
+      "type": "string"
     },
     "subject": {
       "description": "Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
@@ -1323,9 +1568,21 @@
       "type": "array"
     },
     "title": {
-      "description": "Title of a resource.",
+      "items": {
+        "type": "string"
+      },
       "title": "Title",
-      "type": "string"
+      "type": "array"
+    },
+    "totalBases": {
+      "description": "Total number of sequenced bases",
+      "title": "Total Bases",
+      "type": "integer"
+    },
+    "totalReads": {
+      "description": "Total number of sequencing reads. Derived as totalBases / readLength (i.e. Bases / AvgSpotLen from SRA run metadata).\n",
+      "title": "Total Reads",
+      "type": "integer"
     },
     "url": {
       "description": "URL(s) for the resource, including its original location and any external data catalogs where it is listed.",
@@ -1334,14 +1591,68 @@
       },
       "title": "URL",
       "type": "array"
+    },
+    "variantType": {
+      "description": "Type of genetic variant for VCF files",
+      "items": {
+        "description": "",
+        "title": "VariantTypeEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "SNP",
+              "SNV",
+              "SNVs/SNPs",
+              "Indel",
+              "INDELs",
+              "SVs",
+              "MNVs",
+              "Germline",
+              "Somatic",
+              "Deletions",
+              "CNV",
+              "CNVs",
+              "Inversions",
+              "Translocations",
+              "Repeat_Expansion",
+              "Genomic",
+              "Small_Variant",
+              "Structural_Variant",
+              "TDP-43 positive",
+              "TDP-43 negative",
+              "Other"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Variant Type",
+      "type": "array"
+    },
+    "weightKg": {
+      "description": "Weight of subject in kilograms.",
+      "title": "Weight (kg)",
+      "type": "number"
+    },
+    "yearOfDiagnosis": {
+      "description": "Year when ALS diagnosis was made.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Year of ALS Diagnosis",
+      "type": "integer"
+    },
+    "yearOfSymptomOnset": {
+      "description": "Year when first ALS symptoms appeared.",
+      "maximum": 2100,
+      "minimum": 1900,
+      "title": "Year of Symptom Onset",
+      "type": "integer"
     }
   },
   "required": [
-    "title",
-    "keywords",
-    "cohortType",
-    "cohort_count",
-    "study_count",
     "originalRepository"
   ]
 }

@@ -1,0 +1,20 @@
+#######################################
+# SRA File Schema
+# Omic file sourced from NCBI SRA (Sequence Read Archive).
+# Derivative of OmicFile: inherits all omic file fields and adds the SRA run/
+# sample/experiment, BioProject/BioSample, and readLength fields via SRAFileMixin.
+#######################################
+
+classes:
+  SRAFile:
+    is_a: OmicFile
+    mixins: [SRAFileMixin]
+    description: >
+      File containing omic data sourced from NCBI SRA (Sequence Read Archive),
+      annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions,
+      NCBI BioProject/BioSample accessions, and sequencing read length. Inherits
+      all OmicFile fields.
+
+# SRA/NCBI identifiers (SRR, SRS, SRX, BioProject, BioSample) are defined canonically
+# in modules/geo_sra/sra.yaml; readLength in modules/shared/props.yaml.
+# Omic file fields are inherited from OmicFile (modules/datasets/OmicFile.yaml).

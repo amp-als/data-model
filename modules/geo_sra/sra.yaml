@@ -1,0 +1,96 @@
+#######################################
+# SRA (Sequence Read Archive) / NCBI identifiers
+# Slots and mixins for datasets/files sourced from NCBI SRA.
+# Canonical definitions — referenced by SRADataset / SRAFile via mixins.
+#
+# readLength is defined canonically in modules/shared/props.yaml and referenced
+# via the SRAFileMixin slot list (kept there because it is a generic sequencing
+# property, not SRA-specific).
+#######################################
+
+slots:
+  SRP:
+    title: SRA Study (SRP)
+    description: >
+      NCBI Sequence Read Archive Study accession(s) the entity belongs to
+      (e.g. SRP186450).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  SRR:
+    title: SRA Run (SRR)
+    description: >
+      NCBI Sequence Read Archive Run accession(s) for the sequencing run this
+      file represents (e.g. SRR8571953).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  SRS:
+    title: SRA Sample (SRS)
+    description: >
+      NCBI Sequence Read Archive Sample accession(s) associated with the entity
+      (e.g. SRS4361197).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  SRX:
+    title: SRA Experiment (SRX)
+    description: >
+      NCBI Sequence Read Archive Experiment accession(s) associated with the
+      entity (e.g. SRX5373084).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  BioProject:
+    title: BioProject
+    description: >
+      NCBI BioProject accession(s) the entity belongs to (e.g. PRJNA522296).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  BioSample:
+    title: BioSample
+    description: >
+      NCBI BioSample accession(s) associated with the sample this file
+      represents (e.g. SAMN10926465).
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+
+classes:
+  SRADatasetMixin:
+    mixin: true
+    description: Mixin for SRA (Sequence Read Archive) / NCBI dataset-level identifiers.
+    slots:
+      - SRP
+      - BioProject
+
+  SRAFileMixin:
+    mixin: true
+    description: Mixin for SRA (Sequence Read Archive) / NCBI file-level identifiers.
+    slots:
+      - SRP
+      - SRR
+      - SRS
+      - SRX
+      - BioProject
+      - BioSample
+      - readLength
+      - totalBases
+      - totalReads
+      - nucleicAcidSource
+      - biospecimenSubtype
+      - isPostMortem
+      - CNSRegion
