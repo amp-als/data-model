@@ -1,0 +1,131 @@
+# Field migration map — running record of deprecated → canonical annotation fields.
+#
+# The UPDATE workflow (synapse_dataset_manager.py) applies this map when it
+# regenerates annotation templates from what is currently on Synapse. Existing
+# Synapse annotations often still carry fields that were renamed, removed, or
+# retyped in a later version of the data model (modules/**). Without this map both
+# the old and the new field end up in *_update_annotations.json (e.g. `source`
+# alongside `originalRepository`). This file tells the generator how to reconcile
+# them.
+#
+# Add a new entry EVERY time you rename, remove, or retype a slot in the data model
+# so the old value on Synapse is carried forward (or cleanly dropped) on the next
+# update. Entries here mirror docs/DATA_MODEL_CHANGES_JULY_2026.md.
+#
+# Entry shapes (see migrate_deprecated_fields for exact semantics):
+#
+#   oldField:                    # RENAME + optional enum value translation
+#     target: newField           #   canonical field the value moves into
+#     values: {oldVal: newVal}   #   optional; on a rename, unmapped values are DROPPED
+#
+#   oldField:                    # RENAME that MERGES into a multivalued target
+#     target: newField           #   append (deduped) instead of replace-if-empty, so
+#     merge: true                #   several old fields can feed one target
+#
+#   oldField:                    # VALUE-DEPENDENT SPLIT (one field → many targets)
+#     routes:
+#       - when_values: [a, b]    #   values a/b route here (omit when_values = catch-all)
+#         target: fieldX
+#         values: {a: A}         #   optional per-route translation
+#       - when_values: [c]
+#         target: fieldY
+#
+#   legacyField:                 # REMOVE entirely, no replacement
+#     drop: true
+#
+#   scalarField:                 # IN-PLACE fix (no target): normalize values and/or
+#     values: {old: new}         #   coerce type. In-place keeps UNMAPPED values.
+#     type: boolean              #   scalar types unwrap [x]→x; `array` wraps x→[x].
+#
+# Rules:
+#   - Replace-style rename: value moves in only if the target is empty (canonical
+#     wins). Use `merge: true` to append into a multivalued target instead.
+#   - `type:` runs after value translation. Omit `target:` for an in-place retype.
+#   - Internal keys (leading underscore, e.g. _staging_id) are never touched.
+
+# ── §4  collection → program (CollectionEnum → ProgramEnum) ───────────────────
+# Consortium/program names. Merges into `program` so it composes with the source
+# split below (both can name the producing consortium).
+collection:
+  target: program
+  merge: true
+  values:
+    all_als: ALL ALS
+    answer_als: Answer ALS
+    amp_als: AMP ALS
+    create: CReATe Consortium
+    nygc: New York Genome Center ALS Consortium
+
+# ── §5  source → program (consortium) OR originalRepository (repository) ──────
+# `source` was overloaded: consortium names describe WHO produced the data
+# (→ program), repository names describe WHERE it was housed (→ originalRepository).
+source:
+  routes:
+    - when_values:
+        [all_als, "ALL ALS", answer_als, "Answer ALS", amp_als, "AMP ALS",
+         create, "CReATe Consortium", nygc, "New York Genome Center ALS Consortium",
+         "Target ALS"]
+      target: program
+      values:
+        all_als: ALL ALS
+        answer_als: Answer ALS
+        amp_als: AMP ALS
+        create: CReATe Consortium
+        nygc: New York Genome Center ALS Consortium
+    - when_values:
+        [Synapse, synapse, GEO, geo, "Gene Expression Omnibus", dbGaP, dbgap,
+         SRA, sra, "Sequencing Read Archive", als_compute, "ALS Compute",
+         cpath, "c-path", "Critical Path Institute", target_als]
+      target: originalRepository
+      values:
+        geo: Gene Expression Omnibus
+        GEO: Gene Expression Omnibus
+        sra: Sequencing Read Archive
+        SRA: Sequencing Read Archive
+        als_compute: ALS Compute
+        cpath: Critical Path Institute
+        c-path: Critical Path Institute
+        target_als: Target ALS
+
+# ── §10/§13  funder value normalization (in-place; FunderEnum) ────────────────
+funder:
+  values:
+    National Institutes of Health: NIH
+
+# ── §11  includedInDataCatalog → url (consolidated into multivalued url) ──────
+includedInDataCatalog:
+  target: url
+  merge: true
+
+# ── §2  processingLevel → curationLevel (ProcessingLevelEnum → CurationLevelEnum)
+# Capitalize the old lowercase values to match CurationLevelEnum; curationLevel is
+# now multivalued, so merge into it.
+processingLevel:
+  target: curationLevel
+  merge: true
+  values:
+    raw: Raw
+    processed: Processed
+    analyzed: Analyzed
+    integrated: Integrated
+
+# ── §15  curationLevel scalar → array (now multivalued) ───────────────────────
+curationLevel:
+  type: array
+
+# ── §12  libraryStrategy → assay (LibraryStrategyEnum removed) ────────────────
+# Only the documented value mappings; unmapped values are dropped (enum safety).
+libraryStrategy:
+  target: assay
+  values:
+    RNA_seq: RNA-seq
+    WGS: whole genome sequencing
+
+# ── §15  participant_count scalar fix (was wrongly multivalued in ClinicalFile)
+# Older annotations may carry the renamed individualCount; carry the value across.
+individualCount:
+  target: participant_count
+
+# ── hasLongitudinalData: range boolean (scalar) stored array-wrapped as [false] ─
+hasLongitudinalData:
+  type: boolean

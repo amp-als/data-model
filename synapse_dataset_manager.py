@@ -82,6 +82,10 @@ class Config:
             dir_config.get('annotations_dir', 'annotations').lstrip('./')
         )
         os.makedirs(self.ANNOTATIONS_DIR, exist_ok=True)
+        self.FIELD_MIGRATIONS_PATH = os.getenv("FIELD_MIGRATIONS") or os.path.join(
+            self.BASE_DIR,
+            dir_config.get('field_migrations', 'configs/field_migrations.yaml').lstrip('./')
+        )
 
         # Workflow control (env var > config file > defaults)
         workflow_config = file_config.get('workflow', {})
@@ -405,6 +409,131 @@ def get_schema_for_type(file_type, all_schemas):
     return None
 
 
+class SchemaTypeResolutionError(ValueError):
+    """Raised when a user-supplied --type cannot be resolved to a schema file."""
+
+
+def _schema_candidates(all_schemas, kind):
+    """Selectable schema class stems for a given kind, sourced from json-schemas/.
+
+    Excludes the `*Nested.json` wrappers and the unrelated `MetadataSchema.json`.
+    kind: 'dataset' -> stems ending in 'Dataset'; 'file' -> stems ending in 'File'
+    (which also excludes '*FileNested'); anything else -> all non-wrapper stems.
+    """
+    stems = [s for s in all_schemas
+             if not s.endswith('Nested') and s != 'MetadataSchema']
+    if kind == 'dataset':
+        return sorted(s for s in stems if s.endswith('Dataset'))
+    if kind == 'file':
+        return sorted(s for s in stems if s.endswith('File'))
+    return sorted(stems)
+
+
+def _prompt_pick_schema(hits, user_input, kind):
+    """Numbered menu asking the user to pick among ambiguous schema matches.
+
+    Modeled on the interactive selection prompts used elsewhere (e.g.
+    display_version_selection_prompt). Returns the chosen stem, or raises
+    SchemaTypeResolutionError if the user aborts.
+    """
+    print(f"\n  '{user_input}' matches multiple {kind} schemas:")
+    for i, stem in enumerate(hits, 1):
+        print(f"    {i}. {stem}")
+    try:
+        choice = input(f"  Choose [1-{len(hits)}] (or blank to cancel): ").strip()
+    except EOFError:
+        choice = ''
+    if not choice:
+        raise SchemaTypeResolutionError(
+            f"Ambiguous type '{user_input}' for {kind} schema; no selection made. "
+            f"Matches: {', '.join(hits)}"
+        )
+    if choice.isdigit() and 1 <= int(choice) <= len(hits):
+        return hits[int(choice) - 1]
+    # Allow typing one of the listed names directly
+    for stem in hits:
+        if choice.lower() == stem.lower():
+            return stem
+    raise SchemaTypeResolutionError(
+        f"Invalid selection '{choice}' for type '{user_input}'. Matches: {', '.join(hits)}"
+    )
+
+
+def resolve_schema_type(user_input, all_schemas, kind, interactive=True):
+    """Resolve a user-supplied type string to a canonical schema class stem.
+
+    Matches against the filename stems present in the json-schemas/ folder
+    (as loaded into all_schemas), so newly added schemas work without code
+    changes. Resolution order:
+      1. Exact stem match (case-insensitive) across ALL stems — lets a user
+         type the exact schema name (e.g. 'OmicFile', 'Dataset').
+      2. Substring 'contains' match within the kind-filtered candidates
+         (e.g. 'omic' -> 'OmicFile'). One hit wins; multiple hits prompt the
+         user (when interactive on a TTY) or raise.
+      3. No hit — offer difflib 'did you mean' suggestions, then raise a
+         SchemaTypeResolutionError listing the available types.
+
+    kind: 'dataset' or 'file'. Returns the resolved stem (str).
+    """
+    import difflib
+
+    if user_input is None:
+        raise SchemaTypeResolutionError("No type provided to resolve.")
+
+    ui = str(user_input).strip().lower()
+    candidates = _schema_candidates(all_schemas, kind)
+    can_prompt = interactive and sys.stdin.isatty()
+
+    # 1. Exact stem match (case-insensitive), across every loaded schema.
+    for stem in all_schemas:
+        if stem.lower() == ui:
+            return stem
+
+    # 2. Substring 'contains' within the kind-filtered candidates.
+    hits = [s for s in candidates if ui in s.lower()]
+    if len(hits) == 1:
+        return hits[0]
+    if len(hits) > 1:
+        if can_prompt:
+            return _prompt_pick_schema(hits, user_input, kind)
+        raise SchemaTypeResolutionError(
+            f"Ambiguous type '{user_input}' for {kind} schema — matches "
+            f"{', '.join(hits)}. Provide an exact schema name."
+        )
+
+    # 3. No substring hit — suggest close matches, then give up.
+    close = difflib.get_close_matches(ui, [c.lower() for c in candidates], n=3, cutoff=0.5)
+    suggestions = [c for c in candidates if c.lower() in close]
+    if suggestions and can_prompt:
+        top = suggestions[0]
+        try:
+            ans = input(f"  No {kind} schema matches '{user_input}'. "
+                        f"Did you mean '{top}'? [y/N] ").strip().lower()
+        except EOFError:
+            ans = ''
+        if ans in ('y', 'yes'):
+            return top
+    hint = f" Did you mean: {', '.join(suggestions)}?" if suggestions else ""
+    raise SchemaTypeResolutionError(
+        f"Could not resolve {kind} type '{user_input}' against json-schemas/.{hint} "
+        f"Available: {', '.join(candidates)}"
+    )
+
+
+def nested_schema_filename(class_stem, all_schemas):
+    """Filename for the file-template `$schema` wrapper for a resolved class.
+
+    Prefers the `{class_stem}Nested.json` wrapper; falls back to the plain
+    `{class_stem}.json` (e.g. SpeechFile, which has no Nested wrapper), then to
+    the generic `FileNested.json`.
+    """
+    if f"{class_stem}Nested" in all_schemas:
+        return f"{class_stem}Nested.json"
+    if class_stem in all_schemas:
+        return f"{class_stem}.json"
+    return "FileNested.json"
+
+
 def get_required_fields(schema):
     """Extract required fields from JSON schema"""
     if not schema:
@@ -448,7 +577,8 @@ def detect_file_type(filename, file_path=None, all_schemas=None, dataset_config=
     Detect file type based on dataset config or filename patterns.
 
     Priority:
-    1. dataset_config['dataset_type'] if defined ('Clinical' or 'Omic')
+    1. dataset_config['dataset_type'] if defined — resolved against json-schemas/
+       (e.g. 'Omic' -> 'OmicFile') so any schema type works without code changes
     2. Pattern matching on filename
     3. Default to base 'File' schema
 
@@ -457,10 +587,16 @@ def detect_file_type(filename, file_path=None, all_schemas=None, dataset_config=
     # Check if dataset type is explicitly defined in config
     if dataset_config and 'dataset_type' in dataset_config:
         dataset_type = dataset_config['dataset_type']
-        if dataset_type == 'Clinical':
-            return 'ClinicalFile'
-        elif dataset_type == 'Omic':
-            return 'OmicFile'
+        if all_schemas:
+            # Config-driven, so resolve non-interactively (short config tokens
+            # like 'Omic'/'GEO' each map to exactly one file schema).
+            try:
+                return resolve_schema_type(dataset_type, all_schemas, kind='file',
+                                           interactive=False)
+            except SchemaTypeResolutionError:
+                pass
+        # Lightweight fallback when schemas aren't loaded at the call site.
+        return dataset_type if dataset_type.endswith('File') else f"{dataset_type}File"
 
     # Fall back to pattern matching
     filename_lower = filename.lower()
@@ -489,12 +625,14 @@ def detect_file_type(filename, file_path=None, all_schemas=None, dataset_config=
     return 'File'
 
 
-def detect_dataset_type(dataset_name, staging_folder_name=None, dataset_config=None):
+def detect_dataset_type(dataset_name, staging_folder_name=None, dataset_config=None,
+                        all_schemas=None):
     """
     Detect dataset type based on config or name patterns.
 
     Priority:
-    1. dataset_config['dataset_type'] if defined ('Clinical' or 'Omic')
+    1. dataset_config['dataset_type'] if defined — resolved against json-schemas/
+       (e.g. 'Omic' -> 'OmicDataset') so any schema type works without code changes
     2. Pattern matching on dataset name
     3. Default to base 'Dataset' schema
 
@@ -503,10 +641,14 @@ def detect_dataset_type(dataset_name, staging_folder_name=None, dataset_config=N
     # Check if dataset type is explicitly defined in config
     if dataset_config and 'dataset_type' in dataset_config:
         dataset_type = dataset_config['dataset_type']
-        if dataset_type == 'Clinical':
-            return 'ClinicalDataset'
-        elif dataset_type == 'Omic':
-            return 'OmicDataset'
+        if all_schemas:
+            try:
+                return resolve_schema_type(dataset_type, all_schemas, kind='dataset',
+                                           interactive=False)
+            except SchemaTypeResolutionError:
+                pass
+        # Lightweight fallback when schemas aren't loaded at the call site.
+        return dataset_type if dataset_type.endswith('Dataset') else f"{dataset_type}Dataset"
 
     # Fall back to pattern matching
     name_lower = dataset_name.lower()
@@ -2192,6 +2334,74 @@ def fill_template_from_file_contents(template: dict, file_path: str, mapping: di
     return result
 
 
+def fill_counts_from_file_contents(template: dict, file_path: str,
+                                   subject_id_col: str = None) -> dict:
+    """Auto-populate participant/individual and record counts from a data file.
+
+    Reads a tabular data file and computes:
+      - the number of unique subject identifiers  -> participant_count / individualCount
+      - the total number of data rows              -> recordCount
+
+    The counts are written into whichever of those keys already exist in the
+    template/annotation ("either or both"), and are OVERWRITTEN each run so they
+    always reflect the current file contents. Non-tabular or unreadable files
+    (fastq/bam/etc.) are skipped and the template is returned unchanged.
+
+    Field types are matched to how each field is stored elsewhere:
+      - participant_count / recordCount are integers (list-wrapped if the slot is
+        already a list, since recordCount is multivalued in the model)
+      - individualCount is a STRING_LIST enum, so its count is stored as a string
+
+    Args:
+        template:       Annotation template/annotation dict to update
+        file_path:      Path to the data CSV/XLSX file
+        subject_id_col: Column holding subject IDs; falls back to common names
+
+    Returns:
+        Updated template dict
+    """
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception:
+        return template
+    if not rows:
+        return template
+
+    available = set(rows[0].keys())
+    record_count = len(rows)
+
+    # Resolve the subject-ID column: explicit first, then common fallbacks.
+    candidates = []
+    if subject_id_col:
+        candidates.append(subject_id_col)
+    candidates.extend(c for c in COMMON_SUBJECT_COLS if c not in candidates)
+
+    subject_count = None
+    for col in candidates:
+        if col in available:
+            unique_ids = {str(r.get(col, '') or '').strip() for r in rows}
+            unique_ids.discard('')
+            subject_count = len(unique_ids)
+            break
+
+    result = dict(template)
+
+    def _assign(key, value, as_str=False):
+        # Only touch keys that already exist in the template/annotation.
+        if key not in result:
+            return
+        v = str(value) if as_str else value
+        # Preserve list vs scalar shape of the existing slot.
+        result[key] = [v] if isinstance(result.get(key), list) else v
+
+    if subject_count is not None:
+        _assign('participant_count', subject_count)
+        _assign('individualCount', subject_count, as_str=True)
+    _assign('recordCount', record_count)
+
+    return result
+
+
 def infer_view_from_columns(file_path: str, mapping: dict) -> str | None:
     """Infer the _views key for a file by checking which view appears most in its columns.
 
@@ -2267,6 +2477,12 @@ def apply_view_annotations(template: dict, form_name: str, mapping: dict) -> dic
     return result
 
 
+# Column names commonly used to hold subject/participant identifiers. Shared by
+# subject-type detection and count auto-population so both stay in sync.
+COMMON_SUBJECT_COLS = ['SubjectUID', 'subject_id', 'subjectId', 'SubjectId',
+                       'GUID', 'ParticipantID', 'participant_id']
+
+
 def detect_subject_file_type(file_path: str, subject_id_col: str = None) -> str:
     """Detect whether a data file contains a single subject or multiple subjects.
 
@@ -2297,8 +2513,7 @@ def detect_subject_file_type(file_path: str, subject_id_col: str = None) -> str:
         '.csv', '.tsv', '.txt', '.xlsx', '.xls', '.parquet', '.feather',
     }
 
-    _COMMON_SUBJECT_COLS = ['SubjectUID', 'subject_id', 'subjectId', 'SubjectId',
-                            'GUID', 'ParticipantID', 'participant_id']
+    _COMMON_SUBJECT_COLS = COMMON_SUBJECT_COLS
 
     # Normalise: strip query strings, lowercased suffix
     name = os.path.basename(file_path).lower()
@@ -2419,6 +2634,222 @@ def merge_file_annotations_priority(old_annot, new_annot, template):
             merged[key] = value
 
     return merged
+
+
+def load_field_migrations(path) -> dict:
+    """Load the deprecated → canonical field migration map (YAML).
+
+    See configs/field_migrations.yaml for the format and rationale. Returns an
+    empty dict when the file is missing, empty, or malformed (migration is then a
+    no-op — never fatal to the update workflow).
+    """
+    if not path or not os.path.exists(path):
+        return {}
+    try:
+        with open(path, 'r') as f:
+            data = yaml.safe_load(f) or {}
+    except Exception as e:
+        print(f"⚠️  Warning: could not load field migrations {path}: {e}")
+        return {}
+    if not isinstance(data, dict):
+        print(f"⚠️  Warning: field migrations {path} is not a mapping; ignoring")
+        return {}
+    return data
+
+
+def _coerce_annotation_type(value, type_name):
+    """Coerce a value to a target type/shape for field migration.
+
+    Scalar targets (boolean/integer/number/string) unwrap a single-element list
+    first, so ``[False]`` becomes ``False``. ``array`` wraps a scalar into a
+    one-element list. Unknown types or un-coercible values are returned unchanged.
+    """
+    t = str(type_name).lower()
+
+    if t in ('array', 'list', 'multivalued'):
+        return value if isinstance(value, list) else [value]
+
+    scalar_types = ('boolean', 'bool', 'integer', 'int', 'number', 'float', 'string', 'str')
+    if t not in scalar_types:
+        return value
+
+    # Unwrap single-element list for scalar targets (e.g. [False] -> False).
+    if isinstance(value, list):
+        non_empty = [v for v in value if v not in ('', None)]
+        if not non_empty:
+            return value
+        value = non_empty[0]
+
+    try:
+        if t in ('boolean', 'bool'):
+            if isinstance(value, bool):
+                return value
+            s = str(value).strip().lower()
+            if s in ('true', '1', 'yes', 'y', 't'):
+                return True
+            if s in ('false', '0', 'no', 'n', 'f'):
+                return False
+            return value
+        if t in ('integer', 'int'):
+            return int(float(value))
+        if t in ('number', 'float'):
+            return float(value)
+        if t in ('string', 'str'):
+            return str(value)
+    except (ValueError, TypeError):
+        return value
+    return value
+
+
+def migrate_deprecated_fields(annotations: dict, migrations: dict) -> tuple:
+    """Rewrite deprecated annotation fields to their canonical equivalents.
+
+    Driven by the explicit migration map from load_field_migrations. For each
+    field present in ``annotations``:
+      - ``drop: true``       -> remove the field, no replacement.
+      - ``target`` only      -> move the value into the canonical field, then drop
+                                the old one (replace-if-empty; canonical wins).
+      - ``target`` + values  -> translate each value through the map first; on a
+                                rename, values with no translation are dropped so
+                                nothing invalid leaks into an enum field.
+      - ``merge: true``      -> append (deduped) into the target list instead of
+                                replace-if-empty. Lets several old fields feed one
+                                multivalued target (e.g. collection+source→program).
+      - ``type``             -> coerce the value's type/shape (e.g. boolean unwraps
+                                ``[False]`` to ``False``; ``array`` wraps a scalar).
+                                Works with or without ``target``.
+      - ``routes``           -> value-dependent split: a list of routes, each with
+                                ``when_values`` (omit for catch-all), ``target``, and
+                                optional ``values``/``type``. Each value in the field
+                                is merged into the first matching route's target;
+                                values matching no route are dropped. Used for
+                                ``source`` (consortium values → program, repository
+                                values → originalRepository).
+
+    Without ``target`` (and without ``routes``) the entry is an in-place fix: value
+    normalization keeps unmapped values, type coercion adjusts shape. Internal keys
+    (leading underscore, e.g. ``_staging_id``) are never touched.
+
+    Returns ``(new_annotations, changes)`` where ``changes`` is a list of
+    human-readable strings describing what happened, for logging.
+    """
+    if not migrations:
+        return annotations, []
+
+    def _empty(v):
+        return v in ("", [], [""], None)
+
+    def _as_list(v):
+        return list(v) if isinstance(v, list) else [v]
+
+    def _merge_into(target, new_values):
+        existing = result.get(target)
+        existing = [] if _empty(existing) else _as_list(existing)
+        added = [v for v in new_values if v not in existing]
+        if added:
+            result[target] = existing + added
+        return added
+
+    result = dict(annotations)
+    changes = []
+
+    for old_field, spec in migrations.items():
+        if old_field.startswith('_') or old_field not in result:
+            continue
+        if not isinstance(spec, dict):
+            continue
+
+        old_value = result[old_field]
+
+        if spec.get('drop'):
+            del result[old_field]
+            if not _empty(old_value):
+                changes.append(f"dropped deprecated '{old_field}' (={old_value})")
+            continue
+
+        # Value-dependent routing: split the field's values across targets.
+        routes = spec.get('routes')
+        if routes:
+            dropped = []
+            for v in ([] if _empty(old_value) else _as_list(old_value)):
+                placed = False
+                for route in routes:
+                    wv = route.get('when_values')
+                    if wv is None or str(v) in [str(x) for x in wv]:
+                        tv = (route.get('values') or {}).get(str(v), v)
+                        if route.get('type') is not None:
+                            tv = _coerce_annotation_type(tv, route['type'])
+                        added = _merge_into(route['target'], _as_list(tv))
+                        if added:
+                            changes.append(f"routed '{old_field}'={v!r} → '{route['target']}' {added}")
+                        placed = True
+                        break
+                if not placed:
+                    dropped.append(v)
+            del result[old_field]
+            if dropped:
+                changes.append(f"dropped '{old_field}' values with no route: {dropped}")
+            continue
+
+        value_map = spec.get('values') or {}
+        type_name = spec.get('type')
+        merge = bool(spec.get('merge'))
+        # Default target to the field itself: an in-place type/value fix, no rename.
+        target = spec.get('target') or old_field
+        in_place = (target == old_field)
+
+        # On a replace-style rename, the canonical field wins if already populated.
+        if not in_place and not merge and not _empty(result.get(target)):
+            del result[old_field]
+            changes.append(f"dropped '{old_field}' ('{target}' already set)")
+            continue
+
+        # Translate the deprecated value(s) into the canonical vocabulary.
+        # In-place normalization keeps unmapped values; renames drop them (enum safety).
+        if _empty(old_value):
+            migrated = None
+        elif isinstance(old_value, list):
+            if value_map:
+                migrated = [value_map.get(str(v), v) if in_place else value_map[str(v)]
+                            for v in old_value if in_place or str(v) in value_map]
+            else:
+                migrated = list(old_value)
+        else:
+            if value_map:
+                migrated = value_map.get(str(old_value), old_value if in_place else None)
+            else:
+                migrated = old_value
+
+        # Coerce type/shape (unwrap single-element arrays for scalar ranges, etc.).
+        if type_name is not None and migrated is not None and not _empty(migrated):
+            migrated = _coerce_annotation_type(migrated, type_name)
+
+        if migrated is None or _empty(migrated):
+            if not in_place:
+                del result[old_field]
+                changes.append(f"migrated '{old_field}'→'{target}' but value dropped (no translation)")
+            continue
+
+        if merge and not in_place:
+            added = _merge_into(target, _as_list(migrated))
+            del result[old_field]
+            if added:
+                changes.append(f"merged '{old_field}' → '{target}' += {added}")
+            continue
+
+        if not in_place:
+            del result[old_field]
+
+        if in_place and migrated == old_value:
+            continue  # no-op, don't log
+
+        result[target] = migrated
+        if in_place:
+            changes.append(f"normalized '{old_field}' → {migrated!r}")
+        else:
+            changes.append(f"migrated '{old_field}'→'{target}' (={migrated})")
+
+    return result, changes
 
 
 def normalize_annotations_from_mapping(annotations: dict, mapping: dict) -> dict:
@@ -3121,7 +3552,14 @@ def handle_reorder_columns(args, config):
     syn = connect_to_synapse(config)
 
     dataset_id = args.dataset_id
-    dataset_type = args.dataset_type
+    # Fuzzy-resolve the supplied type against json-schemas/; None => auto-detect downstream.
+    dataset_type = None
+    if args.dataset_type:
+        try:
+            dataset_type = resolve_schema_type(args.dataset_type, all_schemas, kind='dataset')
+        except SchemaTypeResolutionError as e:
+            print(f"❌ {e}")
+            return
 
     # Step 1: Add missing columns
     print("\n--- Adding missing columns ---")
@@ -5315,14 +5753,12 @@ def handle_generate_template(args, config):
     print("\nLoading schemas...")
     all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
 
-    # Determine dataset type
-    dataset_type_map = {
-        'Clinical': 'ClinicalDataset',
-        'Omic': 'OmicDataset',
-        'Dataset': 'Dataset'
-    }
-
-    dataset_type = dataset_type_map.get(args.type, 'Dataset')
+    # Determine dataset type by fuzzy-matching --type against json-schemas/
+    try:
+        dataset_type = resolve_schema_type(args.type, all_schemas, kind='dataset')
+    except SchemaTypeResolutionError as e:
+        print(f"❌ {e}")
+        return
     print(f"Dataset type: {dataset_type}")
 
     # Generate template
@@ -5361,6 +5797,36 @@ def handle_generate_template(args, config):
     print("\n💡 Edit this file to add your dataset metadata")
     if args.type == 'Dataset':
         print("   Note: You can also use 'Clinical' or 'Omic' for more specific schemas")
+
+
+def resolve_metadata_key(file_info, filename, metadata_index):
+    """Resolve which metadata-index key a file joins to, supporting both of the
+    two folder layouts we see in practice:
+
+      1. one-subject-per-folder  -> join on the parent folder name
+      2. flat folder of files     -> join on the filename (or its stem, e.g.
+                                      an accession like ``SRR8571953``)
+
+    Candidates are tried in priority order and only returned if they actually
+    exist in ``metadata_index``, so trying extra candidates is always safe.
+    ``metadata_index`` is keyed by whatever column the mapping targets to
+    ``originalSubjectId`` (the join column).
+
+    Returns the matching key, or ``None`` if the file joins to no metadata row.
+    """
+    candidates = []
+    path = (file_info.get('path') or '').strip('/')
+    if path:
+        candidates.append(path.split('/')[-1])   # parent / subject folder name
+    if filename:
+        candidates.append(filename)               # exact filename match
+        stem = filename.split('.')[0]             # strip extensions (SRR8571953.fastq.gz -> SRR8571953)
+        if stem and stem != filename:
+            candidates.append(stem)
+    for key in candidates:
+        if key in metadata_index:
+            return key
+    return None
 
 
 def handle_generate_file_templates(args, config):
@@ -5432,7 +5898,13 @@ def handle_generate_file_templates(args, config):
             t = v['target'] if isinstance(v, dict) else v
             return field in (t if isinstance(t, list) else [t])
 
+        # Join column priority: an explicit ``"join": true`` entry wins (lets the
+        # join key be decoupled from any stored field), else fall back to whichever
+        # column targets ``originalSubjectId``, else the legacy ``subject_id`` default.
         join_col = next(
+            (k for k, v in mapping.items() if isinstance(v, dict) and v.get('join') is True),
+            None
+        ) or next(
             (k for k, v in mapping.items() if _targets_include(v, 'originalSubjectId')),
             'subject_id'
         )
@@ -5463,20 +5935,20 @@ def handle_generate_file_templates(args, config):
 
         # Step 2: Fill from metadata if available
         if metadata_index and mapping:
-            subject_id = file_info['path'].split('/')[-1] if file_info.get('path') else None
-            if subject_id and subject_id in metadata_index:
+            # Resolve the join key from either the folder name (one-subject-per-
+            # folder layout) or the filename/stem (flat folder layout).
+            subject_id = resolve_metadata_key(file_info, filename, metadata_index)
+            folder_path = file_info.get('path', '')
+            if subject_id:
                 # Enrich metadata with file-derived fields
-                folder_path = file_info.get('path', '')
                 metadata_row = enrich_metadata_with_file_info(metadata_index[subject_id], filename, folder_path)
                 merged = fill_template_from_metadata(merged, metadata_row, mapping)
                 metadata_fill_count += 1
-            elif subject_id:
-                print(f"  Warning: No metadata match for subject_id '{subject_id}' ({filename})")
-                # Still enrich with file info even if no metadata match
-                if mapping:
-                    folder_path = file_info.get('path', '')
-                    metadata_row = enrich_metadata_with_file_info({}, filename, folder_path)
-                    merged = fill_template_from_metadata(merged, metadata_row, mapping)
+            else:
+                print(f"  Warning: No metadata match for '{filename}' (folder='{folder_path}')")
+                # Still enrich with file-derived info even without a metadata match
+                metadata_row = enrich_metadata_with_file_info({}, filename, folder_path)
+                merged = fill_template_from_metadata(merged, metadata_row, mapping)
         elif mapping:
             # No metadata file provided, but we have mapping - still enrich from filename
             folder_path = file_info.get('path', '')
@@ -5524,12 +5996,18 @@ def handle_generate_file_templates(args, config):
 
     os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
 
-    # Inject $schema pointing to the nested wrapper schema (relative to output location)
-    file_type_map = {
-        'Clinical': 'ClinicalFileNested.json',
-        'Omic': 'OmicFileNested.json',
-    }
-    schema_file = file_type_map.get(args.type, 'FileNested.json')
+    # Inject $schema pointing to the nested wrapper schema (relative to output location).
+    # Resolve --type against json-schemas/ and use the matching *Nested.json wrapper;
+    # when --type is omitted, per-file types are auto-detected and we use the generic wrapper.
+    if args.type:
+        try:
+            resolved_file_type = resolve_schema_type(args.type, all_schemas, kind='file')
+            schema_file = nested_schema_filename(resolved_file_type, all_schemas)
+        except SchemaTypeResolutionError as e:
+            print(f"❌ {e}")
+            return
+    else:
+        schema_file = 'FileNested.json'
     schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
     output_abs = os.path.abspath(output_path)
     schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
@@ -5732,7 +6210,7 @@ def handle_create_workflow(args, config):
     print("\n" + "=" * 60)
     print("GENERATING DATASET ANNOTATIONS")
     print("=" * 60)
-    dataset_type = detect_dataset_type(args.dataset_name, args.staging_folder if not is_link_dataset else None, dataset_config=dataset_config)
+    dataset_type = detect_dataset_type(args.dataset_name, args.staging_folder if not is_link_dataset else None, dataset_config=dataset_config, all_schemas=all_schemas)
 
     # Use AI to generate dataset annotations if enabled
     if config.AI_ENABLED and not is_link_dataset:
@@ -5858,7 +6336,8 @@ def handle_create_from_annotations(args, config):
             dataset_type = detect_dataset_type(
                 args.dataset_name,
                 args.staging_folder if hasattr(args, 'staging_folder') else None,
-                dataset_config=dataset_config
+                dataset_config=dataset_config,
+                all_schemas=all_schemas
             )
             # Add the detected type to annotations
             dataset_annotations['_dataset_type'] = dataset_type
@@ -6074,7 +6553,8 @@ def handle_create_from_annotations(args, config):
             dataset_type_for_columns = detect_dataset_type(
                 args.dataset_name,
                 args.staging_folder if not is_link_dataset else None,
-                dataset_config
+                dataset_config,
+                all_schemas=all_schemas
             )
 
         # Add columns with type awareness and size constraints
@@ -6104,7 +6584,8 @@ def handle_create_from_annotations(args, config):
             dataset_type_for_columns = detect_dataset_type(
                 args.dataset_name,
                 args.staging_folder if not is_link_dataset else None,
-                dataset_config
+                dataset_config,
+                all_schemas=all_schemas
             )
 
         reorder_dataset_columns(syn, dataset_id, dataset_type_for_columns, config.DRY_RUN)
@@ -6362,6 +6843,13 @@ def handle_update_workflow(args, config):
             or 'auto'
         )
 
+        # Load deprecated→canonical field migration map (reconciles renamed/removed
+        # fields still present on Synapse, e.g. source→originalRepository).
+        migrations_path = getattr(args, 'field_migrations', None) or config.FIELD_MIGRATIONS_PATH
+        field_migrations = load_field_migrations(migrations_path)
+        if field_migrations:
+            print(f"  Loaded field migrations: {migrations_path}  ({len(field_migrations)} entries)")
+
         # Step 2b: Build / load mapping dict from data dictionary (if provided)
         mapping = None
         data_dict_path = getattr(args, 'data_dict', None) or dataset_config.get('data_dict')
@@ -6493,6 +6981,11 @@ def handle_update_workflow(args, config):
             # Priority merge: old > new > template
             merged = merge_file_annotations_priority(old_annot, new_annot, template)
 
+            # Reconcile deprecated fields carried over from Synapse (renames/removals)
+            merged, _migrations = migrate_deprecated_fields(merged, field_migrations)
+            for _chg in _migrations:
+                print(f"    ↻ {filename}: {_chg}")
+
             # Normalize existing annotation values through mapping (if available)
             if mapping:
                 merged = normalize_annotations_from_mapping(merged, mapping)
@@ -6519,6 +7012,16 @@ def handle_update_workflow(args, config):
                 if view_name:
                     merged = apply_view_annotations(merged, view_name, mapping)
 
+            # Auto-update participant/individual and record counts from the file
+            # contents (independent of mapping — needs only the local data file).
+            if matched_staging_id:
+                count_path = local_path_map.get(matched_staging_id)
+                if count_path and os.path.exists(count_path):
+                    subj_col = merged.get('subjectIdColumn')
+                    if isinstance(subj_col, list):
+                        subj_col = subj_col[0] if subj_col else None
+                    merged = fill_counts_from_file_contents(merged, count_path, subj_col)
+
             if matched_staging_id and matched_staging_id != syn_id:
                 merged['_staging_id'] = matched_staging_id
             if matched_staging_id:
@@ -6527,10 +7030,12 @@ def handle_update_workflow(args, config):
             annotations_output[syn_id] = {filename: merged}
 
         # Extract common dataset-level fields from existing files to seed new files.
-        # Fields like dataSourcePrefix, source, collection, species, studyType are
+        # Fields like dataSourcePrefix, originalRepository, species, studyType are
         # constant across all files in a dataset but aren't in _views or file contents.
+        # Use canonical field names — matched files have already been run through
+        # migrate_deprecated_fields above, so the deprecated names are gone.
         _COMMON_FIELDS = [
-            'collection', 'dataSourcePrefix', 'source', 'species', 'studyType',
+            'dataSourcePrefix', 'originalRepository', 'program', 'species', 'studyType',
             'disease', 'includedInDataCatalog', 'publisher', 'license',
         ]
         common_values = {}
@@ -6577,6 +7082,14 @@ def handle_update_workflow(args, config):
                 if view_name and mapping:
                     template = apply_view_annotations(template, view_name, mapping)
 
+            # Auto-update participant/individual and record counts for new files.
+            count_path = local_path_map.get(staging_syn_id)
+            if count_path and os.path.exists(count_path):
+                subj_col = template.get('subjectIdColumn')
+                if isinstance(subj_col, list):
+                    subj_col = subj_col[0] if subj_col else None
+                template = fill_counts_from_file_contents(template, count_path, subj_col)
+
             annotations_output[staging_syn_id] = {clean_name: template}
             print(f"  + New file (no existing match): {clean_name} ({staging_syn_id})")
 
@@ -6591,11 +7104,22 @@ def handle_update_workflow(args, config):
         print(f"Total files        : {len(annotations_output)}")
         if mapping_out:
             print(f"Mapping file       : {mapping_out}")
-        print("\n⚠️  MANUAL STEP: Edit the annotation file, then re-run with:")
-        print(f"  python synapse_dataset_manager.py update \\")
-        print(f"    --dataset-id {args.dataset_id} \\")
-        print(f"    --annotations-file {output_file} \\")
-        print(f"    --execute")
+        print("\n⚠️  MANUAL STEP: Edit the annotation file, then re-run Phase 2.")
+        # Phase 2 is triggered ONLY by --annotations-file (see phase detection
+        # above), so it must always be passed. Keep --use-config too (if used) so
+        # release_folder / version_label flow into the move + versioning steps.
+        # The annotations path is quoted because dataset names may contain spaces.
+        use_config = getattr(args, 'use_config', None)
+        config_flag = f" -c {args.config}" if getattr(args, 'config', None) else ""
+        target = (f"--use-config {use_config}" if use_config
+                  else f"--dataset-id {args.dataset_id}")
+        base = (f"  python {sys.argv[0]}{config_flag} update \\\n"
+                f"    {target} \\\n"
+                f"    --annotations-file \"{output_file}\"")
+        print("\n  # 1) Dry run first — preview new/updated/moved counts (applies nothing):")
+        print(base)
+        print("\n  # 2) Then apply for real:")
+        print(f"{base} \\\n    --execute")
         return
 
     # ── PHASE 2: APPLY UPDATES ────────────────────────────────────────────────
@@ -8741,6 +9265,243 @@ def handle_rename_folders(args, config):
         print("\nRe-run with --execute to apply changes.")
 
 
+def rename_file_entity(syn, file_id, new_name, name_only=False,
+                       force_version=False, dry_run=True, verbose=False):
+    """Rename a single Synapse File entity WITHOUT re-uploading its data.
+
+    Changes the entity display name and, unless ``name_only`` is set, the
+    download filename too. Uses ``synapseutils.changeFileMetaData``, which
+    copies the existing file handle server-side (no byte transfer) when the
+    download filename changes — so no re-upload occurs.
+
+    Returns one of: 'renamed', 'skipped', 'error'.
+    """
+    import synapseutils
+
+    try:
+        entity = syn.get(file_id, downloadFile=False)
+    except Exception as e:
+        print(f"    ✗ Could not fetch {file_id}: {e}")
+        return 'error'
+
+    concrete = getattr(entity, 'concreteType', '') or str(entity.properties.get('concreteType', ''))
+    if 'FileEntity' not in concrete:
+        print(f"    ✗ {file_id} is not a file entity (type: {concrete}) — skipping")
+        return 'error'
+
+    old_name = entity.name
+    file_handle = getattr(entity, '_file_handle', None) or {}
+    old_download = file_handle.get('fileName') if isinstance(file_handle, dict) else None
+
+    change_download = not name_only
+
+    # Nothing to do if names already match
+    if old_name == new_name and (not change_download or old_download == new_name):
+        if verbose:
+            print(f"    = {file_id}: already named '{new_name}' — skipping")
+        return 'skipped'
+
+    change_desc = f"name '{old_name}' → '{new_name}'"
+    if change_download:
+        change_desc += f"; downloadAs '{old_download}' → '{new_name}'"
+
+    if dry_run:
+        print(f"    [DRY_RUN] Would rename {file_id}: {change_desc}")
+        return 'renamed'
+
+    try:
+        synapseutils.changeFileMetaData(
+            syn, entity,
+            downloadAs=new_name if change_download else None,
+            name=new_name,
+            forceVersion=force_version,
+        )
+        print(f"    ✓ Renamed {file_id}: {change_desc}")
+        return 'renamed'
+    except Exception as e:
+        print(f"    ✗ Error renaming {file_id}: {e}")
+        return 'error'
+
+
+def _load_rename_mapping(path):
+    """Load a synId → new-name mapping for batch renaming.
+
+    Accepts:
+      * JSON: {"syn123": "new_name.ext", ...}
+      * CSV/XLSX: columns (synId|synapseId|id) and (new_name|newName|name)
+
+    Returns a list of (file_id, new_name) tuples.
+    """
+    ext = os.path.splitext(path)[1].lower()
+    pairs = []
+
+    if ext == '.json':
+        mapping = load_mapping_dict(path)  # keeps only non-empty string values
+        for k, v in mapping.items():
+            if k == '_views':
+                continue
+            if isinstance(v, str) and v.strip():
+                pairs.append((k.strip(), v.strip()))
+    elif ext in ('.csv', '.xlsx', '.xls'):
+        rows = load_metadata_file(path)
+        for row in rows:
+            fid = (row.get('synId') or row.get('synapseId') or row.get('id') or '').strip()
+            new_name = (row.get('new_name') or row.get('newName') or row.get('name') or '').strip()
+            if fid and new_name:
+                pairs.append((fid, new_name))
+    else:
+        print(f"❌ Unsupported mapping file type '{ext}'. Use .json, .csv, or .xlsx")
+
+    return pairs
+
+
+def _collect_pattern_renames(syn, dataset_id, collection_id, find, replace,
+                             use_regex, verbose):
+    """Enumerate files in a dataset/collection and compute new names via a
+    find/replace on each file's current entity name.
+
+    Returns a de-duplicated list of (file_id, new_name) tuples, restricted to
+    files whose name actually changes.
+    """
+    dataset_ids = []
+    if dataset_id:
+        dataset_ids = [dataset_id]
+    elif collection_id:
+        try:
+            dc = DatasetCollection(id=collection_id).get()
+            items = dc.items if hasattr(dc, 'items') else []
+            for item in items:
+                item_id = item.entity_id if hasattr(item, 'entity_id') else (
+                    item.id if hasattr(item, 'id') else str(item))
+                dataset_ids.append(item_id)
+        except Exception as e:
+            print(f"❌ Could not fetch collection {collection_id}: {e}")
+            return []
+
+    pairs = []
+    for ds_id in dataset_ids:
+        try:
+            results = syn.tableQuery(
+                f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False)
+            df = results.asDataFrame()
+        except Exception as e:
+            print(f"  ⚠️  Could not query files in dataset {ds_id}: {e}")
+            continue
+
+        for _, row in df.iterrows():
+            fid = row.get('id') or row.iloc[0]
+            name = row.get('name')
+            if not name:
+                continue
+            if use_regex:
+                try:
+                    new_name = re.sub(find, replace, name)
+                except re.error as e:
+                    print(f"  ✗ Invalid regex '{find}': {e}")
+                    return []
+            else:
+                if find not in name:
+                    continue
+                new_name = name.replace(find, replace)
+            if new_name != name:
+                pairs.append((fid, new_name))
+                if verbose:
+                    print(f"    · {fid}: '{name}' → '{new_name}'")
+
+    # De-dup by file id (a collection can list the same file across datasets)
+    seen = set()
+    deduped = []
+    for fid, nn in pairs:
+        if fid in seen:
+            continue
+        seen.add(fid)
+        deduped.append((fid, nn))
+    return deduped
+
+
+def handle_rename_files(args, config):
+    """CLI handler for the rename-files command.
+
+    Renames Synapse File entities (display name and, by default, the download
+    filename) WITHOUT re-uploading data. Three targeting modes:
+      1. Single file:   --file-id + --new-name
+      2. Batch mapping: --mapping-file (JSON synId->newName, or CSV/XLSX)
+      3. Pattern:       --dataset-id/--collection-id + --find/--replace
+    """
+    syn = connect_to_synapse(config)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+    name_only = getattr(args, 'name_only', False)
+    force_version = getattr(args, 'new_version', False)
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"RENAME FILES {mode}")
+    print(f"{'='*60}")
+    print(f"Change download filename: {'No (entity name only)' if name_only else 'Yes'}")
+    print(f"Force new version       : {'Yes' if force_version else 'No'}")
+
+    # Build the work list: [(file_id, new_name), ...]
+    work = []
+
+    file_id = getattr(args, 'file_id', None)
+    mapping_file = getattr(args, 'mapping_file', None)
+    dataset_id = getattr(args, 'dataset_id', None)
+    collection_id = getattr(args, 'collection_id', None)
+
+    if file_id:
+        if not getattr(args, 'new_name', None):
+            print("❌ --new-name is required with --file-id")
+            return
+        work.append((file_id, args.new_name))
+
+    elif mapping_file:
+        work = _load_rename_mapping(mapping_file)
+        if not work:
+            print(f"❌ No rename entries loaded from {mapping_file}")
+            return
+
+    elif dataset_id or collection_id:
+        find = getattr(args, 'find', None)
+        replace = getattr(args, 'replace', None)
+        if find is None or replace is None:
+            print("❌ --find and --replace are required for dataset/collection pattern mode")
+            return
+        use_regex = getattr(args, 'regex', False)
+        work = _collect_pattern_renames(syn, dataset_id, collection_id,
+                                        find, replace, use_regex, verbose)
+        if not work:
+            print("No files matched the find pattern — nothing to do.")
+            return
+    else:
+        print("❌ Provide one of: --file-id, --mapping-file, or --dataset-id/--collection-id")
+        return
+
+    print(f"\n--- {len(work)} file(s) to rename ---")
+
+    counts = {'renamed': 0, 'skipped': 0, 'error': 0}
+    for fid, new_name in work:
+        result = rename_file_entity(syn, fid, new_name, name_only=name_only,
+                                    force_version=force_version,
+                                    dry_run=dry_run, verbose=verbose)
+        counts[result] = counts.get(result, 0) + 1
+
+    print(f"\n{'='*60}")
+    print("SUMMARY")
+    print(f"{'='*60}")
+    print(f"Renamed : {counts['renamed']}")
+    print(f"Skipped : {counts['skipped']}")
+    print(f"Errors  : {counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
@@ -8951,6 +9712,11 @@ Examples:
                               help='View Name to filter from data dictionary (e.g. "ASSESS")')
     update_parser.add_argument('--mapping',
                               help='Path to existing mapping .dict file (overrides --data-dict)')
+    update_parser.add_argument('--field-migrations',
+                              default=None,
+                              help=('Path to deprecated→canonical field migration map (YAML). '
+                                    'Defaults to configs/field_migrations.yaml. Reconciles '
+                                    'renamed/removed fields still on Synapse (e.g. source→originalRepository).'))
     update_parser.add_argument('--subject-file-type',
                               choices=['single', 'multi', 'auto'],
                               default=None,
@@ -8985,9 +9751,10 @@ Examples:
     template_parser = subparsers.add_parser('generate-template',
                                            help='Generate empty dataset annotation template')
     template_parser.add_argument('--type', '-t',
-                                choices=['Clinical', 'Omic', 'Dataset'],
                                 default='Dataset',
-                                help='Dataset type (default: Dataset)')
+                                help='Dataset type; fuzzy-matched against json-schemas/ '
+                                     '(e.g. "omic" -> OmicDataset). Exact schema names also '
+                                     'work; ambiguous matches prompt. (default: Dataset)')
     template_parser.add_argument('--output', '-o',
                                 help='Output file path (default: annotations/<type>_dataset_template.json)')
 
@@ -9000,8 +9767,9 @@ Examples:
         help='Synapse ID of folder containing files (e.g., syn12345)')
     file_tmpl_parser.add_argument('--name', default=None,
         help='Name prefix for output file (default: folder syn ID)')
-    file_tmpl_parser.add_argument('--type', choices=['Clinical', 'Omic', 'File'], default=None,
-        help='Override file type for all files instead of auto-detecting')
+    file_tmpl_parser.add_argument('--type', default=None,
+        help='Override file type for all files instead of auto-detecting; fuzzy-matched '
+             'against json-schemas/ (e.g. "omic" -> OmicFile). Exact schema names also work.')
     file_tmpl_parser.add_argument('--output', '-o', default=None,
         help='Output JSON file path (default: annotations/<name>_file_templates.json)')
     file_tmpl_parser.add_argument('--skip-ai', action='store_true',
@@ -9285,12 +10053,49 @@ Examples:
     reorder_cols_parser.add_argument('--dataset-id', required=True,
         help='Synapse ID of existing dataset entity')
     reorder_cols_parser.add_argument('--dataset-type',
-        choices=['ClinicalDataset', 'OmicDataset'],
         default=None,
-        help='Dataset type for column schema (auto-detected from annotations if omitted)')
+        help='Dataset type for column schema; fuzzy-matched against json-schemas/ '
+             '(e.g. "omic" -> OmicDataset). Exact schema names also work. '
+             'Auto-detected from annotations if omitted.')
     reorder_cols_parser.add_argument('--execute', action='store_true',
         help='Execute (override DRY_RUN)')
     reorder_cols_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    # RENAME-FILES command
+    rename_files_parser = subparsers.add_parser(
+        'rename-files',
+        help='Rename file entities (display name + download filename) WITHOUT re-uploading data'
+    )
+    # Mode 1: single file
+    rename_files_parser.add_argument('--file-id',
+        help='Synapse ID of a single file to rename (use with --new-name)')
+    rename_files_parser.add_argument('--new-name',
+        help='New name for the file (single-file mode)')
+    # Mode 2: batch mapping
+    rename_files_parser.add_argument('--mapping-file',
+        help='Batch mode: JSON {"synId": "newName"} or CSV/XLSX with synId,new_name columns')
+    # Mode 3: pattern over a dataset/collection
+    rename_files_parser.add_argument('--dataset-id',
+        help='Pattern mode: rename files in this dataset (use with --find/--replace)')
+    rename_files_parser.add_argument('--collection-id',
+        help='Pattern mode: rename files across all datasets in this DatasetCollection')
+    rename_files_parser.add_argument('--find',
+        help='Pattern mode: substring (or regex with --regex) to find in current file names')
+    rename_files_parser.add_argument('--replace',
+        help='Pattern mode: replacement string')
+    rename_files_parser.add_argument('--regex', action='store_true',
+        help='Pattern mode: treat --find as a regular expression (re.sub)')
+    # Shared options
+    rename_files_parser.add_argument('--name-only', action='store_true',
+        help='Only change the entity display name; leave the download filename unchanged')
+    rename_files_parser.add_argument('--new-version', action='store_true',
+        help='Force a new file version (default: no version bump)')
+    rename_files_parser.add_argument('--verbose', action='store_true',
+        help='Print detailed info for each file processed')
+    rename_files_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    rename_files_parser.add_argument('--dry-run', action='store_true',
         help='Dry run mode (default)')
 
     args = parser.parse_args()
@@ -9485,7 +10290,7 @@ Examples:
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
                         'rename-annotation', 'rename-folders', 'migrate-annotation-values',
                         'sync-dataset-schema-annotations', 'merge-file-versions', 'upload-local',
-                        'move']:
+                        'move', 'rename-files']:
         config.validate()
 
     # Route to appropriate handler
@@ -9528,6 +10333,8 @@ Examples:
         handle_reorder_columns(args, config)
     elif args.command == 'move':
         handle_move_files(args, config)
+    elif args.command == 'rename-files':
+        handle_rename_files(args, config)
 
 
 if __name__ == "__main__":

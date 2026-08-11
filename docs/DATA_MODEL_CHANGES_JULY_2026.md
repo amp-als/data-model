@@ -215,6 +215,11 @@ Added to `modules/shared/common-enums.yaml` (adjacent to their gene-name equival
 
 ## Annotation Migration Summary
 
+These migrations are automated by [`configs/field_migrations.yaml`](../configs/field_migrations.yaml),
+which the `update` workflow applies during phase-1 template generation (see
+[Feature 4: Field Migrations](NEW_FEATURES_DOCUMENTATION.md#feature-4-field-migrations-schema-evolution-reconciliation)).
+Keep that map in sync with this table whenever a slot is renamed, removed, or retyped.
+
 The following annotation fields need updating across existing annotation JSON files:
 
 | Old field/value | New field/value | Files affected |

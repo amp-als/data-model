@@ -1,0 +1,307 @@
+# Mapping dict: source_column -> target_data_model_field
+# Fill in "target" with the data model field name for each column.
+# For value-mapped columns, fill in the data model value for each source value.
+# Entries with empty string values are ignored during annotation.
+{
+  "Run": {
+    "target": "SRR",
+    "values": {
+      "SRR8571953": "SRR8571953",
+      "SRR8571954": "SRR8571954",
+      "SRR8571955": "SRR8571955",
+      "SRR8571956": "SRR8571956",
+      "SRR8571957": "SRR8571957",
+      "SRR8571958": "SRR8571958",
+      "SRR8571959": "SRR8571959",
+      "SRR8571960": "SRR8571960",
+      "SRR8571961": "SRR8571961",
+      "SRR8571962": "SRR8571962",
+      "SRR8571963": "SRR8571963",
+      "SRR8571964": "SRR8571964",
+      "SRR8571965": "SRR8571965",
+      "SRR8571966": "SRR8571966"
+    },
+    "join": true
+  },
+  "Assay Type": {
+    "target": "assay",
+    "values": {
+      "ATAC-seq": "ATAC-seq"
+    }
+  },
+#only cause its atac-seq, avgspotLen is not always = readLength
+  "AvgSpotLen": {
+    "target": "readLength",
+    "values": {
+      "100": 100
+    }
+  },
+  "Bases": {
+    "target": "totalBases",
+    "values": {
+      "4167024600": 4167024600,
+      "4440052100": 4440052100,
+      "4512087300": 4512087300,
+      "4573934700": 4573934700,
+      "4611088800": 4611088800,
+      "4633821700": 4633821700,
+      "4665470700": 4665470700,
+      "4746414800": 4746414800,
+      "4748387700": 4748387700,
+      "4782060000": 4782060000,
+      "4861246600": 4861246600,
+      "4898721900": 4898721900,
+      "4931943200": 4931943200,
+      "4963849600": 4963849600
+    }
+  },
+  "BioProject": {
+    "target": "BioProject",
+    "values": {
+      "PRJNA522296": "PRJNA522296"
+    }
+  },
+  "BioSample": {
+    "target": "BioSample",
+    "values": {
+      "SAMN10926443": "SAMN10926443",
+      "SAMN10926445": "SAMN10926445",
+      "SAMN10926447": "SAMN10926447",
+      "SAMN10926448": "SAMN10926448",
+      "SAMN10926450": "SAMN10926450",
+      "SAMN10926451": "SAMN10926451",
+      "SAMN10926453": "SAMN10926453",
+      "SAMN10926455": "SAMN10926455",
+      "SAMN10926456": "SAMN10926456",
+      "SAMN10926458": "SAMN10926458",
+      "SAMN10926459": "SAMN10926459",
+      "SAMN10926461": "SAMN10926461",
+      "SAMN10926463": "SAMN10926463",
+      "SAMN10926465": "SAMN10926465"
+    }
+  },
+  "Bytes": {
+    "target": "",
+    "values": {
+      "1476718499": "",
+      "1526834223": "",
+      "1559211200": "",
+      "1569601716": "",
+      "1573505326": "",
+      "1627525228": "",
+      "1629401606": "",
+      "1639080262": "",
+      "1639630330": "",
+      "1661583511": "",
+      "1670577274": "",
+      "1683456029": "",
+      "1689561019": "",
+      "1713278089": ""
+    }
+  },
+  "cell_type": {
+    "target": "cellType",
+    "values": {
+      "NeuN positive": "NeuN+ neurons"
+    }
+  },
+  "Center Name": {
+    "target": "originalRepository",
+    "values": {
+      "GEO": "Gene Expression Omnibus"
+    }
+  },
+  "Consent": {
+    "target": "",
+    "values": {
+      "public": ""
+    }
+  },
+  "DATASTORE filetype": {
+    "target": "fileFormat",
+    "values": {
+      "fastq,run.zq,sra": "fastq",
+      "fastq,sra,run.zq": "fastq",
+      "run.zq,fastq,sra": "fastq",
+      "run.zq,sra,fastq": "fastq",
+      "sra,fastq,run.zq": "fastq",
+      "sra,run.zq,fastq": "fastq"
+    }
+  },
+  "DATASTORE provider": {
+    "target": "",
+    "values": {
+      "gs,ncbi,s3": "",
+      "gs,s3,ncbi": "",
+      "ncbi,s3,gs": "",
+      "s3,gs,ncbi": "",
+      "s3,ncbi,gs": ""
+    }
+  },
+  "DATASTORE region": {
+    "target": "",
+    "values": {
+      "gs.us-east1,ncbi.public,s3.us-east-1": "",
+      "gs.us-east1,s3.us-east-1,ncbi.public": "",
+      "ncbi.public,gs.us-east1,s3.us-east-1": "",
+      "ncbi.public,s3.us-east-1,gs.us-east1": "",
+      "s3.us-east-1,gs.us-east1,ncbi.public": "",
+      "s3.us-east-1,ncbi.public,gs.us-east1": ""
+    }
+  },
+  "diagnosis": {
+    "target": "disease",
+    "values": {
+      "FTD": "FTD",
+      "FTD-ALS": ["FTD","ALS"]
+    }
+  },
+  "Experiment": {
+    "target": "SRX",
+    "values": {
+      "SRX5373084": "SRX5373084",
+      "SRX5373085": "SRX5373085",
+      "SRX5373086": "SRX5373086",
+      "SRX5373087": "SRX5373087",
+      "SRX5373088": "SRX5373088",
+      "SRX5373089": "SRX5373089",
+      "SRX5373090": "SRX5373090",
+      "SRX5373091": "SRX5373091",
+      "SRX5373092": "SRX5373092",
+      "SRX5373093": "SRX5373093",
+      "SRX5373094": "SRX5373094",
+      "SRX5373095": "SRX5373095",
+      "SRX5373096": "SRX5373096",
+      "SRX5373097": "SRX5373097"
+    }
+  },
+  "gender": {
+    "target": "sex",
+    "values": {
+      "female": "Female",
+      "male": "Male"
+    }
+  },
+  "genotype/variation": {
+    "target": "variantType",
+    "values": {
+      "TDP-43 negative": "",
+      "TDP-43 positive": ""
+    }
+  },
+  "GEO_Accession (exp)": {
+    "target": "GSM",
+    "values": {
+      "GSM3603249": "GSM3603249",
+      "GSM3603250": "GSM3603250",
+      "GSM3603251": "GSM3603251",
+      "GSM3603252": "GSM3603252",
+      "GSM3603253": "GSM3603253",
+      "GSM3603254": "GSM3603254",
+      "GSM3603255": "GSM3603255",
+      "GSM3603256": "GSM3603256",
+      "GSM3603257": "GSM3603257",
+      "GSM3603258": "GSM3603258",
+      "GSM3603259": "GSM3603259",
+      "GSM3603260": "GSM3603260",
+      "GSM3603261": "GSM3603261",
+      "GSM3603262": "GSM3603262"
+    }
+  },
+  "Instrument": {
+    "target": "platform",
+    "values": {
+      "Illumina HiSeq 2500": "Illumina HiSeq 2500"
+    }
+  },
+  "LibraryLayout": {
+    "target": "libraryLayout",
+    "values": {
+      "SINGLE": "single"
+    }
+  },
+  "LibrarySelection": {
+    "target": "",
+    "values": {
+      "other": ""
+    }
+  },
+  "LibrarySource": {
+    "target": "librarySource",
+    "values": {
+      "GENOMIC": "genomic"
+    }
+  },
+  "Organism": {
+    "target": "species",
+    "values": {
+      "Homo sapiens": "Homo sapiens"
+    }
+  },
+  "Platform": {
+    "target": "",
+    "values": {
+      "ILLUMINA": ""
+    }
+  },
+  "ReleaseDate": {
+    "target": "",
+    "values": {
+      "2019-03-16T00:00:00Z": ""
+    }
+  },
+  "create_date": {
+    "target": "",
+    "values": {
+      "2019-02-13T16:15:00Z": "",
+      "2019-02-13T16:16:00Z": "",
+      "2019-02-13T16:17:00Z": "",
+      "2019-02-13T16:18:00Z": "",
+      "2019-02-13T16:19:00Z": "",
+      "2019-02-13T16:20:00Z": ""
+    }
+  },
+  "version": {
+    "target": "",
+    "values": {
+      "1": ""
+    }
+  },
+  "Sample Name": {
+    "target": "GSM",
+    "values": {
+      "GSM3603249": "",
+      "GSM3603250": "",
+      "GSM3603251": "",
+      "GSM3603252": "",
+      "GSM3603253": "",
+      "GSM3603254": "",
+      "GSM3603255": "",
+      "GSM3603256": "",
+      "GSM3603257": "",
+      "GSM3603258": "",
+      "GSM3603259": "",
+      "GSM3603260": "",
+      "GSM3603261": "",
+      "GSM3603262": ""
+    }
+  },
+  "source_name": {
+    "target": "biospecimenSubtype",
+    "values": {
+      "Nuclei": "sorted nuclei"
+    }
+  },
+  "SRA Study": {
+    "target": "SRP",
+    "values": {
+      "SRP185790": ""
+    }
+  },
+  "tissue": {
+    "target": "CNSRegion",
+    "values": {
+      "Frontal cortex": "middle frontal cortex"
+    }
+  }
+}

@@ -48,22 +48,51 @@ Properties are nested under `synID -> filename`. Point `$schema` to a `*Nested.j
 
 ## Schema Mapping by Type
 
-| `--type` flag | Dataset template (flat) | File template (nested) |
-|---------------|------------------------|----------------------|
-| `Clinical` | `ClinicalDataset.json` | `ClinicalFileNested.json` |
-| `Omic` | `OmicDataset.json` | `OmicFileNested.json` |
-| `Dataset`/`File` (default) | `Dataset.json` | `FileNested.json` |
+`--type` is **not a fixed list of choices**. The value you pass is fuzzy-matched at runtime
+against the schema files actually present in `json-schemas/`, so any current or future schema
+works without code changes. Resolution rules:
+
+1. **Exact match wins** — typing the exact schema stem (`OmicFile`, `GEODataset`, `Dataset`)
+   selects that schema directly, case-insensitively.
+2. **Substring match** — a short token is matched against the candidate stems for the command's
+   kind (`generate-template` → `*Dataset` schemas; `generate-file-templates` → `*File` schemas).
+   So `omic` → `OmicDataset` / `OmicFile`, `geo` → `GEODataset` / `GEOFile`, `speech` →
+   `SpeechDataset` / `SpeechFile`.
+3. **Ambiguous** — if a token matches more than one schema, you're prompted to pick one
+   (or it errors in a non-interactive run).
+4. **No match** — a `did you mean …?` suggestion is offered, then it errors listing the
+   available types.
+
+`*Nested.json` wrappers and `MetadataSchema.json` are excluded from candidate matching.
+
+Representative resolutions (any schema in `json-schemas/` is valid, not just these):
+
+| `--type` value | Dataset template (flat) | File template (nested) |
+|----------------|------------------------|----------------------|
+| `clinical` | `ClinicalDataset.json` | `ClinicalFileNested.json` |
+| `omic` | `OmicDataset.json` | `OmicFileNested.json` |
+| `geo` | `GEODataset.json` | `GEOFileNested.json` |
+| `sra` | `SRADataset.json` | `SRAFileNested.json` |
+| `speech` | `SpeechDataset.json` | `SpeechFile.json`¹ |
+| `Dataset` / `File` (default) | `Dataset.json` | `FileNested.json` |
+
+¹ File templates use the `{Type}Nested.json` wrapper when it exists, falling back to the plain
+`{Type}.json` — Speech has no nested wrapper yet.
 
 ## Automatic `$schema` Injection
 
-When generating new templates via `synapse_dataset_manager.py`, the `$schema` key is automatically added based on the `--type` flag:
+When generating new templates via `synapse_dataset_manager.py`, the `$schema` key is automatically
+added based on the schema resolved from `--type` (see the rules above):
 
 ```bash
-# Dataset template with Clinical schema
-python synapse_dataset_manager.py generate-template --type Clinical
+# Dataset template — 'clinical' resolves to ClinicalDataset.json
+python synapse_dataset_manager.py generate-template --type clinical
 
-# File templates with Omic schema
-python synapse_dataset_manager.py generate-file-templates --folder syn12345 --type Omic
+# File templates — 'omic' resolves to OmicFile.json (OmicFileNested.json wrapper)
+python synapse_dataset_manager.py generate-file-templates --folder syn12345 --type omic
+
+# Exact schema name also works
+python synapse_dataset_manager.py generate-template --type GEODataset
 
 # General schema (default)
 python synapse_dataset_manager.py generate-template --type Dataset
@@ -88,8 +117,12 @@ The `*Nested.json` wrapper schemas exist because file-level templates have two e
 - `FileNested.json` -> references `File.json`
 - `ClinicalFileNested.json` -> references `ClinicalFile.json`
 - `OmicFileNested.json` -> references `OmicFile.json`
+- `GEOFileNested.json` -> references `GEOFile.json`
+- `SRAFileNested.json` -> references `SRAFile.json`
 
-These wrappers are located in `json-schemas/` alongside the base schemas.
+These wrappers are located in `json-schemas/` alongside the base schemas. `SpeechFile` has no
+nested wrapper yet, so Speech file templates fall back to the plain `SpeechFile.json` (see the
+Schema Mapping footnote above).
 
 ## Empty String Handling
 

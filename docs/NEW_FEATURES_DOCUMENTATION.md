@@ -5,12 +5,14 @@ This document covers the new features added to `synapse_dataset_manager.py`:
 1. **Link Datasets** - Create datasets that reference external URLs without files
 2. **Generate Template Command** - Generate empty dataset annotation templates
 3. **Add Link File Command** - Create file entities with external URL references
+4. **Field Migrations** - Reconcile renamed/removed/retyped slots when updating existing datasets
 
 ## Table of Contents
 - [Setup and Testing](#setup-and-testing)
 - [Feature 1: Link Datasets](#feature-1-link-datasets)
 - [Feature 2: Generate Template Command](#feature-2-generate-template-command)
 - [Feature 3: Add Link File Command](#feature-3-add-link-file-command)
+- [Feature 4: Field Migrations](#feature-4-field-migrations-schema-evolution-reconciliation)
 - [Configuration Examples](#configuration-examples)
 - [Code Snippets](#code-snippets)
 
@@ -187,19 +189,24 @@ Generate empty dataset annotation templates without connecting to Synapse or req
 
 ### CLI Usage
 
+`--type` is fuzzy-matched at runtime against the schemas in `json-schemas/` — pass any
+schema (e.g. `clinical`, `omic`, `geo`, `sra`, `speech`) or the exact stem (`OmicDataset`).
+It is no longer a fixed set of choices, so newly added schemas work automatically. See
+`docs/JSON_SCHEMA_LSP_SETUP.md` → "Schema Mapping by Type" for the matching rules.
+
 ```bash
-# Generate Clinical dataset template
-python synapse_dataset_manager.py generate-template --type Clinical
+# Generate Clinical dataset template (fuzzy: 'clinical' -> ClinicalDataset)
+python synapse_dataset_manager.py generate-template --type clinical
 
 # Generate Omic dataset template
-python synapse_dataset_manager.py generate-template --type Omic
+python synapse_dataset_manager.py generate-template --type omic
 
 # Generate generic Dataset template
 python synapse_dataset_manager.py generate-template --type Dataset
 
 # Specify custom output location
 python synapse_dataset_manager.py generate-template \
-  --type Clinical \
+  --type clinical \
   --output my_templates/clinical_template.json
 ```
 
@@ -666,6 +673,103 @@ python synapse_dataset_manager.py add-link-file \
 
 ---
 
+## Feature 4: Field Migrations (schema-evolution reconciliation)
+
+### Purpose
+
+When a slot is renamed, removed, or retyped in the data model (`modules/**`), the
+annotations already stored on Synapse keep the **old** field. During the `update`
+workflow's phase-1 template generation, the fresh template contributes the *new*
+canonical field while the pulled-from-Synapse annotations contribute the *old* one
+— so both survive in `*_update_annotations.json` (e.g. `source` alongside
+`originalRepository`). Field migrations reconcile them from a single running map.
+
+### The map: `configs/field_migrations.yaml`
+
+Add one entry **every time you rename/remove/retype a slot** in `modules/**`. The
+current map mirrors the changes in
+[`DATA_MODEL_CHANGES_JULY_2026.md`](DATA_MODEL_CHANGES_JULY_2026.md).
+
+Applied automatically during `update` phase 1 — no flag required. Override the path
+with `--field-migrations PATH`, the `field_migrations:` key under `directories:` in
+`config.yaml`, or the `FIELD_MIGRATIONS` env var.
+
+### Entry shapes
+
+```yaml
+# 1. Plain rename (value carried as-is; canonical field wins if already set)
+individualCount:
+  target: participant_count
+
+# 2. Rename + enum value translation. On a rename, UNMAPPED values are dropped
+#    so nothing invalid leaks into an enum-constrained field.
+libraryStrategy:
+  target: assay
+  values: {RNA_seq: RNA-seq, WGS: whole genome sequencing}
+
+# 3. Rename that MERGES into a multivalued target (append + dedupe) — lets several
+#    old fields feed one target.
+includedInDataCatalog:
+  target: url
+  merge: true
+
+# 4. Value-dependent SPLIT: one field routes to different targets by value.
+#    Used for `source`: consortium names → program, repository names → originalRepository.
+source:
+  routes:
+    - when_values: [all_als, "ALL ALS"]
+      target: program
+      values: {all_als: ALL ALS}
+    - when_values: [GEO, "Gene Expression Omnibus"]
+      target: originalRepository
+      values: {GEO: Gene Expression Omnibus}
+
+# 5. Remove entirely, no replacement
+someDeadField:
+  drop: true
+
+# 6. In-place fix (no target): normalize values and/or coerce type/shape.
+#    In-place KEEPS unmapped values (unlike a rename). Scalar types unwrap [x]→x;
+#    `array` wraps x→[x].
+funder:
+  values: {National Institutes of Health: NIH}   # normalize one value, keep others
+hasLongitudinalData:
+  type: boolean                                   # [false] -> false
+curationLevel:
+  type: array                                     # scalar -> single-element list
+```
+
+### Semantics
+
+- **Canonical wins** on a replace-style rename: the value moves in only if the
+  target is still empty; otherwise the old field is dropped without overwriting.
+  Use `merge: true` to append into a multivalued target instead.
+- **Rename vs in-place value maps:** on a rename, values not in `values:` are
+  **dropped** (enum safety); in-place, unmapped values are **kept** (normalization).
+- **`routes`:** each value goes to the first route whose `when_values` contains it
+  (omit `when_values` for a catch-all). Values matching no route are dropped and
+  logged.
+- **`type`** runs after value translation. Scalar types (`boolean`/`integer`/
+  `number`/`string`) unwrap a single-element array; `array` wraps a scalar.
+- Internal keys (leading underscore, e.g. `_staging_id`, `_file_type`) are never
+  touched, and the pass is **idempotent** — re-running is a no-op.
+
+### CLI
+
+```bash
+# Uses configs/field_migrations.yaml by default
+python synapse_dataset_manager.py update --dataset-id syn123 --staging-folder syn456
+
+# Custom map
+python synapse_dataset_manager.py update --dataset-id syn123 --staging-folder syn456 \
+  --field-migrations path/to/custom_migrations.yaml
+```
+
+Each applied change is printed during generation, e.g.
+`↻ Lumbar Puncture.csv: merged 'collection' → 'program' += ['ALL ALS']`.
+
+---
+
 ## Summary
 
 Three new features have been added to the Synapse Dataset Manager:
@@ -677,7 +781,7 @@ Three new features have been added to the Synapse Dataset Manager:
 
 2. **Generate Template**: Create empty dataset annotation templates
    - Command: `generate-template`
-   - Types: `Clinical`, `Omic`, `Dataset`
+   - Types: any schema in `json-schemas/`, fuzzy-matched (e.g. `clinical`, `omic`, `geo`, `sra`, `speech`) or an exact stem
    - No Synapse connection required
 
 3. **Add Link File**: Create file entities with external URL references

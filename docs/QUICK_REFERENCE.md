@@ -9,6 +9,9 @@ mamba activate amp-als
 
 ## 1. Generate Template
 
+> `--type` is fuzzy-matched against `json-schemas/` — pass any schema (`clinical`, `omic`,
+> `geo`, `sra`, `speech`, …) or an exact stem like `OmicDataset`. Not a fixed list.
+
 ```bash
 # Generate empty dataset annotation template
 python synapse_dataset_manager.py generate-template --type Clinical
@@ -131,6 +134,54 @@ python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 --datase
 ```
 
 This adds any missing columns, reorders them per the type-aware template, and verifies the final layout. If `--dataset-type` is omitted, it auto-detects from the dataset's annotations.
+
+## 5. Rename Files (no re-upload)
+
+```bash
+# Single file — renames display name AND download filename
+python synapse_dataset_manager.py rename-files --file-id syn12345 --new-name "sample_01.fastq.gz" --execute
+
+# Batch from a mapping file (JSON {synId: newName}, or CSV/XLSX)
+python synapse_dataset_manager.py rename-files --mapping-file renames.json --execute
+
+# Find/replace across a dataset (add --regex to treat --find as a regex)
+python synapse_dataset_manager.py rename-files --dataset-id syn67890 --find "raw_" --replace "" --execute
+
+# Across a whole collection
+python synapse_dataset_manager.py rename-files --collection-id syn66496326 --regex --find "^GSE[0-9]+_" --replace "" --execute
+```
+
+Renames the entity name and the download filename **without re-uploading data** (server-side file-handle copy). Add `--name-only` to change just the display name, `--new-version` to force a version bump. Dry-run by default. See [RENAME_FILES.md](RENAME_FILES.md) for full details.
+
+## 6. Field Migrations (reconcile renamed/removed slots)
+
+When the data model changes but Synapse still holds the old annotations, the
+`update` workflow reconciles them using `configs/field_migrations.yaml`. Applied
+automatically during phase-1 template generation — no flag needed.
+
+```yaml
+# configs/field_migrations.yaml — one entry per deprecated field
+source:                       # rename + translate enum values
+  target: originalRepository
+  values: {all_als: Synapse}
+individualCount:              # plain rename (value carried as-is)
+  target: participant_count
+collection:                   # removed from the model
+  drop: true
+hasLongitudinalData:          # in-place type/shape fix: [False] -> False
+  type: boolean
+```
+
+```bash
+# Uses configs/field_migrations.yaml by default; override with a flag:
+python synapse_dataset_manager.py update --dataset-id syn123 --staging-folder syn456 \
+  --field-migrations path/to/custom_migrations.yaml
+```
+
+Add an entry **every time you rename or remove a slot** in `modules/**`. Canonical
+field wins on rename; unmapped `values:` are dropped so nothing invalid leaks into
+enum fields; `type:` coerces shape (scalar unwraps `[x]`→`x`, `array` wraps). See
+[NEW_FEATURES_DOCUMENTATION.md](NEW_FEATURES_DOCUMENTATION.md) for the full spec.
 
 ## Help Commands
 

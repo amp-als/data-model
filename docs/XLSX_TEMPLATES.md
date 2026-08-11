@@ -55,7 +55,8 @@ python synapse_dataset_manager.py generate-template \
   --output annotations/clinical_dataset_template.xlsx
 ```
 
-- `--type` — `Clinical`, `Omic`, or `Dataset` (default `Dataset`).
+- `--type` — dataset schema type (default `Dataset`), fuzzy-matched against `json-schemas/`
+  (e.g. `omic` → `OmicDataset`, `geo` → `GEODataset`); exact schema names also work.
 - `--format` — `json` (default) or `xlsx`. A `.xlsx` `--output` path also implies xlsx.
 - `--output` — optional; defaults to `annotations/<type>_dataset_template.<ext>`.
 
@@ -72,7 +73,8 @@ python synapse_dataset_manager.py generate-file-templates \
 
 The result is an empty sheet: columns are the file attributes, `title` is the leading
 index column, enum columns have dropdowns, and validation extends down ~500 rows so you
-can add one row per file. `--type` is `Clinical`, `Omic`, or `File` (default `File`).
+can add one row per file. `--type` (default `File`) is fuzzy-matched against `json-schemas/`
+(e.g. `omic` → `OmicFile`, `sra` → `SRAFile`); exact schema names also work.
 
 JSON also works without a folder (drop `--format xlsx`), producing a single flat blank
 template dict.
@@ -119,10 +121,10 @@ and the same validation + apply path as JSON runs.
 | Command | Argument | Description |
 |---------|----------|-------------|
 | `generate-template` | `--format {json,xlsx}` / `-f` | Output format (default `json`) |
-| `generate-template` | `--type {Clinical,Omic,Dataset}` | Dataset schema type |
+| `generate-template` | `--type <name>` | Dataset schema type; fuzzy-matched against `json-schemas/` (e.g. `omic`, `geo`), exact names work |
 | `generate-file-templates` | `--folder` | Synapse folder ID; **omit for a blank template** |
 | `generate-file-templates` | `--format {json,xlsx}` / `-f` | Output format (default `json`) |
-| `generate-file-templates` | `--type {Clinical,Omic,File}` | File schema type |
+| `generate-file-templates` | `--type <name>` | File schema type; fuzzy-matched against `json-schemas/` (e.g. `omic`, `sra`), exact names work |
 | `apply-file-annotations` | `--annotations-file` | `.json` **or** `.xlsx`/`.xls` |
 
 ---
