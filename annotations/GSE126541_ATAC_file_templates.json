@@ -1,0 +1,2488 @@
+{
+  "$schema": "../json-schemas/GEOFileNested.json",
+  "syn68815585": {
+    "SRR8571953.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926465"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603249"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571953"
+      ],
+      "SRS": [
+        "SRS4361197"
+      ],
+      "SRX": [
+        "SRX5373084"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S1"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single-end",
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S1"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Female"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4573934700,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 positive"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.103084",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "45739347"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_positive_s1"
+      ]
+    }
+  },
+  "syn68815584": {
+    "SRR8571954.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926463"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603250"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571954"
+      ],
+      "SRS": [
+        "SRS4361196"
+      ],
+      "SRX": [
+        "SRX5373085"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S1"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S1"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Female"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4167024600,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 negative"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.103368",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "41670246"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_negative_s1"
+      ]
+    }
+  },
+  "syn68815588": {
+    "SRR8571955.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926461"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603251"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571955"
+      ],
+      "SRS": [
+        "SRS4361198"
+      ],
+      "SRX": [
+        "SRX5373086"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S2"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S2"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4665470700,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 positive"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.103560",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "46654707"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_positive_s2"
+      ]
+    }
+  },
+  "syn68815593": {
+    "SRR8571956.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926459"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603252"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571956"
+      ],
+      "SRS": [
+        "SRS4361199"
+      ],
+      "SRX": [
+        "SRX5373087"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S2"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S2"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4512087300,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 negative"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.103740",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "45120873"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_negative_s2"
+      ]
+    }
+  },
+  "syn68815594": {
+    "SRR8571957.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926458"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603253"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571957"
+      ],
+      "SRS": [
+        "SRS4361200"
+      ],
+      "SRX": [
+        "SRX5373088"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S3"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S3"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Female"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4746414800,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 positive"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.103965",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "47464148"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_positive_s3"
+      ]
+    }
+  },
+  "syn68815590": {
+    "SRR8571958.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926456"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603254"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571958"
+      ],
+      "SRS": [
+        "SRS4361201"
+      ],
+      "SRX": [
+        "SRX5373089"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S3"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S3"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Female"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4748387700,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 negative"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.104141",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "47483877"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_negative_s3"
+      ]
+    }
+  },
+  "syn68815597": {
+    "SRR8571959.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926455"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603255"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571959"
+      ],
+      "SRS": [
+        "SRS4361202"
+      ],
+      "SRX": [
+        "SRX5373090"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S4"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S4"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Female"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4440052100,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 positive"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.104311",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "4440-05-21 05:00:00.000"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_positive_s4"
+      ]
+    }
+  },
+  "syn68815599": {
+    "SRR8571960.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926453"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603256"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571960"
+      ],
+      "SRS": [
+        "SRS4361203"
+      ],
+      "SRX": [
+        "SRX5373091"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S4"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S4"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Female"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4963849600,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 negative"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.104485",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "49638496"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_negative_s4"
+      ]
+    }
+  },
+  "syn68815586": {
+    "SRR8571961.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926451"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603257"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571961"
+      ],
+      "SRS": [
+        "SRS4361204"
+      ],
+      "SRX": [
+        "SRX5373092"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S5"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S5"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4633821700,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 positive"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.104656",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "46338217"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_positive_s5"
+      ]
+    }
+  },
+  "syn68815589": {
+    "SRR8571962.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926450"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603258"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571962"
+      ],
+      "SRS": [
+        "SRS4361205"
+      ],
+      "SRX": [
+        "SRX5373093"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S5"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S5"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4782060000,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 negative"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.104848",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "47820600"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_negative_s5"
+      ]
+    }
+  },
+  "syn68815596": {
+    "SRR8571963.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926448"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603259"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571963"
+      ],
+      "SRS": [
+        "SRS4361206"
+      ],
+      "SRX": [
+        "SRX5373094"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S6"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S6"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4898721900,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 positive"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.105041",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "48987219"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_positive_s6"
+      ]
+    }
+  },
+  "syn68815591": {
+    "SRR8571964.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926447"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603260"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571964"
+      ],
+      "SRS": [
+        "SRS4361207"
+      ],
+      "SRX": [
+        "SRX5373095"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S6"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S6"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4611088800,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 negative"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.105227",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "46110888"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_negative_s6"
+      ]
+    }
+  },
+  "syn68815592": {
+    "SRR8571965.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926445"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603261"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571965"
+      ],
+      "SRS": [
+        "SRS4361208"
+      ],
+      "SRX": [
+        "SRX5373096"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S7"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S7"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4861246600,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 positive"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.105403",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "48612466"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_positive_s7"
+      ]
+    }
+  },
+  "syn68815595": {
+    "SRR8571966.fastq.gz": {
+      "BioProject": [
+        "PRJNA522296"
+      ],
+      "BioSample": [
+        "SAMN10926443"
+      ],
+      "FACSPopulation": [
+        ""
+      ],
+      "GEOSuperSeries": "",
+      "GSE": [
+        "GSE126541"
+      ],
+      "GSM": [
+        "GSM3603262"
+      ],
+      "SRP": [
+        "SRP185790"
+      ],
+      "SRR": [
+        "SRR8571966"
+      ],
+      "SRS": [
+        "SRS4361209"
+      ],
+      "SRX": [
+        "SRX5373097"
+      ],
+      "age": null,
+      "alignmentMethod": "",
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assay": [
+        "ATAC-seq"
+      ],
+      "biospecimenType": [
+        "brain_tissue"
+      ],
+      "cellType": [
+        "NeuN+ neurons"
+      ],
+      "citation": [
+        ""
+      ],
+      "collectionDate": "",
+      "collectionSite": "",
+      "contributor": [
+        ""
+      ],
+      "country": "",
+      "creator": [
+        ""
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataSourcePrefix": "",
+      "dataType": [
+        "epigenomics"
+      ],
+      "description": "",
+      "disease": [
+        "FTD",
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "ethnicity": "",
+      "fileFormat": [
+        "fastq"
+      ],
+      "globalSubjectId": [
+        "GSE126541S7"
+      ],
+      "heightCm": null,
+      "keywords": [
+        ""
+      ],
+      "libraryLayout": [
+        "single"
+      ],
+      "libraryPreparationMethod": [
+        "Buenrostro et al. Nat Methods 2024 ATAC-seq"
+      ],
+      "librarySource": [
+        "genomic"
+      ],
+      "originalRepository": [
+        "Gene Expression Omnibus"
+      ],
+      "originalSampleId": "",
+      "originalSubjectId": [
+        "S7"
+      ],
+      "platform": [
+        "Illumina HiSeq 2500"
+      ],
+      "program": [
+        ""
+      ],
+      "propAfricanGeneticAncestry": null,
+      "propEastAsianGeneticAncestry": null,
+      "propEuropeanGeneticAncestry": null,
+      "propNativeAmericanGeneticAncestry": null,
+      "propSouthAsianGeneticAncestry": null,
+      "race": "",
+      "readLength": [
+        100
+      ],
+      "referenceGenome": "",
+      "sameAs": "",
+      "sampleIdColumn": "",
+      "sampleType": "",
+      "sex": [
+        "Male"
+      ],
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "storageContainer": "",
+      "subject": [
+        ""
+      ],
+      "title": [
+        ""
+      ],
+      "totalBases": 4931943200,
+      "url": [
+        ""
+      ],
+      "variantType": [
+        "TDP-43 negative"
+      ],
+      "weightKg": null,
+      "yearOfDiagnosis": null,
+      "yearOfSymptomOnset": null,
+      "_file_type": "GEOFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-07-28T20:29:32.105573",
+      "parentId": [
+        "syn68815562"
+      ],
+      "CNSRegion": [
+        "middle frontal cortex"
+      ],
+      "totalReads": [
+        "49319432"
+      ],
+      "dataSubtype": [
+        "bulk"
+      ],
+      "isPostMortem": [
+        "True"
+      ],
+      "nucleicAcidSource": [
+        "Tn5-accessible gDNA"
+      ],
+      "biospecimenSubtype": [
+        "sorted nuclei"
+      ],
+      "originalSampleName": [
+        "atac-seq_-_neun_positive_tdp-43_negative_s7"
+      ]
+    }
+  }
+}
