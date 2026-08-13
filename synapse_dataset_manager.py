@@ -132,6 +132,14 @@ class Config:
         for _key, cfg in datasets.items():
             if cfg.get('dataset_id') == dataset_name:
                 return cfg
+        # config.yaml has dataset entries configured, but none matched this one — flag it,
+        # since this lookup is silent otherwise and callers like the `update` workflow rely
+        # on it for data_dict/mapping/etc. without any other indication of a miss.
+        if datasets:
+            id_str = f" (id={dataset_id})" if dataset_id else ""
+            print(f"⚠️  WARNING: No config.yaml 'datasets' entry matched '{dataset_name}'{id_str} — "
+                  f"checked {len(datasets)} configured dataset(s). Any settings meant to come from "
+                  f"config.yaml (data_dict, mapping, dataset_type, etc.) will NOT be applied.")
         return {}
 
     def validate(self):
@@ -977,13 +985,20 @@ def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) ->
     return form_map, name_map, local_path_map, view_map
 
 
-def _get_data_dict_views(path: str) -> list:
-    """Return all unique View Name values in a data dictionary file."""
+def _get_data_dict_views(path: str, view_name: str = None) -> list:
+    """Return all unique View Name values in a data dictionary file.
+
+    If view_name is given, only views matching that filter (via
+    _view_name_matches) are included. Unlike deriving the view list from
+    parse_data_dictionary's field-keyed output, this never drops a view whose
+    fields all happen to share names with fields under other (later) views —
+    see build_mapping_from_data_dict's all_views parameter.
+    """
     rows = load_metadata_file(path)
     seen = []
     for row in rows:
         v = row.get("View Name", "").strip()
-        if v and v not in seen:
+        if v and v not in seen and (not view_name or _view_name_matches(v, view_name)):
             seen.append(v)
     return seen
 
@@ -1060,6 +1075,31 @@ def _view_name_matches(current_view: str, view_name: str) -> bool:
         parts = cv.split('_')
         return len(parts) > 2 and parts[2] == code
     return cv == vn
+
+
+def _is_synapse_id(value) -> bool:
+    """True if value looks like a Synapse entity ID (e.g. 'syn12345678')."""
+    return bool(isinstance(value, str) and re.match(r'^syn\d+$', value.strip(), re.IGNORECASE))
+
+
+def resolve_data_dict_path(syn, data_dict_path, download_dir=None) -> str:
+    """Resolve --data-dict to a local file path.
+
+    Accepts either a local file path (returned unchanged) or a Synapse file ID,
+    which is downloaded to a temp directory so callers can keep treating the
+    result as a plain local path.
+    """
+    if not data_dict_path or not _is_synapse_id(data_dict_path):
+        return data_dict_path
+
+    import tempfile
+    download_dir = download_dir or tempfile.mkdtemp(prefix='sdm_data_dict_')
+    local_path = download_file_for_analysis(syn, data_dict_path, download_dir)
+    if local_path:
+        print(f"  ✓ Downloaded data dictionary {data_dict_path} → {local_path}")
+    else:
+        print(f"  ✗ Could not download data dictionary {data_dict_path}")
+    return local_path or data_dict_path
 
 
 def parse_data_dictionary(path: str, view_name: str = None) -> dict:
@@ -1157,7 +1197,7 @@ def build_mapping_dict(unique_vals: dict) -> dict:
     return mapping
 
 
-def build_mapping_from_data_dict(parsed_dict: dict) -> dict:
+def build_mapping_from_data_dict(parsed_dict: dict, all_views: list = None) -> dict:
     """
     Convert parsed data dictionary into a mapping-dict scaffold.
 
@@ -1171,6 +1211,15 @@ def build_mapping_from_data_dict(parsed_dict: dict) -> dict:
     Also prepends a "_views" key mapping each unique view name to an empty
     file-level annotation scaffold (assessmentType, clinicalDomain, dataType,
     studyPhase) — fill these in to drive view-level annotation.
+
+    Args:
+        parsed_dict: Output of parse_data_dictionary().
+        all_views: Complete view list from _get_data_dict_views(), used to seed
+            _views scaffolds even for a view whose every field happens to share
+            a name with a field under another (later) view — parse_data_dictionary's
+            field-name-keyed dict silently drops such views entirely, since the
+            later view's occurrence of the shared field name overwrites the
+            earlier one's "view" attribution.
 
     Returns:
         {"_views": {view_name: {file-level annotations}},
@@ -1188,6 +1237,10 @@ def build_mapping_from_data_dict(parsed_dict: dict) -> dict:
         }
         if view and view not in views_seen:
             views_seen.append(view)
+
+    for v in (all_views or []):
+        if v not in views_seen:
+            views_seen.append(v)
 
     _views = {
         v: {"assessmentType": [], "clinicalDomain": [], "dataType": [], "studyPhase": ""}
@@ -2280,40 +2333,46 @@ def fill_template_from_file_contents(template: dict, file_path: str, mapping: di
     available_cols = set(rows[0].keys())
 
     for source_col, mapping_entry in mapping.items():
-        if source_col not in available_cols:
-            continue
-
         if isinstance(mapping_entry, dict):
             raw_target = mapping_entry.get('target', '')
             value_map  = mapping_entry.get('values', {})
+            constant   = mapping_entry.get('value')
         else:
             raw_target = mapping_entry
             value_map  = {}
+            constant   = None
 
         if not raw_target:
             continue
 
         target_fields = raw_target if isinstance(raw_target, list) else [raw_target]
 
-        # Collect unique non-null raw values across all rows
-        raw_values_seen = []
-        for row in rows:
-            v = str(row.get(source_col, '') or '').strip()
-            if v and not _is_null_like(v) and v not in raw_values_seen:
-                raw_values_seen.append(v)
+        # Hard-coded constant bypasses the column/file lookup entirely
+        if constant is not None:
+            translated = constant if isinstance(constant, list) else [constant]
+        else:
+            if source_col not in available_cols:
+                continue
 
-        if not raw_values_seen:
-            continue
+            # Collect unique non-null raw values across all rows
+            raw_values_seen = []
+            for row in rows:
+                v = str(row.get(source_col, '') or '').strip()
+                if v and not _is_null_like(v) and v not in raw_values_seen:
+                    raw_values_seen.append(v)
 
-        # Translate via value map; keep untranslated values as-is if no map entry
-        translated = []
-        for v in raw_values_seen:
-            mapped_v = value_map.get(v, v) if value_map else v
-            if mapped_v and not _is_null_like(mapped_v) and mapped_v not in translated:
-                translated.append(mapped_v)
+            if not raw_values_seen:
+                continue
 
-        if not translated:
-            continue
+            # Translate via value map; keep untranslated values as-is if no map entry
+            translated = []
+            for v in raw_values_seen:
+                mapped_v = value_map.get(v, v) if value_map else v
+                if mapped_v and not _is_null_like(mapped_v) and mapped_v not in translated:
+                    translated.append(mapped_v)
+
+            if not translated:
+                continue
 
         for target_field in target_fields:
             current = result.get(target_field)
@@ -2429,6 +2488,22 @@ def infer_view_from_columns(file_path: str, mapping: dict) -> str | None:
     return max(view_counts, key=view_counts.get)
 
 
+def _norm_view_name(s: str) -> str:
+    return re.sub(r'[\s_\-]+', '', s).lower()
+
+
+def match_view_name(form_name: str, mapping: dict) -> str:
+    """Resolve form_name to a key in mapping['_views'], or None if no match.
+
+    Matching is case-insensitive with hyphens/underscores/spaces normalised.
+    """
+    views = mapping.get("_views", {})
+    if not views or not form_name:
+        return None
+    form_norm = _norm_view_name(form_name)
+    return next((v for v in views if _norm_view_name(v) == form_norm), None)
+
+
 def apply_view_annotations(template: dict, form_name: str, mapping: dict) -> dict:
     """Apply view-level file annotations from the _views section of a mapping dict.
 
@@ -2446,20 +2521,12 @@ def apply_view_annotations(template: dict, form_name: str, mapping: dict) -> dic
     Returns:
         Updated template dict (only empty slots are filled)
     """
-    views = mapping.get("_views", {})
-    if not views or not form_name:
-        return template
-
-    def _norm(s):
-        return re.sub(r'[\s_\-]+', '', s).lower()
-
-    form_norm = _norm(form_name)
-    matched_view = next((v for v in views if _norm(v) == form_norm), None)
+    matched_view = match_view_name(form_name, mapping)
     if not matched_view:
         return template
 
     result = dict(template)
-    for field, value in views[matched_view].items():
+    for field, value in mapping["_views"][matched_view].items():
         if not value:
             continue
         current = result.get(field)
@@ -2556,6 +2623,14 @@ def detect_subject_file_type(file_path: str, subject_id_col: str = None) -> str:
     return 'single' if len(rows) <= 1 else 'multi'
 
 
+def get_field_type_map(all_schemas, file_type):
+    """Map field_name -> JSON-schema type ('array'/'boolean'/'integer'/'number'/'string')
+    for the given file/dataset type, for coercing merged annotation values back to
+    their schema-declared shape (see merge_file_annotations_priority)."""
+    schema = get_schema_for_type(file_type, all_schemas)
+    return {name: info['type'] for name, info in get_field_info(schema).items()}
+
+
 def create_annotation_template(all_schemas, file_type='ClinicalFile'):
     """
     Generate empty annotation template from JSON schema.
@@ -2617,10 +2692,16 @@ def merge_annotations_smartly(existing, template):
     return merged
 
 
-def merge_file_annotations_priority(old_annot, new_annot, template):
+def merge_file_annotations_priority(old_annot, new_annot, template, field_types=None):
     """
     Priority merge: old (release) > new (staging) > template.
     Used for UPDATE workflow.
+
+    Synapse always returns existing entity annotations as lists regardless of
+    their declared type, so ``old_annot`` values for scalar fields (e.g. a
+    string ``description``) arrive list-wrapped. When ``field_types`` (from
+    get_field_type_map) is provided, every merged value is coerced back to its
+    schema-declared shape so scalar fields don't leak out as one-element lists.
     """
     merged = {}
     merged.update(template)
@@ -2632,6 +2713,12 @@ def merge_file_annotations_priority(old_annot, new_annot, template):
     for key, value in old_annot.items():
         if value not in ["", [""], [], None]:
             merged[key] = value
+
+    if field_types:
+        for key, value in merged.items():
+            field_type = field_types.get(key)
+            if field_type:
+                merged[key] = _coerce_annotation_type(value, field_type)
 
     return merged
 
@@ -3085,8 +3172,12 @@ def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose
                     syn.store(entity, forceVersion=True,
                               versionLabel=version_label)
                 else:
-                    # Use set_annotations to avoid creating a new version
+                    # Use set_annotations to avoid creating a new version. Synapse's
+                    # set_annotations is itself destructive (full replace), so clear
+                    # the fetched annotations (keeping id/etag) before repopulating —
+                    # otherwise fields removed locally would never disappear on Synapse.
                     annos = syn.get_annotations(syn_id)
+                    annos.clear()
                     annos.update(cleaned)
                     syn.set_annotations(annos)
 
@@ -4020,6 +4111,72 @@ def upload_new_versions_from_staging(syn, file_annotations: dict,
                 error_count += 1
 
     return success_count, error_count, skipped_count
+
+
+def upload_single_version_from_staging(syn, syn_id, staging_id,
+                                        version_label=None, version_comment=None,
+                                        dry_run=True, verbose=False) -> bool:
+    """
+    Download a single staging file and upload it as a new version of an existing
+    Synapse file entity, preserving that entity's current annotations.
+
+    Unlike upload_new_versions_from_staging (which drives the batch UPDATE
+    workflow off a pre-built annotations dict), this looks up syn_id's existing
+    annotations directly — no annotations JSON required for a one-off version bump.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse ID of the existing file entity to create a new version of
+        staging_id: Synapse ID of the staging file with the new content
+        version_label: Version label (e.g., "v4-JAN")
+        version_comment: Version comment
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+
+    Returns:
+        True on success (or dry-run), False on error/skip.
+    """
+    import tempfile
+
+    try:
+        entity = syn.get(syn_id, downloadFile=False)
+    except Exception as e:
+        print(f"  ✗ Could not retrieve existing entity {syn_id}: {e}")
+        return False
+    filename = entity.name
+    annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+
+    download_dir = tempfile.mkdtemp(prefix='sdm_upload_')
+    local_path = download_file_for_analysis(syn, staging_id, download_dir)
+    if not local_path:
+        print(f"  ✗ Could not download staging file {staging_id} for {filename}")
+        return False
+
+    try:
+        cleaned = clean_annotations_for_synapse(annotations)
+        if dry_run:
+            label_str = f" with label '{version_label}'" if version_label else ""
+            print(f"  [DRY_RUN] Would upload {staging_id} → {syn_id} ({filename}){label_str}")
+            return True
+
+        file_entity = File(
+            path=local_path,
+            id=syn_id,
+            name=filename,
+            version_label=version_label,
+            version_comment=version_comment,
+            annotations=cleaned,
+        )
+        file_entity.store()
+        print(f"  ✓ Uploaded new version of {filename} ({syn_id})")
+        return True
+    except Exception as e:
+        err_str = str(e)
+        if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+            print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+        else:
+            print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
+        return False
 
 
 def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
@@ -6853,6 +7010,7 @@ def handle_update_workflow(args, config):
         # Step 2b: Build / load mapping dict from data dictionary (if provided)
         mapping = None
         data_dict_path = getattr(args, 'data_dict', None) or dataset_config.get('data_dict')
+        data_dict_path = resolve_data_dict_path(syn, data_dict_path)
         data_dict_view = getattr(args, 'data_dict_view', None) or dataset_config.get('data_dict_view')
         mapping_path = getattr(args, 'mapping', None) or dataset_config.get('mapping')
         mapping_out = None
@@ -6864,7 +7022,8 @@ def handle_update_workflow(args, config):
             # Also merge new data dict columns into existing mapping if data_dict provided
             if data_dict_path and os.path.exists(data_dict_path):
                 parsed = parse_data_dictionary(data_dict_path, view_name=data_dict_view)
-                new_mapping = build_mapping_from_data_dict(parsed)
+                all_views = _get_data_dict_views(data_dict_path, view_name=data_dict_view)
+                new_mapping = build_mapping_from_data_dict(parsed, all_views=all_views)
                 mapping = merge_into_existing_mapping(mapping_path, new_mapping)
                 write_mapping_file(mapping_path, mapping)
 
@@ -6880,7 +7039,8 @@ def handle_update_workflow(args, config):
                 print(f"  Parsed {len(parsed)} fields from data dictionary"
                       + (f" (view: {data_dict_view})" if data_dict_view else ""))
 
-                new_mapping = build_mapping_from_data_dict(parsed)
+                all_views = _get_data_dict_views(data_dict_path, view_name=data_dict_view)
+                new_mapping = build_mapping_from_data_dict(parsed, all_views=all_views)
 
                 safe_name = re.sub(r'[^\w]', '_', dataset_name)
                 mapping_out = os.path.join("mapping", f"{safe_name}.dict")
@@ -6911,6 +7071,7 @@ def handle_update_workflow(args, config):
                 reverse_view_map[vname.lower()] = staging_syn_id
 
         # For each existing file, create merged template
+        field_type_cache = {}  # {file_type: {field_name: json_schema_type}}
         for syn_id, file_data in existing_annotations.items():
             filename = list(file_data.keys())[0]
             old_annot = file_data[filename]
@@ -6977,9 +7138,13 @@ def handle_update_workflow(args, config):
                 filename, all_schemas=all_schemas, dataset_config=dataset_config
             )
             template = create_annotation_template(all_schemas, file_type)
+            if file_type not in field_type_cache:
+                field_type_cache[file_type] = get_field_type_map(all_schemas, file_type)
 
             # Priority merge: old > new > template
-            merged = merge_file_annotations_priority(old_annot, new_annot, template)
+            merged = merge_file_annotations_priority(
+                old_annot, new_annot, template, field_types=field_type_cache[file_type]
+            )
 
             # Reconcile deprecated fields carried over from Synapse (renames/removals)
             merged, _migrations = migrate_deprecated_fields(merged, field_migrations)
@@ -7002,13 +7167,24 @@ def handle_update_workflow(args, config):
                         effective_type = detect_subject_file_type(local_path, subj_col)
                     if effective_type == 'multi':
                         merged = fill_template_from_file_contents(merged, local_path, mapping)
-                # Apply view-level annotations from _views
-                # Prefer viewName already stored in annotations; fall back to raw staging filename
-                view_name = merged.get('viewName')
-                if isinstance(view_name, list):
-                    view_name = view_name[0] if view_name else None
-                if not view_name and matched_staging_id:
-                    view_name = view_map.get(matched_staging_id)
+                # Apply view-level annotations from _views. Prefer the view name freshly
+                # derived from this run's staging match when it resolves to a _views
+                # entry — a stored viewName that's stale (renamed/removed from _views)
+                # would otherwise silently block newly-added mapping entries from ever
+                # being applied. Fall back to the stored viewName only when the fresh
+                # one doesn't match anything (or there's no staging match at all).
+                stored_view_name = merged.get('viewName')
+                if isinstance(stored_view_name, list):
+                    stored_view_name = stored_view_name[0] if stored_view_name else None
+                staging_view_name = view_map.get(matched_staging_id) if matched_staging_id else None
+
+                view_name = None
+                for candidate in (staging_view_name, stored_view_name):
+                    if candidate and match_view_name(candidate, mapping):
+                        view_name = candidate
+                        break
+                view_name = view_name or staging_view_name or stored_view_name
+
                 if view_name:
                     merged = apply_view_annotations(merged, view_name, mapping)
 
@@ -7721,6 +7897,30 @@ def handle_set_version(args, config):
             print(f"✓ Snapshot version: {snapshot_version}")
     else:
         print("\n💡 Tip: Re-run with --create-snapshot (or set create_snapshot: true in config) to also snapshot the dataset.")
+
+
+def handle_upload_staged_version(args, config):
+    """Upload a single staging file as a new version of one existing Synapse file entity."""
+    syn = connect_to_synapse(config)
+
+    print("\n" + "=" * 60)
+    print("UPLOADING NEW VERSION FROM STAGING")
+    print("=" * 60)
+    print(f"  Target entity : {args.syn_id}")
+    print(f"  Staging file  : {args.staging_id}")
+    if args.version_label:
+        print(f"  Version label : {args.version_label}")
+
+    success = upload_single_version_from_staging(
+        syn, args.syn_id, args.staging_id,
+        version_label=args.version_label,
+        version_comment=args.version_comment,
+        dry_run=config.DRY_RUN,
+        verbose=config.VERBOSE,
+    )
+
+    if not success and not config.DRY_RUN:
+        sys.exit(1)
 
 
 def handle_delete_versions_workflow(args, config):
@@ -9707,7 +9907,8 @@ Examples:
     update_parser.add_argument('--skip-validation', action='store_true',
                               help='Skip annotation schema validation before applying')
     update_parser.add_argument('--data-dict',
-                              help='Path to data dictionary CSV/XLSX (View Name, Field, Description, Values)')
+                              help='Path to data dictionary CSV/XLSX (View Name, Field, Description, Values), '
+                                   'or a Synapse file ID (e.g. "syn12345678") to download it from')
     update_parser.add_argument('--data-dict-view',
                               help='View Name to filter from data dictionary (e.g. "ASSESS")')
     update_parser.add_argument('--mapping',
@@ -9877,6 +10078,24 @@ Examples:
                                 help='Execute (override DRY_RUN)')
     version_parser.add_argument('--dry-run', action='store_true',
                                 help='Dry run mode (default)')
+
+    # UPLOAD-STAGED-VERSION command
+    staged_version_parser = subparsers.add_parser(
+        'upload-staged-version',
+        help='Upload a single staging file as a new version of one existing file entity'
+    )
+    staged_version_parser.add_argument('--syn-id', required=True,
+                                       help='Synapse ID of the existing file entity to create a new version of')
+    staged_version_parser.add_argument('--staging-id', required=True,
+                                       help='Synapse ID of the staging file with the new content')
+    staged_version_parser.add_argument('--version-label',
+                                       help='Version label for the new version (e.g., "v4-JAN")')
+    staged_version_parser.add_argument('--version-comment',
+                                       help='Version comment for the new version')
+    staged_version_parser.add_argument('--execute', action='store_true',
+                                       help='Execute (override DRY_RUN)')
+    staged_version_parser.add_argument('--dry-run', action='store_true',
+                                       help='Dry run mode (default)')
 
     # DELETE-VERSIONS command
     delete_parser = subparsers.add_parser(
@@ -10288,6 +10507,7 @@ Examples:
     # Only validate config for commands that need Synapse connection
     if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
+                        'upload-staged-version',
                         'rename-annotation', 'rename-folders', 'migrate-annotation-values',
                         'sync-dataset-schema-annotations', 'merge-file-versions', 'upload-local',
                         'move', 'rename-files']:
@@ -10315,6 +10535,8 @@ Examples:
         handle_generate_mapping(args, config)
     elif args.command == 'set-version':
         handle_set_version(args, config)
+    elif args.command == 'upload-staged-version':
+        handle_upload_staged_version(args, config)
     elif args.command == 'delete-versions':
         handle_delete_versions_workflow(args, config)
     elif args.command == 'rename-annotation':
