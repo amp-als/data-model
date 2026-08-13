@@ -438,6 +438,7 @@ slots:
     title: Completeness Level
     description: General assessment of data completeness based on non-null values.
     range: CompletenessLevelEnum
+    multivalued: true
     in_subset:
       - portal
     required: false
@@ -499,6 +500,14 @@ slots:
     title: Alignment Method
     description: Tool or method used for sequence alignment.
     range: AlignmentMethodEnum
+    in_subset:
+      - portal
+    required: false
+  site_of_onset:
+    title: Site of Onset
+    description: Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar).
+    range: SiteOfOnsetEnum
+    multivalued: true
     in_subset:
       - portal
     required: false

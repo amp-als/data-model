@@ -281,20 +281,25 @@
     },
     "completenessLevel": {
       "description": "General assessment of data completeness based on non-null values.",
+      "items": {
+        "description": "",
+        "title": "CompletenessLevelEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
       "title": "Completeness Level",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "high",
-            "medium",
-            "low"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
+      "type": "array"
     },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the resource.",
@@ -857,7 +862,8 @@
               "ALS Compute",
               "Critical Path Institute",
               "Target ALS",
-              "Sequencing Read Archive"
+              "Sequencing Read Archive",
+              "ALL ALS"
             ]
           },
           {
@@ -925,6 +931,35 @@
     "sampleType": {
       "description": "Classification of the sample (e.g. actual sample vs. control type).",
       "title": "Sample Type"
+    },
+    "site_of_onset": {
+      "description": "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar).",
+      "items": {
+        "description": "Site of disease onset",
+        "title": "SiteOfOnsetEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Bulbar",
+              "Limb",
+              "Lumbar",
+              "Axial",
+              "Respiratory",
+              "Generalized",
+              "Other",
+              "Cognitive",
+              "Head Drop",
+              "Unknown"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Site of Onset",
+      "type": "array"
     },
     "species": {
       "description": "Species of the organism(s) from which the data were generated. Omit if not applicable.",
@@ -1065,7 +1100,35 @@
     "visitType": {
       "description": "Type of clinical visit (baseline, follow-up, etc.)",
       "items": {
-        "type": "string"
+        "description": "",
+        "title": "VisitTypeEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Screening",
+              "Baseline",
+              "Follow-up",
+              "Infusion",
+              "Safety",
+              "Genetic_Counseling",
+              "Results_Return",
+              "Early_Termination",
+              "Unscheduled",
+              "DHT Screening Visit",
+              "Genetic Counseling Visit",
+              "Genetic Testing Sub-Study",
+              "In-Clinic Follow-up",
+              "Key Study Events",
+              "Remote Follow-up",
+              "Telephone Follow-up",
+              "Visit Management"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
       },
       "title": "Visit Type",
       "type": "array"

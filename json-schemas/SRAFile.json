@@ -1206,7 +1206,8 @@
               "ALS Compute",
               "Critical Path Institute",
               "Target ALS",
-              "Sequencing Read Archive"
+              "Sequencing Read Archive",
+              "ALL ALS"
             ]
           },
           {
@@ -1480,7 +1481,7 @@
       "title": "Sex"
     },
     "site_of_onset": {
-      "description": "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)",
+      "description": "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar).",
       "items": {
         "description": "Site of disease onset",
         "title": "SiteOfOnsetEnum",

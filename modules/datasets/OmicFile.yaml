@@ -11,6 +11,7 @@ classes:
     slots:
       - fileFormat
       - platform
+      - site_of_onset
     attributes:
       # Omic-specific data types
       dataType:
@@ -28,12 +29,6 @@ classes:
         title: Variant Type
         range: VariantTypeEnum
         description: Type of genetic variant for VCF files
-        multivalued: true
-        required: false
-      site_of_onset:
-        title: Site of Onset
-        range: SiteOfOnsetEnum
-        description: Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)
         multivalued: true
         required: false
 

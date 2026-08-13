@@ -2775,6 +2775,8 @@ enums:
         description: Target ALS data portal (targetals.org)
       Sequencing Read Archive:
         description: Sequence Read Archive
+      ALL ALS:
+        description: ALL ALS collection sites
   AssayEnum:
     title: Assay
     permissible_values:
@@ -7083,18 +7085,6 @@ classes:
         description: Container or repository where biospecimen is stored
         range: string
         required: false
-  SRADataset:
-    is_a: OmicDataset
-    mixins: [SRADatasetMixin]
-    description: >
-      Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive), identified by an NCBI BioProject accession. Inherits all OmicDataset fields.
-
-  SRAFile:
-    is_a: OmicFile
-    mixins: [SRAFileMixin]
-    description: >
-      File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.
-
   SpeechDataset:
     is_a: BaseDataset
     description: >
@@ -7279,6 +7269,18 @@ classes:
           Session identifier used to link this session folder or archive to the corresponding SDTM FT record (corresponds to FTREFID when Aggregate).
 
         required: false
+  SRADataset:
+    is_a: OmicDataset
+    mixins: [SRADatasetMixin]
+    description: >
+      Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive), identified by an NCBI BioProject accession. Inherits all OmicDataset fields.
+
+  SRAFile:
+    is_a: OmicFile
+    mixins: [SRAFileMixin]
+    description: >
+      File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.
+
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
     mixins: [SubjectIdentifierMixin, ClinicalRecordMixin, SpecimenTypeMixin]
@@ -8566,6 +8568,7 @@ slots:
     title: Completeness Level
     description: General assessment of data completeness based on non-null values.
     range: CompletenessLevelEnum
+    multivalued: true
     required: false
   platform:
     title: Platform
@@ -8676,5 +8679,6 @@ slots:
     range: string
     multivalued: true
     required: false
-# SpeechDataTypeEnum is defined canonically in modules/speech/data-types.yaml.
-# FileFormatEnum is defined canonically in modules/reference/file-formats.yaml.
+# SRA/NCBI identifiers (SRR, SRS, SRX, BioProject, BioSample) are defined canonically
+# in modules/geo_sra/sra.yaml; readLength in modules/shared/props.yaml.
+# Omic file fields are inherited from OmicFile (modules/datasets/OmicFile.yaml).

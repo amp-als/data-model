@@ -2272,6 +2272,16 @@
       "@id" : "bts:readLength"
     }, {
       "@id" : "bts:totalBases"
+    }, {
+      "@id" : "bts:totalReads"
+    }, {
+      "@id" : "bts:nucleicAcidSource"
+    }, {
+      "@id" : "bts:biospecimenSubtype"
+    }, {
+      "@id" : "bts:isPostMortem"
+    }, {
+      "@id" : "bts:CNSRegion"
     } ],
     "sms:displayName" : "SRAFileMixin"
   }, {
@@ -3490,13 +3500,7 @@
     }, {
       "@id" : "bts:treatment"
     }, {
-      "@id" : "bts:isPostMortem"
-    }, {
       "@id" : "bts:primaryCellSource"
-    }, {
-      "@id" : "bts:biospecimenSubtype"
-    }, {
-      "@id" : "bts:CNSRegion"
     }, {
       "@id" : "bts:BrodmannArea"
     }, {
@@ -5961,6 +5965,25 @@
     "sms:displayName" : "grantDOI"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:CNSRegion",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "schema:rangeIncludes" : [ {
+      "@id" : "bts:middlefrontalcortex"
+    }, {
+      "@id" : "bts:primarymotorcortex"
+    }, {
+      "@id" : "bts:dorsolateralprefrontalcortex"
+    } ],
+    "rdfs:label" : "CNSRegion",
+    "rdfs:comment" : "Central nervous system region",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "CNSRegion"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:diagnosis",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -6323,6 +6346,18 @@
     "rdfs:comment" : "Refers to the funding organization for the generated resource. This annotation is handled by the DCC.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "funder"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:biospecimenSubtype",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "biospecimenSubtype",
+    "rdfs:comment" : "More specific biospecimen classification",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "biospecimenSubtype"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:specimenIDSource",
@@ -6782,6 +6817,18 @@
     "sms:displayName" : "softwareAndVersion"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:isPostMortem",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "isPostMortem",
+    "rdfs:comment" : "Whether specimen was collected post-mortem",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "isPostMortem"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:studyType",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -7082,6 +7129,18 @@
     "sms:displayName" : "datasetItemCount"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:totalReads",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "totalReads",
+    "rdfs:comment" : "Total number of sequencing reads. Derived as totalBases / readLength (i.e. Bases / AvgSpotLen from SRA run metadata).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "totalReads"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:contributor",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -7148,6 +7207,18 @@
     "rdfs:comment" : "(Versionable entities only) The current version number of the resource.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "currentVersion"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:dataSubtype",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "dataSubtype",
+    "rdfs:comment" : "Finer-grained classification of the data type. Dependent on dataType (see the requiresDependency annotation on dataType).\n",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "dataSubtype"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:clinicalDomain",

@@ -996,7 +996,8 @@
               "ALS Compute",
               "Critical Path Institute",
               "Target ALS",
-              "Sequencing Read Archive"
+              "Sequencing Read Archive",
+              "ALL ALS"
             ]
           },
           {
@@ -1181,7 +1182,35 @@
     "visitType": {
       "description": "Type of clinical visit (baseline, follow-up, etc.)",
       "items": {
-        "type": "string"
+        "description": "",
+        "title": "VisitTypeEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Screening",
+              "Baseline",
+              "Follow-up",
+              "Infusion",
+              "Safety",
+              "Genetic_Counseling",
+              "Results_Return",
+              "Early_Termination",
+              "Unscheduled",
+              "DHT Screening Visit",
+              "Genetic Counseling Visit",
+              "Genetic Testing Sub-Study",
+              "In-Clinic Follow-up",
+              "Key Study Events",
+              "Remote Follow-up",
+              "Telephone Follow-up",
+              "Visit Management"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
       },
       "title": "Visit Type",
       "type": "array"

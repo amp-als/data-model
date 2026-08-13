@@ -31,7 +31,7 @@ classes:
     attributes:
       visitType:
         title: Visit Type
-        range: string
+        range: VisitTypeEnum
         description: Type of clinical visit (baseline, follow-up, etc.)
         multivalued: true
         required: false

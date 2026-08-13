@@ -72,6 +72,22 @@ enums:
         description: Early study termination visit
       Unscheduled:
         description: Unscheduled or ad-hoc visit
+      DHT Screening Visit:
+        description: Screening visit specific to the digital health technology (DHT) sub-study
+      Genetic Counseling Visit:
+        description: Visit for genetic counseling
+      Genetic Testing Sub-Study:
+        description: Visit associated with the genetic testing sub-study
+      In-Clinic Follow-up:
+        description: Follow-up visit conducted in-clinic (in person)
+      Key Study Events:
+        description: Visit marking key study events or milestones
+      Remote Follow-up:
+        description: Follow-up visit conducted remotely
+      Telephone Follow-up:
+        description: Follow-up visit conducted by telephone
+      Visit Management:
+        description: Administrative visit-management record not tied to a specific clinical visit type
 
   VisitStatusEnum:
     permissible_values:

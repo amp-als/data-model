@@ -8,18 +8,18 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ],
+    sh:declare [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
+            sh:prefix "schema" ],
         [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
             sh:prefix "als" ],
+        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
+            sh:prefix "skos" ],
         [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
             sh:prefix "prov" ],
         [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
             sh:prefix "linkml" ],
-        [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
-            sh:prefix "schema" ],
-        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
-            sh:prefix "skos" ] ;
+        [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+            sh:prefix "rdfs" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -231,13 +231,14 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-07-28T20:34:20"^^xsd:dateTime ;
+    linkml:generation_date "2026-08-13T14:05:45"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/BaseDataset_keywords>,
         <https://w3id.org/synapse/amp-als/vocab/BioProject>,
         <https://w3id.org/synapse/amp-als/vocab/BioSample>,
+        <https://w3id.org/synapse/amp-als/vocab/CNSRegion>,
         <https://w3id.org/synapse/amp-als/vocab/Component>,
         <https://w3id.org/synapse/amp-als/vocab/Dataset_dataType>,
         <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
@@ -323,13 +324,12 @@
         <https://w3id.org/synapse/amp-als/vocab/biomarkers__tau>,
         <https://w3id.org/synapse/amp-als/vocab/biomarkers__vitaminB12>,
         <https://w3id.org/synapse/amp-als/vocab/biomarkers__vitaminD>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__BrodmannArea>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimen__CNSRegion>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__ChIPTarget>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__aliquotVolume>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__aliquots>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__anticoagulant>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimen__biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__centrifugationSpeed>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__centrifugationTemperature>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__centrifugationTime>,
@@ -347,7 +347,6 @@
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__globalBiospecimenId>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__hemolysisLevel>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__icterusLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimen__isPostMortem>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__lipemiaLevel>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__organ>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__originalBiospecimenId>,
@@ -491,6 +490,7 @@
         <https://w3id.org/synapse/amp-als/vocab/dataQuality__transmissionDate>,
         <https://w3id.org/synapse/amp-als/vocab/dataQuality__validationStatus>,
         <https://w3id.org/synapse/amp-als/vocab/dataStatus>,
+        <https://w3id.org/synapse/amp-als/vocab/dataSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/dataType>,
         <https://w3id.org/synapse/amp-als/vocab/datasetItemCount>,
         <https://w3id.org/synapse/amp-als/vocab/datasetSizeInBytes>,
@@ -602,6 +602,7 @@
         <https://w3id.org/synapse/amp-als/vocab/hematology__platelets>,
         <https://w3id.org/synapse/amp-als/vocab/hematology__rbc>,
         <https://w3id.org/synapse/amp-als/vocab/hematology__wbc>,
+        <https://w3id.org/synapse/amp-als/vocab/isPostMortem>,
         <https://w3id.org/synapse/amp-als/vocab/keyMeasures>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/laboratoryCollection__csfCollected>,
@@ -851,6 +852,7 @@
         <https://w3id.org/synapse/amp-als/vocab/summary>,
         <https://w3id.org/synapse/amp-als/vocab/title>,
         <https://w3id.org/synapse/amp-als/vocab/totalBases>,
+        <https://w3id.org/synapse/amp-als/vocab/totalReads>,
         <https://w3id.org/synapse/amp-als/vocab/treatment__anyMedicationsUsed>,
         <https://w3id.org/synapse/amp-als/vocab/treatment__atcCode>,
         <https://w3id.org/synapse/amp-als/vocab/treatment__blinding>,
@@ -913,8 +915,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-07-28T20:34:17"^^xsd:dateTime ;
-    linkml:source_file_size 379057 ;
+    linkml:source_file_date "2026-08-13T14:05:44"^^xsd:dateTime ;
+    linkml:source_file_size 380100 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -980,8 +982,6 @@
 <https://w3id.org/synapse/amp-als/vocab/AD> linkml:description "Alzheimer's Disease" .
 
 <https://w3id.org/synapse/amp-als/vocab/AFTD> linkml:description "The Association for Frontotemporal Degeneration" .
-
-<https://w3id.org/synapse/amp-als/vocab/ALL%20ALS> linkml:description "ALL ALS consortium" .
 
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Aggregate/Reference> linkml:description "Aggregate or reference cohort summarizing ALS data." .
 
@@ -1292,11 +1292,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/CLIP-seq> linkml:description "Cross-linking immunoprecipitation sequencing (CLIP-seq) identifies genome-wide binding sites of RNA-binding proteins by cross-linking protein-RNA complexes in vivo, followed by immunoprecipitation and sequencing of associated RNA fragments." ;
     linkml:meaning "http://purl.obolibrary.org/obo/OBI_0001858"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/CNSRegion> a linkml:SlotDefinition ;
-    dcterms:title "CNS Region" ;
-    linkml:description "Central nervous system region" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/CNV> linkml:description "Copy number variant" .
 
@@ -1999,6 +1994,7 @@
     linkml:slot_usage [ ] ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/BioProject>,
         <https://w3id.org/synapse/amp-als/vocab/BioSample>,
+        <https://w3id.org/synapse/amp-als/vocab/CNSRegion>,
         <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
         <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
         <https://w3id.org/synapse/amp-als/vocab/GSE>,
@@ -2010,6 +2006,7 @@
         <https://w3id.org/synapse/amp-als/vocab/alignmentMethod>,
         <https://w3id.org/synapse/amp-als/vocab/assay>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
@@ -2025,10 +2022,12 @@
         <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/fileAnnotationsMixin__analysisTypes>,
         <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
+        <https://w3id.org/synapse/amp-als/vocab/isPostMortem>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/libraryLayout>,
         <https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod>,
         <https://w3id.org/synapse/amp-als/vocab/librarySource>,
+        <https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__collectionDate>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__originalSampleId>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__collectionSite>,
@@ -2061,7 +2060,8 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
-        <https://w3id.org/synapse/amp-als/vocab/totalBases> .
+        <https://w3id.org/synapse/amp-als/vocab/totalBases>,
+        <https://w3id.org/synapse/amp-als/vocab/totalReads> .
 
 <https://w3id.org/synapse/amp-als/vocab/GO> linkml:description "Gene Ontology pathways (biological process, molecular function, cellular component)" .
 
@@ -4011,11 +4011,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/biomarkers> linkml:description "Biomarker measurements and analysis" .
 
-<https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype> a linkml:SlotDefinition ;
-    dcterms:title "Biospecimen Subtype" ;
-    linkml:description "More specific biospecimen classification" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
 <https://w3id.org/synapse/amp-als/vocab/biospecimenType> a linkml:SlotDefinition ;
     dcterms:title "Biospecimen Type" ;
     linkml:description "Type of biological specimen(s)." ;
@@ -4613,6 +4608,16 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataStatus"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/dataSubtype> a linkml:SlotDefinition ;
+    dcterms:title "Data Subtype" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataSubtype"^^xsd:anyURI ;
+    linkml:description """Finer-grained classification of the data type. Dependent on dataType (see the requiresDependency annotation on dataType).
+""" ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataSubtype"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/dataTransmitted> a linkml:SlotDefinition ;
     dcterms:title "Data Transmitted" ;
@@ -5875,11 +5880,6 @@
     linkml:description "Whether the form is locked for editing" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
 
-<https://w3id.org/synapse/amp-als/vocab/isPostMortem> a linkml:SlotDefinition ;
-    dcterms:title "Post-mortem Status" ;
-    linkml:description "Whether specimen was collected post-mortem" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
-
 <https://w3id.org/synapse/amp-als/vocab/isRemote> a linkml:SlotDefinition ;
     dcterms:title "Remote Visit" ;
     linkml:description "Whether this was a remote/virtual visit" ;
@@ -6368,13 +6368,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/nuclear%20extract> linkml:description "Nuclear extracts contain proteins in nuclear compartment of the cell" ;
     linkml:meaning "http://purl.obolibrary.org/obo/NCIT_C19832"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource> a linkml:SlotDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource"^^xsd:anyURI ;
-    linkml:description "Source of nucleic acid for library preparation" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/NucleicAcidSourceEnum> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/numberLocationScore> a linkml:SlotDefinition ;
     dcterms:title "Number Location Score" ;
@@ -8094,6 +8087,9 @@
     linkml:description "ZIP or postal code" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
+<https://w3id.org/synapse/amp-als/vocab/ALL%20ALS> linkml:description "ALL ALS collection sites",
+        "ALL ALS consortium" .
+
 <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute> linkml:description "ALS Compute AnVIL portal (anvilproject.org)",
         "ALS Compute Portal" .
 
@@ -8331,6 +8327,12 @@
         <https://w3id.org/synapse/amp-als/vocab/whole-cell%20patch%20clamp>,
         <https://w3id.org/synapse/amp-als/vocab/word%20recognition%20score> .
 
+<https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum"^^xsd:anyURI ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/dorsolateral%20prefrontal%20cortex>,
+        <https://w3id.org/synapse/amp-als/vocab/middle%20frontal%20cortex>,
+        <https://w3id.org/synapse/amp-als/vocab/primary%20motor%20cortex> .
+
 <https://w3id.org/synapse/amp-als/vocab/Clear> linkml:description "Clear",
         "Colorless/clear" .
 
@@ -8433,9 +8435,9 @@
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "dataType" ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
 """ ;
@@ -8946,6 +8948,7 @@
     linkml:slot_usage [ ] ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/BioProject>,
         <https://w3id.org/synapse/amp-als/vocab/BioSample>,
+        <https://w3id.org/synapse/amp-als/vocab/CNSRegion>,
         <https://w3id.org/synapse/amp-als/vocab/FACSPopulation>,
         <https://w3id.org/synapse/amp-als/vocab/GEOSuperSeries>,
         <https://w3id.org/synapse/amp-als/vocab/SRP>,
@@ -8955,6 +8958,7 @@
         <https://w3id.org/synapse/amp-als/vocab/alignmentMethod>,
         <https://w3id.org/synapse/amp-als/vocab/assay>,
         <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
@@ -8970,10 +8974,12 @@
         <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/fileAnnotationsMixin__analysisTypes>,
         <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
+        <https://w3id.org/synapse/amp-als/vocab/isPostMortem>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/libraryLayout>,
         <https://w3id.org/synapse/amp-als/vocab/libraryPreparationMethod>,
         <https://w3id.org/synapse/amp-als/vocab/librarySource>,
+        <https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__collectionDate>,
         <https://w3id.org/synapse/amp-als/vocab/omicFileMixin__originalSampleId>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__collectionSite>,
@@ -9006,7 +9012,8 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
-        <https://w3id.org/synapse/amp-als/vocab/totalBases> .
+        <https://w3id.org/synapse/amp-als/vocab/totalBases>,
+        <https://w3id.org/synapse/amp-als/vocab/totalReads> .
 
 <https://w3id.org/synapse/amp-als/vocab/Sodium_Citrate> linkml:description "Sodium citrate anticoagulant",
         "Sodium citrate tube (blue top)" .
@@ -9629,16 +9636,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/BrodmannAreaEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/BrodmannArea"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/biospecimen__CNSRegion> a linkml:SlotDefinition ;
-    dcterms:title "CNS Region" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "CNSRegion" ;
-    linkml:description "Central nervous system region" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/CNSRegion"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/biospecimen__ChIPTarget> a linkml:SlotDefinition ;
     dcterms:title "ChIP Target" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -9678,16 +9675,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AnticoagulantEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/anticoagulant"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/biospecimen__biospecimenSubtype> a linkml:SlotDefinition ;
-    dcterms:title "Biospecimen Subtype" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "biospecimenSubtype" ;
-    linkml:description "More specific biospecimen classification" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/biospecimen__centrifugationSpeed> a linkml:SlotDefinition ;
     dcterms:title "Centrifugation Speed (RPM)" ;
@@ -9860,16 +9847,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/IcterusEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/icterusLevel"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/biospecimen__isPostMortem> a linkml:SlotDefinition ;
-    dcterms:title "Post-mortem Status" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "isPostMortem" ;
-    linkml:description "Whether specimen was collected post-mortem" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Biospecimen> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/isPostMortem"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/biospecimen__lipemiaLevel> a linkml:SlotDefinition ;
     dcterms:title "Lipemia Level" ;
@@ -10853,6 +10830,7 @@
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/completenessLevel"^^xsd:anyURI ;
     linkml:description "General assessment of data completeness based on non-null values." ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalFile> ;
+    linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalFile> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/CompletenessLevelEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/completenessLevel"^^xsd:anyURI .
@@ -13455,9 +13433,9 @@
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
     linkml:description "Biological sex of subject.",
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
@@ -14880,12 +14858,6 @@
         "C9orf72-associated FTD",
         "FTD donors with C9orf72 repeat expansion." .
 
-<https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum"^^xsd:anyURI ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/dorsolateral%20prefrontal%20cortex>,
-        <https://w3id.org/synapse/amp-als/vocab/middle%20frontal%20cortex>,
-        <https://w3id.org/synapse/amp-als/vocab/primary%20motor%20cortex> .
-
 <https://w3id.org/synapse/amp-als/vocab/CellTypeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CellTypeEnum"^^xsd:anyURI ;
     linkml:description "Type of cell or cell line" ;
@@ -15563,7 +15535,8 @@
 <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum"^^xsd:anyURI ;
     linkml:description "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal." ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALL%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
         <https://w3id.org/synapse/amp-als/vocab/Critical%20Path%20Institute>,
         <https://w3id.org/synapse/amp-als/vocab/Gene%20Expression%20Omnibus>,
         <https://w3id.org/synapse/amp-als/vocab/Sequencing%20Read%20Archive>,
@@ -16306,6 +16279,16 @@
         "Metadata files containing information about data collection, processing, or file manifests",
         "Metadata files describing the speech dataset structure or variable definitions" .
 
+<https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource> a linkml:SlotDefinition ;
+    dcterms:title "Nucleic Acid Source" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource"^^xsd:anyURI ;
+    linkml:description "Source of nucleic acid for library preparation" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/NucleicAcidSourceEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/omicDataset__dataType> a linkml:SlotDefinition ;
     dcterms:title "Data Type" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16423,6 +16406,17 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/totalBases"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/totalReads> a linkml:SlotDefinition ;
+    dcterms:title "Total Reads" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/totalReads"^^xsd:anyURI ;
+    linkml:description """Total number of sequencing reads. Derived as totalBases / readLength (i.e. Bases / AvgSpotLen from SRA run metadata).
+""" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/integer> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/totalReads"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/1%2B> linkml:description "1+",
         "1+ (250 mg/dL)",
         "1+ (30 mg/dL)" .
@@ -16484,6 +16478,17 @@
         <https://w3id.org/synapse/amp-als/vocab/neurological_examination>,
         <https://w3id.org/synapse/amp-als/vocab/psychiatric_eval>,
         <https://w3id.org/synapse/amp-als/vocab/vital_signs> .
+
+<https://w3id.org/synapse/amp-als/vocab/CNSRegion> a linkml:SlotDefinition ;
+    dcterms:title "CNS Region" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CNSRegion"^^xsd:anyURI ;
+    linkml:description "Central nervous system region" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen>,
+        <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CNSRegionEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/CNSRegion"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/Data> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/Data"^^xsd:anyURI ;
@@ -16607,6 +16612,28 @@
         <https://w3id.org/synapse/amp-als/vocab/Moderate>,
         <https://w3id.org/synapse/amp-als/vocab/Severe>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
+
+<https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype> a linkml:SlotDefinition ;
+    dcterms:title "Biospecimen Subtype" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype"^^xsd:anyURI ;
+    linkml:description "More specific biospecimen classification" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen>,
+        <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/isPostMortem> a linkml:SlotDefinition ;
+    dcterms:title "Post-mortem Status" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/isPostMortem"^^xsd:anyURI ;
+    linkml:description "Whether specimen was collected post-mortem" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Biospecimen>,
+        <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/isPostMortem"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/2%2B> linkml:description "2+",
         "2+ (100 mg/dL)",
@@ -18034,22 +18061,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/diseaseSubtype"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> a linkml:ClassDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/SRAFileMixin"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SRAFileMixin"^^xsd:anyURI ;
-    linkml:description "Mixin for SRA (Sequence Read Archive) / NCBI file-level identifiers." ;
-    linkml:mixin true ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/BioProject>,
-        <https://w3id.org/synapse/amp-als/vocab/BioSample>,
-        <https://w3id.org/synapse/amp-als/vocab/SRP>,
-        <https://w3id.org/synapse/amp-als/vocab/SRR>,
-        <https://w3id.org/synapse/amp-als/vocab/SRS>,
-        <https://w3id.org/synapse/amp-als/vocab/SRX>,
-        <https://w3id.org/synapse/amp-als/vocab/readLength>,
-        <https://w3id.org/synapse/amp-als/vocab/totalBases> .
-
 <https://w3id.org/synapse/amp-als/vocab/OmicFile> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/collectionSite>,
@@ -18669,6 +18680,27 @@
         "Other volume unit",
         "Other withdrawal reason",
         "other onset sites" .
+
+<https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> a linkml:ClassDefinition ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/SRAFileMixin"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SRAFileMixin"^^xsd:anyURI ;
+    linkml:description "Mixin for SRA (Sequence Read Archive) / NCBI file-level identifiers." ;
+    linkml:mixin true ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/BioProject>,
+        <https://w3id.org/synapse/amp-als/vocab/BioSample>,
+        <https://w3id.org/synapse/amp-als/vocab/CNSRegion>,
+        <https://w3id.org/synapse/amp-als/vocab/SRP>,
+        <https://w3id.org/synapse/amp-als/vocab/SRR>,
+        <https://w3id.org/synapse/amp-als/vocab/SRS>,
+        <https://w3id.org/synapse/amp-als/vocab/SRX>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
+        <https://w3id.org/synapse/amp-als/vocab/isPostMortem>,
+        <https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource>,
+        <https://w3id.org/synapse/amp-als/vocab/readLength>,
+        <https://w3id.org/synapse/amp-als/vocab/totalBases>,
+        <https://w3id.org/synapse/amp-als/vocab/totalReads> .
 
 <https://w3id.org/synapse/amp-als/vocab/ChemistryPanel> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -19716,12 +19748,10 @@
 <https://w3id.org/synapse/amp-als/vocab/Biospecimen> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/BrodmannArea>,
-        <https://w3id.org/synapse/amp-als/vocab/CNSRegion>,
         <https://w3id.org/synapse/amp-als/vocab/ChIPTarget>,
         <https://w3id.org/synapse/amp-als/vocab/aliquotVolume>,
         <https://w3id.org/synapse/amp-als/vocab/aliquots>,
         <https://w3id.org/synapse/amp-als/vocab/anticoagulant>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/centrifugationSpeed>,
         <https://w3id.org/synapse/amp-als/vocab/centrifugationTemperature>,
         <https://w3id.org/synapse/amp-als/vocab/centrifugationTime>,
@@ -19739,7 +19769,6 @@
         <https://w3id.org/synapse/amp-als/vocab/globalBiospecimenId>,
         <https://w3id.org/synapse/amp-als/vocab/hemolysisLevel>,
         <https://w3id.org/synapse/amp-als/vocab/icterusLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/isPostMortem>,
         <https://w3id.org/synapse/amp-als/vocab/lipemiaLevel>,
         <https://w3id.org/synapse/amp-als/vocab/organ>,
         <https://w3id.org/synapse/amp-als/vocab/originalBiospecimenId>,
@@ -19771,13 +19800,13 @@
         <https://w3id.org/synapse/amp-als/vocab/SpecimenTypeMixin>,
         <https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> ;
     linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/biospecimen__BrodmannArea>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimen__CNSRegion>,
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/CNSRegion>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
+        <https://w3id.org/synapse/amp-als/vocab/biospecimen__BrodmannArea>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__ChIPTarget>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__aliquotVolume>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__aliquots>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__anticoagulant>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimen__biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__centrifugationSpeed>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__centrifugationTemperature>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__centrifugationTime>,
@@ -19795,7 +19824,6 @@
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__globalBiospecimenId>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__hemolysisLevel>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__icterusLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/biospecimen__isPostMortem>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__lipemiaLevel>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__organ>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__originalBiospecimenId>,
@@ -19821,6 +19849,7 @@
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__treatment>,
         <https://w3id.org/synapse/amp-als/vocab/biospecimen__volumeUnits>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalRecordMixin__visitId>,
+        <https://w3id.org/synapse/amp-als/vocab/isPostMortem>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
