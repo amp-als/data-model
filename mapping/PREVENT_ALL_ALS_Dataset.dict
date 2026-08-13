@@ -844,6 +844,18 @@
         "clinical"
       ],
       "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_PR_PREVDHTPFD": {
+      "assessmentType": [],
+      "clinicalDomain": [],
+      "dataType": [],
+      "studyPhase": ""
+    },
+    "ct_ALLALS_PR_Follow_up_SAE_Report": {
+      "assessmentType": [],
+      "clinicalDomain": [],
+      "dataType": [],
+      "studyPhase": ""
     }
   },
   "SiteUID": {
@@ -11126,5 +11138,9 @@
     "view": "ct_ALLALS_PR_Initial_SAE_Report",
     "target": "",
     "values": {}
+  },
+  "originalRepository": {
+    "target": "originalRepository",
+    "value": "ALL ALS"
   }
 }

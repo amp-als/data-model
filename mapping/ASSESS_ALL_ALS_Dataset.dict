@@ -580,7 +580,7 @@
       "dataType": [
         "diagnostic_criteria"
       ],
-      "studyPhase": "screening"
+      "studyPhase": "screeningALL ALS"
     },
     "v_ALLALS_AS_ASSEDHTDFS": {
       "assessmentType": [
@@ -5765,5 +5765,9 @@
     "view": "ct_ALLALS_AS_Initial_SAE_Report_ASSESS",
     "target": "",
     "values": {}
+  },
+  "originalRepository": {
+    "target": "originalRepository",
+    "value": "ALL ALS"
   }
 }

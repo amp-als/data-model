@@ -37,18 +37,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Documentation of consent and eligibility confirmation"
-      ],
+      "description": "Documentation of consent and eligibility confirmation",
       "disease": [
         "ALS"
       ],
@@ -71,17 +67,15 @@
         "EligibilityConsent"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        192
-      ],
+      "participant_count": 200,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        192
+        200
       ],
       "sameAs": "",
       "sampleType": "",
@@ -114,8 +108,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.780338",
-      "_staging_id": "syn75362861"
+      "_created_timestamp": "2026-08-13T15:13:13.191262",
+      "_staging_id": "syn76307792"
     }
   },
   "syn68905774": {
@@ -157,18 +151,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Informed consent approvals, versions, and future-use choices for the ASSESS study"
-      ],
+      "description": "Informed consent approvals, versions, and future-use choices for the ASSESS study",
       "disease": [
         "ALS",
         "Control"
@@ -197,17 +187,15 @@
         "future_use"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1133
-      ],
+      "participant_count": 1180,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1545
+        1599
       ],
       "sameAs": "",
       "sampleType": "",
@@ -240,8 +228,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.781505",
-      "_staging_id": "syn75362874"
+      "_created_timestamp": "2026-08-13T15:13:13.192655",
+      "_staging_id": "syn76307805"
     }
   },
   "syn68905785": {
@@ -283,18 +271,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Documentation of supportive devices and procedures"
-      ],
+      "description": "Documentation of supportive devices and procedures",
       "disease": [
         "ALS"
       ],
@@ -319,17 +303,15 @@
         "treatment_response"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        903
-      ],
+      "participant_count": 942,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1048
+        1086
       ],
       "sameAs": "",
       "sampleType": "",
@@ -362,8 +344,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.791538",
-      "_staging_id": "syn75362840"
+      "_created_timestamp": "2026-08-13T15:13:13.203979",
+      "_staging_id": "syn76307807"
     }
   },
   "syn68905764": {
@@ -404,9 +386,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "study_completion"
@@ -414,9 +394,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Speech Function testing"
-      ],
+      "description": "Speech Function testing",
       "disease": [
         "ALS"
       ],
@@ -439,17 +417,15 @@
         "speech_function"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1108
-      ],
+      "participant_count": 1158,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1108
+        1158
       ],
       "sameAs": "",
       "sampleType": "",
@@ -482,8 +458,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.799747",
-      "_staging_id": "syn75362860"
+      "_created_timestamp": "2026-08-13T15:13:13.213721",
+      "_staging_id": "syn76307796"
     }
   },
   "syn68905775": {
@@ -526,9 +502,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "motor_assessment"
@@ -536,9 +510,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Hand-held dynamometry strength measurements with multiple trials per muscle group"
-      ],
+      "description": "Hand-held dynamometry strength measurements with multiple trials per muscle group",
       "disease": [
         "ALS"
       ],
@@ -563,17 +535,15 @@
         "HandHeldDynamometry"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        778
-      ],
+      "participant_count": 815,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1476
+        1593
       ],
       "sameAs": "",
       "sampleType": "",
@@ -606,8 +576,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.806105",
-      "_staging_id": "syn75362870"
+      "_created_timestamp": "2026-08-13T15:13:13.221566",
+      "_staging_id": "syn76307804"
     }
   },
   "syn71824537": {
@@ -645,18 +615,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Enrollment status for NeuroPRO registry captured during ASSESS key study events"
-      ],
+      "description": "Enrollment status for NeuroPRO registry captured during ASSESS key study events",
       "disease": [
         "ALS"
       ],
@@ -680,12 +646,10 @@
         "clinical"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        767
-      ],
+      "participant_count": 767,
       "program": [
         "ALL ALS"
       ],
@@ -723,7 +687,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.829798"
+      "_created_timestamp": "2026-08-13T15:13:13.250815"
     }
   },
   "syn72663750": {
@@ -749,7 +713,9 @@
       "clinicalDomain": [
         "remote_monitoring"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -759,9 +725,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "surveyData"
@@ -769,9 +733,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Six-item Technology Acceptance Model survey assessing DHT wearable device usability and perceived ease of use"
-      ],
+      "description": "Six-item Technology Acceptance Model survey assessing DHT wearable device usability and perceived ease of use",
       "disease": [
         "ALS"
       ],
@@ -796,17 +758,15 @@
         "TAM"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        79
-      ],
+      "participant_count": 85,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        102
+        133
       ],
       "sameAs": "",
       "sampleType": "",
@@ -839,8 +799,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.829934",
-      "_staging_id": "syn75362868"
+      "_created_timestamp": "2026-08-13T15:13:13.251003",
+      "_staging_id": "syn76307788"
     }
   },
   "syn68905765": {
@@ -883,9 +843,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "cognitive_assessment",
@@ -894,9 +852,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Edinburgh Cognitive ALS Screen"
-      ],
+      "description": "Edinburgh Cognitive ALS Screen",
       "disease": [
         "ALS"
       ],
@@ -929,17 +885,15 @@
         "ECAS"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1117
-      ],
+      "participant_count": 1167,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1346
+        1443
       ],
       "sameAs": "",
       "sampleType": "",
@@ -972,8 +926,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.830819",
-      "_staging_id": "syn75362862"
+      "_created_timestamp": "2026-08-13T15:13:13.252305",
+      "_staging_id": "syn76307795"
     }
   },
   "syn68905776": {
@@ -1014,9 +968,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
@@ -1044,17 +996,15 @@
         ""
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1116
-      ],
+      "participant_count": 1169,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1175
+        1227
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1087,8 +1037,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.847049",
-      "_staging_id": "syn75362834"
+      "_created_timestamp": "2026-08-13T15:13:13.273180",
+      "_staging_id": "syn76307806"
     }
   },
   "syn72663740": {
@@ -1116,7 +1066,9 @@
         "motor_function",
         "limb_function"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -1126,9 +1078,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "motor_assessment"
@@ -1136,9 +1086,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Observed bilateral elbow flexion and knee extension exercises for DHT sub-study movement calibration"
-      ],
+      "description": "Observed bilateral elbow flexion and knee extension exercises for DHT sub-study movement calibration",
       "disease": [
         "ALS"
       ],
@@ -1164,17 +1112,15 @@
         "repetition_count"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        75
-      ],
+      "participant_count": 84,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        97
+        132
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1207,8 +1153,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.853208",
-      "_staging_id": "syn75362848"
+      "_created_timestamp": "2026-08-13T15:13:13.280996",
+      "_staging_id": "syn76307782"
     }
   },
   "syn68905755": {
@@ -1249,9 +1195,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "adverse_events"
@@ -1259,9 +1203,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Documentation of adverse events and their outcomes"
-      ],
+      "description": "Documentation of adverse events and their outcomes",
       "disease": [
         "ALS"
       ],
@@ -1287,17 +1229,15 @@
         "adverse_event_outcome"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        741
-      ],
+      "participant_count": 769,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        745
+        773
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1330,8 +1270,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.854997",
-      "_staging_id": "syn75362843"
+      "_created_timestamp": "2026-08-13T15:13:13.283987",
+      "_staging_id": "syn76307763"
     }
   },
   "syn68905766": {
@@ -1371,18 +1311,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Documentation of consent and eligibility confirmation"
-      ],
+      "description": "Documentation of consent and eligibility confirmation",
       "disease": [
         "ALS"
       ],
@@ -1406,17 +1342,15 @@
         "EligibilityConsent"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1167
-      ],
+      "participant_count": 1217,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1167
+        1217
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1449,8 +1383,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.859624",
-      "_staging_id": "syn75362865"
+      "_created_timestamp": "2026-08-13T15:13:13.295362",
+      "_staging_id": "syn76307794"
     }
   },
   "syn68905777": {
@@ -1493,9 +1427,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "diagnostic_criteria"
@@ -1503,9 +1435,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Study eligibility assessment"
-      ],
+      "description": "Study eligibility assessment",
       "disease": [
         "ALS"
       ],
@@ -1528,17 +1458,15 @@
         "subject_management"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        199
-      ],
+      "participant_count": 207,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        199
+        207
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1571,8 +1499,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.864544",
-      "_staging_id": "syn75362876"
+      "_created_timestamp": "2026-08-13T15:13:13.302482",
+      "_staging_id": "syn76307800"
     }
   },
   "syn72663741": {
@@ -1599,7 +1527,9 @@
         "physical_mobility",
         "limb_function"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -1609,18 +1539,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Body measurements and laterality assessment for DHT sub-study wearable device placement"
-      ],
+      "description": "Body measurements and laterality assessment for DHT sub-study wearable device placement",
       "disease": [
         "ALS"
       ],
@@ -1645,17 +1571,15 @@
         "limb_measurements"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        80
-      ],
+      "participant_count": 85,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        80
+        85
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1688,8 +1612,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.866131",
-      "_staging_id": "syn75362847"
+      "_created_timestamp": "2026-08-13T15:13:13.304518",
+      "_staging_id": "syn76307779"
     }
   },
   "syn68905756": {
@@ -1729,9 +1653,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "biomarker_data",
@@ -1740,9 +1662,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Laboratory testing"
-      ],
+      "description": "Laboratory testing",
       "disease": [
         "ALS"
       ],
@@ -1767,17 +1687,15 @@
         "csf_collection_status"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        178
-      ],
+      "participant_count": 180,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        358
+        395
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1810,8 +1728,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.866864",
-      "_staging_id": "syn75362845"
+      "_created_timestamp": "2026-08-13T15:13:13.305515",
+      "_staging_id": "syn76307774"
     }
   },
   "syn68905767": {
@@ -1852,9 +1770,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "biomarker_data",
@@ -1863,9 +1779,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Laboratory specimen collection status and details"
-      ],
+      "description": "Laboratory specimen collection status and details",
       "disease": [
         "ALS"
       ],
@@ -1892,17 +1806,15 @@
         "blood_collection_status"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1081
-      ],
+      "participant_count": 1121,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        2073
+        2185
       ],
       "sameAs": "",
       "sampleType": "",
@@ -1935,8 +1847,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.868736",
-      "_staging_id": "syn75362844"
+      "_created_timestamp": "2026-08-13T15:13:13.308035",
+      "_staging_id": "syn76307777"
     }
   },
   "syn68905778": {
@@ -1979,9 +1891,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "disease_progression"
@@ -1989,9 +1899,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Study completion, termination, and final disposition information"
-      ],
+      "description": "Study completion, termination, and final disposition information",
       "disease": [
         "ALS"
       ],
@@ -2015,17 +1923,15 @@
         "participant_disposition"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        244
-      ],
+      "participant_count": 269,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        244
+        269
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2059,8 +1965,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.880542",
-      "_staging_id": "syn75362838"
+      "_created_timestamp": "2026-08-13T15:13:13.323784",
+      "_staging_id": "syn76307765"
     }
   },
   "syn72663742": {
@@ -2087,7 +1993,9 @@
         "subject_management",
         "informed_consent"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -2097,18 +2005,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Enrollment confirmation and eligibility verification for the DIGITIZE ALL ALS DHT sub-study"
-      ],
+      "description": "Enrollment confirmation and eligibility verification for the DIGITIZE ALL ALS DHT sub-study",
       "disease": [
         "ALS"
       ],
@@ -2132,17 +2036,15 @@
         "subject_management"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        80
-      ],
+      "participant_count": 87,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        80
+        87
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2175,8 +2077,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.882023",
-      "_staging_id": "syn75362850"
+      "_created_timestamp": "2026-08-13T15:13:13.325983",
+      "_staging_id": "syn76307781"
     }
   },
   "syn68905757": {
@@ -2214,9 +2116,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "demographics"
@@ -2224,9 +2124,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Demographics and baseline characteristics"
-      ],
+      "description": "Demographics and baseline characteristics",
       "disease": [
         "ALS"
       ],
@@ -2250,17 +2148,15 @@
         "demographics_characteristics"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        991
-      ],
+      "participant_count": 1037,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        991
+        1037
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2294,8 +2190,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.882602",
-      "_staging_id": "syn75362846"
+      "_created_timestamp": "2026-08-13T15:13:13.326839",
+      "_staging_id": "syn76307776"
     }
   },
   "syn68905768": {
@@ -2336,9 +2232,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "diagnostic_criteria"
@@ -2366,17 +2260,15 @@
         ""
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        237
-      ],
+      "participant_count": 259,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        237
+        259
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2409,8 +2301,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.893647",
-      "_staging_id": "syn75362864"
+      "_created_timestamp": "2026-08-13T15:13:13.340345",
+      "_staging_id": "syn76307797"
     }
   },
   "syn68905779": {
@@ -2450,18 +2342,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Protocol deviations and violations tracking"
-      ],
+      "description": "Protocol deviations and violations tracking",
       "disease": [
         "ALS"
       ],
@@ -2486,17 +2374,15 @@
         "protocol_deviations"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        810
-      ],
+      "participant_count": 850,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1054
+        1125
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2529,8 +2415,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.895653",
-      "_staging_id": "syn75362839"
+      "_created_timestamp": "2026-08-13T15:13:13.343047",
+      "_staging_id": "syn76307767"
     }
   },
   "syn68905758": {
@@ -2577,9 +2463,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "functional_assessment",
@@ -2588,9 +2472,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "ALS Functional Rating Scale (ALSFRS-R) assessment"
-      ],
+      "description": "ALS Functional Rating Scale (ALSFRS-R) assessment",
       "disease": [
         "ALS"
       ],
@@ -2623,17 +2505,15 @@
         "breathing_score"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        684
-      ],
+      "participant_count": 725,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1588
+        1761
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2666,8 +2546,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.909731",
-      "_staging_id": "syn75362856"
+      "_created_timestamp": "2026-08-13T15:13:13.360870",
+      "_staging_id": "syn76307773"
     }
   },
   "syn68905769": {
@@ -2709,9 +2589,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "diagnostic_criteria"
@@ -2739,17 +2617,15 @@
         ""
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        430
-      ],
+      "participant_count": 466,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        430
+        466
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2782,8 +2658,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.925019",
-      "_staging_id": "syn75362877"
+      "_created_timestamp": "2026-08-13T15:13:13.380057",
+      "_staging_id": "syn76307799"
     }
   },
   "syn72663744": {
@@ -2811,7 +2687,9 @@
         "physical_mobility",
         "safety_monitoring"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -2821,9 +2699,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "surveyData"
@@ -2831,9 +2707,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Patient-reported fall history and frequency questionnaire for the DHT sub-study"
-      ],
+      "description": "Patient-reported fall history and frequency questionnaire for the DHT sub-study",
       "disease": [
         "ALS"
       ],
@@ -2858,17 +2732,15 @@
         "safety_monitoring"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        80
-      ],
+      "participant_count": 85,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        104
+        135
       ],
       "sameAs": "",
       "sampleType": "",
@@ -2901,8 +2773,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.928448",
-      "_staging_id": "syn75362852"
+      "_created_timestamp": "2026-08-13T15:13:13.384217",
+      "_staging_id": "syn76307784"
     }
   },
   "syn68905759": {
@@ -2945,9 +2817,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "medical_history",
@@ -2957,9 +2827,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Medical history and comorbidity tracking"
-      ],
+      "description": "Medical history and comorbidity tracking",
       "disease": [
         "ALS"
       ],
@@ -2985,17 +2853,15 @@
         "symptom_onset_characteristics"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        787
-      ],
+      "participant_count": 816,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        906
+        936
       ],
       "sameAs": "",
       "sampleType": "",
@@ -3029,8 +2895,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.929281",
-      "_staging_id": "syn75362857"
+      "_created_timestamp": "2026-08-13T15:13:13.385365",
+      "_staging_id": "syn76307775"
     }
   },
   "syn74145004": {
@@ -3069,9 +2935,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "surveyData"
       ],
@@ -3086,7 +2950,7 @@
         ""
       ],
       "fileFormat": [
-        "CSV"
+        "csv"
       ],
       "globalSubjectId": "",
       "hasLongitudinalData": false,
@@ -3097,21 +2961,17 @@
         "feedback survey"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        2
-      ],
+      "participant_count": 2,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
         2
       ],
-      "sameAs": [
-        "v_ALLALS_AS_ASSEDHTDFS"
-      ],
+      "sameAs": "v_ALLALS_AS_ASSEDHTDFS",
       "sampleType": "",
       "species": [
         "Homo sapiens"
@@ -3142,8 +3002,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.935565",
-      "_staging_id": "syn75362849"
+      "_created_timestamp": "2026-08-13T15:13:13.392903",
+      "_staging_id": "syn76307780"
     }
   },
   "syn72663745": {
@@ -3170,7 +3030,9 @@
         "remote_monitoring",
         "compliance"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -3180,9 +3042,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "surveyData"
@@ -3190,9 +3050,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Baseline survey assessing predicted device compliance and adherence attitudes for the DHT sub-study"
-      ],
+      "description": "Baseline survey assessing predicted device compliance and adherence attitudes for the DHT sub-study",
       "disease": [
         "ALS"
       ],
@@ -3217,17 +3075,15 @@
         "predicted_adherence"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        80
-      ],
+      "participant_count": 85,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        80
+        85
       ],
       "sameAs": "",
       "sampleType": "",
@@ -3260,8 +3116,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.935858",
-      "_staging_id": "syn75362853"
+      "_created_timestamp": "2026-08-13T15:13:13.393381",
+      "_staging_id": "syn76307785"
     }
   },
   "syn72663746": {
@@ -3288,7 +3144,9 @@
         "subject_management",
         "study_completion"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -3298,9 +3156,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "study_completion"
@@ -3308,9 +3164,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "DHT sub-study completion, termination, and final disposition information"
-      ],
+      "description": "DHT sub-study completion, termination, and final disposition information",
       "disease": [
         "ALS"
       ],
@@ -3334,17 +3188,15 @@
         "study_completion_status"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        7
-      ],
+      "participant_count": 10,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        7
+        10
       ],
       "sameAs": "",
       "sampleType": "",
@@ -3377,8 +3229,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.936444",
-      "_staging_id": "syn75362854"
+      "_created_timestamp": "2026-08-13T15:13:13.394232",
+      "_staging_id": "syn76307786"
     }
   },
   "syn72663747": {
@@ -3407,7 +3259,9 @@
         "motor_function",
         "limb_function"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -3417,9 +3271,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "surveyData"
@@ -3427,9 +3279,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Patient-reported mobility device use, ambulation status, and global rating of change for motor function"
-      ],
+      "description": "Patient-reported mobility device use, ambulation status, and global rating of change for motor function",
       "disease": [
         "ALS"
       ],
@@ -3456,17 +3306,15 @@
         "motor_function"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        80
-      ],
+      "participant_count": 84,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        104
+        134
       ],
       "sameAs": "",
       "sampleType": "",
@@ -3499,8 +3347,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.936706",
-      "_staging_id": "syn75362855"
+      "_created_timestamp": "2026-08-13T15:13:13.394694",
+      "_staging_id": "syn76307787"
     }
   },
   "syn72663748": {
@@ -3526,7 +3374,9 @@
       "clinicalDomain": [
         "remote_monitoring"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -3536,9 +3386,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "surveyData"
@@ -3546,9 +3394,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Four-item UMUX Lite (Usability Metric for User Experience Short Form) assessing DHT device usability"
-      ],
+      "description": "Four-item UMUX Lite (Usability Metric for User Experience Short Form) assessing DHT device usability",
       "disease": [
         "ALS"
       ],
@@ -3572,17 +3418,15 @@
         "wearable_device"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        22
-      ],
+      "participant_count": 41,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        23
+        49
       ],
       "sameAs": "",
       "sampleType": "",
@@ -3615,8 +3459,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.938556",
-      "_staging_id": "syn75362872"
+      "_created_timestamp": "2026-08-13T15:13:13.397558",
+      "_staging_id": "syn76307793"
     }
   },
   "syn72663738": {
@@ -3643,7 +3487,9 @@
         "subject_management",
         "eligibility_criteria"
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -3653,18 +3499,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Inclusion criteria confirmation for the DIGITIZE ALL ALS DHT sub-study"
-      ],
+      "description": "Inclusion criteria confirmation for the DIGITIZE ALL ALS DHT sub-study",
       "disease": [
         "ALS"
       ],
@@ -3687,17 +3529,15 @@
         "subject_management"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        82
-      ],
+      "participant_count": 89,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        82
+        89
       ],
       "sameAs": "",
       "sampleType": "",
@@ -3730,8 +3570,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.938902",
-      "_staging_id": "syn75362863"
+      "_created_timestamp": "2026-08-13T15:13:13.398266",
+      "_staging_id": "syn76307783"
     }
   },
   "syn68905780": {
@@ -3773,9 +3613,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "genetic_testing"
@@ -3783,16 +3621,14 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Laboratory testing"
-      ],
+      "description": "Laboratory testing",
       "disease": [
         "ALS"
       ],
       "diseaseSubtype": [
         "TARDBP",
         "ATXN2-ALS",
-        "C9orf72",
+        "C9-ALS",
         "Other genetic ALS",
         "SOD1",
         "SETX-ALS",
@@ -3820,7 +3656,8 @@
         "ALS2-ALS",
         "VCP-ALS",
         "MATR3-ALS",
-        "TUBA4A-ALS"
+        "TUBA4A-ALS",
+        "C9-ALS"
       ],
       "fileFormat": [
         "csv"
@@ -3842,17 +3679,15 @@
         "genetic_testing"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        775
-      ],
+      "participant_count": 805,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        808
+        839
       ],
       "sameAs": "",
       "sampleType": "",
@@ -3886,8 +3721,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.939556",
-      "_staging_id": "syn75362836"
+      "_created_timestamp": "2026-08-13T15:13:13.399200",
+      "_staging_id": "syn76307766"
     }
   },
   "syn68905770": {
@@ -3928,9 +3763,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "diagnostic_criteria"
@@ -3938,9 +3771,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Study eligibility assessment"
-      ],
+      "description": "Study eligibility assessment",
       "disease": [
         "Control"
       ],
@@ -3965,17 +3796,15 @@
         "regulatory_eligibility"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        117
-      ],
+      "participant_count": 118,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        117
+        118
       ],
       "sameAs": "",
       "sampleType": "",
@@ -4008,8 +3837,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.945584",
-      "_staging_id": "syn75362866"
+      "_created_timestamp": "2026-08-13T15:13:13.406618",
+      "_staging_id": "syn76307801"
     }
   },
   "syn68905781": {
@@ -4050,9 +3879,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "respiratory_assessment"
@@ -4060,9 +3887,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Pulmonary function testing"
-      ],
+      "description": "Pulmonary function testing",
       "disease": [
         "ALS"
       ],
@@ -4086,17 +3911,15 @@
         "respiratory_function_measures"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        757
-      ],
+      "participant_count": 794,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1423
+        1540
       ],
       "sameAs": "",
       "sampleType": "",
@@ -4129,8 +3952,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.946714",
-      "_staging_id": "syn75362833"
+      "_created_timestamp": "2026-08-13T15:13:13.408074",
+      "_staging_id": "syn76307771"
     }
   },
   "syn68905760": {
@@ -4176,9 +3999,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "functional_assessment",
@@ -4187,9 +4008,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "ALS Functional Rating Scale (ALSFRS-R) assessment"
-      ],
+      "description": "ALS Functional Rating Scale (ALSFRS-R) assessment",
       "disease": [
         "ALS"
       ],
@@ -4222,17 +4041,15 @@
         "breathing_score"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        794
-      ],
+      "participant_count": 822,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        2470
+        2656
       ],
       "sameAs": "",
       "sampleType": "",
@@ -4265,8 +4082,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.958753",
-      "_staging_id": "syn75362842"
+      "_created_timestamp": "2026-08-13T15:13:13.424847",
+      "_staging_id": "syn76307764"
     }
   },
   "syn68905771": {
@@ -4308,9 +4125,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "diagnostic_criteria"
@@ -4318,9 +4133,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Study eligibility assessment"
-      ],
+      "description": "Study eligibility assessment",
       "disease": [
         "ALS"
       ],
@@ -4347,12 +4160,10 @@
         "inclusion_criteria"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        392
-      ],
+      "participant_count": 392,
       "program": [
         "ALL ALS"
       ],
@@ -4390,8 +4201,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.980695",
-      "_staging_id": "syn75362867"
+      "_created_timestamp": "2026-08-13T15:13:13.451549",
+      "_staging_id": "syn76307802"
     }
   },
   "syn68905782": {
@@ -4430,9 +4241,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "medical_history",
@@ -4441,9 +4250,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Medical history and comorbidity tracking"
-      ],
+      "description": "Medical history and comorbidity tracking",
       "disease": [
         "ALS"
       ],
@@ -4464,17 +4271,15 @@
         "clinical"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1114
-      ],
+      "participant_count": 1166,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        7409
+        7711
       ],
       "sameAs": "",
       "sampleType": "",
@@ -4508,8 +4313,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:53.983622",
-      "_staging_id": "syn75362837"
+      "_created_timestamp": "2026-08-13T15:13:13.455276",
+      "_staging_id": "syn76307808"
     }
   },
   "syn68905761": {
@@ -4551,9 +4356,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "medication_history"
@@ -4561,9 +4364,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Use of concomitant medications during the study"
-      ],
+      "description": "Use of concomitant medications during the study",
       "disease": [
         "ALS"
       ],
@@ -4590,17 +4391,15 @@
         "drug_exposure"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1087
-      ],
+      "participant_count": 1124,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        8498
+        8873
       ],
       "sameAs": "",
       "sampleType": "",
@@ -4633,8 +4432,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:54.019439",
-      "_staging_id": "syn75362858"
+      "_created_timestamp": "2026-08-13T15:13:13.500640",
+      "_staging_id": "syn76307778"
     }
   },
   "syn68905772": {
@@ -4678,9 +4477,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "cognitive_assessment"
@@ -4688,9 +4485,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Edinburgh Cognitive ALS Screen"
-      ],
+      "description": "Edinburgh Cognitive ALS Screen",
       "disease": [
         "ALS"
       ],
@@ -4723,17 +4518,15 @@
         "ECAS"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1109
-      ],
+      "participant_count": 1160,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1329
+        1425
       ],
       "sameAs": "",
       "sampleType": "",
@@ -4766,8 +4559,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:54.071685",
-      "_staging_id": "syn75362859"
+      "_created_timestamp": "2026-08-13T15:13:13.567581",
+      "_staging_id": "syn76307798"
     }
   },
   "syn68905783": {
@@ -4806,18 +4599,14 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical"
       ],
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Visit dates and scheduling information"
-      ],
+      "description": "Visit dates and scheduling information",
       "disease": [
         "ALS"
       ],
@@ -4839,17 +4628,15 @@
         "clinical"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1175
-      ],
+      "participant_count": 1232,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        4335
+        4660
       ],
       "sameAs": "",
       "sampleType": "",
@@ -4882,8 +4669,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:54.087427",
-      "_staging_id": "syn75362835"
+      "_created_timestamp": "2026-08-13T15:13:13.588560",
+      "_staging_id": "syn76307768"
     }
   },
   "syn68905762": {
@@ -4926,9 +4713,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "study_completion"
@@ -4936,9 +4721,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Digital speech assessment sessions and results"
-      ],
+      "description": "Digital speech assessment sessions and results",
       "disease": [
         "ALS"
       ],
@@ -4962,17 +4745,15 @@
         "safety_monitoring"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1128
-      ],
+      "participant_count": 1172,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        1141
+        1185
       ],
       "sameAs": "",
       "sampleType": "",
@@ -5006,8 +4787,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:54.102307",
-      "_staging_id": "syn75362873"
+      "_created_timestamp": "2026-08-13T15:13:13.609523",
+      "_staging_id": "syn76307791"
     }
   },
   "syn68905773": {
@@ -5048,9 +4829,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "family_history"
@@ -5058,9 +4837,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Medical history and comorbidity tracking"
-      ],
+      "description": "Medical history and comorbidity tracking",
       "disease": [
         "ALS"
       ],
@@ -5085,17 +4862,15 @@
         "genetic_testing"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1144
-      ],
+      "participant_count": 1188,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        2024
+        2098
       ],
       "sameAs": "",
       "sampleType": "",
@@ -5129,8 +4904,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:54.106778",
-      "_staging_id": "syn75362871"
+      "_created_timestamp": "2026-08-13T15:13:13.615260",
+      "_staging_id": "syn76307803"
     }
   },
   "syn68905784": {
@@ -5170,9 +4945,7 @@
       "curationLevel": [
         ""
       ],
-      "dataSourcePrefix": [
-        "all_als"
-      ],
+      "dataSourcePrefix": "all_als",
       "dataType": [
         "clinical",
         "vital_signs"
@@ -5180,9 +4953,7 @@
       "datasetReference": [
         "assess"
       ],
-      "description": [
-        "Vital signs measurements including blood pressure, heart rate, temperature, and respiratory parameters"
-      ],
+      "description": "Vital signs measurements including blood pressure, heart rate, temperature, and respiratory parameters",
       "disease": [
         "ALS"
       ],
@@ -5205,17 +4976,15 @@
         "weight"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
-      "participant_count": [
-        1148
-      ],
+      "participant_count": 1200,
       "program": [
         "ALL ALS"
       ],
       "recordCount": [
-        2118
+        2308
       ],
       "sameAs": "",
       "sampleType": "",
@@ -5248,8 +5017,8 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:54.129724",
-      "_staging_id": "syn75362841"
+      "_created_timestamp": "2026-08-13T15:13:13.643458",
+      "_staging_id": "syn76307770"
     }
   },
   "syn73806089": {
@@ -5275,7 +5044,9 @@
       "clinicalDomain": [
         ""
       ],
-      "completenessLevel": "",
+      "completenessLevel": [
+        ""
+      ],
       "contributor": [
         "ALL ALS"
       ],
@@ -5287,12 +5058,12 @@
       ],
       "dataSourcePrefix": "",
       "dataType": [
-        "data_dictionary"
+        "clinical"
       ],
       "datasetReference": [
         ""
       ],
-      "description": "",
+      "description": "Data dictionary for ALL ALS ASSESS clinical assessment variables, including subject demographics, study visits, and informed consent details.",
       "disease": [
         "ALS"
       ],
@@ -5311,12 +5082,12 @@
         "data dictionary"
       ],
       "originalRepository": [
-        ""
+        "ALL ALS"
       ],
       "originalSubjectId": "",
       "participant_count": null,
       "program": [
-        ""
+        "ALL ALS"
       ],
       "recordCount": [
         ""
@@ -5352,7 +5123,7 @@
       ],
       "_file_type": "ClinicalFile",
       "_schema_source": "json-schema",
-      "_created_timestamp": "2026-07-30T15:22:54.142862"
+      "_created_timestamp": "2026-08-13T15:13:13.660402"
     }
   }
 }
