@@ -216,142 +216,113 @@ def load_json_schema(schema_path):
 
 
 # ==================== DATASET COLUMN SCHEMA FUNCTIONS ====================
+#
+# Column definitions are derived directly from the generated json-schemas/ (the
+# LinkML model is the single source of truth for field names/types/enums — see
+# docs/DATA_MODELING_RULES.md §1). This replaces a hand-maintained allowlist that
+# had drifted out of sync with newer types (GEO, SRA, Speech).
 
-def get_dataset_column_schema(dataset_type):
+# Small explicit priority list — anything not listed here keeps whatever order it
+# already has and is appended after. Kept intentionally short; type-specific fields
+# no longer need a dedicated bucket since they ride along with the rest.
+COLUMN_ORDER_PRIORITY = ['id', 'name', 'dataType', 'fileFormat', 'studyType', 'species', 'disease', 'dataFormat']
+
+# Standard Synapse-provided metadata columns (always last, if present).
+SYNAPSE_SYSTEM_COLUMNS_TAIL = [
+    'description', 'createdOn', 'createdBy', 'etag', 'modifiedOn', 'modifiedBy',
+    'path', 'type', 'currentVersion', 'parentId', 'benefactorId', 'projectId',
+    'dataFileHandleId', 'dataFileName', 'dataFileSizeBytes', 'dataFileMD5Hex',
+    'dataFileConcreteType', 'dataFileBucket', 'dataFileKey'
+]
+
+
+def _property_has_enum(prop):
+    """True if a dereferenced JSON-schema property (or its `anyOf` branches) carries an enum."""
+    if not isinstance(prop, dict):
+        return False
+    if 'enum' in prop:
+        return True
+    return any('enum' in sub for sub in prop.get('anyOf', []) if isinstance(sub, dict))
+
+
+def _column_spec_from_property(name, prop):
     """
-    Get column schema based on dataset type (Clinical or Omic).
+    Infer a Synapse Column spec from a dereferenced json-schemas/ property definition.
 
-    Returns a list of column definitions with size constraints to prevent
-    hitting Synapse's 64KB row limit.
-
-    Args:
-        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
-
-    Returns:
-        List of dicts with keys: name, type, facet, max_size, max_list_len, desc
+    Returns a dict with keys: name, type, facet, and (depending on type) max_size /
+    max_list_len — the same shape add_dataset_columns()/create_dataset_entity_view()
+    already consume.
     """
-    # Shared columns for both clinical and omic datasets
-    # Note: Set maximum_size and maximum_list_length to stay under 64KB row limit
-    shared_columns = [
-        {"name": "dataType", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Data type"},
-        {"name": "fileFormat", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 50, "desc": "File format"},
-        {"name": "species", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Species"},
-        {"name": "disease", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Disease"},
-        {"name": "studyType", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Study type"},
-        {"name": "dataFormat", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Data format(s)"},
-        {"name": "individualCount", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Parrticipant Count"},
-        {"name": "url", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "URL"},
+    is_enum = _property_has_enum(prop)
+    ptype = prop.get('type')
 
-    ]
+    if ptype == 'array':
+        items = prop.get('items', {}) or {}
+        item_type = items.get('type', 'string')
+        is_enum = is_enum or _property_has_enum(items)
+        if item_type == 'integer':
+            col_type = ColumnType.INTEGER_LIST
+        elif item_type == 'boolean':
+            col_type = ColumnType.BOOLEAN_LIST
+        else:
+            col_type = ColumnType.STRING_LIST
+        spec = {"name": name, "type": col_type, "facet": FacetType.ENUMERATION if is_enum else None}
+        if col_type == ColumnType.STRING_LIST:
+            spec["max_list_len"] = 20
+        return spec
 
-    # Clinical-specific columns
-    clinical_columns = [
-        {"name": "studyPhase", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Phase of study"},
-        {"name": "keyMeasures", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 20, "desc": "Key measurements"},
-        {"name": "assessmentType", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 15, "desc": "Type of assessment"},
-        {"name": "clinicalDomain", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 15, "desc": "Clinical domain"},
-        {"name": "hasLongitudinalData", "type": ColumnType.BOOLEAN, "facet": FacetType.ENUMERATION, "desc": "Contains longitudinal data"},
-        {"name": "studyDesign", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 150, "desc": "Study design type"},
-        {"name": "primaryOutcome", "type": ColumnType.STRING, "facet": None, "max_size": 250, "desc": "Primary outcome measure"},
-    ]
-
-    # Omic-specific columns
-    omic_columns = [
-        {"name": "assay", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Assay type(s)"},
-        {"name": "platform", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Sequencing/analysis platform"},
-        {"name": "libraryStrategy", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 100, "desc": "Library strategy"},
-        {"name": "libraryLayout", "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 50, "desc": "Library layout"},
-        {"name": "cellType", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Cell type(s)"},
-        {"name": "biospecimenType", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Biospecimen type(s)"},
-        {"name": "processingLevel", "type": ColumnType.STRING_LIST, "facet": FacetType.ENUMERATION, "max_list_len": 10, "desc": "Data processing level"},
-    ]
-
-    # Combine columns based on dataset type
-    if dataset_type and 'omic' in dataset_type.lower():
-        return shared_columns + omic_columns
-    elif dataset_type and 'clinical' in dataset_type.lower():
-        return shared_columns + clinical_columns
+    if ptype == 'integer':
+        col_type = ColumnType.INTEGER
+    elif ptype == 'number':
+        col_type = ColumnType.DOUBLE
+    elif ptype == 'boolean':
+        col_type = ColumnType.BOOLEAN
     else:
-        # Default: include both for generic Dataset
-        return shared_columns
+        col_type = ColumnType.STRING
+
+    spec = {"name": name, "type": col_type, "facet": FacetType.ENUMERATION if is_enum else None}
+    if col_type == ColumnType.STRING:
+        # Faceted/enum strings are bounded; free text gets more room. Both stay well
+        # under Synapse's 64KB row limit for any realistic column count.
+        spec["max_size"] = 100 if is_enum else 250
+    return spec
 
 
-def get_column_order_template(dataset_type):
+def build_columns_from_schema(schema, field_names=None):
     """
-    Get ordered list of column names for dataset column reordering.
+    Derive Synapse table/entity-view column specs directly from a loaded json-schemas/
+    schema dict's `properties`.
 
     Args:
-        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
+        schema: A schema dict as returned by get_all_schemas()[schema_name] (has a
+            top-level "properties" key).
+        field_names: Optional list of property names to include, in that order (lets
+            callers cherry-pick/order specific columns). A name not found in the
+            schema still gets a column (generic faceted STRING) rather than being
+            silently dropped, so config-driven "extra" columns outside the model still
+            work. Omit to include every property in the schema.
 
     Returns:
-        List of column names in desired order
+        List of dicts with keys: name, type, facet, and max_size/max_list_len.
     """
-    # System columns (always first)
-    system_columns = ['id', 'name']
+    properties = (schema or {}).get('properties', {}) or {}
+    names = field_names if field_names else list(properties.keys())
 
-    # High-priority shared annotation columns
-    shared_priority = ['dataType', 'fileFormat', 'studyType', 'species', 'disease', 'dataFormat']
-
-    # Clinical-specific priority columns
-    clinical_priority = [
-        'studyPhase', 'assessmentType', 'clinicalDomain', 'keyMeasures',
-        'hasLongitudinalData', 'studyDesign', 'primaryOutcome'
-    ]
-
-    # Omic-specific priority columns
-    omic_priority = [
-        'assay', 'platform', 'libraryStrategy', 'libraryLayout',
-        'cellType', 'biospecimenType', 'processingLevel'
-    ]
-
-    # Standard Synapse metadata columns (always last)
-    synapse_columns = [
-        'description', 'createdOn', 'createdBy', 'etag', 'modifiedOn', 'modifiedBy',
-        'path', 'type', 'currentVersion', 'parentId', 'benefactorId', 'projectId',
-        'dataFileHandleId', 'dataFileName', 'dataFileSizeBytes', 'dataFileMD5Hex',
-        'dataFileConcreteType', 'dataFileBucket', 'dataFileKey'
-    ]
-
-    # Build final order based on dataset type
-    if dataset_type and 'omic' in dataset_type.lower():
-        return system_columns + shared_priority + omic_priority + synapse_columns
-    elif dataset_type and 'clinical' in dataset_type.lower():
-        return system_columns + shared_priority + clinical_priority + synapse_columns
-    else:
-        # Default: shared columns + synapse columns
-        return system_columns + shared_priority + synapse_columns
+    columns = []
+    for name in names:
+        prop = properties.get(name)
+        if prop is None:
+            columns.append({"name": name, "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 250})
+        else:
+            columns.append(_column_spec_from_property(name, prop))
+    return columns
 
 
-def get_entity_view_column_schema(dataset_type):
-    """
-    Get column schema for entity views based on dataset type.
-
-    Entity views show the same columns as datasets but apply to Files/Folders.
-
-    Args:
-        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
-
-    Returns:
-        List of dicts with keys: name, type, facet, max_size, max_list_len, desc
-    """
-    # Entity views use the same column schema as datasets
-    return get_dataset_column_schema(dataset_type)
-
-
-def get_entity_view_column_order_template(dataset_type):
-    """
-    Get ordered list of column names for entity view column reordering.
-
-    Entity views use the same order as datasets (id, name first).
-
-    Args:
-        dataset_type: String like 'ClinicalDataset', 'OmicDataset', etc.
-
-    Returns:
-        List of column names in desired order
-    """
-    # Entity views use the same column order as datasets
-    return get_column_order_template(dataset_type)
+def build_column_order():
+    """Small explicit priority list used to order dataset/entity-view columns; see
+    COLUMN_ORDER_PRIORITY. Columns not listed here keep their existing relative order
+    and are simply appended after by the caller."""
+    return COLUMN_ORDER_PRIORITY + SYNAPSE_SYSTEM_COLUMNS_TAIL
 
 
 def get_all_schemas(schema_base_path, verbose=False):
@@ -670,6 +641,21 @@ def detect_dataset_type(dataset_name, staging_folder_name=None, dataset_config=N
 
     if any(pattern in name_lower for pattern in clinical_patterns):
         return 'ClinicalDataset'
+
+    speech_patterns = ['speech', 'voice', 'audio']
+
+    if any(pattern in name_lower for pattern in speech_patterns):
+        return 'SpeechDataset'
+
+    geo_patterns = ['geo', 'gse']
+
+    if any(pattern in name_lower for pattern in geo_patterns):
+        return 'GEODataset'
+
+    sra_patterns = ['sra', 'srp', 'srx']
+
+    if any(pattern in name_lower for pattern in sra_patterns):
+        return 'SRADataset'
 
     # Default to base Dataset schema if pattern matching fails
     return 'Dataset'
@@ -3397,41 +3383,75 @@ def add_files_to_dataset(syn, dataset_id, file_syn_ids, dry_run=True):
         return False
 
 
-def add_dataset_columns(syn, dataset_id, all_schemas, file_type='ClinicalFile',
-                       dataset_type=None, extra_columns=None, dry_run=True):
+def add_dataset_columns(syn, dataset_id, all_schemas, dataset_type=None,
+                       extra_schema_names=None, field_names=None, source_columns=None,
+                       dry_run=True):
     """
     Add annotation columns to dataset for faceted search with size constraints.
+
+    A Synapse Dataset entity's table shows one row per included file, so its columns
+    must reflect FILE-level annotation fields, not the dataset's own descriptive
+    metadata — the same reasoning create_dataset_entity_view() already applies to
+    entity views. dataset_type is converted to its File-schema counterpart (e.g.
+    'SpeechDataset' -> 'SpeechFile') before pulling columns from json-schemas/
+    (build_columns_from_schema) rather than a hand-maintained list, so every modeled
+    field is available and correctly typed. Pass source_columns to instead port an
+    exact column set/order from an existing entity (see get_columns_from_entity),
+    skipping schema derivation entirely.
 
     Args:
         syn: Synapse client
         dataset_id: Dataset Synapse ID
-        all_schemas: Dict of all loaded schemas (kept for backward compatibility)
-        file_type: File type (kept for backward compatibility)
+        all_schemas: Dict of all loaded schemas, keyed by schema name
         dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
                      If not provided, will auto-detect from dataset annotations
-        extra_columns: Optional list of extra column name strings to add (from config)
+        extra_schema_names: Optional list of additional exact schema names (any
+                     schema loaded by get_all_schemas, e.g. 'MetadataSchema') whose
+                     properties are merged in alongside the resolved File-type schema
+                     — lets the dataset table follow more than one schema. Later
+                     schemas win on name clashes. Ignored when source_columns is given.
+        field_names: Optional list of property names to cherry-pick/order (default:
+                     every property across the resolved schema(s)). A name not found
+                     in any of them still gets added as a generic faceted STRING
+                     column rather than being dropped. Ignored when source_columns is
+                     given.
+        source_columns: Optional list of col_info dicts (from get_columns_from_entity)
+                     to use verbatim instead of deriving columns from a schema — ports
+                     an existing entity's exact columns and order onto this dataset.
         dry_run: If True, only print what would be done
 
     Returns:
         bool: True if successful, False otherwise
     """
     try:
-        # Auto-detect dataset type from annotations if not provided
-        if not dataset_type:
-            dataset = Dataset(dataset_id).get()
-            annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
-            dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
-            if hasattr(dataset, 'annotations'):
-                print(f"  📊 Auto-detected dataset type: {dataset_type}")
+        if source_columns is not None:
+            columns_to_add = source_columns
+            type_label = 'ported columns'
+        else:
+            # Auto-detect dataset type from annotations if not provided
+            if not dataset_type:
+                dataset = Dataset(dataset_id).get()
+                annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
+                dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+                if hasattr(dataset, 'annotations'):
+                    print(f"  📊 Auto-detected dataset type: {dataset_type}")
 
-        # Get column schema for this dataset type
-        columns_to_add = get_dataset_column_schema(dataset_type)
+            # Dataset columns render file rows, so pull from the matching File-type schema
+            # — plus any extra schemas named exactly (e.g. 'MetadataSchema' has no 'Dataset'
+            # substring, so the replace() is a no-op and it's used as-is).
+            file_type_for_columns = (dataset_type or 'File').replace('Dataset', 'File')
+            schema_names = [file_type_for_columns] + [n.replace('Dataset', 'File') for n in (extra_schema_names or [])]
+            merged_properties = {}
+            for name in schema_names:
+                merged_properties.update((all_schemas or {}).get(name, {}).get('properties', {}) or {})
+            merged_schema = {'properties': merged_properties}
+
+            columns_to_add = build_columns_from_schema(merged_schema, field_names)
+            type_label = file_type_for_columns
 
         if dry_run:
-            print(f"  [DRY_RUN] Would add {len(columns_to_add)} columns to dataset ({dataset_type})")
+            print(f"  [DRY_RUN] Would add {len(columns_to_add)} columns to dataset ({type_label})")
             print(f"  [DRY_RUN] Columns: {', '.join([c['name'] for c in columns_to_add])}")
-            if extra_columns:
-                print(f"  [DRY_RUN] Extra columns from config: {', '.join(extra_columns)}")
             return True
 
         # Get dataset with existing columns
@@ -3468,27 +3488,10 @@ def add_dataset_columns(syn, dataset_id, all_schemas, file_type='ClinicalFile',
             else:
                 print(f"    ℹ️  Column {col_info['name']} already exists, skipping")
 
-        # Add extra columns from config (annotation-derived)
-        for col_name in (extra_columns or []):
-            if col_name not in existing_columns:
-                try:
-                    col = Column(
-                        name=col_name,
-                        column_type=ColumnType.STRING,
-                        facet_type=FacetType.ENUMERATION,
-                        maximum_size=250
-                    )
-                    dataset.add_column(column=col)
-                    added_count += 1
-                except Exception as e:
-                    print(f"    ⚠️  Could not add extra column {col_name}: {e}")
-            else:
-                print(f"    ℹ️  Column {col_name} already exists, skipping")
-
         # Store changes
         if added_count > 0:
             dataset.store()
-            print(f"  ✓ Added {added_count} columns to dataset ({dataset_type})")
+            print(f"  ✓ Added {added_count} columns to dataset ({type_label})")
         else:
             print(f"  ℹ️  No new columns to add (all {len(columns_to_add)} already exist)")
 
@@ -3501,7 +3504,7 @@ def add_dataset_columns(syn, dataset_id, all_schemas, file_type='ClinicalFile',
         return False
 
 
-def reorder_dataset_columns(syn, dataset_id, dataset_type=None, dry_run=True):
+def reorder_dataset_columns(syn, dataset_id, dataset_type=None, column_order=None, dry_run=True):
     """
     Reorder dataset columns based on priority template.
 
@@ -3516,6 +3519,10 @@ def reorder_dataset_columns(syn, dataset_id, dataset_type=None, dry_run=True):
         dataset_id: Dataset Synapse ID
         dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
                      If not provided, will auto-detect from dataset annotations
+        column_order: Optional explicit column name order to use instead of the small
+                     priority template — e.g. an order ported from another entity via
+                     get_columns_from_entity. Columns not in this list are appended
+                     after, in their existing order (same fallback as the template).
         dry_run: If True, only print what would be done
 
     Returns:
@@ -3538,8 +3545,8 @@ def reorder_dataset_columns(syn, dataset_id, dataset_type=None, dry_run=True):
 
         current_columns = list(dataset.columns.keys())
 
-        # Build ordered list from template
-        template_order = get_column_order_template(dataset_type)
+        # Use an explicit ported order if given, else the small priority template
+        template_order = column_order if column_order is not None else build_column_order()
 
         # Filter template to only include columns that exist in dataset
         final_order = []
@@ -3630,6 +3637,23 @@ def verify_dataset_columns(syn, dataset_id, verbose=True):
         return False
 
 
+def resolve_ported_columns(syn, from_entity, columns=None):
+    """
+    Shared --from-entity resolution for create-entity-view, reorder-columns, and
+    create: fetch columns from an existing entity (get_columns_from_entity) to port
+    onto a new/target entity, optionally filtered down to --columns names (source
+    order preserved). Returns None when from_entity isn't given, so callers can pass
+    the result straight through as source_columns (schema-derivation path runs as
+    normal when None).
+    """
+    if not from_entity:
+        return None
+    ported = get_columns_from_entity(syn, from_entity, field_names=columns)
+    filter_note = f" (filtered to {len(columns)} requested)" if columns else ""
+    print(f"  📋 Porting {len(ported)} columns from {from_entity}{filter_note}")
+    return ported
+
+
 def handle_reorder_columns(args, config):
     """Handle REORDER-COLUMNS workflow — add missing columns and reorder on an existing dataset."""
     print("\n" + "=" * 60)
@@ -3652,17 +3676,22 @@ def handle_reorder_columns(args, config):
             print(f"❌ {e}")
             return
 
+    ported_columns = resolve_ported_columns(syn, getattr(args, 'from_entity', None), getattr(args, 'columns', None))
+
     # Step 1: Add missing columns
     print("\n--- Adding missing columns ---")
     add_dataset_columns(
         syn, dataset_id, all_schemas,
         dataset_type=dataset_type,
+        field_names=None if ported_columns is not None else getattr(args, 'columns', None),
+        source_columns=ported_columns,
         dry_run=config.DRY_RUN
     )
 
     # Step 2: Reorder columns
     print("\n--- Reordering columns ---")
-    reorder_dataset_columns(syn, dataset_id, dataset_type=dataset_type, dry_run=config.DRY_RUN)
+    column_order = [c['name'] for c in ported_columns] if ported_columns is not None else None
+    reorder_dataset_columns(syn, dataset_id, dataset_type=dataset_type, column_order=column_order, dry_run=config.DRY_RUN)
 
     # Step 3: Verify
     print("\n--- Verifying columns ---")
@@ -3795,11 +3824,11 @@ def _get_concrete_type(entity):
     return getattr(entity, 'concreteType', '') or str(entity.properties.get('concreteType', ''))
 
 
-def collect_files_to_move(syn, source_ids, recursive=False, verbose=False):
+def collect_files_to_move(syn, source_ids, recursive=False, verbose=False, pattern=None):
     """
     Expand a list of source Synapse IDs into a flat list of file IDs to move.
 
-    Each source ID may be a File (added directly) or a Folder (all contained
+    Each source ID may be a File (added directly) or a Folder (contained
     files are added; subfolders are descended into when recursive=True).
 
     Args:
@@ -3807,6 +3836,9 @@ def collect_files_to_move(syn, source_ids, recursive=False, verbose=False):
         source_ids: List of File and/or Folder Synapse IDs
         recursive: If True, descend into subfolders of folder sources
         verbose: Show detailed output
+        pattern: Optional glob pattern (fnmatch syntax, e.g. "*.csv"). Only files
+            discovered by expanding a Folder/Project source are filtered against
+            it; files passed explicitly in source_ids are always included.
 
     Returns:
         List of (file_id, file_name) tuples, de-duplicated, preserving order
@@ -3819,11 +3851,18 @@ def collect_files_to_move(syn, source_ids, recursive=False, verbose=False):
             seen.add(fid)
             files.append((fid, fname))
 
+    def matches_pattern(fname):
+        return pattern is None or fnmatch.fnmatch(fname, pattern)
+
     def walk_folder(folder_id):
         for child in syn.getChildren(folder_id, includeTypes=["file", "folder"]):
             ctype = child.get('type', '')
             if 'FileEntity' in ctype:
-                add_file(child['id'], child.get('name', child['id']))
+                cname = child.get('name', child['id'])
+                if matches_pattern(cname):
+                    add_file(child['id'], cname)
+                elif verbose:
+                    print(f"    - skipping {cname} (does not match pattern '{pattern}')")
             elif 'Folder' in ctype and recursive:
                 if verbose:
                     print(f"    ↳ descending into folder {child['id']} ({child.get('name', '')})")
@@ -3851,7 +3890,7 @@ def collect_files_to_move(syn, source_ids, recursive=False, verbose=False):
 
 def handle_move_files(args, config):
     """Handle MOVE workflow — move individual files, several files, or all files
-    within source folder(s) to a single target folder."""
+    (optionally filtered by --pattern) within source folder(s) to a single target folder."""
     print("\n" + "=" * 60)
     print("WORKFLOW: MOVE FILES")
     print("=" * 60)
@@ -3873,12 +3912,16 @@ def handle_move_files(args, config):
         return
 
     verbose = args.verbose
+    pattern = args.pattern
     print(f"\nTarget folder : {target_id} ({getattr(target, 'name', '')})")
     print(f"Sources       : {', '.join(args.source)}")
     print(f"Recursive     : {args.recursive}")
+    if pattern:
+        print(f"Pattern       : {pattern}")
 
     print("\nCollecting files to move...")
-    files = collect_files_to_move(syn, args.source, recursive=args.recursive, verbose=verbose)
+    files = collect_files_to_move(syn, args.source, recursive=args.recursive, verbose=verbose,
+                                   pattern=pattern)
 
     if not files:
         print("\n⚠️  No files found to move.")
@@ -5003,21 +5046,75 @@ def add_dataset_to_collection(syn, dataset_id, collection_id, dry_run=True):
             return False
 
 
+def get_columns_from_entity(syn, entity_id, field_names=None):
+    """
+    Fetch existing columns (name, Synapse type, facet, size constraints, and current
+    order) from any existing Synapse entity that has columns — a Dataset, EntityView,
+    or Table — for porting onto another entity's columns instead of re-deriving them
+    from a json-schemas/ schema.
+
+    Args:
+        syn: Synapse client
+        entity_id: Synapse ID of the source entity to read columns from
+        field_names: Optional list of names to filter the result to (source order is
+                     preserved, not the order of field_names). Omit to port everything.
+
+    Returns:
+        List of col_info dicts (same shape as build_columns_from_schema): name, type,
+        facet, and max_size/max_list_len — in the source entity's current column order.
+    """
+    from synapseclient.models import Table
+    entity = Table(id=entity_id).get(include_columns=True)
+
+    if not hasattr(entity, 'columns') or not entity.columns:
+        return []
+
+    columns = []
+    for col in entity.columns.values():
+        if field_names and col.name not in field_names:
+            continue
+        col_info = {"name": col.name, "type": col.column_type, "facet": col.facet_type}
+        if col.column_type == ColumnType.STRING and col.maximum_size:
+            col_info["max_size"] = col.maximum_size
+        elif col.column_type == ColumnType.STRING_LIST and col.maximum_list_length:
+            col_info["max_list_len"] = col.maximum_list_length
+        columns.append(col_info)
+    return columns
+
+
 def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
                                file_type='ClinicalFile', all_schemas=None,
-                               dataset_type=None, dry_run=True):
+                               dataset_type=None, extra_schema_names=None,
+                               field_names=None, source_columns=None, dry_run=True):
     """
     Create an entity view for dataset files with type-aware columns and size constraints.
+
+    Entity views scope Files/Folders, so columns are derived from the matching
+    File-type schema's json-schemas/ properties (build_columns_from_schema) rather
+    than a hand-maintained list — pass field_names to cherry-pick/order specific ones.
+    Pass source_columns to instead port an exact column set/order from an existing
+    entity (see get_columns_from_entity), skipping schema derivation entirely.
 
     Args:
         syn: Synapse client
         dataset_id: Dataset Synapse ID (or staging folder ID)
         dataset_name: Dataset name
         project_id: Project ID to create view in
-        file_type: Type of files (kept for backward compatibility)
-        all_schemas: Schema dictionary (kept for backward compatibility)
+        file_type: File type used when dataset_type isn't given (e.g. 'ClinicalFile')
+        all_schemas: Dict of all loaded schemas, keyed by schema name
         dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
                      If not provided, will derive from file_type
+        extra_schema_names: Optional list of additional exact schema names (any schema
+                     loaded by get_all_schemas, e.g. 'MetadataSchema', not just File
+                     types) whose properties are merged in alongside the primary
+                     File-type schema — lets a view follow more than one schema.
+                     Ignored when source_columns is given.
+        field_names: Optional list of property names to cherry-pick/order (default:
+                     every property across the resolved schema(s)). Ignored when
+                     source_columns is given.
+        source_columns: Optional list of col_info dicts (from get_columns_from_entity)
+                     to use verbatim instead of deriving columns from a schema — ports
+                     an existing entity's exact columns and order onto this view.
         dry_run: If True, only show what would be created
 
     Returns:
@@ -5025,15 +5122,26 @@ def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
     """
     view_name = f"{dataset_name}_EntityView"
 
-    # Auto-detect dataset type if not provided
-    if not dataset_type and file_type:
-        # Convert file_type to dataset_type (e.g., 'ClinicalFile' -> 'ClinicalDataset')
-        dataset_type = file_type.replace('File', 'Dataset')
-        if dataset_type == 'Dataset':
-            dataset_type = 'ClinicalDataset'  # Default
+    if source_columns is not None:
+        columns_to_add = source_columns
+    else:
+        # Auto-detect dataset type if not provided
+        if not dataset_type and file_type:
+            # Convert file_type to dataset_type (e.g., 'ClinicalFile' -> 'ClinicalDataset')
+            dataset_type = file_type.replace('File', 'Dataset')
+            if dataset_type == 'Dataset':
+                dataset_type = 'ClinicalDataset'  # Default
 
-    # Get column schema for this dataset type
-    columns_to_add = get_entity_view_column_schema(dataset_type)
+        # Views scope files, so pull columns from the matching File-type schema — plus any
+        # extra schemas named exactly (e.g. 'MetadataSchema' has no 'Dataset' substring, so
+        # the replace() is a no-op and it's used as-is). Later schemas win on name clashes.
+        file_type_for_columns = (dataset_type or file_type or 'File').replace('Dataset', 'File')
+        schema_names = [file_type_for_columns] + [n.replace('Dataset', 'File') for n in (extra_schema_names or [])]
+
+        merged_properties = {}
+        for name in schema_names:
+            merged_properties.update((all_schemas or {}).get(name, {}).get('properties', {}) or {})
+        columns_to_add = build_columns_from_schema({'properties': merged_properties}, field_names)
 
     # Build columns with size constraints
     all_columns = []
@@ -5058,8 +5166,10 @@ def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
         except Exception as e:
             print(f"    ⚠️  Could not add column {col_info['name']}: {e}")
 
+    type_label = 'ported columns' if source_columns is not None else dataset_type
+
     if dry_run:
-        print(f"  [DRY_RUN] Would create entity view '{view_name}' ({dataset_type})")
+        print(f"  [DRY_RUN] Would create entity view '{view_name}' ({type_label})")
         print(f"    Scope: {dataset_id}")
         print(f"    Columns: {len(all_columns)} columns")
         print(f"    Columns: {', '.join([c.name for c in all_columns[:10]])}{'...' if len(all_columns) > 10 else ''}")
@@ -5076,7 +5186,7 @@ def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
             )
             # Store the entity view
             created_view = entity_view.store()
-            print(f"  ✓ Entity view created: {created_view.id} ({dataset_type})")
+            print(f"  ✓ Entity view created: {created_view.id} ({type_label})")
             print(f"  ✓ Total columns: {len(all_columns)} with size constraints")
             print(f"  🔗 URL: https://www.synapse.org/#!Synapse:{created_view.id}")
             return created_view.id
@@ -5087,7 +5197,7 @@ def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
             return None
 
 
-def reorder_entity_view_columns(syn, view_id, dataset_type=None, dry_run=True):
+def reorder_entity_view_columns(syn, view_id, dataset_type=None, column_order=None, dry_run=True):
     """
     Reorder entity view columns based on priority template.
 
@@ -5098,6 +5208,10 @@ def reorder_entity_view_columns(syn, view_id, dataset_type=None, dry_run=True):
         view_id: Entity view Synapse ID
         dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
                      If not provided, defaults to 'ClinicalDataset'
+        column_order: Optional explicit column name order to use instead of the small
+                     priority template — e.g. an order ported from another entity via
+                     get_columns_from_entity. Columns not in this list are appended
+                     after, in their existing order (same fallback as the template).
         dry_run: If True, only print what would be done
 
     Returns:
@@ -5120,8 +5234,8 @@ def reorder_entity_view_columns(syn, view_id, dataset_type=None, dry_run=True):
 
         current_columns = list(entity_view.columns.keys())
 
-        # Build ordered list from template (using entity view specific template)
-        template_order = get_entity_view_column_order_template(dataset_type)
+        # Use an explicit ported order if given, else the small priority template
+        template_order = column_order if column_order is not None else build_column_order()
 
         # Filter template to only include columns that exist in view
         final_order = []
@@ -5212,6 +5326,75 @@ def verify_entity_view_columns(syn, view_id, verbose=True):
         import traceback
         traceback.print_exc()
         return False
+
+
+def handle_create_entity_view(args, config):
+    """Handle CREATE-ENTITY-VIEW workflow — create a standalone entity view over any folder."""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: CREATE ENTITY VIEW")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    project_id = args.project_id or config.SYNAPSE_PROJECT_ID
+    if not project_id:
+        print("❌ Error: --project-id is required (or set project_id in config.yaml)")
+        sys.exit(1)
+
+    # Fuzzy-resolve each supplied --type against json-schemas/; defaults to a generic view.
+    # Exact names (e.g. "MetadataSchema") resolve regardless of kind, so any schema —
+    # not just File/Dataset pairs — can be combined here.
+    resolved_types = ['Dataset']
+    if args.type:
+        resolved_types = []
+        for t in args.type:
+            try:
+                resolved_types.append(resolve_schema_type(t, all_schemas, kind='dataset'))
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {e}")
+                return
+
+    dataset_type, extra_schema_names = resolved_types[0], resolved_types[1:]
+    view_name = args.name or args.folder
+
+    print(f"  Folder    : {args.folder}")
+    print(f"  Project   : {project_id}")
+    print(f"  View name : {view_name}_EntityView")
+    print(f"  Type(s)   : {', '.join(resolved_types)}")
+
+    ported_columns = resolve_ported_columns(syn, args.from_entity, args.columns)
+
+    view_id = create_dataset_entity_view(
+        syn, args.folder, view_name, project_id,
+        all_schemas=all_schemas,
+        dataset_type=dataset_type,
+        extra_schema_names=extra_schema_names,
+        field_names=None if ported_columns is not None else args.columns,
+        source_columns=ported_columns,
+        dry_run=config.DRY_RUN
+    )
+
+    if view_id and not config.DRY_RUN:
+        if not args.skip_reorder:
+            print("\n--- Reordering columns ---")
+            column_order = [c['name'] for c in ported_columns] if ported_columns is not None else None
+            reorder_entity_view_columns(syn, view_id, dataset_type=dataset_type,
+                                         column_order=column_order, dry_run=config.DRY_RUN)
+
+        print("\n--- Verifying columns ---")
+        verify_entity_view_columns(syn, view_id, config.VERBOSE)
+
+    if config.DRY_RUN:
+        print("\n✅ DRY RUN COMPLETE — re-run with --execute to create the entity view")
+    elif view_id:
+        print(f"\n✅ ENTITY VIEW CREATED: {view_id}")
+    else:
+        print("\n⚠ ENTITY VIEW CREATION FAILED")
+    print("=" * 60)
 
 
 # ==================== UPDATE WORKFLOW FUNCTIONS ====================
@@ -6279,7 +6462,10 @@ def handle_create_workflow(args, config):
     # Get dataset-specific configuration (for type detection)
     if not dataset_config:
         dataset_config = config.get_dataset_config(args.dataset_name)
-    if dataset_config.get('dataset_type'):
+    if getattr(args, 'dataset_type', None):
+        dataset_config['dataset_type'] = args.dataset_type
+        print(f"Using --dataset-type override: {args.dataset_type}")
+    elif dataset_config.get('dataset_type'):
         print(f"Using configured dataset type: {dataset_config['dataset_type']}")
 
     # Connect to Synapse
@@ -6440,6 +6626,16 @@ def handle_create_from_annotations(args, config):
     # Load schemas
     all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
 
+    # --dataset-type overrides whatever _dataset_type Phase 1 already saved
+    if getattr(args, 'dataset_type', None):
+        try:
+            resolved_dataset_type = resolve_schema_type(args.dataset_type, all_schemas, kind='dataset')
+        except SchemaTypeResolutionError as e:
+            print(f"❌ {e}")
+            sys.exit(1)
+        print(f"Using --dataset-type override: {resolved_dataset_type}")
+        dataset_annotations['_dataset_type'] = resolved_dataset_type
+
     # Connect to Synapse
     syn = connect_to_synapse(config)
 
@@ -6552,12 +6748,33 @@ def handle_create_from_annotations(args, config):
     if not dataset_config:
         dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
 
+    # Entity view / column resolution shared by STEP 3 (validation view) and STEP 7
+    # (dataset table columns) below. CLI flags win over config.yaml; config wins over
+    # defaults. Entity view creation defaults to ON — disable with --skip-entity-view
+    # or `create_entity_view: false` in config.yaml.
+    create_view_enabled = True
+    if dataset_config and dataset_config.get('create_entity_view') is False:
+        create_view_enabled = False
+    if getattr(args, 'skip_entity_view', False):
+        create_view_enabled = False
+
+    columns_override = getattr(args, 'columns', None) or (dataset_config.get('columns') if dataset_config else None)
+    extra_schema_types = getattr(args, 'extra_schema_types', None) or (dataset_config.get('extra_schema_types') if dataset_config else None)
+
+    # --from-entity ports an existing entity's exact columns/order instead of deriving
+    # from a schema; applies to both STEP 3 and STEP 7. Overrides --extra-schema-types.
+    from_entity = getattr(args, 'from_entity', None) or (dataset_config.get('from_entity') if dataset_config else None)
+    ported_columns = resolve_ported_columns(syn, from_entity, columns_override)
+    ported_column_order = [c['name'] for c in ported_columns] if ported_columns is not None else None
+
     # Debug: Show what config was retrieved
     if config.VERBOSE:
         print(f"\n[DEBUG] Retrieved dataset_config keys: {list(dataset_config.keys())}")
         print(f"[DEBUG] generate_wiki: {dataset_config.get('generate_wiki', False)}")
         print(f"[DEBUG] create_snapshot: {dataset_config.get('create_snapshot', False)}")
-        print(f"[DEBUG] create_entity_view: {dataset_config.get('create_entity_view', False)}")
+        print(f"[DEBUG] create_entity_view: {create_view_enabled}")
+        print(f"[DEBUG] columns: {columns_override}")
+        print(f"[DEBUG] extra_schema_types: {extra_schema_types}")
 
     # ========== PHASE 2: FILE ANNOTATION & VALIDATION ==========
     # SKIP ENTIRELY FOR LINK DATASETS
@@ -6577,71 +6794,81 @@ def handle_create_from_annotations(args, config):
         )
         print(f"✓ Applied: {success}, Skipped: {skipped}, Errors: {errors}")
 
-        # STEP 3: Create entity view (SCOPED TO STAGING FOLDER, NOT DATASET)
-        print("\n" + "=" * 60)
-        print("STEP 3: CREATING ENTITY VIEW FOR STAGING FOLDER")
-        print("=" * 60)
-        print("⚠️  Entity view is scoped to STAGING FOLDER for validation")
-
-        # Detect dataset type for type-aware columns
+        # Detect dataset type for type-aware columns (used by STEP 3 and STEP 7)
         dataset_type_for_view = dataset_annotations.get('_dataset_type', 'ClinicalDataset')
         file_type = dataset_type_for_view.replace('Dataset', 'File')
 
-        view_id = create_dataset_entity_view(
-            syn, args.staging_folder, args.dataset_name, config.SYNAPSE_PROJECT_ID,
-            file_type, all_schemas,
-            dataset_type=dataset_type_for_view,
-            dry_run=config.DRY_RUN
-        )
-
-        # STEP 3b: Reorder entity view columns (if view was created)
-        if view_id and not config.DRY_RUN:
+        view_id = None
+        if create_view_enabled:
+            # STEP 3: Create entity view (SCOPED TO STAGING FOLDER, NOT DATASET)
             print("\n" + "=" * 60)
-            print("STEP 3b: REORDERING ENTITY VIEW COLUMNS")
+            print("STEP 3: CREATING ENTITY VIEW FOR STAGING FOLDER")
             print("=" * 60)
+            print("⚠️  Entity view is scoped to STAGING FOLDER for validation")
 
-            reorder_entity_view_columns(syn, view_id, dataset_type_for_view, config.DRY_RUN)
+            view_id = create_dataset_entity_view(
+                syn, args.staging_folder, args.dataset_name, config.SYNAPSE_PROJECT_ID,
+                file_type, all_schemas,
+                dataset_type=dataset_type_for_view,
+                extra_schema_names=extra_schema_types,
+                field_names=None if ported_columns is not None else columns_override,
+                source_columns=ported_columns,
+                dry_run=config.DRY_RUN
+            )
 
-        # STEP 3c: Verify entity view columns (if verbose and view was created)
-        if view_id and not config.DRY_RUN and config.VERBOSE:
+            # STEP 3b: Reorder entity view columns (if view was created)
+            if view_id and not config.DRY_RUN:
+                print("\n" + "=" * 60)
+                print("STEP 3b: REORDERING ENTITY VIEW COLUMNS")
+                print("=" * 60)
+
+                reorder_entity_view_columns(syn, view_id, dataset_type=dataset_type_for_view,
+                                             column_order=ported_column_order, dry_run=config.DRY_RUN)
+
+            # STEP 3c: Verify entity view columns (if verbose and view was created)
+            if view_id and not config.DRY_RUN and config.VERBOSE:
+                print("\n" + "=" * 60)
+                print("STEP 3c: VERIFYING ENTITY VIEW COLUMNS")
+                print("=" * 60)
+
+                verify_entity_view_columns(syn, view_id, config.VERBOSE)
+
+            if view_id:
+                print(f"\n✅ Entity view created for validation!")
+                print(f"   🔗 View in Synapse: https://www.synapse.org/#!Synapse:{view_id}")
+                print(f"   📊 Review all file annotations in the entity view")
+
+            # PAUSE: Prompt user to verify annotations in entity view
             print("\n" + "=" * 60)
-            print("STEP 3c: VERIFYING ENTITY VIEW COLUMNS")
+            print("⏸️  VERIFICATION CHECKPOINT")
             print("=" * 60)
+            print("\n⚠️  IMPORTANT: Please verify your file annotations!")
+            print(f"\n1. Open the entity view in Synapse:")
+            print(f"   🔗 https://www.synapse.org/#!Synapse:{view_id}")
+            print(f"\n2. Review all file annotations to ensure they are correct")
+            print(f"\n3. Once verified, return here to continue")
 
-            verify_entity_view_columns(syn, view_id, config.VERBOSE)
-
-        if view_id:
-            print(f"\n✅ Entity view created for validation!")
-            print(f"   🔗 View in Synapse: https://www.synapse.org/#!Synapse:{view_id}")
-            print(f"   📊 Review all file annotations in the entity view")
-
-        # PAUSE: Prompt user to verify annotations in entity view
-        print("\n" + "=" * 60)
-        print("⏸️  VERIFICATION CHECKPOINT")
-        print("=" * 60)
-        print("\n⚠️  IMPORTANT: Please verify your file annotations!")
-        print(f"\n1. Open the entity view in Synapse:")
-        print(f"   🔗 https://www.synapse.org/#!Synapse:{view_id}")
-        print(f"\n2. Review all file annotations to ensure they are correct")
-        print(f"\n3. Once verified, return here to continue")
-
-        # Prompt user to continue
-        while True:
-            try:
-                response = input("\nHave you verified the annotations? Ready to continue? (yes/no): ").strip().lower()
-                if response in ['yes', 'y']:
-                    print("\n✓ Continuing with workflow...")
-                    break
-                elif response in ['no', 'n']:
-                    print("\n✓ Exiting. Please verify annotations and run again.")
-                    print(f"\nTo resume, run:")
-                    print(f"  python {sys.argv[0]} create --use-config {args.use_config if hasattr(args, 'use_config') else args.dataset_name} --from-annotations --execute")
+            # Prompt user to continue
+            while True:
+                try:
+                    response = input("\nHave you verified the annotations? Ready to continue? (yes/no): ").strip().lower()
+                    if response in ['yes', 'y']:
+                        print("\n✓ Continuing with workflow...")
+                        break
+                    elif response in ['no', 'n']:
+                        print("\n✓ Exiting. Please verify annotations and run again.")
+                        print(f"\nTo resume, run:")
+                        print(f"  python {sys.argv[0]} create --use-config {args.use_config if hasattr(args, 'use_config') else args.dataset_name} --from-annotations --execute")
+                        sys.exit(0)
+                    else:
+                        print("Please answer 'yes' or 'no'")
+                except (EOFError, KeyboardInterrupt):
+                    print("\n\n✓ Exiting.")
                     sys.exit(0)
-                else:
-                    print("Please answer 'yes' or 'no'")
-            except (EOFError, KeyboardInterrupt):
-                print("\n\n✓ Exiting.")
-                sys.exit(0)
+        else:
+            print("\n" + "=" * 60)
+            print("STEP 3: SKIPPING ENTITY VIEW (--skip-entity-view or create_entity_view: false)")
+            print("=" * 60)
 
         # STEP 4: Set version labels on files (BEFORE dataset creation)
         apply_version = dataset_config.get('apply_version', True) if dataset_config else True
@@ -6715,11 +6942,12 @@ def handle_create_from_annotations(args, config):
             )
 
         # Add columns with type awareness and size constraints
-        extra_columns = dataset_config.get('columns', []) if dataset_config else []
         add_dataset_columns(
-            syn, dataset_id, all_schemas, file_type,
+            syn, dataset_id, all_schemas,
             dataset_type=dataset_type_for_columns,
-            extra_columns=extra_columns,
+            extra_schema_names=extra_schema_types,
+            field_names=None if ported_columns is not None else columns_override,
+            source_columns=ported_columns,
             dry_run=config.DRY_RUN
         )
     else:
@@ -6745,7 +6973,8 @@ def handle_create_from_annotations(args, config):
                 all_schemas=all_schemas
             )
 
-        reorder_dataset_columns(syn, dataset_id, dataset_type_for_columns, config.DRY_RUN)
+        reorder_dataset_columns(syn, dataset_id, dataset_type=dataset_type_for_columns,
+                                 column_order=ported_column_order, dry_run=config.DRY_RUN)
 
     # STEP 7c: Verify dataset columns (SKIP FOR LINK DATASETS)
     if config.VERBOSE and not is_link_dataset:
@@ -7487,8 +7716,8 @@ def get_or_create_synapse_folder(syn, name, parent_id, dry_run=False):
             print(f"  ✓ Found existing folder '{name}' ({child['id']})")
             return child['id']
 
-    folder = Folder(name=name, parent=parent_id)
-    folder = syn.store(folder)
+    folder = Folder(name=name, parent_id=parent_id)
+    folder = folder.store()
     print(f"  ✓ Created folder '{name}' → {folder.id}")
     return folder.id
 
@@ -7529,8 +7758,8 @@ def upload_local_dir_to_synapse(syn, local_dir, parent_syn_id, dry_run=True, ver
                 uploaded[f"syn_DRY_{total:04d}"] = {filename: {}}
             else:
                 try:
-                    file_entity = File(path=local_path, name=filename, parent=current_parent)
-                    file_entity = syn.store(file_entity)
+                    file_entity = File(path=local_path, name=filename, parent_id=current_parent)
+                    file_entity = file_entity.store()
                     uploaded[file_entity.id] = {filename: {}}
                     if verbose:
                         print(f"  ✓ {filename} → {file_entity.id}")
@@ -9852,6 +10081,12 @@ Examples:
                               help='Synapse ID of staging folder containing files')
     create_parser.add_argument('--dataset-name',
                               help='Name for the new dataset')
+    create_parser.add_argument('--dataset-type',
+                              help='Dataset type; fuzzy-matched against json-schemas/ '
+                                   '(e.g. "speech" -> SpeechDataset). Exact schema names '
+                                   'also work. Overrides config/name-pattern detection. '
+                                   'With --from-annotations, also overrides the '
+                                   '_dataset_type already saved in the annotations file.')
     create_parser.add_argument('--from-annotations', action='store_true',
                               help='Skip template generation, use existing annotations')
     create_parser.add_argument('--link-dataset', action='store_true',
@@ -9876,8 +10111,28 @@ Examples:
                               help='Version label for snapshot and files (e.g., "v1.0")')
     create_parser.add_argument('--version-comment',
                               help='Comment for version/snapshot')
-    create_parser.add_argument('--create-entity-view', action='store_true',
-                              help='Create entity view for dataset files')
+    create_parser.add_argument('--skip-entity-view', action='store_true',
+                              help='Skip creating the staging-folder validation entity view '
+                                   '(created by default; also settable via '
+                                   '`create_entity_view: false` in config.yaml)')
+    create_parser.add_argument('--columns', nargs='+', default=None,
+                              help='Cherry-pick/order specific column names for both the '
+                                   'validation entity view and the dataset table columns, '
+                                   'instead of every property on the resolved schema(s). '
+                                   'Also settable via `columns:` in config.yaml.')
+    create_parser.add_argument('--extra-schema-types', nargs='+', default=None,
+                              help='Additional exact schema names (e.g. MetadataSchema) whose '
+                                   'properties are merged in alongside the auto-detected type '
+                                   'for both the validation entity view and the dataset table '
+                                   'columns. Also settable via `extra_schema_types:` in '
+                                   'config.yaml. Ignored when --from-entity is given.')
+    create_parser.add_argument('--from-entity',
+                              help='Synapse ID of an existing Dataset/EntityView/Table to port '
+                                   'columns (and their order) from, for BOTH the validation '
+                                   'entity view and the dataset table columns, instead of '
+                                   'deriving them from a schema. Combine with --columns to port '
+                                   'only specific names. Also settable via `from_entity:` in '
+                                   'config.yaml.')
     create_parser.add_argument('--infer-variant-types', action='store_true',
                               help='Download VCF files and infer variantType using bcftools (requires bcftools in PATH)')
     create_parser.add_argument('--force-infer-variant-types', action='store_true',
@@ -10018,6 +10273,10 @@ Examples:
         help='Target folder (or project) Synapse ID to move files into')
     move_parser.add_argument('--recursive', action='store_true',
         help='When a source is a folder, also move files in its subfolders')
+    move_parser.add_argument('--pattern', metavar='GLOB',
+        help='Only move files whose name matches this glob pattern (fnmatch syntax, '
+             'e.g. "*.csv"). Applies to files discovered by expanding a folder/project '
+             'source; files listed explicitly in --source are always moved.')
     move_parser.add_argument('--execute', action='store_true',
         help='Execute (override DRY_RUN — actually move files)')
     move_parser.add_argument('--dry-run', action='store_true',
@@ -10276,9 +10535,54 @@ Examples:
         help='Dataset type for column schema; fuzzy-matched against json-schemas/ '
              '(e.g. "omic" -> OmicDataset). Exact schema names also work. '
              'Auto-detected from annotations if omitted.')
+    reorder_cols_parser.add_argument('--columns', nargs='+', default=None,
+        help='Cherry-pick/order specific column names to add instead of every '
+             'property on the resolved dataset type schema. Each name is still '
+             'type/facet-derived from the schema when it matches a modeled field. '
+             'With --from-entity, filters the ported column set to just these names '
+             '(source order preserved) instead of filtering a schema.')
+    reorder_cols_parser.add_argument('--from-entity',
+        help='Synapse ID of an existing Dataset/EntityView/Table to port columns '
+             '(and their order) from, instead of deriving them from a schema. '
+             'Combine with --columns to port only specific names.')
     reorder_cols_parser.add_argument('--execute', action='store_true',
         help='Execute (override DRY_RUN)')
     reorder_cols_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    # CREATE-ENTITY-VIEW command
+    create_view_parser = subparsers.add_parser(
+        'create-entity-view',
+        help='Create a standalone entity view (table) scoped to any Synapse folder'
+    )
+    create_view_parser.add_argument('--folder', required=True,
+        help='Synapse ID of the folder (or dataset) to scope the entity view to')
+    create_view_parser.add_argument('--project-id',
+        help='Synapse ID of the project to create the view in (default: config.yaml project_id)')
+    create_view_parser.add_argument('--name',
+        help='Name for the view, "_EntityView" is appended (default: the folder Synapse ID)')
+    create_view_parser.add_argument('--type', nargs='+',
+        help='One or more schema types to pull columns from; fuzzy-matched against '
+             'json-schemas/ (e.g. "omic" -> OmicDataset -> OmicFile columns). Exact '
+             'schema names also work, including non-File/Dataset schemas (e.g. '
+             '"MetadataSchema") — pass several to merge their properties into one '
+             'view (e.g. --type speech MetadataSchema). Defaults to generic File '
+             'columns if omitted.')
+    create_view_parser.add_argument('--columns', nargs='+', default=None,
+        help='Cherry-pick/order specific column names instead of every property on '
+             'the resolved File-type schema. Each name is still type/facet-derived '
+             'from the schema when it matches a modeled field. With --from-entity, '
+             'filters the ported column set to just these names (source order '
+             'preserved) instead of filtering a schema.')
+    create_view_parser.add_argument('--from-entity',
+        help='Synapse ID of an existing Dataset/EntityView/Table to port columns '
+             '(and their order) from, instead of deriving them from a schema/--type. '
+             'Combine with --columns to port only specific names.')
+    create_view_parser.add_argument('--skip-reorder', action='store_true',
+        help='Skip reordering/verifying columns after creation')
+    create_view_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    create_view_parser.add_argument('--dry-run', action='store_true',
         help='Dry run mode (default)')
 
     # RENAME-FILES command
@@ -10510,7 +10814,7 @@ Examples:
                         'upload-staged-version',
                         'rename-annotation', 'rename-folders', 'migrate-annotation-values',
                         'sync-dataset-schema-annotations', 'merge-file-versions', 'upload-local',
-                        'move', 'rename-files']:
+                        'move', 'rename-files', 'create-entity-view']:
         config.validate()
 
     # Route to appropriate handler
@@ -10553,6 +10857,8 @@ Examples:
         handle_upload_local_workflow(args, config)
     elif args.command == 'reorder-columns':
         handle_reorder_columns(args, config)
+    elif args.command == 'create-entity-view':
+        handle_create_entity_view(args, config)
     elif args.command == 'move':
         handle_move_files(args, config)
     elif args.command == 'rename-files':

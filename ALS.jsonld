@@ -58,6 +58,8 @@
       "@id" : "bts:dataSourcePrefix"
     }, {
       "@id" : "bts:sampleType"
+    }, {
+      "@id" : "bts:nihguid"
     } ],
     "sms:displayName" : "SubjectIdentifierMixin"
   }, {
@@ -1401,8 +1403,6 @@
     }, {
       "@id" : "bts:variantType"
     }, {
-      "@id" : "bts:site_of_onset"
-    }, {
       "@id" : "bts:sampleIdColumn"
     }, {
       "@id" : "bts:collectionSite"
@@ -2188,7 +2188,7 @@
     "sms:requiresDependency" : [ {
       "@id" : "bts:dataType"
     }, {
-      "@id" : "bts:ftTests"
+      "@id" : "bts:assessmentTypes"
     }, {
       "@id" : "bts:ftTestCodes"
     }, {
@@ -2403,13 +2403,17 @@
     "rdfs:comment" : "Template for defining metadata schemas that document the structure, data types, and valid values for clinical and omics metadata files. Also supports dataset-level citation metadata per NIH CADR requirements.",
     "@type" : "rdfs:Class",
     "sms:requiresDependency" : [ {
+      "@id" : "bts:dataType"
+    }, {
+      "@id" : "bts:program"
+    }, {
+      "@id" : "bts:originalRepository"
+    }, {
       "@id" : "bts:schemaName"
     }, {
       "@id" : "bts:schemaType"
     }, {
       "@id" : "bts:version"
-    }, {
-      "@id" : "bts:description"
     }, {
       "@id" : "bts:conformsTo"
     }, {
@@ -2419,25 +2423,15 @@
     }, {
       "@id" : "bts:identifierType"
     }, {
-      "@id" : "bts:title"
-    }, {
-      "@id" : "bts:creators"
-    }, {
-      "@id" : "bts:contributors"
-    }, {
       "@id" : "bts:publisher"
     }, {
       "@id" : "bts:publicationYear"
     }, {
       "@id" : "bts:resourceType"
     }, {
-      "@id" : "bts:subjects"
-    }, {
-      "@id" : "bts:license"
-    }, {
       "@id" : "bts:licenseURL"
     }, {
-      "@id" : "bts:accessRights"
+      "@id" : "bts:dataUseModifiers"
     }, {
       "@id" : "bts:fundingReferences"
     }, {
@@ -2481,6 +2475,8 @@
       "@id" : "bts:fileFormat"
     }, {
       "@id" : "bts:platform"
+    }, {
+      "@id" : "bts:site_of_onset"
     } ],
     "sms:displayName" : "GEOFile"
   }, {
@@ -2685,6 +2681,8 @@
       "@id" : "bts:fileFormat"
     }, {
       "@id" : "bts:platform"
+    }, {
+      "@id" : "bts:site_of_onset"
     } ],
     "sms:displayName" : "SRAFile"
   }, {
@@ -3195,13 +3193,9 @@
     "sms:requiresDependency" : [ {
       "@id" : "bts:dataType"
     }, {
-      "@id" : "bts:nihguid"
-    }, {
       "@id" : "bts:neurostamps"
     }, {
       "@id" : "bts:neuroguid"
-    }, {
-      "@id" : "bts:subjid"
     }, {
       "@id" : "bts:ftStresu"
     }, {
@@ -3221,7 +3215,7 @@
     }, {
       "@id" : "bts:ftReasnd"
     }, {
-      "@id" : "bts:ftNam"
+      "@id" : "bts:vendor"
     }, {
       "@id" : "bts:suppLoc"
     }, {
@@ -3357,8 +3351,6 @@
       "@id" : "bts:statesp"
     }, {
       "@id" : "bts:zipCode"
-    }, {
-      "@id" : "bts:nihguid"
     } ],
     "sms:displayName" : "Demographics"
   }, {
@@ -4091,7 +4083,7 @@
   }, {
     "@id" : "bts:AdministrationLocationEnum",
     "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
+    "rdfs:comment" : "Location or setting where an assessment or data collection took place",
     "rdfs:label" : "AdministrationLocationEnum",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
@@ -4925,17 +4917,6 @@
     "sms:displayName" : "ProgramEnum",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:AccessRightsEnum",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "Information about access restrictions",
-    "rdfs:label" : "AccessRightsEnum",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "AccessRightsEnum",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:PulseRegularityEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -5543,7 +5524,7 @@
   }, {
     "@id" : "bts:AdministrationModeEnum",
     "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
+    "rdfs:comment" : "Mode or method by which an assessment or data collection was administered",
     "rdfs:label" : "AdministrationModeEnum",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
@@ -5771,13 +5752,19 @@
     }, {
       "@id" : "bts:Video_Call"
     }, {
+      "@id" : "bts:Remote"
+    }, {
       "@id" : "bts:Self_Administered"
     }, {
       "@id" : "bts:Caregiver_Assisted"
     }, {
-      "@id" : "bts:Other"
+      "@id" : "bts:Paper_Form"
+    }, {
+      "@id" : "bts:Electronic_Form"
     }, {
       "@id" : "bts:partner_assessment"
+    }, {
+      "@id" : "bts:Other"
     } ],
     "rdfs:label" : "administrationMode",
     "rdfs:comment" : "The method by which the assessment or data collection was performed.",
@@ -5934,6 +5921,76 @@
       "@id" : "bts:electrophysiology"
     }, {
       "@id" : "bts:dynamometry"
+    }, {
+      "@id" : "bts:MEANPHONATIONBREATHINESS"
+    }, {
+      "@id" : "bts:MEANPHONATIONPITCHINSTABILITY"
+    }, {
+      "@id" : "bts:MAXPHONATIONTOTALDURPAUSELESSPHON"
+    }, {
+      "@id" : "bts:MEANSENTENCEARTICPRECISION"
+    }, {
+      "@id" : "bts:MEANIMAGEDESCRTOTALDUR"
+    }, {
+      "@id" : "bts:MEANIMAGEDESCRMONOTONICITY"
+    }, {
+      "@id" : "bts:MEANSENTENCEMONOTONICITY"
+    }, {
+      "@id" : "bts:MEANIMAGEDESCRAVGPAUSEDUR"
+    }, {
+      "@id" : "bts:MAXREPEATEDPHRASEBUTTERCUPCOUNT"
+    }, {
+      "@id" : "bts:MEANSENTENCEPAUSERATE"
+    }, {
+      "@id" : "bts:MEANFIXEDSENTENCEVOICINGREGULATION"
+    }, {
+      "@id" : "bts:MEANSENTENCEASRSPEAKINGRATE"
+    }, {
+      "@id" : "bts:MEANSENTENCEASRARTICULATIONRATE"
+    }, {
+      "@id" : "bts:MEANIMAGEDESCRASRSPEAKINGRATE"
+    }, {
+      "@id" : "bts:MEANCATEGORYNAMINGPAUSERATE"
+    }, {
+      "@id" : "bts:MEANVISUALNAMINGTOTALDUR"
+    }, {
+      "@id" : "bts:MEANVISUALSEARCHTOTALDUR"
+    }, {
+      "@id" : "bts:MEANOBJECTRECALLAVGPAUSEDUR"
+    }, {
+      "@id" : "bts:MEANOBJECTRECALLSTARTTIME"
+    }, {
+      "@id" : "bts:MEANDELAYEDSTORYRECALLSTARTTIME"
+    }, {
+      "@id" : "bts:MEANVISUALNAMINGINTRAWORDPAUSETIME"
+    }, {
+      "@id" : "bts:MEANVISUALNAMINGPERCENTWORDSMISSED"
+    }, {
+      "@id" : "bts:MAXDELAYEDWORDRECALLSCORE"
+    }, {
+      "@id" : "bts:MINDELAYEDWORDRECALLLATENCY"
+    }, {
+      "@id" : "bts:MEANDELAYEDSTORYRECALLSCORE"
+    }, {
+      "@id" : "bts:MEANDELAYEDSTORYRECALLSEMANTICRELEV"
+    }, {
+      "@id" : "bts:MEANIMAGEDESCRSEMANTICRELEV"
+    }, {
+      "@id" : "bts:MEANIMMEDSTORYRECALLSCORE"
+    }, {
+      "@id" : "bts:MEANCATEGORYNAMINGVERBALFLUENCY"
+    }, {
+      "@id" : "bts:MEANOBJECTRECALLSCORE"
+    }, {
+      "@id" : "bts:MAXIMMEDWORDRECALLSCORE"
+    }, {
+      "@id" : "bts:MEANIMMEDSTORYRECALLVOLITION1"
+    }, {
+      "@id" : "bts:MEANIMAGEDESCRSCORE"
+    }, {
+      "@id" : "bts:MEANVISUALSEARCHINTRAWORDPAUSETIME"
+    }, {
+      "@id" : "bts:MEANVISUALSEARCHPERCENTWORDSMISSED"
     } ],
     "rdfs:label" : "assessmentType",
     "rdfs:comment" : "The specific type of clinical assessment or data collection method used.",
@@ -6699,6 +6756,8 @@
     }, {
       "@id" : "bts:wiggle"
     }, {
+      "@id" : "bts:xlsx"
+    }, {
       "@id" : "bts:xml"
     }, {
       "@id" : "bts:yaml"
@@ -7187,6 +7246,12 @@
       "@id" : "bts:LegalMetadata"
     }, {
       "@id" : "bts:WorkflowMetadata"
+    }, {
+      "@id" : "bts:MappingFile"
+    }, {
+      "@id" : "bts:DataDictionary"
+    }, {
+      "@id" : "bts:AggregateMetadata"
     } ],
     "rdfs:label" : "dataType",
     "rdfs:comment" : "Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.\n",
@@ -7410,6 +7475,39 @@
     "rdfs:comment" : "Statement describing how resource use should be acknowledged.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "acknowledgementStatements"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:site_of_onset",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "schema:rangeIncludes" : [ {
+      "@id" : "bts:Bulbar"
+    }, {
+      "@id" : "bts:Limb"
+    }, {
+      "@id" : "bts:Lumbar"
+    }, {
+      "@id" : "bts:Axial"
+    }, {
+      "@id" : "bts:Respiratory"
+    }, {
+      "@id" : "bts:Generalized"
+    }, {
+      "@id" : "bts:Other"
+    }, {
+      "@id" : "bts:Cognitive"
+    }, {
+      "@id" : "bts:HeadDrop"
+    }, {
+      "@id" : "bts:Unknown"
+    } ],
+    "rdfs:label" : "site_of_onset",
+    "rdfs:comment" : "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar).",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "site_of_onset"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:experimentId",
@@ -8226,6 +8324,17 @@
     "sms:displayName" : "Other Platform",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANIMMEDSTORYRECALLVOLITION1",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMMEDSTORYRECALLVOLITION1",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMMED STORY RECALL VOLITION 1",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:SNVs/SNPs",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -8356,6 +8465,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "machine_learning",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANSENTENCEASRARTICULATIONRATE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANSENTENCEASRARTICULATIONRATE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN SENTENCE ASR ARTICULATION RATE",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Genetic_Counseling",
@@ -9315,6 +9435,17 @@
     "sms:displayName" : "Classical/Typical ALS, AD, FTD",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANVISUALNAMINGINTRAWORDPAUSETIME",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANVISUALNAMINGINTRAWORDPAUSETIME",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN VISUAL NAMING INTRAWORD PAUSE TIME",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:ISO-seq",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -10160,6 +10291,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "actigraphy",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MAXREPEATEDPHRASEBUTTERCUPCOUNT",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MAXREPEATEDPHRASEBUTTERCUPCOUNT",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MAX REPEATED PHRASE BUTTERCUP COUNT",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:IBM-myopathy",
@@ -11636,6 +11778,17 @@
     "sms:displayName" : "NanoString nCounter Analysis System",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MAXIMMEDWORDRECALLSCORE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MAXIMMEDWORDRECALLSCORE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MAX IMMED WORD RECALL SCORE",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:immunohistochemistry",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -11656,6 +11809,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "dataset",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MappingFile",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MappingFile",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Mapping File",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:ribo-seq",
@@ -11810,6 +11974,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Olympus DP80",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANIMAGEDESCRASRSPEAKINGRATE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMAGEDESCRASRSPEAKINGRATE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMAGE DESCR ASR SPEAKING RATE",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Subject_Decision",
@@ -12923,6 +13098,17 @@
     "sms:displayName" : "primary motor cortex",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:PhenoconversionEvaluation",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PhenoconversionEvaluation",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Phenoconversion Evaluation",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:image",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13220,6 +13406,17 @@
     "sms:displayName" : "lumbar_function",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Paper_Form",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Paper_Form",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Paper_Form",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:NEFH-ALS",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13286,6 +13483,17 @@
     "sms:displayName" : "treatment_modification",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANVISUALNAMINGTOTALDUR",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANVISUALNAMINGTOTALDUR",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN VISUAL NAMING TOTAL DUR",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:CohortParticipation",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13328,6 +13536,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "ultra high-performance liquid chromatography/tandem mass spectrometry",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:GeneticTestingSub-Study",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "GeneticTestingSub-Study",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Genetic Testing Sub-Study",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:cranial_nerves",
@@ -13427,6 +13646,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Child Behavior Checklist for Ages 1.5-5",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANVISUALSEARCHTOTALDUR",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANVISUALSEARCHTOTALDUR",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN VISUAL SEARCH TOTAL DUR",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:polysomnography",
@@ -14111,6 +14341,17 @@
     "sms:displayName" : "snRNA-seq",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANDELAYEDSTORYRECALLSTARTTIME",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANDELAYEDSTORYRECALLSTARTTIME",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN DELAYED STORY RECALL START TIME",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:PRPH-ALS",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -14166,6 +14407,17 @@
     "sms:displayName" : "LBD",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANIMAGEDESCRSEMANTICRELEV",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMAGEDESCRSEMANTICRELEV",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMAGE DESCR SEMANTIC RELEV",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:PathologicalFTLD-TDPTypeB",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -14197,6 +14449,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Occasional",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANOBJECTRECALLAVGPAUSEDUR",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANOBJECTRECALLAVGPAUSEDUR",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN OBJECT RECALL AVG PAUSE DUR",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:PatientRegistryStudy",
@@ -14529,17 +14792,6 @@
     "sms:displayName" : "protein_modification",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:Open",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Open",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Open",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:physical_mobility",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -14582,6 +14834,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "GE Signa Premier 3T",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANVISUALSEARCHINTRAWORDPAUSETIME",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANVISUALSEARCHINTRAWORDPAUSETIME",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN VISUAL SEARCH INTRAWORD PAUSE TIME",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:distortionproductotoacousticemissions",
@@ -14648,6 +14911,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Fluoride_Oxalate",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANDELAYEDSTORYRECALLSEMANTICRELEV",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANDELAYEDSTORYRECALLSEMANTICRELEV",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN DELAYED STORY RECALL SEMANTIC RELEV",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Oral",
@@ -15310,6 +15584,17 @@
     "sms:displayName" : "Fluorescence In Situ Hybridization",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:In-ClinicFollow-up",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "In-ClinicFollow-up",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "In-Clinic Follow-up",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:CCBY-NC-SA",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15750,6 +16035,17 @@
     "sms:displayName" : "microglia",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Ad-HocSymptomEvaluationVisit",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Ad-HocSymptomEvaluationVisit",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Ad-Hoc Symptom Evaluation Visit",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:AMPALS",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -15935,6 +16231,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "pre-fALS",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MINDELAYEDWORDRECALLLATENCY",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MINDELAYEDWORDRECALLLATENCY",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MIN DELAYED WORD RECALL LATENCY",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:ConcomitantMedications",
@@ -17411,6 +17718,17 @@
     "sms:displayName" : "single-cell",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANVISUALNAMINGPERCENTWORDSMISSED",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANVISUALNAMINGPERCENTWORDSMISSED",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN VISUAL NAMING PERCENT WORDS MISSED",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:experimentalstudy",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -17420,6 +17738,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "experimental study",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANSENTENCEARTICPRECISION",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANSENTENCEARTICPRECISION",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN SENTENCE ARTIC PRECISION",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:immunofluorescence",
@@ -17651,6 +17980,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "raw_counts",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANSENTENCEASRSPEAKINGRATE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANSENTENCEASRSPEAKINGRATE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN SENTENCE ASR SPEAKING RATE",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:GO",
@@ -18632,6 +18972,17 @@
     "sms:displayName" : "single molecule",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANPHONATIONBREATHINESS",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANPHONATIONBREATHINESS",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN PHONATION BREATHINESS",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:oxygenconsumptionassay",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -18652,6 +19003,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "remote_monitoring",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANIMAGEDESCRMONOTONICITY",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMAGEDESCRMONOTONICITY",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMAGE DESCR MONOTONICITY",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:HematologyPanel",
@@ -18720,6 +19082,17 @@
     "sms:displayName" : "magnetic resonance angiography",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANDELAYEDSTORYRECALLSCORE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANDELAYEDSTORYRECALLSCORE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN DELAYED STORY RECALL SCORE",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:FamilyhistoryofALS,Dementia(NOS),andFTD.Obligatecarrier.",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -18729,6 +19102,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Family history of ALS, Dementia (NOS), and FTD. Obligate carrier.",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANIMAGEDESCRAVGPAUSEDUR",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMAGEDESCRAVGPAUSEDUR",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMAGE DESCR AVG PAUSE DUR",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:ATAC-seq",
@@ -18751,6 +19135,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Validation Study",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANOBJECTRECALLSTARTTIME",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANOBJECTRECALLSTARTTIME",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN OBJECT RECALL START TIME",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:ipsc",
@@ -19004,17 +19399,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "study",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:Embargoed",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Embargoed",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Embargoed",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:SpeechFunction",
@@ -19886,17 +20270,6 @@
     "sms:displayName" : "Female",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:Controlled",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Controlled",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Controlled",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:capsules",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -19928,6 +20301,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Severe_Atrophy",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:AggregateMetadata",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "AggregateMetadata",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Aggregate Metadata",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Axial",
@@ -20084,6 +20468,17 @@
     "sms:displayName" : "screening",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:TelephoneFollow-up",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "TelephoneFollow-up",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Telephone Follow-up",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:hyperlink",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -20170,6 +20565,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "mzML",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:LinusHealth",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "LinusHealth",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Linus Health",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:NEBNextmRNALibraryPrepReagentSetforIllumina",
@@ -20953,6 +21359,17 @@
     "sms:displayName" : "ZonMw",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANFIXEDSENTENCEVOICINGREGULATION",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANFIXEDSENTENCEVOICINGREGULATION",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN FIXED SENTENCE VOICING REGULATION",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:2+",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -21061,6 +21478,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "GeneSetEnrichmentAnalysis",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Electronic_Form",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Electronic_Form",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Electronic_Form",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:CherryImagingTRACEPlatform",
@@ -21888,6 +22316,17 @@
     "sms:displayName" : "ALSFRS-R",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:xlsx",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "xlsx",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "xlsx",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:PIA",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -21919,6 +22358,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Intravenous",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANPHONATIONPITCHINSTABILITY",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANPHONATIONPITCHINSTABILITY",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN PHONATION PITCH INSTABILITY",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:snATAC-seq",
@@ -22493,6 +22943,17 @@
     "sms:displayName" : "pregnancy_exposure",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MAXPHONATIONTOTALDURPAUSELESSPHON",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MAXPHONATIONTOTALDURPAUSELESSPHON",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MAX PHONATION TOTAL DUR PAUSELESS PHON",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:cognitive_function",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -22733,6 +23194,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Lumbar",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANSENTENCEMONOTONICITY",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANSENTENCEMONOTONICITY",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN SENTENCE MONOTONICITY",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Aggregate-Reference",
@@ -23505,6 +23977,17 @@
     "sms:displayName" : "intervention_response",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANOBJECTRECALLSCORE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANOBJECTRECALLSCORE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN OBJECT RECALL SCORE",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:RData",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -23580,6 +24063,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Myopathy",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANSENTENCEPAUSERATE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANSENTENCEPAUSERATE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN SENTENCE PAUSE RATE",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Classical/TypicalALS,PeripheralNeuropathy",
@@ -23846,6 +24340,17 @@
     "sms:displayName" : "LTQ Orbitrap XL",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:DHTScreeningVisit",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "DHTScreeningVisit",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "DHT Screening Visit",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Agilent44Karray",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -23943,6 +24448,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Gallus gallus",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:KeyStudyEvents",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "KeyStudyEvents",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Key Study Events",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:enrollment_tracking",
@@ -24306,6 +24822,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "biomarkers",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MAXDELAYEDWORDRECALLSCORE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MAXDELAYEDWORDRECALLSCORE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MAX DELAYED WORD RECALL SCORE",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:RefSeq",
@@ -24792,15 +25319,15 @@
     "sms:displayName" : "Natural-History",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:Restricted",
+    "@id" : "bts:MEANCATEGORYNAMINGPAUSERATE",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
-    "rdfs:label" : "Restricted",
+    "rdfs:label" : "MEANCATEGORYNAMINGPAUSERATE",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
     },
-    "sms:displayName" : "Restricted",
+    "sms:displayName" : "MEAN CATEGORY NAMING PAUSE RATE",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:TheUniversityofGroningenGraduateSchoolofMedicalSciences",
@@ -25054,6 +25581,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Abnormal",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANIMAGEDESCRSCORE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMAGEDESCRSCORE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMAGE DESCR SCORE",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:inward",
@@ -26200,6 +26738,17 @@
     "sms:displayName" : "NEK1-ALS",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:GeneticCounselingVisit",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "GeneticCounselingVisit",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Genetic Counseling Visit",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:ALS/FTDCase",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -26464,6 +27013,17 @@
     "sms:displayName" : "zip",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANCATEGORYNAMINGVERBALFLUENCY",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANCATEGORYNAMINGVERBALFLUENCY",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN CATEGORY NAMING VERBAL FLUENCY",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Paternal",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -26594,6 +27154,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Chemistry",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:VisitManagement",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "VisitManagement",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Visit Management",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:CNVkit",
@@ -26816,6 +27387,28 @@
     "sms:displayName" : "Disease-Only",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANIMAGEDESCRTOTALDUR",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMAGEDESCRTOTALDUR",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMAGE DESCR TOTAL DUR",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:RemoteFollow-up",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "RemoteFollow-up",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Remote Follow-up",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Twice_Weekly",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -26904,6 +27497,17 @@
     "sms:displayName" : "AdverseEventLog",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:DataDictionary",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "DataDictionary",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Data Dictionary",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Classical/TypicalALS,LeftUlnarNeuropathy",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -26959,6 +27563,17 @@
     "sms:displayName" : "Some_Diminished",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:MEANIMMEDSTORYRECALLSCORE",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANIMMEDSTORYRECALLSCORE",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN IMMED STORY RECALL SCORE",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:activeavoidancelearningbehaviorassay",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -27001,6 +27616,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "medical_history",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:MEANVISUALSEARCHPERCENTWORDSMISSED",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "MEANVISUALSEARCHPERCENTWORDSMISSED",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "MEAN VISUAL SEARCH PERCENT WORDS MISSED",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Registry",
