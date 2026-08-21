@@ -8,18 +8,18 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
-            sh:prefix "schema" ],
+    sh:declare [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
+            sh:prefix "linkml" ],
         [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
             sh:prefix "als" ],
+        [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+            sh:prefix "rdfs" ],
         [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
             sh:prefix "skos" ],
+        [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
+            sh:prefix "schema" ],
         [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
-            sh:prefix "prov" ],
-        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
-            sh:prefix "linkml" ],
-        [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ] ;
+            sh:prefix "prov" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -91,7 +91,6 @@
         "xsd" ;
     linkml:enums <https://w3id.org/synapse/amp-als/vocab/ALSGeneEnum>,
         <https://w3id.org/synapse/amp-als/vocab/AbnormalFlagEnum>,
-        <https://w3id.org/synapse/amp-als/vocab/AccessRightsEnum>,
         <https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum>,
         <https://w3id.org/synapse/amp-als/vocab/AdministrationModeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/AlcoholUseEnum>,
@@ -231,7 +230,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-08-13T14:05:45"^^xsd:dateTime ;
+    linkml:generation_date "2026-08-20T19:58:13"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -688,24 +687,23 @@
         <https://w3id.org/synapse/amp-als/vocab/metadataAttribute__required>,
         <https://w3id.org/synapse/amp-als/vocab/metadataAttribute__validValues>,
         <https://w3id.org/synapse/amp-als/vocab/metadataAttribute__validationRules>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__accessRights>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__attributes>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__citationRecommendation>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__conformsTo>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__contactEmail>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__contactName>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__contributors>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__creators>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dateCreated>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dateModified>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__description>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__fundingReferences>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__identifier>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__identifierType>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__landingPage>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__license>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__licenseURL>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__originalRepository>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__program>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publicationYear>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__relatedDatasets>,
@@ -713,8 +711,6 @@
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__resourceType>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__schemaName>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__schemaType>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__subjects>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__title>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__version>,
         <https://w3id.org/synapse/amp-als/vocab/modifiedBy>,
         <https://w3id.org/synapse/amp-als/vocab/nucleicAcidSource>,
@@ -725,7 +721,6 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__referenceGenome>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__sampleIdColumn>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFile__site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__storageContainer>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/participant_count>,
@@ -763,23 +758,23 @@
         <https://w3id.org/synapse/amp-als/vocab/pulmonaryFunction__svcPercent>,
         <https://w3id.org/synapse/amp-als/vocab/readLength>,
         <https://w3id.org/synapse/amp-als/vocab/sex>,
+        <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/softwareAndVersion>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenID>,
         <https://w3id.org/synapse/amp-als/vocab/specimenIDSource>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
+        <https://w3id.org/synapse/amp-als/vocab/speechDataset__assessmentTypes>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__collectionLocation>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__ftStresuValues>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__ftTestCodes>,
-        <https://w3id.org/synapse/amp-als/vocab/speechDataset__ftTests>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__sdtmDomain>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__vendor>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__ftDtc>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__ftGrpId>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftNam>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__ftReasnd>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__ftRefId>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__ftStat>,
@@ -789,11 +784,10 @@
         <https://w3id.org/synapse/amp-als/vocab/speechFile__ftTstDtl>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__neuroguid>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__neurostamps>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__sdtmDomain>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__sessionId>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__subjid>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__suppLoc>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__vendor>,
         <https://w3id.org/synapse/amp-als/vocab/strengthAssessment__elbowFlexionLeft>,
         <https://w3id.org/synapse/amp-als/vocab/strengthAssessment__elbowFlexionRight>,
         <https://w3id.org/synapse/amp-als/vocab/strengthAssessment__gripStrengthLeft>,
@@ -837,6 +831,7 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/subject__PMI>,
@@ -915,8 +910,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-08-13T14:05:44"^^xsd:dateTime ;
-    linkml:source_file_size 380100 ;
+    linkml:source_file_date "2026-08-20T19:58:12"^^xsd:dateTime ;
+    linkml:source_file_size 386834 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -1056,6 +1051,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Active%20Against%20ALS> linkml:description "Active Against ALS" .
 
+<https://w3id.org/synapse/amp-als/vocab/Ad-Hoc%20Symptom%20Evaluation%20Visit> linkml:description "Unscheduled visit to evaluate reported ALS/FTD symptoms" .
+
 <https://w3id.org/synapse/amp-als/vocab/Administrative%20Metadata> linkml:description "Information to help manage a resource, like resource type, permissions, and when and how it was created." .
 
 <https://w3id.org/synapse/amp-als/vocab/AdverseEventLog> linkml:description "Documentation of adverse events and their outcomes" .
@@ -1077,6 +1074,9 @@
 <https://w3id.org/synapse/amp-als/vocab/Age_Criteria> linkml:description "Failed age inclusion criteria" .
 
 <https://w3id.org/synapse/amp-als/vocab/Aggregate> linkml:description "Measurement is an aggregate summary across all steps of the test session" .
+
+<https://w3id.org/synapse/amp-als/vocab/Aggregate%20Metadata> linkml:description """Subject- or sample-level metadata that combines identifiers/crosswalk keys (e.g., subject ID, NeuroSTAMPs) with aggregate or summary measures (e.g., per-subject averages for specific tests).
+""" .
 
 <https://w3id.org/synapse/amp-als/vocab/Aggregate-Reference> linkml:description "Aggregate summary/reference cohort where participant-level cohort membership is not available in the dataset." .
 
@@ -1514,8 +1514,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Consent_Process> linkml:description "Informed consent process deviation" .
 
-<https://w3id.org/synapse/amp-als/vocab/Controlled> linkml:description "Controlled access requiring DUC or similar agreement" .
-
 <https://w3id.org/synapse/amp-als/vocab/CopyNumberVariants> linkml:description "Copy number variants" ;
     linkml:meaning "https://docs.gdc.cancer.gov/Data_Dictionary/viewer/#?view=table-definition-view&id=copy_number_variation"^^xsd:anyURI .
 
@@ -1572,6 +1570,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/DESeq2> dcterms:source "https://bioconductor.org/packages/release/bioc/html/DESeq2.html"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/DHT%20Screening%20Visit> linkml:description "Screening visit specific to the digital health technology (DHT) sub-study" .
+
 <https://w3id.org/synapse/amp-als/vocab/DICOM> linkml:description "A comprehensive set of standards for communications between medical imaging devices, including handling, storing and transmitting information in medical imaging. It includes a file format definition and a network communication protocol." ;
     linkml:meaning "http://purl.obolibrary.org/obo/NCIT_C49059"^^xsd:anyURI .
 
@@ -1591,6 +1591,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Danio%20rerio> linkml:description "Danio rerio with taxonomy ID: 7955 and Genbank common name: zebrafish" ;
     linkml:meaning "https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=7955&lvl=3&lin=f&keep=1&srchmode=1&unlock"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/Data%20Dictionary> linkml:description "Data dictionary file describing variable definitions, codings, and metadata for a dataset." .
 
 <https://w3id.org/synapse/amp-als/vocab/DataPaper> linkml:description "Dataset with accompanying publication" .
 
@@ -1697,8 +1699,6 @@
 <https://w3id.org/synapse/amp-als/vocab/EligibilityConsent> linkml:description "Documentation of consent and eligibility confirmation" .
 
 <https://w3id.org/synapse/amp-als/vocab/EligibilityCriteria> linkml:description "Study eligibility assessment" .
-
-<https://w3id.org/synapse/amp-als/vocab/Embargoed> linkml:description "Under embargo until specific date" .
 
 <https://w3id.org/synapse/amp-als/vocab/EnVision%202103%20Multiplate%20Reader> linkml:description "EnVision 2103 Multiplate Reader" .
 
@@ -1875,6 +1875,7 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -2034,11 +2035,11 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__referenceGenome>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__sampleIdColumn>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFile__site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__storageContainer>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
         <https://w3id.org/synapse/amp-als/vocab/readLength>,
+        <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
@@ -2058,6 +2059,7 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/totalBases>,
@@ -2113,7 +2115,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Generalized> linkml:description "Generalized onset across multiple regions" .
 
+<https://w3id.org/synapse/amp-als/vocab/Genetic%20Counseling%20Visit> linkml:description "Visit for genetic counseling" .
+
 <https://w3id.org/synapse/amp-als/vocab/Genetic%20Counselor> linkml:description "Genetic Counselor" .
+
+<https://w3id.org/synapse/amp-als/vocab/Genetic%20Testing%20Sub-Study> linkml:description "Visit associated with the genetic testing sub-study" .
 
 <https://w3id.org/synapse/amp-als/vocab/Genetic_Counseling> linkml:description "Genetic counseling visit" .
 
@@ -2312,6 +2318,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Immunology> linkml:description "Immunology" .
 
+<https://w3id.org/synapse/amp-als/vocab/In-Clinic%20Follow-up> linkml:description "Follow-up visit conducted in-clinic (in person)" .
+
 <https://w3id.org/synapse/amp-als/vocab/In-Vitro-Experimental> linkml:description "In vitro experimental cohort or condition groups, including engineered cell-line treatment, perturbation, or assay-control groups." .
 
 <https://w3id.org/synapse/amp-als/vocab/In_Person> linkml:description "In-person administration" .
@@ -2386,6 +2394,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Kennedy%27s%20disease> linkml:description "Kennedy's disease, or spinal and bulbar muscular atrophy (SBMA), is a rare, X-linked genetic neurodegenerative disorder primarily affecting men, characterized by slow progressive muscle weakness and wasting" .
 
+<https://w3id.org/synapse/amp-als/vocab/Key%20Study%20Events> linkml:description "Visit marking key study events or milestones" .
+
 <https://w3id.org/synapse/amp-als/vocab/KeyDevicesProcedures> linkml:description "Documentation of supportive devices and procedures" .
 
 <https://w3id.org/synapse/amp-als/vocab/LBD> linkml:description "Lewy Body Dementia" .
@@ -2442,6 +2452,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Limb> linkml:description "Limb onset (arm or leg)" .
 
+<https://w3id.org/synapse/amp-als/vocab/Linus%20Health> linkml:description "Linus Health" .
+
 <https://w3id.org/synapse/amp-als/vocab/Locked> linkml:description "Form locked for editing" .
 
 <https://w3id.org/synapse/amp-als/vocab/Longitudinal%20Study> linkml:description "Repeated measurements from same subjects over time" .
@@ -2466,7 +2478,75 @@
 
 <https://w3id.org/synapse/amp-als/vocab/MATR3-ALS> linkml:description "MATR3 ALS" .
 
+<https://w3id.org/synapse/amp-als/vocab/MAX%20DELAYED%20WORD%20RECALL%20SCORE> linkml:description "Speech functional test measure - max delayed word recall score" .
+
+<https://w3id.org/synapse/amp-als/vocab/MAX%20IMMED%20WORD%20RECALL%20SCORE> linkml:description "Speech functional test measure - max immediate word recall score" .
+
+<https://w3id.org/synapse/amp-als/vocab/MAX%20PHONATION%20TOTAL%20DUR%20PAUSELESS%20PHON> linkml:description "Speech functional test measure - max phonation total duration, pauseless phonation" .
+
+<https://w3id.org/synapse/amp-als/vocab/MAX%20REPEATED%20PHRASE%20BUTTERCUP%20COUNT> linkml:description "Speech functional test measure - max repeated phrase (\"buttercup\") count" .
+
 <https://w3id.org/synapse/amp-als/vocab/MDA> linkml:description "Muscular Dystrophy Association" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20CATEGORY%20NAMING%20PAUSE%20RATE> linkml:description "Speech functional test measure - mean category naming pause rate" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20CATEGORY%20NAMING%20VERBAL%20FLUENCY> linkml:description "Speech functional test measure - mean category naming verbal fluency" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20DELAYED%20STORY%20RECALL%20SCORE> linkml:description "Speech functional test measure - mean delayed story recall score" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20DELAYED%20STORY%20RECALL%20SEMANTIC%20RELEV> linkml:description "Speech functional test measure - mean delayed story recall semantic relevance" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20DELAYED%20STORY%20RECALL%20START%20TIME> linkml:description "Speech functional test measure - mean delayed story recall start time" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20FIXED%20SENTENCE%20VOICING%20REGULATION> linkml:description "Speech functional test measure - mean fixed sentence voicing regulation" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20ASR%20SPEAKING%20RATE> linkml:description "Speech functional test measure - mean image description ASR (automatic speech recognition) speaking rate" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20AVG%20PAUSE%20DUR> linkml:description "Speech functional test measure - mean image description average pause duration" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20MONOTONICITY> linkml:description "Speech functional test measure - mean image description monotonicity" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20SCORE> linkml:description "Speech functional test measure - mean image description score" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20SEMANTIC%20RELEV> linkml:description "Speech functional test measure - mean image description semantic relevance" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20TOTAL%20DUR> linkml:description "Speech functional test measure - mean image description total duration" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMMED%20STORY%20RECALL%20SCORE> linkml:description "Speech functional test measure - mean immediate story recall score" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20IMMED%20STORY%20RECALL%20VOLITION%201> linkml:description "Speech functional test measure - mean immediate story recall volition 1" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20OBJECT%20RECALL%20AVG%20PAUSE%20DUR> linkml:description "Speech functional test measure - mean object recall average pause duration" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20OBJECT%20RECALL%20SCORE> linkml:description "Speech functional test measure - mean object recall score" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20OBJECT%20RECALL%20START%20TIME> linkml:description "Speech functional test measure - mean object recall start time" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20PHONATION%20BREATHINESS> linkml:description "Speech functional test measure - mean phonation breathiness" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20PHONATION%20PITCH%20INSTABILITY> linkml:description "Speech functional test measure - mean phonation pitch instability" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20ARTIC%20PRECISION> linkml:description "Speech functional test measure - mean sentence articulation precision" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20ASR%20ARTICULATION%20RATE> linkml:description "Speech functional test measure - mean sentence ASR (automatic speech recognition) articulation rate" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20ASR%20SPEAKING%20RATE> linkml:description "Speech functional test measure - mean sentence ASR (automatic speech recognition) speaking rate" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20MONOTONICITY> linkml:description "Speech functional test measure - mean sentence monotonicity" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20PAUSE%20RATE> linkml:description "Speech functional test measure - mean sentence pause rate" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20NAMING%20INTRAWORD%20PAUSE%20TIME> linkml:description "Speech functional test measure - mean visual naming intraword pause time" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20NAMING%20PERCENT%20WORDS%20MISSED> linkml:description "Speech functional test measure - mean visual naming percent words missed" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20NAMING%20TOTAL%20DUR> linkml:description "Speech functional test measure - mean visual naming total duration" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20SEARCH%20INTRAWORD%20PAUSE%20TIME> linkml:description "Speech functional test measure - mean visual search intraword pause time" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20SEARCH%20PERCENT%20WORDS%20MISSED> linkml:description "Speech functional test measure - mean visual search percent words missed" .
+
+<https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20SEARCH%20TOTAL%20DUR> linkml:description "Speech functional test measure - mean visual search total duration" .
 
 <https://w3id.org/synapse/amp-als/vocab/MGI%20T-series> dcterms:source "https://en.mgi-tech.com/products/"^^xsd:anyURI ;
     linkml:description "deep whole genome sequencing" .
@@ -2475,6 +2555,8 @@
     linkml:meaning "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3328787/"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/MICHR> linkml:description "Michigan Institute for Clinical and Health Research" .
+
+<https://w3id.org/synapse/amp-als/vocab/MIN%20DELAYED%20WORD%20RECALL%20LATENCY> linkml:description "Speech functional test measure - min delayed word recall latency" .
 
 <https://w3id.org/synapse/amp-als/vocab/MMUL1.0> dcterms:source "https://jul2016.archive.ensembl.org/Macaca_mulatta/Info/Index"^^xsd:anyURI ;
     linkml:description "Ensembl preliminary assembly Macaca mulatta" .
@@ -2512,6 +2594,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Malvern%20Zetasizer> dcterms:source "https://www.malvernpanalytical.com/en/products/product-range/zetasizer-range"^^xsd:anyURI ;
     linkml:description "Instrument for Dynamic Light Scattering, Static Light Scattering, or Electrophoretic Light Scattering assays." .
+
+<https://w3id.org/synapse/amp-als/vocab/Mapping%20File> skos:note "Covers the mapping/*.dict crosswalk files used in this repo." ;
+    linkml:description """A file that maps source data columns and/or values to target data-model fields and enum values, used to drive automated annotation.
+""" .
 
 <https://w3id.org/synapse/amp-als/vocab/Maternal> linkml:description "Maternal side of family" .
 
@@ -2733,8 +2819,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Once_Daily> linkml:description "Once daily (QD)" .
 
-<https://w3id.org/synapse/amp-als/vocab/Open> linkml:description "Openly accessible without restrictions" .
-
 <https://w3id.org/synapse/amp-als/vocab/Open_Label> linkml:description "Open label treatment" .
 
 <https://w3id.org/synapse/amp-als/vocab/Oral> linkml:description "Oral administration" .
@@ -2908,6 +2992,8 @@
     linkml:meaning "http://purl.obolibrary.org/obo/NCIT_C49663"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/Pharmacy_Records> linkml:description "Pharmacy dispensing records" .
+
+<https://w3id.org/synapse/amp-als/vocab/Phenoconversion%20Evaluation> linkml:description "Visit triggered by a subject's conversion from asymptomatic to symptomatic disease" .
 
 <https://w3id.org/synapse/amp-als/vocab/Philips%20Achieva%203T> dcterms:source "https://clinicalimagingsystems.com/product/philips-achieva-3-0t-mri-scanner/"^^xsd:anyURI ;
     linkml:description "Complete 3T MRI system, it offers an extremely broad clinical reach from routine head, spine and musculoskeletal imaging to the most advanced exams." .
@@ -3108,7 +3194,7 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Reldesemtiv/CK-2127107%20450%20mg%20Twice%20Daily> linkml:description "Reldesemtiv/CK-2127107 450 mg twice-daily treatment arm." .
 
-<https://w3id.org/synapse/amp-als/vocab/Remote> linkml:description "Remote location" .
+<https://w3id.org/synapse/amp-als/vocab/Remote%20Follow-up> linkml:description "Follow-up visit conducted remotely" .
 
 <https://w3id.org/synapse/amp-als/vocab/Removed> linkml:description "Device has been removed" .
 
@@ -3121,8 +3207,6 @@
 <https://w3id.org/synapse/amp-als/vocab/Resolved_with_Sequelae> linkml:description "Resolved with lasting effects" .
 
 <https://w3id.org/synapse/amp-als/vocab/Respiratory> linkml:description "Respiratory onset" .
-
-<https://w3id.org/synapse/amp-als/vocab/Restricted> linkml:description "Restricted access requiring approval" .
 
 <https://w3id.org/synapse/amp-als/vocab/Results_Return> linkml:description "Visit for returning genetic test results" .
 
@@ -3217,7 +3301,7 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Seizure%20Disorder> linkml:description "Seizure disorder" .
 
-<https://w3id.org/synapse/amp-als/vocab/Self_Administered> linkml:description "Self-administered" .
+<https://w3id.org/synapse/amp-als/vocab/Self_Administered> linkml:description "Self-administered by subject" .
 
 <https://w3id.org/synapse/amp-als/vocab/Semantic%20Variant%20Primary%20Progressive%20Aphasia> linkml:description "Semantic Variant Primary Progressive Aphasia" .
 
@@ -3413,6 +3497,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Telephone> linkml:description "Telephone administration" .
 
+<https://w3id.org/synapse/amp-als/vocab/Telephone%20Follow-up> linkml:description "Follow-up visit conducted by telephone" .
+
 <https://w3id.org/synapse/amp-als/vocab/Tempus_RNA> linkml:description "Tempus RNA tube" .
 
 <https://w3id.org/synapse/amp-als/vocab/The%20Bluefield%20Project%20to%20Cure%20Frontotemporal%20Dementia> linkml:description "The Bluefield Project to Cure Frontotemporal Dementia" .
@@ -3572,9 +3658,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Video_Call> linkml:description "Video call administration" .
 
-<https://w3id.org/synapse/amp-als/vocab/Video_Conference> linkml:description "Video conference administration" .
-
 <https://w3id.org/synapse/amp-als/vocab/Violation> linkml:description "Protocol violation" .
+
+<https://w3id.org/synapse/amp-als/vocab/Visit%20Management> linkml:description "Administrative visit-management record not tied to a specific clinical visit type" .
 
 <https://w3id.org/synapse/amp-als/vocab/VisitScheduling> linkml:description "Visit dates and scheduling information" .
 
@@ -3673,10 +3759,6 @@
     linkml:description "Statement describing access requirements for an entity." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/accessRequirements"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/accessRights> a linkml:SlotDefinition ;
-    linkml:description "Information about access restrictions" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/AccessRightsEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/acknowledgementStatement> a linkml:SlotDefinition ;
     dcterms:title "Acknowledgement Statement" ;
@@ -3880,12 +3962,6 @@
     linkml:description "Date when the assessment was performed" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/date> .
 
-<https://w3id.org/synapse/amp-als/vocab/assessmentTypes> a linkml:SlotDefinition ;
-    dcterms:title "Assessment Types" ;
-    linkml:description "Types of clinical assessments included in the dataset" ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> .
-
 <https://w3id.org/synapse/amp-als/vocab/assessmentVersion> a linkml:SlotDefinition ;
     dcterms:title "Assessment Version" ;
     linkml:description "Version of assessment instrument used" ;
@@ -3912,8 +3988,7 @@
     linkml:description "List of metadata attributes/columns defined in this schema" ;
     linkml:inlined_as_list true ;
     linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/MetadataAttribute> ;
-    linkml:required true .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/MetadataAttribute> .
 
 <https://w3id.org/synapse/amp-als/vocab/audio_transcript> linkml:description "Audio transcript data (e.g., clinical interviews)" .
 
@@ -4284,9 +4359,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/collectionLocation> a linkml:SlotDefinition ;
     dcterms:title "Collection Location (SUPPLOC)" ;
-    linkml:description """Setting where speech data was collected (SDTM SUPPLOC), e.g. "In Clinic" or null for remote/home collection.
+    linkml:description """Setting where speech data was collected (SDTM SUPPLOC), e.g. Clinical_Site or Remote/Home collection.
 """ ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/collectionMethod> a linkml:SlotDefinition ;
     dcterms:title "Collection Method" ;
@@ -4419,11 +4494,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/contextual%20conditioning%20behavior%20assay> linkml:description "A behavioral assay devised to measure contextual conditioning behavior" .
 
-<https://w3id.org/synapse/amp-als/vocab/contributors> a linkml:SlotDefinition ;
-    linkml:description "Additional persons/organizations contributing to the dataset. Format: LastName, FirstName (Role). Separate multiple with semicolons." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
 <https://w3id.org/synapse/amp-als/vocab/control> linkml:description "Control or untreated condition" .
 
 <https://w3id.org/synapse/amp-als/vocab/controlled> linkml:description "Controlled access, authorization required" .
@@ -4476,11 +4546,6 @@
     dcterms:title "Creatinine (mg/dL)" ;
     linkml:description "Serum creatinine level" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/float> .
-
-<https://w3id.org/synapse/amp-als/vocab/creators> a linkml:SlotDefinition ;
-    linkml:description "Main researchers/authors responsible for creating the dataset. Format: LastName, FirstName (ORCID). Separate multiple with semicolons." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/criticalValue> a linkml:SlotDefinition ;
     dcterms:title "Critical Value" ;
@@ -4623,12 +4688,6 @@
     dcterms:title "Data Transmitted" ;
     linkml:description "Whether data has been transmitted to sponsor" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
-
-<https://w3id.org/synapse/amp-als/vocab/dataUseModifiers> a linkml:SlotDefinition ;
-    dcterms:title "Data Use Modifiers" ;
-    linkml:description "Data Use Ontology (DUO) codes specifying conditions under which this dataset may be used." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/data_management> linkml:description "Data management and quality metrics" .
 
@@ -5436,11 +5495,6 @@
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
-<https://w3id.org/synapse/amp-als/vocab/ftNam> a linkml:SlotDefinition ;
-    dcterms:title "Vendor Name (FTNAM)" ;
-    linkml:description "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
 <https://w3id.org/synapse/amp-als/vocab/ftReasnd> a linkml:SlotDefinition ;
     dcterms:title "Reason Not Done (FTREASND)" ;
     linkml:description """Reason the test was not completed. Only applicable when ftStat = "Not Done" (SDTM FTREASND).
@@ -5488,13 +5542,6 @@
 <https://w3id.org/synapse/amp-als/vocab/ftTestCodes> a linkml:SlotDefinition ;
     dcterms:title "Functional Test Codes (FTTESTCD)" ;
     linkml:description """Short codes for all speech functional tests in this dataset, sourced from the SDTM FTTESTCD column.
-""" ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
-<https://w3id.org/synapse/amp-als/vocab/ftTests> a linkml:SlotDefinition ;
-    dcterms:title "Functional Tests (FTTEST)" ;
-    linkml:description """Distinct speech functional test names present across all samples in this dataset, sourced from the SDTM FTTEST column.
 """ ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
@@ -6331,7 +6378,7 @@
 
 <https://w3id.org/synapse/amp-als/vocab/nihguid> a linkml:SlotDefinition ;
     dcterms:title "NIH GUID" ;
-    linkml:description "NIH Global Unique Identifier for the subject" ;
+    linkml:description "NIH Global Unique Identifier for the subject." ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/nii> dcterms:source "https://nifti.nimh.nih.gov/nifti-1/documentation/faq"^^xsd:anyURI ;
@@ -6470,13 +6517,6 @@
     linkml:description "The original biospecimen identifier as provided by the data source" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
-<https://w3id.org/synapse/amp-als/vocab/originalRepository> a linkml:SlotDefinition ;
-    dcterms:title "Original Repository" ;
-    linkml:description "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> ;
-    linkml:required true .
-
 <https://w3id.org/synapse/amp-als/vocab/originalSampleId> a linkml:SlotDefinition ;
     dcterms:title "Original Sample ID" ;
     linkml:description "Original sample identifier as provided by the data source." ;
@@ -6555,7 +6595,7 @@
 <https://w3id.org/synapse/amp-als/vocab/particle_characterization> linkml:description "Data providing information about entities such as composition, structure and defects." ;
     linkml:meaning "http://purl.obolibrary.org/obo/NCIT_C62317"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/partner_assessment> linkml:description "Assessment completed by a patient’s partner or caregiver, typically via questionnaire or interview." .
+<https://w3id.org/synapse/amp-als/vocab/partner_assessment> linkml:description "Assessment completed by a patient's partner or caregiver, typically via questionnaire or interview." .
 
 <https://w3id.org/synapse/amp-als/vocab/pattern%20electroretinogram> linkml:description "Pattern electroretinogram (PERG) is an electrophysiologic ophthalmologic test that provides non-invasive objective, quantitative measurement of central retinal function. PERG is the retinal response to a pattern-reversing, black-and-white checkerboard or stripped stimulus. The PERG assesses both macular and retinal ganglion cell electrical activity and can help differentiate between diseases of macular versus optic nerve dysfunction." ;
     linkml:meaning "https://www.ncbi.nlm.nih.gov/books/NBK560641"^^xsd:anyURI .
@@ -6742,12 +6782,6 @@
     dcterms:title "Processing Time" ;
     linkml:description "Time when biospecimen was processed" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/time> .
-
-<https://w3id.org/synapse/amp-als/vocab/program> a linkml:SlotDefinition ;
-    dcterms:title "Program" ;
-    linkml:description "Research consortium(s) or program(s) that produced or funded this resource." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/ProgramEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/propAfricanGeneticAncestry> a linkml:SlotDefinition ;
     dcterms:title "Proportion African Genetic Ancestry" ;
@@ -7157,13 +7191,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/schemaName> a linkml:SlotDefinition ;
     linkml:description "Name of this metadata schema" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/schemaType> a linkml:SlotDefinition ;
     linkml:description "Type of metadata this schema describes" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/SchemaTypeEnum> ;
-    linkml:required true .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/SchemaTypeEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/screenFailure> a linkml:SlotDefinition ;
     dcterms:title "Screen Failure" ;
@@ -7577,16 +7609,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/subject_profile_review> linkml:description "Subject demographic and baseline profile review" .
 
-<https://w3id.org/synapse/amp-als/vocab/subjects> a linkml:SlotDefinition ;
-    linkml:description "Keywords or subject terms describing the dataset. Use controlled vocabularies (MeSH, SNOMED) when possible." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
-<https://w3id.org/synapse/amp-als/vocab/subjid> a linkml:SlotDefinition ;
-    dcterms:title "Subject ID (SUBJID)" ;
-    linkml:description "Local subject identifier as provided in the SDTM source (SDTM SUBJID)" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
 <https://w3id.org/synapse/amp-als/vocab/summary> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/summary"^^xsd:anyURI ;
@@ -7601,9 +7623,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/suppLoc> a linkml:SlotDefinition ;
     dcterms:title "Collection Location (SUPPLOC)" ;
-    linkml:description """Location where the speech session was recorded (SDTM SUPPLOC). Typically "In Clinic" for clinic-based collection or null/empty for remote.
+    linkml:description """Location where the speech session was recorded (SDTM SUPPLOC). Typically Clinical_Site for clinic-based collection or Remote/Home for remote collection.
 """ ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/supportive_interventions> linkml:description "Medical devices or supportive procedures such as ventilation, feeding tubes, tracheostomy" .
 
@@ -7891,11 +7913,6 @@
 <https://w3id.org/synapse/amp-als/vocab/vcf> linkml:description "Variant Call Format (VCF) for sequence variation (indels, polymorphisms, structural variation)" ;
     linkml:meaning "http://edamontology.org/format_3016"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/vendor> a linkml:SlotDefinition ;
-    dcterms:title "Vendor / Device (FTNAM)" ;
-    linkml:description "Name of the vendor or device used for speech data collection (SDTM FTNAM)" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
-
 <https://w3id.org/synapse/amp-als/vocab/verbalFluencyScore> a linkml:SlotDefinition ;
     dcterms:title "Verbal Fluency Score" ;
     linkml:description "Verbal fluency score (0-24)" ;
@@ -7905,8 +7922,7 @@
 
 <https://w3id.org/synapse/amp-als/vocab/version> a linkml:SlotDefinition ;
     linkml:description "Version of this schema (e.g., \"1.0\", \"2.1\")" ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
 
 <https://w3id.org/synapse/amp-als/vocab/viewName> a linkml:SlotDefinition ;
     dcterms:title "View Name" ;
@@ -8043,6 +8059,9 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/word%20recognition%20score> linkml:description "Assays how well a person can understand speech by repeating a list of words. The WRS is a percentage of words correctly repeated. It's a more functional measure because it predicts whether hearing loss can be improved with amplification." .
+
+<https://w3id.org/synapse/amp-als/vocab/xlsx> dcterms:source "https://synapse.org"^^xsd:anyURI ;
+    linkml:description "Microsoft Excel Open XML spreadsheet format with expected extension \".xlsx\"." .
 
 <https://w3id.org/synapse/amp-als/vocab/xml> linkml:description "eXtensible Markup Language (XML) format." ;
     linkml:meaning "http://edamontology.org/format_2332"^^xsd:anyURI .
@@ -8435,9 +8454,9 @@
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "dataType" ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
 """ ;
@@ -8581,6 +8600,7 @@
         <https://w3id.org/synapse/amp-als/vocab/vcf>,
         <https://w3id.org/synapse/amp-als/vocab/wav>,
         <https://w3id.org/synapse/amp-als/vocab/wiggle>,
+        <https://w3id.org/synapse/amp-als/vocab/xlsx>,
         <https://w3id.org/synapse/amp-als/vocab/xml>,
         <https://w3id.org/synapse/amp-als/vocab/yaml>,
         <https://w3id.org/synapse/amp-als/vocab/zip> .
@@ -8881,6 +8901,9 @@
 <https://w3id.org/synapse/amp-als/vocab/Prefer%20Not%20to%20Disclose> linkml:description "Subject prefers not to disclose ethnicity",
         "Subject prefers not to disclose race/ethnicity" .
 
+<https://w3id.org/synapse/amp-als/vocab/Remote> linkml:description "Remote administration where the specific modality (phone vs. video call) is not distinguished in the source data",
+        "Remote location" .
+
 <https://w3id.org/synapse/amp-als/vocab/Resolved> linkml:description "Condition has resolved",
         "Event resolved completely" .
 
@@ -8986,11 +9009,11 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__referenceGenome>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__sampleIdColumn>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFile__site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__storageContainer>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
         <https://w3id.org/synapse/amp-als/vocab/readLength>,
+        <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
@@ -9010,6 +9033,7 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/totalBases>,
@@ -9505,6 +9529,13 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/validityNotes"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/assessmentTypes> a linkml:SlotDefinition ;
+    dcterms:title "Assessment Types" ;
+    linkml:description "Types of clinical assessments included in the dataset",
+        "Types of speech assessments/functional tests included in the dataset" ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/biomarkers__abeta40> a linkml:SlotDefinition ;
     dcterms:title "Amyloid Beta 40 (pg/mL)" ;
@@ -11113,6 +11144,13 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/ValidationStatusEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/validationStatus"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/dataUseModifiers> a linkml:SlotDefinition ;
+    dcterms:title "Data Use Modifiers" ;
+    linkml:description "Data Use Ontology (DUO) codes specifying conditions under which this dataset may be used.",
+        "Data Use Ontology (DUO) codes specifying conditions under which this resource may be used." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum> .
+
 <https://w3id.org/synapse/amp-als/vocab/data_dictionary> linkml:description "Data dictionary file describing variable definitions, codings, and metadata for a dataset" .
 
 <https://w3id.org/synapse/amp-als/vocab/datasetReference> a linkml:SlotDefinition ;
@@ -12292,10 +12330,10 @@
     dcterms:title "License" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/license"^^xsd:anyURI ;
-    linkml:description "License or rights statement for dataset use",
-        "Link to a license or name of license applicable for the resource." ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/License>,
-        <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:description "Link to a license or name of license applicable for the resource." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/License> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/license"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/longitudinal> linkml:description "Longitudinal study with repeated measures",
@@ -12799,15 +12837,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/validationRules"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__accessRights> a linkml:SlotDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "accessRights" ;
-    linkml:description "Information about access restrictions" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/AccessRightsEnum> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/accessRights"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__attributes> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "attributes" ;
@@ -12818,7 +12847,6 @@
     linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/MetadataAttribute> ;
-    linkml:required true ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/attributes"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__citationRecommendation> a linkml:SlotDefinition ;
@@ -12858,25 +12886,26 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/contactName"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__contributors> a linkml:SlotDefinition ;
+<https://w3id.org/synapse/amp-als/vocab/metadataSchema__dataType> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "contributors" ;
-    linkml:description "Additional persons/organizations contributing to the dataset. Format: LastName, FirstName (Role). Separate multiple with semicolons." ;
+    skos:prefLabel "dataType" ;
+    linkml:description "Type(s) of metadata this file represents (e.g., data dictionary, mapping file, schema documentation)." ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/contributors"^^xsd:anyURI .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__creators> a linkml:SlotDefinition ;
+<https://w3id.org/synapse/amp-als/vocab/metadataSchema__dataUseModifiers> a linkml:SlotDefinition ;
+    dcterms:title "Data Use Modifiers" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "creators" ;
-    linkml:description "Main researchers/authors responsible for creating the dataset. Format: LastName, FirstName (ORCID). Separate multiple with semicolons." ;
+    skos:prefLabel "dataUseModifiers" ;
+    linkml:description "Data Use Ontology (DUO) codes specifying conditions under which this resource may be used." ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/creators"^^xsd:anyURI .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataUseModifiers"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dateCreated> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -12904,15 +12933,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/date> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/datePublished"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__description> a linkml:SlotDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "description" ;
-    linkml:description "Overall description of what this schema covers" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/description"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__fundingReferences> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -12951,15 +12971,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/landingPage"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__license> a linkml:SlotDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "license" ;
-    linkml:description "License or rights statement for dataset use" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/license"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__licenseURL> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "licenseURL" ;
@@ -12968,6 +12979,29 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/licenseURL"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/metadataSchema__originalRepository> a linkml:SlotDefinition ;
+    dcterms:title "Original Repository" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    skos:prefLabel "originalRepository" ;
+    linkml:description "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> ;
+    linkml:required true ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/originalRepository"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/metadataSchema__program> a linkml:SlotDefinition ;
+    dcterms:title "Program" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    skos:prefLabel "program" ;
+    linkml:description "Research consortium(s) or program(s) that produced or funded this resource." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/ProgramEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/program"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publicationYear> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -13023,7 +13057,6 @@
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/schemaName"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__schemaType> a linkml:SlotDefinition ;
@@ -13033,27 +13066,7 @@
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SchemaTypeEnum> ;
-    linkml:required true ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/schemaType"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__subjects> a linkml:SlotDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "subjects" ;
-    linkml:description "Keywords or subject terms describing the dataset. Use controlled vocabularies (MeSH, SNOMED) when possible." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/subjects"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__title> a linkml:SlotDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "title" ;
-    linkml:description "Primary title of the dataset" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/title"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__version> a linkml:SlotDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -13062,7 +13075,6 @@
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/version"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/mg> linkml:description "Milligrams" .
@@ -13087,6 +13099,13 @@
     linkml:description "Whether the condition is ongoing.",
         "Whether treatment is ongoing" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
+
+<https://w3id.org/synapse/amp-als/vocab/originalRepository> a linkml:SlotDefinition ;
+    dcterms:title "Original Repository" ;
+    linkml:description "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> ;
+    linkml:required true .
 
 <https://w3id.org/synapse/amp-als/vocab/pathway_enrichment> linkml:description "General pathway enrichment analysis",
         "Pathway enrichment analysis" .
@@ -13200,6 +13219,12 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/Phenoconversion> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/site_of_onset"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/program> a linkml:SlotDefinition ;
+    dcterms:title "Program" ;
+    linkml:description "Research consortium(s) or program(s) that produced or funded this resource." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/ProgramEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/protocolDeviation__correctiveAction> a linkml:SlotDefinition ;
     dcterms:title "Corrective Action" ;
@@ -13431,9 +13456,9 @@
     dcterms:title "Sex" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
@@ -13447,15 +13472,26 @@
         "High throughput sample analysis of small molecules for purpose such as drug discovery, or biochemical, genetic or pharmacological tests." ;
     linkml:meaning "http://purl.obolibrary.org/obo/ERO_0001726"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/speechDataset__assessmentTypes> a linkml:SlotDefinition ;
+    dcterms:title "Assessment Types" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    skos:prefLabel "assessmentTypes" ;
+    linkml:description "Types of speech assessments/functional tests included in the dataset" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/assessmentTypes"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/speechDataset__collectionLocation> a linkml:SlotDefinition ;
     dcterms:title "Collection Location (SUPPLOC)" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "collectionLocation" ;
-    linkml:description """Setting where speech data was collected (SDTM SUPPLOC), e.g. "In Clinic" or null for remote/home collection.
+    linkml:description """Setting where speech data was collected (SDTM SUPPLOC), e.g. Clinical_Site or Remote/Home collection.
 """ ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/collectionLocation"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/speechDataset__dataType> a linkml:SlotDefinition ;
@@ -13492,18 +13528,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/ftTestCodes"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/speechDataset__ftTests> a linkml:SlotDefinition ;
-    dcterms:title "Functional Tests (FTTEST)" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "ftTests" ;
-    linkml:description """Distinct speech functional test names present across all samples in this dataset, sourced from the SDTM FTTEST column.
-""" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/ftTests"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/speechDataset__sdtmDomain> a linkml:SlotDefinition ;
     dcterms:title "SDTM Domain" ;
@@ -13557,16 +13581,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/ftGrpId"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/speechFile__ftNam> a linkml:SlotDefinition ;
-    dcterms:title "Vendor Name (FTNAM)" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "ftNam" ;
-    linkml:description "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/ftNam"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/speechFile__ftReasnd> a linkml:SlotDefinition ;
     dcterms:title "Reason Not Done (FTREASND)" ;
@@ -13668,16 +13682,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/neurostamps"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/speechFile__nihguid> a linkml:SlotDefinition ;
-    dcterms:title "NIH GUID" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "nihguid" ;
-    linkml:description "NIH Global Unique Identifier for the subject" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/nihguid"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/speechFile__sdtmDomain> a linkml:SlotDefinition ;
     dcterms:title "SDTM Domain (DOMAIN)" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -13699,26 +13703,26 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/sessionId"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/speechFile__subjid> a linkml:SlotDefinition ;
-    dcterms:title "Subject ID (SUBJID)" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "subjid" ;
-    linkml:description "Local subject identifier as provided in the SDTM source (SDTM SUBJID)" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/subjid"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/speechFile__suppLoc> a linkml:SlotDefinition ;
     dcterms:title "Collection Location (SUPPLOC)" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "suppLoc" ;
-    linkml:description """Location where the speech session was recorded (SDTM SUPPLOC). Typically "In Clinic" for clinic-based collection or null/empty for remote.
+    linkml:description """Location where the speech session was recorded (SDTM SUPPLOC). Typically Clinical_Site for clinic-based collection or Remote/Home for remote collection.
 """ ;
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/suppLoc"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/speechFile__vendor> a linkml:SlotDefinition ;
+    dcterms:title "Vendor / Device (FTNAM)" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    skos:prefLabel "vendor" ;
+    linkml:description "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)" ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/vendor"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/sporadic%20ALS> linkml:description "Sporadic (non-familial) form",
         "Sporadic ALS" .
@@ -14623,13 +14627,18 @@
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/VariantTypeEnum> .
 
+<https://w3id.org/synapse/amp-als/vocab/vendor> a linkml:SlotDefinition ;
+    dcterms:title "Vendor / Device (FTNAM)" ;
+    linkml:description "Name of the vendor or device used for speech data collection (SDTM FTNAM)",
+        "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)" ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> .
+
 <https://w3id.org/synapse/amp-als/vocab/visitType> a linkml:SlotDefinition ;
     dcterms:title "Visit Type" ;
     linkml:description "Type of clinical visit (baseline, follow-up, etc.)",
         "Type or category of visit" ;
     linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/VisitTypeEnum>,
-        <https://w3id.org/synapse/amp-als/vocab/string> .
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/VisitTypeEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/visit__earlyTermination> a linkml:SlotDefinition ;
     dcterms:title "Early Termination" ;
@@ -14744,24 +14753,6 @@
         <https://w3id.org/synapse/amp-als/vocab/High>,
         <https://w3id.org/synapse/amp-als/vocab/Low>,
         <https://w3id.org/synapse/amp-als/vocab/Normal> .
-
-<https://w3id.org/synapse/amp-als/vocab/AccessRightsEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/AccessRightsEnum"^^xsd:anyURI ;
-    linkml:description "Information about access restrictions" ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Controlled>,
-        <https://w3id.org/synapse/amp-als/vocab/Embargoed>,
-        <https://w3id.org/synapse/amp-als/vocab/Open>,
-        <https://w3id.org/synapse/amp-als/vocab/Restricted> .
-
-<https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum"^^xsd:anyURI ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Clinical_Site>,
-        <https://w3id.org/synapse/amp-als/vocab/Home>,
-        <https://w3id.org/synapse/amp-als/vocab/Hospital>,
-        <https://w3id.org/synapse/amp-als/vocab/Nursing_Home>,
-        <https://w3id.org/synapse/amp-als/vocab/Other>,
-        <https://w3id.org/synapse/amp-als/vocab/Other_Healthcare_Facility>,
-        <https://w3id.org/synapse/amp-als/vocab/Remote> .
 
 <https://w3id.org/synapse/amp-als/vocab/Adverse_Event> linkml:description "Changed due to adverse event",
         "Terminated due to adverse event",
@@ -15032,20 +15023,6 @@
         <https://w3id.org/synapse/amp-als/vocab/float>,
         <https://w3id.org/synapse/amp-als/vocab/integer>,
         <https://w3id.org/synapse/amp-als/vocab/string> .
-
-<https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum"^^xsd:anyURI ;
-    linkml:description "Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used." ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/DS>,
-        <https://w3id.org/synapse/amp-als/vocab/GRU>,
-        <https://w3id.org/synapse/amp-als/vocab/HMB>,
-        <https://w3id.org/synapse/amp-als/vocab/NCU>,
-        <https://w3id.org/synapse/amp-als/vocab/NPUNCU>,
-        <https://w3id.org/synapse/amp-als/vocab/US>,
-        <https://w3id.org/synapse/amp-als/vocab/controlled>,
-        <https://w3id.org/synapse/amp-als/vocab/embargo>,
-        <https://w3id.org/synapse/amp-als/vocab/open>,
-        <https://w3id.org/synapse/amp-als/vocab/private> .
 
 <https://w3id.org/synapse/amp-als/vocab/DeviationCategoryEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/DeviationCategoryEnum"^^xsd:anyURI ;
@@ -15516,33 +15493,9 @@
         <https://w3id.org/synapse/amp-als/vocab/Severe>,
         <https://w3id.org/synapse/amp-als/vocab/Slight> .
 
-<https://w3id.org/synapse/amp-als/vocab/Metadata> dcterms:source "https://en.wikipedia.org/wiki/Metadata"^^xsd:anyURI ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/Metadata"^^xsd:anyURI ;
-    linkml:description "Data that provides information about other data" ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Administrative%20Metadata>,
-        <https://w3id.org/synapse/amp-als/vocab/Descriptive%20Metadata>,
-        <https://w3id.org/synapse/amp-als/vocab/Legal%20Metadata>,
-        <https://w3id.org/synapse/amp-als/vocab/Reference%20Metadata>,
-        <https://w3id.org/synapse/amp-als/vocab/Statistical%20Metadata>,
-        <https://w3id.org/synapse/amp-als/vocab/Structural%20Metadata>,
-        <https://w3id.org/synapse/amp-als/vocab/Workflow%20Metadata> .
-
 <https://w3id.org/synapse/amp-als/vocab/Not%20Reported> linkml:description "Ethnicity not reported",
         "Race/ethnicity not reported",
         "Sex not reported by participant" .
-
-<https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum"^^xsd:anyURI ;
-    linkml:description "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal." ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALL%20ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
-        <https://w3id.org/synapse/amp-als/vocab/Critical%20Path%20Institute>,
-        <https://w3id.org/synapse/amp-als/vocab/Gene%20Expression%20Omnibus>,
-        <https://w3id.org/synapse/amp-als/vocab/Sequencing%20Read%20Archive>,
-        <https://w3id.org/synapse/amp-als/vocab/Synapse>,
-        <https://w3id.org/synapse/amp-als/vocab/Target%20ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/dbGaP> .
 
 <https://w3id.org/synapse/amp-als/vocab/OutcomeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/OutcomeEnum"^^xsd:anyURI ;
@@ -15562,22 +15515,6 @@
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/PrimaryCellSourceEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/fibroblasts>,
         <https://w3id.org/synapse/amp-als/vocab/skin%20biopsy> .
-
-<https://w3id.org/synapse/amp-als/vocab/ProgramEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/ProgramEnum"^^xsd:anyURI ;
-    linkml:description "Research consortium or program that produced or funded the dataset." ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALL%20ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
-        <https://w3id.org/synapse/amp-als/vocab/ALS%20Knowledge%20Portal>,
-        <https://w3id.org/synapse/amp-als/vocab/AMP%20ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/Answer%20ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/CReATe%20Consortium>,
-        <https://w3id.org/synapse/amp-als/vocab/Critical%20Path%20Institute>,
-        <https://w3id.org/synapse/amp-als/vocab/Genomic%20Translation%20for%20ALS%20Care%20%28GTAC%29>,
-        <https://w3id.org/synapse/amp-als/vocab/National%20Institutes%20of%20Health>,
-        <https://w3id.org/synapse/amp-als/vocab/New%20York%20Genome%20Center%20ALS%20Consortium>,
-        <https://w3id.org/synapse/amp-als/vocab/Project%20MinE>,
-        <https://w3id.org/synapse/amp-als/vocab/Target%20ALS> .
 
 <https://w3id.org/synapse/amp-als/vocab/QualityGradeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/QualityGradeEnum"^^xsd:anyURI ;
@@ -15659,6 +15596,20 @@
         <https://w3id.org/synapse/amp-als/vocab/Laboratory_Values>,
         <https://w3id.org/synapse/amp-als/vocab/Medications>,
         <https://w3id.org/synapse/amp-als/vocab/Other> .
+
+<https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum"^^xsd:anyURI ;
+    linkml:description "Site of disease onset" ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Axial>,
+        <https://w3id.org/synapse/amp-als/vocab/Bulbar>,
+        <https://w3id.org/synapse/amp-als/vocab/Cognitive>,
+        <https://w3id.org/synapse/amp-als/vocab/Generalized>,
+        <https://w3id.org/synapse/amp-als/vocab/Head%20Drop>,
+        <https://w3id.org/synapse/amp-als/vocab/Limb>,
+        <https://w3id.org/synapse/amp-als/vocab/Lumbar>,
+        <https://w3id.org/synapse/amp-als/vocab/Other>,
+        <https://w3id.org/synapse/amp-als/vocab/Respiratory>,
+        <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
 <https://w3id.org/synapse/amp-als/vocab/Slight> linkml:description "Slight hemolysis",
         "Slight icterus",
@@ -15853,18 +15804,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Missed>,
         <https://w3id.org/synapse/amp-als/vocab/Scheduled> .
 
-<https://w3id.org/synapse/amp-als/vocab/VisitTypeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/VisitTypeEnum"^^xsd:anyURI ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Baseline>,
-        <https://w3id.org/synapse/amp-als/vocab/Early_Termination>,
-        <https://w3id.org/synapse/amp-als/vocab/Follow-up>,
-        <https://w3id.org/synapse/amp-als/vocab/Genetic_Counseling>,
-        <https://w3id.org/synapse/amp-als/vocab/Infusion>,
-        <https://w3id.org/synapse/amp-als/vocab/Results_Return>,
-        <https://w3id.org/synapse/amp-als/vocab/Safety>,
-        <https://w3id.org/synapse/amp-als/vocab/Screening>,
-        <https://w3id.org/synapse/amp-als/vocab/Unscheduled> .
-
 <https://w3id.org/synapse/amp-als/vocab/VolumeUnitsEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/VolumeUnitsEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/L>,
@@ -15926,14 +15865,6 @@
         "Severity of the condition" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SeverityEnum> .
 
-<https://w3id.org/synapse/amp-als/vocab/site_of_onset> a linkml:SlotDefinition ;
-    dcterms:title "Site of Onset" ;
-    linkml:description "Anatomical site where symptoms first appeared",
-        "Site of ALS onset.",
-        "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)" ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> .
-
 <https://w3id.org/synapse/amp-als/vocab/spinal_cord> linkml:description "Spinal cord",
         "Spinal cord tissue" .
 
@@ -15960,15 +15891,16 @@
 
 <https://w3id.org/synapse/amp-als/vocab/AdministrationModeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/AdministrationModeEnum"^^xsd:anyURI ;
+    linkml:description "Mode or method by which an assessment or data collection was administered" ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Caregiver_Assisted>,
         <https://w3id.org/synapse/amp-als/vocab/Electronic_Form>,
         <https://w3id.org/synapse/amp-als/vocab/In_Person>,
         <https://w3id.org/synapse/amp-als/vocab/Other>,
         <https://w3id.org/synapse/amp-als/vocab/Paper_Form>,
+        <https://w3id.org/synapse/amp-als/vocab/Remote>,
         <https://w3id.org/synapse/amp-als/vocab/Self_Administered>,
         <https://w3id.org/synapse/amp-als/vocab/Telephone>,
         <https://w3id.org/synapse/amp-als/vocab/Video_Call>,
-        <https://w3id.org/synapse/amp-als/vocab/Video_Conference>,
         <https://w3id.org/synapse/amp-als/vocab/partner_assessment> .
 
 <https://w3id.org/synapse/amp-als/vocab/BioSample> a linkml:SlotDefinition ;
@@ -16039,6 +15971,20 @@
         <https://w3id.org/synapse/amp-als/vocab/therapy_sessions>,
         <https://w3id.org/synapse/amp-als/vocab/treatment>,
         <https://w3id.org/synapse/amp-als/vocab/vital_signs> .
+
+<https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum"^^xsd:anyURI ;
+    linkml:description "Access type and Data Use Ontology (DUO) codes specifying how and under what conditions the data may be accessed and used." ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/DS>,
+        <https://w3id.org/synapse/amp-als/vocab/GRU>,
+        <https://w3id.org/synapse/amp-als/vocab/HMB>,
+        <https://w3id.org/synapse/amp-als/vocab/NCU>,
+        <https://w3id.org/synapse/amp-als/vocab/NPUNCU>,
+        <https://w3id.org/synapse/amp-als/vocab/US>,
+        <https://w3id.org/synapse/amp-als/vocab/controlled>,
+        <https://w3id.org/synapse/amp-als/vocab/embargo>,
+        <https://w3id.org/synapse/amp-als/vocab/open>,
+        <https://w3id.org/synapse/amp-als/vocab/private> .
 
 <https://w3id.org/synapse/amp-als/vocab/Excellent> linkml:description "Excellent cooperation",
         "Excellent efficacy",
@@ -16126,10 +16072,39 @@
         <https://w3id.org/synapse/amp-als/vocab/transcriptomics_nascent>,
         <https://w3id.org/synapse/amp-als/vocab/variant_calls> .
 
+<https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum"^^xsd:anyURI ;
+    linkml:description "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal." ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALL%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
+        <https://w3id.org/synapse/amp-als/vocab/Critical%20Path%20Institute>,
+        <https://w3id.org/synapse/amp-als/vocab/Gene%20Expression%20Omnibus>,
+        <https://w3id.org/synapse/amp-als/vocab/Linus%20Health>,
+        <https://w3id.org/synapse/amp-als/vocab/Sequencing%20Read%20Archive>,
+        <https://w3id.org/synapse/amp-als/vocab/Synapse>,
+        <https://w3id.org/synapse/amp-als/vocab/Target%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/dbGaP> .
+
 <https://w3id.org/synapse/amp-als/vocab/Poor> linkml:description "Poor cooperation",
         "Poor efficacy",
         "Poor quality specimen",
         "Poor tolerability" .
+
+<https://w3id.org/synapse/amp-als/vocab/ProgramEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/ProgramEnum"^^xsd:anyURI ;
+    linkml:description "Research consortium or program that produced or funded the dataset." ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALL%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Knowledge%20Portal>,
+        <https://w3id.org/synapse/amp-als/vocab/AMP%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/Answer%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/CReATe%20Consortium>,
+        <https://w3id.org/synapse/amp-als/vocab/Critical%20Path%20Institute>,
+        <https://w3id.org/synapse/amp-als/vocab/Genomic%20Translation%20for%20ALS%20Care%20%28GTAC%29>,
+        <https://w3id.org/synapse/amp-als/vocab/National%20Institutes%20of%20Health>,
+        <https://w3id.org/synapse/amp-als/vocab/New%20York%20Genome%20Center%20ALS%20Consortium>,
+        <https://w3id.org/synapse/amp-als/vocab/Project%20MinE>,
+        <https://w3id.org/synapse/amp-als/vocab/Target%20ALS> .
 
 <https://w3id.org/synapse/amp-als/vocab/SRADatasetMixin> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16185,20 +16160,6 @@
         <https://w3id.org/synapse/amp-als/vocab/Not%20Reported>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
 
-<https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum"^^xsd:anyURI ;
-    linkml:description "Site of disease onset" ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Axial>,
-        <https://w3id.org/synapse/amp-als/vocab/Bulbar>,
-        <https://w3id.org/synapse/amp-als/vocab/Cognitive>,
-        <https://w3id.org/synapse/amp-als/vocab/Generalized>,
-        <https://w3id.org/synapse/amp-als/vocab/Head%20Drop>,
-        <https://w3id.org/synapse/amp-als/vocab/Limb>,
-        <https://w3id.org/synapse/amp-als/vocab/Lumbar>,
-        <https://w3id.org/synapse/amp-als/vocab/Other>,
-        <https://w3id.org/synapse/amp-als/vocab/Respiratory>,
-        <https://w3id.org/synapse/amp-als/vocab/Unknown> .
-
 <https://w3id.org/synapse/amp-als/vocab/SpeechDataTypeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SpeechDataTypeEnum"^^xsd:anyURI ;
     linkml:description "Types of speech assessment and acoustic data from digital health technology platforms and SDTM FT domain records" ;
@@ -16237,6 +16198,29 @@
         <https://w3id.org/synapse/amp-als/vocab/TDP-43%20positive>,
         <https://w3id.org/synapse/amp-als/vocab/Translocations> .
 
+<https://w3id.org/synapse/amp-als/vocab/VisitTypeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/VisitTypeEnum"^^xsd:anyURI ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Ad-Hoc%20Symptom%20Evaluation%20Visit>,
+        <https://w3id.org/synapse/amp-als/vocab/Baseline>,
+        <https://w3id.org/synapse/amp-als/vocab/DHT%20Screening%20Visit>,
+        <https://w3id.org/synapse/amp-als/vocab/Early_Termination>,
+        <https://w3id.org/synapse/amp-als/vocab/Follow-up>,
+        <https://w3id.org/synapse/amp-als/vocab/Genetic%20Counseling%20Visit>,
+        <https://w3id.org/synapse/amp-als/vocab/Genetic%20Testing%20Sub-Study>,
+        <https://w3id.org/synapse/amp-als/vocab/Genetic_Counseling>,
+        <https://w3id.org/synapse/amp-als/vocab/In-Clinic%20Follow-up>,
+        <https://w3id.org/synapse/amp-als/vocab/Infusion>,
+        <https://w3id.org/synapse/amp-als/vocab/Key%20Study%20Events>,
+        <https://w3id.org/synapse/amp-als/vocab/Other>,
+        <https://w3id.org/synapse/amp-als/vocab/Phenoconversion%20Evaluation>,
+        <https://w3id.org/synapse/amp-als/vocab/Remote%20Follow-up>,
+        <https://w3id.org/synapse/amp-als/vocab/Results_Return>,
+        <https://w3id.org/synapse/amp-als/vocab/Safety>,
+        <https://w3id.org/synapse/amp-als/vocab/Screening>,
+        <https://w3id.org/synapse/amp-als/vocab/Telephone%20Follow-up>,
+        <https://w3id.org/synapse/amp-als/vocab/Unscheduled>,
+        <https://w3id.org/synapse/amp-als/vocab/Visit%20Management> .
+
 <https://w3id.org/synapse/amp-als/vocab/administrationMode> a linkml:SlotDefinition ;
     dcterms:title "Administration Mode" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16272,7 +16256,7 @@
     linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalFileMixin> ;
     linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/ClinicalFileMixin> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/VisitTypeEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/visitType"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/metadata> linkml:description "A file of clinical, technical, or other parameters that describe a dataset.",
@@ -16340,17 +16324,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/sampleIdColumn"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/omicFile__site_of_onset> a linkml:SlotDefinition ;
-    dcterms:title "Site of Onset" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "site_of_onset" ;
-    linkml:description "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/site_of_onset"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/omicFile__storageContainer> a linkml:SlotDefinition ;
     dcterms:title "Storage Container" ;
@@ -16425,60 +16398,6 @@
         "3+ (1000 mg/dL)",
         "3+ (300 mg/dL)" .
 
-<https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum"^^xsd:anyURI ;
-    linkml:description "Type of clinical assessment, instrument, or data collection method" ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALSAQ-40>,
-        <https://w3id.org/synapse/amp-als/vocab/ALSFRS-R>,
-        <https://w3id.org/synapse/amp-als/vocab/AdverseEventLog>,
-        <https://w3id.org/synapse/amp-als/vocab/BiomarkerSerumCollection>,
-        <https://w3id.org/synapse/amp-als/vocab/ClinicalExamination>,
-        <https://w3id.org/synapse/amp-als/vocab/CohortParticipation>,
-        <https://w3id.org/synapse/amp-als/vocab/ConcomitantMedications>,
-        <https://w3id.org/synapse/amp-als/vocab/Demographics>,
-        <https://w3id.org/synapse/amp-als/vocab/ECAS>,
-        <https://w3id.org/synapse/amp-als/vocab/EMG>,
-        <https://w3id.org/synapse/amp-als/vocab/EligibilityConsent>,
-        <https://w3id.org/synapse/amp-als/vocab/EligibilityCriteria>,
-        <https://w3id.org/synapse/amp-als/vocab/ExposureProtocolChanges>,
-        <https://w3id.org/synapse/amp-als/vocab/HandHeldDynamometry>,
-        <https://w3id.org/synapse/amp-als/vocab/InformedConsentForm>,
-        <https://w3id.org/synapse/amp-als/vocab/InfusionVitalSigns>,
-        <https://w3id.org/synapse/amp-als/vocab/KeyDevicesProcedures>,
-        <https://w3id.org/synapse/amp-als/vocab/Laboratory>,
-        <https://w3id.org/synapse/amp-als/vocab/MedicalHistory>,
-        <https://w3id.org/synapse/amp-als/vocab/NCS>,
-        <https://w3id.org/synapse/amp-als/vocab/Neurological>,
-        <https://w3id.org/synapse/amp-als/vocab/PermanentAssistedVentilation>,
-        <https://w3id.org/synapse/amp-als/vocab/PhoneCallVisit>,
-        <https://w3id.org/synapse/amp-als/vocab/PhysicalExam>,
-        <https://w3id.org/synapse/amp-als/vocab/Pregnancy>,
-        <https://w3id.org/synapse/amp-als/vocab/ProtocolDeviation>,
-        <https://w3id.org/synapse/amp-als/vocab/PulmonaryFunction>,
-        <https://w3id.org/synapse/amp-als/vocab/QualityOfLifeSurvey>,
-        <https://w3id.org/synapse/amp-als/vocab/SlowVitalCapacity%20%28SVC%29>,
-        <https://w3id.org/synapse/amp-als/vocab/SpeechFunction>,
-        <https://w3id.org/synapse/amp-als/vocab/Strength>,
-        <https://w3id.org/synapse/amp-als/vocab/StudyDisposition>,
-        <https://w3id.org/synapse/amp-als/vocab/SuicideRisk>,
-        <https://w3id.org/synapse/amp-als/vocab/SurvivalStatus>,
-        <https://w3id.org/synapse/amp-als/vocab/TreatmentAdministration>,
-        <https://w3id.org/synapse/amp-als/vocab/VisitScheduling>,
-        <https://w3id.org/synapse/amp-als/vocab/VitalSigns>,
-        <https://w3id.org/synapse/amp-als/vocab/alsfrs_r>,
-        <https://w3id.org/synapse/amp-als/vocab/clinician_administered_exam>,
-        <https://w3id.org/synapse/amp-als/vocab/cognitive_assessment>,
-        <https://w3id.org/synapse/amp-als/vocab/dynamometry>,
-        <https://w3id.org/synapse/amp-als/vocab/electrophysiology>,
-        <https://w3id.org/synapse/amp-als/vocab/genetic_counseling>,
-        <https://w3id.org/synapse/amp-als/vocab/genetic_testing>,
-        <https://w3id.org/synapse/amp-als/vocab/laboratory>,
-        <https://w3id.org/synapse/amp-als/vocab/motor_assessment>,
-        <https://w3id.org/synapse/amp-als/vocab/neurological_exam>,
-        <https://w3id.org/synapse/amp-als/vocab/neurological_examination>,
-        <https://w3id.org/synapse/amp-als/vocab/psychiatric_eval>,
-        <https://w3id.org/synapse/amp-als/vocab/vital_signs> .
-
 <https://w3id.org/synapse/amp-als/vocab/CNSRegion> a linkml:SlotDefinition ;
     dcterms:title "CNS Region" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16524,6 +16443,21 @@
         <https://w3id.org/synapse/amp-als/vocab/Left>,
         <https://w3id.org/synapse/amp-als/vocab/Right>,
         <https://w3id.org/synapse/amp-als/vocab/Unknown> .
+
+<https://w3id.org/synapse/amp-als/vocab/Metadata> dcterms:source "https://en.wikipedia.org/wiki/Metadata"^^xsd:anyURI ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/Metadata"^^xsd:anyURI ;
+    linkml:description "Data that provides information about other data" ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Administrative%20Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/Aggregate%20Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/Data%20Dictionary>,
+        <https://w3id.org/synapse/amp-als/vocab/Descriptive%20Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/Legal%20Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/Mapping%20File>,
+        <https://w3id.org/synapse/amp-als/vocab/Reference%20Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/Statistical%20Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/Structural%20Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/Workflow%20Metadata> .
 
 <https://w3id.org/synapse/amp-als/vocab/OmicDataset> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16639,6 +16573,95 @@
         "2+ (100 mg/dL)",
         "2+ (500 mg/dL)" .
 
+<https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/AssessmentTypeEnum"^^xsd:anyURI ;
+    linkml:description "Type of clinical assessment, instrument, or data collection method" ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALSAQ-40>,
+        <https://w3id.org/synapse/amp-als/vocab/ALSFRS-R>,
+        <https://w3id.org/synapse/amp-als/vocab/AdverseEventLog>,
+        <https://w3id.org/synapse/amp-als/vocab/BiomarkerSerumCollection>,
+        <https://w3id.org/synapse/amp-als/vocab/ClinicalExamination>,
+        <https://w3id.org/synapse/amp-als/vocab/CohortParticipation>,
+        <https://w3id.org/synapse/amp-als/vocab/ConcomitantMedications>,
+        <https://w3id.org/synapse/amp-als/vocab/Demographics>,
+        <https://w3id.org/synapse/amp-als/vocab/ECAS>,
+        <https://w3id.org/synapse/amp-als/vocab/EMG>,
+        <https://w3id.org/synapse/amp-als/vocab/EligibilityConsent>,
+        <https://w3id.org/synapse/amp-als/vocab/EligibilityCriteria>,
+        <https://w3id.org/synapse/amp-als/vocab/ExposureProtocolChanges>,
+        <https://w3id.org/synapse/amp-als/vocab/HandHeldDynamometry>,
+        <https://w3id.org/synapse/amp-als/vocab/InformedConsentForm>,
+        <https://w3id.org/synapse/amp-als/vocab/InfusionVitalSigns>,
+        <https://w3id.org/synapse/amp-als/vocab/KeyDevicesProcedures>,
+        <https://w3id.org/synapse/amp-als/vocab/Laboratory>,
+        <https://w3id.org/synapse/amp-als/vocab/MAX%20DELAYED%20WORD%20RECALL%20SCORE>,
+        <https://w3id.org/synapse/amp-als/vocab/MAX%20IMMED%20WORD%20RECALL%20SCORE>,
+        <https://w3id.org/synapse/amp-als/vocab/MAX%20PHONATION%20TOTAL%20DUR%20PAUSELESS%20PHON>,
+        <https://w3id.org/synapse/amp-als/vocab/MAX%20REPEATED%20PHRASE%20BUTTERCUP%20COUNT>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20CATEGORY%20NAMING%20PAUSE%20RATE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20CATEGORY%20NAMING%20VERBAL%20FLUENCY>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20DELAYED%20STORY%20RECALL%20SCORE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20DELAYED%20STORY%20RECALL%20SEMANTIC%20RELEV>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20DELAYED%20STORY%20RECALL%20START%20TIME>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20FIXED%20SENTENCE%20VOICING%20REGULATION>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20ASR%20SPEAKING%20RATE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20AVG%20PAUSE%20DUR>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20MONOTONICITY>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20SCORE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20SEMANTIC%20RELEV>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMAGE%20DESCR%20TOTAL%20DUR>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMMED%20STORY%20RECALL%20SCORE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20IMMED%20STORY%20RECALL%20VOLITION%201>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20OBJECT%20RECALL%20AVG%20PAUSE%20DUR>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20OBJECT%20RECALL%20SCORE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20OBJECT%20RECALL%20START%20TIME>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20PHONATION%20BREATHINESS>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20PHONATION%20PITCH%20INSTABILITY>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20ARTIC%20PRECISION>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20ASR%20ARTICULATION%20RATE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20ASR%20SPEAKING%20RATE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20MONOTONICITY>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20SENTENCE%20PAUSE%20RATE>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20NAMING%20INTRAWORD%20PAUSE%20TIME>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20NAMING%20PERCENT%20WORDS%20MISSED>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20NAMING%20TOTAL%20DUR>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20SEARCH%20INTRAWORD%20PAUSE%20TIME>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20SEARCH%20PERCENT%20WORDS%20MISSED>,
+        <https://w3id.org/synapse/amp-als/vocab/MEAN%20VISUAL%20SEARCH%20TOTAL%20DUR>,
+        <https://w3id.org/synapse/amp-als/vocab/MIN%20DELAYED%20WORD%20RECALL%20LATENCY>,
+        <https://w3id.org/synapse/amp-als/vocab/MedicalHistory>,
+        <https://w3id.org/synapse/amp-als/vocab/NCS>,
+        <https://w3id.org/synapse/amp-als/vocab/Neurological>,
+        <https://w3id.org/synapse/amp-als/vocab/PermanentAssistedVentilation>,
+        <https://w3id.org/synapse/amp-als/vocab/PhoneCallVisit>,
+        <https://w3id.org/synapse/amp-als/vocab/PhysicalExam>,
+        <https://w3id.org/synapse/amp-als/vocab/Pregnancy>,
+        <https://w3id.org/synapse/amp-als/vocab/ProtocolDeviation>,
+        <https://w3id.org/synapse/amp-als/vocab/PulmonaryFunction>,
+        <https://w3id.org/synapse/amp-als/vocab/QualityOfLifeSurvey>,
+        <https://w3id.org/synapse/amp-als/vocab/SlowVitalCapacity%20%28SVC%29>,
+        <https://w3id.org/synapse/amp-als/vocab/SpeechFunction>,
+        <https://w3id.org/synapse/amp-als/vocab/Strength>,
+        <https://w3id.org/synapse/amp-als/vocab/StudyDisposition>,
+        <https://w3id.org/synapse/amp-als/vocab/SuicideRisk>,
+        <https://w3id.org/synapse/amp-als/vocab/SurvivalStatus>,
+        <https://w3id.org/synapse/amp-als/vocab/TreatmentAdministration>,
+        <https://w3id.org/synapse/amp-als/vocab/VisitScheduling>,
+        <https://w3id.org/synapse/amp-als/vocab/VitalSigns>,
+        <https://w3id.org/synapse/amp-als/vocab/alsfrs_r>,
+        <https://w3id.org/synapse/amp-als/vocab/clinician_administered_exam>,
+        <https://w3id.org/synapse/amp-als/vocab/cognitive_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/dynamometry>,
+        <https://w3id.org/synapse/amp-als/vocab/electrophysiology>,
+        <https://w3id.org/synapse/amp-als/vocab/genetic_counseling>,
+        <https://w3id.org/synapse/amp-als/vocab/genetic_testing>,
+        <https://w3id.org/synapse/amp-als/vocab/laboratory>,
+        <https://w3id.org/synapse/amp-als/vocab/motor_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/neurological_exam>,
+        <https://w3id.org/synapse/amp-als/vocab/neurological_examination>,
+        <https://w3id.org/synapse/amp-als/vocab/psychiatric_eval>,
+        <https://w3id.org/synapse/amp-als/vocab/vital_signs> .
+
 <https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/ClinicalDatasetMixin"^^xsd:anyURI ;
@@ -16668,19 +16691,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AlignmentMethodEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/alignmentMethod"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/fileFormat> a linkml:SlotDefinition ;
-    dcterms:title "File Format" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/fileFormat"^^xsd:anyURI ;
-    linkml:description "Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalFile>,
-        <https://w3id.org/synapse/amp-als/vocab/OmicFile>,
-        <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/FileFormatEnum> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/fileFormat"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__abnormalFlag> a linkml:SlotDefinition ;
     dcterms:title "Abnormal Flag" ;
@@ -16849,6 +16859,17 @@
         "Other unit of measurement",
         "Other, unspecified, or unknown library source material." .
 
+<https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum"^^xsd:anyURI ;
+    linkml:description "Location or setting where an assessment or data collection took place" ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Clinical_Site>,
+        <https://w3id.org/synapse/amp-als/vocab/Home>,
+        <https://w3id.org/synapse/amp-als/vocab/Hospital>,
+        <https://w3id.org/synapse/amp-als/vocab/Nursing_Home>,
+        <https://w3id.org/synapse/amp-als/vocab/Other>,
+        <https://w3id.org/synapse/amp-als/vocab/Other_Healthcare_Facility>,
+        <https://w3id.org/synapse/amp-als/vocab/Remote> .
+
 <https://w3id.org/synapse/amp-als/vocab/BioProject> a linkml:SlotDefinition ;
     dcterms:title "BioProject" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16974,6 +16995,20 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalDomainEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/clinicalDomain"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/fileFormat> a linkml:SlotDefinition ;
+    dcterms:title "File Format" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/fileFormat"^^xsd:anyURI ;
+    linkml:description "Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalFile>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema>,
+        <https://w3id.org/synapse/amp-als/vocab/OmicFile>,
+        <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SpeechFile> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/FileFormatEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/fileFormat"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/platform> a linkml:SlotDefinition ;
     dcterms:title "Platform" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16985,6 +17020,20 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/PlatformEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/platform"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/site_of_onset> a linkml:SlotDefinition ;
+    dcterms:title "Site of Onset" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/site_of_onset"^^xsd:anyURI ;
+    linkml:description "Anatomical site where symptoms first appeared",
+        "Site of ALS onset.",
+        "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/ClinicalFile>,
+        <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFile> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/SiteOfOnsetEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/site_of_onset"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/time> a linkml:TypeDefinition ;
     skos:editorialNote "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"time\".",
@@ -17339,6 +17388,7 @@
         <https://w3id.org/synapse/amp-als/vocab/studyPhase>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -17385,18 +17435,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AnalysisMethodEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/analysisTypes"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/keywords> a linkml:SlotDefinition ;
-    dcterms:title "Keywords" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/keywords"^^xsd:anyURI ;
-    linkml:description "Descriptive keywords or terms for improved search and discovery." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset>,
-        <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/keywords"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/participant_count> a linkml:SlotDefinition ;
     dcterms:title "Participant Count" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -17438,36 +17476,22 @@
         <https://w3id.org/synapse/amp-als/vocab/pulmonaryFunction__svcPercent>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
-<https://w3id.org/synapse/amp-als/vocab/dataType> a linkml:SlotDefinition ;
-    dcterms:title "Data Type" ;
+<https://w3id.org/synapse/amp-als/vocab/keywords> a linkml:SlotDefinition ;
+    dcterms:title "Keywords" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
-        [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
-    linkml:description "Clinical data types (assessments, treatments, medical history, etc.)",
-        "Data type of this attribute",
-        """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
-""",
-        "Omic data types (genomics, transcriptomics, proteomics, etc.)",
-        "Reflects the data types within the file.",
-        "Speech-specific data type(s) for this file or folder",
-        "Speech-specific data types present in this dataset" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/keywords"^^xsd:anyURI ;
+    linkml:description "Descriptive keywords or terms for improved search and discovery." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset>,
+        <https://w3id.org/synapse/amp-als/vocab/BaseFile>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum>,
-        <https://w3id.org/synapse/amp-als/vocab/Data>,
-        <https://w3id.org/synapse/amp-als/vocab/DataTypeEnum>,
-        <https://w3id.org/synapse/amp-als/vocab/OmicDataTypeEnum>,
-        <https://w3id.org/synapse/amp-als/vocab/SpeechDataTypeEnum>,
-        <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:required true ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI .
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/keywords"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/studyType> a linkml:SlotDefinition ;
     dcterms:title "Study Type" ;
@@ -17487,9 +17511,9 @@
     rdfs:seeAlso "https://www.w3.org/TR/vocab-dcat-3/#Property:resource_title"^^xsd:anyURI ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/title"^^xsd:anyURI ;
-    linkml:description "Primary title of the dataset",
-        "Title of a resource." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:description "Title of a resource." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:multivalued true ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
@@ -17511,6 +17535,7 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalRecordMixin__visitId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -17565,6 +17590,7 @@
         <https://w3id.org/synapse/amp-als/vocab/medicalDevice__indication>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -17579,6 +17605,36 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/OmicFileMixin> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AssayEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/assay"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/dataType> a linkml:SlotDefinition ;
+    dcterms:title "Data Type" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:any_of [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
+    linkml:description "Clinical data types (assessments, treatments, medical history, etc.)",
+        "Data type of this attribute",
+        """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
+""",
+        "Omic data types (genomics, transcriptomics, proteomics, etc.)",
+        "Reflects the data types within the file.",
+        "Speech-specific data type(s) for this file or folder",
+        "Speech-specific data types present in this dataset",
+        "Type(s) of metadata this file represents (e.g., data dictionary, mapping file, schema documentation)." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/Dataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/ClinicalDataTypeEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/Data>,
+        <https://w3id.org/synapse/amp-als/vocab/DataTypeEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/Metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/OmicDataTypeEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/SpeechDataTypeEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:required true ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/libraryLayout> a linkml:SlotDefinition ;
     dcterms:title "Library Layout" ;
@@ -17657,6 +17713,7 @@
         <https://w3id.org/synapse/amp-als/vocab/adverseEvent__severity>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -17760,6 +17817,7 @@
         <https://w3id.org/synapse/amp-als/vocab/geneticVariant__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -17787,6 +17845,7 @@
         <https://w3id.org/synapse/amp-als/vocab/strengthAssessment__shoulderFlexionRight>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -17814,11 +17873,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/SpeechDataset> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/collectionLocation>,
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/assessmentTypes>,
+        <https://w3id.org/synapse/amp-als/vocab/collectionLocation>,
         <https://w3id.org/synapse/amp-als/vocab/dataType>,
         <https://w3id.org/synapse/amp-als/vocab/ftStresuValues>,
         <https://w3id.org/synapse/amp-als/vocab/ftTestCodes>,
-        <https://w3id.org/synapse/amp-als/vocab/ftTests>,
         <https://w3id.org/synapse/amp-als/vocab/sdtmDomain>,
         <https://w3id.org/synapse/amp-als/vocab/vendor> ;
     linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/SpeechDataset"^^xsd:anyURI ;
@@ -17853,27 +17912,15 @@
         <https://w3id.org/synapse/amp-als/vocab/funder>,
         <https://w3id.org/synapse/amp-als/vocab/participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
+        <https://w3id.org/synapse/amp-als/vocab/speechDataset__assessmentTypes>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__collectionLocation>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__ftStresuValues>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__ftTestCodes>,
-        <https://w3id.org/synapse/amp-als/vocab/speechDataset__ftTests>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__sdtmDomain>,
         <https://w3id.org/synapse/amp-als/vocab/speechDataset__vendor>,
         <https://w3id.org/synapse/amp-als/vocab/studyType>,
         <https://w3id.org/synapse/amp-als/vocab/title> .
-
-<https://w3id.org/synapse/amp-als/vocab/curationLevel> a linkml:SlotDefinition ;
-    dcterms:title "Curation Level" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/curationLevel"^^xsd:anyURI ;
-    linkml:description "Level of data processing and curation applied to this entity." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset>,
-        <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/curationLevel"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/citation> a linkml:SlotDefinition ;
     dcterms:title "Citation" ;
@@ -17952,30 +17999,18 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/url"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/contributor> a linkml:SlotDefinition ;
-    dcterms:title "Contributor(s)" ;
-    rdfs:seeAlso "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#contributor"^^xsd:anyURI ;
+<https://w3id.org/synapse/amp-als/vocab/curationLevel> a linkml:SlotDefinition ;
+    dcterms:title "Curation Level" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/contributor"^^xsd:anyURI ;
-    linkml:description "Institution or person responsible for collecting and managing the files and records in the resource." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/curationLevel"^^xsd:anyURI ;
+    linkml:description "Level of data processing and curation applied to this entity." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset>,
+        <https://w3id.org/synapse/amp-als/vocab/BaseFile>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/contributor"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/creator> a linkml:SlotDefinition ;
-    dcterms:title "Creator" ;
-    rdfs:seeAlso "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#creator"^^xsd:anyURI ;
-    skos:editorialNote "Recommended practice is to identify the creator with a URI. If this is not possible or feasible, a literal value that identifies the creator may be provided." ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/creator"^^xsd:anyURI ;
-    linkml:description "Properly formatted name of the organization or person that is creator of the resource (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/creator"^^xsd:anyURI .
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/curationLevel"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/species> a linkml:SlotDefinition ;
     dcterms:title "Species" ;
@@ -18028,6 +18063,7 @@
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/clinicalRecordMixin__visitId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/visit__earlyTermination>,
@@ -18038,6 +18074,33 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitName>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> .
+
+<https://w3id.org/synapse/amp-als/vocab/contributor> a linkml:SlotDefinition ;
+    dcterms:title "Contributor(s)" ;
+    rdfs:seeAlso "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#contributor"^^xsd:anyURI ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/contributor"^^xsd:anyURI ;
+    linkml:description "Institution or person responsible for collecting and managing the files and records in the resource." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/contributor"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/creator> a linkml:SlotDefinition ;
+    dcterms:title "Creator" ;
+    rdfs:seeAlso "https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#creator"^^xsd:anyURI ;
+    skos:editorialNote "Recommended practice is to identify the creator with a URI. If this is not possible or feasible, a literal value that identifies the creator may be provided." ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/creator"^^xsd:anyURI ;
+    linkml:description "Properly formatted name of the organization or person that is creator of the resource (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/creator"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__disease> a linkml:SlotDefinition ;
     dcterms:title "Disease" ;
@@ -18067,7 +18130,6 @@
         <https://w3id.org/synapse/amp-als/vocab/dataType>,
         <https://w3id.org/synapse/amp-als/vocab/referenceGenome>,
         <https://w3id.org/synapse/amp-als/vocab/sampleIdColumn>,
-        <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/storageContainer>,
         <https://w3id.org/synapse/amp-als/vocab/variantType> ;
     linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/OmicFile"^^xsd:anyURI ;
@@ -18106,10 +18168,10 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__referenceGenome>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__sampleIdColumn>,
-        <https://w3id.org/synapse/amp-als/vocab/omicFile__site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__storageContainer>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
+        <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
@@ -18129,6 +18191,7 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18146,10 +18209,10 @@
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/description"^^xsd:anyURI ;
     linkml:description "Detailed description of what this attribute represents",
-        "Overall description of what this schema covers",
         "Text describing a resource.",
         "What this value means or represents" ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:required true ;
@@ -18184,6 +18247,7 @@
         <https://w3id.org/synapse/amp-als/vocab/geneticProfile__wantResultsReturned>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18228,6 +18292,7 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18268,6 +18333,7 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/subject__PMI>,
@@ -18338,6 +18404,7 @@
         <https://w3id.org/synapse/amp-als/vocab/phenoconversion__site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18378,6 +18445,7 @@
         <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__units>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/urinalysis__bilirubin>,
@@ -18442,6 +18510,7 @@
         <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__units>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18503,6 +18572,49 @@
         <https://w3id.org/synapse/amp-als/vocab/comorbidity__yearStarted>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
+
+<https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment> a linkml:ClassDefinition ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/alsfrsTotal>,
+        <https://w3id.org/synapse/amp-als/vocab/climbingStairs>,
+        <https://w3id.org/synapse/amp-als/vocab/cuttingFood>,
+        <https://w3id.org/synapse/amp-als/vocab/dressing>,
+        <https://w3id.org/synapse/amp-als/vocab/dyspnea>,
+        <https://w3id.org/synapse/amp-als/vocab/handwriting>,
+        <https://w3id.org/synapse/amp-als/vocab/orthopnea>,
+        <https://w3id.org/synapse/amp-als/vocab/respiratoryInsufficiency>,
+        <https://w3id.org/synapse/amp-als/vocab/salivation>,
+        <https://w3id.org/synapse/amp-als/vocab/speech>,
+        <https://w3id.org/synapse/amp-als/vocab/swallowing>,
+        <https://w3id.org/synapse/amp-als/vocab/turningInBed>,
+        <https://w3id.org/synapse/amp-als/vocab/walking> ;
+    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment"^^xsd:anyURI ;
+    linkml:description "ALS Functional Rating Scale (ALSFRS-R) assessment" ;
+    linkml:is_a <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__alsfrsTotal>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__climbingStairs>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__cuttingFood>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__dressing>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__dyspnea>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__handwriting>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__orthopnea>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__respiratoryInsufficiency>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__salivation>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__speech>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__swallowing>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__turningInBed>,
+        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__walking>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType>,
+        <https://w3id.org/synapse/amp-als/vocab/clinicalRecordMixin__visitId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18549,52 +18661,13 @@
         <https://w3id.org/synapse/amp-als/vocab/keyMeasures>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/participant_count>,
+        <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/studyPhase>,
         <https://w3id.org/synapse/amp-als/vocab/studyType>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
-
-<https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment> a linkml:ClassDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/alsfrsTotal>,
-        <https://w3id.org/synapse/amp-als/vocab/climbingStairs>,
-        <https://w3id.org/synapse/amp-als/vocab/cuttingFood>,
-        <https://w3id.org/synapse/amp-als/vocab/dressing>,
-        <https://w3id.org/synapse/amp-als/vocab/dyspnea>,
-        <https://w3id.org/synapse/amp-als/vocab/handwriting>,
-        <https://w3id.org/synapse/amp-als/vocab/orthopnea>,
-        <https://w3id.org/synapse/amp-als/vocab/respiratoryInsufficiency>,
-        <https://w3id.org/synapse/amp-als/vocab/salivation>,
-        <https://w3id.org/synapse/amp-als/vocab/speech>,
-        <https://w3id.org/synapse/amp-als/vocab/swallowing>,
-        <https://w3id.org/synapse/amp-als/vocab/turningInBed>,
-        <https://w3id.org/synapse/amp-als/vocab/walking> ;
-    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment"^^xsd:anyURI ;
-    linkml:description "ALS Functional Rating Scale (ALSFRS-R) assessment" ;
-    linkml:is_a <https://w3id.org/synapse/amp-als/vocab/ClinicalAssessment> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__alsfrsTotal>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__climbingStairs>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__cuttingFood>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__dressing>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__dyspnea>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__handwriting>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__orthopnea>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__respiratoryInsufficiency>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__salivation>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__speech>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__swallowing>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__turningInBed>,
-        <https://w3id.org/synapse/amp-als/vocab/aLSFRSAssessment__walking>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentDate>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalAssessment__assessmentType>,
-        <https://w3id.org/synapse/amp-als/vocab/clinicalRecordMixin__visitId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18650,6 +18723,7 @@
         <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__units>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18679,6 +18753,7 @@
         "Other variant type",
         "Other volume unit",
         "Other withdrawal reason",
+        "Visit type not otherwise classified",
         "other onset sites" .
 
 <https://w3id.org/synapse/amp-als/vocab/SRAFileMixin> a linkml:ClassDefinition ;
@@ -18756,22 +18831,7 @@
         <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__units>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
-
-<https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> a linkml:ClassDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix>,
-        <https://w3id.org/synapse/amp-als/vocab/globalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/originalSubjectId>,
-        <https://w3id.org/synapse/amp-als/vocab/sampleType> ;
-    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin"^^xsd:anyURI ;
-    linkml:description "Mixin for subject identifier attributes shared across subjects, files, and clinical records" ;
-    linkml:mixin true ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
-        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18810,6 +18870,24 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__weightKg>,
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfDiagnosis>,
         <https://w3id.org/synapse/amp-als/vocab/subjectDemographicsMixin__yearOfSymptomOnset> .
+
+<https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> a linkml:ClassDefinition ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/nihguid>,
+        <https://w3id.org/synapse/amp-als/vocab/originalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/sampleType> ;
+    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin"^^xsd:anyURI ;
+    linkml:description "Mixin for subject identifier attributes shared across subjects, files, and clinical records" ;
+    linkml:mixin true ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
 <https://w3id.org/synapse/amp-als/vocab/LaboratoryCollection> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -18854,6 +18932,7 @@
         <https://w3id.org/synapse/amp-als/vocab/laboratoryCollection__wholeBloodNotDoneReason>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18897,6 +18976,7 @@
         <https://w3id.org/synapse/amp-als/vocab/laboratoryResult__units>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -18991,6 +19071,7 @@
         <https://w3id.org/synapse/amp-als/vocab/protocolDeviation__severity>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -19036,6 +19117,71 @@
         <https://w3id.org/synapse/amp-als/vocab/studyDisposition__withdrawalReason>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
+
+<https://w3id.org/synapse/amp-als/vocab/SpeechFile> a linkml:ClassDefinition ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/ftDtc>,
+        <https://w3id.org/synapse/amp-als/vocab/ftGrpId>,
+        <https://w3id.org/synapse/amp-als/vocab/ftReasnd>,
+        <https://w3id.org/synapse/amp-als/vocab/ftRefId>,
+        <https://w3id.org/synapse/amp-als/vocab/ftStat>,
+        <https://w3id.org/synapse/amp-als/vocab/ftStresu>,
+        <https://w3id.org/synapse/amp-als/vocab/ftTest>,
+        <https://w3id.org/synapse/amp-als/vocab/ftTestCd>,
+        <https://w3id.org/synapse/amp-als/vocab/ftTstDtl>,
+        <https://w3id.org/synapse/amp-als/vocab/neuroguid>,
+        <https://w3id.org/synapse/amp-als/vocab/neurostamps>,
+        <https://w3id.org/synapse/amp-als/vocab/sdtmDomain>,
+        <https://w3id.org/synapse/amp-als/vocab/sessionId>,
+        <https://w3id.org/synapse/amp-als/vocab/suppLoc>,
+        <https://w3id.org/synapse/amp-als/vocab/vendor> ;
+    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/SpeechFile"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SpeechFile"^^xsd:anyURI ;
+    linkml:description """File or folder containing speech assessment data. Covers sample-level folders (subject annotations), session-level folders (per-test SDTM annotations), and compressed audio archives (zip files of raw WAV recordings).
+""" ;
+    linkml:is_a <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
+    linkml:mixins <https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> ;
+    linkml:slot_usage [ ] ;
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
+        <https://w3id.org/synapse/amp-als/vocab/citation>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
+        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__url>,
+        <https://w3id.org/synapse/amp-als/vocab/contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/creator>,
+        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/description>,
+        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__disease>,
+        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype>,
+        <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
+        <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/species>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftDtc>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftGrpId>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftReasnd>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftRefId>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftStat>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftStresu>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftTest>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftTestCd>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftTstDtl>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__neuroguid>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__neurostamps>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__sdtmDomain>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__sessionId>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__suppLoc>,
+        <https://w3id.org/synapse/amp-als/vocab/speechFile__vendor>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -19061,6 +19207,16 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/globalSubjectId"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid> a linkml:SlotDefinition ;
+    dcterms:title "NIH GUID" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    skos:prefLabel "nihguid" ;
+    linkml:description "NIH Global Unique Identifier for the subject." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/nihguid"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId> a linkml:SlotDefinition ;
     dcterms:title "Original Subject ID" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -19080,68 +19236,6 @@
     linkml:owner <https://w3id.org/synapse/amp-als/vocab/SubjectIdentifierMixin> ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/SampleTypeEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/sampleType"^^xsd:anyURI .
-
-<https://w3id.org/synapse/amp-als/vocab/SpeechFile> a linkml:ClassDefinition ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/dataType>,
-        <https://w3id.org/synapse/amp-als/vocab/ftDtc>,
-        <https://w3id.org/synapse/amp-als/vocab/ftGrpId>,
-        <https://w3id.org/synapse/amp-als/vocab/ftNam>,
-        <https://w3id.org/synapse/amp-als/vocab/ftReasnd>,
-        <https://w3id.org/synapse/amp-als/vocab/ftRefId>,
-        <https://w3id.org/synapse/amp-als/vocab/ftStat>,
-        <https://w3id.org/synapse/amp-als/vocab/ftStresu>,
-        <https://w3id.org/synapse/amp-als/vocab/ftTest>,
-        <https://w3id.org/synapse/amp-als/vocab/ftTestCd>,
-        <https://w3id.org/synapse/amp-als/vocab/ftTstDtl>,
-        <https://w3id.org/synapse/amp-als/vocab/neuroguid>,
-        <https://w3id.org/synapse/amp-als/vocab/neurostamps>,
-        <https://w3id.org/synapse/amp-als/vocab/nihguid>,
-        <https://w3id.org/synapse/amp-als/vocab/sdtmDomain>,
-        <https://w3id.org/synapse/amp-als/vocab/sessionId>,
-        <https://w3id.org/synapse/amp-als/vocab/subjid>,
-        <https://w3id.org/synapse/amp-als/vocab/suppLoc> ;
-    linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/SpeechFile"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/SpeechFile"^^xsd:anyURI ;
-    linkml:description """File or folder containing speech assessment data. Covers sample-level folders (subject annotations), session-level folders (per-test SDTM annotations), and compressed audio archives (zip files of raw WAV recordings).
-""" ;
-    linkml:is_a <https://w3id.org/synapse/amp-als/vocab/BaseFile> ;
-    linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
-        <https://w3id.org/synapse/amp-als/vocab/citation>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__url>,
-        <https://w3id.org/synapse/amp-als/vocab/contributor>,
-        <https://w3id.org/synapse/amp-als/vocab/creator>,
-        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
-        <https://w3id.org/synapse/amp-als/vocab/description>,
-        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__disease>,
-        <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype>,
-        <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
-        <https://w3id.org/synapse/amp-als/vocab/keywords>,
-        <https://w3id.org/synapse/amp-als/vocab/species>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__dataType>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftDtc>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftGrpId>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftNam>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftReasnd>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftRefId>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftStat>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftStresu>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftTest>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftTestCd>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__ftTstDtl>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__neuroguid>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__neurostamps>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__nihguid>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__sdtmDomain>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__sessionId>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__subjid>,
-        <https://w3id.org/synapse/amp-als/vocab/speechFile__suppLoc> .
 
 <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -19194,6 +19288,7 @@
         <https://w3id.org/synapse/amp-als/vocab/assessmentAdministration__validityNotes>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -19250,6 +19345,7 @@
         <https://w3id.org/synapse/amp-als/vocab/eligibility__stratificationFactors>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -19318,29 +19414,29 @@
         <https://w3id.org/synapse/amp-als/vocab/dataQuality__validationStatus>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
 <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/accessRights>,
-        <https://w3id.org/synapse/amp-als/vocab/attributes>,
+    linkml:attributes <https://w3id.org/synapse/amp-als/vocab/attributes>,
         <https://w3id.org/synapse/amp-als/vocab/citationRecommendation>,
         <https://w3id.org/synapse/amp-als/vocab/conformsTo>,
         <https://w3id.org/synapse/amp-als/vocab/contactEmail>,
         <https://w3id.org/synapse/amp-als/vocab/contactName>,
-        <https://w3id.org/synapse/amp-als/vocab/contributors>,
-        <https://w3id.org/synapse/amp-als/vocab/creators>,
+        <https://w3id.org/synapse/amp-als/vocab/dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/dateCreated>,
         <https://w3id.org/synapse/amp-als/vocab/dateModified>,
         <https://w3id.org/synapse/amp-als/vocab/datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/description>,
         <https://w3id.org/synapse/amp-als/vocab/fundingReferences>,
         <https://w3id.org/synapse/amp-als/vocab/identifier>,
         <https://w3id.org/synapse/amp-als/vocab/identifierType>,
         <https://w3id.org/synapse/amp-als/vocab/landingPage>,
-        <https://w3id.org/synapse/amp-als/vocab/license>,
         <https://w3id.org/synapse/amp-als/vocab/licenseURL>,
+        <https://w3id.org/synapse/amp-als/vocab/originalRepository>,
+        <https://w3id.org/synapse/amp-als/vocab/program>,
         <https://w3id.org/synapse/amp-als/vocab/publicationYear>,
         <https://w3id.org/synapse/amp-als/vocab/publisher>,
         <https://w3id.org/synapse/amp-als/vocab/relatedDatasets>,
@@ -19348,31 +19444,35 @@
         <https://w3id.org/synapse/amp-als/vocab/resourceType>,
         <https://w3id.org/synapse/amp-als/vocab/schemaName>,
         <https://w3id.org/synapse/amp-als/vocab/schemaType>,
-        <https://w3id.org/synapse/amp-als/vocab/subjects>,
-        <https://w3id.org/synapse/amp-als/vocab/title>,
         <https://w3id.org/synapse/amp-als/vocab/version> ;
     linkml:class_uri "https://w3id.org/synapse/amp-als/vocab/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/MetadataSchema"^^xsd:anyURI ;
     linkml:description "Template for defining metadata schemas that document the structure, data types, and valid values for clinical and omics metadata files. Also supports dataset-level citation metadata per NIH CADR requirements." ;
     linkml:slot_usage [ ] ;
-    linkml:slots <https://w3id.org/synapse/amp-als/vocab/metadataSchema__accessRights>,
+    linkml:slots <https://w3id.org/synapse/amp-als/vocab/contributor>,
+        <https://w3id.org/synapse/amp-als/vocab/creator>,
+        <https://w3id.org/synapse/amp-als/vocab/curationLevel>,
+        <https://w3id.org/synapse/amp-als/vocab/description>,
+        <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
+        <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/license>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__attributes>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__citationRecommendation>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__conformsTo>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__contactEmail>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__contactName>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__contributors>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__creators>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dataType>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dateCreated>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__dateModified>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__datePublished>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__description>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__fundingReferences>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__identifier>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__identifierType>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__landingPage>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__license>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__licenseURL>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__originalRepository>,
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__program>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publicationYear>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publisher>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__relatedDatasets>,
@@ -19380,9 +19480,8 @@
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__resourceType>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__schemaName>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__schemaType>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__subjects>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__title>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__version> .
+        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__version>,
+        <https://w3id.org/synapse/amp-als/vocab/title> .
 
 <https://w3id.org/synapse/amp-als/vocab/CognitiveAssessment> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -19458,6 +19557,7 @@
         <https://w3id.org/synapse/amp-als/vocab/cognitiveAssessment__visuospatialScore>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -19537,6 +19637,7 @@
         <https://w3id.org/synapse/amp-als/vocab/medicalHistory__thyroidDisease>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -19591,6 +19692,7 @@
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/clinicalRecordMixin__visitId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/treatment__anyMedicationsUsed>,
@@ -19725,6 +19827,7 @@
         <https://w3id.org/synapse/amp-als/vocab/familyHistory__whoObtainedFamilyHistoryOther>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 
@@ -19854,6 +19957,7 @@
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__dataSourcePrefix>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__globalSubjectId>,
+        <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__nihguid>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__originalSubjectId>,
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType> .
 

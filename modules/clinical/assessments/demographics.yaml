@@ -95,7 +95,4 @@ classes:
         title: Zip Code
         description: Zip Code
         range: string
-      nihguid:
-        title: NIH GUID
-        description: NIH GUID
-        range: string
+      # nihguid is contributed by SubjectIdentifierMixin (via ClinicalAssessment).

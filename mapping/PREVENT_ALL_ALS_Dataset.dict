@@ -3438,7 +3438,7 @@
     "view": "v_ALLALS_PR_PREVPRALSGENTST",
     "target": "diseaseSubtype",
     "values": {
-      "1": "C9orf72",
+      "1": "C9-ALS",
       "2": "SOD1",
       "3": "ANG-ALS",
       "4": "ANXA11-ALS",
@@ -5701,12 +5701,12 @@
   "emgrsn": {
     "description": "Reason for EMG/NCS",
     "view": "v_ALLALS_PR_PREVEMG",
-    "target": "",
+    "target": "visitType",
     "values": {
-      "1": "Baseline Evaluation",
-      "2": "Annual Follow-Up Evaluation",
+      "1": "Baseline",
+      "2": "Follow-up",
       "3": "Phenoconversion Evaluation",
-      "99": "Other (specify):"
+      "99": "Other"
     }
   },
   "emgrsnothsp": {
@@ -6502,26 +6502,26 @@
   "visit": {
     "description": "Visit Deviation Occurred",
     "view": "v_ALLALS_PR_PREVPDEVAD",
-    "target": "",
+    "target": "visitType",
     "values": {
       "1": "Screening",
-      "2": "Visit 1",
-      "3": "Visit 2",
-      "4": "Visit 3",
-      "5": "Visit 4",
-      "6": "Visit 5",
-      "7": "Visit 6",
-      "8": "Visit 7",
-      "9": "Visit 8",
-      "10": "Visit 9",
-      "11": "Visit 10",
-      "12": "Genetic Testing Sub-Study Screening Visit",
-      "13": "Return of Genetic Results",
-      "14": "Post-Return of Results counseling Telephone Visit",
-      "15": "Early Termination",
-      "16": "Unscheduled Visit",
-      "17": "Ad-Hoc Genetic Counseling Visit",
-      "18": "Ad-Hoc Visit for Evaluation of ALS/FTD Symptoms",
+      "2": "Follow-up",
+      "3": "Follow-up",
+      "4": "Follow-up",
+      "5": "Follow-up",
+      "6": "Follow-up",
+      "7": "Follow-up",
+      "8": "Follow-up",
+      "9": "Follow-up",
+      "10": "Follow-up",
+      "11": "Follow-up",
+      "12": "Genetic Testing Sub-Study",
+      "13": "Results_Return",
+      "14": "Telephone Follow-up",
+      "15": "Early_Termination",
+      "16": "Unscheduled",
+      "17": "Genetic Counseling Visit",
+      "18": "Ad-Hoc Symptom Evaluation Visit",
       "99": "Other"
     }
   },
@@ -6725,11 +6725,11 @@
   "alssite": {
     "description": "Site of ALS Onset",
     "view": "v_ALLALS_PR_PREVPHENOCONVER",
-    "target": "diseaseSubtype",
+    "target": "site_of_onset",
     "values": {
-      "1": "bulbar_onset",
-      "2": "limb_onset",
-      "3": "respiratory_onset",
+      "1": "Bulbar",
+      "2": "Limb",
+      "3": "Respiratory",
       "4": "Generalized"
     }
   },
@@ -7715,9 +7715,10 @@
   "predisgc_vtyp": {
     "description": "Type of Visit",
     "view": "v_ALLALS_PR_PREVPREGENCONAP",
-    "target": "",
+    "target": "administrationMode",
     "values": {
-      "2": "In-Person"
+      "1": "Remote",
+      "2": "In_Person"
     }
   },
   "predisgc_locp": {
@@ -8086,9 +8087,10 @@
   "postdisgc_vtyp": {
     "description": "Type of Visit",
     "view": "v_ALLALS_PR_PREVPSTGENCONAP",
-    "target": "",
+    "target": "administrationMode",
     "values": {
-      "2": "In-Person"
+      "1": "Remote",
+      "2": "In_Person"
     }
   },
   "postdisgc_locp": {
@@ -8322,10 +8324,10 @@
   "mir_part": {
     "description": "Did Study Partner Complete MIR?",
     "view": "v_ALLALS_PR_PREVMIRSCRPR",
-    "target": "",
+    "target": "administrationMode",
     "values": {
-      "1": "Yes",
-      "2": "No"
+      "1": "partner_assessment",
+      "2": ""
     }
   },
   "mir_part1": {
@@ -9647,9 +9649,10 @@
   "tele_vtyp": {
     "description": "Type of Visit",
     "view": "v_ALLALS_PR_PREVFUTELEV",
-    "target": "",
+    "target": "administrationMode",
     "values": {
-      "2": "In-Person"
+      "1": "Remote",
+      "2": "In_Person"
     }
   },
   "tele_occur_context": {

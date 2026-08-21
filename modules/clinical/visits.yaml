@@ -88,6 +88,12 @@ enums:
         description: Follow-up visit conducted by telephone
       Visit Management:
         description: Administrative visit-management record not tied to a specific clinical visit type
+      Phenoconversion Evaluation:
+        description: Visit triggered by a subject's conversion from asymptomatic to symptomatic disease
+      Ad-Hoc Symptom Evaluation Visit:
+        description: Unscheduled visit to evaluate reported ALS/FTD symptoms
+      Other:
+        description: Visit type not otherwise classified
 
   VisitStatusEnum:
     permissible_values:

@@ -1046,6 +1046,7 @@
               "txt",
               "vcf",
               "wiggle",
+              "xlsx",
               "xml",
               "yaml",
               "h5",
@@ -1184,6 +1185,11 @@
       "title": "Library Source",
       "type": "array"
     },
+    "nihguid": {
+      "description": "NIH Global Unique Identifier for the subject.",
+      "title": "NIH GUID",
+      "type": "string"
+    },
     "nucleicAcidSource": {
       "description": "Source of nucleic acid for library preparation",
       "title": "Nucleic Acid Source",
@@ -1223,7 +1229,8 @@
               "Critical Path Institute",
               "Target ALS",
               "Sequencing Read Archive",
-              "ALL ALS"
+              "ALL ALS",
+              "Linus Health"
             ]
           },
           {

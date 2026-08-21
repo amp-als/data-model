@@ -111,3 +111,76 @@ enums:
         description: Electrophysiology testing
       dynamometry:
         description: Hand-held dynamometry testing
+
+      # Speech functional test (SDTM FT domain) measures, migrated from the free-text
+      # SpeechDataset.ftTests rollup field.
+      MEAN PHONATION BREATHINESS:
+        description: Speech functional test measure - mean phonation breathiness
+      MEAN PHONATION PITCH INSTABILITY:
+        description: Speech functional test measure - mean phonation pitch instability
+      MAX PHONATION TOTAL DUR PAUSELESS PHON:
+        description: Speech functional test measure - max phonation total duration, pauseless phonation
+      MEAN SENTENCE ARTIC PRECISION:
+        description: Speech functional test measure - mean sentence articulation precision
+      MEAN IMAGE DESCR TOTAL DUR:
+        description: Speech functional test measure - mean image description total duration
+      MEAN IMAGE DESCR MONOTONICITY:
+        description: Speech functional test measure - mean image description monotonicity
+      MEAN SENTENCE MONOTONICITY:
+        description: Speech functional test measure - mean sentence monotonicity
+      MEAN IMAGE DESCR AVG PAUSE DUR:
+        description: Speech functional test measure - mean image description average pause duration
+      MAX REPEATED PHRASE BUTTERCUP COUNT:
+        description: Speech functional test measure - max repeated phrase ("buttercup") count
+      MEAN SENTENCE PAUSE RATE:
+        description: Speech functional test measure - mean sentence pause rate
+      MEAN FIXED SENTENCE VOICING REGULATION:
+        description: Speech functional test measure - mean fixed sentence voicing regulation
+      MEAN SENTENCE ASR SPEAKING RATE:
+        description: Speech functional test measure - mean sentence ASR (automatic speech recognition) speaking rate
+      MEAN SENTENCE ASR ARTICULATION RATE:
+        description: Speech functional test measure - mean sentence ASR (automatic speech recognition) articulation rate
+      MEAN IMAGE DESCR ASR SPEAKING RATE:
+        description: Speech functional test measure - mean image description ASR (automatic speech recognition) speaking rate
+      MEAN CATEGORY NAMING PAUSE RATE:
+        description: Speech functional test measure - mean category naming pause rate
+      MEAN VISUAL NAMING TOTAL DUR:
+        description: Speech functional test measure - mean visual naming total duration
+      MEAN VISUAL SEARCH TOTAL DUR:
+        description: Speech functional test measure - mean visual search total duration
+      MEAN OBJECT RECALL AVG PAUSE DUR:
+        description: Speech functional test measure - mean object recall average pause duration
+      MEAN OBJECT RECALL START TIME:
+        description: Speech functional test measure - mean object recall start time
+      MEAN DELAYED STORY RECALL START TIME:
+        description: Speech functional test measure - mean delayed story recall start time
+      MEAN VISUAL NAMING INTRAWORD PAUSE TIME:
+        description: Speech functional test measure - mean visual naming intraword pause time
+      MEAN VISUAL NAMING PERCENT WORDS MISSED:
+        description: Speech functional test measure - mean visual naming percent words missed
+      MAX DELAYED WORD RECALL SCORE:
+        description: Speech functional test measure - max delayed word recall score
+      MIN DELAYED WORD RECALL LATENCY:
+        description: Speech functional test measure - min delayed word recall latency
+      MEAN DELAYED STORY RECALL SCORE:
+        description: Speech functional test measure - mean delayed story recall score
+      MEAN DELAYED STORY RECALL SEMANTIC RELEV:
+        description: Speech functional test measure - mean delayed story recall semantic relevance
+      MEAN IMAGE DESCR SEMANTIC RELEV:
+        description: Speech functional test measure - mean image description semantic relevance
+      MEAN IMMED STORY RECALL SCORE:
+        description: Speech functional test measure - mean immediate story recall score
+      MEAN CATEGORY NAMING VERBAL FLUENCY:
+        description: Speech functional test measure - mean category naming verbal fluency
+      MEAN OBJECT RECALL SCORE:
+        description: Speech functional test measure - mean object recall score
+      MAX IMMED WORD RECALL SCORE:
+        description: Speech functional test measure - max immediate word recall score
+      MEAN IMMED STORY RECALL VOLITION 1:
+        description: Speech functional test measure - mean immediate story recall volition 1
+      MEAN IMAGE DESCR SCORE:
+        description: Speech functional test measure - mean image description score
+      MEAN VISUAL SEARCH INTRAWORD PAUSE TIME:
+        description: Speech functional test measure - mean visual search intraword pause time
+      MEAN VISUAL SEARCH PERCENT WORDS MISSED:
+        description: Speech functional test measure - mean visual search percent words missed

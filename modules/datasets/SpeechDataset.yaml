@@ -19,15 +19,14 @@ classes:
         description: Speech-specific data types present in this dataset
         multivalued: true
         required: false
-      # Aggregated SDTM FT domain descriptors (rolled up across all samples)
-      ftTests:
-        title: Functional Tests (FTTEST)
-        range: string
-        description: >
-          Distinct speech functional test names present across all samples in this dataset,
-          sourced from the SDTM FTTEST column.
+      # Controlled-vocabulary classification of assessments/tests included in dataset
+      assessmentTypes:
+        title: Assessment Types
+        range: AssessmentTypeEnum
+        description: Types of speech assessments/functional tests included in the dataset
         multivalued: true
         required: false
+      # Aggregated SDTM FT domain descriptors (rolled up across all samples)
       ftTestCodes:
         title: Functional Test Codes (FTTESTCD)
         range: string
@@ -51,10 +50,10 @@ classes:
         required: false
       collectionLocation:
         title: Collection Location (SUPPLOC)
-        range: string
+        range: AdministrationLocationEnum
         description: >
-          Setting where speech data was collected (SDTM SUPPLOC), e.g. "In Clinic" or null
-          for remote/home collection.
+          Setting where speech data was collected (SDTM SUPPLOC), e.g. Clinical_Site or
+          Remote/Home collection.
         required: false
       sdtmDomain:
         title: SDTM Domain
@@ -62,6 +61,9 @@ classes:
         description: SDTM domain abbreviation for functional test records (typically "FT")
         required: false
 
-# Enum for this class is defined in modules/speech/data-types.yaml (SpeechDataTypeEnum).
+# Enums for this class are defined canonically in dedicated modules and shared with
+# other schemas (see Makefile SpeechDataset target):
+#   SpeechDataTypeEnum -> modules/speech/data-types.yaml
+#   AssessmentTypeEnum  -> modules/clinical/assessment-types.yaml (shared with ClinicalDataset)
 # BaseDataset contributes: title, keywords, cohort, cohortType, cohort_count, study_count,
 # studyType, curationLevel, dataset_code, portalRelease, participant_count, etc.

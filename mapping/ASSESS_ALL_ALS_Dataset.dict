@@ -580,7 +580,7 @@
       "dataType": [
         "diagnostic_criteria"
       ],
-      "studyPhase": "screeningALL ALS"
+      "studyPhase": "screening"
     },
     "v_ALLALS_AS_ASSEDHTDFS": {
       "assessmentType": [
@@ -607,6 +607,12 @@
         "adverse_events"
       ],
       "studyPhase": "longitudinal"
+    },
+    "ct_ALLALS_AS_Follow_up_SAE_Report_ASSESS": {
+      "assessmentType": [],
+      "clinicalDomain": [],
+      "dataType": [],
+      "studyPhase": ""
     }
   },
   "SiteUID": {
@@ -1193,32 +1199,47 @@
   "limb_mhloc": {
     "description": "Limb",
     "view": "v_ALLALS_AS_ASSEALSHIST",
-    "target": "",
-    "values": {}
+    "target": "site_of_onset",
+    "values": {
+      "1": "Limb",
+      "0": ""
+    }
   },
   "bulb_mhloc": {
     "description": "Bulbar",
     "view": "v_ALLALS_AS_ASSEALSHIST",
-    "target": "",
-    "values": {}
+    "target": "site_of_onset",
+    "values": {
+      "1": "Bulbar",
+      "0": ""
+    }
   },
   "axia_mhloc": {
     "description": "Axial",
     "view": "v_ALLALS_AS_ASSEALSHIST",
-    "target": "",
-    "values": {}
+    "target": "site_of_onset",
+    "values": {
+      "1": "Axial",
+      "0": ""
+    }
   },
   "resp_mhloc": {
     "description": "Respiratory",
     "view": "v_ALLALS_AS_ASSEALSHIST",
-    "target": "",
-    "values": {}
+    "target": "site_of_onset",
+    "values": {
+      "1": "Respiratory",
+      "0": ""
+    }
   },
   "gen_mhloc": {
     "description": "Generalized",
     "view": "v_ALLALS_AS_ASSEALSHIST",
-    "target": "",
-    "values": {}
+    "target": "site_of_onset",
+    "values": {
+      "1": "Generalized",
+      "0": ""
+    }
   },
   "mhevdtyp_diagnosis": {
     "description": "Date of Diagnosis",
@@ -1409,7 +1430,7 @@
     "view": "v_ALLALS_AS_ASSEPRALSGENTST",
     "target": "diseaseSubtype",
     "values": {
-      "1": "C9orf72",
+      "1": "C9-ALS",
       "2": "SOD1",
       "3": "ANG-ALS",
       "4": "ANXA11-ALS",
@@ -2283,7 +2304,7 @@
       "9": "Follow-up",
       "10": "Follow-up",
       "11": "Follow-up",
-      "12": "Early Termination",
+      "12": "Early_Termination",
       "13": "Unscheduled",
       "99": "Other"
     }

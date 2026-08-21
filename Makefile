@@ -57,7 +57,7 @@ OmicDataset:
 File:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/portal/File.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/portal/File.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".File as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/File.json
@@ -67,7 +67,7 @@ File:
 ClinicalFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".ClinicalFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalFile.json
@@ -130,7 +130,7 @@ SRAFile:
 SpeechDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/speech/data-types.yaml modules/datasets/SpeechDataset.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/clinical/administration.yaml modules/clinical/assessment-types.yaml modules/speech/data-types.yaml modules/datasets/SpeechDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".SpeechDataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-speech-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/SpeechDataset.json
@@ -140,7 +140,7 @@ SpeechDataset:
 SpeechFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/speech/data-types.yaml modules/datasets/SpeechFile.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/clinical/administration.yaml modules/speech/data-types.yaml modules/datasets/SpeechFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".SpeechFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-speech-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/SpeechFile.json
@@ -148,5 +148,11 @@ SpeechFile:
 	@echo "--- Saved json-schemas/SpeechFile.json ---"
 
 MetadataSchema:
-	gen-json-schema modules/shared/metadata-schema-template.yaml > json-schemas/MetadataSchema.json
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/file-formats.yaml modules/reference/data-types.yaml modules/governance/portals.yaml modules/governance/licenses.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/shared/metadata-schema-template.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".MetadataSchema as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://amp-als.org/schemas/MetadataSchema", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/MetadataSchema.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/MetadataSchema.json ---"

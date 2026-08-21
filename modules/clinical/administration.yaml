@@ -1,0 +1,51 @@
+#######################################
+# Administration Enums
+# Canonical AdministrationModeEnum and AdministrationLocationEnum shared across
+# clinical assessment/administration records and file/dataset schemas (e.g. SpeechFile
+# SUPPLOC, ClinicalFile administrationMode).
+# Unified from the former duplicate AdministrationModeEnum definitions in
+# clinical/data-management.yaml and entities/ClinicalAssessment.yaml.
+#######################################
+
+enums:
+  AdministrationModeEnum:
+    description: Mode or method by which an assessment or data collection was administered
+    permissible_values:
+      In_Person:
+        description: In-person administration
+      Telephone:
+        description: Telephone administration
+      Video_Call:
+        description: Video call administration
+      Remote:
+        description: Remote administration where the specific modality (phone vs. video call) is not distinguished in the source data
+      Self_Administered:
+        description: Self-administered by subject
+      Caregiver_Assisted:
+        description: Caregiver-assisted administration
+      Paper_Form:
+        description: Paper form administration
+      Electronic_Form:
+        description: Electronic form administration
+      partner_assessment:
+        description: Assessment completed by a patient's partner or caregiver, typically via questionnaire or interview.
+      Other:
+        description: Other administration mode
+
+  AdministrationLocationEnum:
+    description: Location or setting where an assessment or data collection took place
+    permissible_values:
+      Clinical_Site:
+        description: Clinical research site
+      Hospital:
+        description: Hospital setting
+      Home:
+        description: Subject's home
+      Nursing_Home:
+        description: Nursing home or care facility
+      Other_Healthcare_Facility:
+        description: Other healthcare facility
+      Remote:
+        description: Remote location
+      Other:
+        description: Other location

@@ -21,21 +21,42 @@ classes:
       Template for defining metadata schemas that document the structure,
       data types, and valid values for clinical and omics metadata files.
       Also supports dataset-level citation metadata per NIH CADR requirements.
+    slots:
+      - fileFormat
+      - curationLevel
+      - creator
+      - contributor
+      - description
+      - title
+      - keywords
+      - license
     attributes:
+      dataType:
+        description: >-
+          Type(s) of metadata this file represents (e.g., data dictionary,
+          mapping file, schema documentation).
+        range: Metadata
+        multivalued: true
+      program:
+        title: Program
+        range: ProgramEnum
+        description: Research consortium(s) or program(s) that produced or funded this resource.
+        multivalued: true
+        required: false
+      originalRepository:
+        title: Original Repository
+        range: OriginalRepositoryEnum
+        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
+        multivalued: true
+        required: true
       schemaName:
         description: Name of this metadata schema
         range: string
-        required: true
       schemaType:
         description: Type of metadata this schema describes
         range: SchemaTypeEnum
-        required: true
       version:
         description: Version of this schema (e.g., "1.0", "2.1")
-        range: string
-        required: true
-      description:
-        description: Overall description of what this schema covers
         range: string
       conformsTo:
         description: >-
@@ -47,7 +68,6 @@ classes:
         description: List of metadata attributes/columns defined in this schema
         range: MetadataAttribute
         multivalued: true
-        required: true
         inlined_as_list: true
 
       # Dataset-level citation metadata (optional, for NIH CADR compliance)
@@ -59,21 +79,6 @@ classes:
       identifierType:
         description: Type of identifier (DOI, ARK, Handle, URL)
         range: IdentifierTypeEnum
-      title:
-        description: Primary title of the dataset
-        range: string
-      creators:
-        description: >-
-          Main researchers/authors responsible for creating the dataset.
-          Format: LastName, FirstName (ORCID). Separate multiple with semicolons.
-        range: string
-        multivalued: true
-      contributors:
-        description: >-
-          Additional persons/organizations contributing to the dataset.
-          Format: LastName, FirstName (Role). Separate multiple with semicolons.
-        range: string
-        multivalued: true
       publisher:
         description: Institution/entity responsible for publishing the dataset
         range: string
@@ -83,21 +88,15 @@ classes:
       resourceType:
         description: General type of the resource (Dataset, Collection, etc.)
         range: ResourceTypeEnum
-      subjects:
-        description: >-
-          Keywords or subject terms describing the dataset.
-          Use controlled vocabularies (MeSH, SNOMED) when possible.
-        range: string
-        multivalued: true
-      license:
-        description: License or rights statement for dataset use
-        range: string
       licenseURL:
         description: URL to the full license text
         range: string
-      accessRights:
-        description: Information about access restrictions
-        range: AccessRightsEnum
+      dataUseModifiers:
+        title: Data Use Modifiers
+        range: DataUseModifierEnum
+        description: Data Use Ontology (DUO) codes specifying conditions under which this resource may be used.
+        multivalued: true
+        required: false
       fundingReferences:
         description: >-
           Funding support information.
@@ -244,14 +243,5 @@ enums:
       Software:
         description: Software or code dataset
 
-  AccessRightsEnum:
-    description: Information about access restrictions
-    permissible_values:
-      Open:
-        description: Openly accessible without restrictions
-      Restricted:
-        description: Restricted access requiring approval
-      Embargoed:
-        description: Under embargo until specific date
-      Controlled:
-        description: Controlled access requiring DUC or similar agreement
+  # Access/use conditions use the canonical DataUseModifierEnum
+  # (modules/shared/common-enums.yaml), same as BaseDataset.dataUseModifiers.

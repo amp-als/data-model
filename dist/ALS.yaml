@@ -819,17 +819,6 @@ enums:
         description: Dataset with accompanying publication
       Software:
         description: Software or code dataset
-  AccessRightsEnum:
-    description: Information about access restrictions
-    permissible_values:
-      Open:
-        description: Openly accessible without restrictions
-      Restricted:
-        description: Restricted access requiring approval
-      Embargoed:
-        description: Under embargo until specific date
-      Controlled:
-        description: Controlled access requiring DUC or similar agreement
   CohortTypeEnum:
     permissible_values:
       Case-Control:
@@ -952,6 +941,46 @@ enums:
         description: ALS case cohort in a case-control study.
       ALS/FTD Case:
         description: ALS and/or FTD case cohort in a case-control WGS collection.
+  AdministrationModeEnum:
+    description: Mode or method by which an assessment or data collection was administered
+    permissible_values:
+      In_Person:
+        description: In-person administration
+      Telephone:
+        description: Telephone administration
+      Video_Call:
+        description: Video call administration
+      Remote:
+        description: Remote administration where the specific modality (phone vs. video call) is not distinguished in the source data
+      Self_Administered:
+        description: Self-administered by subject
+      Caregiver_Assisted:
+        description: Caregiver-assisted administration
+      Paper_Form:
+        description: Paper form administration
+      Electronic_Form:
+        description: Electronic form administration
+      partner_assessment:
+        description: Assessment completed by a patient's partner or caregiver, typically via questionnaire or interview.
+      Other:
+        description: Other administration mode
+  AdministrationLocationEnum:
+    description: Location or setting where an assessment or data collection took place
+    permissible_values:
+      Clinical_Site:
+        description: Clinical research site
+      Hospital:
+        description: Hospital setting
+      Home:
+        description: Subject's home
+      Nursing_Home:
+        description: Nursing home or care facility
+      Other_Healthcare_Facility:
+        description: Other healthcare facility
+      Remote:
+        description: Remote location
+      Other:
+        description: Other location
   AssessmentTypeEnum:
     description: Type of clinical assessment, instrument, or data collection method
     permissible_values:
@@ -1056,6 +1085,78 @@ enums:
         description: Electrophysiology testing
       dynamometry:
         description: Hand-held dynamometry testing
+      # Speech functional test (SDTM FT domain) measures, migrated from the free-text
+      # SpeechDataset.ftTests rollup field.
+      MEAN PHONATION BREATHINESS:
+        description: Speech functional test measure - mean phonation breathiness
+      MEAN PHONATION PITCH INSTABILITY:
+        description: Speech functional test measure - mean phonation pitch instability
+      MAX PHONATION TOTAL DUR PAUSELESS PHON:
+        description: Speech functional test measure - max phonation total duration, pauseless phonation
+      MEAN SENTENCE ARTIC PRECISION:
+        description: Speech functional test measure - mean sentence articulation precision
+      MEAN IMAGE DESCR TOTAL DUR:
+        description: Speech functional test measure - mean image description total duration
+      MEAN IMAGE DESCR MONOTONICITY:
+        description: Speech functional test measure - mean image description monotonicity
+      MEAN SENTENCE MONOTONICITY:
+        description: Speech functional test measure - mean sentence monotonicity
+      MEAN IMAGE DESCR AVG PAUSE DUR:
+        description: Speech functional test measure - mean image description average pause duration
+      MAX REPEATED PHRASE BUTTERCUP COUNT:
+        description: Speech functional test measure - max repeated phrase ("buttercup") count
+      MEAN SENTENCE PAUSE RATE:
+        description: Speech functional test measure - mean sentence pause rate
+      MEAN FIXED SENTENCE VOICING REGULATION:
+        description: Speech functional test measure - mean fixed sentence voicing regulation
+      MEAN SENTENCE ASR SPEAKING RATE:
+        description: Speech functional test measure - mean sentence ASR (automatic speech recognition) speaking rate
+      MEAN SENTENCE ASR ARTICULATION RATE:
+        description: Speech functional test measure - mean sentence ASR (automatic speech recognition) articulation rate
+      MEAN IMAGE DESCR ASR SPEAKING RATE:
+        description: Speech functional test measure - mean image description ASR (automatic speech recognition) speaking rate
+      MEAN CATEGORY NAMING PAUSE RATE:
+        description: Speech functional test measure - mean category naming pause rate
+      MEAN VISUAL NAMING TOTAL DUR:
+        description: Speech functional test measure - mean visual naming total duration
+      MEAN VISUAL SEARCH TOTAL DUR:
+        description: Speech functional test measure - mean visual search total duration
+      MEAN OBJECT RECALL AVG PAUSE DUR:
+        description: Speech functional test measure - mean object recall average pause duration
+      MEAN OBJECT RECALL START TIME:
+        description: Speech functional test measure - mean object recall start time
+      MEAN DELAYED STORY RECALL START TIME:
+        description: Speech functional test measure - mean delayed story recall start time
+      MEAN VISUAL NAMING INTRAWORD PAUSE TIME:
+        description: Speech functional test measure - mean visual naming intraword pause time
+      MEAN VISUAL NAMING PERCENT WORDS MISSED:
+        description: Speech functional test measure - mean visual naming percent words missed
+      MAX DELAYED WORD RECALL SCORE:
+        description: Speech functional test measure - max delayed word recall score
+      MIN DELAYED WORD RECALL LATENCY:
+        description: Speech functional test measure - min delayed word recall latency
+      MEAN DELAYED STORY RECALL SCORE:
+        description: Speech functional test measure - mean delayed story recall score
+      MEAN DELAYED STORY RECALL SEMANTIC RELEV:
+        description: Speech functional test measure - mean delayed story recall semantic relevance
+      MEAN IMAGE DESCR SEMANTIC RELEV:
+        description: Speech functional test measure - mean image description semantic relevance
+      MEAN IMMED STORY RECALL SCORE:
+        description: Speech functional test measure - mean immediate story recall score
+      MEAN CATEGORY NAMING VERBAL FLUENCY:
+        description: Speech functional test measure - mean category naming verbal fluency
+      MEAN OBJECT RECALL SCORE:
+        description: Speech functional test measure - mean object recall score
+      MAX IMMED WORD RECALL SCORE:
+        description: Speech functional test measure - max immediate word recall score
+      MEAN IMMED STORY RECALL VOLITION 1:
+        description: Speech functional test measure - mean immediate story recall volition 1
+      MEAN IMAGE DESCR SCORE:
+        description: Speech functional test measure - mean image description score
+      MEAN VISUAL SEARCH INTRAWORD PAUSE TIME:
+        description: Speech functional test measure - mean visual search intraword pause time
+      MEAN VISUAL SEARCH PERCENT WORDS MISSED:
+        description: Speech functional test measure - mean visual search percent words missed
   FormStatusEnum:
     permissible_values:
       New:
@@ -1084,44 +1185,8 @@ enums:
         description: Validation failed with errors
       Queries_Outstanding:
         description: Outstanding data queries
-  AdministrationModeEnum:
-    permissible_values:
-      In_Person:
-        description: In-person administration
-      Telephone:
-        description: Telephone administration
-      Video_Conference:
-        description: Video conference administration
-      Self_Administered:
-        description: Self-administered
-      Caregiver_Assisted:
-        description: Caregiver-assisted administration
-      Paper_Form:
-        description: Paper form administration
-      Electronic_Form:
-        description: Electronic form administration
-      Other:
-        description: Other administration mode
-      Video_Call:
-        description: Video call administration
-      partner_assessment:
-        description: Assessment completed by a patient’s partner or caregiver, typically via questionnaire or interview.
-  AdministrationLocationEnum:
-    permissible_values:
-      Clinical_Site:
-        description: Clinical research site
-      Hospital:
-        description: Hospital setting
-      Home:
-        description: Subject's home
-      Nursing_Home:
-        description: Nursing home or care facility
-      Other_Healthcare_Facility:
-        description: Other healthcare facility
-      Remote:
-        description: Remote location
-      Other:
-        description: Other location
+  # AdministrationModeEnum and AdministrationLocationEnum are defined canonically in
+  # modules/clinical/administration.yaml.
   LanguageEnum:
     permissible_values:
       English:
@@ -2224,6 +2289,28 @@ enums:
         description: Early study termination visit
       Unscheduled:
         description: Unscheduled or ad-hoc visit
+      DHT Screening Visit:
+        description: Screening visit specific to the digital health technology (DHT) sub-study
+      Genetic Counseling Visit:
+        description: Visit for genetic counseling
+      Genetic Testing Sub-Study:
+        description: Visit associated with the genetic testing sub-study
+      In-Clinic Follow-up:
+        description: Follow-up visit conducted in-clinic (in person)
+      Key Study Events:
+        description: Visit marking key study events or milestones
+      Remote Follow-up:
+        description: Follow-up visit conducted remotely
+      Telephone Follow-up:
+        description: Follow-up visit conducted by telephone
+      Visit Management:
+        description: Administrative visit-management record not tied to a specific clinical visit type
+      Phenoconversion Evaluation:
+        description: Visit triggered by a subject's conversion from asymptomatic to symptomatic disease
+      Ad-Hoc Symptom Evaluation Visit:
+        description: Unscheduled visit to evaluate reported ALS/FTD symptoms
+      Other:
+        description: Visit type not otherwise classified
   VisitStatusEnum:
     permissible_values:
       Scheduled:
@@ -2420,6 +2507,7 @@ enums:
         description: Brodmann area 4 (primary motor cortex)
       BA9:
         description: Brodmann area 9 (dorsolateral prefrontal cortex)
+  # AdministrationModeEnum is defined canonically in modules/clinical/administration.yaml.
   HandednessEnum:
     permissible_values:
       Right:
@@ -2777,6 +2865,8 @@ enums:
         description: Sequence Read Archive
       ALL ALS:
         description: ALL ALS collection sites
+      Linus Health:
+        description: Linus Health
   AssayEnum:
     title: Assay
     permissible_values:
@@ -4322,6 +4412,17 @@ enums:
       Workflow Metadata:
         description: Process data from computational workflows. This is highly related to Statistical Metadata.
         comments: Coined category for use esp. with nextflow metadata files.
+      Mapping File:
+        description: >
+          A file that maps source data columns and/or values to target data-model fields and enum values, used to drive automated annotation.
+
+        comments: Covers the mapping/*.dict crosswalk files used in this repo.
+      Data Dictionary:
+        description: Data dictionary file describing variable definitions, codings, and metadata for a dataset.
+      Aggregate Metadata:
+        description: >
+          Subject- or sample-level metadata that combines identifiers/crosswalk keys (e.g., subject ID, NeuroSTAMPs) with aggregate or summary measures (e.g., per-subject averages for specific tests).
+
   UnknownEnum:
     permissible_values:
       Unknown:
@@ -4671,6 +4772,9 @@ enums:
       wiggle:
         description: Wiggle format (WIG) of a sequence annotation track that consists of a value for each sequence position
         meaning: http://edamontology.org/format_3005
+      xlsx:
+        description: Microsoft Excel Open XML spreadsheet format with expected extension ".xlsx".
+        source: https://synapse.org
       xml:
         description: eXtensible Markup Language (XML) format.
         meaning: http://edamontology.org/format_2332
@@ -4759,21 +4863,41 @@ classes:
   MetadataSchema:
     description: >-
       Template for defining metadata schemas that document the structure, data types, and valid values for clinical and omics metadata files. Also supports dataset-level citation metadata per NIH CADR requirements.
+    slots:
+      - fileFormat
+      - curationLevel
+      - creator
+      - contributor
+      - description
+      - title
+      - keywords
+      - license
     attributes:
+      dataType:
+        description: >-
+          Type(s) of metadata this file represents (e.g., data dictionary, mapping file, schema documentation).
+        range: Metadata
+        multivalued: true
+      program:
+        title: Program
+        range: ProgramEnum
+        description: Research consortium(s) or program(s) that produced or funded this resource.
+        multivalued: true
+        required: false
+      originalRepository:
+        title: Original Repository
+        range: OriginalRepositoryEnum
+        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
+        multivalued: true
+        required: true
       schemaName:
         description: Name of this metadata schema
         range: string
-        required: true
       schemaType:
         description: Type of metadata this schema describes
         range: SchemaTypeEnum
-        required: true
       version:
         description: Version of this schema (e.g., "1.0", "2.1")
-        range: string
-        required: true
-      description:
-        description: Overall description of what this schema covers
         range: string
       conformsTo:
         description: >-
@@ -4784,7 +4908,6 @@ classes:
         description: List of metadata attributes/columns defined in this schema
         range: MetadataAttribute
         multivalued: true
-        required: true
         inlined_as_list: true
       # Dataset-level citation metadata (optional, for NIH CADR compliance)
       identifier:
@@ -4794,19 +4917,6 @@ classes:
       identifierType:
         description: Type of identifier (DOI, ARK, Handle, URL)
         range: IdentifierTypeEnum
-      title:
-        description: Primary title of the dataset
-        range: string
-      creators:
-        description: >-
-          Main researchers/authors responsible for creating the dataset. Format: LastName, FirstName (ORCID). Separate multiple with semicolons.
-        range: string
-        multivalued: true
-      contributors:
-        description: >-
-          Additional persons/organizations contributing to the dataset. Format: LastName, FirstName (Role). Separate multiple with semicolons.
-        range: string
-        multivalued: true
       publisher:
         description: Institution/entity responsible for publishing the dataset
         range: string
@@ -4816,20 +4926,15 @@ classes:
       resourceType:
         description: General type of the resource (Dataset, Collection, etc.)
         range: ResourceTypeEnum
-      subjects:
-        description: >-
-          Keywords or subject terms describing the dataset. Use controlled vocabularies (MeSH, SNOMED) when possible.
-        range: string
-        multivalued: true
-      license:
-        description: License or rights statement for dataset use
-        range: string
       licenseURL:
         description: URL to the full license text
         range: string
-      accessRights:
-        description: Information about access restrictions
-        range: AccessRightsEnum
+      dataUseModifiers:
+        title: Data Use Modifiers
+        range: DataUseModifierEnum
+        description: Data Use Ontology (DUO) codes specifying conditions under which this resource may be used.
+        multivalued: true
+        required: false
       fundingReferences:
         description: >-
           Funding support information. Format: Funder Name (Award Number)
@@ -6976,6 +7081,7 @@ classes:
       - completenessLevel
       - studyType
       - participant_count
+      - site_of_onset
     attributes:
       # Clinical-specific data types
       dataType:
@@ -7043,6 +7149,7 @@ classes:
     slots:
       - fileFormat
       - platform
+      - site_of_onset
     attributes:
       # Omic-specific data types
       dataType:
@@ -7062,12 +7169,6 @@ classes:
         description: Type of genetic variant for VCF files
         multivalued: true
         required: false
-      site_of_onset:
-        title: Site of Onset
-        range: SiteOfOnsetEnum
-        description: Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar)
-        multivalued: true
-        required: false
       # Sample tracking
       sampleIdColumn:
         title: Sample ID Column
@@ -7085,6 +7186,18 @@ classes:
         description: Container or repository where biospecimen is stored
         range: string
         required: false
+  SRADataset:
+    is_a: OmicDataset
+    mixins: [SRADatasetMixin]
+    description: >
+      Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive), identified by an NCBI BioProject accession. Inherits all OmicDataset fields.
+
+  SRAFile:
+    is_a: OmicFile
+    mixins: [SRAFileMixin]
+    description: >
+      File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.
+
   SpeechDataset:
     is_a: BaseDataset
     description: >
@@ -7098,15 +7211,14 @@ classes:
         description: Speech-specific data types present in this dataset
         multivalued: true
         required: false
-      # Aggregated SDTM FT domain descriptors (rolled up across all samples)
-      ftTests:
-        title: Functional Tests (FTTEST)
-        range: string
-        description: >
-          Distinct speech functional test names present across all samples in this dataset, sourced from the SDTM FTTEST column.
-
+      # Controlled-vocabulary classification of assessments/tests included in dataset
+      assessmentTypes:
+        title: Assessment Types
+        range: AssessmentTypeEnum
+        description: Types of speech assessments/functional tests included in the dataset
         multivalued: true
         required: false
+      # Aggregated SDTM FT domain descriptors (rolled up across all samples)
       ftTestCodes:
         title: Functional Test Codes (FTTESTCD)
         range: string
@@ -7130,9 +7242,9 @@ classes:
         required: false
       collectionLocation:
         title: Collection Location (SUPPLOC)
-        range: string
+        range: AdministrationLocationEnum
         description: >
-          Setting where speech data was collected (SDTM SUPPLOC), e.g. "In Clinic" or null for remote/home collection.
+          Setting where speech data was collected (SDTM SUPPLOC), e.g. Clinical_Site or Remote/Home collection.
 
         required: false
       sdtmDomain:
@@ -7142,6 +7254,7 @@ classes:
         required: false
   SpeechFile:
     is_a: BaseFile
+    mixins: [SubjectIdentifierMixin]
     description: >
       File or folder containing speech assessment data. Covers sample-level folders (subject annotations), session-level folders (per-test SDTM annotations), and compressed audio archives (zip files of raw WAV recordings).
 
@@ -7157,12 +7270,9 @@ classes:
         required: false
       # -----------------------------------------------------------------------
       # Subject identifiers
+      # nihguid is contributed by SubjectIdentifierMixin; originalSubjectId
+      # (also from SubjectIdentifierMixin) covers the former subjid (SDTM SUBJID) field.
       # -----------------------------------------------------------------------
-      nihguid:
-        title: NIH GUID
-        range: string
-        description: NIH Global Unique Identifier for the subject
-        required: false
       neurostamps:
         title: NeuroStamps
         range: string
@@ -7173,11 +7283,6 @@ classes:
         title: NeuroGUID
         range: string
         description: NeuroGUID identifier for the subject
-        required: false
-      subjid:
-        title: Subject ID (SUBJID)
-        range: string
-        description: Local subject identifier as provided in the SDTM source (SDTM SUBJID)
         required: false
       # -----------------------------------------------------------------------
       # SDTM FT domain fields — sample-level (aggregated per subject folder)
@@ -7245,16 +7350,16 @@ classes:
           Reason the test was not completed. Only applicable when ftStat = "Not Done" (SDTM FTREASND).
 
         required: false
-      ftNam:
-        title: Vendor Name (FTNAM)
+      vendor:
+        title: Vendor / Device (FTNAM)
         range: string
         description: Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)
         required: false
       suppLoc:
         title: Collection Location (SUPPLOC)
-        range: string
+        range: AdministrationLocationEnum
         description: >
-          Location where the speech session was recorded (SDTM SUPPLOC). Typically "In Clinic" for clinic-based collection or null/empty for remote.
+          Location where the speech session was recorded (SDTM SUPPLOC). Typically Clinical_Site for clinic-based collection or Remote/Home for remote collection.
 
         required: false
       sdtmDomain:
@@ -7269,18 +7374,6 @@ classes:
           Session identifier used to link this session folder or archive to the corresponding SDTM FT record (corresponds to FTREFID when Aggregate).
 
         required: false
-  SRADataset:
-    is_a: OmicDataset
-    mixins: [SRADatasetMixin]
-    description: >
-      Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive), identified by an NCBI BioProject accession. Inherits all OmicDataset fields.
-
-  SRAFile:
-    is_a: OmicFile
-    mixins: [SRAFileMixin]
-    description: >
-      File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.
-
   Biospecimen:
     description: Biological specimen information including sample collection, processing, and storage details
     mixins: [SubjectIdentifierMixin, ClinicalRecordMixin, SpecimenTypeMixin]
@@ -7998,6 +8091,11 @@ classes:
         range: SampleTypeEnum
         description: Classification of the sample (e.g. actual sample vs. control type).
         required: false
+      nihguid:
+        title: NIH GUID
+        range: string
+        description: NIH Global Unique Identifier for the subject.
+        required: false
   ClinicalRecordMixin:
     mixin: true
     description: Mixin for attributes linking clinical records to a specific visit
@@ -8209,7 +8307,7 @@ classes:
     attributes:
       visitType:
         title: Visit Type
-        range: string
+        range: VisitTypeEnum
         description: Type of clinical visit (baseline, follow-up, etc.)
         multivalued: true
         required: false
@@ -8615,6 +8713,12 @@ slots:
     description: Tool or method used for sequence alignment.
     range: AlignmentMethodEnum
     required: false
+  site_of_onset:
+    title: Site of Onset
+    description: Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar).
+    range: SiteOfOnsetEnum
+    multivalued: true
+    required: false
   GSE:
     title: GEO Series (GSE)
     description: >
@@ -8679,6 +8783,5 @@ slots:
     range: string
     multivalued: true
     required: false
-# SRA/NCBI identifiers (SRR, SRS, SRX, BioProject, BioSample) are defined canonically
-# in modules/geo_sra/sra.yaml; readLength in modules/shared/props.yaml.
-# Omic file fields are inherited from OmicFile (modules/datasets/OmicFile.yaml).
+# Access/use conditions use the canonical DataUseModifierEnum
+# (modules/shared/common-enums.yaml), same as BaseDataset.dataUseModifiers.

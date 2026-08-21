@@ -85,9 +85,21 @@ enums:
       Legal Metadata:
         description: Provides information about the creator, copyright holder, and public licensing, if provided.
         comments: Can apply to a file with license text.
-      Workflow Metadata: 
-        description: Process data from computational workflows. This is highly related to Statistical Metadata. 
+      Workflow Metadata:
+        description: Process data from computational workflows. This is highly related to Statistical Metadata.
         comments: Coined category for use esp. with nextflow metadata files.
+      Mapping File:
+        description: >
+          A file that maps source data columns and/or values to target data-model
+          fields and enum values, used to drive automated annotation.
+        comments: Covers the mapping/*.dict crosswalk files used in this repo.
+      Data Dictionary:
+        description: Data dictionary file describing variable definitions, codings, and metadata for a dataset.
+      Aggregate Metadata:
+        description: >
+          Subject- or sample-level metadata that combines identifiers/crosswalk
+          keys (e.g., subject ID, NeuroSTAMPs) with aggregate or summary measures
+          (e.g., per-subject averages for specific tests).
 
   UnknownEnum:
     permissible_values:

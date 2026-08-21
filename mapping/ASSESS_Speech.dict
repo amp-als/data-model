@@ -1,0 +1,197 @@
+# Mapping dict: source_column -> target_data_model_field
+# Fill in "target" with the data model field name for each column.
+# For value-mapped columns, fill in the data model value for each source value.
+# Entries with empty string values are ignored during annotation.
+{
+  "SUBJID": "originalSubjectId",
+  "NeuroSTAMPs": "neurostamps",
+  "nihguid": "nihguid",
+  "neuroguid": "neuroguid",
+  "FTCAT": {
+    "target": "dataType",
+    "values": {
+      "Speech Metrics": "dht_speech_vitals"
+    }
+  },
+  "FTTSTDTL": {
+    "target": "ftTstDtl",
+    "values": {
+      "Aggregate": "Aggregate"
+    }
+  },
+  "FTGRPID": {
+    "target": ["ftGrpId","sessionId"]
+  },
+  "FTREFID": "ftRefId",
+  "FTDTC": "ftDtc",
+  "FTTESTCD": {
+    "target": "ftTestCd",
+    "values": {
+      "CA365F2F": "",
+      "CA37153B": "",
+      "CA52304B": "",
+      "CA5550C4": "",
+      "CA55A559": "",
+      "CA6260A2": "",
+      "CA65CBDF": "",
+      "CA662945": "",
+      "CA67FDBA": "",
+      "CA6AEDB2": "",
+      "CA6E2CA5": "",
+      "CA76C0EB": "",
+      "CA798775": "",
+      "CA7E15A5": "",
+      "CA829FB6": "",
+      "CA8EE996": "",
+      "CA9575F8": "",
+      "CAACFCCC": "",
+      "MA06570E": "",
+      "MA42FC84": "",
+      "MA43BE3E": "",
+      "MA48CB4A": "",
+      "MA685F8D": "",
+      "MA8A225A": "",
+      "MA8D60D3": "",
+      "MA9099AD": "",
+      "MA9A2FD9": "",
+      "MA9A3E64": "",
+      "MAA46BFA": "",
+      "MAC168D2": "",
+      "MAC21325": "",
+      "MAC97025": "",
+      "MAD174CB": "",
+      "MAD2B037": "",
+      "MAFBFC11": ""
+    }
+  },
+  "FTTEST": {
+    "target": "ftTest",
+    "values": {
+      "MAX DELAYED WORD RECALL SCORE": "",
+      "MAX IMMED WORD RECALL SCORE": "",
+      "MAX PHONATION TOTAL DUR PAUSELESS PHON": "",
+      "MAX REPEATED PHRASE BUTTERCUP COUNT": "",
+      "MEAN CATEGORY NAMING PAUSE RATE": "",
+      "MEAN CATEGORY NAMING VERBAL FLUENCY": "",
+      "MEAN DELAYED STORY RECALL SCORE": "",
+      "MEAN DELAYED STORY RECALL SEMANTIC RELEV": "",
+      "MEAN DELAYED STORY RECALL START TIME": "",
+      "MEAN FIXED SENTENCE VOICING REGULATION": "",
+      "MEAN IMAGE DESCR ASR SPEAKING RATE": "",
+      "MEAN IMAGE DESCR AVG PAUSE DUR": "",
+      "MEAN IMAGE DESCR MONOTONICITY": "",
+      "MEAN IMAGE DESCR SCORE": "",
+      "MEAN IMAGE DESCR SEMANTIC RELEV": "",
+      "MEAN IMAGE DESCR TOTAL DUR": "",
+      "MEAN IMMED STORY RECALL SCORE": "",
+      "MEAN IMMED STORY RECALL VOLITION 1": "",
+      "MEAN OBJECT RECALL AVG PAUSE DUR": "",
+      "MEAN OBJECT RECALL SCORE": "",
+      "MEAN OBJECT RECALL START TIME": "",
+      "MEAN PHONATION BREATHINESS": "",
+      "MEAN PHONATION PITCH INSTABILITY": "",
+      "MEAN SENTENCE ARTIC PRECISION": "",
+      "MEAN SENTENCE ASR ARTICULATION RATE": "",
+      "MEAN SENTENCE ASR SPEAKING RATE": "",
+      "MEAN SENTENCE MONOTONICITY": "",
+      "MEAN SENTENCE PAUSE RATE": "",
+      "MEAN VISUAL NAMING INTRAWORD PAUSE TIME": "",
+      "MEAN VISUAL NAMING PERCENT WORDS MISSED": "",
+      "MEAN VISUAL NAMING TOTAL DUR": "",
+      "MEAN VISUAL SEARCH INTRAWORD PAUSE TIME": "",
+      "MEAN VISUAL SEARCH PERCENT WORDS MISSED": "",
+      "MEAN VISUAL SEARCH TOTAL DUR": "",
+      "MIN DELAYED WORD RECALL LATENCY": ""
+    }
+  },
+  "FTORRES": "",
+  "FTSTRESC": "",
+  "FTSTRESN": "",
+  "FTORRESU": {
+    "target": "",
+    "values": {
+      "Buttercups": "",
+      "Hz": "",
+      "count (items)": "",
+      "count (objects)": "",
+      "count (words)": "",
+      "dB": "",
+      "ratio": "",
+      "sec": "",
+      "syllables/sec": ""
+    }
+  },
+  "FTSTRESU": {
+    "target": "ftStresu",
+    "values": {
+      "Buttercups": "",
+      "Hz": "",
+      "count (items)": "",
+      "count (objects)": "",
+      "count (words)": "",
+      "dB": "",
+      "ratio": "",
+      "sec": "",
+      "syllables/sec": ""
+    }
+  },
+  "FTSTAT": {
+    "target": "ftStat",
+    "values": {
+      "NOT DONE": "Not Done"
+    }
+  },
+  "FTREASND": "ftReasnd",
+  "DOMAIN": {
+    "target": "sdtmDomain",
+    "values": {
+      "FT": "FT"
+    }
+  },
+  "FTNAM": {
+    "target": "vendor",
+    "values": {
+      "AURAL ANALYTICS": "Aural Analytics"
+    }
+  },
+  "SUPPLOC": {
+    "target": "suppLoc",
+    "values": {
+      "IN CLINIC": "Clinical_Site"
+    }
+  },
+  "originalRepository": {
+    "target": "originalRepository",
+    "value": "Linus Health"
+  },
+  "contributor": {
+    "target": "contributor",
+    "value": "ALL ALS"
+  },
+  "creator": {
+    "target": "creator",
+    "value": "ALL ALS"
+  },
+  "curationLevel": {
+    "target": "curationLevel",
+    "value": "Raw" 
+  },
+  "disease" : {
+    "target": "disease",
+    "value": "ALS"
+  },
+  "program" : {
+    "target": "program",
+    "value": "ALL ALS"
+  },
+
+  "species" : {
+    "target": "species",
+    "value": "Homo sapiens"
+  },
+
+  "fileFormat" : {
+    "target": "fileFormat",
+    "value": "wav"
+  }
+}

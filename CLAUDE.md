@@ -21,6 +21,19 @@ Non-negotiable highlights (the full rules live in that doc):
   emitted unconstrained.
 - **Always rebuild and verify** after a change (see §8 of the rules doc).
 
+## synapse_dataset_manager.py changes — REQUIRED documentation
+
+**Whenever you add a new command/subcommand, flag, or otherwise user-facing feature to
+`synapse_dataset_manager.py`, you MUST document it in
+[`docs/QUICK_REFERENCE.md`](docs/QUICK_REFERENCE.md) in the same change — no exceptions.**
+
+- Add a new numbered section (or extend an existing one) with a runnable example command
+  and a short explanation of what it does and its key flags.
+- Add the new subcommand to the `--help` examples list at the bottom of that doc.
+- If the feature is substantial enough to need a deeper writeup, add a dedicated doc under
+  `docs/` (see `docs/UPLOAD_LOCAL_WORKFLOW.md`, `docs/RENAME_FILES.md` for examples) and
+  link it from the `QUICK_REFERENCE.md` entry.
+
 ## Build environment
 
 All build/CLI commands run through the `amp-als` env:

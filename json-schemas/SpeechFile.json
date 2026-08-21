@@ -67,6 +67,10 @@
       "title": "Curation Level",
       "type": "array"
     },
+    "dataSourcePrefix": {
+      "description": "Short identifier indicating the data source origin.",
+      "title": "Data Source Prefix"
+    },
     "dataType": {
       "description": "Speech-specific data type(s) for this file or folder",
       "items": {
@@ -467,6 +471,7 @@
               "txt",
               "vcf",
               "wiggle",
+              "xlsx",
               "xml",
               "yaml",
               "h5",
@@ -497,11 +502,6 @@
       },
       "title": "Group ID (FTGRPID)",
       "type": "array"
-    },
-    "ftNam": {
-      "description": "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)",
-      "title": "Vendor Name (FTNAM)",
-      "type": "string"
     },
     "ftReasnd": {
       "description": "Reason the test was not completed. Only applicable when ftStat = \"Not Done\" (SDTM FTREASND).\n",
@@ -566,6 +566,12 @@
       "title": "Measurement Detail (FTTSTDTL)",
       "type": "array"
     },
+    "globalSubjectId": {
+      "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "title": "Global Subject ID",
+      "type": "string"
+    },
     "keywords": {
       "description": "Descriptive keywords or terms for improved search and discovery.",
       "items": {
@@ -588,7 +594,7 @@
       "type": "array"
     },
     "nihguid": {
-      "description": "NIH Global Unique Identifier for the subject",
+      "description": "NIH Global Unique Identifier for the subject.",
       "title": "NIH GUID",
       "type": "string"
     },
@@ -608,7 +614,8 @@
               "Critical Path Institute",
               "Target ALS",
               "Sequencing Read Archive",
-              "ALL ALS"
+              "ALL ALS",
+              "Linus Health"
             ]
           },
           {
@@ -618,6 +625,11 @@
       },
       "title": "Original Repository",
       "type": "array"
+    },
+    "originalSubjectId": {
+      "description": "Original subject identifier as provided by the data source.",
+      "title": "Original Subject ID",
+      "type": "string"
     },
     "program": {
       "description": "Research consortium(s) or program(s) that produced or funded this resource.",
@@ -654,6 +666,10 @@
       "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
       "title": "Same As",
       "type": "string"
+    },
+    "sampleType": {
+      "description": "Classification of the sample (e.g. actual sample vs. control type).",
+      "title": "Sample Type"
     },
     "sdtmDomain": {
       "description": "SDTM domain abbreviation; always \"FT\" for functional test records (SDTM DOMAIN)",
@@ -703,15 +719,26 @@
       "title": "Subject",
       "type": "array"
     },
-    "subjid": {
-      "description": "Local subject identifier as provided in the SDTM source (SDTM SUBJID)",
-      "title": "Subject ID (SUBJID)",
-      "type": "string"
-    },
     "suppLoc": {
-      "description": "Location where the speech session was recorded (SDTM SUPPLOC). Typically \"In Clinic\" for clinic-based collection or null/empty for remote.\n",
+      "description": "Location where the speech session was recorded (SDTM SUPPLOC). Typically Clinical_Site for clinic-based collection or Remote/Home for remote collection.\n",
       "title": "Collection Location (SUPPLOC)",
-      "type": "string"
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "Clinical_Site",
+            "Hospital",
+            "Home",
+            "Nursing_Home",
+            "Other_Healthcare_Facility",
+            "Remote",
+            "Other"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
     },
     "title": {
       "items": {
@@ -727,6 +754,11 @@
       },
       "title": "URL",
       "type": "array"
+    },
+    "vendor": {
+      "description": "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)",
+      "title": "Vendor / Device (FTNAM)",
+      "type": "string"
     }
   },
   "required": [

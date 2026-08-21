@@ -339,6 +339,9 @@ enums:
       wiggle:
         description: Wiggle format (WIG) of a sequence annotation track that consists of a value for each sequence position
         meaning: http://edamontology.org/format_3005
+      xlsx:
+        description: Microsoft Excel Open XML spreadsheet format with expected extension ".xlsx".
+        source: https://synapse.org
       xml:
         description: eXtensible Markup Language (XML) format.
         meaning: http://edamontology.org/format_2332

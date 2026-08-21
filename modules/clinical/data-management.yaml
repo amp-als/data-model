@@ -337,41 +337,8 @@ enums:
       Queries_Outstanding:
         description: Outstanding data queries
 
-  AdministrationModeEnum:
-    permissible_values:
-      In_Person:
-        description: In-person administration
-      Telephone:
-        description: Telephone administration
-      Video_Conference:
-        description: Video conference administration
-      Self_Administered:
-        description: Self-administered by subject
-      Caregiver_Assisted:
-        description: Caregiver-assisted administration
-      Paper_Form:
-        description: Paper form administration
-      Electronic_Form:
-        description: Electronic form administration
-      Other:
-        description: Other administration mode
-
-  AdministrationLocationEnum:
-    permissible_values:
-      Clinical_Site:
-        description: Clinical research site
-      Hospital:
-        description: Hospital setting
-      Home:
-        description: Subject's home
-      Nursing_Home:
-        description: Nursing home or care facility
-      Other_Healthcare_Facility:
-        description: Other healthcare facility
-      Remote:
-        description: Remote location
-      Other:
-        description: Other location
+  # AdministrationModeEnum and AdministrationLocationEnum are defined canonically in
+  # modules/clinical/administration.yaml.
 
   LanguageEnum:
     permissible_values:

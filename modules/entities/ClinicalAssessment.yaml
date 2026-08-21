@@ -408,22 +408,7 @@ classes:
         required: false
 
 enums:
-  AdministrationModeEnum:
-    permissible_values:
-      In_Person:
-        description: In-person administration
-      Telephone:
-        description: Telephone administration
-      Video_Call:
-        description: Video call administration
-      Self_Administered:
-        description: Self-administered
-      Caregiver_Assisted:
-        description: Caregiver-assisted administration
-      Other:
-        description: Other administration mode
-      partner_assessment: 
-        description: Assessment completed by a patient’s partner or caregiver, typically via questionnaire or interview.
+  # AdministrationModeEnum is defined canonically in modules/clinical/administration.yaml.
 
   HandednessEnum:
     permissible_values:

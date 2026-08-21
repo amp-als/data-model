@@ -12,6 +12,7 @@
 classes:
   SpeechFile:
     is_a: BaseFile
+    mixins: [SubjectIdentifierMixin]
     description: >
       File or folder containing speech assessment data. Covers sample-level folders
       (subject annotations), session-level folders (per-test SDTM annotations), and
@@ -29,12 +30,9 @@ classes:
 
       # -----------------------------------------------------------------------
       # Subject identifiers
+      # nihguid is contributed by SubjectIdentifierMixin; originalSubjectId
+      # (also from SubjectIdentifierMixin) covers the former subjid (SDTM SUBJID) field.
       # -----------------------------------------------------------------------
-      nihguid:
-        title: NIH GUID
-        range: string
-        description: NIH Global Unique Identifier for the subject
-        required: false
       neurostamps:
         title: NeuroStamps
         range: string
@@ -45,11 +43,6 @@ classes:
         title: NeuroGUID
         range: string
         description: NeuroGUID identifier for the subject
-        required: false
-      subjid:
-        title: Subject ID (SUBJID)
-        range: string
-        description: Local subject identifier as provided in the SDTM source (SDTM SUBJID)
         required: false
 
       # -----------------------------------------------------------------------
@@ -119,17 +112,18 @@ classes:
           Reason the test was not completed. Only applicable when ftStat = "Not Done"
           (SDTM FTREASND).
         required: false
-      ftNam:
-        title: Vendor Name (FTNAM)
+      vendor:
+        title: Vendor / Device (FTNAM)
         range: string
         description: Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)
         required: false
       suppLoc:
         title: Collection Location (SUPPLOC)
-        range: string
+        range: AdministrationLocationEnum
         description: >
           Location where the speech session was recorded (SDTM SUPPLOC).
-          Typically "In Clinic" for clinic-based collection or null/empty for remote.
+          Typically Clinical_Site for clinic-based collection or Remote/Home for
+          remote collection.
         required: false
       sdtmDomain:
         title: SDTM Domain (DOMAIN)

@@ -981,6 +981,11 @@
       "title": "Library Source",
       "type": "array"
     },
+    "nihguid": {
+      "description": "NIH Global Unique Identifier for the subject.",
+      "title": "NIH GUID",
+      "type": "string"
+    },
     "originalRepository": {
       "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
       "items": {
@@ -997,7 +1002,8 @@
               "Critical Path Institute",
               "Target ALS",
               "Sequencing Read Archive",
-              "ALL ALS"
+              "ALL ALS",
+              "Linus Health"
             ]
           },
           {
@@ -1204,7 +1210,10 @@
               "Key Study Events",
               "Remote Follow-up",
               "Telephone Follow-up",
-              "Visit Management"
+              "Visit Management",
+              "Phenoconversion Evaluation",
+              "Ad-Hoc Symptom Evaluation Visit",
+              "Other"
             ]
           },
           {

@@ -960,6 +960,7 @@
               "txt",
               "vcf",
               "wiggle",
+              "xlsx",
               "xml",
               "yaml",
               "h5",
@@ -1093,6 +1094,11 @@
       "title": "Library Source",
       "type": "array"
     },
+    "nihguid": {
+      "description": "NIH Global Unique Identifier for the subject.",
+      "title": "NIH GUID",
+      "type": "string"
+    },
     "originalRepository": {
       "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
       "items": {
@@ -1109,7 +1115,8 @@
               "Critical Path Institute",
               "Target ALS",
               "Sequencing Read Archive",
-              "ALL ALS"
+              "ALL ALS",
+              "Linus Health"
             ]
           },
           {
