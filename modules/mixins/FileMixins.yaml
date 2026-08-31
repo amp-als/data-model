@@ -24,7 +24,7 @@ classes:
   ClinicalFileMixin:
     mixin: true
     description: Mixin for clinical file specific attributes
-    mixins: [SubjectIdentifierMixin, FileAnnotationsMixin]
+    mixins: [FileAnnotationsMixin]
     slots:
       - clinicalDomain
       - studyPhase
@@ -39,7 +39,7 @@ classes:
   OmicFileMixin:
     mixin: true
     description: Mixin for omic file specific attributes
-    mixins: [SubjectIdentifierMixin, SpecimenTypeMixin, FileAnnotationsMixin, SubjectDemographicsMixin]
+    mixins: [FileAnnotationsMixin]
     slots:
       - assay
       - libraryLayout
@@ -48,14 +48,25 @@ classes:
       - GEOSuperSeries
       - FACSPopulation
       - alignmentMethod
-    attributes:
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date when the specimen was collected.
-        required: false
-      originalSampleId:
-        title: Original Sample ID
-        range: string
-        description: Original sample identifier as provided by the data source.
-        required: false
+
+  RecordSetFileMixin:
+    mixin: true
+    description: >
+      Mixin for aggregate ("record set") files that contain data for many
+      subjects/samples in a single file (e.g. tabular exports, expression
+      matrices) rather than one file per subject/sample.
+    slots:
+      - participant_count
+      - recordCount
+      - studyType
+      - completenessLevel
+      - hasLongitudinalData
+      - keyMeasures
+      - viewName
+
+  FileSetFileMixin:
+    mixin: true
+    description: >
+      Mixin for individual ("file set") files scoped to a single subject or
+      sample (one file per entity) rather than a multi-subject/sample record set.
+    mixins: [SubjectIdentifierMixin]

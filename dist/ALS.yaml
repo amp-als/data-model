@@ -7069,18 +7069,15 @@ classes:
         required: false
   ClinicalFile:
     is_a: BaseFile
+    abstract: true
     mixins: [ClinicalFileMixin]
-    description: File containing clinical data such as assessments, visits, treatments, or medical history
+    description: >
+      Abstract base for files containing clinical data such as assessments, visits, treatments, or medical history. Shared by the aggregate (ClinicalRecordSetFile) and individual (ClinicalFileSetFile) variants below.
+
     slots:
       - fileFormat
       - assessmentType
       - administrationMode
-      - studyPhase
-      - keyMeasures
-      - hasLongitudinalData
-      - completenessLevel
-      - studyType
-      - participant_count
       - site_of_onset
     attributes:
       # Clinical-specific data types
@@ -7090,32 +7087,31 @@ classes:
         description: Clinical data types (assessments, treatments, medical history, etc.)
         multivalued: true
         required: false
-      # File metadata
-      viewName:
-        title: View Name
-        range: string
-        description: Name of the Synapse view or query used to generate the file
-        multivalued: true
-        required: false
-      recordCount:
-        title: Record Count
-        range: integer
-        description: Number of records (rows) contained in the data file
-        multivalued: true
-        required: false
       datasetReference:
         title: Dataset Reference
         range: string
         description: Reference to dataset this file belongs to
         multivalued: true
         required: false
-      # Subject tracking
+  ClinicalRecordSetFile:
+    is_a: ClinicalFile
+    mixins: [RecordSetFileMixin]
+    description: >
+      Clinical file that aggregates records across many subjects in a single file (e.g. a tabular assessment export or dataset-level CSV/TSV extract with one row per subject/visit), rather than one file per subject.
+
+    attributes:
       subjectIdColumn:
         title: Subject ID Column
         range: string
         description: Name of the column containing subject identifiers
         multivalued: true
         required: false
+  ClinicalFileSetFile:
+    is_a: ClinicalFile
+    mixins: [FileSetFileMixin]
+    description: >
+      Clinical file scoped to a single subject (e.g. a per-subject case report form export or single-subject longitudinal record), rather than a multi-subject table.
+
   GEODataset:
     is_a: SRADataset
     mixins: [GEODatasetMixin]
@@ -7144,8 +7140,11 @@ classes:
         required: false
   OmicFile:
     is_a: BaseFile
+    abstract: true
     mixins: [OmicFileMixin]
-    description: File containing omic data such as sequencing, expression, or proteomics data
+    description: >
+      Abstract base for files containing omic data such as sequencing, expression, or proteomics data. Shared by the aggregate (OmicRecordSetFile) and individual (OmicFileSetFile) variants below.
+
     slots:
       - fileFormat
       - platform
@@ -7169,11 +7168,34 @@ classes:
         description: Type of genetic variant for VCF files
         multivalued: true
         required: false
-      # Sample tracking
+  OmicRecordSetFile:
+    is_a: OmicFile
+    mixins: [RecordSetFileMixin]
+    description: >
+      Omic file that aggregates data across many samples in a single file (e.g. an expression/count matrix or a multi-sample VCF), rather than one file per sample.
+
+    attributes:
       sampleIdColumn:
         title: Sample ID Column
         range: string
         description: Name of the column containing sample identifiers
+        required: false
+  OmicFileSetFile:
+    is_a: OmicFile
+    mixins: [FileSetFileMixin, SpecimenTypeMixin, SubjectDemographicsMixin]
+    description: >
+      Omic file scoped to a single sample/specimen (e.g. a per-sample BAM, FASTQ, or single-sample VCF), rather than a multi-sample matrix.
+
+    attributes:
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
+        required: false
+      originalSampleId:
+        title: Original Sample ID
+        range: string
+        description: Original sample identifier as provided by the data source.
         required: false
       # Biospecimen Collection and Storage
       collectionSite:
@@ -7193,10 +7215,10 @@ classes:
       Dataset containing omic data sourced from NCBI SRA (Sequence Read Archive), identified by an NCBI BioProject accession. Inherits all OmicDataset fields.
 
   SRAFile:
-    is_a: OmicFile
+    is_a: OmicFileSetFile
     mixins: [SRAFileMixin]
     description: >
-      File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.
+      File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFileSetFile fields, since SRA records are always per-sample/per-run.
 
   SpeechDataset:
     is_a: BaseDataset
@@ -8300,7 +8322,7 @@ classes:
   ClinicalFileMixin:
     mixin: true
     description: Mixin for clinical file specific attributes
-    mixins: [SubjectIdentifierMixin, FileAnnotationsMixin]
+    mixins: [FileAnnotationsMixin]
     slots:
       - clinicalDomain
       - studyPhase
@@ -8314,7 +8336,7 @@ classes:
   OmicFileMixin:
     mixin: true
     description: Mixin for omic file specific attributes
-    mixins: [SubjectIdentifierMixin, SpecimenTypeMixin, FileAnnotationsMixin, SubjectDemographicsMixin]
+    mixins: [FileAnnotationsMixin]
     slots:
       - assay
       - libraryLayout
@@ -8323,17 +8345,25 @@ classes:
       - GEOSuperSeries
       - FACSPopulation
       - alignmentMethod
-    attributes:
-      collectionDate:
-        title: Collection Date
-        range: date
-        description: Date when the specimen was collected.
-        required: false
-      originalSampleId:
-        title: Original Sample ID
-        range: string
-        description: Original sample identifier as provided by the data source.
-        required: false
+  RecordSetFileMixin:
+    mixin: true
+    description: >
+      Mixin for aggregate ("record set") files that contain data for many subjects/samples in a single file (e.g. tabular exports, expression matrices) rather than one file per subject/sample.
+
+    slots:
+      - participant_count
+      - recordCount
+      - studyType
+      - completenessLevel
+      - hasLongitudinalData
+      - keyMeasures
+      - viewName
+  FileSetFileMixin:
+    mixin: true
+    description: >
+      Mixin for individual ("file set") files scoped to a single subject or sample (one file per entity) rather than a multi-subject/sample record set.
+
+    mixins: [SubjectIdentifierMixin]
   Dataset:
     is_a: BaseDataset
     mixins: [ClinicalDatasetMixin, OmicDatasetMixin]
@@ -8349,12 +8379,46 @@ classes:
       - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy
   File:
     is_a: BaseFile
-    mixins: [ClinicalFileMixin, OmicFileMixin]
-    description: Model for file on the AMP-ALS portal - union of clinical and omic file types
+    mixins: [ClinicalFileMixin, OmicFileMixin, RecordSetFileMixin, FileSetFileMixin, SpecimenTypeMixin, SubjectDemographicsMixin]
+    description: Model for file on the AMP-ALS portal - union of clinical and omic, aggregate and individual file types
     notes:
       - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
-      - This schema inherits from BaseFile and combines attributes from both clinical and omic file types for backward compatibility
+      - This schema inherits from BaseFile and combines attributes from both clinical and omic file types, and both the aggregate (RecordSet) and individual (FileSet) tiers, for backward compatibility
       - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy
+    attributes:
+      # Aggregate-tier fields (ClinicalRecordSetFile / OmicRecordSetFile)
+      subjectIdColumn:
+        title: Subject ID Column
+        range: string
+        description: Name of the column containing subject identifiers
+        multivalued: true
+        required: false
+      sampleIdColumn:
+        title: Sample ID Column
+        range: string
+        description: Name of the column containing sample identifiers
+        required: false
+      # Individual-tier fields (OmicFileSetFile)
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
+        required: false
+      originalSampleId:
+        title: Original Sample ID
+        range: string
+        description: Original sample identifier as provided by the data source.
+        required: false
+      collectionSite:
+        title: Collection Site
+        description: Site or institution where biospecimen was collected
+        range: string
+        required: false
+      storageContainer:
+        title: Storage Container
+        description: Container or repository where biospecimen is stored
+        range: string
+        required: false
 slots:
   Component:
     description: Type of metadata template; provide the same one for all items/rows.
@@ -8707,6 +8771,18 @@ slots:
     title: Participant Count
     description: Number of unique individuals included in this entity (individual-level or aggregate data). Omit if not applicable or unknown.
     range: integer
+    required: false
+  recordCount:
+    title: Record Count
+    description: Number of records (rows) contained in the data file.
+    range: integer
+    multivalued: true
+    required: false
+  viewName:
+    title: View Name
+    description: Name of the Synapse view or query used to generate the file.
+    range: string
+    multivalued: true
     required: false
   alignmentMethod:
     title: Alignment Method

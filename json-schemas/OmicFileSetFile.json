@@ -1,44 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-sra-file",
-  "title": "SRAFile",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file-set-file",
+  "title": "OmicFileSetFile",
   "type": "object",
-  "description": "File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFileSetFile fields, since SRA records are always per-sample/per-run.",
+  "description": "Omic file scoped to a single sample/specimen (e.g. a per-sample BAM, FASTQ, or single-sample VCF), rather than a multi-sample matrix.",
   "additionalProperties": {},
   "properties": {
-    "BioProject": {
-      "description": "NCBI BioProject accession(s) the entity belongs to (e.g. PRJNA522296).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "BioProject",
-      "type": "array"
-    },
-    "BioSample": {
-      "description": "NCBI BioSample accession(s) associated with the sample this file represents (e.g. SAMN10926465).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "BioSample",
-      "type": "array"
-    },
-    "CNSRegion": {
-      "description": "Central nervous system region",
-      "title": "CNS Region",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "middle frontal cortex",
-            "primary motor cortex",
-            "dorsolateral prefrontal cortex"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
-    },
     "FACSPopulation": {
       "description": "FACS-sorted cell population description.",
       "items": {
@@ -51,38 +18,6 @@
       "description": "GEO SuperSeries identifier for the dataset or file.",
       "title": "GEO SuperSeries",
       "type": "string"
-    },
-    "SRP": {
-      "description": "NCBI Sequence Read Archive Study accession(s) the entity belongs to (e.g. SRP186450).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Study (SRP)",
-      "type": "array"
-    },
-    "SRR": {
-      "description": "NCBI Sequence Read Archive Run accession(s) for the sequencing run this file represents (e.g. SRR8571953).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Run (SRR)",
-      "type": "array"
-    },
-    "SRS": {
-      "description": "NCBI Sequence Read Archive Sample accession(s) associated with the entity (e.g. SRS4361197).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Sample (SRS)",
-      "type": "array"
-    },
-    "SRX": {
-      "description": "NCBI Sequence Read Archive Experiment accession(s) associated with the entity (e.g. SRX5373084).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Experiment (SRX)",
-      "type": "array"
     },
     "age": {
       "description": "Age of subject in years.",
@@ -428,11 +363,6 @@
       },
       "title": "Measurement Technique",
       "type": "array"
-    },
-    "biospecimenSubtype": {
-      "description": "More specific biospecimen classification",
-      "title": "Biospecimen Subtype",
-      "type": "string"
     },
     "biospecimenType": {
       "description": "Type of biological specimen(s).",
@@ -1057,11 +987,6 @@
       "title": "Height (cm)",
       "type": "number"
     },
-    "isPostMortem": {
-      "description": "Whether specimen was collected post-mortem",
-      "title": "Post-mortem Status",
-      "type": "boolean"
-    },
     "keywords": {
       "description": "Descriptive keywords or terms for improved search and discovery.",
       "items": {
@@ -1173,29 +1098,6 @@
       "description": "NIH Global Unique Identifier for the subject.",
       "title": "NIH GUID",
       "type": "string"
-    },
-    "nucleicAcidSource": {
-      "description": "Source of nucleic acid for library preparation",
-      "title": "Nucleic Acid Source",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "bulk cell",
-            "bulk nuclei",
-            "mitochondria",
-            "single cell",
-            "single nucleus",
-            "bromouridine-labeled total RNA",
-            "Tn5-accessible gDNA",
-            "genomic DNA",
-            "nuclear RNA"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
     },
     "originalRepository": {
       "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
@@ -1439,14 +1341,6 @@
       "description": "Race/ethnicity of subject.",
       "title": "Race/Ethnicity"
     },
-    "readLength": {
-      "description": "Length of sequencing reads in base pairs",
-      "items": {
-        "type": "integer"
-      },
-      "title": "Read Length",
-      "type": "array"
-    },
     "referenceGenome": {
       "description": "Reference genome used for alignment",
       "title": "Reference Genome",
@@ -1560,16 +1454,6 @@
       },
       "title": "Title",
       "type": "array"
-    },
-    "totalBases": {
-      "description": "Total number of sequenced bases",
-      "title": "Total Bases",
-      "type": "integer"
-    },
-    "totalReads": {
-      "description": "Total number of sequencing reads. Derived as totalBases / readLength (i.e. Bases / AvgSpotLen from SRA run metadata).\n",
-      "title": "Total Reads",
-      "type": "integer"
     },
     "url": {
       "description": "URL(s) for the resource, including its original location and any external data catalogs where it is listed.",

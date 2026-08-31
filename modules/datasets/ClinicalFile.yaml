@@ -6,18 +6,16 @@
 classes:
   ClinicalFile:
     is_a: BaseFile
+    abstract: true
     mixins: [ClinicalFileMixin]
-    description: File containing clinical data such as assessments, visits, treatments, or medical history
+    description: >
+      Abstract base for files containing clinical data such as assessments, visits,
+      treatments, or medical history. Shared by the aggregate (ClinicalRecordSetFile)
+      and individual (ClinicalFileSetFile) variants below.
     slots:
       - fileFormat
       - assessmentType
       - administrationMode
-      - studyPhase
-      - keyMeasures
-      - hasLongitudinalData
-      - completenessLevel
-      - studyType
-      - participant_count
       - site_of_onset
     attributes:
       # Clinical-specific data types
@@ -27,29 +25,32 @@ classes:
         description: Clinical data types (assessments, treatments, medical history, etc.)
         multivalued: true
         required: false
-      # File metadata
-      viewName:
-        title: View Name
-        range: string
-        description: Name of the Synapse view or query used to generate the file
-        multivalued: true
-        required: false
-      recordCount:
-        title: Record Count
-        range: integer
-        description: Number of records (rows) contained in the data file
-        multivalued: true
-        required: false
       datasetReference:
         title: Dataset Reference
         range: string
         description: Reference to dataset this file belongs to
         multivalued: true
         required: false
-      # Subject tracking
+
+  ClinicalRecordSetFile:
+    is_a: ClinicalFile
+    mixins: [RecordSetFileMixin]
+    description: >
+      Clinical file that aggregates records across many subjects in a single file
+      (e.g. a tabular assessment export or dataset-level CSV/TSV extract with one
+      row per subject/visit), rather than one file per subject.
+    attributes:
       subjectIdColumn:
         title: Subject ID Column
         range: string
         description: Name of the column containing subject identifiers
         multivalued: true
         required: false
+
+  ClinicalFileSetFile:
+    is_a: ClinicalFile
+    mixins: [FileSetFileMixin]
+    description: >
+      Clinical file scoped to a single subject (e.g. a per-subject case report
+      form export or single-subject longitudinal record), rather than a
+      multi-subject table.

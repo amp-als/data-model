@@ -6,8 +6,12 @@
 classes:
   OmicFile:
     is_a: BaseFile
+    abstract: true
     mixins: [OmicFileMixin]
-    description: File containing omic data such as sequencing, expression, or proteomics data
+    description: >
+      Abstract base for files containing omic data such as sequencing, expression, or
+      proteomics data. Shared by the aggregate (OmicRecordSetFile) and individual
+      (OmicFileSetFile) variants below.
     slots:
       - fileFormat
       - platform
@@ -32,13 +36,36 @@ classes:
         multivalued: true
         required: false
 
-      # Sample tracking
+  OmicRecordSetFile:
+    is_a: OmicFile
+    mixins: [RecordSetFileMixin]
+    description: >
+      Omic file that aggregates data across many samples in a single file (e.g. an
+      expression/count matrix or a multi-sample VCF), rather than one file per sample.
+    attributes:
       sampleIdColumn:
         title: Sample ID Column
         range: string
         description: Name of the column containing sample identifiers
         required: false
 
+  OmicFileSetFile:
+    is_a: OmicFile
+    mixins: [FileSetFileMixin, SpecimenTypeMixin, SubjectDemographicsMixin]
+    description: >
+      Omic file scoped to a single sample/specimen (e.g. a per-sample BAM, FASTQ, or
+      single-sample VCF), rather than a multi-sample matrix.
+    attributes:
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
+        required: false
+      originalSampleId:
+        title: Original Sample ID
+        range: string
+        description: Original sample identifier as provided by the data source.
+        required: false
       # Biospecimen Collection and Storage
       collectionSite:
         title: Collection Site

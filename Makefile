@@ -1,4 +1,4 @@
-all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile OmicFile GEODataset GEOFile SRADataset SRAFile SpeechDataset SpeechFile MetadataSchema
+all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile ClinicalRecordSetFile ClinicalFileSetFile OmicFile OmicRecordSetFile OmicFileSetFile GEODataset GEOFile SRADataset SRAFile SpeechDataset SpeechFile MetadataSchema
 
 ALS.jsonld: dist/ALS.yaml
 	bb ./retold/retold as-jsonld --dir modules --out ALS.jsonld
@@ -74,6 +74,29 @@ ClinicalFile:
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/ClinicalFile.json ---"
 
+# ClinicalRecordSetFile/ClinicalFileSetFile are the aggregate/individual concrete
+# subclasses of the (now abstract) ClinicalFile; same merged module list since both
+# classes are defined in modules/datasets/ClinicalFile.yaml, already merged above.
+ClinicalRecordSetFile:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".ClinicalRecordSetFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-record-set-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalRecordSetFile.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/ClinicalRecordSetFile.json ---"
+
+ClinicalFileSetFile:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".ClinicalFileSetFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file-set-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalFileSetFile.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/ClinicalFileSetFile.json ---"
+
 OmicFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
@@ -83,6 +106,29 @@ OmicFile:
 	jq '."$$defs".OmicFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/OmicFile.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/OmicFile.json ---"
+
+# OmicRecordSetFile/OmicFileSetFile are the aggregate/individual concrete subclasses
+# of the (now abstract) OmicFile; same merged module list since both classes are
+# defined in modules/datasets/OmicFile.yaml, already merged above.
+OmicRecordSetFile:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".OmicRecordSetFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-record-set-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/OmicRecordSetFile.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/OmicRecordSetFile.json ---"
+
+OmicFileSetFile:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".OmicFileSetFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file-set-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/OmicFileSetFile.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/OmicFileSetFile.json ---"
 
 # GEO/SRA schemas derive from OmicDataset/OmicFile (is_a), so their targets mirror
 # the Omic targets and additionally merge the OmicDataset/OmicFile source plus the

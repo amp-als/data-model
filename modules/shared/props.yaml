@@ -496,6 +496,22 @@ slots:
     in_subset:
       - portal
     required: false
+  recordCount:
+    title: Record Count
+    description: Number of records (rows) contained in the data file.
+    range: integer
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  viewName:
+    title: View Name
+    description: Name of the Synapse view or query used to generate the file.
+    range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
   alignmentMethod:
     title: Alignment Method
     description: Tool or method used for sequence alignment.

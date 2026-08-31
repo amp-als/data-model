@@ -8,9 +8,43 @@
 classes:
   File:
     is_a: BaseFile
-    mixins: [ClinicalFileMixin, OmicFileMixin]
-    description: Model for file on the AMP-ALS portal - union of clinical and omic file types
+    mixins: [ClinicalFileMixin, OmicFileMixin, RecordSetFileMixin, FileSetFileMixin, SpecimenTypeMixin, SubjectDemographicsMixin]
+    description: Model for file on the AMP-ALS portal - union of clinical and omic, aggregate and individual file types
     notes:
     - There will be mappings available to this target schema from various source schemas stored in Core Models or under mappings/*
-    - This schema inherits from BaseFile and combines attributes from both clinical and omic file types for backward compatibility
+    - This schema inherits from BaseFile and combines attributes from both clinical and omic file types, and both the aggregate (RecordSet) and individual (FileSet) tiers, for backward compatibility
     - Uses mixins to avoid code duplication and maintain clean inheritance hierarchy
+    attributes:
+      # Aggregate-tier fields (ClinicalRecordSetFile / OmicRecordSetFile)
+      subjectIdColumn:
+        title: Subject ID Column
+        range: string
+        description: Name of the column containing subject identifiers
+        multivalued: true
+        required: false
+      sampleIdColumn:
+        title: Sample ID Column
+        range: string
+        description: Name of the column containing sample identifiers
+        required: false
+      # Individual-tier fields (OmicFileSetFile)
+      collectionDate:
+        title: Collection Date
+        range: date
+        description: Date when the specimen was collected.
+        required: false
+      originalSampleId:
+        title: Original Sample ID
+        range: string
+        description: Original sample identifier as provided by the data source.
+        required: false
+      collectionSite:
+        title: Collection Site
+        description: Site or institution where biospecimen was collected
+        range: string
+        required: false
+      storageContainer:
+        title: Storage Container
+        description: Container or repository where biospecimen is stored
+        range: string
+        required: false

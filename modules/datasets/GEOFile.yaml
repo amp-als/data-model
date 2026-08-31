@@ -4,8 +4,8 @@
 #
 # Every sequencing GEO record is also deposited in SRA, so a GEO file IS an SRA
 # file with additional GEO accessions. GEOFile therefore specializes SRAFile
-# (is_a SRAFile -> OmicFile) and adds only the GEO Series/Sample identifiers via
-# GEOFileMixin. The inverse does not hold: an SRA file need not have a GEO record.
+# (is_a SRAFile -> OmicFileSetFile) and adds only the GEO Series/Sample identifiers
+# via GEOFileMixin. The inverse does not hold: an SRA file need not have a GEO record.
 #######################################
 
 classes:
@@ -19,4 +19,4 @@ classes:
 
 # GEO identifiers (GSE, GSM) are defined canonically in modules/geo_sra/geo.yaml.
 # SRA/NCBI identifiers and omic file fields are inherited from SRAFile
-# (modules/datasets/SRAFile.yaml -> OmicFile).
+# (modules/datasets/SRAFile.yaml -> OmicFileSetFile).

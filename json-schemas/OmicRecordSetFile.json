@@ -1,44 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-sra-file",
-  "title": "SRAFile",
+  "$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-record-set-file",
+  "title": "OmicRecordSetFile",
   "type": "object",
-  "description": "File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFileSetFile fields, since SRA records are always per-sample/per-run.",
+  "description": "Omic file that aggregates data across many samples in a single file (e.g. an expression/count matrix or a multi-sample VCF), rather than one file per sample.",
   "additionalProperties": {},
   "properties": {
-    "BioProject": {
-      "description": "NCBI BioProject accession(s) the entity belongs to (e.g. PRJNA522296).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "BioProject",
-      "type": "array"
-    },
-    "BioSample": {
-      "description": "NCBI BioSample accession(s) associated with the sample this file represents (e.g. SAMN10926465).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "BioSample",
-      "type": "array"
-    },
-    "CNSRegion": {
-      "description": "Central nervous system region",
-      "title": "CNS Region",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "middle frontal cortex",
-            "primary motor cortex",
-            "dorsolateral prefrontal cortex"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
-    },
     "FACSPopulation": {
       "description": "FACS-sorted cell population description.",
       "items": {
@@ -51,43 +18,6 @@
       "description": "GEO SuperSeries identifier for the dataset or file.",
       "title": "GEO SuperSeries",
       "type": "string"
-    },
-    "SRP": {
-      "description": "NCBI Sequence Read Archive Study accession(s) the entity belongs to (e.g. SRP186450).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Study (SRP)",
-      "type": "array"
-    },
-    "SRR": {
-      "description": "NCBI Sequence Read Archive Run accession(s) for the sequencing run this file represents (e.g. SRR8571953).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Run (SRR)",
-      "type": "array"
-    },
-    "SRS": {
-      "description": "NCBI Sequence Read Archive Sample accession(s) associated with the entity (e.g. SRS4361197).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Sample (SRS)",
-      "type": "array"
-    },
-    "SRX": {
-      "description": "NCBI Sequence Read Archive Experiment accession(s) associated with the entity (e.g. SRX5373084).\n",
-      "items": {
-        "type": "string"
-      },
-      "title": "SRA Experiment (SRX)",
-      "type": "array"
-    },
-    "age": {
-      "description": "Age of subject in years.",
-      "title": "Age",
-      "type": "integer"
     },
     "alignmentMethod": {
       "description": "Tool or method used for sequence alignment.",
@@ -429,82 +359,6 @@
       "title": "Measurement Technique",
       "type": "array"
     },
-    "biospecimenSubtype": {
-      "description": "More specific biospecimen classification",
-      "title": "Biospecimen Subtype",
-      "type": "string"
-    },
-    "biospecimenType": {
-      "description": "Type of biological specimen(s).",
-      "items": {
-        "description": "",
-        "title": "BiospecimenTypeEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "blood",
-              "plasma",
-              "serum",
-              "csf",
-              "brain_tissue",
-              "spinal_cord",
-              "muscle",
-              "fibroblast",
-              "ipsc",
-              "motor_neuron",
-              "primary cell culture",
-              "unknown"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Biospecimen Type",
-      "type": "array"
-    },
-    "cellType": {
-      "description": "Type of cell or cell line used.",
-      "items": {
-        "description": "Type of cell or cell line",
-        "title": "CellTypeEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "motor_neuron",
-              "neurons",
-              "NeuN+ neurons",
-              "astrocytes",
-              "astrocyte",
-              "microglia",
-              "oligodendrocyte lineage cells",
-              "oligodendrocyte",
-              "other glia",
-              "whole_blood",
-              "pbmc",
-              "fibroblasts",
-              "fibroblast",
-              "iPSC",
-              "primary_cell",
-              "immortalized_cell_line",
-              "stem_cell",
-              "differentiated_cell",
-              "organoid",
-              "unknown",
-              "other"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Cell Type",
-      "type": "array"
-    },
     "citation": {
       "description": "Citation (e.g. doi) that usage of data or resource should be cited with.",
       "items": {
@@ -513,16 +367,11 @@
       "title": "Citation",
       "type": "array"
     },
-    "collectionDate": {
-      "description": "Date when the specimen was collected.",
-      "format": "date",
-      "title": "Collection Date",
-      "type": "string"
-    },
-    "collectionSite": {
-      "description": "Site or institution where biospecimen was collected",
-      "title": "Collection Site",
-      "type": "string"
+    "completenessLevel": {
+      "description": "General assessment of data completeness based on non-null values.",
+      "items": {},
+      "title": "Completeness Level",
+      "type": "array"
     },
     "contributor": {
       "description": "Institution or person responsible for collecting and managing the files and records in the resource.",
@@ -531,11 +380,6 @@
       },
       "title": "Contributor(s)",
       "type": "array"
-    },
-    "country": {
-      "description": "Country of residence or data collection site.",
-      "title": "Country",
-      "type": "string"
     },
     "creator": {
       "description": "Properly formatted name of the organization or person that is creator of the resource (e.g. \"Sage Bionetworks\" or \"John Doe\"), not an id.",
@@ -573,10 +417,6 @@
       },
       "title": "Curation Level",
       "type": "array"
-    },
-    "dataSourcePrefix": {
-      "description": "Short identifier indicating the data source origin.",
-      "title": "Data Source Prefix"
     },
     "dataType": {
       "description": "Omic data types (genomics, transcriptomics, proteomics, etc.)",
@@ -906,10 +746,6 @@
       "title": "Disease Subtype",
       "type": "array"
     },
-    "ethnicity": {
-      "description": "Ethnicity of subject.",
-      "title": "Ethnicity"
-    },
     "fileFormat": {
       "description": "Defined format of the data file, typically corresponding to extension, but sometimes indicating more general group of files produced by the same tool or software.",
       "items": {
@@ -1046,21 +882,18 @@
       "title": "File Format",
       "type": "array"
     },
-    "globalSubjectId": {
-      "description": "Globally unique identifier for a subject across all data sources. Format: {data_source_prefix}{dataset_id}{original_subject_id}\n",
-      "pattern": "^[a-zA-Z0-9_-]+$",
-      "title": "Global Subject ID",
-      "type": "string"
-    },
-    "heightCm": {
-      "description": "Height of subject in centimeters.",
-      "title": "Height (cm)",
-      "type": "number"
-    },
-    "isPostMortem": {
-      "description": "Whether specimen was collected post-mortem",
-      "title": "Post-mortem Status",
+    "hasLongitudinalData": {
+      "description": "Indicates whether the data contains multiple timepoints per subject.",
+      "title": "Has Longitudinal Data",
       "type": "boolean"
+    },
+    "keyMeasures": {
+      "description": "Primary outcome measures or endpoints captured in this data.",
+      "items": {
+        "type": "string"
+      },
+      "title": "Key Measures",
+      "type": "array"
     },
     "keywords": {
       "description": "Descriptive keywords or terms for improved search and discovery.",
@@ -1169,34 +1002,6 @@
       "title": "Library Source",
       "type": "array"
     },
-    "nihguid": {
-      "description": "NIH Global Unique Identifier for the subject.",
-      "title": "NIH GUID",
-      "type": "string"
-    },
-    "nucleicAcidSource": {
-      "description": "Source of nucleic acid for library preparation",
-      "title": "Nucleic Acid Source",
-      "type": "string",
-      "anyOf": [
-        {
-          "enum": [
-            "bulk cell",
-            "bulk nuclei",
-            "mitochondria",
-            "single cell",
-            "single nucleus",
-            "bromouridine-labeled total RNA",
-            "Tn5-accessible gDNA",
-            "genomic DNA",
-            "nuclear RNA"
-          ]
-        },
-        {
-          "const": ""
-        }
-      ]
-    },
     "originalRepository": {
       "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
       "items": {
@@ -1225,15 +1030,10 @@
       "title": "Original Repository",
       "type": "array"
     },
-    "originalSampleId": {
-      "description": "Original sample identifier as provided by the data source.",
-      "title": "Original Sample ID",
-      "type": "string"
-    },
-    "originalSubjectId": {
-      "description": "Original subject identifier as provided by the data source.",
-      "title": "Original Subject ID",
-      "type": "string"
+    "participant_count": {
+      "description": "Number of unique individuals included in this entity (individual-level or aggregate data). Omit if not applicable or unknown.",
+      "title": "Participant Count",
+      "type": "integer"
     },
     "platform": {
       "description": "Sequencing or analysis platform used to generate the data.",
@@ -1400,51 +1200,12 @@
       "title": "Program",
       "type": "array"
     },
-    "propAfricanGeneticAncestry": {
-      "description": "Proportion of African genetic ancestry from admixture analysis.",
-      "maximum": 1,
-      "minimum": 0,
-      "title": "Proportion African Genetic Ancestry",
-      "type": "number"
-    },
-    "propEastAsianGeneticAncestry": {
-      "description": "Proportion of East Asian genetic ancestry from admixture analysis.",
-      "maximum": 1,
-      "minimum": 0,
-      "title": "Proportion East Asian Genetic Ancestry",
-      "type": "number"
-    },
-    "propEuropeanGeneticAncestry": {
-      "description": "Proportion of European genetic ancestry from admixture analysis.",
-      "maximum": 1,
-      "minimum": 0,
-      "title": "Proportion European Genetic Ancestry",
-      "type": "number"
-    },
-    "propNativeAmericanGeneticAncestry": {
-      "description": "Proportion of Native American genetic ancestry from admixture analysis.",
-      "maximum": 1,
-      "minimum": 0,
-      "title": "Proportion Native American Genetic Ancestry",
-      "type": "number"
-    },
-    "propSouthAsianGeneticAncestry": {
-      "description": "Proportion of South Asian genetic ancestry from admixture analysis.",
-      "maximum": 1,
-      "minimum": 0,
-      "title": "Proportion South Asian Genetic Ancestry",
-      "type": "number"
-    },
-    "race": {
-      "description": "Race/ethnicity of subject.",
-      "title": "Race/Ethnicity"
-    },
-    "readLength": {
-      "description": "Length of sequencing reads in base pairs",
+    "recordCount": {
+      "description": "Number of records (rows) contained in the data file.",
       "items": {
         "type": "integer"
       },
-      "title": "Read Length",
+      "title": "Record Count",
       "type": "array"
     },
     "referenceGenome": {
@@ -1474,13 +1235,10 @@
       "title": "Same As",
       "type": "string"
     },
-    "sampleType": {
-      "description": "Classification of the sample (e.g. actual sample vs. control type).",
-      "title": "Sample Type"
-    },
-    "sex": {
-      "description": "Biological sex of subject.",
-      "title": "Sex"
+    "sampleIdColumn": {
+      "description": "Name of the column containing sample identifiers",
+      "title": "Sample ID Column",
+      "type": "string"
     },
     "site_of_onset": {
       "description": "Site of disease onset for the subject (e.g., Bulbar, Limb, Lumbar).",
@@ -1541,10 +1299,47 @@
       "title": "Species",
       "type": "array"
     },
-    "storageContainer": {
-      "description": "Container or repository where biospecimen is stored",
-      "title": "Storage Container",
-      "type": "string"
+    "studyType": {
+      "description": "Type of study design (e.g., longitudinal, cross-sectional).",
+      "items": {
+        "description": "",
+        "title": "StudyLevelEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Patient Registry Study",
+              "Natural History Study",
+              "Clinical Trial",
+              "Observational Study",
+              "Case-Control Study",
+              "Cohort Study",
+              "Cross-Sectional Study",
+              "Longitudinal Study",
+              "Discovery Study",
+              "Validation Study",
+              "Multi-Omics Study",
+              "Comparative Study",
+              "Pilot Study",
+              "Replication Study",
+              "Time Series Study",
+              "Population Study",
+              "Harmonized Study Collection",
+              "Unknown",
+              "individual",
+              "aggregate",
+              "summary_level",
+              "meta_analysis",
+              "experimental study"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Study Type",
+      "type": "array"
     },
     "subject": {
       "description": "Applicable subject term(s) for cataloging; use the Library of Congress Subject Headings (LCSH) scheme.",
@@ -1560,16 +1355,6 @@
       },
       "title": "Title",
       "type": "array"
-    },
-    "totalBases": {
-      "description": "Total number of sequenced bases",
-      "title": "Total Bases",
-      "type": "integer"
-    },
-    "totalReads": {
-      "description": "Total number of sequencing reads. Derived as totalBases / readLength (i.e. Bases / AvgSpotLen from SRA run metadata).\n",
-      "title": "Total Reads",
-      "type": "integer"
     },
     "url": {
       "description": "URL(s) for the resource, including its original location and any external data catalogs where it is listed.",
@@ -1619,24 +1404,13 @@
       "title": "Variant Type",
       "type": "array"
     },
-    "weightKg": {
-      "description": "Weight of subject in kilograms.",
-      "title": "Weight (kg)",
-      "type": "number"
-    },
-    "yearOfDiagnosis": {
-      "description": "Year when ALS diagnosis was made.",
-      "maximum": 2100,
-      "minimum": 1900,
-      "title": "Year of ALS Diagnosis",
-      "type": "integer"
-    },
-    "yearOfSymptomOnset": {
-      "description": "Year when first ALS symptoms appeared.",
-      "maximum": 2100,
-      "minimum": 1900,
-      "title": "Year of Symptom Onset",
-      "type": "integer"
+    "viewName": {
+      "description": "Name of the Synapse view or query used to generate the file.",
+      "items": {
+        "type": "string"
+      },
+      "title": "View Name",
+      "type": "array"
     }
   },
   "required": [

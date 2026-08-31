@@ -10,6 +10,33 @@
   "@id" : "http://schema.biothings.io/",
   "@graph" : [ {
     "rdfs:subClassOf" : [ {
+      "@id" : "bts:ClinicalFile"
+    } ],
+    "@id" : "bts:ClinicalFileSetFile",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "ClinicalFileSetFile",
+    "rdfs:comment" : "Clinical file scoped to a single subject (e.g. a per-subject case report form export or single-subject longitudinal record), rather than a multi-subject table.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:keywords"
+    }, {
+      "@id" : "bts:curationLevel"
+    }, {
+      "@id" : "bts:fileFormat"
+    }, {
+      "@id" : "bts:assessmentType"
+    }, {
+      "@id" : "bts:administrationMode"
+    }, {
+      "@id" : "bts:site_of_onset"
+    } ],
+    "sms:displayName" : "ClinicalFileSetFile"
+  }, {
+    "rdfs:subClassOf" : [ {
       "@id" : "bts:ClinicalAssessment"
     } ],
     "@id" : "bts:DigitalSpeechAssessment",
@@ -1143,6 +1170,29 @@
     } ],
     "sms:displayName" : "AssessmentAdministration"
   }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:OmicFile"
+    } ],
+    "@id" : "bts:OmicFileSetFile",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "OmicFileSetFile",
+    "rdfs:comment" : "Omic file scoped to a single sample/specimen (e.g. a per-sample BAM, FASTQ, or single-sample VCF), rather than a multi-sample matrix.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:collectionDate"
+    }, {
+      "@id" : "bts:originalSampleId"
+    }, {
+      "@id" : "bts:collectionSite"
+    }, {
+      "@id" : "bts:storageContainer"
+    } ],
+    "sms:displayName" : "OmicFileSetFile"
+  }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:OmicDatasetMixin",
     "schema:isPartOf" : {
@@ -1384,6 +1434,19 @@
     } ],
     "sms:displayName" : "BaseDataset"
   }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:FileSetFileMixin",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "FileSetFileMixin",
+    "rdfs:comment" : "Mixin for individual (\"file set\") files scoped to a single subject or sample (one file per entity) rather than a multi-subject/sample record set.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ ],
+    "sms:displayName" : "FileSetFileMixin"
+  }, {
     "rdfs:subClassOf" : [ {
       "@id" : "bts:BaseFile"
     } ],
@@ -1394,7 +1457,7 @@
     "sms:required" : "sms:false",
     "sms:requiresComponent" : null,
     "rdfs:label" : "OmicFile",
-    "rdfs:comment" : "File containing omic data such as sequencing, expression, or proteomics data",
+    "rdfs:comment" : "Abstract base for files containing omic data such as sequencing, expression, or proteomics data. Shared by the aggregate (OmicRecordSetFile) and individual (OmicFileSetFile) variants below.\n",
     "@type" : "rdfs:Class",
     "sms:requiresDependency" : [ {
       "@id" : "bts:dataType"
@@ -1402,12 +1465,6 @@
       "@id" : "bts:referenceGenome"
     }, {
       "@id" : "bts:variantType"
-    }, {
-      "@id" : "bts:sampleIdColumn"
-    }, {
-      "@id" : "bts:collectionSite"
-    }, {
-      "@id" : "bts:storageContainer"
     } ],
     "sms:displayName" : "OmicFile"
   }, {
@@ -1737,18 +1794,12 @@
     "sms:required" : "sms:false",
     "sms:requiresComponent" : null,
     "rdfs:label" : "ClinicalFile",
-    "rdfs:comment" : "File containing clinical data such as assessments, visits, treatments, or medical history",
+    "rdfs:comment" : "Abstract base for files containing clinical data such as assessments, visits, treatments, or medical history. Shared by the aggregate (ClinicalRecordSetFile) and individual (ClinicalFileSetFile) variants below.\n",
     "@type" : "rdfs:Class",
     "sms:requiresDependency" : [ {
       "@id" : "bts:dataType"
     }, {
-      "@id" : "bts:viewName"
-    }, {
-      "@id" : "bts:recordCount"
-    }, {
       "@id" : "bts:datasetReference"
-    }, {
-      "@id" : "bts:subjectIdColumn"
     } ],
     "sms:displayName" : "ClinicalFile"
   }, {
@@ -1879,12 +1930,20 @@
     "sms:required" : "sms:false",
     "sms:requiresComponent" : null,
     "rdfs:label" : "File",
-    "rdfs:comment" : "Model for file on the AMP-ALS portal - union of clinical and omic file types",
+    "rdfs:comment" : "Model for file on the AMP-ALS portal - union of clinical and omic, aggregate and individual file types",
     "@type" : "rdfs:Class",
     "sms:requiresDependency" : [ {
-      "@id" : "bts:keywords"
+      "@id" : "bts:subjectIdColumn"
     }, {
-      "@id" : "bts:curationLevel"
+      "@id" : "bts:sampleIdColumn"
+    }, {
+      "@id" : "bts:collectionDate"
+    }, {
+      "@id" : "bts:originalSampleId"
+    }, {
+      "@id" : "bts:collectionSite"
+    }, {
+      "@id" : "bts:storageContainer"
     } ],
     "sms:displayName" : "File"
   }, {
@@ -2000,9 +2059,19 @@
     "rdfs:comment" : "Mixin for omic file specific attributes",
     "@type" : "rdfs:Class",
     "sms:requiresDependency" : [ {
-      "@id" : "bts:collectionDate"
+      "@id" : "bts:assay"
     }, {
-      "@id" : "bts:originalSampleId"
+      "@id" : "bts:libraryLayout"
+    }, {
+      "@id" : "bts:libraryPreparationMethod"
+    }, {
+      "@id" : "bts:librarySource"
+    }, {
+      "@id" : "bts:GEOSuperSeries"
+    }, {
+      "@id" : "bts:FACSPopulation"
+    }, {
+      "@id" : "bts:alignmentMethod"
     } ],
     "sms:displayName" : "OmicFileMixin"
   }, {
@@ -2228,6 +2297,23 @@
       "@id" : "bts:visitSchedule"
     } ],
     "sms:displayName" : "ClinicalDataset"
+  }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:ClinicalFile"
+    } ],
+    "@id" : "bts:ClinicalRecordSetFile",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "ClinicalRecordSetFile",
+    "rdfs:comment" : "Clinical file that aggregates records across many subjects in a single file (e.g. a tabular assessment export or dataset-level CSV/TSV extract with one row per subject/visit), rather than one file per subject.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:subjectIdColumn"
+    } ],
+    "sms:displayName" : "ClinicalRecordSetFile"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:ValidValue",
@@ -2662,7 +2748,7 @@
     "sms:displayName" : "PsychiatricHistory"
   }, {
     "rdfs:subClassOf" : [ {
-      "@id" : "bts:OmicFile"
+      "@id" : "bts:OmicFileSetFile"
     } ],
     "@id" : "bts:SRAFile",
     "schema:isPartOf" : {
@@ -2671,7 +2757,7 @@
     "sms:required" : "sms:false",
     "sms:requiresComponent" : null,
     "rdfs:label" : "SRAFile",
-    "rdfs:comment" : "File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFile fields.\n",
+    "rdfs:comment" : "File containing omic data sourced from NCBI SRA (Sequence Read Archive), annotated with SRA Run (SRR), Sample (SRS), and Experiment (SRX) accessions, NCBI BioProject/BioSample accessions, and sequencing read length. Inherits all OmicFileSetFile fields, since SRA records are always per-sample/per-run.\n",
     "@type" : "rdfs:Class",
     "sms:requiresDependency" : [ {
       "@id" : "bts:keywords"
@@ -2961,6 +3047,33 @@
       "@id" : "bts:prdesc"
     } ],
     "sms:displayName" : "KeyDevicesAndProceduresLog"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:RecordSetFileMixin",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "RecordSetFileMixin",
+    "rdfs:comment" : "Mixin for aggregate (\"record set\") files that contain data for many subjects/samples in a single file (e.g. tabular exports, expression matrices) rather than one file per subject/sample.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:participant_count"
+    }, {
+      "@id" : "bts:recordCount"
+    }, {
+      "@id" : "bts:studyType"
+    }, {
+      "@id" : "bts:completenessLevel"
+    }, {
+      "@id" : "bts:hasLongitudinalData"
+    }, {
+      "@id" : "bts:keyMeasures"
+    }, {
+      "@id" : "bts:viewName"
+    } ],
+    "sms:displayName" : "RecordSetFileMixin"
   }, {
     "rdfs:subClassOf" : [ {
       "@id" : "bts:ClinicalAssessment"
@@ -3499,6 +3612,23 @@
       "@id" : "bts:ChIPTarget"
     } ],
     "sms:displayName" : "Biospecimen"
+  }, {
+    "rdfs:subClassOf" : [ {
+      "@id" : "bts:OmicFile"
+    } ],
+    "@id" : "bts:OmicRecordSetFile",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:requiresComponent" : null,
+    "rdfs:label" : "OmicRecordSetFile",
+    "rdfs:comment" : "Omic file that aggregates data across many samples in a single file (e.g. an expression/count matrix or a multi-sample VCF), rather than one file per sample.\n",
+    "@type" : "rdfs:Class",
+    "sms:requiresDependency" : [ {
+      "@id" : "bts:sampleIdColumn"
+    } ],
+    "sms:displayName" : "OmicRecordSetFile"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:GeneticVariant",
@@ -6199,6 +6329,18 @@
     "sms:displayName" : "createdBy"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:viewName",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "viewName",
+    "rdfs:comment" : "Name of the Synapse view or query used to generate the file.",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "viewName"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:fileCount",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -6501,6 +6643,18 @@
     "rdfs:comment" : "(Files only) File size, usually calculated by the backend.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "contentSize"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:recordCount",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "recordCount",
+    "rdfs:comment" : "Number of records (rows) contained in the data file.",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "recordCount"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:specimenID",
