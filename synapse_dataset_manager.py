@@ -4722,6 +4722,31 @@ def delete_file_versions_by_label(syn, syn_id, version_labels, dry_run=True, ver
     return deleted, skipped, errors
 
 
+def _walk_entity_tree(syn, entity_id, verbose=False):
+    """
+    Recursively enumerate all descendants of a Folder/Project entity.
+
+    Returns:
+        List of dicts {'id', 'name', 'type'} ('File' or 'Folder') for every
+        entity found beneath entity_id, not including entity_id itself.
+    """
+    descendants = []
+
+    def walk(folder_id):
+        for child in syn.getChildren(folder_id, includeTypes=["file", "folder"]):
+            ctype = child.get('type', '')
+            if 'FileEntity' in ctype:
+                descendants.append({'id': child['id'], 'name': child.get('name', child['id']), 'type': 'File'})
+            elif 'Folder' in ctype:
+                descendants.append({'id': child['id'], 'name': child.get('name', child['id']), 'type': 'Folder'})
+                if verbose:
+                    print(f"    ↳ descending into folder {child['id']} ({child.get('name', '')})")
+                walk(child['id'])
+
+    walk(entity_id)
+    return descendants
+
+
 def fetch_all_versions_with_metadata(syn, syn_id):
     """
     Fetch all versions of a Synapse file entity with their metadata and annotations.
@@ -8268,6 +8293,109 @@ def handle_delete_versions_workflow(args, config):
         print("Re-run with --execute to apply deletions.")
 
 
+def handle_delete_entities_workflow(args, config):
+    """
+    Permanently delete Synapse entities (files, folders, projects) in bulk and/or recursively.
+
+    --syn-id accepts multiple targets for bulk deletion in one call. Deleting a
+    Folder/Project on Synapse cascades to all of its descendants server-side, so
+    --recursive here is a client-side safety gate: a container that has any
+    children is refused unless --recursive is passed. Execution requires typing
+    DELETE to confirm, since cascaded deletes are not easily undone.
+    """
+    print("\n" + "=" * 60)
+    print("WORKFLOW: DELETE ENTITIES")
+    print("=" * 60)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{mode}")
+    print(f"Targets   : {', '.join(args.syn_id)}")
+    print(f"Recursive : {args.recursive}")
+
+    plan = []      # (id, name, type, descendant_count) to actually delete
+    blocked = []   # (id, name, type, descendant_count, n_files, n_folders) refused
+
+    for sid in args.syn_id:
+        try:
+            entity = syn.get(sid, downloadFile=False)
+        except Exception as e:
+            print(f"  ✗ Could not retrieve {sid}: {e}")
+            continue
+
+        concrete = _get_concrete_type(entity)
+        name = getattr(entity, 'name', sid)
+
+        if 'FileEntity' in concrete:
+            plan.append((sid, name, 'File', 0))
+            continue
+
+        if 'Folder' in concrete or 'Project' in concrete:
+            etype = 'Project' if 'Project' in concrete else 'Folder'
+            descendants = _walk_entity_tree(syn, sid, verbose=config.VERBOSE)
+            n_files = sum(1 for d in descendants if d['type'] == 'File')
+            n_folders = sum(1 for d in descendants if d['type'] == 'Folder')
+            if descendants and not args.recursive:
+                blocked.append((sid, name, etype, len(descendants), n_files, n_folders))
+            else:
+                plan.append((sid, name, etype, len(descendants)))
+                if config.VERBOSE:
+                    for d in descendants:
+                        print(f"    - [{d['type']}] {d['id']} {d['name']}")
+            continue
+
+        print(f"  ⚠️  Skipping {sid}: unsupported entity type ({concrete or 'unknown'})")
+
+    if blocked:
+        print("\nRefused (contains children — pass --recursive to delete anyway):")
+        for sid, name, etype, total, n_files, n_folders in blocked:
+            print(f"  ✗ [{etype}] {sid} ({name}) — {total} descendants ({n_files} files, {n_folders} folders)")
+
+    if not plan:
+        print("\nNothing to delete.")
+        return
+
+    print(f"\nWill delete {len(plan)} top-level entities:")
+    total_descendants = 0
+    for sid, name, etype, n_descendants in plan:
+        total_descendants += n_descendants
+        suffix = f" (+ {n_descendants} descendants)" if n_descendants else ""
+        print(f"  [{etype}] {sid} ({name}){suffix}")
+
+    print(f"\nTotal entities affected (including cascaded descendants): {len(plan) + total_descendants}")
+
+    if dry_run:
+        print("\nDRY RUN — nothing deleted. Re-run with --execute to delete.")
+        return
+
+    print(f"\n⚠️  This will PERMANENTLY delete {len(plan)} entities and {total_descendants} descendants from Synapse.")
+    confirm = input("Type DELETE to confirm: ").strip()
+    if confirm != "DELETE":
+        print("Aborted — confirmation text did not match. Nothing deleted.")
+        return
+
+    deleted = errors = 0
+    for sid, name, etype, n_descendants in plan:
+        try:
+            syn.delete(sid)
+            print(f"  ✓ Deleted [{etype}] {sid} ({name})")
+            deleted += 1
+        except Exception as e:
+            print(f"  ✗ Error deleting {sid} ({name}): {e}")
+            errors += 1
+
+    print(f"\n{'='*60}")
+    print(f"Summary: deleted={deleted}, errors={errors}")
+
+
 def _normalize_annotation_value(val):
     """Normalize annotation value for comparison: single-element lists become scalars."""
     if isinstance(val, list) and len(val) == 1:
@@ -10374,6 +10502,24 @@ Examples:
     delete_parser.add_argument('--dry-run', action='store_true',
                                help='Dry run mode (default)')
 
+    # DELETE-ENTITIES command
+    delete_entities_parser = subparsers.add_parser(
+        'delete-entities',
+        help='Permanently delete Synapse entities (files, folders, projects) in bulk and/or recursively'
+    )
+    delete_entities_parser.add_argument('--syn-id', nargs='+', required=True, metavar='SYN_ID',
+        help='One or more Synapse IDs to delete (files, folders, and/or projects)')
+    delete_entities_parser.add_argument('--recursive', action='store_true',
+        help="Required to delete a folder/project that contains any children; without it, "
+             "non-empty containers are refused and skipped. Deleting a container always "
+             "cascades to all of its descendants on Synapse's side once permitted.")
+    delete_entities_parser.add_argument('--execute', action='store_true',
+        help='Execute deletions (default is dry-run). Prompts to type DELETE to confirm.')
+    delete_entities_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default) — preview what would be deleted without deleting anything')
+    delete_entities_parser.add_argument('--verbose', action='store_true',
+        help='Print every descendant discovered while walking folders/projects')
+
     # SYNC-DATASET-SCHEMA-ANNOTATIONS command
     sync_schema_parser = subparsers.add_parser(
         'sync-dataset-schema-annotations',
@@ -10843,6 +10989,8 @@ Examples:
         handle_upload_staged_version(args, config)
     elif args.command == 'delete-versions':
         handle_delete_versions_workflow(args, config)
+    elif args.command == 'delete-entities':
+        handle_delete_entities_workflow(args, config)
     elif args.command == 'rename-annotation':
         handle_rename_annotation(args, config)
     elif args.command == 'rename-folders':

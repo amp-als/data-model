@@ -237,7 +237,30 @@ source are descended into (pattern filtering applies at every level reached). Fi
 already in the target folder are automatically skipped. Dry-run by default; add `--execute`
 to actually move files.
 
-## 9. Create Dataset — Type, Entity View, and Multi-Schema Columns
+## 9. Delete Entities (bulk, recursive)
+
+```bash
+# Preview deleting two files (dry-run by default — nothing is deleted)
+python synapse_dataset_manager.py delete-entities --syn-id syn111 syn222
+
+# Delete an empty folder
+python synapse_dataset_manager.py delete-entities --syn-id syn333 --execute
+
+# Delete a folder (or project) that has files/subfolders inside it — --recursive
+# is required or the target is refused and skipped
+python synapse_dataset_manager.py delete-entities --syn-id syn444 --recursive --execute
+```
+
+`--syn-id` accepts one or more Synapse IDs (files, folders, and/or projects) for bulk
+deletion in a single call. Deleting a Folder/Project on Synapse cascades to all of its
+descendants server-side, so `--recursive` is a client-side safety gate: a container that
+has any children is refused (with a descendant count reported) unless `--recursive` is
+passed — it does not change how the deletion itself happens. Dry-run by default; add
+`--execute` to actually delete, which additionally requires typing `DELETE` at a
+confirmation prompt before anything is removed. Use `--verbose` to list every descendant
+discovered while walking a folder/project.
+
+## 10. Create Dataset — Type, Entity View, and Multi-Schema Columns
 
 ```bash
 # Explicit dataset type — fuzzy-matched against json-schemas/ (e.g. "speech" -> SpeechDataset).
@@ -294,4 +317,5 @@ python synapse_dataset_manager.py add-link-file --help
 python synapse_dataset_manager.py create --help
 python synapse_dataset_manager.py create-entity-view --help
 python synapse_dataset_manager.py move --help
+python synapse_dataset_manager.py delete-entities --help
 ```
