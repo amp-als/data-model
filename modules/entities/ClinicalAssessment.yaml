@@ -546,21 +546,6 @@ enums:
         description: Eligibility defined by neurological diagnosis, disease stage, comorbidities, functional status, and treatment history.
       dementia_screening: 
         description: Brief standardized evaluation to detect early signs of cognitive impairment and risk of dementia.
-  StudyPhaseEnum:
-    permissible_values:
-      screening:
-        description: Pre-treatment screening phase
-      baseline:
-        description: Baseline assessment phase
-      treatment_phase:
-        description: Active treatment phase
-      follow_up:
-        description: Post-treatment follow-up phase
-      longitudinal:
-        description: Multiple timepoints across study
-      endpoint:
-        description: Primary endpoint assessment
-
   CompletenessLevelEnum:
     permissible_values:
       high:

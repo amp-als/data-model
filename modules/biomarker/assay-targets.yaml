@@ -1,0 +1,34 @@
+#######################################
+# Biomarker Assay Targets
+# Shared by BiomarkerDataset and BiomarkerFile
+#######################################
+
+enums:
+  AssayTargetEnum:
+    title: Assay Target
+    description: Genes, gene products, or biomarkers targeted by an assay.
+    permissible_values:
+      TDP-43:
+        description: TAR DNA-binding protein 43.
+      HDGFL2-CE:
+        description: HDGF-like protein 2 C-terminal epitope target.
+      HDGFL2:
+        description: Hepatoma-derived growth factor-like protein 2 target.
+      metabolites:
+        description: Small-molecule metabolites targeted by the assay.
+      lipids:
+        description: Lipid metabolites targeted by the assay.
+      fatty acids:
+        description: Fatty acid metabolites targeted by the assay.
+      bile acids:
+        description: Bile acid metabolites targeted by the assay.
+      oxidized lipids:
+        description: Oxidized lipid metabolites targeted by the assay.
+      polar metabolites:
+        description: Polar metabolites targeted by the assay.
+      Total Tau:
+        description: Total tau protein target.
+      pT181:
+        description: Tau phosphorylated at threonine 181 target.
+      miR-206:
+        description: MicroRNA-206 target.

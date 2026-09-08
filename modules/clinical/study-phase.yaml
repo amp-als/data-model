@@ -1,0 +1,21 @@
+#######################################
+# Study Phases
+# Shared by clinical and biomarker schemas
+#######################################
+
+enums:
+  StudyPhaseEnum:
+    description: Phase or timepoint in a study when data were collected.
+    permissible_values:
+      screening:
+        description: Pre-treatment screening phase.
+      baseline:
+        description: Baseline assessment phase.
+      treatment_phase:
+        description: Active treatment phase.
+      follow_up:
+        description: Post-treatment follow-up phase.
+      longitudinal:
+        description: Multiple timepoints across a study.
+      endpoint:
+        description: Primary endpoint assessment.

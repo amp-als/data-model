@@ -376,6 +376,7 @@
               "Sentrix descriptor file",
               "ab1",
               "abf",
+              "ADAT",
               "ai",
               "avi",
               "bai",
@@ -669,7 +670,21 @@
     },
     "sampleType": {
       "description": "Classification of the sample (e.g. actual sample vs. control type).",
-      "title": "Sample Type"
+      "title": "Sample Type",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "Negative Control",
+            "Plate Control",
+            "Sample",
+            "Sample Control"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
     },
     "sdtmDomain": {
       "description": "SDTM domain abbreviation; always \"FT\" for functional test records (SDTM DOMAIN)",
@@ -756,9 +771,29 @@
       "type": "array"
     },
     "vendor": {
-      "description": "Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)",
-      "title": "Vendor / Device (FTNAM)",
-      "type": "string"
+      "description": "Vendor, laboratory, or device that generated the data.",
+      "items": {
+        "description": "Vendor, laboratory, or device that generated the data.",
+        "title": "Vendor",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Aural Analytics",
+              "Broad",
+              "ICON",
+              "JHU",
+              "Protavio",
+              "Somalogic"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Vendor",
+      "type": "array"
     }
   },
   "required": [

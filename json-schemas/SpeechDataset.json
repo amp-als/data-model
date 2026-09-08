@@ -115,7 +115,8 @@
               "MEAN IMMED STORY RECALL VOLITION 1",
               "MEAN IMAGE DESCR SCORE",
               "MEAN VISUAL SEARCH INTRAWORD PAUSE TIME",
-              "MEAN VISUAL SEARCH PERCENT WORDS MISSED"
+              "MEAN VISUAL SEARCH PERCENT WORDS MISSED",
+              "MetabolomicProfiling"
             ]
           },
           {
@@ -894,9 +895,29 @@
       "type": "array"
     },
     "vendor": {
-      "description": "Name of the vendor or device used for speech data collection (SDTM FTNAM)",
-      "title": "Vendor / Device (FTNAM)",
-      "type": "string"
+      "description": "Vendor, laboratory, or device that generated the data.",
+      "items": {
+        "description": "Vendor, laboratory, or device that generated the data.",
+        "title": "Vendor",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Aural Analytics",
+              "Broad",
+              "ICON",
+              "JHU",
+              "Protavio",
+              "Somalogic"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Vendor",
+      "type": "array"
     }
   },
   "required": [

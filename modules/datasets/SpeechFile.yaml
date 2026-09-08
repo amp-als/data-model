@@ -19,6 +19,7 @@ classes:
       compressed audio archives (zip files of raw WAV recordings).
     slots:
       - fileFormat
+      - vendor
     attributes:
       # Speech-specific data type (overrides BaseFile.dataType)
       dataType:
@@ -111,11 +112,6 @@ classes:
         description: >
           Reason the test was not completed. Only applicable when ftStat = "Not Done"
           (SDTM FTREASND).
-        required: false
-      vendor:
-        title: Vendor / Device (FTNAM)
-        range: string
-        description: Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)
         required: false
       suppLoc:
         title: Collection Location (SUPPLOC)

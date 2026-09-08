@@ -34,6 +34,10 @@ Non-negotiable highlights (the full rules live in that doc):
   `docs/` (see `docs/UPLOAD_LOCAL_WORKFLOW.md`, `docs/RENAME_FILES.md` for examples) and
   link it from the `QUICK_REFERENCE.md` entry.
 
+## Annotation verification
+
+For annotation-generation work, **do not verify mappings, counts, or annotation values against local source files** (including `mapping_source/`). Local checks do not prove what the create pipeline generated or uploaded. Verify only from the create pipeline's generated annotation output and, when applicable, the resulting Synapse annotations.
+
 ## Build environment
 
 All build/CLI commands run through the `amp-als` env:

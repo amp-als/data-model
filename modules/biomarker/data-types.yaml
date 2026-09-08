@@ -1,0 +1,54 @@
+#######################################
+# Biomarker Data Types
+# Shared by BiomarkerDataset and BiomarkerFile
+#######################################
+
+enums:
+  BiomarkerDataTypeEnum:
+    title: Biomarker Data Type
+    description: Types and processing levels of biomarker data.
+    permissible_values:
+      biomarker_data:
+        description: Biomarker measurement data.
+      biomarker:
+        description: Biomarker data used to diagnose, monitor, or predict disease.
+      laboratory_results:
+        description: Clinical laboratory test results included with biomarker measurements.
+      proteomics:
+        description: Protein biomarker measurements.
+      protein_abundance:
+        description: Protein abundance quantification.
+      metabolomics:
+        description: Metabolite biomarker measurements.
+      metabolite_abundance:
+        description: Metabolite abundance quantification.
+      clinical:
+        description: Clinical data included with biomarker measurements.
+      RawIntensities:
+        description: Raw instrument intensity values.
+      NormalizedIntensities:
+        description: Normalized instrument intensity values.
+      raw_data:
+        description: Unprocessed biomarker data.
+      processed_data:
+        description: Processed or normalized biomarker data.
+      analyzed_results:
+        description: Biomarker analysis results and interpretations.
+      summary_statistics:
+        description: Summary statistics or aggregate biomarker measures.
+      AggregatedData:
+        description: Summary or group-level biomarker data.
+      Normalized Protein Expression (NPX):
+        description: Normalized protein expression values reported as NPX.
+      SomaScan:
+        description: SomaScan proteomic biomarker data.
+      SomaScan v5.0:
+        description: SomaScan version 5.0 proteomic biomarker data.
+      CorrelationAnalysis:
+        description: Correlation analysis results for biomarker measurements.
+      study_report:
+        description: Study report associated with biomarker data.
+      data_dictionary:
+        description: Data dictionary describing biomarker variables and values.
+      metadata:
+        description: Metadata or manifest associated with biomarker data.

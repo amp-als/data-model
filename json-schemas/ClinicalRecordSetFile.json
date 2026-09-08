@@ -59,7 +59,17 @@
               "pathway_enrichment",
               "network_analysis",
               "proteomics_analysis",
+              "protein biomarker quantification",
+              "miRNA quantification",
+              "qPCR analysis",
+              "normalization",
               "metabolomics_analysis",
+              "metabolite quantification",
+              "metabolite identification",
+              "metabolite annotation",
+              "LC-MS profiling",
+              "Raw RFU, bridge, Hyb Normalization, medNormInt (SampleId), plateScale, leakDetection, Calibration, anmlQC, qcCheck",
+              "Raw RFU, bridge, Hyb Normalization, medNormInt (SampleId), plateScale, leakDetection, Calibration, anmlQC, qcCheck, anmlSMP",
               "longitudinal_analysis",
               "survival_analysis",
               "meta_analysis",
@@ -106,6 +116,12 @@
               "Ensembl",
               "HGNC",
               "RefSeq",
+              "EntrezGeneId",
+              "EntrezGeneSymbol",
+              "HMDB identifier",
+              "metabolite annotation specificity",
+              "metabolite name",
+              "compound identifier",
               "MONDO",
               "HPO",
               "SNOMED",
@@ -217,7 +233,8 @@
               "MEAN IMMED STORY RECALL VOLITION 1",
               "MEAN IMAGE DESCR SCORE",
               "MEAN VISUAL SEARCH INTRAWORD PAUSE TIME",
-              "MEAN VISUAL SEARCH PERCENT WORDS MISSED"
+              "MEAN VISUAL SEARCH PERCENT WORDS MISSED",
+              "MetabolomicProfiling"
             ]
           },
           {
@@ -744,6 +761,7 @@
               "Sentrix descriptor file",
               "ab1",
               "abf",
+              "ADAT",
               "ai",
               "avi",
               "bai",
@@ -1015,7 +1033,7 @@
     "studyPhase": {
       "description": "The phase or timepoint in the study when the data was collected.",
       "items": {
-        "description": "",
+        "description": "Phase or timepoint in a study when data were collected.",
         "title": "StudyPhaseEnum",
         "type": "string",
         "anyOf": [

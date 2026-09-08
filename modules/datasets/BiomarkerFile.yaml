@@ -1,0 +1,43 @@
+#######################################
+# Biomarker File Schema
+# For aggregate-level ALS biomarker data files
+#######################################
+
+classes:
+  BiomarkerFile:
+    is_a: BaseFile
+    mixins: [FileAnnotationsMixin, RecordSetFileMixin, SpecimenTypeMixin, BiomarkerDataMixin]
+    description: >
+      Aggregate-level file containing biomarker measurements for multiple subjects or
+      specimens, such as total tau results or raw intensity matrices.
+    slots:
+      - fileFormat
+      - assay
+      - assayTarget
+      - platform
+      - vendor
+      - clinicalDomain
+      - assessmentType
+      - studyPhase
+    attributes:
+      dataType:
+        title: Data Type
+        range: BiomarkerDataTypeEnum
+        description: Biomarker data types and processing levels contained in this file.
+        multivalued: true
+        required: false
+      subjectIdColumn:
+        title: Subject ID Column
+        range: string
+        description: Name of the column containing subject identifiers.
+        multivalued: true
+        required: false
+
+# BiomarkerFile intentionally models aggregate-level data only. Its record-set
+# metadata (including keyMeasures and hasLongitudinalData) is inherited from
+# RecordSetFileMixin.
+#
+# Enums for this class are defined canonically in dedicated modules and shared with
+# BiomarkerDataset (see Makefile BiomarkerFile target):
+#   BiomarkerDataTypeEnum -> modules/biomarker/data-types.yaml
+#   VendorEnum            -> modules/reference/vendors.yaml

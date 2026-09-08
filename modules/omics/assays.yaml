@@ -349,8 +349,8 @@ enums:
         meaning: http://www.ebi.ac.uk/efo/EFO_0007550
       high frequency ultrasound:
         description: High frequency ultrasound (HFUS) is an imaging modality that can give greater resolution of surface changes in skin (review in PMID:24583666)
-      high-performance liquid chromatography/tandem mass spectrometry:
-        description: HPLC-MSMS is an analytical technique wherein high performance liquid chromatography is coupled to tandem mass spectrometry in order to separate, identify, and quantify substances in a sample.
+      HPLC-MS/MS:
+        description: High-performance liquid chromatography/tandem mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C120691
       immunoassay:
         description: Generic immunology assay
@@ -395,11 +395,19 @@ enums:
       liquid chromatography-electrochemical detection:
         description: A liquid chromatography method that is sensitive to compounds which can be either reduced or oxidised. The mobile phase passes directly over the working electrode, which is set to the specific potential required for oxidation or reduction. The current produced is then measured.
         meaning: http://purl.obolibrary.org/obo/CHMO_0001746
-      liquid chromatography/mass spectrometry:
-        description: LC-MS is a hyphenated technique, combining the separation power of liquid chromatography (LC), an analytical chromatographic technique for separating ions or molecules dissolved in a solvent, with the detection power of mass spectrometry(MS), a technique to separate gas phase ions according their m/z (mass to charge ratio) value. Used for drug screening, pharmacology studies, environmental analyses and forensics.
+      LC-MS:
+        description: Liquid chromatography/mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C18475
-      liquid chromatography/tandem mass spectrometry:
-        description: LC-MSMS is an analytical technique wherein liquid chromatography is coupled to tandem mass spectrometry in order to separate, identify, and quantify substances in a sample.
+      C8-pos LC-MS:
+        description: C8 reversed-phase liquid chromatography-mass spectrometry in positive ionization mode.
+      C18-neg LC-MS:
+        description: C18 reversed-phase liquid chromatography-mass spectrometry in negative ionization mode.
+      HILIC-pos LC-MS:
+        description: Hydrophilic interaction liquid chromatography-mass spectrometry in positive ionization mode.
+      HILIC-neg LC-MS:
+        description: Hydrophilic interaction liquid chromatography-mass spectrometry in negative ionization mode.
+      LC-MS/MS:
+        description: Liquid chromatography/tandem mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C122168
       lncRNA-seq:
         description: Long non-coding RNA measurements collected from RNA-Seq experiments
@@ -535,13 +543,19 @@ enums:
         description: The PROMIS Cognitive Function and Cognitive Function Abilities Subset item banks assess patient-perceived cognitive deficits.
         meaning: http://www.healthmeasures.net/images/PROMIS/manuals/PROMIS_Cognitive_Function_Scoring_Manual.pdf
       Olink Proximity Extension Assay:
-        description: Olink's Proximity Extension Assay (PEA) combines specificity and scalability to enable high-throughput, multiplex protein biomarker analysis. 
+        description: Olink's Proximity Extension Assay (PEA) combines specificity and scalability to enable high-throughput, multiplex protein biomarker analysis.
         source: https://olink.com/technology/what-is-pea
+      proximity extension assay:
+        description: Generic proximity extension assay used for multiplex protein biomarker analysis.
       pure tone average:
         description: Metric used to summarize hearing sensitivity at specific frequencies to assess hearing impairment. As PTA increases, hearing ability decreases.
       quantitative PCR:
         description: Quantitative PCR (Q-PCR) is used to measure the quantity of a PCR product (commonly in real-time). It quantitatively measures starting amounts of DNA, cDNA, or RNA.
         meaning: http://purl.obolibrary.org/obo/MI_1195
+      RT-qPCR:
+        description: Reverse transcription quantitative PCR for RNA quantification.
+      qPCR microRNA assay:
+        description: Quantitative PCR assay for microRNA biomarker quantification.
       Quant-seq:
         description: 3' end-targeted RNA sequencing (Quant-seq) provides cost-effective gene expression quantification by sequencing only the 3' terminal regions of transcripts, generating digital gene expression profiles with reduced sequencing requirements.
         meaning: https://www.lexogen.com/quantseq-3mrna-seq/
@@ -633,8 +647,8 @@ enums:
       twin spot assay:
         description: Two individual and genetically different populations of cells that originate from the same mitotic recombination event; twin spots allow a direct and reliable comparison between mutant and wild-type clones, and the size of the wild-type twin can serve as a reference for comparison with the homozygous mutant clones.
         meaning: https://pubmed.ncbi.nlm.nih.gov/29378809/
-      ultra high-performance liquid chromatography/tandem mass spectrometry:
-        description: UPLC-MSMS is an analytical technique wherein ultra-high performance liquid chromatography is coupled to tandem mass spectrometry in order to separate, identify, and quantify substances in a sample.
+      UPLC-MS/MS:
+        description: Ultra high-performance liquid chromatography/tandem mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C122176
       western blot:
         description: A multistep process in which a mixture of proteins is separated by gel electrophoresis

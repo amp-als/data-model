@@ -1,0 +1,22 @@
+#######################################
+# Data Vendors
+# Organizations or devices that generate AMP-ALS data
+#######################################
+
+enums:
+  VendorEnum:
+    title: Vendor
+    description: Vendor, laboratory, or device that generated the data.
+    permissible_values:
+      Aural Analytics:
+        description: Aural Analytics digital speech data platform.
+      Broad:
+        description: Broad Institute biomarker data vendor.
+      ICON:
+        description: ICON laboratory biomarker data vendor.
+      JHU:
+        description: Johns Hopkins University biomarker data vendor.
+      Protavio:
+        description: Protavio proteomics biomarker data vendor.
+      Somalogic:
+        description: SomaLogic biomarker data vendor.

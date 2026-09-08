@@ -49,6 +49,9 @@ enums:
       abf:
         description: The Axon Binary File format (ABF) was created for the storage of binary experimental data.
         source: https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf
+      ADAT:
+        description: SomaLogic tab-delimited text format containing study metadata, SOMAmer and sample annotations, and a relative fluorescence unit data matrix.
+        source: https://somalogic.github.io/SomaDataIO/reference/soma_adat.html
       ai:
         description: Adobe Illustrator format
         meaning: http://www.ebi.ac.uk/swo/data/SWO_3000023

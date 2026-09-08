@@ -135,14 +135,3 @@ enums:
       Unknown:
         description: Handedness unknown or not reported
 
-  SampleTypeEnum:
-    permissible_values:
-      "Negative Control":
-        description: Negative control sample
-      "Plate Control":
-        description: Plate control sample
-      Sample:
-        description: Actual biological sample
-      "Sample Control":
-        description: Sample control
-

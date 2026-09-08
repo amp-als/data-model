@@ -22,8 +22,28 @@ enums:
         description: Protein-protein interaction network analysis
       proteomics_analysis:
         description: Proteomics data analysis methods
+      protein biomarker quantification:
+        description: Quantification of targeted protein biomarkers.
+      miRNA quantification:
+        description: Quantification of microRNA biomarkers.
+      qPCR analysis:
+        description: Quantitative PCR analysis of biomarker targets.
+      normalization:
+        description: Normalization of biomarker measurement values.
       metabolomics_analysis:
         description: Metabolomics data analysis methods
+      metabolite quantification:
+        description: Quantification of measured metabolites.
+      metabolite identification:
+        description: Identification of metabolites from analytical measurements.
+      metabolite annotation:
+        description: Annotation of identified metabolites.
+      LC-MS profiling:
+        description: Liquid chromatography-mass spectrometry metabolite profiling.
+      "Raw RFU, bridge, Hyb Normalization, medNormInt (SampleId), plateScale, leakDetection, Calibration, anmlQC, qcCheck":
+        description: SomaLogic processing steps completed through plate-level quality control.
+      "Raw RFU, bridge, Hyb Normalization, medNormInt (SampleId), plateScale, leakDetection, Calibration, anmlQC, qcCheck, anmlSMP":
+        description: SomaLogic processing steps completed through final sample-level scaling.
        
       # Statistical analysis methods
       longitudinal_analysis:

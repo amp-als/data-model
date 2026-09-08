@@ -1,0 +1,18 @@
+#######################################
+# Sample Types
+# Shared classification of biological samples and assay controls
+#######################################
+
+enums:
+  SampleTypeEnum:
+    title: Sample Type
+    description: Classification of a biological sample or assay control.
+    permissible_values:
+      "Negative Control":
+        description: Negative control sample.
+      "Plate Control":
+        description: Plate control sample.
+      Sample:
+        description: Actual biological sample.
+      "Sample Control":
+        description: Sample control.

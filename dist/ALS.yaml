@@ -41,8 +41,28 @@ enums:
         description: Protein-protein interaction network analysis
       proteomics_analysis:
         description: Proteomics data analysis methods
+      protein biomarker quantification:
+        description: Quantification of targeted protein biomarkers.
+      miRNA quantification:
+        description: Quantification of microRNA biomarkers.
+      qPCR analysis:
+        description: Quantitative PCR analysis of biomarker targets.
+      normalization:
+        description: Normalization of biomarker measurement values.
       metabolomics_analysis:
         description: Metabolomics data analysis methods
+      metabolite quantification:
+        description: Quantification of measured metabolites.
+      metabolite identification:
+        description: Identification of metabolites from analytical measurements.
+      metabolite annotation:
+        description: Annotation of identified metabolites.
+      LC-MS profiling:
+        description: Liquid chromatography-mass spectrometry metabolite profiling.
+      "Raw RFU, bridge, Hyb Normalization, medNormInt (SampleId), plateScale, leakDetection, Calibration, anmlQC, qcCheck":
+        description: SomaLogic processing steps completed through plate-level quality control.
+      "Raw RFU, bridge, Hyb Normalization, medNormInt (SampleId), plateScale, leakDetection, Calibration, anmlQC, qcCheck, anmlSMP":
+        description: SomaLogic processing steps completed through final sample-level scaling.
       # Statistical analysis methods
       longitudinal_analysis:
         description: Longitudinal statistical analysis
@@ -104,6 +124,18 @@ enums:
         description: HUGO Gene Nomenclature Committee
       RefSeq:
         description: Reference Sequence database
+      EntrezGeneId:
+        description: NCBI Entrez Gene identifier.
+      EntrezGeneSymbol:
+        description: NCBI Entrez Gene symbol.
+      HMDB identifier:
+        description: Human Metabolome Database identifier.
+      metabolite annotation specificity:
+        description: Specificity level assigned to a metabolite annotation.
+      metabolite name:
+        description: Name assigned to an identified metabolite.
+      compound identifier:
+        description: Identifier assigned to a measured compound.
       # Disease and Clinical Databases
       MONDO:
         description: Mondo Disease Ontology
@@ -941,6 +973,82 @@ enums:
         description: ALS case cohort in a case-control study.
       ALS/FTD Case:
         description: ALS and/or FTD case cohort in a case-control WGS collection.
+  AssayTargetEnum:
+    title: Assay Target
+    description: Genes, gene products, or biomarkers targeted by an assay.
+    permissible_values:
+      TDP-43:
+        description: TAR DNA-binding protein 43.
+      HDGFL2-CE:
+        description: HDGF-like protein 2 C-terminal epitope target.
+      HDGFL2:
+        description: Hepatoma-derived growth factor-like protein 2 target.
+      metabolites:
+        description: Small-molecule metabolites targeted by the assay.
+      lipids:
+        description: Lipid metabolites targeted by the assay.
+      fatty acids:
+        description: Fatty acid metabolites targeted by the assay.
+      bile acids:
+        description: Bile acid metabolites targeted by the assay.
+      oxidized lipids:
+        description: Oxidized lipid metabolites targeted by the assay.
+      polar metabolites:
+        description: Polar metabolites targeted by the assay.
+      Total Tau:
+        description: Total tau protein target.
+      pT181:
+        description: Tau phosphorylated at threonine 181 target.
+      miR-206:
+        description: MicroRNA-206 target.
+  BiomarkerDataTypeEnum:
+    title: Biomarker Data Type
+    description: Types and processing levels of biomarker data.
+    permissible_values:
+      biomarker_data:
+        description: Biomarker measurement data.
+      biomarker:
+        description: Biomarker data used to diagnose, monitor, or predict disease.
+      laboratory_results:
+        description: Clinical laboratory test results included with biomarker measurements.
+      proteomics:
+        description: Protein biomarker measurements.
+      protein_abundance:
+        description: Protein abundance quantification.
+      metabolomics:
+        description: Metabolite biomarker measurements.
+      metabolite_abundance:
+        description: Metabolite abundance quantification.
+      clinical:
+        description: Clinical data included with biomarker measurements.
+      RawIntensities:
+        description: Raw instrument intensity values.
+      NormalizedIntensities:
+        description: Normalized instrument intensity values.
+      raw_data:
+        description: Unprocessed biomarker data.
+      processed_data:
+        description: Processed or normalized biomarker data.
+      analyzed_results:
+        description: Biomarker analysis results and interpretations.
+      summary_statistics:
+        description: Summary statistics or aggregate biomarker measures.
+      AggregatedData:
+        description: Summary or group-level biomarker data.
+      Normalized Protein Expression (NPX):
+        description: Normalized protein expression values reported as NPX.
+      SomaScan:
+        description: SomaScan proteomic biomarker data.
+      SomaScan v5.0:
+        description: SomaScan version 5.0 proteomic biomarker data.
+      CorrelationAnalysis:
+        description: Correlation analysis results for biomarker measurements.
+      study_report:
+        description: Study report associated with biomarker data.
+      data_dictionary:
+        description: Data dictionary describing biomarker variables and values.
+      metadata:
+        description: Metadata or manifest associated with biomarker data.
   AdministrationModeEnum:
     description: Mode or method by which an assessment or data collection was administered
     permissible_values:
@@ -1157,6 +1265,8 @@ enums:
         description: Speech functional test measure - mean visual search intraword pause time
       MEAN VISUAL SEARCH PERCENT WORDS MISSED:
         description: Speech functional test measure - mean visual search percent words missed
+      MetabolomicProfiling:
+        description: Metabolomics-focused biomarker profiling assessment.
   FormStatusEnum:
     permissible_values:
       New:
@@ -2069,6 +2179,21 @@ enums:
         description: Data entry error
       Other:
         description: Other deviation category
+  StudyPhaseEnum:
+    description: Phase or timepoint in a study when data were collected.
+    permissible_values:
+      screening:
+        description: Pre-treatment screening phase.
+      baseline:
+        description: Baseline assessment phase.
+      treatment_phase:
+        description: Active treatment phase.
+      follow_up:
+        description: Post-treatment follow-up phase.
+      longitudinal:
+        description: Multiple timepoints across a study.
+      endpoint:
+        description: Primary endpoint assessment.
   RouteEnum:
     permissible_values:
       Oral:
@@ -2524,20 +2649,6 @@ enums:
         description: Gene Ontology pathways
       KEGG_pathways:
         description: Kyoto Encylopedia of Genes and Genomes
-  StudyPhaseEnum:
-    permissible_values:
-      screening:
-        description: Pre-treatment screening phase
-      baseline:
-        description: Baseline assessment phase
-      treatment_phase:
-        description: Active treatment phase
-      follow_up:
-        description: Post-treatment follow-up phase
-      longitudinal:
-        description: Multiple timepoints across study
-      endpoint:
-        description: Primary endpoint assessment
   CompletenessLevelEnum:
     permissible_values:
       high:
@@ -2598,16 +2709,6 @@ enums:
         description: Ethnicity not reported
       "Prefer Not to Disclose":
         description: Subject prefers not to disclose ethnicity
-  SampleTypeEnum:
-    permissible_values:
-      "Negative Control":
-        description: Negative control sample
-      "Plate Control":
-        description: Plate control sample
-      Sample:
-        description: Actual biological sample
-      "Sample Control":
-        description: Sample control
   License:
     description: License attached to the data. If indicates UNKNOWN or RESTRICTED-USE, data may not be used without further contact for terms.
     notes:
@@ -3211,8 +3312,8 @@ enums:
         meaning: http://www.ebi.ac.uk/efo/EFO_0007550
       high frequency ultrasound:
         description: High frequency ultrasound (HFUS) is an imaging modality that can give greater resolution of surface changes in skin (review in PMID:24583666)
-      high-performance liquid chromatography/tandem mass spectrometry:
-        description: HPLC-MSMS is an analytical technique wherein high performance liquid chromatography is coupled to tandem mass spectrometry in order to separate, identify, and quantify substances in a sample.
+      HPLC-MS/MS:
+        description: High-performance liquid chromatography/tandem mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C120691
       immunoassay:
         description: Generic immunology assay
@@ -3256,11 +3357,19 @@ enums:
       liquid chromatography-electrochemical detection:
         description: A liquid chromatography method that is sensitive to compounds which can be either reduced or oxidised. The mobile phase passes directly over the working electrode, which is set to the specific potential required for oxidation or reduction. The current produced is then measured.
         meaning: http://purl.obolibrary.org/obo/CHMO_0001746
-      liquid chromatography/mass spectrometry:
-        description: LC-MS is a hyphenated technique, combining the separation power of liquid chromatography (LC), an analytical chromatographic technique for separating ions or molecules dissolved in a solvent, with the detection power of mass spectrometry(MS), a technique to separate gas phase ions according their m/z (mass to charge ratio) value. Used for drug screening, pharmacology studies, environmental analyses and forensics.
+      LC-MS:
+        description: Liquid chromatography/mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C18475
-      liquid chromatography/tandem mass spectrometry:
-        description: LC-MSMS is an analytical technique wherein liquid chromatography is coupled to tandem mass spectrometry in order to separate, identify, and quantify substances in a sample.
+      C8-pos LC-MS:
+        description: C8 reversed-phase liquid chromatography-mass spectrometry in positive ionization mode.
+      C18-neg LC-MS:
+        description: C18 reversed-phase liquid chromatography-mass spectrometry in negative ionization mode.
+      HILIC-pos LC-MS:
+        description: Hydrophilic interaction liquid chromatography-mass spectrometry in positive ionization mode.
+      HILIC-neg LC-MS:
+        description: Hydrophilic interaction liquid chromatography-mass spectrometry in negative ionization mode.
+      LC-MS/MS:
+        description: Liquid chromatography/tandem mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C122168
       lncRNA-seq:
         description: Long non-coding RNA measurements collected from RNA-Seq experiments
@@ -3393,11 +3502,17 @@ enums:
       Olink Proximity Extension Assay:
         description: Olink's Proximity Extension Assay (PEA) combines specificity and scalability to enable high-throughput, multiplex protein biomarker analysis.
         source: https://olink.com/technology/what-is-pea
+      proximity extension assay:
+        description: Generic proximity extension assay used for multiplex protein biomarker analysis.
       pure tone average:
         description: Metric used to summarize hearing sensitivity at specific frequencies to assess hearing impairment. As PTA increases, hearing ability decreases.
       quantitative PCR:
         description: Quantitative PCR (Q-PCR) is used to measure the quantity of a PCR product (commonly in real-time). It quantitatively measures starting amounts of DNA, cDNA, or RNA.
         meaning: http://purl.obolibrary.org/obo/MI_1195
+      RT-qPCR:
+        description: Reverse transcription quantitative PCR for RNA quantification.
+      qPCR microRNA assay:
+        description: Quantitative PCR assay for microRNA biomarker quantification.
       Quant-seq:
         description: 3' end-targeted RNA sequencing (Quant-seq) provides cost-effective gene expression quantification by sequencing only the 3' terminal regions of transcripts, generating digital gene expression profiles with reduced sequencing requirements.
         meaning: https://www.lexogen.com/quantseq-3mrna-seq/
@@ -3489,8 +3604,8 @@ enums:
       twin spot assay:
         description: Two individual and genetically different populations of cells that originate from the same mitotic recombination event; twin spots allow a direct and reliable comparison between mutant and wild-type clones, and the size of the wild-type twin can serve as a reference for comparison with the homozygous mutant clones.
         meaning: https://pubmed.ncbi.nlm.nih.gov/29378809/
-      ultra high-performance liquid chromatography/tandem mass spectrometry:
-        description: UPLC-MSMS is an analytical technique wherein ultra-high performance liquid chromatography is coupled to tandem mass spectrometry in order to separate, identify, and quantify substances in a sample.
+      UPLC-MS/MS:
+        description: Ultra high-performance liquid chromatography/tandem mass spectrometry.
         meaning: http://purl.obolibrary.org/obo/NCIT_C122176
       western blot:
         description: A multistep process in which a mixture of proteins is separated by gel electrophoresis
@@ -4226,6 +4341,12 @@ enums:
       Orbitrap Fusion Lumos Tribrid:
         description: Thermo Scientific Orbitrap Fusion Lumos Tribrid Mass Spectrometer
         source: https://www.thermofisher.com/us/en/home/industrial/mass-spectrometry/liquid-chromatography-mass-spectrometry-lc-ms/lc-ms-systems/orbitrap-lc-ms/orbitrap-tribrid-mass-spectrometers/orbitrap-fusion-lumos-mass-spectrometer.html
+      SomaScan:
+        description: SomaLogic aptamer-based proteomic biomarker measurement platform.
+      LC-MS:
+        description: Liquid chromatography-mass spectrometry platform.
+      MESO QuickPlex SQ 120MM:
+        description: Meso Scale Discovery electrochemiluminescence immunoassay analyzer for single- and multiplex biomarker quantitation.
       Other Platform:
         description: Placeholder for platform not in list.
       Oxford Nanopore:
@@ -4482,6 +4603,9 @@ enums:
       abf:
         description: The Axon Binary File format (ABF) was created for the storage of binary experimental data.
         source: https://mdc.custhelp.com/euf/assets/content/ABFHelp.pdf
+      ADAT:
+        description: SomaLogic tab-delimited text format containing study metadata, SOMAmer and sample annotations, and a relative fluorescence unit data matrix.
+        source: https://somalogic.github.io/SomaDataIO/reference/soma_adat.html
       ai:
         description: Adobe Illustrator format
         meaning: http://www.ebi.ac.uk/swo/data/SWO_3000023
@@ -4790,6 +4914,18 @@ enums:
       zip:
         description: zip is a format standard of a digital entity that is conformant with the PKWARE .ZIP file format specification
         meaning: http://purl.obolibrary.org/obo/OBI_0000325
+  SampleTypeEnum:
+    title: Sample Type
+    description: Classification of a biological sample or assay control.
+    permissible_values:
+      "Negative Control":
+        description: Negative control sample.
+      "Plate Control":
+        description: Plate control sample.
+      Sample:
+        description: Actual biological sample.
+      "Sample Control":
+        description: Sample control.
   SexEnum:
     permissible_values:
       Male:
@@ -4841,6 +4977,22 @@ enums:
       Mus musculus:
         description: 'Mus musculus with taxonomy ID: 10090 and Genbank common name: house mouse'
         meaning: https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=10090&lvl=3&lin=f&keep=1&srchmode=1&unlock
+  VendorEnum:
+    title: Vendor
+    description: Vendor, laboratory, or device that generated the data.
+    permissible_values:
+      Aural Analytics:
+        description: Aural Analytics digital speech data platform.
+      Broad:
+        description: Broad Institute biomarker data vendor.
+      ICON:
+        description: ICON laboratory biomarker data vendor.
+      JHU:
+        description: Johns Hopkins University biomarker data vendor.
+      Protavio:
+        description: Protavio proteomics biomarker data vendor.
+      Somalogic:
+        description: SomaLogic biomarker data vendor.
   SpeechDataTypeEnum:
     description: Types of speech assessment and acoustic data from digital health technology platforms and SDTM FT domain records
     permissible_values:
@@ -5099,6 +5251,58 @@ classes:
         title: Data Type
         range: Data
         description: Reflects the data types within the file.
+        multivalued: true
+        required: false
+  BiomarkerDataMixin:
+    mixin: true
+    description: Mixin for aggregate biomarker data attributes.
+    attributes:
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Types of samples or assay controls represented in this aggregate entity.
+        multivalued: true
+        required: false
+      processingLevel:
+        title: Processing Level
+        range: string
+        description: Processing levels represented in this aggregate entity (for example, raw, processed, or analyzed).
+        multivalued: true
+        required: false
+      standardizationLevel:
+        title: Standardization Level
+        range: string
+        description: Standards, reference materials, or levels of standardization applied to the biomarker data.
+        multivalued: true
+        required: false
+      panel:
+        title: Panel
+        range: string
+        description: Biomarker, protein, or assay panels represented in this aggregate entity.
+        multivalued: true
+        required: false
+      normalization:
+        title: Normalization
+        range: string
+        description: Normalization methods or transformations applied to the biomarker data.
+        multivalued: true
+        required: false
+      software:
+        title: Software
+        range: string
+        description: Software tools and versions used to process or analyze the biomarker data.
+        multivalued: true
+        required: false
+      assayVersion:
+        title: Assay Version
+        range: string
+        description: Vendor-supplied assay or panel version, such as a SomaScan 7k or 9.5k assay version.
+        multivalued: true
+        required: false
+      adatVersion:
+        title: ADAT Format Version
+        range: string
+        description: SomaLogic ADAT file-layout version reported in the ADAT header.
         multivalued: true
         required: false
   DataQuality:
@@ -7026,6 +7230,57 @@ classes:
         range: boolean
         description: Whether this was an unscheduled visit
         required: false
+  BiomarkerDataset:
+    is_a: BaseDataset
+    mixins: [SpecimenTypeMixin, BiomarkerDataMixin]
+    description: >
+      Dataset containing aggregate-level ALS biomarker data generated by one or more vendors or laboratories.
+
+    slots:
+      - assay
+      - assayTarget
+      - platform
+      - vendor
+      - clinicalDomain
+      - assessmentType
+      - studyPhase
+      - keyMeasures
+      - hasLongitudinalData
+    attributes:
+      dataType:
+        title: Data Type
+        range: BiomarkerDataTypeEnum
+        description: Biomarker data types and processing levels included in this dataset.
+        multivalued: true
+        required: false
+  BiomarkerFile:
+    is_a: BaseFile
+    mixins: [FileAnnotationsMixin, RecordSetFileMixin, SpecimenTypeMixin, BiomarkerDataMixin]
+    description: >
+      Aggregate-level file containing biomarker measurements for multiple subjects or specimens, such as total tau results or raw intensity matrices.
+
+    slots:
+      - fileFormat
+      - assay
+      - assayTarget
+      - platform
+      - vendor
+      - clinicalDomain
+      - assessmentType
+      - studyPhase
+    attributes:
+      dataType:
+        title: Data Type
+        range: BiomarkerDataTypeEnum
+        description: Biomarker data types and processing levels contained in this file.
+        multivalued: true
+        required: false
+      subjectIdColumn:
+        title: Subject ID Column
+        range: string
+        description: Name of the column containing subject identifiers.
+        multivalued: true
+        required: false
   ClinicalDataset:
     is_a: BaseDataset
     mixins: [ClinicalDatasetMixin]
@@ -7225,6 +7480,8 @@ classes:
     description: >
       Dataset containing digital speech assessment data including raw audio files organized by subject (sample) and session, with metrics derived from SDTM FT domain records. Subjects are identified by NIH GUID, NeuroStamps, and NeuroGUID; metrics are mapped per subject using the NeuroStamps column from SDTM source files.
 
+    slots:
+      - vendor
     attributes:
       # Speech-specific data types (overrides BaseFile.dataType)
       dataType:
@@ -7257,11 +7514,6 @@ classes:
 
         multivalued: true
         required: false
-      vendor:
-        title: Vendor / Device (FTNAM)
-        range: string
-        description: Name of the vendor or device used for speech data collection (SDTM FTNAM)
-        required: false
       collectionLocation:
         title: Collection Location (SUPPLOC)
         range: AdministrationLocationEnum
@@ -7282,6 +7534,7 @@ classes:
 
     slots:
       - fileFormat
+      - vendor
     attributes:
       # Speech-specific data type (overrides BaseFile.dataType)
       dataType:
@@ -7371,11 +7624,6 @@ classes:
         description: >
           Reason the test was not completed. Only applicable when ftStat = "Not Done" (SDTM FTREASND).
 
-        required: false
-      vendor:
-        title: Vendor / Device (FTNAM)
-        range: string
-        description: Name of the vendor or device used to collect speech data for this session (SDTM FTNAM)
         required: false
       suppLoc:
         title: Collection Location (SUPPLOC)
@@ -8439,7 +8687,12 @@ slots:
     multivalued: true
     required: false
   assayTarget:
-    description: Target of the assay such as a HUGO gene symbol, cell type, or tissue region depending on the capabilities of the assay.
+    title: Assay Target
+    description: >
+      Gene, gene product, or biomarker targeted by the assay (for example, TDP-43, HDGFL2-CE, or Total Tau).
+
+    range: AssayTargetEnum
+    multivalued: true
     required: false
   author:
     title: Author(s)
@@ -8782,6 +9035,12 @@ slots:
     title: View Name
     description: Name of the Synapse view or query used to generate the file.
     range: string
+    multivalued: true
+    required: false
+  vendor:
+    title: Vendor
+    description: Vendor, laboratory, or device that generated the data.
+    range: VendorEnum
     multivalued: true
     required: false
   alignmentMethod:

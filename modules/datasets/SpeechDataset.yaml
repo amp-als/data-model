@@ -11,6 +11,8 @@ classes:
       by subject (sample) and session, with metrics derived from SDTM FT domain records.
       Subjects are identified by NIH GUID, NeuroStamps, and NeuroGUID; metrics are mapped
       per subject using the NeuroStamps column from SDTM source files.
+    slots:
+      - vendor
     attributes:
       # Speech-specific data types (overrides BaseFile.dataType)
       dataType:
@@ -42,11 +44,6 @@ classes:
           All standard units of measurement used for test results across this dataset,
           sourced from the SDTM FTSTRESU column.
         multivalued: true
-        required: false
-      vendor:
-        title: Vendor / Device (FTNAM)
-        range: string
-        description: Name of the vendor or device used for speech data collection (SDTM FTNAM)
         required: false
       collectionLocation:
         title: Collection Location (SUPPLOC)

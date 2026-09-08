@@ -24,8 +24,14 @@ slots:
       - portal
     required: false
   assayTarget:
-    description: Target of the assay such as a HUGO gene symbol, cell type, or
-      tissue region depending on the capabilities of the assay.
+    title: Assay Target
+    description: >
+      Gene, gene product, or biomarker targeted by the assay (for example, TDP-43,
+      HDGFL2-CE, or Total Tau).
+    range: AssayTargetEnum
+    multivalued: true
+    in_subset:
+      - portal
     required: false
   author:
     title: Author(s)
@@ -508,6 +514,14 @@ slots:
     title: View Name
     description: Name of the Synapse view or query used to generate the file.
     range: string
+    multivalued: true
+    in_subset:
+      - portal
+    required: false
+  vendor:
+    title: Vendor
+    description: Vendor, laboratory, or device that generated the data.
+    range: VendorEnum
     multivalued: true
     in_subset:
       - portal

@@ -1,0 +1,58 @@
+#######################################
+# Biomarker Attribute Mixins
+# Attributes shared by aggregate biomarker datasets and files
+#######################################
+
+classes:
+  BiomarkerDataMixin:
+    mixin: true
+    description: Mixin for aggregate biomarker data attributes.
+    attributes:
+      sampleType:
+        title: Sample Type
+        range: SampleTypeEnum
+        description: Types of samples or assay controls represented in this aggregate entity.
+        multivalued: true
+        required: false
+      processingLevel:
+        title: Processing Level
+        range: string
+        description: Processing levels represented in this aggregate entity (for example, raw, processed, or analyzed).
+        multivalued: true
+        required: false
+      standardizationLevel:
+        title: Standardization Level
+        range: string
+        description: Standards, reference materials, or levels of standardization applied to the biomarker data.
+        multivalued: true
+        required: false
+      panel:
+        title: Panel
+        range: string
+        description: Biomarker, protein, or assay panels represented in this aggregate entity.
+        multivalued: true
+        required: false
+      normalization:
+        title: Normalization
+        range: string
+        description: Normalization methods or transformations applied to the biomarker data.
+        multivalued: true
+        required: false
+      software:
+        title: Software
+        range: string
+        description: Software tools and versions used to process or analyze the biomarker data.
+        multivalued: true
+        required: false
+      assayVersion:
+        title: Assay Version
+        range: string
+        description: Vendor-supplied assay or panel version, such as a SomaScan 7k or 9.5k assay version.
+        multivalued: true
+        required: false
+      adatVersion:
+        title: ADAT Format Version
+        range: string
+        description: SomaLogic ADAT file-layout version reported in the ADAT header.
+        multivalued: true
+        required: false

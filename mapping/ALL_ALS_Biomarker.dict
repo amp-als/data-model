@@ -1,0 +1,1206 @@
+# Mapping dict: source_column -> target_data_model_field
+# Fill in "target" with the data model field name for each column.
+# For value-mapped columns, fill in the data model value for each source value.
+# Entries with empty string values are ignored during annotation.
+{
+  "Subject_ID": "",
+  "NA": "",
+  "P474-00355": "",
+  "P475-00474": "",
+  "P474-00234": "",
+  "P475-00450": "",
+  "P474-00317": "",
+  "P0475-00006": "",
+  "P475-00357": "",
+  "P0474-00141": "",
+  "P0474-00161": "",
+  "P475-00585": "",
+  "P475-00478": "",
+  "P474-00297": "",
+  "P475-00444": "",
+  "P0474-00142": "",
+  "P475-00305": "",
+  "P0475-00022": "",
+  "P474-00347": "",
+  "P474-00329": "",
+  "P474-00289": "",
+  "P475-00448": "",
+  "P474-00306": "",
+  "P474-00225": "",
+  "P0474-00005": "",
+  "P0474-00003": "",
+  "P0475-00093": "",
+  "P474-00262": "",
+  "P475-00321": "",
+  "P474-00314": "",
+  "P474-00284": "",
+  "P0475-00008": "",
+  "P0475-00159": "",
+  "P475-00399": "",
+  "P0475-00255": "",
+  "P474-00319": "",
+  "P475-00433": "",
+  "P0475-00160": "",
+  "P475-00494": "",
+  "P474-00373": "",
+  "P475-00436": "",
+  "P474-00309": "",
+  "P475-00473": "",
+  "P474-00221": "",
+  "P474-00294": "",
+  "P475-00331": "",
+  "P474-00240": "",
+  "P0475-00188": "",
+  "P475-00389": "",
+  "P0474-00007": "",
+  "P475-00328": "",
+  "P475-00381": "",
+  "P474-00249": "",
+  "P475-00304": "",
+  "P474-00343": "",
+  "P0474-00178": "",
+  "P475-00465": "",
+  "P475-00663": "",
+  "P475-00458": "",
+  "P474-00316": "",
+  "P475-00320": "",
+  "P475-00365": "",
+  "P475-00554": "",
+  "P474-00227": "",
+  "P474-00286": "",
+  "P474-00282": "",
+  "P474-00226": "",
+  "P475-00311": "",
+  "P0474-00093": "",
+  "P475-00354": "",
+  "P474-00337": "",
+  "P0475-00175": "",
+  "P0475-00002": "",
+  "P475-00454": "",
+  "P474-00276": "",
+  "P475-00423": "",
+  "P0475-00029": "",
+  "P0474-00174": "",
+  "P475-00434": "",
+  "P474-00351": "",
+  "P475-00620": "",
+  "P475-00467": "",
+  "P474-00253": "",
+  "P0474-00008": "",
+  "P0474-00089": "",
+  "P0475-00021": "",
+  "P0474-00006": "",
+  "P474-00375": "",
+  "P475-00484": "",
+  "P474-00260": "",
+  "P474-00367": "",
+  "P475-00323": "",
+  "P475-00376": "",
+  "P474-00320": "",
+  "P475-00309": "",
+  "P475-00350": "",
+  "P475-00437": "",
+  "P474-00345": "",
+  "P474-00287": "",
+  "P474-00267": "",
+  "P474-00341": "",
+  "P474-00242": "",
+  "": {
+    "target": "",
+    "values": {
+      "1": "",
+      "2": "",
+      "HMDB_specificity (1=match; 2=representative)": "",
+      "NA": ""
+    }
+  },
+  "TEST FACILITY NUMBER": {
+    "target": "",
+    "values": {
+      "0869/0005-B": "",
+      "0869/0005-C": "",
+      "0869/0005-D": ""
+    }
+  },
+  "MATRIX": {
+    "target": "biospecimenType",
+    "values": {
+      "HUMAN SERUM": "serum"
+    }
+  },
+  "ANALYTE": {
+    "target": "assayTarget",
+    "values": {
+      "TAU (pT181)": "pT181",
+      "Total TAU": "Total Tau",
+      "miR-206": "miR-206"
+    }
+  },
+  "ICON SAMPLE NUMBER": "",
+  "SUBJECT ID": "",
+  "BARCODE": "",
+  "RUN ID": {
+    "target": "",
+    "values": {
+      "AN-1": "",
+      "AN-2": "",
+      "AN-3": "",
+      "AN-4": "",
+      "AN-5": "",
+      "AN-6": ""
+    }
+  },
+  "SAMPLE RESULT": "",
+  "CONCENTRATION UNIT": {
+    "target": "",
+    "values": {
+      "CT": "",
+      "fg/mL": ""
+    }
+  },
+  "miR-206": "",
+  "miR-93": "",
+  "dCT": "",
+  "RESULT COMMENT": {
+    "target": "",
+    "values": {
+      "<LLOQ": "",
+      "FIPO high miR-93 concentration": "",
+      "concentration near the assay's limit of detection (LOD)": "",
+      "more variation to samples below std B": ""
+    }
+  },
+  "spec_barcode": "",
+  "ppid": "",
+  "event_label": {
+    "target": "",
+    "values": {
+      "Visit 1": "",
+      "Visit 2": "",
+      "Visit 3": ""
+    }
+  },
+  "average_value": "",
+  "signal_diluent_ratio": "",
+  "standard_analysis": "",
+  "quant_status": {
+    "target": "",
+    "values": {
+      "N": "",
+      "Y": ""
+    }
+  },
+  "SampleID": "",
+  "SampleType": {
+    "target": "",
+    "values": {
+      "NEGATIVE_CONTROL": "",
+      "PLATE_CONTROL": "",
+      "SAMPLE": "",
+      "SAMPLE_CONTROL": ""
+    }
+  },
+  "WellID": "",
+  "PlateID": {
+    "target": "",
+    "values": {
+      "Plate 1 layout - ALS-Run1": "",
+      "Plate 2 layout - ALS-Run1": "",
+      "Plate 3 layout - ALS-Run2": "",
+      "Plate 4 layout - ALS-Run2": ""
+    }
+  },
+  "DataAnalysisRefID": {
+    "target": "",
+    "values": {
+      "D10004": "",
+      "D10014": "",
+      "D20004": "",
+      "D20014": "",
+      "D30004": "",
+      "D30014": "",
+      "D40004": "",
+      "D40014": "",
+      "D50004": "",
+      "D50014": "",
+      "D60004": "",
+      "D60014": "",
+      "D70004": "",
+      "D70014": "",
+      "D80004": "",
+      "D80014": ""
+    }
+  },
+  "OlinkID": "",
+  "UniProt": "",
+  "Assay": "assay",
+  "AssayType": {
+    "target": "",
+    "values": {
+      "amp_ctrl": "",
+      "assay": "",
+      "ext_ctrl": "",
+      "inc_ctrl": ""
+    }
+  },
+  "Panel": "panel",
+  "Block": {
+    "target": "",
+    "values": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "8": ""
+    }
+  },
+  "Count": "",
+  "ExtNPX": "",
+  "NPX": "",
+  "Normalization": "normalization",
+  "PCNormalizedNPX": "",
+  "AssayQC": {
+    "target": "",
+    "values": {
+      "NA": "",
+      "PASS": ""
+    }
+  },
+  "SampleQC": {
+    "target": "",
+    "values": {
+      "FAIL": "",
+      "NA": "",
+      "PASS": ""
+    }
+  },
+  "SoftwareVersion": {
+    "target": "",
+    "values": {
+      "2.0.0": ""
+    }
+  },
+  "SoftwareName": "software",
+  "PanelDataArchiveVersion": {
+    "target": "",
+    "values": {
+      "2000-02-01 00:00:00": ""
+    }
+  },
+  "PreProcessingVersion": {
+    "target": "",
+    "values": {
+      "2002-06-02 00:00:00": ""
+    }
+  },
+  "PreProcessingSoftware": "software",
+  "InstrumentType": "platform",
+  "OSICategory": {
+    "target": "",
+    "values": {
+      "0": "",
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": ""
+    }
+  },
+  "OSISummary": "",
+  "OSITimeToCentrifugation": "",
+  "OSIPreparationTemperature": "",
+  "SampleBlockQCWarn": {
+    "target": "",
+    "values": {
+      "0": "",
+      "1": "",
+      "16": ""
+    }
+  },
+  "SampleBlockQCFail": {
+    "target": "",
+    "values": {
+      "0": "",
+      "1": "",
+      "30": ""
+    }
+  },
+  "BlockQCFail": {
+    "target": "",
+    "values": {
+      "0": "",
+      "1": ""
+    }
+  },
+  "AssayQCWarn": {
+    "target": "",
+    "values": {
+      "0": "",
+      "1": ""
+    }
+  },
+  "IntraCV": "",
+  "InterCV": "",
+  "header__!AssayRobot": {
+    "target": "",
+    "values": {
+      "Fluent 6 ROB_29, Fluent 5 ROB_28, Fluent 7 ROB_30": ""
+    }
+  },
+  "header__!AssayType": {
+    "target": "",
+    "values": {
+      "PharmaServices": ""
+    }
+  },
+  "header__!AssayVersion": "assayVersion",
+  "header__!CreatedBy": {
+    "target": "",
+    "values": {
+      "User: wb860; Package: SomaDataIO v6.6.1; R 4.5.2; OS: mingw32": ""
+    }
+  },
+  "header__!CreatedDate": {
+    "target": "",
+    "values": {
+      "2026-07-31": ""
+    }
+  },
+  "header__!ExpDate": {
+    "target": "",
+    "values": {
+      "2026-05-01": ""
+    }
+  },
+  "header__!GeneratedBy": {
+    "target": "",
+    "values": {
+      "Px (Build: 1134 : ee3946e148cc04122f49bc3640c9fcb898706d0b)": ""
+    }
+  },
+  "header__!Legal": {
+    "target": "",
+    "values": {
+      "SOMALOGIC - CONFIDENTIAL INFORMATION": ""
+    }
+  },
+  "header__!ProcessSteps": "analysisTypes",
+  "header__!ProteinEffectiveDate": {
+    "target": "",
+    "values": {
+      "2025-04-10": ""
+    }
+  },
+  "header__!Title": {
+    "target": "",
+    "values": {
+      "PLT47174, PLT47173, PLT47178": ""
+    }
+  },
+  "header__!UseRestriction": {
+    "target": "",
+    "values": {
+      "Research Use Only": ""
+    }
+  },
+  "header__!Version": "adatVersion",
+  "header__AdatId": {
+    "target": "",
+    "values": {
+      "GID-37c318fd-a0ae-4f2a-b18a-c41a756f8184": "",
+      "GID-40f75701-1bae-453a-8bb3-6e731b83be4c": ""
+    }
+  },
+  "header__CalPlateTailPercent_PLT47173": {
+    "target": "",
+    "values": {
+      "5.8": ""
+    }
+  },
+  "header__CalPlateTailPercent_PLT47174": {
+    "target": "",
+    "values": {
+      "5.5": ""
+    }
+  },
+  "header__CalPlateTailPercent_PLT47178": {
+    "target": "",
+    "values": {
+      "4.8": ""
+    }
+  },
+  "header__CalibrationReference": {
+    "target": "",
+    "values": {
+      "Reference_Cal_230430_Serum_V5.0.12UP_Lot2": ""
+    }
+  },
+  "header__CalibratorId": {
+    "target": "",
+    "values": {
+      "230430": ""
+    }
+  },
+  "header__HybNormReference": {
+    "target": "",
+    "values": {
+      "intraplate": ""
+    }
+  },
+  "header__LabLocation": {
+    "target": "",
+    "values": {
+      "SLUS": ""
+    }
+  },
+  "header__MasterMixLot": {
+    "target": "",
+    "values": {
+      "v5.0 Lot 2": ""
+    }
+  },
+  "header__MedNormReference": {
+    "target": "",
+    "values": {
+      "intraplate": ""
+    }
+  },
+  "header__NormalizationAlgorithm": "normalization",
+  "header__PlateScale_PassFlag_PLT47173": {
+    "target": "",
+    "values": {
+      "PASS": ""
+    }
+  },
+  "header__PlateScale_PassFlag_PLT47174": {
+    "target": "",
+    "values": {
+      "PASS": ""
+    }
+  },
+  "header__PlateScale_PassFlag_PLT47178": {
+    "target": "",
+    "values": {
+      "PASS": ""
+    }
+  },
+  "header__PlateScale_ReferenceSource": {
+    "target": "",
+    "values": {
+      "Reference_Cal_230430_Serum_V5.0.12UP_Lot2": ""
+    }
+  },
+  "header__PlateScale_Scalar_PLT47173": {
+    "target": "",
+    "values": {
+      "1.83793554": ""
+    }
+  },
+  "header__PlateScale_Scalar_PLT47174": {
+    "target": "",
+    "values": {
+      "1.47890574": ""
+    }
+  },
+  "header__PlateScale_Scalar_PLT47178": {
+    "target": "",
+    "values": {
+      "1.21873880": ""
+    }
+  },
+  "header__PlateTailPercent_PLT47173": {
+    "target": "",
+    "values": {
+      "2.9": ""
+    }
+  },
+  "header__PlateTailPercent_PLT47174": {
+    "target": "",
+    "values": {
+      "2.2": ""
+    }
+  },
+  "header__PlateTailPercent_PLT47178": {
+    "target": "",
+    "values": {
+      "2.1": ""
+    }
+  },
+  "header__PlateTailTest_PLT47173": {
+    "target": "",
+    "values": {
+      "PASS": ""
+    }
+  },
+  "header__PlateTailTest_PLT47174": {
+    "target": "",
+    "values": {
+      "PASS": ""
+    }
+  },
+  "header__PlateTailTest_PLT47178": {
+    "target": "",
+    "values": {
+      "PASS": ""
+    }
+  },
+  "header__PlateType": {
+    "target": "",
+    "values": {
+      "Prod": ""
+    }
+  },
+  "header__QcReferenceSource_230431": {
+    "target": "",
+    "values": {
+      "Reference_V5.0.12UP_Serum_QC_ANML_230431": ""
+    }
+  },
+  "header__ReportConfig": {
+    "target": "",
+    "values": {
+      "{'analysisSteps': [{'stepType': 'bridge', 'referenceSource': '12up_bridge'}, {'stepType': 'hybNorm', 'referenceSource': 'intraplate', 'includeSampleTypes': ['QC', 'Calibrator', 'Buffer']}, {'stepName': 'medNormInt', 'stepType': 'medNorm', 'includeSampleTypes': ['Calibrator', 'Buffer'], 'referenceSource': 'intraplate', 'referenceFields': ['SampleId'], 'normalizationFilter': 'V5_Validation_NormFilter'}, {'stepType': 'plateScale', 'referenceSource': 'Reference_Cal_230430_Serum_V5.0.12UP_Lot2', 'normalizationFilter': 'V5_Validation_NormFilter'}, {'stepType': 'leakDetection', 'referenceSource': '12up_LeakDetection_PlatePosition'}, {'stepType': 'calibrate', 'referenceSource': 'Reference_Cal_230430_Serum_V5.0.12UP_Lot2', 'tailFilter': 'V5_Validation_NormFilter', 'tailThreshold': 10.0}, {'stepName': 'anmlQC', 'stepType': 'ANML', 'effectSizeCutoff': 2.0, 'minFractionUsed': 0.3, 'includeSampleTypes': ['QC'], 'referenceSource': 'Reference_V5.0.12UP_Serum_ANML', 'normalizationFilter': 'V5_ANML_NormFilter'}, {'stepType': 'qcCheck', 'QCReferenceSource': 'Reference_V5.0.12UP_Serum_QC_ANML_230431', 'tailsCriteriaLower': 0.8, 'tailsCriteriaUpper': 1.2, 'tailThreshold': 15.0, 'prenormalized': True, 'normalizationFilter': 'V5_Validation_NormFilter'}, {'stepName': 'anmlSMP', 'stepType': 'ANML', 'effectSizeCutoff': 2.0, 'minFractionUsed': 0.3, 'includeSampleTypes': ['Sample'], 'referenceSource': 'Reference_V5.0.12UP_Serum_ANML', 'normalizationFilter': 'V5_ANML_NormFilter'}], 'qualityReports': ['SQS Report']}": ""
+    }
+  },
+  "header__StudyMatrix": {
+    "target": "biospecimenType",
+    "values": {
+      "Serum": "serum"
+    }
+  },
+  "header__CreatedByHistory": {
+    "target": "",
+    "values": {
+      "PharmaServices (2026-05-02)": ""
+    }
+  },
+  "sample__SampleId": "",
+  "sample__PercentDilution": {
+    "target": "",
+    "values": {
+      "20": ""
+    }
+  },
+  "sample__SampleMatrix": {
+    "target": "",
+    "values": {
+      "Serum": ""
+    }
+  },
+  "sample__Barcode": "",
+  "sample__ExtIdentifier": "",
+  "sample__SsfExtId": "",
+  "sample__RMA": {
+    "target": "",
+    "values": {
+      "SS-26157529": ""
+    }
+  },
+  "sample__HybControlNormScale": "",
+  "sample__NormScale_20": "",
+  "sample__NormScale_0_005": "",
+  "sample__NormScale_0_5": "",
+  "sample__ANMLFractionUsed_20": "",
+  "sample__ANMLFractionUsed_0_005": {
+    "target": "",
+    "values": {
+      "0.733": "",
+      "0.769": "",
+      "0.783": "",
+      "0.796": "",
+      "0.801": "",
+      "0.814": "",
+      "0.819": "",
+      "0.824": "",
+      "0.828": "",
+      "0.833": "",
+      "0.837": "",
+      "0.842": "",
+      "0.846": "",
+      "0.851": "",
+      "0.855": "",
+      "0.86": "",
+      "0.864": "",
+      "0.869": "",
+      "0.873": "",
+      "0.878": "",
+      "0.882": "",
+      "0.887": "",
+      "0.891": "",
+      "0.896": "",
+      "0.9": "",
+      "0.905": "",
+      "0.91": "",
+      "0.914": "",
+      "0.919": "",
+      "0.923": "",
+      "0.928": "",
+      "0.932": "",
+      "0.937": "",
+      "0.941": "",
+      "0.946": "",
+      "0.95": "",
+      "0.955": "",
+      "0.959": "",
+      "0.964": "",
+      "0.968": "",
+      "0.973": "",
+      "0.977": "",
+      "0.982": ""
+    }
+  },
+  "sample__ANMLFractionUsed_0_5": "",
+  "protein__SeqId": "",
+  "protein__SeqIdVersion": {
+    "target": "",
+    "values": {
+      "1": "",
+      "10": "",
+      "11": "",
+      "15": "",
+      "18": "",
+      "2": "",
+      "3": "",
+      "35": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "",
+      "9": ""
+    }
+  },
+  "protein__SomaId": "",
+  "protein__TargetFullName": "",
+  "protein__Target": "",
+  "protein__UniProt": "",
+  "protein__EntrezGeneID": "",
+  "protein__EntrezGeneSymbol": "",
+  "protein__Organism": {
+    "target": "",
+    "values": {
+      "African clawed frog": "",
+      "Bacillus stearothermophilus": "",
+      "Common eastern firefly": "",
+      "E. coli": "",
+      "Ensifer meliloti": "",
+      "European elder": "",
+      "Gila monster": "",
+      "HIV-1": "",
+      "HIV-2": "",
+      "Hornet": "",
+      "Human": "",
+      "Jellyfish": "",
+      "Mouse": "",
+      "Red alga": "",
+      "Thermus thermophilus": ""
+    }
+  },
+  "protein__Units": {
+    "target": "",
+    "values": {
+      "RFU": ""
+    }
+  },
+  "protein__Type": {
+    "target": "",
+    "values": {
+      "Hybridization Control Elution": "",
+      "Non-Biotin": "",
+      "Non-Cleavable": "",
+      "Non-Human": "",
+      "Protein": "",
+      "Spuriomer": ""
+    }
+  },
+  "protein__Dilution": {
+    "target": "",
+    "values": {
+      "0": "",
+      "0.005": "",
+      "0.5": "",
+      "20": ""
+    }
+  },
+  "protein__PlateScale_Reference": "",
+  "protein__CalReference": "",
+  "protein__Cal_PLT47174": "",
+  "protein__Cal_PLT47173": "",
+  "protein__Cal_PLT47178": "",
+  "protein__CalQcRatio_PLT47174_230431": "",
+  "protein__ColCheck": {
+    "target": "",
+    "values": {
+      "FLAG": "",
+      "PASS": ""
+    }
+  },
+  "protein__CalQcRatio_PLT47173_230431": "",
+  "protein__CalQcRatio_PLT47178_230431": "",
+  "protein__QcReference_230431": "",
+  "_views": {
+    "ALL ALS_C8-pos": {
+      "dataType": [
+        "metabolomics"
+      ],
+      "assay": [
+        "C8-pos LC-MS"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "standardizationLevel": [
+        "annotated"
+      ],
+      "keyMeasures": [
+        "metabolite identity",
+        "mass-to-charge match",
+        "retention-time match",
+        "metabolite abundance",
+        "metabolite intensity"
+      ],
+      "clinicalDomain": [
+        "biomarkers"
+      ],
+      "subjectIdColumn": [
+        "Subject_ID"
+      ],
+      "assayTarget": [
+        "metabolites",
+        "lipids"
+      ],
+      "platform": [
+        "LC-MS"
+      ],
+      "annotations": [
+        "HMDB identifier",
+        "metabolite annotation specificity",
+        "metabolite name",
+        "compound identifier"
+      ],
+      "assessmentType": [
+        "MetabolomicProfiling"
+      ],
+      "analysisTypes": [
+        "metabolite quantification",
+        "metabolite identification",
+        "metabolite annotation",
+        "LC-MS profiling"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ]
+    },
+    "ALL ALS_C18-neg": {
+      "dataType": [
+        "metabolomics"
+      ],
+      "assay": [
+        "C18-neg LC-MS"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "standardizationLevel": [
+        "annotated"
+      ],
+      "keyMeasures": [
+        "metabolite identity",
+        "mass-to-charge match",
+        "retention-time match",
+        "metabolite abundance",
+        "metabolite intensity"
+      ],
+      "clinicalDomain": [
+        "biomarkers"
+      ],
+      "subjectIdColumn": [
+        "Subject_ID"
+      ],
+      "assayTarget": [
+        "metabolites",
+        "fatty acids",
+        "bile acids",
+        "oxidized lipids"
+      ],
+      "platform": [
+        "LC-MS"
+      ],
+      "annotations": [
+        "HMDB identifier",
+        "metabolite annotation specificity",
+        "metabolite name",
+        "compound identifier"
+      ],
+      "assessmentType": [
+        "MetabolomicProfiling"
+      ],
+      "analysisTypes": [
+        "metabolite quantification",
+        "metabolite identification",
+        "metabolite annotation",
+        "LC-MS profiling"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ]
+    },
+    "ALL ALS_HILIC-pos": {
+      "dataType": [
+        "metabolomics"
+      ],
+      "assay": [
+        "HILIC-pos LC-MS"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "standardizationLevel": [
+        "annotated"
+      ],
+      "keyMeasures": [
+        "metabolite identity",
+        "mass-to-charge match",
+        "retention-time match",
+        "metabolite abundance",
+        "metabolite intensity"
+      ],
+      "clinicalDomain": [
+        "biomarkers"
+      ],
+      "subjectIdColumn": [
+        "Subject_ID"
+      ],
+      "assayTarget": [
+        "polar metabolites"
+      ],
+      "platform": [
+        "LC-MS"
+      ],
+      "annotations": [
+        "HMDB identifier",
+        "metabolite annotation specificity",
+        "metabolite name",
+        "compound identifier"
+      ],
+      "assessmentType": [
+        "MetabolomicProfiling"
+      ],
+      "analysisTypes": [
+        "metabolite quantification",
+        "metabolite identification",
+        "metabolite annotation",
+        "LC-MS profiling"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ]
+    },
+    "ALL ALS_HILIC-neg": {
+      "dataType": [
+        "metabolomics"
+      ],
+      "assay": [
+        "HILIC-neg LC-MS"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "standardizationLevel": [
+        "annotated"
+      ],
+      "keyMeasures": [
+        "metabolite identity",
+        "mass-to-charge match",
+        "retention-time match",
+        "metabolite abundance",
+        "metabolite intensity"
+      ],
+      "clinicalDomain": [
+        "biomarkers"
+      ],
+      "subjectIdColumn": [
+        "Subject_ID"
+      ],
+      "assayTarget": [
+        "polar metabolites"
+      ],
+      "platform": [
+        "LC-MS"
+      ],
+      "annotations": [
+        "HMDB identifier",
+        "metabolite annotation specificity",
+        "metabolite name",
+        "compound identifier"
+      ],
+      "assessmentType": [
+        "MetabolomicProfiling"
+      ],
+      "analysisTypes": [
+        "metabolite quantification",
+        "metabolite identification",
+        "metabolite annotation",
+        "LC-MS profiling"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ]
+    },
+    "ALL ALS_Total Tau_RESULTS_FINAL_24JUN2026": {
+      "keyMeasures": [
+        "Total Tau"
+      ],
+      "assayTarget": [
+        "Total Tau"
+      ],
+      "subjectIdColumn": [
+        "SUBJECT ID"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "standardizationLevel": [
+        "quantified"
+      ],
+      "normalization": [
+        "NA"
+      ],
+      "analysisTypes": [
+        "protein biomarker quantification"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ]
+    },
+    "ALL ALS_pT181_RESULTS_FINAL_30JUN2026": {
+      "keyMeasures": [
+        "pT181"
+      ],
+      "assayTarget": [
+        "pT181"
+      ],
+      "subjectIdColumn": [
+        "SUBJECT ID"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "standardizationLevel": [
+        "quantified"
+      ],
+      "normalization": [
+        "NA"
+      ],
+      "analysisTypes": [
+        "protein biomarker quantification"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ]
+    },
+    "ALL ALS_miR-206_RESULTS_FINAL_06JUL2026": {
+      "keyMeasures": [
+        "miR-206 concentration",
+        "miR-93 concentration",
+        "relative miRNA expression",
+        "cycle threshold (Ct)",
+        "delta Ct"
+      ],
+      "assayTarget": [
+        "miR-206"
+      ],
+      "subjectIdColumn": [
+        "SUBJECT ID"
+      ],
+      "normalization": [
+        "miR-93 endogenous reference normalization"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "analysisTypes": [
+        "miRNA quantification",
+        "qPCR analysis",
+        "normalization"
+      ],
+      "assay": [
+        "RT-qPCR",
+        "qPCR microRNA assay"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ]
+    },
+    "ALLALS_JHU_HDGFL2_RESULTS_ 03082026": {
+      "dataType": [
+        "biomarker"
+      ],
+      "fileFormat": [
+        "xlsx"
+      ],
+      "software": [
+        "Methodical Mind Software"
+      ],
+      "processingLevel": [
+        "processed"
+      ],
+      "standardizationLevel": [
+        "standardized"
+      ],
+      "keyMeasures": [
+        "biomarker quantification",
+        "replicate averaging",
+        "calibration model fitting",
+        "dilution extrapolation",
+        "matrix correction",
+        "quality control assessment"
+      ],
+      "subjectIdColumn": [
+        "ppid"
+      ],
+      "platform": [
+        "MESO QuickPlex SQ 120MM"
+      ],
+      "assayTarget": [
+        "TDP-43",
+        "HDGFL2-CE",
+        "HDGFL2"
+      ]
+    },
+    "ALL-ALS_RESULTS-REPORT_RUN_1": {
+      "fileFormat": [
+        "xlsx"
+      ],
+      "annotations": [
+        "UniProt"
+      ],
+      "keyMeasures": [
+        "NPX",
+        "PCNormalizedNPX"
+      ],
+      "subjectIdColumn": [
+        "SampleID"
+      ]
+    },
+    "ALL-ALS_RESULTS-REPORT_RUN_2": {
+      "fileFormat": [
+        "xlsx"
+      ],
+      "annotations": [
+        "UniProt"
+      ],
+      "keyMeasures": [
+        "NPX",
+        "PCNormalizedNPX"
+      ],
+      "subjectIdColumn": [
+        "SampleID"
+      ]
+    },
+    "SS-26157529_v5.0_Serum.bridge.hybNorm.medNormInt.plateScale.leakDetection.calibrate.anmlQC.qcCheck": {
+      "annotations": [
+        "UniProt",
+        "EntrezGeneId",
+        "EntrezGeneSymbol"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "assay": [
+        "SomaScan"
+      ],
+      "vendor": [
+        "Somalogic"
+      ],
+      "dataType": [
+        "SomaScan",
+        "proteomics",
+        "protein_abundance"
+      ],
+      "subjectIdColumn": [
+        "SampleId"
+      ],
+      "keyMeasures": [
+        "Protein Abundance"
+      ],
+      "processingLevel": [
+        "Intermediate"
+      ],
+      "normalization": [
+        "ANML-Plate-Only",
+        "Calibration"
+      ],
+      "fileFormat": [
+        "ADAT"
+      ],
+      "platform": [
+        "SomaScan"
+      ]
+    },
+    "SS-26157529_v5.0_Serum.bridge.hybNorm.medNormInt.plateScale.leakDetection.calibrate.anmlQC.qcCheck.anmlSMP": {
+      "annotations": [
+        "UniProt",
+        "EntrezGeneId",
+        "EntrezGeneSymbol"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "assay": [
+        "SomaScan"
+      ],
+      "vendor": [
+        "Somalogic"
+      ],
+      "dataType": [
+        "SomaScan",
+        "proteomics",
+        "protein_abundance"
+      ],
+      "subjectIdColumn": [
+        "SampleId"
+      ],
+      "keyMeasures": [
+        "Protein Abundance"
+      ],
+      "processingLevel": [
+        "Normalized"
+      ],
+      "normalization": [
+        "ANML-Sample-Scaling"
+      ],
+      "fileFormat": [
+        "ADAT"
+      ],
+      "platform": [
+        "SomaScan"
+      ]
+    }
+  },
+  "contributor": {
+    "target": "contributor",
+    "value": "ALL ALS"
+  },
+  "creator": {
+    "target": "creator",
+    "value": "ALL ALS"
+  },
+  "disease": {
+    "target": "disease",
+    "value": "ALS"
+  },
+  "originalRepository": {
+    "target": "originalRepository",
+    "value": "ALL ALS"
+  },
+  "program": {
+    "target": "program",
+    "value": "ALL ALS"
+  },
+  "species": {
+    "target": "species",
+    "value": "Homo sapiens"
+  }
+}

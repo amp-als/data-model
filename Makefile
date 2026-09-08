@@ -1,4 +1,4 @@
-all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset File ClinicalFile ClinicalRecordSetFile ClinicalFileSetFile OmicFile OmicRecordSetFile OmicFileSetFile GEODataset GEOFile SRADataset SRAFile SpeechDataset SpeechFile MetadataSchema
+all: ALS.jsonld dist/ALS.yaml ALS.ttl Dataset ClinicalDataset OmicDataset BiomarkerDataset File ClinicalFile ClinicalRecordSetFile ClinicalFileSetFile OmicFile OmicRecordSetFile OmicFileSetFile BiomarkerFile GEODataset GEOFile SRADataset SRAFile SpeechDataset SpeechFile MetadataSchema
 
 ALS.jsonld: dist/ALS.yaml
 	bb ./retold/retold as-jsonld --dir modules --out ALS.jsonld
@@ -54,10 +54,20 @@ OmicDataset:
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/OmicDataset.json ---"
 
+BiomarkerDataset:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/reference/vendors.yaml modules/omics/assays.yaml modules/biomarker/assay-targets.yaml modules/omics/platforms.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/biomarker/attributes.yaml modules/biomarker/data-types.yaml modules/datasets/BiomarkerDataset.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".BiomarkerDataset as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-biomarker-dataset", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/BiomarkerDataset.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/BiomarkerDataset.json ---"
+
 File:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/portal/File.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/portal/File.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".File as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/File.json
@@ -67,7 +77,7 @@ File:
 ClinicalFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".ClinicalFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalFile.json
@@ -80,7 +90,7 @@ ClinicalFile:
 ClinicalRecordSetFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".ClinicalRecordSetFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-record-set-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalRecordSetFile.json
@@ -89,8 +99,8 @@ ClinicalRecordSetFile:
 
 ClinicalFileSetFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/entities/ClinicalAssessment.yaml modules/clinical/administration.yaml modules/datasets/ClinicalFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".ClinicalFileSetFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-clinical-file-set-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/ClinicalFileSetFile.json
@@ -122,13 +132,23 @@ OmicRecordSetFile:
 
 OmicFileSetFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/omics/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/OmicFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
 	jq '."$$defs".OmicFileSetFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-omic-file-set-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/OmicFileSetFile.json
 	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
 	@echo "--- Saved json-schemas/OmicFileSetFile.json ---"
+
+BiomarkerFile:
+	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/reference/vendors.yaml modules/omics/assays.yaml modules/biomarker/assay-targets.yaml modules/omics/platforms.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/mixins/FileMixins.yaml modules/biomarker/attributes.yaml modules/biomarker/data-types.yaml modules/shared/annotations.yaml modules/shared/analysis-methods.yaml modules/datasets/BiomarkerFile.yaml > temp.yaml
+	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
+	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
+	jq '."$$defs".BiomarkerFile as $$data | {"$$schema": "https://json-schema.org/draft-07/schema", "$$id": "https://repo-prod.prod.sagebase.org/repo/v1/schema/type/registered/org.synapse.ampals-biomarker-file", "title": $$data.title, "type": $$data.type, "description": $$data.description} + ($$data | del(.title, .type, .description) | if .additionalProperties == false then .additionalProperties = {} else . end)' tmp.json | $(JQ_ALLOW_EMPTY) > json-schemas/BiomarkerFile.json
+	rm -f relevant_props.yaml relevant_enums.yaml temp.yaml tmp.json
+	@echo "--- Saved json-schemas/BiomarkerFile.json ---"
 
 # GEO/SRA schemas derive from OmicDataset/OmicFile (is_a), so their targets mirror
 # the Omic targets and additionally merge the OmicDataset/OmicFile source plus the
@@ -175,7 +195,7 @@ SRAFile:
 
 SpeechDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/vendors.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/clinical/administration.yaml modules/clinical/assessment-types.yaml modules/speech/data-types.yaml modules/datasets/SpeechDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
@@ -185,7 +205,7 @@ SpeechDataset:
 
 SpeechFile:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/reference/vendors.yaml modules/reference/file-formats.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseFile.yaml modules/mixins/CommonMixins.yaml modules/clinical/administration.yaml modules/speech/data-types.yaml modules/datasets/SpeechFile.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json

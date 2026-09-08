@@ -22,6 +22,18 @@ enums:
         description: HUGO Gene Nomenclature Committee
       RefSeq:
         description: Reference Sequence database
+      EntrezGeneId:
+        description: NCBI Entrez Gene identifier.
+      EntrezGeneSymbol:
+        description: NCBI Entrez Gene symbol.
+      HMDB identifier:
+        description: Human Metabolome Database identifier.
+      metabolite annotation specificity:
+        description: Specificity level assigned to a metabolite annotation.
+      metabolite name:
+        description: Name assigned to an identified metabolite.
+      compound identifier:
+        description: Identifier assigned to a measured compound.
       
       # Disease and Clinical Databases
       MONDO:
