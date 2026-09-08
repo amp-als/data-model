@@ -95,13 +95,17 @@ class Config:
         self.VERBOSE = self._parse_bool(
             os.getenv("VERBOSE") or workflow_config.get('verbose', True)
         )
+        # AI is opt-in while automated annotations are under review. Set USE_AI=true
+        # or ai.enabled: true in config.yaml to explicitly re-enable it.
         self.USE_AI = self._parse_bool(
-            os.getenv("USE_AI") or workflow_config.get('use_ai', True)
+            os.getenv("USE_AI") or workflow_config.get('use_ai', False)
         )
 
         # AI Settings
         ai_config = file_config.get('ai', {})
-        self.AI_ENABLED = ai_config.get('enabled', True)
+        self.AI_ENABLED = self._parse_bool(
+            os.getenv("USE_AI") or ai_config.get('enabled', self.USE_AI)
+        )
         self.AI_TIMEOUT = int(ai_config.get('timeout', 60))
         self.AI_MODEL = ai_config.get('model', 'gemini-1.5-flash')
         self.AI_MAX_LINES = int(ai_config.get('max_file_lines', 100))
@@ -843,8 +847,83 @@ def load_mapping_dict(path) -> dict:
     return result
 
 
+def _adat_field_name(section: str, name: Any, position: int) -> str:
+    """Return a stable, namespaced mapping-field name for ADAT metadata."""
+    name = str(name).strip() if name is not None else ''
+    return f"{section}__{name or f'field_{position + 1}'}"
+
+
+def load_adat_metadata_file(path: str) -> list:
+    """Extract ADAT header, sample, and analyte metadata using :mod:`somadata`.
+
+    Fields are namespaced as ``header__``, ``sample__``, and ``protein__`` so
+    identically named fields from ADAT's metadata sections cannot collide in a
+    generated mapping. Sample annotations come from the row index and protein
+    annotations from the column index. The RFU expression matrix is intentionally
+    excluded: it contains raw measurements, not annotation metadata.
+    """
+    try:
+        import somadata
+    except ImportError as e:
+        raise ImportError(
+            "somadata is required for .adat support: pip install somadata"
+        ) from e
+
+    adat = somadata.read_adat(path)
+    header_metadata = getattr(adat, 'header_metadata', {}) or {}
+    if not isinstance(header_metadata, dict):
+        try:
+            header_metadata = dict(header_metadata)
+        except (TypeError, ValueError):
+            header_metadata = {}
+    header = {
+        _adat_field_name('header', key, i): str(value).strip()
+        for i, (key, value) in enumerate(header_metadata.items())
+        if value is not None and str(value).strip()
+    }
+
+    # somadata returns a DataFrame in supported releases; accept common object
+    # wrappers too so this remains compatible across somadata versions.
+    dataframe = getattr(adat, 'data', None)
+    if dataframe is None:
+        dataframe = getattr(adat, 'df', None)
+    if dataframe is None:
+        dataframe = adat
+    if not hasattr(dataframe, 'index') or not hasattr(dataframe, 'columns'):
+        raise ValueError("somadata.read_adat() did not return a tabular ADAT object")
+
+    rows = []
+    row_index = dataframe.index
+    if hasattr(row_index, 'to_frame'):
+        row_metadata = row_index.to_frame(index=False)
+        for values in row_metadata.itertuples(index=False, name=None):
+            row = header.copy()
+            for i, value in enumerate(values):
+                if value is not None and str(value).strip():
+                    row[_adat_field_name('sample', row_metadata.columns[i], i)] = str(value).strip()
+            rows.append(row)
+    elif len(row_index):
+        name = _adat_field_name('sample', getattr(row_index, 'name', None), 0)
+        rows = [{**header, name: str(value).strip()} for value in row_index]
+
+    # Include the ^COL_DATA annotations in the mapping scaffold as well.  They
+    # describe analytes rather than samples, so they are separate records and
+    # should normally be mapped to dataset/file-level fields, not subject fields.
+    column_index = dataframe.columns
+    if hasattr(column_index, 'to_frame'):
+        column_metadata = column_index.to_frame(index=False)
+        for values in column_metadata.itertuples(index=False, name=None):
+            row = header.copy()
+            for i, value in enumerate(values):
+                if value is not None and str(value).strip():
+                    row[_adat_field_name('protein', column_metadata.columns[i], i)] = str(value).strip()
+            rows.append(row)
+
+    return rows or [header]
+
+
 def load_metadata_file(path) -> list:
-    """Load a CSV or XLSX metadata file, returning a list of dicts with whitespace-stripped values."""
+    """Load CSV, Excel, or ADAT metadata as whitespace-stripped dictionaries."""
     if not os.path.exists(path):
         raise FileNotFoundError(f"Metadata file not found: {path}")
 
@@ -870,8 +949,11 @@ def load_metadata_file(path) -> list:
             rows.append({headers[i]: (str(v).strip() if v is not None else '') for i, v in enumerate(row)})
         wb.close()
 
+    elif ext == '.adat':
+        rows = load_adat_metadata_file(path)
+
     else:
-        raise ValueError(f"Unsupported metadata file extension '{ext}'. Use .csv or .xlsx")
+        raise ValueError(f"Unsupported metadata file extension '{ext}'. Use .csv, .xlsx, or .adat")
 
     return rows
 
@@ -1153,11 +1235,13 @@ def collect_unique_values(paths: list, ignore_cols: set, max_values: int) -> dic
             rows = load_metadata_file(str(path))
             if not rows:
                 continue
-            for col in rows[0].keys():
-                if col in ignore_cols:
-                    continue
-                vals = {str(row[col]) for row in rows if row.get(col, "").strip()}
-                agg.setdefault(col, set()).update(vals)
+            # ADAT row and column metadata are represented as separate records,
+            # so a field need not be present in the first record.
+            for row in rows:
+                for col, value in row.items():
+                    if col in ignore_cols or value is None or not str(value).strip():
+                        continue
+                    agg.setdefault(col, set()).add(str(value).strip())
             print(f"  loaded {Path(path).name}  ({len(rows)} rows)")
         except Exception as e:
             print(f"  WARNING: skipped {Path(path).name}: {e}")
@@ -1308,6 +1392,44 @@ def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
     return merged
 
 
+def generate_mapping_from_paths(paths, output_path: str, ignore_cols=None,
+                                max_values: int = 50) -> dict:
+    """Create or safely extend a mapping scaffold from supported local files."""
+    paths = [Path(path) for path in paths]
+    if not paths:
+        print("⚠ No supported files available for mapping generation")
+        return {}
+
+    ignore_cols = {"subject_id"} | set(ignore_cols or [])
+    unique_vals = collect_unique_values(paths, ignore_cols, max_values)
+    print(f"\n  {len(unique_vals)} columns found "
+          f"({sum(1 for v in unique_vals.values() if v is not None)} with value mappings, "
+          f"{sum(1 for v in unique_vals.values() if v is None)} without)")
+    new_mapping = build_mapping_dict(unique_vals)
+    if os.path.exists(output_path):
+        print(f"\nUpdating existing mapping file: {output_path}")
+        mapping = merge_into_existing_mapping(output_path, new_mapping)
+    else:
+        mapping = new_mapping
+    write_mapping_file(output_path, mapping)
+    return mapping
+
+
+def expand_metadata_paths(paths) -> list:
+    """Expand metadata directories to supported tabular/ADAT files."""
+    expanded = []
+    for path in paths or []:
+        if os.path.isdir(path):
+            found = sorted(str(f) for f in Path(path).iterdir()
+                           if f.suffix.lower() in ('.csv', '.xlsx', '.xls', '.adat'))
+            if not found:
+                print(f"  Warning: No CSV/XLSX/ADAT files found in directory {path}")
+            expanded.extend(found)
+        else:
+            expanded.append(path)
+    return expanded
+
+
 def write_mapping_file(path: str, mapping: dict) -> None:
     header = (
         "# Mapping dict: source_column -> target_data_model_field\n"
@@ -1316,6 +1438,9 @@ def write_mapping_file(path: str, mapping: dict) -> None:
         "# Entries with empty string values are ignored during annotation.\n"
     )
     body = json.dumps(mapping, indent=2, ensure_ascii=False)
+    parent = os.path.dirname(path)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
     with open(path, "w") as f:
         f.write(header + body + "\n")
     print(f"Wrote mapping file: {path}  ({len(mapping)} columns)")
@@ -2203,11 +2328,17 @@ def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
 
     # Pass 1: fill fields from metadata or constants (skip value_template entries)
     for source_col, mapping_entry in mapping.items():
+        # `_views` holds view-level annotations, not a source-column mapping.
+        # Also tolerate incomplete scaffold entries while a mapping is edited.
+        if source_col == '_views' or not isinstance(mapping_entry, (str, dict)):
+            continue
         if isinstance(mapping_entry, dict) and 'value_template' in mapping_entry:
             continue  # defer to pass 2
 
         if isinstance(mapping_entry, dict):
-            raw_target = mapping_entry['target']
+            raw_target = mapping_entry.get('target', '')
+            if not raw_target:
+                continue
             value_map  = mapping_entry.get('values', {})
             constant   = mapping_entry.get('value')
         else:
@@ -2254,10 +2385,12 @@ def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
 
     # Pass 2: fill value_template entries using already-populated fields
     for source_col, mapping_entry in mapping.items():
-        if not (isinstance(mapping_entry, dict) and 'value_template' in mapping_entry):
+        if source_col == '_views' or not (isinstance(mapping_entry, dict) and 'value_template' in mapping_entry):
             continue
 
-        raw_target     = mapping_entry['target']
+        raw_target     = mapping_entry.get('target', '')
+        if not raw_target:
+            continue
         target_fields  = raw_target if isinstance(raw_target, list) else [raw_target]
         value_template = mapping_entry['value_template']
 
@@ -2316,7 +2449,9 @@ def fill_template_from_file_contents(template: dict, file_path: str, mapping: di
         return template
 
     result = dict(template)
-    available_cols = set(rows[0].keys())
+    # ADAT sample and protein metadata are emitted as separate records, so the
+    # first record alone is not representative of all available fields.
+    available_cols = set().union(*(row.keys() for row in rows))
 
     for source_col, mapping_entry in mapping.items():
         if isinstance(mapping_entry, dict):
@@ -2387,6 +2522,9 @@ def fill_counts_from_file_contents(template: dict, file_path: str,
       - the number of unique subject identifiers  -> participant_count / individualCount
       - the total number of data rows              -> recordCount
 
+    For ADAT files, only sample metadata rows are counted; protein metadata rows
+    are excluded.
+
     The counts are written into whichever of those keys already exist in the
     template/annotation ("either or both"), and are OVERWRITTEN each run so they
     always reflect the current file contents. Non-tabular or unreadable files
@@ -2412,19 +2550,38 @@ def fill_counts_from_file_contents(template: dict, file_path: str,
     if not rows:
         return template
 
-    available = set(rows[0].keys())
-    record_count = len(rows)
+    # ADAT metadata loading emits separate sample and protein records. Counts for
+    # an ADAT file must use only its sample records; including protein metadata
+    # would inflate recordCount and prevent a sample identifier from resolving.
+    is_adat = os.path.splitext(file_path)[1].lower() == '.adat'
+    sample_columns = {
+        col for row in rows for col in row if col.startswith('sample__')
+    } if is_adat else set()
+    count_rows = [
+        row for row in rows
+        if not is_adat or not sample_columns or any(row.get(col) for col in sample_columns)
+    ]
+    available = set().union(*(row.keys() for row in count_rows))
+    record_count = len(count_rows)
 
     # Resolve the subject-ID column: explicit first, then common fallbacks.
     candidates = []
     if subject_id_col:
         candidates.append(subject_id_col)
     candidates.extend(c for c in COMMON_SUBJECT_COLS if c not in candidates)
+    # ADAT mapping-field names are namespaced to distinguish sample metadata
+    # from header/protein metadata. subjectIdColumn retains the source column
+    # name used in the file, so also consider its generated sample__ counterpart.
+    if is_adat:
+        candidates.extend(
+            f'sample__{col}' for col in candidates
+            if not col.startswith('sample__')
+        )
 
     subject_count = None
     for col in candidates:
         if col in available:
-            unique_ids = {str(r.get(col, '') or '').strip() for r in rows}
+            unique_ids = {str(r.get(col, '') or '').strip() for r in count_rows}
             unique_ids.discard('')
             subject_count = len(unique_ids)
             break
@@ -5538,6 +5695,24 @@ def download_file_for_analysis(syn, syn_id, download_dir):
         return None
 
 
+def download_supported_staging_files(syn, files_dict: dict, download_dir: str) -> dict:
+    """Download CSV, Excel, and ADAT staging files for mapping/content annotation."""
+    supported = {'.csv', '.xlsx', '.xls', '.adat'}
+    local_paths = {}
+    os.makedirs(download_dir, exist_ok=True)
+    for syn_id, file_info in files_dict.items():
+        filename = file_info.get('name', '')
+        if Path(filename).suffix.lower() not in supported:
+            continue
+        path = download_file_for_analysis(syn, syn_id, download_dir)
+        if path:
+            local_paths[syn_id] = path
+    skipped = len(files_dict) - len(local_paths)
+    print(f"  Downloaded {len(local_paths)} supported file(s) for mapping"
+          f" ({skipped} unsupported or unavailable)")
+    return local_paths
+
+
 def create_annotation_prompt(filename, file_type, all_schemas):
     """Create a prompt for Gemini to extract file annotations"""
 
@@ -6239,17 +6414,17 @@ def handle_generate_file_templates(args, config):
     print("STEP 2: GENERATING ANNOTATION TEMPLATES")
     print("=" * 60)
 
-    # Expand any directory paths in --metadata to constituent CSV/XLSX files
+    # Expand any directory paths in --metadata to constituent CSV/XLSX/ADAT files
     if getattr(args, 'metadata', None):
         expanded = []
         for p in args.metadata:
             if os.path.isdir(p):
                 dir_files = sorted(
                     str(f) for f in Path(p).iterdir()
-                    if f.suffix.lower() in ('.csv', '.xlsx', '.xls')
+                    if f.suffix.lower() in ('.csv', '.xlsx', '.xls', '.adat')
                 )
                 if not dir_files:
-                    print(f"  Warning: No CSV/XLSX files found in directory {p}")
+                    print(f"  Warning: No CSV/XLSX/ADAT files found in directory {p}")
                 expanded.extend(dir_files)
             else:
                 expanded.append(p)
@@ -6516,6 +6691,62 @@ def handle_create_workflow(args, config):
         print("🔗 Link datasets reference external URLs only")
         files_dict = {}
 
+    # Optional mapping setup. A generated mapping is a reviewable scaffold; only
+    # entries that already have targets are applied to annotations in this run.
+    mapping = {}
+    metadata_index = {}
+    local_staging_paths = {}
+    if not is_link_dataset and (getattr(args, 'mapping', None) or
+                                getattr(args, 'generate_mapping', None)):
+        print("\n" + "=" * 60)
+        print("MAPPING SETUP")
+        print("=" * 60)
+        metadata_paths = expand_metadata_paths(getattr(args, 'metadata', None))
+        mapping_source = getattr(args, 'mapping_source', 'auto')
+        if mapping_source == 'metadata' and not metadata_paths:
+            print("❌ --mapping-source metadata requires --metadata")
+            sys.exit(1)
+        use_metadata = bool(metadata_paths) and mapping_source != 'files'
+
+        if not use_metadata:
+            mapping_download_dir = os.path.join(
+                config.BASE_DIR, 'mapping_source', sanitize_filename(args.dataset_name)
+            )
+            local_staging_paths = download_supported_staging_files(
+                syn, files_dict, mapping_download_dir
+            )
+
+        if getattr(args, 'generate_mapping', None) and not getattr(args, 'skip_mapping_generation', False):
+            source_paths = metadata_paths if use_metadata else list(local_staging_paths.values())
+            generate_mapping_from_paths(
+                source_paths, args.generate_mapping,
+                max_values=getattr(args, 'mapping_max_values', 50)
+            )
+        elif getattr(args, 'generate_mapping', None):
+            print(f"  Skipping mapping scaffold generation; using existing {args.generate_mapping}")
+
+        mapping_path = getattr(args, 'generate_mapping', None) or getattr(args, 'mapping', None)
+        mapping = load_mapping_dict(mapping_path) if mapping_path else {}
+        if not mapping:
+            print("⚠ Mapping has no completed targets yet; generated templates will remain unmapped.")
+
+        if use_metadata and mapping:
+            def _targets_include(entry, field):
+                target = entry['target'] if isinstance(entry, dict) else entry
+                return field in (target if isinstance(target, list) else [target])
+
+            join_col = next(
+                (key for key, entry in mapping.items()
+                 if isinstance(entry, dict) and entry.get('join') is True),
+                None
+            ) or next(
+                (key for key, entry in mapping.items()
+                 if _targets_include(entry, 'originalSubjectId')),
+                'subject_id'
+            )
+            metadata_index = load_all_metadata_files(metadata_paths, join_col)
+            print(f"  Loaded {len(metadata_index)} subjects from {len(metadata_paths)} metadata file(s)")
+
     # Step 2: Generate annotation templates (SKIP FILE ANNOTATIONS FOR LINK DATASETS)
     if not is_link_dataset:
         print("\n" + "=" * 60)
@@ -6543,6 +6774,37 @@ def handle_create_workflow(args, config):
             # Smart merge with existing
             merged = merge_annotations_smartly(existing_annotations, template)
 
+            # Populate from a shared metadata file when supplied, otherwise from
+            # this file's tabular/ADAT metadata. Raw ADAT expression matrices are
+            # deliberately ignored by load_metadata_file().
+            if mapping and metadata_index:
+                subject_id = resolve_metadata_key(file_info, filename, metadata_index)
+                folder_path = file_info.get('path', '')
+                metadata_row = enrich_metadata_with_file_info(
+                    metadata_index[subject_id] if subject_id else {}, filename, folder_path
+                )
+                if not subject_id:
+                    print(f"  Warning: No metadata match for '{filename}' (folder='{folder_path}')")
+                merged = fill_template_from_metadata(merged, metadata_row, mapping)
+            elif mapping:
+                local_path = local_staging_paths.get(syn_id)
+                if local_path:
+                    merged = fill_template_from_file_contents(merged, local_path, mapping)
+                folder_path = file_info.get('path', '')
+                merged = fill_template_from_metadata(
+                    merged, enrich_metadata_with_file_info({}, filename, folder_path), mapping
+                )
+
+            # `_views` is intentionally not treated as a normal column mapping.
+            # Apply its file-level annotations after column mappings, resolving a
+            # view from the file's mapped columns when possible and otherwise its
+            # filename stem (the conventional staging-view name).
+            if mapping.get('_views'):
+                local_path = local_staging_paths.get(syn_id)
+                view_name = infer_view_from_columns(local_path, mapping) if local_path else None
+                view_name = view_name or os.path.splitext(filename)[0]
+                merged = apply_view_annotations(merged, view_name, mapping)
+
             # VCF variant type inference (file level)
             if infer_vcf and extract_file_extension(filename) == 'vcf':
                 inferred_types = infer_vcf_variant_types_from_synapse(
@@ -6556,7 +6818,7 @@ def handle_create_workflow(args, config):
             annotations_output[syn_id] = {filename: merged}
 
         # Step 3: AI-Assisted Annotation Enhancement
-        if config.AI_ENABLED:
+        if config.AI_ENABLED and not getattr(args, 'skip_ai', False):
             download_dir = os.path.join(config.BASE_DIR, "downloads", args.dataset_name.replace(" ", "_"))
             annotations_output = enhance_annotations_with_ai(
                 syn, files_dict, annotations_output, all_schemas,
@@ -6581,7 +6843,7 @@ def handle_create_workflow(args, config):
     dataset_type = detect_dataset_type(args.dataset_name, args.staging_folder if not is_link_dataset else None, dataset_config=dataset_config, all_schemas=all_schemas)
 
     # Use AI to generate dataset annotations if enabled
-    if config.AI_ENABLED and not is_link_dataset:
+    if config.AI_ENABLED and not getattr(args, 'skip_ai', False) and not is_link_dataset:
         dataset_template = enhance_dataset_annotations_with_ai(
             args.dataset_name, annotations_output, all_schemas, dataset_type, config
         )
@@ -8064,7 +8326,7 @@ def handle_generate_mapping(args, config):
 
     input_path = Path(args.input)
     if input_path.is_dir():
-        supported = {".csv", ".xlsx", ".xls"}
+        supported = {".csv", ".xlsx", ".xls", ".adat"}
         paths = sorted(p for p in input_path.iterdir()
                        if p.suffix.lower() in supported)
         print(f"Found {len(paths)} metadata file(s) in {input_path}")
@@ -8075,24 +8337,10 @@ def handle_generate_mapping(args, config):
         sys.exit(1)
 
     if not paths:
-        print("ERROR: No supported metadata files found (.csv, .xlsx, .xls)")
+        print("ERROR: No supported metadata files found (.csv, .xlsx, .xls, .adat)")
         sys.exit(1)
 
-    unique_vals = collect_unique_values(paths, ignore_cols, max_values)
-    print(f"\n  {len(unique_vals)} columns found "
-          f"({sum(1 for v in unique_vals.values() if v is not None)} with value mappings, "
-          f"{sum(1 for v in unique_vals.values() if v is None)} without)")
-
-    new_mapping = build_mapping_dict(unique_vals)
-
-    output_path = args.output
-    if os.path.exists(output_path):
-        print(f"\nUpdating existing mapping file: {output_path}")
-        mapping = merge_into_existing_mapping(output_path, new_mapping)
-    else:
-        mapping = new_mapping
-
-    write_mapping_file(output_path, mapping)
+    generate_mapping_from_paths(paths, args.output, ignore_cols, max_values)
 
 
 def handle_set_version(args, config):
@@ -10221,6 +10469,18 @@ Examples:
                               help='Create link dataset (no files, external URL reference only)')
     create_parser.add_argument('--skip-ai', action='store_true',
                               help='Skip AI-assisted annotation (use Gemini by default)')
+    create_parser.add_argument('--mapping',
+                              help='Existing mapping dict to apply while generating file annotations')
+    create_parser.add_argument('--metadata', nargs='+',
+                              help='Source metadata CSV/XLSX/ADAT files or directories for --mapping')
+    create_parser.add_argument('--generate-mapping',
+                              help='Create or merge a mapping scaffold at this path during phase 1')
+    create_parser.add_argument('--mapping-source', choices=['auto', 'metadata', 'files'], default='auto',
+                              help='Source for --generate-mapping: metadata when supplied (auto), or staging files')
+    create_parser.add_argument('--skip-mapping-generation', action='store_true',
+                              help='With --generate-mapping, use its existing mapping file without regenerating/merging it')
+    create_parser.add_argument('--mapping-max-values', type=int, default=50,
+                              help='Maximum unique values retained per generated mapping field (default: 50)')
     create_parser.add_argument('--execute', action='store_true',
                               help='Execute (override DRY_RUN)')
     create_parser.add_argument('--dry-run', action='store_true',
@@ -10361,7 +10621,7 @@ Examples:
     file_tmpl_parser.add_argument('--mapping', default=None,
         help='Path to field mapping dict file (e.g., mapping/target_als.dict)')
     file_tmpl_parser.add_argument('--metadata', nargs='+', default=None,
-        help='One or more source metadata CSV/XLSX files (space-separated)')
+        help='One or more source metadata CSV/XLSX/ADAT files (space-separated; ADAT requires somadata)')
     file_tmpl_parser.add_argument('--refresh-walkthrough', action='store_true',
         help='Re-enumerate Synapse folder even if walkthrough cache exists')
     file_tmpl_parser.add_argument('--infer-variant-types', action='store_true',
@@ -10436,7 +10696,7 @@ Examples:
         help='Generate a scaffold mapping .dict file from metadata column names and unique values'
     )
     mapping_parser.add_argument('--input', '-i', required=True,
-        help='Metadata file (.csv/.xlsx) or folder of metadata files')
+        help='Metadata file (.csv/.xlsx/.adat) or folder of metadata files (.adat requires somadata)')
     mapping_parser.add_argument('--output', '-o', required=True,
         help='Output mapping .dict file path (created or updated in-place)')
     mapping_parser.add_argument('--ignore', nargs='+', default=None,

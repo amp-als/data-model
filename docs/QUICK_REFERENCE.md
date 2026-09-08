@@ -7,6 +7,9 @@
 mamba activate amp-als
 ```
 
+AI-assisted annotations are disabled by default. To explicitly enable them, set
+`USE_AI=true` or `ai.enabled: true` in `config.yaml`.
+
 ## 1. Generate Template
 
 > `--type` is fuzzy-matched against `json-schemas/` — pass any schema (`clinical`, `omic`,
@@ -305,6 +308,75 @@ own table shows one row per included file, so its columns need to be file-level 
 fields to mean anything. `--extra-schema-types` values are used as given (no File/Dataset
 conversion), so a non-File/Dataset schema like `MetadataSchema` merges in unchanged for both.
 
+## 11. Generate a Mapping from a SomaLogic ADAT File
+
+```bash
+python synapse_dataset_manager.py generate-mapping \
+  --input /data/study.soma.adat \
+  --output mapping/somalogic.dict
+```
+
+`generate-mapping` reads `.adat` files with `somadata.read_adat()` (install with
+`pip install somadata`). It scaffolds fields from all ADAT metadata sections, but not
+RFU matrix values: `header__*` fields are study-level metadata, `sample__*` fields are
+sample metadata, and `protein__*` fields are SOMAmer/analyte annotations. The prefixes
+avoid collisions between the sections. ADAT files are also accepted by
+`generate-file-templates --metadata`; use `sample__*` fields for sample/file mappings.
+
+## 12. Create Dataset with Mapping Generation or Application
+
+The `create` phase-1 workflow can optionally generate and/or apply a file-annotation
+mapping. With `--metadata`, it uses those CSV/XLSX/ADAT files. Without metadata, it
+downloads each supported file in the staging folder and builds a mapping scaffold from
+CSV/Excel columns or ADAT header, sample-index, and protein-column metadata. Raw ADAT
+expression-matrix values are deliberately ignored.
+
+```bash
+# Generate a scaffold from every supported staging file (CSV/XLSX/ADAT)
+python synapse_dataset_manager.py create \
+  --staging-folder syn123456 \
+  --dataset-name "My Biomarker Study" \
+  --dataset-type biomarker \
+  --generate-mapping mapping/my_biomarker.dict
+
+# Edit target fields/value translations in the generated mapping, then regenerate
+# file annotations using each file's own tabular/ADAT metadata.
+python synapse_dataset_manager.py create \
+  --staging-folder syn123456 \
+  --dataset-name "My Biomarker Study" \
+  --dataset-type biomarker \
+  --mapping mapping/my_biomarker.dict
+
+# Equivalent when retaining a workflow command/config that includes
+# --generate-mapping: use that existing mapping without merging a new scaffold.
+python synapse_dataset_manager.py create \
+  --staging-folder syn123456 \
+  --dataset-name "My Biomarker Study" \
+  --dataset-type biomarker \
+  --generate-mapping mapping/my_biomarker.dict \
+  --skip-mapping-generation
+
+# Generate a scaffold from one or more external metadata files instead.
+python synapse_dataset_manager.py create \
+  --staging-folder syn123456 \
+  --dataset-name "My Biomarker Study" \
+  --dataset-type biomarker \
+  --metadata metadata/study.xlsx metadata/assays.adat \
+  --generate-mapping mapping/my_biomarker.dict
+```
+
+`--generate-mapping` safely merges newly discovered columns/values into an existing
+mapping and never replaces completed mappings. A new scaffold has empty targets, so it
+must be reviewed before it can populate annotations. Its `_views` entries are applied as
+file-level annotations after field mappings; the view is inferred from mapped file columns
+when possible, otherwise the staging filename stem is used. `--mapping` alone always skips
+mapping generation; `--skip-mapping-generation` does the same when retaining a
+`--generate-mapping` argument. Use `--mapping-source files` to inspect staging files even
+when `--metadata` is supplied, or `--mapping-source metadata`
+to require external metadata. `--mapping-max-values` controls the per-field value-map
+limit (default: 50). Unsupported or unreadable staging files retain normal templates and
+are reported, rather than failing creation.
+
 ## Help Commands
 
 ```bash
@@ -313,8 +385,9 @@ python synapse_dataset_manager.py --help
 
 # Command-specific help
 python synapse_dataset_manager.py generate-template --help
+python synapse_dataset_manager.py generate-mapping --help
+python synapse_dataset_manager.py create --help  # includes mapping flags
 python synapse_dataset_manager.py add-link-file --help
-python synapse_dataset_manager.py create --help
 python synapse_dataset_manager.py create-entity-view --help
 python synapse_dataset_manager.py move --help
 python synapse_dataset_manager.py delete-entities --help
