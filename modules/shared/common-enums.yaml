@@ -65,6 +65,8 @@ enums:
         description: Tier 3 - Analysis-ready data with comprehensive metadata
       Standardized:
         description: Data standardized to a common format or schema
+      Partial or Combined Standardization:
+        description: Data partially standardized or combined from standardized and non-standardized components
       Non-Standardized:
         description: Data not yet standardized
       Unknown:

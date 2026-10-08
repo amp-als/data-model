@@ -8,16 +8,16 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
-            sh:prefix "schema" ],
-        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
-            sh:prefix "linkml" ],
+    sh:declare [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
+            sh:prefix "prov" ],
         [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
             sh:prefix "rdfs" ],
+        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
+            sh:prefix "linkml" ],
         [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
             sh:prefix "als" ],
-        [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
-            sh:prefix "prov" ],
+        [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
+            sh:prefix "schema" ],
         [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
             sh:prefix "skos" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
@@ -243,7 +243,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-09-09T17:33:50"^^xsd:dateTime ;
+    linkml:generation_date "2026-10-08T17:37:38"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -941,8 +941,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-09-09T17:33:49"^^xsd:dateTime ;
-    linkml:source_file_size 400755 ;
+    linkml:source_file_date "2026-10-08T17:37:36"^^xsd:dateTime ;
+    linkml:source_file_size 401224 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -2408,8 +2408,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Inversions> linkml:description "Inversion structural variants" .
 
-<https://w3id.org/synapse/amp-als/vocab/Investigational> linkml:description "Investigational drug or treatment" .
-
 <https://w3id.org/synapse/amp-als/vocab/Invitae> linkml:description "Invitae genetic testing laboratory" .
 
 <https://w3id.org/synapse/amp-als/vocab/Italian> linkml:description "Italian language" .
@@ -2982,6 +2980,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Parkinson%27s%20Disease> linkml:description "Parkinson's disease comparator cohort." .
 
+<https://w3id.org/synapse/amp-als/vocab/Partial%20or%20Combined%20Standardization> linkml:description "Data partially standardized or combined from standardized and non-standardized components" .
+
 <https://w3id.org/synapse/amp-als/vocab/Paternal> linkml:description "Paternal side of family" .
 
 <https://w3id.org/synapse/amp-als/vocab/Pathogenic> linkml:description "Pathogenic variant" .
@@ -3072,6 +3072,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Placebo> linkml:description "Placebo or standard-of-care control arm in an interventional clinical trial." .
 
 <https://w3id.org/synapse/amp-als/vocab/Placebo-Control> linkml:description "Cohort receiving placebo or standard-of-care control in an interventional clinical trial." .
+
+<https://w3id.org/synapse/amp-als/vocab/Placebo-Investigational> linkml:description "Interventional clinical trial cohort set including investigational treatment and placebo control arms." .
 
 <https://w3id.org/synapse/amp-als/vocab/Plain> linkml:description "Plain tube (no additive)" .
 
@@ -8533,6 +8535,7 @@
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Analyzed>,
         <https://w3id.org/synapse/amp-als/vocab/Integrated>,
         <https://w3id.org/synapse/amp-als/vocab/Non-Standardized>,
+        <https://w3id.org/synapse/amp-als/vocab/Partial%20or%20Combined%20Standardization>,
         <https://w3id.org/synapse/amp-als/vocab/Processed>,
         <https://w3id.org/synapse/amp-als/vocab/Raw>,
         <https://w3id.org/synapse/amp-als/vocab/Standardized>,
@@ -8769,6 +8772,9 @@
 
 <https://w3id.org/synapse/amp-als/vocab/In_Progress> linkml:description "Form entry in progress",
         "Visit is currently in progress" .
+
+<https://w3id.org/synapse/amp-als/vocab/Investigational> linkml:description "Generic investigational treatment arm in an interventional clinical trial when the specific treatment is not named.",
+        "Investigational drug or treatment" .
 
 <https://w3id.org/synapse/amp-als/vocab/L> linkml:description "Liters" .
 
@@ -13668,11 +13674,11 @@
     dcterms:title "Sex" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
     linkml:description "Biological sex of subject.",
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
@@ -15154,6 +15160,7 @@
         <https://w3id.org/synapse/amp-als/vocab/FTLD-TDP>,
         <https://w3id.org/synapse/amp-als/vocab/Halo>,
         <https://w3id.org/synapse/amp-als/vocab/Healthy%20Control>,
+        <https://w3id.org/synapse/amp-als/vocab/Investigational>,
         <https://w3id.org/synapse/amp-als/vocab/Like-C9%20Sporadic%20ALS/FTD>,
         <https://w3id.org/synapse/amp-als/vocab/Like-Control%20Sporadic%20ALS/FTD>,
         <https://w3id.org/synapse/amp-als/vocab/Non-ALS%20Control>,
@@ -15186,6 +15193,7 @@
         <https://w3id.org/synapse/amp-als/vocab/Interventional-Treatment>,
         <https://w3id.org/synapse/amp-als/vocab/Natural-History>,
         <https://w3id.org/synapse/amp-als/vocab/Placebo-Control>,
+        <https://w3id.org/synapse/amp-als/vocab/Placebo-Investigational>,
         <https://w3id.org/synapse/amp-als/vocab/Registry> .
 
 <https://w3id.org/synapse/amp-als/vocab/CollectionMethodEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
