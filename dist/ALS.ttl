@@ -8,18 +8,18 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
-            sh:prefix "als" ],
+    sh:declare [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+            sh:prefix "rdfs" ],
         [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
             sh:prefix "skos" ],
         [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
             sh:prefix "schema" ],
         [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
             sh:prefix "prov" ],
+        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
+            sh:prefix "als" ],
         [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
-            sh:prefix "linkml" ],
-        [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ] ;
+            sh:prefix "linkml" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -244,7 +244,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-10-08T18:22:39"^^xsd:dateTime ;
+    linkml:generation_date "2026-10-08T18:31:29"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -943,7 +943,7 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-10-08T18:22:37"^^xsd:dateTime ;
+    linkml:source_file_date "2026-10-08T18:31:28"^^xsd:dateTime ;
     linkml:source_file_size 401786 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
@@ -3043,7 +3043,7 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Pharmacy_Records> linkml:description "Pharmacy dispensing records" .
 
-<https://w3id.org/synapse/amp-als/vocab/Phase%201%20Trial> linkml:description "Phase 1 clinical trial." .
+<https://w3id.org/synapse/amp-als/vocab/Phase%20I%20Trial> linkml:description "Phase I clinical trial." .
 
 <https://w3id.org/synapse/amp-als/vocab/Phase%20II%20Trial> linkml:description "Phase II clinical trial." .
 
@@ -13701,9 +13701,9 @@
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
     linkml:description "Biological sex of subject.",
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
@@ -15157,7 +15157,7 @@
 <https://w3id.org/synapse/amp-als/vocab/ClinicalTrialPhaseEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/ClinicalTrialPhaseEnum"^^xsd:anyURI ;
     linkml:description "Clinical trial phase for an interventional clinical dataset." ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Phase%201%20Trial>,
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Phase%20I%20Trial>,
         <https://w3id.org/synapse/amp-als/vocab/Phase%20II%20Trial>,
         <https://w3id.org/synapse/amp-als/vocab/Phase%20III%20Trial> .
 
