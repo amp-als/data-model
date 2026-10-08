@@ -45,7 +45,7 @@
         $pick
       )
   ],
-  "originalRepository": [catalogue.publisher.text],
+  "repository": [catalogue.publisher.text],
   "species": ["Homo sapiens"],
   "sameAs": $exists(catalogue.nctId) ?
       ($type(catalogue.nctId) = "array" ? catalogue.nctId[0].text : catalogue.nctId.text) :
