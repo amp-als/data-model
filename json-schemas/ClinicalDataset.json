@@ -169,6 +169,28 @@
       "title": "Clinical Domain",
       "type": "array"
     },
+    "clinicalTrialPhase": {
+      "description": "Clinical trial phase for interventional clinical datasets.",
+      "items": {
+        "description": "Clinical trial phase for an interventional clinical dataset.",
+        "title": "ClinicalTrialPhaseEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Phase 1",
+              "Phase II",
+              "Phase III"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Clinical Trial Phase",
+      "type": "array"
+    },
     "cohort": {
       "description": "Distinct cohorts, arms, or study groups represented in the dataset.",
       "items": {

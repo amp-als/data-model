@@ -32,6 +32,12 @@ classes:
         range: string
         description: Primary clinical endpoint or outcome measure
         required: false
+      clinicalTrialPhase:
+        title: Clinical Trial Phase
+        range: ClinicalTrialPhaseEnum
+        description: Clinical trial phase for interventional clinical datasets.
+        multivalued: true
+        required: false
       # Assessment types included in dataset
       assessmentTypes:
         title: Assessment Types

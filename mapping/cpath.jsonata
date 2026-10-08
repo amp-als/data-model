@@ -47,13 +47,19 @@
   ],
   "originalRepository": [catalogue.publisher.text],
   "species": ["Homo sapiens"],
-  "sameAs": "cpath:" & id,
+  "sameAs": $exists(catalogue.nctId) ?
+      ($type(catalogue.nctId) = "array" ? catalogue.nctId[0].text : catalogue.nctId.text) :
+      "cpath:" & id,
   "curationLevel": [catalogue.curationLevel? catalogue.curationLevel : "Unknown"],
   "studyType": $exists(catalogue.studyType) ?
       ($type(catalogue.studyType) = "string" ?
         [$map($split(catalogue.studyType, ","), function($v) { $trim($v) })] :
         catalogue.studyType) :
       ["Unknown"],
+  "clinicalTrialPhase": $exists(catalogue.clinicalTrialPhase) ?
+      ($type(catalogue.clinicalTrialPhase) = "string" ?
+        [catalogue.clinicalTrialPhase] :
+        catalogue.clinicalTrialPhase),
   "cohort": $exists(catalogue.studyArm) ?
       [$map(catalogue.studyArm, function($v) {
         $v = "Control Arm" ? "Control" :

@@ -1,0 +1,15 @@
+#######################################
+# Clinical Trial Phases
+# Clinical trial phase categories for clinical datasets
+#######################################
+
+enums:
+  ClinicalTrialPhaseEnum:
+    description: Clinical trial phase for an interventional clinical dataset.
+    permissible_values:
+      Phase 1:
+        description: Phase 1 clinical trial.
+      Phase II:
+        description: Phase II clinical trial.
+      Phase III:
+        description: Phase III clinical trial.
