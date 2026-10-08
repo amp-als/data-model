@@ -243,6 +243,13 @@ slots:
       - portal
     range: string
     required: false
+  hosting:
+    title: Hosting
+    description: Where and how the dataset's data are hosted or made available.
+    range: HostingEnum
+    in_subset:
+      - portal
+    required: false
   license:
     title: License
     description: Link to a license or name of license applicable for the resource.
@@ -254,6 +261,13 @@ slots:
     description: Refers to a user who last modified the resource on the platform.
     in_subset:
       - Synapse
+    required: false
+  repository:
+    title: Repository
+    description: Free-text name of the repository or platform where the dataset is hosted or described.
+    range: string
+    in_subset:
+      - portal
     required: false
   sex:
     any_of:

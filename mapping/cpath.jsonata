@@ -4,7 +4,7 @@
              catalogue.creator.creatorName :
              [catalogue.creator.creatorName],
   "keywords": $type(catalogue.keyword) = "string" ?
-      $map($split(catalogue.keyword, ","), function($v) { $trim($v) }) :
+      [$map($split(catalogue.keyword, ","), function($v) { $trim($v) })] :
       catalogue.keyword,
   "subject": $type(catalogue.disease.text) = "array" ?
              catalogue.disease.text :
@@ -28,15 +28,53 @@
         $pick
       )
   ],
-  "originalRepository": catalogue.publisher.text,
+  "program": [
+      (
+        $names := collections[name and name != ""].name;
+        $codes := collections[code and code != ""].code;
+
+        $names_l := $map($names, function($n){ $lowercase($trim($n)) });
+        $codes_l := $map($codes, function($c){ $lowercase($trim($c)) });
+
+        $pick :=
+          ("als knowledge portal" in $names_l) ?
+            "ALS Knowledge Portal" :
+          ("als-kp" in $codes_l) ?
+            "ALS Knowledge Portal";
+
+        $pick
+      )
+  ],
+  "originalRepository": [catalogue.publisher.text],
   "species": ["Homo sapiens"],
   "sameAs": "cpath:" & id,
-  "curationLevel": catalogue.curationLevel? catalogue.curationLevel : "Unknown",
+  "curationLevel": [catalogue.curationLevel? catalogue.curationLevel : "Unknown"],
   "studyType": $exists(catalogue.studyType) ?
       ($type(catalogue.studyType) = "string" ?
-        $map($split(catalogue.studyType, ","), function($v) { $trim($v) }) :
+        [$map($split(catalogue.studyType, ","), function($v) { $trim($v) })] :
         catalogue.studyType) :
       ["Unknown"],
+  "cohort": $exists(catalogue.studyArm) ?
+      [$map(catalogue.studyArm, function($v) {
+        $v = "Control Arm" ? "Control" :
+        $v = "Placebo Control Arm" ? "Placebo" :
+        $v = "Investigational Arm" ? "Investigational" :
+        $v
+      })] :
+      [],
+  "cohortType": $exists(catalogue.studyArm) ?
+      (("Investigational Arm" in catalogue.studyArm and "Placebo Control Arm" in catalogue.studyArm) ?
+        ["Placebo-Investigational"] :
+       ("Control Arm" in catalogue.studyArm and "Placebo Control Arm" in catalogue.studyArm) ?
+        ["Placebo-Control"] :
+        []) :
+      [],
+  "cohort_count": $exists(catalogue.studyArm) ?
+      (("Investigational Arm" in catalogue.studyArm and "Placebo Control Arm" in catalogue.studyArm) ?
+        1 :
+       ("Control Arm" in catalogue.studyArm and "Placebo Control Arm" in catalogue.studyArm) ?
+        1),
+  "study_count": 1,
 
   /* Parse disease strings to extract disease type and subtype
      Example: "C9orf72-ALS" → disease: "ALS", diseaseSubtype: "C9orf72"
@@ -64,8 +102,7 @@
   /* Extract dataset_code from code field - will be parsed further in DAG */
   "dataset_code": $exists(code) ? code : "unknown",
 
-  "source": "Critical Path Institute",
-  "url": "https://fair.dap.c-path.org/#/data/datasets/" & code,
+  "url": ["https://fair.dap.c-path.org/#/data/datasets/" & code],
   "contributor": $type(catalogue.creator.creatorName) = "array" ?
              catalogue.creator.creatorName :
              [catalogue.creator.creatorName]

@@ -70,6 +70,23 @@ enums:
       Unknown:
         description: Curation level unknown
 
+  # Dataset hosting/access location categories
+  HostingEnum:
+    description: Where and how a dataset's data are hosted or made available.
+    permissible_values:
+      synapse:
+        description: Data are hosted in Synapse.
+      external-cloud:
+        description: Data are hosted in an external cloud location.
+      external-download:
+        description: Data are available through an external download URL or landing page.
+      external-access:
+        description: Data require access through an external system or process.
+      mixed:
+        description: Data are available through a mixture of Synapse and/or external locations.
+      unavailable:
+        description: Data are not currently available.
+
   # Library layouts for sequencing
   LibraryLayoutEnum:
     permissible_values:

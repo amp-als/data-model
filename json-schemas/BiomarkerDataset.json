@@ -563,6 +563,7 @@
               "Symptomatic ALS",
               "Asymptomatic Genetic ALS At-Risk",
               "Placebo",
+              "Investigational",
               "Reldesemtiv/CK-2127107 150 mg Twice Daily",
               "Reldesemtiv/CK-2127107 300 mg Twice Daily",
               "Reldesemtiv/CK-2127107 450 mg Twice Daily",
@@ -603,6 +604,7 @@
               "Natural-History",
               "Interventional-Treatment",
               "Placebo-Control",
+              "Placebo-Investigational",
               "Registry",
               "Aggregate-Reference",
               "In-Vitro-Experimental"
@@ -1074,6 +1076,26 @@
       "title": "Has Longitudinal Data",
       "type": "boolean"
     },
+    "hosting": {
+      "description": "Where and how the dataset's data are hosted or made available.",
+      "title": "Hosting",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "synapse",
+            "external-cloud",
+            "external-download",
+            "external-access",
+            "mixed",
+            "unavailable"
+          ]
+        },
+        {
+          "const": ""
+        }
+      ]
+    },
     "keyMeasures": {
       "description": "Primary outcome measures or endpoints captured in this data.",
       "items": {
@@ -1322,6 +1344,11 @@
       },
       "title": "Program",
       "type": "array"
+    },
+    "repository": {
+      "description": "Free-text name of the repository or platform where the dataset is hosted or described.",
+      "title": "Repository",
+      "type": "string"
     },
     "sameAs": {
       "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",

@@ -15,6 +15,8 @@ classes:
       - curationLevel
       - studyType
       - participant_count
+      - hosting
+      - repository
     slot_usage:
       keywords:
         required: true
@@ -92,6 +94,8 @@ enums:
         description: Cohort receiving an investigational or active treatment in a clinical trial or expanded-access protocol.
       Placebo-Control:
         description: Cohort receiving placebo or standard-of-care control in an interventional clinical trial.
+      Placebo-Investigational:
+        description: Interventional clinical trial cohort set including investigational treatment and placebo control arms.
       Registry:
         description: Registry or survey cohort assembled from participant-reported or routinely collected clinical data.
       Aggregate-Reference:
@@ -170,6 +174,8 @@ enums:
         description: Asymptomatic participants at risk for genetic forms of ALS.
       Placebo:
         description: Placebo or standard-of-care control arm in an interventional clinical trial.
+      Investigational:
+        description: Generic investigational treatment arm in an interventional clinical trial when the specific treatment is not named.
       Reldesemtiv/CK-2127107 150 mg Twice Daily:
         description: Reldesemtiv/CK-2127107 150 mg twice-daily treatment arm.
       Reldesemtiv/CK-2127107 300 mg Twice Daily:

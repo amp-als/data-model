@@ -218,6 +218,22 @@ enums:
         description: Data not yet standardized
       Unknown:
         description: Curation level unknown
+  # Dataset hosting/access location categories
+  HostingEnum:
+    description: Where and how a dataset's data are hosted or made available.
+    permissible_values:
+      synapse:
+        description: Data are hosted in Synapse.
+      external-cloud:
+        description: Data are hosted in an external cloud location.
+      external-download:
+        description: Data are available through an external download URL or landing page.
+      external-access:
+        description: Data require access through an external system or process.
+      mixed:
+        description: Data are available through a mixture of Synapse and/or external locations.
+      unavailable:
+        description: Data are not currently available.
   # Library layouts for sequencing
   LibraryLayoutEnum:
     permissible_values:
@@ -5177,6 +5193,8 @@ classes:
       - curationLevel
       - studyType
       - participant_count
+      - hosting
+      - repository
     slot_usage:
       keywords:
         required: true
@@ -8833,6 +8851,11 @@ slots:
     description: Doi of a grant (e.g. in ProposalCentral) that can be associated with the entity.
     range: string
     required: false
+  hosting:
+    title: Hosting
+    description: Where and how the dataset's data are hosted or made available.
+    range: HostingEnum
+    required: false
   license:
     title: License
     description: Link to a license or name of license applicable for the resource.
@@ -8840,6 +8863,11 @@ slots:
     required: false
   modifiedBy:
     description: Refers to a user who last modified the resource on the platform.
+    required: false
+  repository:
+    title: Repository
+    description: Free-text name of the repository or platform where the dataset is hosted or described.
+    range: string
     required: false
   sex:
     any_of:
