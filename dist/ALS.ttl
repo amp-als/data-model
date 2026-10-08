@@ -8,16 +8,16 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
-            sh:prefix "skos" ],
-        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
+    sh:declare [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
             sh:prefix "als" ],
+        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
+            sh:prefix "skos" ],
         [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
             sh:prefix "schema" ],
-        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
-            sh:prefix "linkml" ],
         [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
             sh:prefix "prov" ],
+        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
+            sh:prefix "linkml" ],
         [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
             sh:prefix "rdfs" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
@@ -244,7 +244,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-10-08T17:49:10"^^xsd:dateTime ;
+    linkml:generation_date "2026-10-08T18:22:39"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -943,8 +943,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-10-08T17:49:09"^^xsd:dateTime ;
-    linkml:source_file_size 401768 ;
+    linkml:source_file_date "2026-10-08T18:22:37"^^xsd:dateTime ;
+    linkml:source_file_size 401786 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -3043,11 +3043,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Pharmacy_Records> linkml:description "Pharmacy dispensing records" .
 
-<https://w3id.org/synapse/amp-als/vocab/Phase%201> linkml:description "Phase 1 clinical trial." .
+<https://w3id.org/synapse/amp-als/vocab/Phase%201%20Trial> linkml:description "Phase 1 clinical trial." .
 
-<https://w3id.org/synapse/amp-als/vocab/Phase%20II> linkml:description "Phase II clinical trial." .
+<https://w3id.org/synapse/amp-als/vocab/Phase%20II%20Trial> linkml:description "Phase II clinical trial." .
 
-<https://w3id.org/synapse/amp-als/vocab/Phase%20III> linkml:description "Phase III clinical trial." .
+<https://w3id.org/synapse/amp-als/vocab/Phase%20III%20Trial> linkml:description "Phase III clinical trial." .
 
 <https://w3id.org/synapse/amp-als/vocab/Phenoconversion%20Evaluation> linkml:description "Visit triggered by a subject's conversion from asymptomatic to symptomatic disease" .
 
@@ -8562,9 +8562,9 @@
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "dataType" ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
 """ ;
@@ -13699,9 +13699,9 @@
     dcterms:title "Sex" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
-        [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+        [ a linkml:AnonymousSlotExpression ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
@@ -15157,9 +15157,9 @@
 <https://w3id.org/synapse/amp-als/vocab/ClinicalTrialPhaseEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/ClinicalTrialPhaseEnum"^^xsd:anyURI ;
     linkml:description "Clinical trial phase for an interventional clinical dataset." ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Phase%201>,
-        <https://w3id.org/synapse/amp-als/vocab/Phase%20II>,
-        <https://w3id.org/synapse/amp-als/vocab/Phase%20III> .
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Phase%201%20Trial>,
+        <https://w3id.org/synapse/amp-als/vocab/Phase%20II%20Trial>,
+        <https://w3id.org/synapse/amp-als/vocab/Phase%20III%20Trial> .
 
 <https://w3id.org/synapse/amp-als/vocab/CohortEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/CohortEnum"^^xsd:anyURI ;
@@ -18521,9 +18521,9 @@
     dcterms:title "Data Type" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description "Biomarker data types and processing levels contained in this file.",
         "Biomarker data types and processing levels included in this dataset.",

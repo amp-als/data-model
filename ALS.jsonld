@@ -1826,6 +1826,10 @@
     }, {
       "@id" : "bts:participant_count"
     }, {
+      "@id" : "bts:hosting"
+    }, {
+      "@id" : "bts:repository"
+    }, {
       "@id" : "bts:platform"
     } ],
     "sms:displayName" : "SRADataset"
@@ -2034,6 +2038,10 @@
       "@id" : "bts:studyType"
     }, {
       "@id" : "bts:participant_count"
+    }, {
+      "@id" : "bts:hosting"
+    }, {
+      "@id" : "bts:repository"
     }, {
       "@id" : "bts:platform"
     } ],
@@ -2335,6 +2343,8 @@
       "@id" : "bts:followUpDuration"
     }, {
       "@id" : "bts:primaryOutcome"
+    }, {
+      "@id" : "bts:clinicalTrialPhase"
     }, {
       "@id" : "bts:assessmentTypes"
     }, {
@@ -3801,6 +3811,10 @@
     }, {
       "@id" : "bts:participant_count"
     }, {
+      "@id" : "bts:hosting"
+    }, {
+      "@id" : "bts:repository"
+    }, {
       "@id" : "bts:dataType"
     } ],
     "sms:displayName" : "Dataset"
@@ -4525,6 +4539,17 @@
     "sms:displayName" : "ResourceTypeEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:HostingEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "Where and how a dataset's data are hosted or made available.",
+    "rdfs:label" : "HostingEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "HostingEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:AdventitialSoundsEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -5029,6 +5054,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "CrossDomainDataTypeEnum",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:ClinicalTrialPhaseEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "Clinical trial phase for an interventional clinical dataset.",
+    "rdfs:label" : "ClinicalTrialPhaseEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "ClinicalTrialPhaseEnum",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:UrineLeukocyteEsteraseEnum",
@@ -6292,6 +6328,18 @@
     "sms:displayName" : "CNSRegion"
   }, {
     "rdfs:subClassOf" : [ ],
+    "@id" : "bts:repository",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "rdfs:label" : "repository",
+    "rdfs:comment" : "Free-text name of the repository or platform where the dataset is hosted or described.",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "repository"
+  }, {
+    "rdfs:subClassOf" : [ ],
     "@id" : "bts:diagnosis",
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
@@ -6739,6 +6787,8 @@
       "@id" : "bts:tier3"
     }, {
       "@id" : "bts:Standardized"
+    }, {
+      "@id" : "bts:PartialorCombinedStandardization"
     }, {
       "@id" : "bts:Non-Standardized"
     }, {
@@ -7271,6 +7321,31 @@
     "rdfs:comment" : "Indicates whether the data contains multiple timepoints per subject.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "hasLongitudinalData"
+  }, {
+    "rdfs:subClassOf" : [ ],
+    "@id" : "bts:hosting",
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:required" : "sms:false",
+    "sms:validationRules" : [ ],
+    "schema:rangeIncludes" : [ {
+      "@id" : "bts:synapse"
+    }, {
+      "@id" : "bts:external-cloud"
+    }, {
+      "@id" : "bts:external-download"
+    }, {
+      "@id" : "bts:external-access"
+    }, {
+      "@id" : "bts:mixed"
+    }, {
+      "@id" : "bts:unavailable"
+    } ],
+    "rdfs:label" : "hosting",
+    "rdfs:comment" : "Where and how the dataset's data are hosted or made available.",
+    "@type" : "rdfs:Class",
+    "sms:displayName" : "hosting"
   }, {
     "rdfs:subClassOf" : [ ],
     "@id" : "bts:GSM",
@@ -12595,6 +12670,17 @@
     "sms:displayName" : "histone_modification",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:PhaseIITrial",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PhaseIITrial",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Phase II Trial",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Inhalation",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -13308,6 +13394,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "bcf",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Placebo-Investigational",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Placebo-Investigational",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Placebo-Investigational",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Critical_High",
@@ -17061,6 +17158,17 @@
     "sms:displayName" : "Ceftriaxone 2 g/day",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:PhaseIIITrial",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PhaseIIITrial",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Phase III Trial",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:IlluminaWholeGenomeDASL",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -18172,6 +18280,17 @@
     "sms:displayName" : "single-cell RNA-seq",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:mixed",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "mixed",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "mixed",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Absent",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -18863,6 +18982,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Male",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:PartialorCombinedStandardization",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PartialorCombinedStandardization",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Partial or Combined Standardization",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:sALS",
@@ -21195,6 +21325,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "SNP",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:external-access",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "external-access",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "external-access",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Oriented_x2",
@@ -24145,6 +24286,17 @@
     "sms:displayName" : "TopHat2",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:external-download",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "external-download",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "external-download",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:compliance",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -25267,6 +25419,17 @@
     "sms:displayName" : "Small_Variant",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Phase1Trial",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Phase1Trial",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Phase 1 Trial",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Validation_Failed",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -26345,6 +26508,17 @@
     "sms:displayName" : "Buenrostro et al. Nat Methods 2024 ATAC-seq",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:unavailable",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "unavailable",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "unavailable",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:PathologicalBrainStemDLB",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -27091,6 +27265,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Type_1",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:external-cloud",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "external-cloud",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "external-cloud",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:ANG-ALS",

@@ -1292,11 +1292,11 @@ enums:
   ClinicalTrialPhaseEnum:
     description: Clinical trial phase for an interventional clinical dataset.
     permissible_values:
-      Phase 1:
+      Phase 1 Trial:
         description: Phase 1 clinical trial.
-      Phase II:
+      Phase II Trial:
         description: Phase II clinical trial.
-      Phase III:
+      Phase III Trial:
         description: Phase III clinical trial.
   FormStatusEnum:
     permissible_values:
