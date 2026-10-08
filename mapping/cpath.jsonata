@@ -69,11 +69,7 @@
         ["Placebo-Control"] :
         []) :
       [],
-  "cohort_count": $exists(catalogue.studyArm) ?
-      (("Investigational Arm" in catalogue.studyArm and "Placebo Control Arm" in catalogue.studyArm) ?
-        1 :
-       ("Control Arm" in catalogue.studyArm and "Placebo Control Arm" in catalogue.studyArm) ?
-        1),
+  "cohort_count": $count(catalogue.studyArm),
   "study_count": 1,
 
   /* Parse disease strings to extract disease type and subtype
