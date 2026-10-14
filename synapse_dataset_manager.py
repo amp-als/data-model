@@ -2954,7 +2954,7 @@ def migrate_deprecated_fields(annotations: dict, migrations: dict) -> tuple:
                                 is merged into the first matching route's target;
                                 values matching no route are dropped. Used for
                                 ``source`` (consortium values → program, repository
-                                values → originalRepository).
+                                values → repository).
 
     Without ``target`` (and without ``routes``) the entry is an in-place fix: value
     normalization keeps unmapped values, type coercion adjusts shape. Internal keys
@@ -7517,7 +7517,7 @@ def handle_update_workflow(args, config):
         )
 
         # Load deprecated→canonical field migration map (reconciles renamed/removed
-        # fields still present on Synapse, e.g. source→originalRepository).
+        # fields still present on Synapse, e.g. source→repository).
         migrations_path = getattr(args, 'field_migrations', None) or config.FIELD_MIGRATIONS_PATH
         field_migrations = load_field_migrations(migrations_path)
         if field_migrations:
@@ -7722,12 +7722,12 @@ def handle_update_workflow(args, config):
             annotations_output[syn_id] = {filename: merged}
 
         # Extract common dataset-level fields from existing files to seed new files.
-        # Fields like dataSourcePrefix, originalRepository, species, studyType are
+        # Fields like dataSourcePrefix, repository, species, studyType are
         # constant across all files in a dataset but aren't in _views or file contents.
         # Use canonical field names — matched files have already been run through
         # migrate_deprecated_fields above, so the deprecated names are gone.
         _COMMON_FIELDS = [
-            'dataSourcePrefix', 'originalRepository', 'program', 'species', 'studyType',
+            'dataSourcePrefix', 'repository', 'program', 'species', 'studyType',
             'disease', 'includedInDataCatalog', 'publisher', 'license',
         ]
         common_values = {}
@@ -8663,17 +8663,22 @@ def _is_empty_annotation(val):
 
 
 def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
-                                dry_run=True, verbose=False):
+                                dry_run=True, verbose=False, remove_old=True,
+                                fallback_value=None):
     """
     Rename an annotation key on a single Synapse entity (dataset or file).
 
     Cases:
-      1: Has old_key, no new_key → rename old to new
-      2a: Has both, values match → remove old, keep new
-      2b: Has both, values conflict → prompt user (execute) or flag (dry-run), remove old
+      1: Has old_key, no new_key → copy old to new (and remove old unless retained)
+      2a: Has both, values match → remove old unless retained
+      2b: Has both, values conflict → prompt user (execute) or flag (dry-run)
       3: Has new_key only → skip
       4: Has neither → add new_key with empty value
       5: Old key empty/null → still migrate, warn user
+
+    Set ``remove_old=False`` to retain the deprecated key after copying its value.
+    When neither key has a populated value, ``fallback_value`` is copied to the
+    new key (used to inherit a dataset-level value on member files).
 
     Returns:
         str: 'renamed', 'merged', 'added', 'skipped', 'conflict', 'error'
@@ -8682,19 +8687,23 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
         annos = syn.get_annotations(entity_id)
         annotations = dict(annos)
 
-        has_old = old_key in annotations
-        has_new = new_key in annotations
+        has_old = old_key in annotations and not _is_empty_annotation(annotations[old_key])
+        has_new = new_key in annotations and not _is_empty_annotation(annotations[new_key])
 
-        # Case 4: Neither key exists — add new key with empty value
+        # Case 4: Neither key has a populated value — inherit a provided fallback.
+        # A blank target such as [''] is treated as absent and overwritten.
         if not has_old and not has_new:
+            if _is_empty_annotation(fallback_value):
+                if verbose:
+                    print(f"  [OK]   {entity_name} ({entity_id}): neither key has a value — skipped")
+                return 'skipped'
             if dry_run:
-                print(f"  [DRY_RUN] {entity_name} ({entity_id}): neither key found — would add '{new_key}' with empty value")
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): neither key has a value — would inherit '{new_key}' = {fallback_value}")
                 return 'added'
-            else:
-                annos[new_key] = ""
-                syn.set_annotations(annos)
-                print(f"  + {entity_name} ({entity_id}): added '{new_key}' with empty value")
-                return 'added'
+            annos[new_key] = fallback_value
+            syn.set_annotations(annos)
+            print(f"  + {entity_name} ({entity_id}): inherited '{new_key}' = {fallback_value}")
+            return 'added'
 
         # Case 3: Only new key exists — nothing to do
         if not has_old and has_new:
@@ -8708,25 +8717,31 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
         # Case 5: Old key exists but is empty/null — still migrate, warn
         if old_is_empty and not has_new:
             if dry_run:
-                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would rename '{old_key}' → '{new_key}' (WARNING: empty value)")
+                action = "copy and retain" if not remove_old else "rename"
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would {action} '{old_key}' → '{new_key}' (WARNING: empty value)")
                 return 'renamed'
             else:
                 annos[new_key] = old_value
-                del annos[old_key]
+                if remove_old:
+                    del annos[old_key]
                 syn.set_annotations(annos)
-                print(f"  ⚠️  {entity_name} ({entity_id}): renamed '{old_key}' → '{new_key}' (empty value)")
+                action = "renamed" if remove_old else "copied"
+                print(f"  ⚠️  {entity_name} ({entity_id}): {action} '{old_key}' → '{new_key}' (empty value)")
                 return 'renamed'
 
         # Case 1: Only old key exists (non-empty) — rename
         if has_old and not has_new:
             if dry_run:
-                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would rename '{old_key}' → '{new_key}' (value: {old_value})")
+                action = "copy and retain" if not remove_old else "rename"
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would {action} '{old_key}' → '{new_key}' (value: {old_value})")
                 return 'renamed'
             else:
                 annos[new_key] = old_value
-                del annos[old_key]
+                if remove_old:
+                    del annos[old_key]
                 syn.set_annotations(annos)
-                print(f"  ✓ {entity_name} ({entity_id}): renamed '{old_key}' → '{new_key}' (value: {old_value})")
+                action = "renamed" if remove_old else "copied"
+                print(f"  ✓ {entity_name} ({entity_id}): {action} '{old_key}' → '{new_key}' (value: {old_value})")
                 return 'renamed'
 
         # Case 2: Both keys exist — compare values
@@ -8737,14 +8752,17 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
 
             # Case 2a: Values match — remove old
             if old_norm == new_norm:
+                if not remove_old:
+                    if verbose:
+                        print(f"  [OK]   {entity_name} ({entity_id}): values match — retaining '{old_key}' and '{new_key}'")
+                    return 'skipped'
                 if dry_run:
                     print(f"  [DRY_RUN] {entity_name} ({entity_id}): values match — would remove '{old_key}' (value: {old_value})")
                     return 'merged'
-                else:
-                    del annos[old_key]
-                    syn.set_annotations(annos)
-                    print(f"  ✓ {entity_name} ({entity_id}): values match — removed '{old_key}' (kept '{new_key}': {new_value})")
-                    return 'merged'
+                del annos[old_key]
+                syn.set_annotations(annos)
+                print(f"  ✓ {entity_name} ({entity_id}): values match — removed '{old_key}' (kept '{new_key}': {new_value})")
+                return 'merged'
 
             # Case 2b: Values conflict
             if dry_run:
@@ -8771,9 +8789,11 @@ def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
 
                 keep_value = old_value if choice == '1' else new_value
                 annos[new_key] = keep_value
-                del annos[old_key]
+                if remove_old:
+                    del annos[old_key]
                 syn.set_annotations(annos)
-                print(f"  ✓ {entity_name} ({entity_id}): set '{new_key}' = {keep_value}, removed '{old_key}'")
+                suffix = f", removed '{old_key}'" if remove_old else f", retained '{old_key}'"
+                print(f"  ✓ {entity_name} ({entity_id}): set '{new_key}' = {keep_value}{suffix}")
                 return 'conflict'
 
     except Exception as e:
@@ -9753,6 +9773,8 @@ def handle_rename_annotation(args, config):
         dry_run = True
 
     include_files = getattr(args, 'include_files', False)
+    inherit_dataset_annotation = getattr(args, 'inherit_dataset_annotation', False)
+    remove_old = not getattr(args, 'keep_old_annotation', False)
     verbose = getattr(args, 'verbose', False) or config.VERBOSE
 
     mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
@@ -9762,6 +9784,8 @@ def handle_rename_annotation(args, config):
     print(f"Old annotation : {old_key}")
     print(f"New annotation : {new_key}")
     print(f"Include files  : {'Yes' if include_files else 'No (dataset-level only)'}")
+    print(f"Inherit dataset: {'Yes' if inherit_dataset_annotation else 'No'}")
+    print(f"Remove old key : {'Yes' if remove_old else 'No (retain old key)'}")
 
     # Collect dataset IDs to process
     dataset_ids = []  # list of (dataset_id, dataset_name)
@@ -9814,8 +9838,22 @@ def handle_rename_annotation(args, config):
 
         # Rename on dataset entity itself
         result = rename_annotation_on_entity(syn, ds_id, ds_name, old_key, new_key,
-                                              dry_run=dry_run, verbose=verbose)
+                                              dry_run=dry_run, verbose=verbose,
+                                              remove_old=remove_old)
         ds_counts[result] = ds_counts.get(result, 0) + 1
+
+        # Optionally inherit the dataset's canonical value onto member files that
+        # have neither populated key. Re-read after execution so a conflict
+        # resolution is used.
+        dataset_fallback = None
+        if inherit_dataset_annotation:
+            try:
+                dataset_annotations = dict(syn.get_annotations(ds_id))
+                dataset_fallback = dataset_annotations.get(new_key)
+                if _is_empty_annotation(dataset_fallback):
+                    dataset_fallback = dataset_annotations.get(old_key)
+            except Exception as e:
+                print(f"  ⚠️  Could not read dataset annotations for file inheritance: {e}")
 
         # Optionally process file entities within the dataset
         if include_files:
@@ -9832,7 +9870,9 @@ def handle_rename_annotation(args, config):
 
                     result = rename_annotation_on_entity(syn, file_id, f"  {file_name}",
                                                          old_key, new_key,
-                                                         dry_run=dry_run, verbose=verbose)
+                                                         dry_run=dry_run, verbose=verbose,
+                                                         remove_old=remove_old,
+                                                         fallback_value=dataset_fallback)
                     file_counts[result] = file_counts.get(result, 0) + 1
 
             except Exception as e:
@@ -10560,7 +10600,7 @@ Examples:
                               default=None,
                               help=('Path to deprecated→canonical field migration map (YAML). '
                                     'Defaults to configs/field_migrations.yaml. Reconciles '
-                                    'renamed/removed fields still on Synapse (e.g. source→originalRepository).'))
+                                    'renamed/removed fields still on Synapse (e.g. source→repository).'))
     update_parser.add_argument('--subject-file-type',
                               choices=['single', 'multi', 'auto'],
                               default=None,
@@ -10819,6 +10859,10 @@ Examples:
         help='New annotation key name to rename to (e.g., "participant_count")')
     rename_parser.add_argument('--include-files', action='store_true',
         help='Also rename the annotation on all file entities within each dataset')
+    rename_parser.add_argument('--keep-old-annotation', action='store_true',
+        help='Copy the value to the new key but retain the old annotation key')
+    rename_parser.add_argument('--inherit-dataset-annotation', action='store_true',
+        help='For files missing both keys, copy the populated new-key value from their Dataset')
     rename_parser.add_argument('--verbose', action='store_true',
         help='Print detailed info for each entity processed')
     rename_parser.add_argument('--execute', action='store_true',

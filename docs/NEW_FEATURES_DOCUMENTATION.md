@@ -682,7 +682,7 @@ annotations already stored on Synapse keep the **old** field. During the `update
 workflow's phase-1 template generation, the fresh template contributes the *new*
 canonical field while the pulled-from-Synapse annotations contribute the *old* one
 — so both survive in `*_update_annotations.json` (e.g. `source` alongside
-`originalRepository`). Field migrations reconcile them from a single running map.
+`repository`). Field migrations reconcile them from a single running map.
 
 ### The map: `configs/field_migrations.yaml`
 
@@ -714,14 +714,14 @@ includedInDataCatalog:
   merge: true
 
 # 4. Value-dependent SPLIT: one field routes to different targets by value.
-#    Used for `source`: consortium names → program, repository names → originalRepository.
+#    Used for `source`: consortium names → program, repository names → repository.
 source:
   routes:
     - when_values: [all_als, "ALL ALS"]
       target: program
       values: {all_als: ALL ALS}
     - when_values: [GEO, "Gene Expression Omnibus"]
-      target: originalRepository
+      target: repository
       values: {GEO: Gene Expression Omnibus}
 
 # 5. Remove entirely, no replacement

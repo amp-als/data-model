@@ -2978,7 +2978,7 @@ enums:
         description: The Danto Family
       Other:
         description: Other funding organization not listed
-  OriginalRepositoryEnum:
+  RepositoryEnum:
     description: Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.
     permissible_values:
       Synapse:
@@ -5055,6 +5055,7 @@ classes:
       - title
       - keywords
       - license
+      - repository
     attributes:
       dataType:
         description: >-
@@ -5067,12 +5068,6 @@ classes:
         description: Research consortium(s) or program(s) that produced or funded this resource.
         multivalued: true
         required: false
-      originalRepository:
-        title: Original Repository
-        range: OriginalRepositoryEnum
-        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
-        multivalued: true
-        required: true
       schemaName:
         description: Name of this metadata schema
         range: string
@@ -8527,6 +8522,7 @@ classes:
       - contributor
       - species
       - citation
+      - repository
     attributes:
       alternateName:
         title: Alternate Name
@@ -8546,12 +8542,6 @@ classes:
         description: Research consortium(s) or program(s) that produced or funded this resource.
         multivalued: true
         required: false
-      originalRepository:
-        title: Original Repository
-        range: OriginalRepositoryEnum
-        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
-        multivalued: true
-        required: true
       url:
         title: URL
         range: string
@@ -8887,9 +8877,10 @@ slots:
     required: false
   repository:
     title: Repository
-    description: Free-text name of the repository or platform where the dataset is hosted or described.
-    range: string
-    required: false
+    description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
+    range: RepositoryEnum
+    multivalued: true
+    required: true
   sex:
     any_of:
       - range: SexEnum

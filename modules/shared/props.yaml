@@ -264,11 +264,12 @@ slots:
     required: false
   repository:
     title: Repository
-    description: Free-text name of the repository or platform where the dataset is hosted or described.
-    range: string
+    description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
+    range: RepositoryEnum
+    multivalued: true
     in_subset:
       - portal
-    required: false
+    required: true
   sex:
     any_of:
       - range: SexEnum

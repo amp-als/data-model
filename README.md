@@ -690,7 +690,7 @@ See [`docs/DATA_MODEL_CHANGES_JULY_2026.md`](docs/DATA_MODEL_CHANGES_JULY_2026.m
 - **`libraryStrategy` removed** — consolidated into `assay`; `modules/omics/library-strategy.yaml` deleted
 - **`funder`** given a controlled vocabulary (`FunderEnum` in `portals.yaml`)
 - **`program`** renamed from `collection` / `CollectionEnum` → `ProgramEnum`
-- **`originalRepository`** renamed from `source`, now wired to `OriginalRepositoryEnum`
+- **`repository`** is the canonical repository field, wired to `RepositoryEnum`
 - **`dataFormat` removed** — `fileFormat` is the canonical file-format field
 - **`CohortTypeEnum`, `CohortEnum`** added to `BaseDataset` for cohort-level metadata
 - **`SpeechDataset`/`SpeechFile`** added to Makefile as build targets

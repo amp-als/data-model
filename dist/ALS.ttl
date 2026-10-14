@@ -8,18 +8,18 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ],
-        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
-            sh:prefix "skos" ],
+    sh:declare [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
+            sh:prefix "als" ],
         [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
             sh:prefix "schema" ],
+        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
+            sh:prefix "linkml" ],
+        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
+            sh:prefix "skos" ],
         [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
             sh:prefix "prov" ],
-        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
-            sh:prefix "als" ],
-        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
-            sh:prefix "linkml" ] ;
+        [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
+            sh:prefix "rdfs" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -186,7 +186,6 @@
         <https://w3id.org/synapse/amp-als/vocab/NucleicAcidSourceEnum>,
         <https://w3id.org/synapse/amp-als/vocab/OmicDataTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/OrganEnum>,
-        <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum>,
         <https://w3id.org/synapse/amp-als/vocab/OutcomeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/PhenoconversionStatusEnum>,
         <https://w3id.org/synapse/amp-als/vocab/PlatformEnum>,
@@ -199,6 +198,7 @@
         <https://w3id.org/synapse/amp-als/vocab/ReadStrandOriginEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ReasonForChangeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/RelationshipEnum>,
+        <https://w3id.org/synapse/amp-als/vocab/RepositoryEnum>,
         <https://w3id.org/synapse/amp-als/vocab/ResourceTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/RouteEnum>,
         <https://w3id.org/synapse/amp-als/vocab/RunTypeEnum>,
@@ -244,7 +244,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-10-08T18:31:29"^^xsd:dateTime ;
+    linkml:generation_date "2026-10-14T16:24:41"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -458,7 +458,6 @@
         <https://w3id.org/synapse/amp-als/vocab/cognitiveAssessment__visuospatialScore>,
         <https://w3id.org/synapse/amp-als/vocab/comments>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -733,7 +732,6 @@
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__identifierType>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__landingPage>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__licenseURL>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__program>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publicationYear>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publisher>,
@@ -943,8 +941,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-10-08T18:31:28"^^xsd:dateTime ;
-    linkml:source_file_size 401786 ;
+    linkml:source_file_date "2026-10-14T16:24:39"^^xsd:dateTime ;
+    linkml:source_file_size 401317 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -1546,7 +1544,6 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalFile__datasetReference>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -1560,6 +1557,7 @@
         <https://w3id.org/synapse/amp-als/vocab/fileAnnotationsMixin__analysisTypes>,
         <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/studyPhase>,
@@ -1987,7 +1985,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__study_count>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -2039,7 +2036,6 @@
         <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -2067,6 +2063,7 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
         <https://w3id.org/synapse/amp-als/vocab/readLength>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
@@ -8562,9 +8559,9 @@
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "dataType" ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
 """ ;
@@ -9042,6 +9039,19 @@
 <https://w3id.org/synapse/amp-als/vocab/Remote> linkml:description "Remote administration where the specific modality (phone vs. video call) is not distinguished in the source data",
         "Remote location" .
 
+<https://w3id.org/synapse/amp-als/vocab/RepositoryEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/RepositoryEnum"^^xsd:anyURI ;
+    linkml:description "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal." ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALL%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
+        <https://w3id.org/synapse/amp-als/vocab/Critical%20Path%20Institute>,
+        <https://w3id.org/synapse/amp-als/vocab/Gene%20Expression%20Omnibus>,
+        <https://w3id.org/synapse/amp-als/vocab/Linus%20Health>,
+        <https://w3id.org/synapse/amp-als/vocab/Sequencing%20Read%20Archive>,
+        <https://w3id.org/synapse/amp-als/vocab/Synapse>,
+        <https://w3id.org/synapse/amp-als/vocab/Target%20ALS>,
+        <https://w3id.org/synapse/amp-als/vocab/dbGaP> .
+
 <https://w3id.org/synapse/amp-als/vocab/Resolved> linkml:description "Condition has resolved",
         "Event resolved completely" .
 
@@ -9074,7 +9084,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__study_count>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -9124,7 +9133,6 @@
         <https://w3id.org/synapse/amp-als/vocab/biospecimenSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -9152,6 +9160,7 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
         <https://w3id.org/synapse/amp-als/vocab/readLength>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
@@ -13176,18 +13185,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/licenseURL"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/metadataSchema__originalRepository> a linkml:SlotDefinition ;
-    dcterms:title "Original Repository" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "originalRepository" ;
-    linkml:description "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> ;
-    linkml:required true ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/originalRepository"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/metadataSchema__program> a linkml:SlotDefinition ;
     dcterms:title "Program" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -13312,13 +13309,6 @@
     linkml:description "Whether the condition is ongoing.",
         "Whether treatment is ongoing" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/boolean> .
-
-<https://w3id.org/synapse/amp-als/vocab/originalRepository> a linkml:SlotDefinition ;
-    dcterms:title "Original Repository" ;
-    linkml:description "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal." ;
-    linkml:multivalued true ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> ;
-    linkml:required true .
 
 <https://w3id.org/synapse/amp-als/vocab/originalSampleId> a linkml:SlotDefinition ;
     dcterms:title "Original Sample ID" ;
@@ -13699,11 +13689,11 @@
     dcterms:title "Sex" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
     linkml:description "Biological sex of subject.",
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
@@ -15129,7 +15119,6 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalFile__datasetReference>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalRecordSetFile__subjectIdColumn>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -15148,6 +15137,7 @@
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
         <https://w3id.org/synapse/amp-als/vocab/participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/recordCount>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/studyPhase>,
@@ -15797,7 +15787,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -15824,6 +15813,7 @@
         <https://w3id.org/synapse/amp-als/vocab/participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
         <https://w3id.org/synapse/amp-als/vocab/recordCount>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/studyType>,
@@ -16475,19 +16465,6 @@
         <https://w3id.org/synapse/amp-als/vocab/transcriptomics_nascent>,
         <https://w3id.org/synapse/amp-als/vocab/variant_calls> .
 
-<https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum"^^xsd:anyURI ;
-    linkml:description "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal." ;
-    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/ALL%20ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/ALS%20Compute>,
-        <https://w3id.org/synapse/amp-als/vocab/Critical%20Path%20Institute>,
-        <https://w3id.org/synapse/amp-als/vocab/Gene%20Expression%20Omnibus>,
-        <https://w3id.org/synapse/amp-als/vocab/Linus%20Health>,
-        <https://w3id.org/synapse/amp-als/vocab/Sequencing%20Read%20Archive>,
-        <https://w3id.org/synapse/amp-als/vocab/Synapse>,
-        <https://w3id.org/synapse/amp-als/vocab/Target%20ALS>,
-        <https://w3id.org/synapse/amp-als/vocab/dbGaP> .
-
 <https://w3id.org/synapse/amp-als/vocab/Poor> linkml:description "Poor cooperation",
         "Poor efficacy",
         "Poor quality specimen",
@@ -16935,7 +16912,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__study_count>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -17446,7 +17422,6 @@
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalDomain>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -17951,16 +17926,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/HostingEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/hosting"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/repository> a linkml:SlotDefinition ;
-    dcterms:title "Repository" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/repository"^^xsd:anyURI ;
-    linkml:description "Free-text name of the repository or platform where the dataset is hosted or described." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/repository"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/ClinicalRecordMixin> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/visitId> ;
@@ -17993,7 +17958,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18018,6 +17982,7 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__referenceGenome>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
@@ -18221,7 +18186,6 @@
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalDomain>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18328,7 +18292,6 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalFile__datasetReference>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18342,6 +18305,7 @@
         <https://w3id.org/synapse/amp-als/vocab/fileAnnotationsMixin__analysisTypes>,
         <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/studyPhase> .
@@ -18390,7 +18354,6 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalDomain>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalFileMixin__visitType>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18417,6 +18380,7 @@
         <https://w3id.org/synapse/amp-als/vocab/librarySource>,
         <https://w3id.org/synapse/amp-als/vocab/participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/recordCount>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
@@ -18601,7 +18565,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18613,6 +18576,7 @@
         <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__disease>,
         <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/species> .
 
 <https://w3id.org/synapse/amp-als/vocab/BiomarkerFile> a linkml:ClassDefinition ;
@@ -18646,7 +18610,6 @@
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalDomain>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18666,6 +18629,7 @@
         <https://w3id.org/synapse/amp-als/vocab/participant_count>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
         <https://w3id.org/synapse/amp-als/vocab/recordCount>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__biospecimenType>,
         <https://w3id.org/synapse/amp-als/vocab/specimenTypeMixin__cellType>,
@@ -18694,7 +18658,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18715,6 +18678,7 @@
         <https://w3id.org/synapse/amp-als/vocab/omicFile__referenceGenome>,
         <https://w3id.org/synapse/amp-als/vocab/omicFile__variantType>,
         <https://w3id.org/synapse/amp-als/vocab/platform>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/site_of_onset>,
         <https://w3id.org/synapse/amp-als/vocab/species> .
 
@@ -18744,7 +18708,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__study_count>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -18849,7 +18812,6 @@
         <https://w3id.org/synapse/amp-als/vocab/clinicalDataset__visitSchedule>,
         <https://w3id.org/synapse/amp-als/vocab/clinicalDomain>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -19156,18 +19118,6 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/string> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/alternateName"^^xsd:anyURI .
 
-<https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository> a linkml:SlotDefinition ;
-    dcterms:title "Original Repository" ;
-    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
-    skos:prefLabel "originalRepository" ;
-    linkml:description "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal." ;
-    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
-    linkml:multivalued true ;
-    linkml:owner <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
-    linkml:range <https://w3id.org/synapse/amp-als/vocab/OriginalRepositoryEnum> ;
-    linkml:required true ;
-    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/originalRepository"^^xsd:anyURI .
-
 <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program> a linkml:SlotDefinition ;
     dcterms:title "Program" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -19374,6 +19324,20 @@
     linkml:range <https://w3id.org/synapse/amp-als/vocab/DiseaseSubtypeEnum> ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/diseaseSubtype"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/repository> a linkml:SlotDefinition ;
+    dcterms:title "Repository" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/repository"^^xsd:anyURI ;
+    linkml:description "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset>,
+        <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin>,
+        <https://w3id.org/synapse/amp-als/vocab/MetadataSchema> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/RepositoryEnum> ;
+    linkml:required true ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/repository"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/Biomarkers> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/abeta40>,
@@ -19431,7 +19395,6 @@
 <https://w3id.org/synapse/amp-als/vocab/CommonMetadataMixin> a linkml:ClassDefinition ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:attributes <https://w3id.org/synapse/amp-als/vocab/alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/program>,
         <https://w3id.org/synapse/amp-als/vocab/sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/subject>,
@@ -19443,7 +19406,6 @@
     linkml:slot_usage [ ] ;
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -19451,6 +19413,7 @@
         <https://w3id.org/synapse/amp-als/vocab/contributor>,
         <https://w3id.org/synapse/amp-als/vocab/creator>,
         <https://w3id.org/synapse/amp-als/vocab/description>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/species> .
 
 <https://w3id.org/synapse/amp-als/vocab/Comorbidity> a linkml:ClassDefinition ;
@@ -19975,7 +19938,6 @@
     linkml:slots <https://w3id.org/synapse/amp-als/vocab/baseFile__title>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -19988,6 +19950,7 @@
         <https://w3id.org/synapse/amp-als/vocab/diseaseMixin__diseaseSubtype>,
         <https://w3id.org/synapse/amp-als/vocab/fileFormat>,
         <https://w3id.org/synapse/amp-als/vocab/keywords>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/species>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__dataType>,
         <https://w3id.org/synapse/amp-als/vocab/speechFile__ftDtc>,
@@ -20093,7 +20056,6 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__study_count>,
         <https://w3id.org/synapse/amp-als/vocab/citation>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__alternateName>,
-        <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__program>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__sameAs>,
         <https://w3id.org/synapse/amp-als/vocab/commonMetadataMixin__subject>,
@@ -20310,7 +20272,6 @@
         <https://w3id.org/synapse/amp-als/vocab/identifierType>,
         <https://w3id.org/synapse/amp-als/vocab/landingPage>,
         <https://w3id.org/synapse/amp-als/vocab/licenseURL>,
-        <https://w3id.org/synapse/amp-als/vocab/originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/program>,
         <https://w3id.org/synapse/amp-als/vocab/publicationYear>,
         <https://w3id.org/synapse/amp-als/vocab/publisher>,
@@ -20346,7 +20307,6 @@
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__identifierType>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__landingPage>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__licenseURL>,
-        <https://w3id.org/synapse/amp-als/vocab/metadataSchema__originalRepository>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__program>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publicationYear>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__publisher>,
@@ -20356,6 +20316,7 @@
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__schemaName>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__schemaType>,
         <https://w3id.org/synapse/amp-als/vocab/metadataSchema__version>,
+        <https://w3id.org/synapse/amp-als/vocab/repository>,
         <https://w3id.org/synapse/amp-als/vocab/title> .
 
 <https://w3id.org/synapse/amp-als/vocab/CognitiveAssessment> a linkml:ClassDefinition ;

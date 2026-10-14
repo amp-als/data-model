@@ -196,9 +196,13 @@ automatically during phase-1 template generation — no flag needed.
 
 ```yaml
 # configs/field_migrations.yaml — one entry per deprecated field
-source:                       # rename + translate enum values
-  target: originalRepository
-  values: {all_als: Synapse}
+originalRepository:           # plain rename (value carried as-is)
+  target: repository
+source:                       # route legacy source values by meaning
+  routes:
+    - when_values: [geo, GEO]
+      target: repository
+      values: {geo: Gene Expression Omnibus, GEO: Gene Expression Omnibus}
 individualCount:              # plain rename (value carried as-is)
   target: participant_count
 collection:                   # removed from the model
@@ -377,6 +381,27 @@ to require external metadata. `--mapping-max-values` controls the per-field valu
 limit (default: 50). Unsupported or unreadable staging files retain normal templates and
 are reported, rather than failing creation.
 
+## 13. Retain the Old Annotation During a Rename
+
+Use `--keep-old-annotation` to copy values to the canonical field while retaining
+the deprecated field for a staged migration. Dry-run first, then add `--execute`.
+
+```bash
+mamba run -n amp-als python synapse_dataset_manager.py rename-annotation \
+  --collection-id syn66496326 \
+  --old-annotation source --new-annotation repository \
+  --include-files --inherit-dataset-annotation --keep-old-annotation --execute
+```
+
+Without `--keep-old-annotation`, `rename-annotation` removes the old key after a
+successful copy. A blank target value (such as `repository: [""]`) is treated as
+empty and is overwritten from the old key without a conflict prompt. If both keys
+already have matching values, the flag leaves both unchanged; conflicting populated
+values still require an interactive choice during execution. Add
+`--inherit-dataset-annotation` to make member files that have neither populated key
+inherit the Dataset's populated canonical value. Inheritance is opt-in because fields
+such as participant counts can legitimately differ between a Dataset and its files.
+
 ## Help Commands
 
 ```bash
@@ -389,6 +414,7 @@ python synapse_dataset_manager.py generate-mapping --help
 python synapse_dataset_manager.py create --help  # includes mapping flags
 python synapse_dataset_manager.py add-link-file --help
 python synapse_dataset_manager.py create-entity-view --help
+python synapse_dataset_manager.py rename-annotation --help
 python synapse_dataset_manager.py move --help
 python synapse_dataset_manager.py delete-entities --help
 ```

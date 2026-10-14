@@ -162,6 +162,7 @@ classes:
       - contributor
       - species
       - citation
+      - repository
     attributes:
       alternateName:
         title: Alternate Name
@@ -181,12 +182,6 @@ classes:
         description: Research consortium(s) or program(s) that produced or funded this resource.
         multivalued: true
         required: false
-      originalRepository:
-        title: Original Repository
-        range: OriginalRepositoryEnum
-        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
-        multivalued: true
-        required: true
       url:
         title: URL
         range: string

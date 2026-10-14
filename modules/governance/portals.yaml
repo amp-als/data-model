@@ -171,7 +171,7 @@ enums:
       Other:
         description: Other funding organization not listed
 
-  OriginalRepositoryEnum:
+  RepositoryEnum:
     description: Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.
     permissible_values:
       Synapse:

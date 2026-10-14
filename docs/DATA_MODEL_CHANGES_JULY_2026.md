@@ -51,19 +51,19 @@ This document tracks all data model changes made during the week of July 7–9, 
 
 ---
 
-## 5. source → originalRepository Rename
+## 5. source → repository Rename
 
 - **Problem:** The `source` attribute (`range: string`, required) was ambiguously named and unconstrained. `SourceNode` enum existed but was not wired to the attribute.
 - **Fix:**
-  - Renamed attribute `source` → `originalRepository` in `modules/mixins/CommonMixins.yaml`.
-  - Renamed `SourceNode` → `OriginalRepositoryEnum` in `modules/governance/portals.yaml`.
-  - Wired `originalRepository` to `range: OriginalRepositoryEnum`.
+  - Renamed attribute `source` → `repository` in `modules/shared/props.yaml`.
+  - Renamed `SourceNode` → `RepositoryEnum` in `modules/governance/portals.yaml`.
+  - Wired `repository` to `range: RepositoryEnum`.
   - Updated description: "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal."
-  - Added `dbGaP` and `Sequencing Read Archive` to `OriginalRepositoryEnum`.
+  - Added `dbGaP` and `Sequencing Read Archive` to `RepositoryEnum`.
 - **Conceptual distinction:**
   - `program` = who produced/funded the data (consortium/initiative)
-  - `originalRepository` = where the data was originally housed (Synapse, GEO, dbGaP, etc.)
-- **Impact:** 8 annotation files using `source` need to be updated to `originalRepository`. Annotation values that are consortium names (`ALL ALS`, `Answer ALS`, `NEALS`) should migrate to `program`.
+  - `repository` = where the data was originally housed (Synapse, GEO, dbGaP, etc.)
+- **Impact:** Annotation files using `source` need to be updated to `repository`. Annotation values that are consortium names (`ALL ALS`, `Answer ALS`, `NEALS`) should migrate to `program`.
 
 ---
 
@@ -112,7 +112,7 @@ Added to `modules/shared/common-enums.yaml` (adjacent to their gene-name equival
 
 ## 11. includedInDataCatalog Removed
 
-- **Problem:** `includedInDataCatalog` overlapped with `url` and `originalRepository`. Only 1 annotation used it (a dbGaP URL).
+- **Problem:** `includedInDataCatalog` overlapped with `url` and `repository`. Only 1 annotation used it (a dbGaP URL).
 - **Fix:** Removed `includedInDataCatalog` from `CommonMixins.yaml`. Consolidated into `url`, which was made `multivalued: true` with an updated description covering both original location and external catalog links.
 
 ---
@@ -226,7 +226,7 @@ The following annotation fields need updating across existing annotation JSON fi
 |---|---|---|
 | `collection` | `program` | ~10 files |
 | `source` (consortium values) | `program` | ~8 files |
-| `source` (repository values) | `originalRepository` | ~8 files |
+| `source` (repository values) | `repository` | ~8 files |
 | `funder: "National Institutes of Health"` | `funder: "NIH"` | ~1 file |
 | `includedInDataCatalog` | `url` | ~1 file |
 | `curationLevel` (scalar) | `curationLevel` (array) | files using this field |

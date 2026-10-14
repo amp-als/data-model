@@ -1277,8 +1277,6 @@
     }, {
       "@id" : "bts:program"
     }, {
-      "@id" : "bts:originalRepository"
-    }, {
       "@id" : "bts:url"
     }, {
       "@id" : "bts:sameAs"
@@ -2546,8 +2544,6 @@
       "@id" : "bts:dataType"
     }, {
       "@id" : "bts:program"
-    }, {
-      "@id" : "bts:originalRepository"
     }, {
       "@id" : "bts:schemaName"
     }, {
@@ -3912,6 +3908,17 @@
     "sms:displayName" : "AwajiCriteriaEnum",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:RepositoryEnum",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.",
+    "rdfs:label" : "RepositoryEnum",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "RepositoryEnum",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:DataSubtypeEnum",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -4581,17 +4588,6 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "WorkingDistanceUnitEnum",
-    "sms:required" : "sms:false"
-  }, {
-    "@id" : "bts:OriginalRepositoryEnum",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.",
-    "rdfs:label" : "OriginalRepositoryEnum",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "OriginalRepositoryEnum",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:StrandednessEnum",
@@ -6332,10 +6328,29 @@
     "schema:isPartOf" : {
       "@id" : "http://schema.biothings.io/"
     },
-    "sms:required" : "sms:false",
+    "sms:required" : "sms:true",
     "sms:validationRules" : [ ],
+    "schema:rangeIncludes" : [ {
+      "@id" : "bts:Synapse"
+    }, {
+      "@id" : "bts:GeneExpressionOmnibus"
+    }, {
+      "@id" : "bts:dbGaP"
+    }, {
+      "@id" : "bts:ALSCompute"
+    }, {
+      "@id" : "bts:CriticalPathInstitute"
+    }, {
+      "@id" : "bts:TargetALS"
+    }, {
+      "@id" : "bts:SequencingReadArchive"
+    }, {
+      "@id" : "bts:ALLALS"
+    }, {
+      "@id" : "bts:LinusHealth"
+    } ],
     "rdfs:label" : "repository",
-    "rdfs:comment" : "Free-text name of the repository or platform where the dataset is hosted or described.",
+    "rdfs:comment" : "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
     "@type" : "rdfs:Class",
     "sms:displayName" : "repository"
   }, {
@@ -25419,17 +25434,6 @@
     "sms:displayName" : "Small_Variant",
     "sms:required" : "sms:false"
   }, {
-    "@id" : "bts:Phase1Trial",
-    "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
-    "rdfs:label" : "Phase1Trial",
-    "rdfs:subClassOf" : [ ],
-    "schema:isPartOf" : {
-      "@id" : "http://schema.biothings.io/"
-    },
-    "sms:displayName" : "Phase 1 Trial",
-    "sms:required" : "sms:false"
-  }, {
     "@id" : "bts:Validation_Failed",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -26748,6 +26752,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "mtx",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:PhaseITrial",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "PhaseITrial",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Phase I Trial",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:Illumina1M",

@@ -443,34 +443,6 @@
       "description": "URL to the full license text",
       "type": "string"
     },
-    "originalRepository": {
-      "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
-      "items": {
-        "description": "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.",
-        "title": "OriginalRepositoryEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "Synapse",
-              "Gene Expression Omnibus",
-              "dbGaP",
-              "ALS Compute",
-              "Critical Path Institute",
-              "Target ALS",
-              "Sequencing Read Archive",
-              "ALL ALS",
-              "Linus Health"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Original Repository",
-      "type": "array"
-    },
     "program": {
       "description": "Research consortium(s) or program(s) that produced or funded this resource.",
       "items": {
@@ -522,6 +494,34 @@
       "items": {
         "type": "string"
       },
+      "type": "array"
+    },
+    "repository": {
+      "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
+      "items": {
+        "description": "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.",
+        "title": "RepositoryEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Synapse",
+              "Gene Expression Omnibus",
+              "dbGaP",
+              "ALS Compute",
+              "Critical Path Institute",
+              "Target ALS",
+              "Sequencing Read Archive",
+              "ALL ALS",
+              "Linus Health"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Repository",
       "type": "array"
     },
     "resourceType": {
@@ -576,6 +576,6 @@
   },
   "required": [
     "title",
-    "originalRepository"
+    "repository"
   ]
 }

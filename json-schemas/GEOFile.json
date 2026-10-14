@@ -1238,34 +1238,6 @@
         }
       ]
     },
-    "originalRepository": {
-      "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
-      "items": {
-        "description": "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.",
-        "title": "OriginalRepositoryEnum",
-        "type": "string",
-        "anyOf": [
-          {
-            "enum": [
-              "Synapse",
-              "Gene Expression Omnibus",
-              "dbGaP",
-              "ALS Compute",
-              "Critical Path Institute",
-              "Target ALS",
-              "Sequencing Read Archive",
-              "ALL ALS",
-              "Linus Health"
-            ]
-          },
-          {
-            "const": ""
-          }
-        ]
-      },
-      "title": "Original Repository",
-      "type": "array"
-    },
     "originalSampleId": {
       "description": "Original sample identifier as provided by the data source.",
       "title": "Original Sample ID",
@@ -1513,6 +1485,34 @@
         }
       ]
     },
+    "repository": {
+      "description": "Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.",
+      "items": {
+        "description": "Repository or platform where data was originally housed before ingestion into the AMP-ALS portal.",
+        "title": "RepositoryEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Synapse",
+              "Gene Expression Omnibus",
+              "dbGaP",
+              "ALS Compute",
+              "Critical Path Institute",
+              "Target ALS",
+              "Sequencing Read Archive",
+              "ALL ALS",
+              "Linus Health"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Repository",
+      "type": "array"
+    },
     "sameAs": {
       "description": "Another platform's URI or compact URI for this same resource. See https://www.w3.org/TR/owl-ref/#sameAs-def.",
       "title": "Same As",
@@ -1684,6 +1684,6 @@
     }
   },
   "required": [
-    "originalRepository"
+    "repository"
   ]
 }

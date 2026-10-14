@@ -30,6 +30,7 @@ classes:
       - title
       - keywords
       - license
+      - repository
     attributes:
       dataType:
         description: >-
@@ -43,12 +44,6 @@ classes:
         description: Research consortium(s) or program(s) that produced or funded this resource.
         multivalued: true
         required: false
-      originalRepository:
-        title: Original Repository
-        range: OriginalRepositoryEnum
-        description: Repository or platform where this data was originally housed before ingestion into the AMP-ALS portal.
-        multivalued: true
-        required: true
       schemaName:
         description: Name of this metadata schema
         range: string

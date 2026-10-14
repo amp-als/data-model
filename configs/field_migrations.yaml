@@ -56,9 +56,14 @@ collection:
     create: CReATe Consortium
     nygc: New York Genome Center ALS Consortium
 
-# ── §5  source → program (consortium) OR originalRepository (repository) ──────
+# ── originalRepository → repository ──────────────────────────────────────────
+# Canonical repository field rename.
+originalRepository:
+  target: repository
+
+# ── §5  source → program (consortium) OR repository (repository) ──────────────
 # `source` was overloaded: consortium names describe WHO produced the data
-# (→ program), repository names describe WHERE it was housed (→ originalRepository).
+# (→ program), repository names describe WHERE it was housed (→ repository).
 source:
   routes:
     - when_values:
@@ -76,7 +81,7 @@ source:
         [Synapse, synapse, GEO, geo, "Gene Expression Omnibus", dbGaP, dbgap,
          SRA, sra, "Sequencing Read Archive", als_compute, "ALS Compute",
          cpath, "c-path", "Critical Path Institute", target_als]
-      target: originalRepository
+      target: repository
       values:
         geo: Gene Expression Omnibus
         GEO: Gene Expression Omnibus
