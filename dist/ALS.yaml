@@ -815,6 +815,55 @@ enums:
         description: Dropped Head Syndrome (DHS) as the very first manifestation of a disease. severe weakness in the neck extensor muscles. Patients find it difficult or impossible to hold their head upright, leading to a "chin-on-chest" posture.
       Unknown:
         description: Site of onset unknown
+  DataCategoryEnum:
+    description: Broad data categories derived from a dataset's granular data types and assessment types.
+    permissible_values:
+      Clinical Outcome:
+        description: Clinical measures or outcomes that reflect disease progression or health status.
+      Patient-reported Outcome:
+        description: Outcomes reported directly by participants about their health, well-being, or experience.
+      Clinical Status:
+        description: Participant disease status, response, or other clinical-status information.
+      Disease Phenotype:
+        description: ALS disease phenotype classification or characterization.
+      Functional Assessment:
+        description: Measures of physical function, performance, or functional capacity.
+      Participant Characteristics:
+        description: Participant demographics, baseline profile, or analysis-population characteristics.
+      Safety:
+        description: Safety events, clinical-event monitoring, and related safety assessments.
+      Study Conduct / Experience:
+        description: Study operations, participant experience, adherence, or satisfaction information.
+      Survival / Disposition:
+        description: Mortality, survival, completion, discontinuation, or participant-disposition information.
+      Treatment / Exposure:
+        description: Treatment, medication, treatment-arm, or exposure information.
+      Genomics:
+        description: Genomic sequence, variant, or genome annotation data.
+      Transcriptomics:
+        description: RNA transcript, gene expression, or transcript-level data.
+      Epigenomics:
+        description: Epigenetic regulation, methylation, chromatin accessibility, or histone modification data.
+      Proteomics:
+        description: Protein or peptide identification, abundance, or modification data.
+      Metabolomics:
+        description: Metabolite abundance, metabolic pathway, or metabolomic profiling data.
+      Multi-omics:
+        description: Integrated analyses or data spanning multiple molecular omics modalities.
+      Biomarker:
+        description: Biomarker measurements used to diagnose, monitor, or predict disease.
+      Speech / Communication:
+        description: Speech, voice, language, or communication assessment data.
+      Digital Health:
+        description: Data collected through digital health technology platforms or devices.
+      Metagenomics:
+        description: Metagenomic sequencing or microbial community data.
+      Kinomics:
+        description: Protein kinase or kinase-signaling data.
+      Imaging:
+        description: Biomedical imaging, neuroimaging, or image-derived data.
+      Laboratory:
+        description: Clinical laboratory tests, vital signs, or other laboratory measurement data.
   SchemaTypeEnum:
     description: Type of metadata schema
     permissible_values:
@@ -1122,6 +1171,8 @@ enums:
         description: Muscle strength testing
       PulmonaryFunction:
         description: Pulmonary function testing
+      ForcedVitalCapacity:
+        description: Forced vital capacity (FVC) pulmonary function testing
       SpeechFunction:
         description: Speech Function testing
       ALSAQ-40:
@@ -1481,6 +1532,27 @@ enums:
       # Migrated from dataset-level ClinicalDataTypeEnum (unified)
       clinical_assessment:
         description: Clinical assessment data
+      # Dataset-content categories for clinical discovery and broad-dimension annotation
+      als_phenotype:
+        description: ALS phenotype classification and characterization records.
+      analysis_population:
+        description: Analysis-population definitions, inclusion flags, and baseline population records.
+      clinical_events:
+        description: Clinical event records, including events relevant to participant safety monitoring.
+      mortality_survival:
+        description: Participant mortality, survival, and survival follow-up records.
+      multi_domain_clinical_assessment:
+        description: Clinical assessment records spanning multiple domains, including participant-reported outcomes.
+      response_status:
+        description: General participant disease response or clinical status records, not limited to treatment response.
+      satisfaction_experience:
+        description: Participant satisfaction and study-experience records.
+      supplemental_clinical_events:
+        description: Supplemental clinical event records.
+      supplemental_questionnaire:
+        description: Supplemental participant questionnaire records.
+      treatment_arm:
+        description: Treatment arm assignment and arm-level exposure records.
       treatment:
         description: Treatment and medication data
       neurological_assessment:
@@ -5232,6 +5304,12 @@ classes:
         title: Portal Release
         range: string
         description: Portal release version(s) in which this dataset is included (e.g. "2025.2").
+        multivalued: true
+        required: false
+      dataCategory:
+        title: Data Category
+        range: DataCategoryEnum
+        description: Broad data category derived from the dataset's granular data types and assessment types.
         multivalued: true
         required: false
       cohortType:

@@ -26,7 +26,7 @@ JQ_ALLOW_EMPTY = jq 'walk(if type == "object" and has("enum") and (.enum | type)
 # LinkML output needs to be dereferenced bc Synapse doesn't suppport full JSON schema specs such as $defs
 Dataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/shared/data-categories.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/portal/Dataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
@@ -36,7 +36,7 @@ Dataset:
 
 ClinicalDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/clinical/clinical-trial-phase.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/clinical/clinical-trial-phase.yaml modules/shared/data-categories.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/clinical/domains.yaml modules/clinical/data-types.yaml modules/clinical/assessment-types.yaml modules/clinical/study-design.yaml modules/datasets/ClinicalDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
@@ -46,7 +46,7 @@ ClinicalDataset:
 
 OmicDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/shared/data-categories.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/omics/data-types.yaml modules/datasets/OmicDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
@@ -56,7 +56,7 @@ OmicDataset:
 
 BiomarkerDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/reference/vendors.yaml modules/omics/assays.yaml modules/biomarker/assay-targets.yaml modules/omics/platforms.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/sample-types.yaml modules/reference/vendors.yaml modules/omics/assays.yaml modules/biomarker/assay-targets.yaml modules/omics/platforms.yaml modules/clinical/domains.yaml modules/clinical/assessment-types.yaml modules/clinical/visits.yaml modules/clinical/study-phase.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/shared/data-categories.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/biomarker/attributes.yaml modules/biomarker/data-types.yaml modules/datasets/BiomarkerDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
@@ -155,7 +155,7 @@ BiomarkerFile:
 # GEO/SRA mixin module (modules/geo_sra/*.yaml). Enum lists match the Omic targets.
 GEODataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/shared/data-categories.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/omics/data-types.yaml modules/datasets/OmicDataset.yaml modules/geo_sra/sra.yaml modules/datasets/SRADataset.yaml modules/geo_sra/geo.yaml modules/datasets/GEODataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
@@ -175,7 +175,7 @@ GEOFile:
 
 SRADataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/omics/assays.yaml modules/omics/platforms.yaml modules/omics/parameters.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/shared/data-categories.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/mixins/DatasetMixins.yaml modules/omics/data-types.yaml modules/datasets/OmicDataset.yaml modules/geo_sra/sra.yaml modules/datasets/SRADataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json
@@ -195,7 +195,7 @@ SRAFile:
 
 SpeechDataset:
 	yq '.slots |= with_entries(select(.value.in_subset[] == "portal"))' modules/shared/props.yaml > relevant_props.yaml
-	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/vendors.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml > relevant_enums.yaml
+	yq ea '. as $$item ireduce ({}; . * $$item )' modules/reference/data-types.yaml modules/reference/vendors.yaml modules/reference/species.yaml modules/governance/portals.yaml modules/shared/common-enums.yaml modules/shared/data-categories.yaml > relevant_enums.yaml
 	yq ea '. as $$item ireduce ({}; . * $$item )' header.yaml relevant_props.yaml relevant_enums.yaml modules/base/BaseDataset.yaml modules/mixins/CommonMixins.yaml modules/clinical/administration.yaml modules/clinical/assessment-types.yaml modules/speech/data-types.yaml modules/datasets/SpeechDataset.yaml > temp.yaml
 	gen-json-schema --inline --no-metadata --title-from=title --not-closed temp.yaml > tmp.json
 	NODE_OPTIONS=--no-warnings json-dereference -s tmp.json -o tmp.json

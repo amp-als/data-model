@@ -125,6 +125,28 @@ enums:
       # Migrated from dataset-level ClinicalDataTypeEnum (unified)
       clinical_assessment:
         description: Clinical assessment data
+
+      # Dataset-content categories for clinical discovery and broad-dimension annotation
+      als_phenotype:
+        description: ALS phenotype classification and characterization records.
+      analysis_population:
+        description: Analysis-population definitions, inclusion flags, and baseline population records.
+      clinical_events:
+        description: Clinical event records, including events relevant to participant safety monitoring.
+      mortality_survival:
+        description: Participant mortality, survival, and survival follow-up records.
+      multi_domain_clinical_assessment:
+        description: Clinical assessment records spanning multiple domains, including participant-reported outcomes.
+      response_status:
+        description: General participant disease response or clinical status records, not limited to treatment response.
+      satisfaction_experience:
+        description: Participant satisfaction and study-experience records.
+      supplemental_clinical_events:
+        description: Supplemental clinical event records.
+      supplemental_questionnaire:
+        description: Supplemental participant questionnaire records.
+      treatment_arm:
+        description: Treatment arm assignment and arm-level exposure records.
       treatment:
         description: Treatment and medication data
       neurological_assessment:

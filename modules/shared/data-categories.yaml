@@ -1,0 +1,55 @@
+#######################################
+# Dataset Data Categories
+# Shared rollup categories for granular dataset data types and assessment types.
+#######################################
+
+enums:
+  DataCategoryEnum:
+    description: Broad data categories derived from a dataset's granular data types and assessment types.
+    permissible_values:
+      Clinical Outcome:
+        description: Clinical measures or outcomes that reflect disease progression or health status.
+      Patient-reported Outcome:
+        description: Outcomes reported directly by participants about their health, well-being, or experience.
+      Clinical Status:
+        description: Participant disease status, response, or other clinical-status information.
+      Disease Phenotype:
+        description: ALS disease phenotype classification or characterization.
+      Functional Assessment:
+        description: Measures of physical function, performance, or functional capacity.
+      Participant Characteristics:
+        description: Participant demographics, baseline profile, or analysis-population characteristics.
+      Safety:
+        description: Safety events, clinical-event monitoring, and related safety assessments.
+      Study Conduct / Experience:
+        description: Study operations, participant experience, adherence, or satisfaction information.
+      Survival / Disposition:
+        description: Mortality, survival, completion, discontinuation, or participant-disposition information.
+      Treatment / Exposure:
+        description: Treatment, medication, treatment-arm, or exposure information.
+      Genomics:
+        description: Genomic sequence, variant, or genome annotation data.
+      Transcriptomics:
+        description: RNA transcript, gene expression, or transcript-level data.
+      Epigenomics:
+        description: Epigenetic regulation, methylation, chromatin accessibility, or histone modification data.
+      Proteomics:
+        description: Protein or peptide identification, abundance, or modification data.
+      Metabolomics:
+        description: Metabolite abundance, metabolic pathway, or metabolomic profiling data.
+      Multi-omics:
+        description: Integrated analyses or data spanning multiple molecular omics modalities.
+      Biomarker:
+        description: Biomarker measurements used to diagnose, monitor, or predict disease.
+      Speech / Communication:
+        description: Speech, voice, language, or communication assessment data.
+      Digital Health:
+        description: Data collected through digital health technology platforms or devices.
+      Metagenomics:
+        description: Metagenomic sequencing or microbial community data.
+      Kinomics:
+        description: Protein kinase or kinase-signaling data.
+      Imaging:
+        description: Biomedical imaging, neuroimaging, or image-derived data.
+      Laboratory:
+        description: Clinical laboratory tests, vital signs, or other laboratory measurement data.

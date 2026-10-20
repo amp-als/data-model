@@ -1,0 +1,288 @@
+# Dataset data-category and Sankey registry.
+# dataCategory is the union of category values for selected dataType and
+# assessmentTypes entries. The Sankey notebook consumes sankeyRole to select
+# typed middle nodes; it is not a LinkML validation rule.
+#
+# sankeyRole values:
+#   broad     retained compatibility/modality value; excluded from middle nodes
+#   granular  content-bearing middle node included in the Sankey
+#   technical supporting/processing value excluded from middle nodes
+#
+# Unmapped values require review. A broad-only dataset is reported as
+# "Needs Granular Classification" by the Sankey workflow.
+
+ClinicalDataset:
+  dataType:
+    clinical:
+      sankeyRole: broad
+    clinical_assessment:
+      sankeyRole: broad
+    adverse_events:
+      dataCategory: [Safety]
+      sankeyRole: granular
+    als_phenotype:
+      dataCategory: [Disease Phenotype]
+      sankeyRole: granular
+    analysis_population:
+      dataCategory: [Participant Characteristics]
+      sankeyRole: granular
+    clinical_events:
+      dataCategory: [Safety]
+      sankeyRole: granular
+    demographics:
+      dataCategory: [Participant Characteristics]
+      sankeyRole: granular
+    functional_assessment:
+      dataCategory: [Functional Assessment]
+      sankeyRole: granular
+    medication_history:
+      dataCategory: [Treatment / Exposure]
+      sankeyRole: granular
+    mortality_survival:
+      dataCategory: [Survival / Disposition]
+      sankeyRole: granular
+    motor_assessment:
+      dataCategory: [Functional Assessment]
+      sankeyRole: granular
+    multi_domain_clinical_assessment:
+      dataCategory: [Clinical Outcome, Patient-reported Outcome]
+      sankeyRole: granular
+    quality_of_life:
+      dataCategory: [Clinical Outcome, Patient-reported Outcome]
+      sankeyRole: granular
+    respiratory_assessment:
+      dataCategory: [Clinical Outcome]
+      sankeyRole: granular
+    response_status:
+      dataCategory: [Clinical Status]
+      sankeyRole: granular
+    satisfaction_experience:
+      dataCategory: [Study Conduct / Experience, Patient-reported Outcome]
+      sankeyRole: granular
+    study_completion:
+      dataCategory: [Survival / Disposition]
+      sankeyRole: granular
+    supplemental_clinical_events:
+      dataCategory: [Safety]
+      sankeyRole: granular
+    supplemental_questionnaire:
+      dataCategory: [Patient-reported Outcome]
+      sankeyRole: granular
+    treatment:
+      dataCategory: [Treatment / Exposure]
+      sankeyRole: granular
+    treatment_arm:
+      dataCategory: [Treatment / Exposure]
+      sankeyRole: granular
+    laboratory_results:
+      dataCategory: [Laboratory]
+      sankeyRole: granular
+    vital_signs:
+      dataCategory: [Laboratory]
+      sankeyRole: granular
+    neuroimaging:
+      dataCategory: [Imaging]
+      sankeyRole: granular
+    image:
+      dataCategory: [Imaging]
+      sankeyRole: granular
+    metadata:
+      sankeyRole: technical
+    data_dictionary:
+      sankeyRole: technical
+  assessmentTypes:
+    ALSFRS-R:
+      dataCategory: [Clinical Outcome]
+      sankeyRole: granular
+    ForcedVitalCapacity:
+      dataCategory: [Clinical Outcome]
+      sankeyRole: granular
+    HandHeldDynamometry:
+      dataCategory: [Functional Assessment]
+      sankeyRole: granular
+    PulmonaryFunction:
+      dataCategory: [Clinical Outcome]
+      sankeyRole: granular
+    Strength:
+      dataCategory: [Functional Assessment]
+      sankeyRole: granular
+    StudyDisposition:
+      dataCategory: [Survival / Disposition]
+      sankeyRole: granular
+    SurvivalStatus:
+      dataCategory: [Survival / Disposition]
+      sankeyRole: granular
+
+OmicDataset:
+  dataType:
+    genomics:
+      dataCategory: [Genomics]
+      sankeyRole: broad
+    transcriptomics:
+      dataCategory: [Transcriptomics]
+      sankeyRole: broad
+    epigenomics:
+      dataCategory: [Epigenomics]
+      sankeyRole: broad
+    proteomics:
+      dataCategory: [Proteomics]
+      sankeyRole: broad
+    metabolomics:
+      dataCategory: [Metabolomics]
+      sankeyRole: broad
+    multi_omics:
+      dataCategory: [Multi-omics]
+      sankeyRole: broad
+    metagenomics:
+      dataCategory: [Metagenomics]
+      sankeyRole: broad
+    kinomics:
+      dataCategory: [Kinomics]
+      sankeyRole: broad
+    raw_sequencing:
+      sankeyRole: granular
+      categoryFromCooccurringDataType:
+        genomics: Genomics
+        transcriptomics: Transcriptomics
+        epigenomics: Epigenomics
+        metagenomics: Metagenomics
+    aligned_reads:
+      sankeyRole: granular
+      categoryFromCooccurringDataType:
+        genomics: Genomics
+        transcriptomics: Transcriptomics
+        epigenomics: Epigenomics
+        metagenomics: Metagenomics
+    variant_calls:
+      dataCategory: [Genomics]
+      sankeyRole: granular
+    genome_annotation:
+      dataCategory: [Genomics]
+      sankeyRole: granular
+    gene_expression:
+      dataCategory: [Transcriptomics]
+      sankeyRole: granular
+    transcript_counts:
+      dataCategory: [Transcriptomics]
+      sankeyRole: granular
+    differential_expression:
+      dataCategory: [Transcriptomics]
+      sankeyRole: granular
+    splice_variants:
+      dataCategory: [Transcriptomics]
+      sankeyRole: granular
+    methylation:
+      dataCategory: [Epigenomics]
+      sankeyRole: granular
+    chromatin_accessibility:
+      dataCategory: [Epigenomics]
+      sankeyRole: granular
+    histone_modification:
+      dataCategory: [Epigenomics]
+      sankeyRole: granular
+    protein_abundance:
+      dataCategory: [Proteomics]
+      sankeyRole: granular
+    peptide_identification:
+      dataCategory: [Proteomics]
+      sankeyRole: granular
+    protein_modification:
+      dataCategory: [Proteomics]
+      sankeyRole: granular
+    metabolite_abundance:
+      dataCategory: [Metabolomics]
+      sankeyRole: granular
+    metabolic_pathways:
+      dataCategory: [Metabolomics]
+      sankeyRole: granular
+    integrated_omics:
+      dataCategory: [Multi-omics]
+      sankeyRole: granular
+    network_analysis:
+      dataCategory: [Multi-omics]
+      sankeyRole: granular
+    raw_data:
+      sankeyRole: technical
+    processed_data:
+      sankeyRole: technical
+    analyzed_results:
+      sankeyRole: technical
+    metadata:
+      sankeyRole: technical
+    data_dictionary:
+      sankeyRole: technical
+    md5:
+      sankeyRole: technical
+    index:
+      sankeyRole: technical
+
+BiomarkerDataset:
+  dataType:
+    biomarker:
+      dataCategory: [Biomarker]
+      sankeyRole: broad
+    biomarker_data:
+      dataCategory: [Biomarker]
+      sankeyRole: granular
+    laboratory_results:
+      dataCategory: [Biomarker, Laboratory]
+      sankeyRole: granular
+    proteomics:
+      dataCategory: [Biomarker, Proteomics]
+      sankeyRole: broad
+    protein_abundance:
+      dataCategory: [Biomarker, Proteomics]
+      sankeyRole: granular
+    metabolomics:
+      dataCategory: [Biomarker, Metabolomics]
+      sankeyRole: broad
+    metabolite_abundance:
+      dataCategory: [Biomarker, Metabolomics]
+      sankeyRole: granular
+    SomaScan:
+      dataCategory: [Biomarker, Proteomics]
+      sankeyRole: granular
+    SomaScan v5.0:
+      dataCategory: [Biomarker, Proteomics]
+      sankeyRole: granular
+    RawIntensities:
+      dataCategory: [Biomarker]
+      sankeyRole: granular
+    NormalizedIntensities:
+      dataCategory: [Biomarker]
+      sankeyRole: granular
+    Normalized Protein Expression (NPX):
+      dataCategory: [Biomarker, Proteomics]
+      sankeyRole: granular
+    raw_data:
+      sankeyRole: technical
+    processed_data:
+      sankeyRole: technical
+    metadata:
+      sankeyRole: technical
+    data_dictionary:
+      sankeyRole: technical
+
+SpeechDataset:
+  dataType:
+    raw_audio:
+      dataCategory: [Speech / Communication]
+      sankeyRole: granular
+    dht_speech_vitals:
+      dataCategory: [Speech / Communication, Digital Health]
+      sankeyRole: granular
+    sdtm_functional_tests:
+      dataCategory: [Speech / Communication]
+      sankeyRole: granular
+    aggregate_measures:
+      dataCategory: [Speech / Communication]
+      sankeyRole: granular
+    step_measures:
+      dataCategory: [Speech / Communication]
+      sankeyRole: granular
+    metadata:
+      sankeyRole: technical
+  assessmentTypes:
+    SpeechFunction:
+      dataCategory: [Speech / Communication]
+      sankeyRole: granular

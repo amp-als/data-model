@@ -35,6 +35,7 @@
               "ECAS",
               "Strength",
               "PulmonaryFunction",
+              "ForcedVitalCapacity",
               "SpeechFunction",
               "ALSAQ-40",
               "Neurological",
@@ -341,6 +342,48 @@
       "title": "Curation Level",
       "type": "array"
     },
+    "dataCategory": {
+      "description": "Broad data category derived from the dataset's granular data types and assessment types.",
+      "items": {
+        "description": "Broad data categories derived from a dataset's granular data types and assessment types.",
+        "title": "DataCategoryEnum",
+        "type": "string",
+        "anyOf": [
+          {
+            "enum": [
+              "Clinical Outcome",
+              "Patient-reported Outcome",
+              "Clinical Status",
+              "Disease Phenotype",
+              "Functional Assessment",
+              "Participant Characteristics",
+              "Safety",
+              "Study Conduct / Experience",
+              "Survival / Disposition",
+              "Treatment / Exposure",
+              "Genomics",
+              "Transcriptomics",
+              "Epigenomics",
+              "Proteomics",
+              "Metabolomics",
+              "Multi-omics",
+              "Biomarker",
+              "Speech / Communication",
+              "Digital Health",
+              "Metagenomics",
+              "Kinomics",
+              "Imaging",
+              "Laboratory"
+            ]
+          },
+          {
+            "const": ""
+          }
+        ]
+      },
+      "title": "Data Category",
+      "type": "array"
+    },
     "dataType": {
       "description": "Clinical data types (assessments, treatments, medical history, etc.)",
       "items": {
@@ -396,6 +439,16 @@
               "dht_speech_vitals",
               "dht_respiratory_assessment",
               "clinical_assessment",
+              "als_phenotype",
+              "analysis_population",
+              "clinical_events",
+              "mortality_survival",
+              "multi_domain_clinical_assessment",
+              "response_status",
+              "satisfaction_experience",
+              "supplemental_clinical_events",
+              "supplemental_questionnaire",
+              "treatment_arm",
               "treatment",
               "neurological_assessment",
               "psychiatric_assessment",

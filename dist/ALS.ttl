@@ -8,18 +8,18 @@
 <https://w3id.org/synapse/amp-als/vocab/metadata-schema> a linkml:SchemaDefinition ;
     dcterms:license "https://creativecommons.org/publicdomain/zero/1.0/" ;
     dcterms:title "Metadata Schema Template" ;
-    sh:declare [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
-            sh:prefix "als" ],
-        [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
+    sh:declare [ sh:namespace "http://schema.org/"^^xsd:anyURI ;
             sh:prefix "schema" ],
-        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
-            sh:prefix "linkml" ],
-        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
-            sh:prefix "skos" ],
         [ sh:namespace "http://www.w3.org/ns/prov#"^^xsd:anyURI ;
             sh:prefix "prov" ],
         [ sh:namespace "http://www.w3.org/2000/01/rdf-schema#"^^xsd:anyURI ;
-            sh:prefix "rdfs" ] ;
+            sh:prefix "rdfs" ],
+        [ sh:namespace "http://www.w3.org/2004/02/skos/core#"^^xsd:anyURI ;
+            sh:prefix "skos" ],
+        [ sh:namespace "https://w3id.org/linkml/"^^xsd:anyURI ;
+            sh:prefix "linkml" ],
+        [ sh:namespace "https://w3id.org/synapse/amp-als/vocab/"^^xsd:anyURI ;
+            sh:prefix "als" ] ;
     linkml:classes <https://w3id.org/synapse/amp-als/vocab/ALSFRSAssessment>,
         <https://w3id.org/synapse/amp-als/vocab/AdverseEvent>,
         <https://w3id.org/synapse/amp-als/vocab/AssessmentAdministration>,
@@ -135,6 +135,7 @@
         <https://w3id.org/synapse/amp-als/vocab/CrossDomainDataTypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/CurationLevelEnum>,
         <https://w3id.org/synapse/amp-als/vocab/Data>,
+        <https://w3id.org/synapse/amp-als/vocab/DataCategoryEnum>,
         <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum>,
         <https://w3id.org/synapse/amp-als/vocab/DataSubtypeEnum>,
         <https://w3id.org/synapse/amp-als/vocab/DataTypeEnum>,
@@ -244,7 +245,7 @@
         <https://w3id.org/synapse/amp-als/vocab/WithdrawalReasonEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkflowEnum>,
         <https://w3id.org/synapse/amp-als/vocab/WorkingDistanceUnitEnum> ;
-    linkml:generation_date "2026-10-14T16:24:41"^^xsd:dateTime ;
+    linkml:generation_date "2026-10-20T17:04:58"^^xsd:dateTime ;
     linkml:id "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:imports "linkml:types"^^xsd:anyURI ;
     linkml:metamodel_version "1.7.0" ;
@@ -316,6 +317,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -941,8 +943,8 @@
         <https://w3id.org/synapse/amp-als/vocab/visit__visitStatus>,
         <https://w3id.org/synapse/amp-als/vocab/visit__visitType> ;
     linkml:source_file "ALS.yaml" ;
-    linkml:source_file_date "2026-10-14T16:24:39"^^xsd:dateTime ;
-    linkml:source_file_size 401317 ;
+    linkml:source_file_date "2026-10-20T17:04:57"^^xsd:dateTime ;
+    linkml:source_file_size 405698 ;
     linkml:types <https://w3id.org/synapse/amp-als/vocab/boolean>,
         <https://w3id.org/synapse/amp-als/vocab/curie>,
         <https://w3id.org/synapse/amp-als/vocab/date>,
@@ -1236,6 +1238,8 @@
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/GO_pathways>,
         <https://w3id.org/synapse/amp-als/vocab/KEGG_pathways> .
 
+<https://w3id.org/synapse/amp-als/vocab/Biomarker> linkml:description "Biomarker measurements used to diagnose, monitor, or predict disease." .
+
 <https://w3id.org/synapse/amp-als/vocab/BiomarkerSerumCollection> linkml:description "Collection of serum samples for biomarker analysis" .
 
 <https://w3id.org/synapse/amp-als/vocab/BiomarkersPanel> linkml:description "Specialized biomarkers" .
@@ -1520,7 +1524,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Clinical%20FTD%20%28semantic%20variant%29> linkml:description "Clinically diagnosed FTD semantic variant" .
 
+<https://w3id.org/synapse/amp-als/vocab/Clinical%20Outcome> linkml:description "Clinical measures or outcomes that reflect disease progression or health status." .
+
 <https://w3id.org/synapse/amp-als/vocab/Clinical%20PDD> linkml:description "Clinical Parkinson's disease dementia" .
+
+<https://w3id.org/synapse/amp-als/vocab/Clinical%20Status> linkml:description "Participant disease status, response, or other clinical-status information." .
 
 <https://w3id.org/synapse/amp-als/vocab/Clinical%20Trial> linkml:description "Interventional study testing treatments" .
 
@@ -1724,7 +1732,11 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Diary> linkml:description "Patient diary" .
 
+<https://w3id.org/synapse/amp-als/vocab/Digital%20Health> linkml:description "Data collected through digital health technology platforms or devices." .
+
 <https://w3id.org/synapse/amp-als/vocab/Discovery%20Study> linkml:description "Exploratory study to identify patterns or biomarkers" .
+
+<https://w3id.org/synapse/amp-als/vocab/Disease%20Phenotype> linkml:description "ALS disease phenotype classification or characterization." .
 
 <https://w3id.org/synapse/amp-als/vocab/Disease-Only> linkml:description "Cohort composed of participants or specimens with the target disease/condition and no explicit control group." .
 
@@ -1794,6 +1806,8 @@
 <https://w3id.org/synapse/amp-als/vocab/EntrezGeneId> linkml:description "NCBI Entrez Gene identifier." .
 
 <https://w3id.org/synapse/amp-als/vocab/EntrezGeneSymbol> linkml:description "NCBI Entrez Gene symbol." .
+
+<https://w3id.org/synapse/amp-als/vocab/Epigenomics> linkml:description "Epigenetic regulation, methylation, chromatin accessibility, or histone modification data." .
 
 <https://w3id.org/synapse/amp-als/vocab/Equipment_Unavailable> linkml:description "Collection equipment not available" .
 
@@ -1929,6 +1943,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Follow-up> linkml:description "Regular follow-up visit" .
 
+<https://w3id.org/synapse/amp-als/vocab/ForcedVitalCapacity> linkml:description "Forced vital capacity (FVC) pulmonary function testing" .
+
 <https://w3id.org/synapse/amp-als/vocab/Former> linkml:description "Former smoker" .
 
 <https://w3id.org/synapse/amp-als/vocab/Former_User> linkml:description "Former alcohol user" .
@@ -1938,6 +1954,8 @@
 <https://w3id.org/synapse/amp-als/vocab/FreeBayes> dcterms:source "https://arxiv.org/abs/1207.3907"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/French> linkml:description "French language" .
+
+<https://w3id.org/synapse/amp-als/vocab/Functional%20Assessment> linkml:description "Measures of physical function, performance, or functional capacity." .
 
 <https://w3id.org/synapse/amp-als/vocab/GATK%20BaseRecalibration> dcterms:source "https://gatk.broadinstitute.org/hc/en-us/articles/360036898312-BaseRecalibrator"^^xsd:anyURI .
 
@@ -1978,6 +1996,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -2151,6 +2170,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Genetics> linkml:description "Genetic testing" .
 
 <https://w3id.org/synapse/amp-als/vocab/Genomic> linkml:description "All variant types (SNVs, InDels, SVs) from genome-wide haplotype calling" .
+
+<https://w3id.org/synapse/amp-als/vocab/Genomics> linkml:description "Genomic sequence, variant, or genome annotation data." .
 
 <https://w3id.org/synapse/amp-als/vocab/Geographic_Relocation> linkml:description "Withdrew due to geographic relocation" .
 
@@ -2356,6 +2377,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Illumina%20h650> linkml:description "" .
 
+<https://w3id.org/synapse/amp-als/vocab/Imaging> linkml:description "Biomedical imaging, neuroimaging, or image-derived data." .
+
 <https://w3id.org/synapse/amp-als/vocab/Immunology> linkml:description "Immunology" .
 
 <https://w3id.org/synapse/amp-als/vocab/In-Clinic%20Follow-up> linkml:description "Follow-up visit conducted in-clinic (in person)" .
@@ -2438,6 +2461,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/KeyDevicesProcedures> linkml:description "Documentation of supportive devices and procedures" .
 
+<https://w3id.org/synapse/amp-als/vocab/Kinomics> linkml:description "Protein kinase or kinase-signaling data." .
+
 <https://w3id.org/synapse/amp-als/vocab/LBD> linkml:description "Lewy Body Dementia" .
 
 <https://w3id.org/synapse/amp-als/vocab/LC-MS%20profiling> linkml:description "Liquid chromatography-mass spectrometry metabolite profiling." .
@@ -2455,8 +2480,6 @@
 
 <https://w3id.org/synapse/amp-als/vocab/LTQ%20Orbitrap%20XL> dcterms:source "https://www.thermofisher.com/order/catalog/product/IQLAAEGAAPFADBMAOK"^^xsd:anyURI ;
     linkml:description "LTQ Orbitrap XL Hybrid Ion Trap-Orbitrap Mass Spectrometer" .
-
-<https://w3id.org/synapse/amp-als/vocab/Laboratory> linkml:description "Laboratory testing" .
 
 <https://w3id.org/synapse/amp-als/vocab/Laboratory_Values> linkml:description "Failed laboratory value criteria" .
 
@@ -2668,6 +2691,10 @@
 
 <https://w3id.org/synapse/amp-als/vocab/MetabolomicProfiling> linkml:description "Metabolomics-focused biomarker profiling assessment." .
 
+<https://w3id.org/synapse/amp-als/vocab/Metabolomics> linkml:description "Metabolite abundance, metabolic pathway, or metabolomic profiling data." .
+
+<https://w3id.org/synapse/amp-als/vocab/Metagenomics> linkml:description "Metagenomic sequencing or microbial community data." .
+
 <https://w3id.org/synapse/amp-als/vocab/Microbiology> linkml:description "Microbiology" .
 
 <https://w3id.org/synapse/amp-als/vocab/Microcentrifuge_Tube> linkml:description "Microcentrifuge tube" .
@@ -2700,6 +2727,8 @@
     linkml:meaning "http://purl.obolibrary.org/obo/MI_0658"^^xsd:anyURI .
 
 <https://w3id.org/synapse/amp-als/vocab/Multi-Omics%20Study> linkml:description "Integrating multiple omic data types (genomics, transcriptomics, proteomics, etc.)" .
+
+<https://w3id.org/synapse/amp-als/vocab/Multi-omics> linkml:description "Integrated analyses or data spanning multiple molecular omics modalities." .
 
 <https://w3id.org/synapse/amp-als/vocab/MultiQC> dcterms:source "https://multiqc.info/"^^xsd:anyURI .
 
@@ -2981,6 +3010,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Partial%20or%20Combined%20Standardization> linkml:description "Data partially standardized or combined from standardized and non-standardized components" .
 
+<https://w3id.org/synapse/amp-als/vocab/Participant%20Characteristics> linkml:description "Participant demographics, baseline profile, or analysis-population characteristics." .
+
 <https://w3id.org/synapse/amp-als/vocab/Paternal> linkml:description "Paternal side of family" .
 
 <https://w3id.org/synapse/amp-als/vocab/Pathogenic> linkml:description "Pathogenic variant" .
@@ -3020,6 +3051,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Pathological%20Neocortical%20DLB> linkml:description "Pathological DLB with neocortical Lewy body distribution" .
 
 <https://w3id.org/synapse/amp-als/vocab/Patient%20Registry%20Study> linkml:description "Registry-based patient data collection" .
+
+<https://w3id.org/synapse/amp-als/vocab/Patient-reported%20Outcome> linkml:description "Outcomes reported directly by participants about their health, well-being, or experience." .
 
 <https://w3id.org/synapse/amp-als/vocab/Patient_Refusal> linkml:description "Patient refused specimen collection" .
 
@@ -3149,6 +3182,8 @@
         <https://w3id.org/synapse/amp-als/vocab/cytoplasm>,
         <https://w3id.org/synapse/amp-als/vocab/mitochondria>,
         <https://w3id.org/synapse/amp-als/vocab/nuclear%20extract> .
+
+<https://w3id.org/synapse/amp-als/vocab/Proteomics> linkml:description "Protein or peptide identification, abundance, or modification data." .
 
 <https://w3id.org/synapse/amp-als/vocab/Protocol_Violation> linkml:description "Terminated due to protocol violation" .
 
@@ -3336,8 +3371,6 @@
 <https://w3id.org/synapse/amp-als/vocab/SaferSeqS> dcterms:source "https://doi.org/10.1038/s41587-021-00900-z"^^xsd:anyURI ;
     linkml:description "A blood-based assay that evaluates mutations in circulating tumor DNA and chromosomal copy number changes to detect minimal residual disease (MRD) with high specificity towards tumor type." .
 
-<https://w3id.org/synapse/amp-als/vocab/Safety> linkml:description "Safety monitoring visit" .
-
 <https://w3id.org/synapse/amp-als/vocab/Saliva_Collection> linkml:description "Saliva collection" .
 
 <https://w3id.org/synapse/amp-als/vocab/Sample> linkml:description "Actual biological sample." .
@@ -3453,6 +3486,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Spectramax%20M%20Series> dcterms:source "https://www.moleculardevices.com/products/microplate-readers/multi-mode-readers/spectramax-m-series-readers"^^xsd:anyURI ;
     linkml:description "A Spectramax M Series Microplate Reader" .
 
+<https://w3id.org/synapse/amp-als/vocab/Speech%20/%20Communication> linkml:description "Speech, voice, language, or communication assessment data." .
+
 <https://w3id.org/synapse/amp-als/vocab/SpeechFunction> linkml:description "Speech Function testing" .
 
 <https://w3id.org/synapse/amp-als/vocab/Spinal%20muscular%20atrophy> linkml:description "spinal muscular atrophy (SMA) is a rare, inherited genetic disease causing progressive muscle weakness and atrophy (wasting) due to the loss of motor neurons in the spinal cord" .
@@ -3487,6 +3522,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Structural_Variant> linkml:description "Structural variants including deletions, insertions, duplications, inversions, and CNVs" .
 
+<https://w3id.org/synapse/amp-als/vocab/Study%20Conduct%20/%20Experience> linkml:description "Study operations, participant experience, adherence, or satisfaction information." .
+
 <https://w3id.org/synapse/amp-als/vocab/Study%20Coordinator> linkml:description "Study Coordinator" .
 
 <https://w3id.org/synapse/amp-als/vocab/Subcutaneous> linkml:description "Subcutaneous administration" .
@@ -3498,6 +3535,8 @@
 <https://w3id.org/synapse/amp-als/vocab/Supplement> linkml:description "Nutritional supplement" .
 
 <https://w3id.org/synapse/amp-als/vocab/Surgical_Resection> linkml:description "Tissue collection via surgical resection" .
+
+<https://w3id.org/synapse/amp-als/vocab/Survival%20/%20Disposition> linkml:description "Mortality, survival, completion, discontinuation, or participant-disposition information." .
 
 <https://w3id.org/synapse/amp-als/vocab/SurvivalStatus> linkml:description "Documentation of participant survival, mortality, and autopsy details" .
 
@@ -3606,9 +3645,13 @@
 
 <https://w3id.org/synapse/amp-als/vocab/Tracheostomy> linkml:description "Tracheostomy and mechanical ventilation" .
 
+<https://w3id.org/synapse/amp-als/vocab/Transcriptomics> linkml:description "RNA transcript, gene expression, or transcript-level data." .
+
 <https://w3id.org/synapse/amp-als/vocab/Transdermal> linkml:description "Transdermal administration" .
 
 <https://w3id.org/synapse/amp-als/vocab/Translocations> linkml:description "Translocation structural variants" .
+
+<https://w3id.org/synapse/amp-als/vocab/Treatment%20/%20Exposure> linkml:description "Treatment, medication, treatment-arm, or exposure information." .
 
 <https://w3id.org/synapse/amp-als/vocab/TreatmentAdministration> linkml:description "Treatment or intervention administration" .
 
@@ -3975,6 +4018,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/als_compute> linkml:description "ALS Compute datasets" .
 
+<https://w3id.org/synapse/amp-als/vocab/als_phenotype> linkml:description "ALS phenotype classification and characterization records." .
+
 <https://w3id.org/synapse/amp-als/vocab/alsfrsTotal> a linkml:SlotDefinition ;
     dcterms:title "ALSFRS-R Total Score" ;
     linkml:description "Total ALSFRS-R score (0-48)" ;
@@ -4000,6 +4045,8 @@
     linkml:description "Computational and statistical analysis methods applied to the data." ;
     linkml:multivalued true ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AnalysisMethodEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/analysis_population> linkml:description "Analysis-population definitions, inclusion flags, and baseline population records." .
 
 <https://w3id.org/synapse/amp-als/vocab/anticoagulant> a linkml:SlotDefinition ;
     dcterms:title "Anticoagulant" ;
@@ -4387,6 +4434,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/clinical_assessment> linkml:description "Clinical assessment data" .
 
+<https://w3id.org/synapse/amp-als/vocab/clinical_events> linkml:description "Clinical event records, including events relevant to participant safety monitoring." .
+
 <https://w3id.org/synapse/amp-als/vocab/clinical_score_tracking> linkml:description "Clinical assessment and functional score tracking" .
 
 <https://w3id.org/synapse/amp-als/vocab/clinician_administered_exam> linkml:description "Examination administered directly by a clinician" .
@@ -4708,6 +4757,12 @@
 
 <https://w3id.org/synapse/amp-als/vocab/dat> linkml:description "Format of Affymetrix data file of raw image data." ;
     linkml:meaning "http://edamontology.org/format_1637"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/dataCategory> a linkml:SlotDefinition ;
+    dcterms:title "Data Category" ;
+    linkml:description "Broad data category derived from the dataset's granular data types and assessment types." ;
+    linkml:multivalued true ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataCategoryEnum> .
 
 <https://w3id.org/synapse/amp-als/vocab/dataEntryDate> a linkml:SlotDefinition ;
     dcterms:title "Data Entry Date" ;
@@ -6353,6 +6408,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/mortality> linkml:description "Death and cause of death" .
 
+<https://w3id.org/synapse/amp-als/vocab/mortality_survival> linkml:description "Participant mortality, survival, and survival follow-up records." .
+
 <https://w3id.org/synapse/amp-als/vocab/motor_function> linkml:description "Motor function and muscle strength assessment" .
 
 <https://w3id.org/synapse/amp-als/vocab/mov> dcterms:source "https://synapse.org"^^xsd:anyURI ;
@@ -6367,6 +6424,8 @@
 <https://w3id.org/synapse/amp-als/vocab/multi-electrode%20array> dcterms:source "https://www.axionbiosystems.com/multielectrode-array"^^xsd:anyURI ;
     linkml:description """A multi-electrode array is a grid of tightly spaced microscopic electrodes embedded in the bottom of each well in a multi-well MEA plate.  Cells, such as cardiomyocytes or neurons, which are electrically active, can be cultured over the electrodes creating a cohesive network.  The functional behavior or electrical activity of this network can be recorded.
 """ .
+
+<https://w3id.org/synapse/amp-als/vocab/multi_domain_clinical_assessment> linkml:description "Clinical assessment records spanning multiple domains, including participant-reported outcomes." .
 
 <https://w3id.org/synapse/amp-als/vocab/multi_omics> linkml:description "Multi-omic integrated data" .
 
@@ -7152,6 +7211,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/respiratory_monitoring> linkml:description "Respiratory function monitoring" .
 
+<https://w3id.org/synapse/amp-als/vocab/response_status> linkml:description "General participant disease response or clinical status records, not limited to treatment response." .
+
 <https://w3id.org/synapse/amp-als/vocab/result> a linkml:SlotDefinition ;
     dcterms:title "Result Value" ;
     linkml:description "Laboratory test result value" ;
@@ -7260,6 +7321,8 @@
 
 <https://w3id.org/synapse/amp-als/vocab/sandwich%20ELISA> linkml:description "The sandwich ELISA measures the amount of antigen between two layers of antibodies. The antigens to be measured must contain at least two antigenic sites, capable of binding to antibody, since at least two antibodies act in the sandwich. So sandwich assays are restricted to the quantitation of multivalent antigens such as proteins or polysaccharides. Sandwich ELISAs for quantitation of antigens are especially valuable when the concentration of antigens is low and/or they are contained in high concentrations of contaminating protein." ;
     linkml:meaning "https://www.ebi.ac.uk/ols/ontologies/bao/terms?iri=http%3A%2F%2Fwww.bioassayontology.org%2Fbao%23BAO_0002421"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/satisfaction_experience> linkml:description "Participant satisfaction and study-experience records." .
 
 <https://w3id.org/synapse/amp-als/vocab/sav> linkml:description "The SPSS Statistics File Format is a proprietary binary format, developed and maintained as the native format for the SPSS statistical software application." ;
     linkml:meaning "https://www.loc.gov/preservation/digital/formats/fdd/fdd000469.shtml"^^xsd:anyURI .
@@ -7710,6 +7773,10 @@
 """ ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/AdministrationLocationEnum> .
 
+<https://w3id.org/synapse/amp-als/vocab/supplemental_clinical_events> linkml:description "Supplemental clinical event records." .
+
+<https://w3id.org/synapse/amp-als/vocab/supplemental_questionnaire> linkml:description "Supplemental participant questionnaire records." .
+
 <https://w3id.org/synapse/amp-als/vocab/supportive_interventions> linkml:description "Medical devices or supportive procedures such as ventilation, feeding tubes, tracheostomy" .
 
 <https://w3id.org/synapse/amp-als/vocab/surgicalDetails> a linkml:SlotDefinition ;
@@ -7891,6 +7958,8 @@
     dcterms:title "Treatment Type" ;
     linkml:description "Category of treatment" ;
     linkml:range <https://w3id.org/synapse/amp-als/vocab/TreatmentTypeEnum> .
+
+<https://w3id.org/synapse/amp-als/vocab/treatment_arm> linkml:description "Treatment arm assignment and arm-level exposure records." .
 
 <https://w3id.org/synapse/amp-als/vocab/treatment_modification> linkml:description "Changes, interruptions, or discontinuation of study treatment" .
 
@@ -8559,9 +8628,9 @@
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     skos:prefLabel "dataType" ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description """Links an entity to data types that the entity represents/contains. This is closely tied to the assay property. For example, a file of dataType `genomicVariants` might have an assay value of `whole genome sequencing`.
 """ ;
@@ -8792,6 +8861,9 @@
 <https://w3id.org/synapse/amp-als/vocab/LC-MS> linkml:description "Liquid chromatography-mass spectrometry platform.",
         "Liquid chromatography/mass spectrometry." ;
     linkml:meaning "http://purl.obolibrary.org/obo/NCIT_C18475"^^xsd:anyURI .
+
+<https://w3id.org/synapse/amp-als/vocab/Laboratory> linkml:description "Clinical laboratory tests, vital signs, or other laboratory measurement data.",
+        "Laboratory testing" .
 
 <https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/LibraryLayoutEnum"^^xsd:anyURI ;
@@ -9077,6 +9149,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -9186,6 +9259,9 @@
         <https://w3id.org/synapse/amp-als/vocab/subjectIdentifierMixin__sampleType>,
         <https://w3id.org/synapse/amp-als/vocab/totalBases>,
         <https://w3id.org/synapse/amp-als/vocab/totalReads> .
+
+<https://w3id.org/synapse/amp-als/vocab/Safety> linkml:description "Safety events, clinical-event monitoring, and related safety assessments.",
+        "Safety monitoring visit" .
 
 <https://w3id.org/synapse/amp-als/vocab/Sodium_Citrate> linkml:description "Sodium citrate anticoagulant",
         "Sodium citrate tube (blue top)" .
@@ -13689,11 +13765,11 @@
     dcterms:title "Sex" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ],
         [ a linkml:AnonymousSlotExpression ;
             linkml:range <https://w3id.org/synapse/amp-als/vocab/NotApplicableEnum> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/UnknownEnum> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/SexEnum> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/sex"^^xsd:anyURI ;
     linkml:description "Biological sex of subject.",
         "Phenotypic expression of chromosomal makeup that defines a study subject as male, female, or other." ;
@@ -15276,6 +15352,33 @@
         <https://w3id.org/synapse/amp-als/vocab/Poor>,
         <https://w3id.org/synapse/amp-als/vocab/Unable_to_Cooperate> .
 
+<https://w3id.org/synapse/amp-als/vocab/DataCategoryEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/DataCategoryEnum"^^xsd:anyURI ;
+    linkml:description "Broad data categories derived from a dataset's granular data types and assessment types." ;
+    linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Biomarker>,
+        <https://w3id.org/synapse/amp-als/vocab/Clinical%20Outcome>,
+        <https://w3id.org/synapse/amp-als/vocab/Clinical%20Status>,
+        <https://w3id.org/synapse/amp-als/vocab/Digital%20Health>,
+        <https://w3id.org/synapse/amp-als/vocab/Disease%20Phenotype>,
+        <https://w3id.org/synapse/amp-als/vocab/Epigenomics>,
+        <https://w3id.org/synapse/amp-als/vocab/Functional%20Assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/Genomics>,
+        <https://w3id.org/synapse/amp-als/vocab/Imaging>,
+        <https://w3id.org/synapse/amp-als/vocab/Kinomics>,
+        <https://w3id.org/synapse/amp-als/vocab/Laboratory>,
+        <https://w3id.org/synapse/amp-als/vocab/Metabolomics>,
+        <https://w3id.org/synapse/amp-als/vocab/Metagenomics>,
+        <https://w3id.org/synapse/amp-als/vocab/Multi-omics>,
+        <https://w3id.org/synapse/amp-als/vocab/Participant%20Characteristics>,
+        <https://w3id.org/synapse/amp-als/vocab/Patient-reported%20Outcome>,
+        <https://w3id.org/synapse/amp-als/vocab/Proteomics>,
+        <https://w3id.org/synapse/amp-als/vocab/Safety>,
+        <https://w3id.org/synapse/amp-als/vocab/Speech%20/%20Communication>,
+        <https://w3id.org/synapse/amp-als/vocab/Study%20Conduct%20/%20Experience>,
+        <https://w3id.org/synapse/amp-als/vocab/Survival%20/%20Disposition>,
+        <https://w3id.org/synapse/amp-als/vocab/Transcriptomics>,
+        <https://w3id.org/synapse/amp-als/vocab/Treatment%20/%20Exposure> .
+
 <https://w3id.org/synapse/amp-als/vocab/DataSourceEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/DataSourceEnum"^^xsd:anyURI ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/all_als>,
@@ -16298,6 +16401,8 @@
     linkml:description "Types of clinical data contained in files" ;
     linkml:permissible_values <https://w3id.org/synapse/amp-als/vocab/Pharmacokinetic_Study>,
         <https://w3id.org/synapse/amp-als/vocab/adverse_events>,
+        <https://w3id.org/synapse/amp-als/vocab/als_phenotype>,
+        <https://w3id.org/synapse/amp-als/vocab/analysis_population>,
         <https://w3id.org/synapse/amp-als/vocab/audio_transcript>,
         <https://w3id.org/synapse/amp-als/vocab/baseline_visit>,
         <https://w3id.org/synapse/amp-als/vocab/behavior_process>,
@@ -16306,6 +16411,7 @@
         <https://w3id.org/synapse/amp-als/vocab/cellularPhysiology>,
         <https://w3id.org/synapse/amp-als/vocab/clinical>,
         <https://w3id.org/synapse/amp-als/vocab/clinical_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/clinical_events>,
         <https://w3id.org/synapse/amp-als/vocab/cognitive_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/data_dictionary>,
         <https://w3id.org/synapse/amp-als/vocab/data_management>,
@@ -16332,7 +16438,9 @@
         <https://w3id.org/synapse/amp-als/vocab/medical_history>,
         <https://w3id.org/synapse/amp-als/vocab/medication_history>,
         <https://w3id.org/synapse/amp-als/vocab/metadata>,
+        <https://w3id.org/synapse/amp-als/vocab/mortality_survival>,
         <https://w3id.org/synapse/amp-als/vocab/motor_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/multi_domain_clinical_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/neuroimaging>,
         <https://w3id.org/synapse/amp-als/vocab/neurological_assessment>,
         <https://w3id.org/synapse/amp-als/vocab/processed_clinical_data>,
@@ -16340,14 +16448,19 @@
         <https://w3id.org/synapse/amp-als/vocab/quality_of_life>,
         <https://w3id.org/synapse/amp-als/vocab/raw_clinical_data>,
         <https://w3id.org/synapse/amp-als/vocab/respiratory_assessment>,
+        <https://w3id.org/synapse/amp-als/vocab/response_status>,
+        <https://w3id.org/synapse/amp-als/vocab/satisfaction_experience>,
         <https://w3id.org/synapse/amp-als/vocab/screening_visit>,
         <https://w3id.org/synapse/amp-als/vocab/study_completion>,
         <https://w3id.org/synapse/amp-als/vocab/study_management>,
         <https://w3id.org/synapse/amp-als/vocab/summary_statistics>,
+        <https://w3id.org/synapse/amp-als/vocab/supplemental_clinical_events>,
+        <https://w3id.org/synapse/amp-als/vocab/supplemental_questionnaire>,
         <https://w3id.org/synapse/amp-als/vocab/surveyData>,
         <https://w3id.org/synapse/amp-als/vocab/symptom_onset>,
         <https://w3id.org/synapse/amp-als/vocab/therapy_sessions>,
         <https://w3id.org/synapse/amp-als/vocab/treatment>,
+        <https://w3id.org/synapse/amp-als/vocab/treatment_arm>,
         <https://w3id.org/synapse/amp-als/vocab/vital_signs> .
 
 <https://w3id.org/synapse/amp-als/vocab/DataUseModifierEnum> skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -16905,6 +17018,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -17038,6 +17152,7 @@
         <https://w3id.org/synapse/amp-als/vocab/EligibilityConsent>,
         <https://w3id.org/synapse/amp-als/vocab/EligibilityCriteria>,
         <https://w3id.org/synapse/amp-als/vocab/ExposureProtocolChanges>,
+        <https://w3id.org/synapse/amp-als/vocab/ForcedVitalCapacity>,
         <https://w3id.org/synapse/amp-als/vocab/HandHeldDynamometry>,
         <https://w3id.org/synapse/amp-als/vocab/InformedConsentForm>,
         <https://w3id.org/synapse/amp-als/vocab/InfusionVitalSigns>,
@@ -17414,6 +17529,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -17850,6 +17966,17 @@
     linkml:required true ;
     linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/cohort_count"^^xsd:anyURI .
 
+<https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory> a linkml:SlotDefinition ;
+    dcterms:title "Data Category" ;
+    skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
+    skos:prefLabel "dataCategory" ;
+    linkml:description "Broad data category derived from the dataset's granular data types and assessment types." ;
+    linkml:domain_of <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:multivalued true ;
+    linkml:owner <https://w3id.org/synapse/amp-als/vocab/BaseDataset> ;
+    linkml:range <https://w3id.org/synapse/amp-als/vocab/DataCategoryEnum> ;
+    linkml:slot_uri "https://w3id.org/synapse/amp-als/vocab/dataCategory"^^xsd:anyURI .
+
 <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers> a linkml:SlotDefinition ;
     dcterms:title "Data Use Modifiers" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
@@ -18169,6 +18296,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -18485,9 +18613,9 @@
     dcterms:title "Data Type" ;
     skos:inScheme "https://amp-als.org/schemas/MetadataSchema"^^xsd:anyURI ;
     linkml:any_of [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ],
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ],
         [ a linkml:AnonymousSlotExpression ;
-            linkml:range <https://w3id.org/synapse/amp-als/vocab/Metadata> ] ;
+            linkml:range <https://w3id.org/synapse/amp-als/vocab/Data> ] ;
     linkml:definition_uri "https://w3id.org/synapse/amp-als/vocab/dataType"^^xsd:anyURI ;
     linkml:description "Biomarker data types and processing levels contained in this file.",
         "Biomarker data types and processing levels included in this dataset.",
@@ -18701,6 +18829,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -18797,6 +18926,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
@@ -20033,6 +20163,7 @@
         <https://w3id.org/synapse/amp-als/vocab/cohort>,
         <https://w3id.org/synapse/amp-als/vocab/cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/datePublished>,
@@ -20049,6 +20180,7 @@
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohortType>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__cohort_count>,
+        <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataCategory>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataUseModifiers>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__dataset_code>,
         <https://w3id.org/synapse/amp-als/vocab/baseDataset__datePublished>,
