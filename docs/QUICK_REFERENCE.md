@@ -22,10 +22,11 @@ python synapse_dataset_manager.py generate-template --type Omic -o my_template.j
 
 # Excel template with enum dropdowns (see docs/XLSX_TEMPLATES.md)
 python synapse_dataset_manager.py generate-template --type Clinical --format xlsx
-# Blank file template (no Synapse folder needed)
-python synapse_dataset_manager.py generate-file-templates --type Clinical --format xlsx
-# Apply a filled-in .xlsx back to Synapse
-python synapse_dataset_manager.py apply-file-annotations --annotations-file filled.xlsx --execute
+# CSV template (CSV has no dropdown support)
+python synapse_dataset_manager.py generate-template --type Omic --format csv
+# Per-file RecordSet/FileSet workbook; route mixed folders with a tier map
+python synapse_dataset_manager.py generate-file-templates --folder syn12345 --type Clinical \
+  --format xlsx --file-tier-map annotations/file_tiers.json
 ```
 
 ## 2. Link Dataset (No Files)
@@ -401,6 +402,28 @@ values still require an interactive choice during execution. Add
 `--inherit-dataset-annotation` to make member files that have neither populated key
 inherit the Dataset's populated canonical value. Inheritance is opt-in because fields
 such as participant counts can legitimately differ between a Dataset and its files.
+
+## 14. Sync Dataset Schema Annotations
+
+Validate dataset-level annotations in a DatasetCollection and generate templates before applying a reviewed delta file. Dataset type detection recognizes speech and biomarker datasets from their existing `dataType` values, in addition to clinical and omic metadata.
+
+```bash
+# Generate Synapse-backed validation reports and merged templates; dry-run is the default.
+mamba run -n amp-als python synapse_dataset_manager.py sync-dataset-schema-annotations \
+  --collection-id syn66496326 \
+  --template-mode merged \
+  --output-dir annotations/data_category_sync \
+  --dry-run
+
+# Preview a reviewed, approved delta file, then add --execute to apply it.
+mamba run -n amp-als python synapse_dataset_manager.py sync-dataset-schema-annotations \
+  --collection-id syn66496326 \
+  --updates-file annotations/data_category_sync/proposed_deltas.json \
+  --require-approved \
+  --dry-run
+```
+
+`--updates-file` must name a JSON file, while `--output-dir` names the report/template directory. See [SCHEMA_ANNOTATION_SYNC_WORKFLOW.md](SCHEMA_ANNOTATION_SYNC_WORKFLOW.md) for the full review-and-apply workflow.
 
 ## Help Commands
 

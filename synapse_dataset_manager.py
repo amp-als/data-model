@@ -524,6 +524,17 @@ def get_required_fields(schema):
     return schema.get('required', [])
 
 
+def _schema_enum(field_def):
+    """Extract enum values whether LinkML emitted them directly or inside anyOf."""
+    if field_def.get('enum'):
+        return field_def['enum']
+    values = []
+    for option in field_def.get('anyOf', []):
+        values.extend(option.get('enum', []))
+    # Preserve schema order while eliminating duplicates from composed ranges.
+    return list(dict.fromkeys(values))
+
+
 def get_field_info(schema):
     """
     Extract field information from JSON schema for template generation.
@@ -539,14 +550,14 @@ def get_field_info(schema):
         info = {
             'type': field_def.get('type', 'string'),
             'description': field_def.get('description', ''),
-            'enum': field_def.get('enum', [])
+            'enum': _schema_enum(field_def)
         }
 
         # Check if it's an array type
         if info['type'] == 'array':
             items = field_def.get('items', {})
             info['item_type'] = items.get('type', 'string')
-            info['item_enum'] = items.get('enum', [])
+            info['item_enum'] = _schema_enum(items)
 
         field_info[field_name] = info
 
@@ -2819,6 +2830,182 @@ def create_annotation_template(all_schemas, file_type='ClinicalFile'):
     template['_created_timestamp'] = datetime.now().isoformat()
 
     return template
+
+
+def output_format(args, default='json'):
+    """Resolve an explicit --format or infer it from the output extension."""
+    explicit = getattr(args, 'format', None)
+    if explicit:
+        return explicit
+    suffix = Path(getattr(args, 'output', '') or '').suffix.lower()
+    return {'.csv': 'csv', '.xlsx': 'xlsx'}.get(suffix, default)
+
+
+def _excel_value(value):
+    if isinstance(value, list):
+        return ', '.join(str(v) for v in value if v not in (None, ''))
+    return value if value is not None else ''
+
+
+def _add_xlsx_validation(ws, lookup_ws, column, field_info, row_start, row_end):
+    """Add a lookup-sheet-backed enum dropdown to a worksheet column."""
+    enum = field_info.get('item_enum', []) if field_info.get('type') == 'array' else field_info.get('enum', [])
+    if not enum:
+        return
+    from openpyxl.worksheet.datavalidation import DataValidation
+    lookup_col = lookup_ws.max_column + 1
+    for row, value in enumerate(enum, 1):
+        lookup_ws.cell(row=row, column=lookup_col, value=value)
+    letter = lookup_ws.cell(row=1, column=lookup_col).column_letter
+    validation = DataValidation(
+        type='list', formula1=f"'_lookups'!${letter}$1:${letter}${len(enum)}",
+        allow_blank=True,
+    )
+    # Multi-value fields accept comma-separated choices; scalar fields are strict.
+    validation.showErrorMessage = field_info.get('type') != 'array'
+    ws.add_data_validation(validation)
+    validation.add(f'{column}{row_start}:{column}{row_end}')
+
+
+def write_dataset_tabular_template(template, schema, output_path, fmt):
+    """Write a one-row dataset template as CSV or an XLSX workbook."""
+    fields = get_field_info(schema)
+    names = list(fields)
+    if fmt == 'csv':
+        with open(output_path, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=names)
+            writer.writeheader()
+            writer.writerow({name: _excel_value(template.get(name, '')) for name in names})
+        return
+    try:
+        from openpyxl import Workbook
+        from openpyxl.comments import Comment
+    except ImportError as e:
+        raise ImportError('openpyxl is required for XLSX templates: pip install openpyxl') from e
+    wb = Workbook()
+    ws = wb.active
+    ws.title = 'Annotations'
+    lookup_ws = wb.create_sheet('_lookups')
+    lookup_ws.sheet_state = 'hidden'
+    for col, name in enumerate(names, 1):
+        cell = ws.cell(row=1, column=col, value=name)
+        if fields[name].get('description'):
+            cell.comment = Comment(fields[name]['description'], 'Synapse Dataset Manager')
+        ws.cell(row=2, column=col, value=_excel_value(template.get(name, '')))
+        ws.column_dimensions[cell.column_letter].width = min(max(len(name) + 2, 16), 40)
+        _add_xlsx_validation(ws, lookup_ws, cell.column_letter, fields[name], 2, 501)
+    ws.freeze_panes = 'A2'
+    wb.save(output_path)
+
+
+def _file_schema_for_tier(file_type, tier, all_schemas):
+    """Return the concrete RecordSet/FileSet schema for an abstract file family."""
+    if file_type.endswith(('RecordSetFile', 'FileSetFile')):
+        return file_type
+    stem = file_type[:-4] if file_type.endswith('File') else file_type
+    candidate = f"{stem}{'RecordSetFile' if tier == 'recordset' else 'FileSetFile'}"
+    return candidate if candidate in all_schemas else None
+
+
+def load_file_tier_map(path):
+    """Load a JSON object mapping Synapse entity IDs (or filenames) to a file tier."""
+    if not path:
+        return {}
+    with open(path) as f:
+        mapping = json.load(f)
+    if not isinstance(mapping, dict):
+        raise ValueError('--file-tier-map must contain a JSON object')
+    invalid = {str(v).lower() for v in mapping.values()} - {'recordset', 'fileset'}
+    if invalid:
+        raise ValueError('--file-tier-map values must be recordset or fileset')
+    return {str(k): str(v).lower() for k, v in mapping.items()}
+
+
+def write_file_tabular_templates(annotations_output, all_schemas, output_path, fmt,
+                                  requested_type=None, tier='both', tier_map=None):
+    """Export file annotations into per-concrete-schema CSVs or XLSX worksheets."""
+    tier_map = tier_map or {}
+    groups = defaultdict(list)
+    unassigned = []
+    # Always create both concrete sheets for a RecordSet/FileSet family, even
+    # when one tier has no routed rows yet. This makes mixed-tier workbooks
+    # usable as templates rather than hiding the other valid schema.
+    for file_data in annotations_output.values():
+        _, annotations = next(iter(file_data.items()))
+        source_type = annotations.get('_file_type', 'File')
+        if requested_type and requested_type.endswith(('RecordSetFile', 'FileSetFile')):
+            groups[requested_type]
+        elif tier == 'both':
+            for candidate_tier in ('recordset', 'fileset'):
+                concrete = _file_schema_for_tier(source_type, candidate_tier, all_schemas)
+                if concrete:
+                    groups[concrete]
+        else:
+            concrete = _file_schema_for_tier(source_type, tier, all_schemas)
+            if concrete:
+                groups[concrete]
+    for entity_id, file_data in annotations_output.items():
+        filename, annotations = next(iter(file_data.items()))
+        source_type = annotations.get('_file_type', 'File')
+        mapped_tier = tier_map.get(entity_id) or tier_map.get(filename)
+        chosen_tier = mapped_tier or (tier if tier != 'both' else None)
+        concrete = _file_schema_for_tier(source_type, chosen_tier, all_schemas) if chosen_tier else None
+        # An exact concrete --type always wins over auto-detection.
+        if requested_type and requested_type.endswith(('RecordSetFile', 'FileSetFile')):
+            concrete = requested_type
+        if concrete:
+            row = dict(annotations)
+            row['_file_type'] = concrete
+            groups[concrete].append((entity_id, filename, row))
+        else:
+            unassigned.append((entity_id, filename, source_type))
+
+    if fmt == 'csv':
+        base = Path(output_path)
+        for schema_type, rows in groups.items():
+            fields = list(get_field_info(get_schema_for_type(schema_type, all_schemas)))
+            path = base.with_name(f'{base.stem}_{schema_type}.csv')
+            with open(path, 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=['entityId', 'filename', '_file_type'] + fields)
+                writer.writeheader()
+                for entity_id, filename, row in rows:
+                    writer.writerow({'entityId': entity_id, 'filename': filename,
+                                     '_file_type': schema_type,
+                                     **{key: _excel_value(row.get(key, '')) for key in fields}})
+        if unassigned:
+            path = base.with_name(f'{base.stem}_Unassigned.csv')
+            with open(path, 'w', newline='') as f:
+                writer = csv.writer(f); writer.writerow(['entityId', 'filename', 'detected_type'])
+                writer.writerows(unassigned)
+        return
+
+    try:
+        from openpyxl import Workbook
+        from openpyxl.comments import Comment
+    except ImportError as e:
+        raise ImportError('openpyxl is required for XLSX templates: pip install openpyxl') from e
+    wb = Workbook(); wb.remove(wb.active)
+    lookup_ws = wb.create_sheet('_lookups'); lookup_ws.sheet_state = 'hidden'
+    for schema_type, rows in groups.items():
+        fields = get_field_info(get_schema_for_type(schema_type, all_schemas))
+        ws = wb.create_sheet(schema_type[:31])
+        headers = ['entityId', 'filename', '_file_type'] + list(fields)
+        for col, name in enumerate(headers, 1):
+            cell = ws.cell(1, col, name)
+            if name in fields and fields[name].get('description'):
+                cell.comment = Comment(fields[name]['description'], 'Synapse Dataset Manager')
+            ws.column_dimensions[cell.column_letter].width = min(max(len(name) + 2, 16), 40)
+        for row_num, (entity_id, filename, values) in enumerate(rows, 2):
+            ws.cell(row_num, 1, entity_id); ws.cell(row_num, 2, filename); ws.cell(row_num, 3, schema_type)
+            for col, name in enumerate(fields, 4): ws.cell(row_num, col, _excel_value(values.get(name, '')))
+        for col, name in enumerate(fields, 4):
+            _add_xlsx_validation(ws, lookup_ws, ws.cell(1, col).column_letter, fields[name], 2, max(501, len(rows) + 1))
+        ws.column_dimensions['C'].hidden = True; ws.freeze_panes = 'A2'
+    if unassigned:
+        ws = wb.create_sheet('Unassigned')
+        ws.append(['entityId', 'filename', 'detected_type', 'note'])
+        for row in unassigned: ws.append([*row, 'Add this ID or filename to --file-tier-map and regenerate.'])
+    wb.save(output_path)
 
 
 def merge_annotations_smartly(existing, template):
@@ -6304,12 +6491,12 @@ def handle_generate_template(args, config):
     # Generate template
     template = create_annotation_template(all_schemas, dataset_type)
 
-    # Determine output path
+    # Determine output path and serialization format.
+    fmt = output_format(args)
     if args.output:
         output_path = args.output
     else:
-        # Default to annotations directory
-        output_filename = f"{args.type.lower()}_dataset_template.json"
+        output_filename = f"{args.type.lower()}_dataset_template.{fmt}"
         output_path = os.path.join(config.ANNOTATIONS_DIR, output_filename)
 
     # Ensure parent directory exists
@@ -6323,9 +6510,12 @@ def handle_generate_template(args, config):
     template_with_schema = {"$schema": schema_rel}
     template_with_schema.update(template)
 
-    # Save template
-    with open(output_path, 'w') as f:
-        json.dump(template_with_schema, f, indent=2)
+    # Save template. Tabular exports intentionally contain only editable schema fields.
+    if fmt == 'json':
+        with open(output_path, 'w') as f:
+            json.dump(template_with_schema, f, indent=2)
+    else:
+        write_dataset_tabular_template(template, get_schema_for_type(dataset_type, all_schemas), output_path, fmt)
 
     print("\n" + "=" * 60)
     print("✅ TEMPLATE GENERATED SUCCESSFULLY")
@@ -6527,34 +6717,49 @@ def handle_generate_file_templates(args, config):
             download_dir, config
         )
 
-    # Determine output path
+    # Determine output path and serialization format.
     name = args.name or args.folder
+    fmt = output_format(args)
     if args.output:
         output_path = args.output
     else:
-        output_path = os.path.join(config.ANNOTATIONS_DIR, f"{name}_file_templates.json")
+        output_path = os.path.join(config.ANNOTATIONS_DIR, f"{name}_file_templates.{fmt}")
 
     os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
 
-    # Inject $schema pointing to the nested wrapper schema (relative to output location).
-    # Resolve --type against json-schemas/ and use the matching *Nested.json wrapper;
-    # when --type is omitted, per-file types are auto-detected and we use the generic wrapper.
+    # Resolve --type for JSON's LSP wrapper and for an exact concrete tabular sheet.
     if args.type:
+        # Clinical/Omic name an abstract family; tabular export resolves each row to
+        # its RecordSet/FileSet concrete schema instead of prompting for one variant.
+        if args.type.strip().lower() in ('clinical', 'omic'):
+            resolved_file_type = None
+        else:
+            try:
+                resolved_file_type = resolve_schema_type(args.type, all_schemas, kind='file')
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {e}")
+                return
+    else:
+        resolved_file_type = None
+    if fmt == 'json':
+        schema_file = nested_schema_filename(resolved_file_type, all_schemas) if resolved_file_type else 'FileNested.json'
+        schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
+        output_abs = os.path.abspath(output_path)
+        schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
+        output_with_schema = {"$schema": schema_rel}
+        output_with_schema.update(annotations_output)
+        save_annotation_file(output_with_schema, output_path)
+    else:
         try:
-            resolved_file_type = resolve_schema_type(args.type, all_schemas, kind='file')
-            schema_file = nested_schema_filename(resolved_file_type, all_schemas)
-        except SchemaTypeResolutionError as e:
+            tier_map = load_file_tier_map(args.file_tier_map)
+            write_file_tabular_templates(
+                annotations_output, all_schemas, output_path, fmt, resolved_file_type,
+                args.file_tier, tier_map,
+            )
+        except (ValueError, ImportError) as e:
             print(f"❌ {e}")
             return
-    else:
-        schema_file = 'FileNested.json'
-    schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
-    output_abs = os.path.abspath(output_path)
-    schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
-    output_with_schema = {"$schema": schema_rel}
-    output_with_schema.update(annotations_output)
-
-    save_annotation_file(output_with_schema, output_path)
+        schema_rel = 'per-sheet concrete file schema'
 
     print("\n" + "=" * 60)
     print("✅ FILE TEMPLATES GENERATED SUCCESSFULLY")
@@ -9406,6 +9611,23 @@ def _schema_sync_detect_dataset_type(dataset_name, annotations, all_schemas):
         return explicit
 
     keys = set(annotations.keys())
+    raw_data_types = annotations.get('dataType', [])
+    if not isinstance(raw_data_types, (list, tuple, set)):
+        raw_data_types = [raw_data_types]
+    data_types = {_schema_sync_scalar(value) for value in raw_data_types if value}
+    speech_data_types = {
+        'raw_audio', 'dht_speech_vitals', 'sdtm_functional_tests',
+        'aggregate_measures', 'step_measures',
+    }
+    biomarker_data_types = {
+        'biomarker', 'biomarker_data', 'SomaScan', 'SomaScan v5.0',
+        'Normalized Protein Expression (NPX)',
+    }
+    if data_types & speech_data_types and 'SpeechDataset' in all_schemas:
+        return 'SpeechDataset'
+    if data_types & biomarker_data_types and 'BiomarkerDataset' in all_schemas:
+        return 'BiomarkerDataset'
+
     omic_keys = {
         'assay', 'platform', 'libraryStrategy', 'processingLevel', 'sampleType',
         'biospecimenType', 'cellType', 'tissue', 'libraryLayout'
@@ -10640,7 +10862,9 @@ Examples:
                                      '(e.g. "omic" -> OmicDataset). Exact schema names also '
                                      'work; ambiguous matches prompt. (default: Dataset)')
     template_parser.add_argument('--output', '-o',
-                                help='Output file path (default: annotations/<type>_dataset_template.json)')
+                                help='Output file path (default: annotations/<type>_dataset_template.<format>)')
+    template_parser.add_argument('--format', '-f', choices=['json', 'csv', 'xlsx'], default=None,
+                                help='Output format (default: json; inferred from --output .csv/.xlsx)')
 
     # GENERATE-FILE-TEMPLATES command
     file_tmpl_parser = subparsers.add_parser(
@@ -10655,7 +10879,13 @@ Examples:
         help='Override file type for all files instead of auto-detecting; fuzzy-matched '
              'against json-schemas/ (e.g. "omic" -> OmicFile). Exact schema names also work.')
     file_tmpl_parser.add_argument('--output', '-o', default=None,
-        help='Output JSON file path (default: annotations/<name>_file_templates.json)')
+        help='Output path (default: annotations/<name>_file_templates.<format>)')
+    file_tmpl_parser.add_argument('--format', '-f', choices=['json', 'csv', 'xlsx'], default=None,
+        help='Output format (default: json; inferred from --output .csv/.xlsx)')
+    file_tmpl_parser.add_argument('--file-tier', choices=['recordset', 'fileset', 'both'], default='both',
+        help='Concrete file tier for tabular exports; both requires --file-tier-map to route rows')
+    file_tmpl_parser.add_argument('--file-tier-map', default=None,
+        help='JSON object mapping entity IDs or filenames to recordset/fileset for tabular exports')
     file_tmpl_parser.add_argument('--skip-ai', action='store_true',
         help='Skip AI-assisted annotation enhancement')
     file_tmpl_parser.add_argument('--mapping', default=None,

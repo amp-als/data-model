@@ -1,143 +1,79 @@
-# XLSX Templates & Excel-based Annotation
+# CSV and XLSX Annotation Templates
 
-## Overview
+`generate-template` and `generate-file-templates` can export JSON (the default), CSV,
+or Excel (`.xlsx`) templates. XLSX templates provide dropdowns for every enum defined
+by the generated JSON Schema.
 
-The `generate-template`, `generate-file-templates`, and `apply-file-annotations`
-commands support **Excel (`.xlsx`) templates** in addition to JSON. This lets curators
-fill in annotations in a spreadsheet where every field backed by an enum offers a
-**dropdown of permissible values**, instead of hand-editing JSON.
-
-Three capabilities were added:
-
-1. **`--format xlsx`** on both template generators — emit a fill-in workbook instead of JSON.
-2. **Dropdowns from the data model** — any attribute whose schema defines permissible
-   values (an `enum`) gets an Excel data-validation dropdown listing those values.
-3. **Blank templates with no Synapse folder** — `generate-file-templates` works without
-   `--folder`, producing an empty attribute grid you fill row-by-row.
-4. **xlsx input on apply** — `apply-file-annotations` accepts a filled-in `.xlsx` and
-   applies it to Synapse exactly like the JSON path.
-
-JSON remains the default for every command, so existing workflows are unchanged.
-
-## How the xlsx is laid out
-
-- **Columns** are the schema attributes for the chosen type.
-- **`title`** is moved to the front to act as the leading index column.
-- **Header cells** carry the attribute description as a cell comment (hover to read it).
-- **Enum fields** show a dropdown when the cell is selected. Values live on a hidden
-  `_lookups` sheet and are referenced by range, so large enums work (Excel's 255-char
-  inline-list limit does not apply).
-  - **Single-value** enum fields reject off-list entries.
-  - **Multi-value** (array) enum fields offer the dropdown as a helper but also allow
-    several **comma-separated** values in one cell.
-- For per-file templates generated from a Synapse folder, two leading identifier columns
-  are added — **`entityId`** and **`filename`** — plus a hidden-by-convention `_file_type`
-  column so values round-trip back on apply. Keep `entityId` intact; it maps each row to a
-  Synapse entity.
-
----
-
-## Running it
-
-All commands run through the `amp-als` env:
+All commands run in the `amp-als` environment:
 
 ```bash
-mamba activate amp-als
-# or prefix each command with: mamba run -n amp-als ...
+mamba run -n amp-als python synapse_dataset_manager.py <command> ...
 ```
 
-### 1. Dataset annotation template (xlsx)
+## Dataset templates
 
 ```bash
-python synapse_dataset_manager.py generate-template \
-  --type Clinical \
-  --format xlsx \
+# Spreadsheet with schema enum dropdowns
+mamba run -n amp-als python synapse_dataset_manager.py generate-template \
+  --type Clinical --format xlsx \
   --output annotations/clinical_dataset_template.xlsx
+
+# A simple portable CSV template (CSV cannot contain dropdowns)
+mamba run -n amp-als python synapse_dataset_manager.py generate-template \
+  --type Omic --format csv
 ```
 
-- `--type` — dataset schema type (default `Dataset`), fuzzy-matched against `json-schemas/`
-  (e.g. `omic` → `OmicDataset`, `geo` → `GEODataset`); exact schema names also work.
-- `--format` — `json` (default) or `xlsx`. A `.xlsx` `--output` path also implies xlsx.
-- `--output` — optional; defaults to `annotations/<type>_dataset_template.<ext>`.
+A dataset workbook has an `Annotations` sheet with one column per schema attribute and
+one editable row. Attribute descriptions are header comments. Enum values are stored
+on a hidden `_lookups` sheet and referenced by Excel data validation, avoiding Excel's
+255-character inline-list limit. Multi-value enum fields accept comma-separated values;
+single-value enum fields reject values outside the dropdown.
 
-### 2. Blank file template — no Synapse folder
+`--format` accepts `json`, `csv`, or `xlsx`. When it is omitted, `.csv` and `.xlsx`
+output suffixes infer the corresponding format; otherwise JSON is used.
 
-Omit `--folder` to generate an empty fill-in grid without connecting to Synapse:
+## File templates: RecordSet and FileSet
 
 ```bash
-python synapse_dataset_manager.py generate-file-templates \
-  --type Clinical \
-  --format xlsx \
-  --output annotations/blank_clinical_file_template.xlsx
+# Generate per-file workbooks from a Synapse folder, routing each file explicitly
+mamba run -n amp-als python synapse_dataset_manager.py generate-file-templates \
+  --folder syn12345 --type Clinical --format xlsx \
+  --file-tier-map annotations/file_tiers.json \
+  --output annotations/clinical_file_templates.xlsx
 ```
 
-The result is an empty sheet: columns are the file attributes, `title` is the leading
-index column, enum columns have dropdowns, and validation extends down ~500 rows so you
-can add one row per file. `--type` (default `File`) is fuzzy-matched against `json-schemas/`
-(e.g. `omic` → `OmicFile`, `sra` → `SRAFile`); exact schema names also work.
+`file_tiers.json` maps a Synapse entity ID (or filename) to its concrete tier:
 
-JSON also works without a folder (drop `--format xlsx`), producing a single flat blank
-template dict.
-
-### 3. Per-file templates from a Synapse folder (xlsx)
-
-When `--folder` **is** supplied, files are enumerated from Synapse and one row is
-pre-populated per file (existing annotations included):
-
-```bash
-python synapse_dataset_manager.py generate-file-templates \
-  --folder syn12345678 \
-  --type Clinical \
-  --format xlsx \
-  --output annotations/my_dataset_file_templates.xlsx
+```json
+{
+  "syn123": "recordset",
+  "subject_001.csv": "fileset"
+}
 ```
 
-All the existing flags (`--mapping`, `--metadata`, `--infer-variant-types`, etc.) still
-apply; only the **output format** changes.
+The workbook has one worksheet per concrete schema in the selected family, such as
+`ClinicalRecordSetFile`, `ClinicalFileSetFile`, `OmicRecordSetFile`, and
+`OmicFileSetFile`, including an empty tier sheet when no discovered rows are routed to
+it. Each sheet includes `entityId`, `filename`, a hidden `_file_type`, and the
+attributes for that concrete schema. Enum dropdowns are supplied from the hidden
+`_lookups` sheet.
 
-### 4. Apply a filled-in xlsx back to Synapse
+Use `--file-tier recordset` or `--file-tier fileset` when every discovered file belongs
+to one tier. With the default `--file-tier both`, files not found in `--file-tier-map`
+are emitted to an `Unassigned` sheet rather than guessed. Add them to the mapping and
+regenerate. An exact concrete type such as `--type OmicRecordSetFile` routes all rows
+to that schema.
 
-`apply-file-annotations` detects `.xlsx`/`.xls` automatically:
+For CSV file exports, one CSV is written per concrete schema, with names such as
+`clinical_file_templates_ClinicalRecordSetFile.csv`; an additional `Unassigned.csv`
+is written when necessary. CSV does not support Excel dropdowns.
 
-```bash
-# Dry run (default) — preview what would change
-python synapse_dataset_manager.py apply-file-annotations \
-  --annotations-file annotations/my_dataset_file_templates.xlsx
+## Current limitation
 
-# Execute against Synapse
-python synapse_dataset_manager.py apply-file-annotations \
-  --annotations-file annotations/my_dataset_file_templates.xlsx \
-  --execute
-```
+`apply-file-annotations` currently accepts the existing JSON template format. XLSX and
+CSV exports are intended for editing and review; convert them to the JSON annotation
+format before applying them to Synapse. The `entityId` and hidden `_file_type` columns
+must be preserved for a future XLSX/CSV import workflow.
 
-On load, each cell is coerced to its schema type (array fields split on commas, booleans
-and numbers parsed, blanks dropped), rows are mapped to Synapse entities via `entityId`,
-and the same validation + apply path as JSON runs.
-
----
-
-## Arguments reference
-
-| Command | Argument | Description |
-|---------|----------|-------------|
-| `generate-template` | `--format {json,xlsx}` / `-f` | Output format (default `json`) |
-| `generate-template` | `--type <name>` | Dataset schema type; fuzzy-matched against `json-schemas/` (e.g. `omic`, `geo`), exact names work |
-| `generate-file-templates` | `--folder` | Synapse folder ID; **omit for a blank template** |
-| `generate-file-templates` | `--format {json,xlsx}` / `-f` | Output format (default `json`) |
-| `generate-file-templates` | `--type <name>` | File schema type; fuzzy-matched against `json-schemas/` (e.g. `omic`, `sra`), exact names work |
-| `apply-file-annotations` | `--annotations-file` | `.json` **or** `.xlsx`/`.xls` |
-
----
-
-## Notes & limitations
-
-- **Multi-value cells**: Excel cannot natively multi-select from a dropdown. Enter several
-  values comma-separated in one cell; they are split back into a list on apply.
-- **Applying a blank template**: a blank file template contains attribute columns only. To
-  apply it, add an `entityId` column with the target Synapse IDs (and optionally a
-  `_file_type` column; it defaults to `File` when absent).
-- **Source of truth**: enum values come from the generated JSON schemas in `json-schemas/`,
-  which are built from `modules/**`. Rebuild the schemas after any data-model change so the
-  dropdowns stay in sync.
-</content>
-</invoke>
+Enum values always come from `json-schemas/`, the generated data-model output. Rebuild
+the relevant schemas before exporting after a data-model change.

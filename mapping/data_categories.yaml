@@ -35,6 +35,18 @@ ClinicalDataset:
     functional_assessment:
       dataCategory: [Functional Assessment]
       sankeyRole: granular
+    intervention_response:
+      dataCategory: [Clinical Status]
+      sankeyRole: granular
+    disease_progression:
+      dataCategory: [Clinical Status]
+      sankeyRole: granular
+    drug_administration:
+      dataCategory: [Treatment / Exposure]
+      sankeyRole: granular
+    surveyData:
+      dataCategory: [Patient-reported Outcome]
+      sankeyRole: granular
     medication_history:
       dataCategory: [Treatment / Exposure]
       sankeyRole: granular
@@ -94,6 +106,9 @@ ClinicalDataset:
     ALSFRS-R:
       dataCategory: [Clinical Outcome]
       sankeyRole: granular
+    alsfrs_r:
+      dataCategory: [Clinical Outcome]
+      sankeyRole: granular
     ForcedVitalCapacity:
       dataCategory: [Clinical Outcome]
       sankeyRole: granular
@@ -111,6 +126,15 @@ ClinicalDataset:
       sankeyRole: granular
     SurvivalStatus:
       dataCategory: [Survival / Disposition]
+      sankeyRole: granular
+    vital_signs:
+      dataCategory: [Laboratory]
+      sankeyRole: granular
+    laboratory:
+      dataCategory: [Laboratory]
+      sankeyRole: granular
+    dynamometry:
+      dataCategory: [Functional Assessment]
       sankeyRole: granular
 
 OmicDataset:
@@ -215,6 +239,12 @@ OmicDataset:
       sankeyRole: technical
     index:
       sankeyRole: technical
+    dht_speech_vitals:
+      dataCategory: [Speech / Communication, Digital Health]
+      sankeyRole: granular
+    dht_respiratory_assessment:
+      dataCategory: [Digital Health, Clinical Outcome]
+      sankeyRole: granular
 
 BiomarkerDataset:
   dataType:
