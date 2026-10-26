@@ -425,6 +425,34 @@ mamba run -n amp-als python synapse_dataset_manager.py sync-dataset-schema-annot
 
 `--updates-file` must name a JSON file, while `--output-dir` names the report/template directory. See [SCHEMA_ANNOTATION_SYNC_WORKFLOW.md](SCHEMA_ANNOTATION_SYNC_WORKFLOW.md) for the full review-and-apply workflow.
 
+## 15. Generate Mixed-Schema File Templates
+
+Use `--file-type-map` when a folder contains files requiring different schemas.
+The argument accepts a JSON file path or an inline JSON object. Map by Synapse ID
+(preferred) or filename; an ID assignment wins when both are present. The map's
+values must be exact schema names. Mixed-schema templates support JSON output
+only and do not contain one top-level `$schema`; each entry's `_file_type` is
+used for validation by `apply-file-annotations`.
+
+```json
+{
+  "syn78079710": "BiomarkerFile",
+  "syn77160042": "MetadataSchema",
+  "README.md": "MetadataSchema"
+}
+```
+
+```bash
+mamba run -n amp-als python synapse_dataset_manager.py generate-file-templates \
+  --folder syn78362817 \
+  --file-type-map annotations/abbvie/olink_file_types.json \
+  --output annotations/abbvie/ALSKP_Olink_v03_file_annotations.json \
+  --skip-ai --refresh-walkthrough
+```
+
+Use `--type BiomarkerFile` alongside the map only to provide a fallback for
+unmapped files. Without `--type`, unmapped files use normal filename detection.
+
 ## Help Commands
 
 ```bash
@@ -434,6 +462,7 @@ python synapse_dataset_manager.py --help
 # Command-specific help
 python synapse_dataset_manager.py generate-template --help
 python synapse_dataset_manager.py generate-mapping --help
+python synapse_dataset_manager.py generate-file-templates --help
 python synapse_dataset_manager.py create --help  # includes mapping flags
 python synapse_dataset_manager.py add-link-file --help
 python synapse_dataset_manager.py create-entity-view --help

@@ -730,6 +730,21 @@ You want to create human-readable documentation from schemas:
 2. Or manually change dataType to "date" after generation
 3. Add validation rule: "Format: YYYY-MM-DD"
 
+## Planned: Documentation Files
+
+`MetadataSchema` may temporarily be used to annotate README and other
+human-readable documentation files with fields such as `title`, `description`,
+`keywords`, `fileFormat`, and `dataType: Descriptive Metadata`. It does not,
+however, explicitly distinguish a README from other metadata resources.
+
+- [ ] Add a dedicated `DocumentationFile` model for README files, protocols,
+  data dictionaries, methods documents, and release notes.
+- [ ] Define a reusable constrained `documentationType` vocabulary (for example,
+  `README`, `protocol`, `data_dictionary`, `methods`, `release_notes`, and
+  `other`).
+- [ ] Add file-template type detection for documentation formats such as
+  Markdown, then rebuild and validate the affected schemas.
+
 ## Additional Resources
 
 - **LinkML Schema**: `/modules/shared/metadata-schema-template.yaml`

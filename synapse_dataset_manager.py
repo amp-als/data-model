@@ -1023,10 +1023,15 @@ def sanitize_synapse_filename(name: str, ext: str = '.csv') -> str:
     return name
 
 
-def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) -> tuple[dict, dict, dict, dict]:
+def build_staging_form_map(syn, staging_annotations: dict, download_dir: str,
+                           extract_form_names: bool = False) -> tuple[dict, dict, dict, dict]:
     """
-    For each staging file, download it and extract the Form Name column value.
-    Falls back to the staging filename if no Form Name column is found.
+    Optionally download each staging file and extract its Form Name column value.
+    When form-name extraction is disabled, use the staging filename directly.
+
+    Form Name is an ALL ALS convention. Avoid downloading and parsing arbitrary
+    release files (which may be very large matrices) for datasets that do not
+    use it.
 
     Returns:
         form_map       — {lower_clean_name: [(staging_syn_id, clean_name), ...]}
@@ -1043,12 +1048,13 @@ def build_staging_form_map(syn, staging_annotations: dict, download_dir: str) ->
     for staging_syn_id, file_data in staging_annotations.items():
         staging_filename = list(file_data.keys())[0]
 
-        local_path = download_file_for_analysis(syn, staging_syn_id, download_dir)
-        local_path_map[staging_syn_id] = local_path
-
+        local_path = None
         form_name = None
-        if local_path and local_path.endswith(('.csv', '.xlsx', '.xls')):
-            form_name = extract_form_name_from_csv(local_path)
+        if extract_form_names:
+            local_path = download_file_for_analysis(syn, staging_syn_id, download_dir)
+            if local_path and local_path.endswith(('.csv', '.xlsx', '.xls')):
+                form_name = extract_form_name_from_csv(local_path)
+        local_path_map[staging_syn_id] = local_path
 
         if form_name:
             clean = sanitize_synapse_filename(form_name)
@@ -2919,6 +2925,26 @@ def load_file_tier_map(path):
     if invalid:
         raise ValueError('--file-tier-map values must be recordset or fileset')
     return {str(k): str(v).lower() for k, v in mapping.items()}
+
+
+def load_file_type_map(value):
+    """Load a JSON file-type map from a file path or an inline JSON object."""
+    if not value:
+        return {}
+    try:
+        if str(value).lstrip().startswith('{'):
+            mapping = json.loads(value)
+        else:
+            with open(value) as f:
+                mapping = json.load(f)
+    except (OSError, json.JSONDecodeError) as e:
+        raise ValueError(f'Could not read --file-type-map: {e}') from e
+    if not isinstance(mapping, dict):
+        raise ValueError('--file-type-map must contain a JSON object')
+    if not all(isinstance(key, str) and isinstance(schema, str) and schema.strip()
+               for key, schema in mapping.items()):
+        raise ValueError('--file-type-map keys and values must be non-empty strings')
+    return mapping
 
 
 def write_file_tabular_templates(annotations_output, all_schemas, output_path, fmt,
@@ -6642,6 +6668,14 @@ def handle_generate_file_templates(args, config):
         print(f"  Loaded {len(metadata_index)} subjects from {len(args.metadata)} metadata file(s)")
 
     dataset_config = {'dataset_type': args.type} if args.type else {}
+    try:
+        file_type_map = load_file_type_map(getattr(args, 'file_type_map', None))
+    except ValueError as e:
+        print(f"❌ {e}")
+        return
+    if file_type_map and output_format(args) != 'json':
+        print('❌ --file-type-map currently supports JSON output only')
+        return
     annotations_output = {}
     metadata_fill_count = 0
 
@@ -6659,7 +6693,19 @@ def handle_generate_file_templates(args, config):
         filename = file_info['name']
         existing_annotations = file_info['annotations']
 
-        file_type = detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
+        # An entity-ID assignment wins over a filename assignment. --type remains
+        # the fallback for files that are absent from the map.
+        requested_type = file_type_map.get(syn_id) or file_type_map.get(filename)
+        if requested_type:
+            try:
+                file_type = resolve_schema_type(
+                    requested_type, all_schemas, kind='file', interactive=False
+                )
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {syn_id} ({filename}): {e}")
+                return
+        else:
+            file_type = detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
         template = create_annotation_template(all_schemas, file_type)
         merged = merge_annotations_smartly(existing_annotations, template)
 
@@ -6742,12 +6788,18 @@ def handle_generate_file_templates(args, config):
     else:
         resolved_file_type = None
     if fmt == 'json':
-        schema_file = nested_schema_filename(resolved_file_type, all_schemas) if resolved_file_type else 'FileNested.json'
-        schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
-        output_abs = os.path.abspath(output_path)
-        schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
-        output_with_schema = {"$schema": schema_rel}
-        output_with_schema.update(annotations_output)
+        # A mixed-schema file has no single JSON Schema suitable for its $schema
+        # wrapper. Per-entity _file_type values drive validation on application.
+        if file_type_map:
+            schema_rel = 'mixed schemas (per-entry _file_type)'
+            output_with_schema = annotations_output
+        else:
+            schema_file = nested_schema_filename(resolved_file_type, all_schemas) if resolved_file_type else 'FileNested.json'
+            schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
+            output_abs = os.path.abspath(output_path)
+            schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
+            output_with_schema = {"$schema": schema_rel}
+            output_with_schema.update(annotations_output)
         save_annotation_file(output_with_schema, output_path)
     else:
         try:
@@ -7709,8 +7761,15 @@ def handle_update_workflow(args, config):
             print("=" * 60)
             import tempfile
             _tmp = tempfile.mkdtemp(prefix='sdm_staging_')
-            form_map, name_map, local_path_map, view_map = build_staging_form_map(syn, staging_annotations, _tmp)
-            print(f"  Extracted form names for {len(form_map)} staging files")
+            # Form Name is used by ALL ALS data dictionaries to match a staged
+            # export to its released counterpart. Other datasets use filenames;
+            # do not download potentially multi-GB files just to inspect them.
+            extract_form_names = bool(dataset_config.get('data_dict_view'))
+            form_map, name_map, local_path_map, view_map = build_staging_form_map(
+                syn, staging_annotations, _tmp,
+                extract_form_names=extract_form_names,
+            )
+            print(f"  {'Extracted form names for' if extract_form_names else 'Used staging filenames for'} {len(form_map)} staging files")
             for sid, cname in name_map.items():
                 print(f"    {list(staging_annotations[sid].keys())[0]} → {cname}")
 
@@ -10886,6 +10945,8 @@ Examples:
         help='Concrete file tier for tabular exports; both requires --file-tier-map to route rows')
     file_tmpl_parser.add_argument('--file-tier-map', default=None,
         help='JSON object mapping entity IDs or filenames to recordset/fileset for tabular exports')
+    file_tmpl_parser.add_argument('--file-type-map', default=None,
+        help='JSON file path or inline JSON object mapping entity IDs or filenames to exact schema types; ID wins over filename (JSON output only)')
     file_tmpl_parser.add_argument('--skip-ai', action='store_true',
         help='Skip AI-assisted annotation enhancement')
     file_tmpl_parser.add_argument('--mapping', default=None,
