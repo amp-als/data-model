@@ -7,6 +7,10 @@ enums:
   StudyPhaseEnum:
     description: Phase or timepoint in a study when data were collected.
     permissible_values:
+      "Phase 1":
+        description: First study phase or cohort.
+      "Phase 2":
+        description: Second study phase or cohort.
       screening:
         description: Pre-treatment screening phase.
       baseline:

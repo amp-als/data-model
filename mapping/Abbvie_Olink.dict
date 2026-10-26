@@ -1,0 +1,118 @@
+# Mapping dict: source_column -> target_data_model_field
+# Fill in "target" with the data model field name for each column.
+# For value-mapped columns, fill in the data model value for each source value.
+# Entries with empty string values are ignored during annotation.
+{
+  # Identifiers are row-level values. Do not map them to an aggregate File
+  # annotation; set BiomarkerFile.subjectIdColumn manually to "SampleID".
+  "SampleID": "",
+  "SubjectID": "",
+  "Group": {
+    "target": "disease",
+    "values": {
+      "ALS": "ALS",
+      "NA": "",
+      "control": "Control"
+    }
+  },
+  # Project encodes the release cohort phase for this bridging study.
+  "Project": {
+    "target": "studyPhase",
+    "values": {
+      "bridging sample": "",
+      "phase1": "Phase 1",
+      "phase2": "Phase 2"
+    }
+  },
+  "Study": {
+    "target": "program",
+    "values": {
+      "AIM": "",
+      "ALS Sample Repository": "",
+      "ALS Sample Repository\t-\t701008": "",
+      "ANSWER ALS": "Answer ALS",
+      "Answer ALS": "Answer ALS",
+      "BIO_ALS-01": "",
+      "BioIVT": "",
+      "CABB": "",
+      "LABPALS": "",
+      "Skin Biopsy": "",
+      "Target ALS NHS": "Target ALS"
+    }
+  },
+  # Age, sex, and visit are row-level participant metadata and are not
+  # BiomarkerFile annotations. Preserve them in the metadata CSV itself.
+  "Age (years)": {
+    "target": "",
+    "values": {
+      "20": "",
+      "23": "",
+      "25": "",
+      "26": "",
+      "29": "",
+      "31": "",
+      "35": "",
+      "36": "",
+      "37": "",
+      "38": "",
+      "39": "",
+      "40": "",
+      "41": "",
+      "42": "",
+      "43": "",
+      "44": "",
+      "45": "",
+      "46": "",
+      "47": "",
+      "48": "",
+      "49": "",
+      "50": "",
+      "51": "",
+      "52": "",
+      "53": "",
+      "54": "",
+      "55": "",
+      "56": "",
+      "57": "",
+      "58": "",
+      "59": "",
+      "60": "",
+      "61": "",
+      "62": "",
+      "63": "",
+      "64": "",
+      "65": "",
+      "66": "",
+      "67": "",
+      "68": "",
+      "69": "",
+      "70": "",
+      "71": "",
+      "72": "",
+      "73": "",
+      "74": "",
+      "75": "",
+      "80": "",
+      "NA": ""
+    }
+  },
+  "Sex": {
+    "target": "",
+    "values": {
+      "NA": "",
+      "female": "",
+      "male": ""
+    }
+  },
+  "Visit Number": {
+    "target": "",
+    "values": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "NA": ""
+    }
+  }
+}
