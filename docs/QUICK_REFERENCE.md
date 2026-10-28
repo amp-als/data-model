@@ -477,9 +477,149 @@ mamba run -n amp-als python -m synapse_dataset_manager update --help
 wrapper. The implementation now lives in `synapse_dataset_manager/cli.py`.
 Working-directory-relative config, schema, mapping, and output paths are unchanged;
 use `-c configs/config.yaml` before the subcommand to select that config explicitly.
-This move does not yet change update behavior or add custom workflow selection.
+The package also provides explicit update policies; see section 17 below.
 See [the packaging and update redesign plan](DATASET_MANAGER_REFACTOR_PLAN.md)
 for the staged implementation and future repository extraction.
+
+## 17. General and Custom Update Policies
+
+`update` now defaults to `general`: exact filenames or explicit target IDs, no
+fuzzy/form/view matching, and no implicit content downloads or first-file metadata
+inheritance. Existing dataset members missing from staging remain unchanged.
+Ambiguous matches, duplicate targets, and duplicate new filenames are errors.
+
+```bash
+# Generic preparation using a file identity manifest
+mamba run -n amp-als python -m synapse_dataset_manager -c configs/config.yaml update \
+  --dataset-id syn123 --staging-folder syn456 \
+  --identity-manifest metadata/file_identity.csv \
+  --data-dict metadata/dictionary.csv \
+  --dictionary-group-column table_id --dictionary-field-column variable_name
+
+# Alternatively, derive release names from one column in each incoming file
+mamba run -n amp-als python -m synapse_dataset_manager update \
+  --dataset-id syn123 --staging-folder syn456 --name-column instrument_name
+
+# ALL ALS must now be selected explicitly
+mamba run -n amp-als python -m synapse_dataset_manager -c configs/config.yaml update \
+  --use-config ALL_ALS_ASSESS --workflow all_als
+```
+
+Identity manifests are CSV files, separate from annotation-value `.dict` mappings:
+
+```csv
+source_filename,release_filename,target_synapse_id,dictionary_group
+export_001.csv,participants.csv,syn111,participants
+export_002.csv,visits.csv,,visits
+```
+
+Use `source_synapse_id` instead of (or consistently with) `source_filename` when
+filenames are ambiguous. Unlisted sources retain their names. A missing target ID
+uses normal matching before proposing an addition. An explicit target must already
+belong to the dataset. Existing entities keep their filenames; manifest release
+names affect matching and naming additions, not implicit renames.
+
+`--name-column` and `--identity-manifest` are mutually exclusive. Name extraction
+requires one distinct nonempty value per file and retains its extension. Missing
+columns or multiple values fail preparation. Only this option downloads general
+workflow files for name extraction (supported by the existing tabular loader).
+
+Generic dictionaries use one field per row. `--dictionary-field-column` defaults
+to `Field`; `--dictionary-description-column` defaults to `Description`.
+`--dictionary-group-column` is optional; without it the dictionary is ungrouped.
+Groups must be populated on every row; no implicit forward-fill occurs.
+Conflicting repeated field definitions fail rather than silently overwrite.
+The generated mapping uses `_groups` for editable group-level annotations, keyed
+by exact group name. Manifest `dictionary_group` selects these annotations;
+existing nonempty values are preserved. Group association does not create a
+`viewName` annotation. Field/value mappings still use the existing global mapping
+format; group-specific conflicting field definitions and coded-value dictionary
+layouts are not yet supported by the generic parser.
+
+All new options can also be set under a dataset's `update` section using snake_case
+keys (`workflow`, `identity_manifest`, `name_column`, `dictionary_group_column`,
+`dictionary_field_column`, `dictionary_description_column`). CLI values override
+configuration. Workflow modules live in
+`synapse_dataset_manager/updates/workflows/` and are explicitly registered there;
+input files cannot select arbitrary Python paths.
+
+Phase 2 still uses `--annotations-file`, defaults to a dry run, and requires
+`--execute` for writes. Staging and local uploads cannot be combined; additions
+require a release folder before execution begins. Operation/verification failures
+now produce a failure exit status, not a success banner. This is not transactional:
+inspect partial results before retrying. Execution now requires a reviewed plan;
+see section 18 and [Reviewed Update Plans](REVIEWED_UPDATE_PLANS.md).
+
+## 18. Review an Update Plan Before Execution
+
+After editing the generated annotations, create a read-only preview and plan:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager update \
+  --dataset-id syn123 --annotations-file annotations/Example_update_annotations.json \
+  --release-folder syn789 --version-label v2 \
+  --write-plan annotations/Example_v2.plan.json
+
+# Review the plan AND annotation values, then apply the same inputs/options:
+mamba run -n amp-als python -m synapse_dataset_manager update \
+  --dataset-id syn123 --annotations-file annotations/Example_update_annotations.json \
+  --release-folder syn789 --version-label v2 \
+  --plan-file annotations/Example_v2.plan.json --execute
+```
+
+`--write-plan` is dry-run only, refuses overwrite, and defaults to the annotations
+path with a `.plan.json` suffix. `--plan-file` validates a reviewed plan; without
+`--execute` it only checks/previews it. **Execution requires `--plan-file`.**
+Annotations, options, membership, entity snapshots, and local bytes must still
+match the reviewed state; `--skip-validation` does not bypass these checks.
+Legacy annotation files work through the dry-run planning step, not direct apply.
+
+Execution stops on failure and records partial progress in
+`<plan-file>.results.json`. Inspect it before recovery and generate a fresh plan;
+a plan with an existing execution report cannot be replayed. Versioned files now
+refresh the dataset's pinned version references. See
+[Reviewed Update Plans](REVIEWED_UPDATE_PLANS.md) for stale checks, verification,
+recovery, and concurrency limitations.
+
+## 19. ALL ALS Dictionary, Required-Header, and PHI/PII Gate
+
+ALL ALS phase 1 requires `--workflow all_als` and a data dictionary. Before it
+writes annotations or a plan, every staged CSV/XLS/XLSX file is checked against
+the dictionary view named by its raw staging filename (without its extension).
+The dictionary supports sparse `View Name` cells and fully populated view rows.
+Substantive file headers and that view's dictionary fields must match exactly after
+case/space/hyphen/underscore normalization.
+
+```yaml
+# Dataset entry in config.yaml
+ALL_ALS_ASSESS:
+  data_dict: metadata/all_als_dictionary.csv
+  update:
+    workflow: all_als
+    all_als:
+      dictionary:
+        view_column: "View Name"
+        field_column: "Field"
+        ignored_file_columns: ["Form Name", "NeuroGUID"]
+      required_columns:
+        all_files: ["NeuroGUID", "NeuroSTAmP"]
+        by_view:
+          v_ALLALS_AS_DEMOGRAPHICS: ["nihguid"]
+      phi_pii_columns_file: configs/phi_pii_columns.yaml
+```
+
+`Form Name`/`form_name` and `NeuroGUID` are ignored only for dictionary equality;
+`NeuroGUID` remains required in every file. `NeuroSTAmP` is also required in every
+file. The demographics requirement uses the canonical raw ALL ALS view name, not
+a friendly alias. Alias mapping is intentionally deferred.
+
+The required policy file is `configs/phi_pii_columns.yaml`; it checks headers only
+and fails if a normalized forbidden PHI/PII name occurs. It does not inspect or log
+cell values. Missing dictionaries/policies, unknown views, duplicate headers,
+missing required headers, extra/missing dictionary headers, or PHI/PII headers halt
+the workflow before annotation output. Do not disable this gate with a CLI flag.
+See [the ALL ALS preflight plan](ALL_ALS_UPDATE_PREFLIGHT_PLAN.md) for details and
+future semantic screening/alias work.
 
 ## Help Commands
 
@@ -490,6 +630,7 @@ mamba run -n amp-als python -m synapse_dataset_manager --help
 mamba run -n amp-als python -m synapse_dataset_manager update --help
 
 # Command-specific help
+python synapse_dataset_manager.py update --help  # workflow, identity, dictionary, --write-plan, --plan-file
 python synapse_dataset_manager.py generate-template --help
 python synapse_dataset_manager.py generate-mapping --help
 python synapse_dataset_manager.py generate-file-templates --help

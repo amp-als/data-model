@@ -12,22 +12,45 @@ Implementation proceeds in independently reviewable stages:
    `synapse_dataset_manager/cli.py`; retain the root CLI wrapper; provide
    `python -m synapse_dataset_manager`; preserve command behavior and resource
    resolution. Add offline entry-point regression tests.
-2. **Characterization and extraction (pending):** mock Synapse to characterize
-   update preparation, uploads, additions, and verification. Extract shared
-   operations, configuration, and typed context/plan/result models.
-3. **Generic preparation (pending):** configurable dictionary grouping, file
-   identity manifests, conservative matching, and explicit reviewable plans.
-4. **Content identity and enrichment (pending):** configurable file-column name
-   extraction; independently selectable content/count enrichment.
-5. **Custom workflows (pending):** move ALL ALS conventions into `all_als.py`,
-   select it explicitly in dataset configurations, and default to `general`.
-6. **Reliable apply (pending):** preflight, stale-plan checks, structured action
-   outcomes, verification gates, and migration support for legacy artifacts.
+2. **Characterization and extraction (execution implemented):** shared Synapse
+   execution in `operations.py`, orchestration in `engine.py`, and versioned JSON
+   plan/result contracts in `plans.py`. Configuration extraction remains pending.
+3. **Generic preparation (implemented baseline):** configurable dictionary grouping,
+   file identity manifests, conservative matching, and reviewable action plans.
+4. **Content identity and enrichment (partial):** configurable file-column name
+   extraction implemented; independently selectable content/count enrichment pending.
+5. **Custom workflows (partial):** ALL ALS identity/matching moved into `all_als.py`,
+   explicitly selected; `general` is default. A broader custom hook API is pending.
+6. **Reliable apply (implemented baseline):** preflight, stale-plan checks,
+   checkpointed action outcomes, verification gates, and legacy artifact planning.
+   No transaction, automatic rollback, or resumable execution is claimed.
 7. **Repository extraction (pending):** move tool-specific source, tests, docs,
    and packaging metadata after resource boundaries are explicit.
 
-Stage 1 does NOT change the existing update policies or introduce workflow flags.
-Examples below are design proposals, not currently supported configuration.
+Stage 1 did not change update policies. The subsequent policy increment now
+implements explicit `general`/`all_als` selection, conservative general matching,
+CSV identity manifests, file-column naming, configurable dictionary columns and
+exact `_groups` enrichment. It also prevents overlapping staging/local uploads,
+requires release folders for additions before mutations, and gates success on
+operation/verification results. See QUICK_REFERENCE.md section 17 for the actual
+supported configuration (flat snake_case keys under `update`).
+
+Phase-2 execution now uses the shared engine and operations adapter; obsolete
+batch execution helpers have been removed from `cli.py`. Dry runs compile reviewed
+JSON plans from edited annotations. Apply requires `--plan-file`, binds all inputs
+and options, compares remote snapshots/membership and local hashes, prepares pinned
+content, and rechecks before writing. Reports checkpoint partial progress and block
+silent replay. Dataset references are refreshed to resulting versions. See
+[Reviewed Update Plans](REVIEWED_UPDATE_PLANS.md) for the implemented contract.
+
+Phase-1 orchestration and shared legacy enrichment helpers remain in the CLI.
+Characterization coverage is incremental, not complete. An arbitrary hook loader,
+transactional rollback, and automatic resume are not implemented.
+
+The nested configuration examples below describe the original design proposal,
+not the current CLI/config contract. Generic dictionary fields currently use the
+legacy global field mapping format: conflicting group-specific definitions are
+rejected, and coded-value dictionary layouts remain future work.
 
 ## Target architecture
 
@@ -39,7 +62,8 @@ synapse_dataset_manager/
   config.py
   updates/
     engine.py
-    models.py
+    plans.py                 # Implemented JSON plan/result contract
+    models.py                # Optional future typed domain objects
     matching.py
     dictionaries.py
     validation.py
@@ -163,6 +187,13 @@ working-directory configuration, and shared interrupt/error handling without
 Synapse access. Later stages need mocked tests for duplicate identities, ambiguous
 matches, dictionary grouping, extraction failures, annotation precedence, stale
 plans, partial failures, dry runs, and custom workflow selection.
+
+Run offline verification with `mamba run -n amp-als python -m unittest discover
+-s tests -v`. Coverage includes package entry points, identity selection, manifest
+errors, exact matching, ALL ALS disambiguation, dictionary groups, generated phase-1
+artifacts, plan review/replay, local/remote stale state, pinned content preparation,
+preflight mutation prevention, reference refresh, and partial/verification failures.
+No live Synapse updates were performed.
 
 Any new command/flag or user-facing behavior must be documented in
 `docs/QUICK_REFERENCE.md` alongside implementation.

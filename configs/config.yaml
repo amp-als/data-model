@@ -51,6 +51,8 @@ datasets:
       dataset_type: Biomarker
       release_folder: syn74378301
   # ALL_ALS_ASSESS:
+  #   update:
+  #     workflow: all_als
   #   dataset_id: "syn69694463"
   #   dataset_type: "Clinical"
   #   staging_folder: "syn76900557"
@@ -62,6 +64,8 @@ datasets:
   #   mapping: "mapping/ASSESS_ALL_ALS_Dataset.dict"
   #   subject_file_type: "multi"
   # ALL_ALS_PREVENT:
+  #   update:
+  #     workflow: all_als
   #   dataset_id: "syn69694674"
   #   dataset_type: "Clinical"
   #   staging_folder: "syn76900560"

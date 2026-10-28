@@ -57,6 +57,28 @@ datasets:
 
   # Example: Custom dataset with all features
   # my_dataset:
+  #   update:
+  #     workflow: general  # Use all_als explicitly for form/view matching
+  #     identity_manifest: metadata/file_identity.csv  # Optional
+  #     dictionary_group_column: table_id  # Optional; otherwise ungrouped
+  #     dictionary_field_column: variable_name
+  #
+  #   # ALL ALS only: data_dict is required and staging headers are validated
+  #   # before annotations are generated. by_view keys are canonical raw staging
+  #   # view names, not friendly aliases.
+  #   data_dict: metadata/all_als_data_dictionary.csv
+  #   update:
+  #     workflow: all_als
+  #     all_als:
+  #       dictionary:
+  #         view_column: "View Name"
+  #         field_column: "Field"
+  #         ignored_file_columns: ["Form Name", "NeuroGUID"]
+  #       required_columns:
+  #         all_files: ["NeuroGUID", "NeuroSTAmP"]
+  #         by_view:
+  #           v_ALLALS_AS_DEMOGRAPHICS: ["nihguid"]
+  #       phi_pii_columns_file: configs/phi_pii_columns.yaml
   #   staging_folder: "syn12345"
   #   dataset_name: "My Custom Dataset"
   #   dataset_type: "Omic"  # Optional: 'Clinical' or 'Omic' to override auto-detection

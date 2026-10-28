@@ -856,7 +856,7 @@ def load_mapping_dict(path) -> dict:
     result = {}
     for k, v in raw_dict.items():
         k = k.strip()
-        if k == "_views" and isinstance(v, dict):
+        if k in ("_views", "_groups") and isinstance(v, dict):
             result[k] = v  # always carry through view-level annotations
         elif isinstance(v, str) and v.strip():
             result[k] = v
@@ -1373,9 +1373,9 @@ def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
     new_views = []
     new_values = []
     for col, entry in new_mapping.items():
-        if col == "_views":
-            # Merge view scaffolds: add new views, never overwrite existing
-            existing_views = merged.setdefault("_views", {})
+        if col in ("_views", "_groups"):
+            # Merge group scaffolds: add groups, never overwrite existing
+            existing_views = merged.setdefault(col, {})
             for view_name, scaffold in entry.items():
                 if view_name not in existing_views:
                     existing_views[view_name] = scaffold
@@ -4468,141 +4468,6 @@ def set_file_versions(syn, file_ids, version_label, version_comment=None, dry_ru
     return success_count, error_count
 
 
-def upload_file_new_versions(syn, file_annotations, local_files_dir,
-                              version_label=None, version_comment=None,
-                              dry_run=True, verbose=False):
-    """
-    Upload local files as new versions of existing Synapse file entities.
-
-    For each entry in file_annotations, find a matching file in local_files_dir
-    by filename, then upload it to the same syn_id (creating a new version).
-    Annotations are applied during upload.
-
-    Args:
-        syn: Synapse client
-        file_annotations: {syn_id: {filename: annotations_dict}}
-        local_files_dir: Local directory containing prepared file versions
-        version_label: Version label (e.g., "v4-JAN")
-        version_comment: Version comment
-        dry_run: If True, only show what would be done
-        verbose: Show detailed output
-
-    Returns:
-        Tuple of (success_count, error_count, skipped_count)
-    """
-    success_count = 0
-    error_count = 0
-    skipped_count = 0
-
-    local_files = {}
-    if os.path.isdir(local_files_dir):
-        for fname in os.listdir(local_files_dir):
-            local_files[fname.lower()] = os.path.join(local_files_dir, fname)
-
-    for syn_id, file_data in file_annotations.items():
-        filename = list(file_data.keys())[0]
-        annotations = list(file_data.values())[0]
-
-        # Try to find matching local file (case-insensitive)
-        local_path = local_files.get(filename.lower())
-        if local_path is None:
-            if verbose:
-                print(f"  [SKIP] No local file found matching '{filename}' ({syn_id})")
-            skipped_count += 1
-            continue
-
-        try:
-            cleaned = clean_annotations_for_synapse(annotations)
-
-            if dry_run:
-                label_str = f" with version label '{version_label}'" if version_label else ""
-                print(f"  [DRY_RUN] Would upload {os.path.basename(local_path)} -> {syn_id}{label_str}")
-                success_count += 1
-            else:
-                file_entity = File(
-                    path=local_path,
-                    id=syn_id,
-                    name=filename,
-                    version_label=version_label,
-                    version_comment=version_comment,
-                    annotations=cleaned,
-                )
-                file_entity.store()
-                if verbose:
-                    print(f"  ✓ Uploaded new version of {filename} ({syn_id})")
-                success_count += 1
-
-        except Exception as e:
-            err_str = str(e)
-            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
-                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
-                skipped_count += 1
-            else:
-                print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
-                error_count += 1
-
-    return success_count, error_count, skipped_count
-
-
-def upload_new_versions_from_staging(syn, file_annotations: dict,
-                                      version_label=None, version_comment=None,
-                                      dry_run=True, verbose=False) -> tuple[int, int, int]:
-    """
-    For each file in file_annotations that has _staging_id, download the staging
-    file and upload it as a new version of the existing entity (the outer syn_id key).
-
-    Returns: (success_count, error_count, skipped_count)
-    """
-    import tempfile
-    success_count = error_count = skipped_count = 0
-    download_dir = tempfile.mkdtemp(prefix='sdm_upload_')
-
-    for syn_id, file_data in file_annotations.items():
-        filename = list(file_data.keys())[0]
-        annotations = list(file_data.values())[0]
-        staging_id = annotations.get('_staging_id')
-
-        if not staging_id:
-            skipped_count += 1
-            continue
-
-        local_path = download_file_for_analysis(syn, staging_id, download_dir)
-        if not local_path:
-            print(f"  ✗ Could not download staging file {staging_id} for {filename}")
-            error_count += 1
-            continue
-
-        try:
-            cleaned = clean_annotations_for_synapse(annotations)
-            if dry_run:
-                label_str = f" with label '{version_label}'" if version_label else ""
-                print(f"  [DRY_RUN] Would upload {staging_id} → {syn_id} ({filename}){label_str}")
-                success_count += 1
-            else:
-                file_entity = File(
-                    path=local_path,
-                    id=syn_id,
-                    name=filename,
-                    version_label=version_label,
-                    version_comment=version_comment,
-                    annotations=cleaned,
-                )
-                file_entity.store()
-                if verbose:
-                    print(f"  ✓ Uploaded new version: {filename} ({syn_id})")
-                success_count += 1
-        except Exception as e:
-            err_str = str(e)
-            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
-                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
-                skipped_count += 1
-            else:
-                print(f"  ✗ Error uploading {filename} ({syn_id}): {e}")
-                error_count += 1
-
-    return success_count, error_count, skipped_count
-
-
 def upload_single_version_from_staging(syn, syn_id, staging_id,
                                         version_label=None, version_comment=None,
                                         dry_run=True, verbose=False) -> bool:
@@ -4610,8 +4475,7 @@ def upload_single_version_from_staging(syn, syn_id, staging_id,
     Download a single staging file and upload it as a new version of an existing
     Synapse file entity, preserving that entity's current annotations.
 
-    Unlike upload_new_versions_from_staging (which drives the batch UPDATE
-    workflow off a pre-built annotations dict), this looks up syn_id's existing
+    Unlike the plan-driven batch UPDATE engine, this looks up syn_id's existing
     annotations directly — no annotations JSON required for a one-off version bump.
 
     Args:
@@ -4667,176 +4531,6 @@ def upload_single_version_from_staging(syn, syn_id, staging_id,
         else:
             print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
         return False
-
-
-def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
-                            dataset_id, dry_run=True, verbose=False,
-                            version_label=None, version_comment=None):
-    """
-    Move new-only staging files to release folder, add to dataset, apply annotations.
-
-    Used when staging has files that don't exist in the release dataset yet.
-
-    Args:
-        syn: Synapse client
-        new_file_ids_annotations: {syn_id: {filename: annotations_dict}}
-                                   (files from staging not yet in release)
-        release_folder_id: Synapse ID of release folder
-        dataset_id: Synapse ID of dataset to add files to
-        dry_run: If True, only show what would be done
-        verbose: Show detailed output
-        version_label: Optional version label to apply (creates a new version)
-        version_comment: Optional version comment
-
-    Returns:
-        Tuple of (success_count, error_count)
-    """
-    success_count = 0
-    error_count = 0
-
-    for syn_id, file_data in new_file_ids_annotations.items():
-        filename = list(file_data.keys())[0]
-        annotations = list(file_data.values())[0]
-
-        try:
-            cleaned = clean_annotations_for_synapse(annotations)
-
-            if dry_run:
-                print(f"  [DRY_RUN] Would move {filename} ({syn_id}) -> {release_folder_id}")
-                print(f"  [DRY_RUN] Would add {syn_id} to dataset {dataset_id}")
-                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {syn_id}")
-                success_count += 1
-                continue
-
-            # 1. Move to release folder (rename staging entity to form name if needed)
-            file_entity = syn.get(syn_id, downloadFile=False)
-            if file_entity.name != filename:
-                file_entity.name = filename
-            file_entity.parentId = release_folder_id
-            syn.store(file_entity, forceVersion=False)
-            if verbose:
-                print(f"  ✓ Moved {filename} ({syn_id}) to {release_folder_id}")
-
-            # 2. Add to dataset
-            dataset = Dataset(id=dataset_id).get()
-            dataset.add_item(File(id=syn_id))
-            dataset.store()
-            if verbose:
-                print(f"  ✓ Added {syn_id} to dataset {dataset_id}")
-
-            # 3. Apply annotations (and version label if provided)
-            if version_label:
-                entity = syn.get(syn_id, downloadFile=False)
-                entity.annotations = cleaned
-                if version_comment:
-                    entity['versionComment'] = version_comment
-                syn.store(entity, forceVersion=True,
-                          versionLabel=version_label)
-            else:
-                # Use set_annotations to avoid creating a new version
-                annos = syn.get_annotations(syn_id)
-                annos.update(cleaned)
-                syn.set_annotations(annos)
-            if verbose:
-                label_str = f" with label '{version_label}'" if version_label else ""
-                print(f"  ✓ Applied {len(cleaned)} annotations to {filename}{label_str}")
-
-            success_count += 1
-
-        except Exception as e:
-            print(f"  ✗ Error processing new file {filename} ({syn_id}): {e}")
-            error_count += 1
-
-    return success_count, error_count
-
-
-def verify_update_results(syn, dataset_id, expected_syn_ids,
-                           expected_version_label=None,
-                           release_folder_id=None,
-                           verbose=True):
-    """
-    Verify update results: version labels, parent folders, dataset membership.
-
-    Args:
-        syn: Synapse client
-        dataset_id: Synapse ID of the dataset
-        expected_syn_ids: List of syn IDs to verify
-        expected_version_label: Expected version label on file entities (optional)
-        release_folder_id: Expected parent folder ID (optional)
-        verbose: Print per-file results
-
-    Returns:
-        dict with keys: verified_versions, verified_folders, verified_membership, failures
-    """
-    results = {
-        'verified_versions': 0,
-        'verified_folders': 0,
-        'verified_membership': 0,
-        'failures': []
-    }
-
-    try:
-        dataset = Dataset(id=dataset_id).get()
-        dataset_item_ids = {item.id for item in dataset.items}
-    except Exception as e:
-        print(f"  ✗ Could not retrieve dataset items for {dataset_id}: {e}")
-        dataset_item_ids = set()
-
-    for syn_id in expected_syn_ids:
-        file_failures = []
-        try:
-            entity = syn.get(syn_id, downloadFile=False)
-
-            # Check version label
-            if expected_version_label:
-                actual_label = getattr(entity, 'versionLabel', None)
-                if actual_label == expected_version_label:
-                    results['verified_versions'] += 1
-                else:
-                    file_failures.append(
-                        f"version label: expected '{expected_version_label}', got '{actual_label}'"
-                    )
-
-            # Check parent folder
-            if release_folder_id:
-                actual_parent = getattr(entity, 'parentId', None)
-                if actual_parent == release_folder_id:
-                    results['verified_folders'] += 1
-                else:
-                    file_failures.append(
-                        f"parent folder: expected '{release_folder_id}', got '{actual_parent}'"
-                    )
-
-            # Check dataset membership
-            if syn_id in dataset_item_ids:
-                results['verified_membership'] += 1
-            else:
-                file_failures.append(f"not found in dataset {dataset_id}")
-
-            if verbose:
-                status = "✓" if not file_failures else "✗"
-                print(f"  {status} {entity.name} ({syn_id})")
-                for failure in file_failures:
-                    print(f"      ✗ {failure}")
-
-        except Exception as e:
-            file_failures.append(f"could not retrieve entity: {e}")
-            if verbose:
-                print(f"  ✗ {syn_id}: {e}")
-
-        if file_failures:
-            results['failures'].append({'syn_id': syn_id, 'issues': file_failures})
-
-    total = len(expected_syn_ids)
-    print(f"\n  Verification summary ({total} files):")
-    if expected_version_label:
-        print(f"    Version labels correct : {results['verified_versions']}/{total}")
-    if release_folder_id:
-        print(f"    Folders correct        : {results['verified_folders']}/{total}")
-    print(f"    Dataset membership     : {results['verified_membership']}/{total}")
-    print(f"    Failures               : {len(results['failures'])}")
-
-    return results
 
 
 def generate_wiki_with_ai(dataset_name, dataset_annotations, file_list, dataset_config, timeout=60):
@@ -7779,6 +7473,8 @@ def handle_update_workflow(args, config):
     """
     annotations_file = getattr(args, 'annotations_file', None)
     phase = 2 if annotations_file else 1
+    if phase == 1 and (getattr(args, 'plan_file', None) or getattr(args, 'write_plan', None)):
+        raise ValueError('Plan options require --annotations-file')
 
     print("\n" + "=" * 60)
     print("WORKFLOW: UPDATE EXISTING DATASET")
@@ -7800,8 +7496,33 @@ def handle_update_workflow(args, config):
     if dataset_config.get('dataset_type'):
         print(f"Using configured dataset type: {dataset_config['dataset_type']}")
 
+    from synapse_dataset_manager.updates.workflows import get_workflow
+    update_options = dict(dataset_config.get('update') or {})
+    for option in ('identity_manifest', 'name_column', 'dictionary_group_column',
+                   'dictionary_field_column', 'dictionary_description_column'):
+        value = getattr(args, option, None)
+        if value is not None:
+            update_options[option] = value
+    workflow_name = getattr(args, 'workflow', None) or update_options.get('workflow', 'general')
+    workflow = get_workflow(workflow_name)
+    print(f"Update policy: {workflow_name}")
+    services = sys.modules[__name__]
+
     # ── PHASE 1: TEMPLATE GENERATION ─────────────────────────────────────────
     if phase == 1:
+        # ALL ALS validates every staged header against its configured dictionary
+        # before any mapping or annotation artifacts are written.
+        data_dict_path = getattr(args, 'data_dict', None) or dataset_config.get('data_dict')
+        data_dict_path = resolve_data_dict_path(syn, data_dict_path)
+        if workflow_name == 'all_als':
+            update_options['data_dict_path'] = data_dict_path
+            all_als_options = update_options.setdefault('all_als', {})
+            policy_path = all_als_options.get('phi_pii_columns_file') or update_options.get('phi_pii_columns_file')
+            if not policy_path:
+                policy_path = os.path.join(config.BASE_DIR, 'configs', 'phi_pii_columns.yaml')
+            elif not os.path.isabs(policy_path):
+                policy_path = os.path.join(config.BASE_DIR, policy_path)
+            all_als_options['phi_pii_columns_file'] = policy_path
         # Step 1: Retrieve existing annotations
         print("\n" + "=" * 60)
         print("STEP 1: RETRIEVING EXISTING ANNOTATIONS")
@@ -7827,28 +7548,16 @@ def handle_update_workflow(args, config):
             else:
                 print(f"Found {len(staging_annotations)} files in staging")
 
-        # Step 2c: Extract Form Names from staging files (if staging folder provided)
-        form_map = {}        # {lower_clean_name: [(staging_syn_id, clean_name), ...]}
-        name_map = {}        # {staging_syn_id: clean_name}
-        local_path_map = {}  # {staging_syn_id: local_file_path}
-        view_map = {}        # {staging_syn_id: view_name (raw staging filename w/o ext)}
-        if staging_annotations:
-            print("\n" + "=" * 60)
-            print("STEP 2c: EXTRACTING FORM NAMES FROM STAGING FILES")
-            print("=" * 60)
-            import tempfile
-            _tmp = tempfile.mkdtemp(prefix='sdm_staging_')
-            # Form Name is used by ALL ALS data dictionaries to match a staged
-            # export to its released counterpart. Other datasets use filenames;
-            # do not download potentially multi-GB files just to inspect them.
-            extract_form_names = bool(dataset_config.get('data_dict_view'))
-            form_map, name_map, local_path_map, view_map = build_staging_form_map(
-                syn, staging_annotations, _tmp,
-                extract_form_names=extract_form_names,
-            )
-            print(f"  {'Extracted form names for' if extract_form_names else 'Used staging filenames for'} {len(form_map)} staging files")
-            for sid, cname in name_map.items():
-                print(f"    {list(staging_annotations[sid].keys())[0]} → {cname}")
+        # Identity and matching are selected explicitly, never inferred from metadata.
+        import tempfile
+        staging_temp = tempfile.TemporaryDirectory(prefix='sdm_staging_')
+        name_map, local_path_map, view_map, explicit_targets = workflow.prepare(
+            syn, staging_annotations, staging_temp.name, update_options, services,
+        )
+        staging_matches = workflow.match(
+            existing_annotations, staging_annotations, name_map, view_map,
+            explicit_targets, services,
+        )
 
         # Resolve subject file type (single / multi / auto)
         subject_file_type = (
@@ -7866,11 +7575,20 @@ def handle_update_workflow(args, config):
 
         # Step 2b: Build / load mapping dict from data dictionary (if provided)
         mapping = None
-        data_dict_path = getattr(args, 'data_dict', None) or dataset_config.get('data_dict')
-        data_dict_path = resolve_data_dict_path(syn, data_dict_path)
         data_dict_view = getattr(args, 'data_dict_view', None) or dataset_config.get('data_dict_view')
         mapping_path = getattr(args, 'mapping', None) or dataset_config.get('mapping')
         mapping_out = None
+
+        def dictionary_mapping(path):
+            if workflow_name == 'general':
+                from synapse_dataset_manager.updates.dictionaries import build_mapping
+                if data_dict_view:
+                    raise ValueError('--data-dict-view requires --workflow all_als; use --dictionary-group-column for general datasets')
+                return build_mapping(path, update_options, load_metadata_file)
+            parsed = parse_data_dictionary(path, view_name=data_dict_view)
+            return build_mapping_from_data_dict(
+                parsed, all_views=_get_data_dict_views(path, view_name=data_dict_view),
+            )
 
         if mapping_path and os.path.exists(mapping_path):
             mapping = load_mapping_dict(mapping_path)
@@ -7878,9 +7596,7 @@ def handle_update_workflow(args, config):
 
             # Also merge new data dict columns into existing mapping if data_dict provided
             if data_dict_path and os.path.exists(data_dict_path):
-                parsed = parse_data_dictionary(data_dict_path, view_name=data_dict_view)
-                all_views = _get_data_dict_views(data_dict_path, view_name=data_dict_view)
-                new_mapping = build_mapping_from_data_dict(parsed, all_views=all_views)
+                new_mapping = dictionary_mapping(data_dict_path)
                 mapping = merge_into_existing_mapping(mapping_path, new_mapping)
                 write_mapping_file(mapping_path, mapping)
 
@@ -7892,12 +7608,8 @@ def handle_update_workflow(args, config):
             if not os.path.exists(data_dict_path):
                 print(f"  Warning: Data dictionary not found: {data_dict_path} — skipping")
             else:
-                parsed = parse_data_dictionary(data_dict_path, view_name=data_dict_view)
-                print(f"  Parsed {len(parsed)} fields from data dictionary"
-                      + (f" (view: {data_dict_view})" if data_dict_view else ""))
-
-                all_views = _get_data_dict_views(data_dict_path, view_name=data_dict_view)
-                new_mapping = build_mapping_from_data_dict(parsed, all_views=all_views)
+                new_mapping = dictionary_mapping(data_dict_path)
+                print(f"  Parsed {len(new_mapping) - 1} fields from data dictionary")
 
                 safe_name = re.sub(r'[^\w]', '_', dataset_name)
                 mapping_out = os.path.join("mapping", f"{safe_name}.dict")
@@ -7911,7 +7623,11 @@ def handle_update_workflow(args, config):
                     print(f"  Generated new mapping: {mapping_out}")
 
                 write_mapping_file(mapping_out, mapping)
-                mapping = new_mapping
+
+        if workflow_name == 'general' and mapping and view_map:
+            unknown_groups = set(view_map.values()) - set(mapping.get('_groups', {}))
+            if unknown_groups:
+                raise ValueError(f'Unknown dictionary groups in identity manifest: {sorted(unknown_groups)}')
 
         # Step 3: Generate merged templates
         print("\n" + "=" * 60)
@@ -7921,74 +7637,15 @@ def handle_update_workflow(args, config):
         annotations_output = {}
         matched_staging_ids = set()
 
-        # Build reverse view_map: {view_name: staging_syn_id} for viewName-based matching
-        reverse_view_map = {}  # {view_name_lower: staging_syn_id}
-        for staging_syn_id, vname in view_map.items():
-            if vname:
-                reverse_view_map[vname.lower()] = staging_syn_id
-
         # For each existing file, create merged template
         field_type_cache = {}  # {file_type: {field_name: json_schema_type}}
         for syn_id, file_data in existing_annotations.items():
             filename = list(file_data.keys())[0]
             old_annot = file_data[filename]
 
-            # Match staging file to existing file using multiple strategies:
-            # 1) Exact normalized form-name match (use viewName to break ties)
-            # 2) Fuzzy form-name match
-            # 3) viewName-only match (for files whose form name changed entirely)
-            # 4) Direct syn_id fallback
-            new_annot = {}
-            matched_staging_id = None
-
-            # Resolve the existing file's viewName for tie-breaking
-            existing_view = old_annot.get('viewName')
-            if isinstance(existing_view, list):
-                existing_view = existing_view[0] if existing_view else None
-
-            # Strategy 1: Exact normalized form-name match
-            if form_map:
-                norm_key = _norm_filename_for_match(filename)
-                candidates = form_map.get(norm_key, [])
-                unclaimed = [c for c in candidates if c[0] not in matched_staging_ids]
-                if len(unclaimed) == 1:
-                    match = unclaimed[0]
-                elif len(unclaimed) > 1 and existing_view:
-                    # Multiple staging files share this form name — use viewName
-                    # to pick the right one (staging raw filename == viewName)
-                    match = next(
-                        (c for c in unclaimed
-                         if view_map.get(c[0], '').lower() == existing_view.lower()),
-                        unclaimed[0],  # fall back to first unclaimed if no viewName hit
-                    )
-                elif unclaimed:
-                    match = unclaimed[0]
-                else:
-                    match = None
-
-                if match:
-                    matched_staging_id, _ = match
-                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
-
-            # Strategy 2: Fuzzy form-name match
-            if not matched_staging_id and form_map:
-                match = _fuzzy_match_filename(filename, form_map,
-                                              exclude_ids=matched_staging_ids)
-                if match:
-                    matched_staging_id, _ = match
-                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
-
-            # Strategy 3: viewName-only match (form name changed entirely)
-            if not matched_staging_id and existing_view:
-                candidate_id = reverse_view_map.get(existing_view.lower())
-                if candidate_id and candidate_id not in matched_staging_ids:
-                    matched_staging_id = candidate_id
-                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
-
-            # Strategy 4: Direct syn_id fallback
-            if not matched_staging_id and syn_id in staging_annotations:
-                matched_staging_id = syn_id
-                new_annot = list(staging_annotations[syn_id].values())[0]
+            matched_staging_id = staging_matches.get(syn_id)
+            new_annot = (next(iter(staging_annotations[matched_staging_id].values()))
+                         if matched_staging_id else {})
 
             # Get file type and create template
             file_type = old_annot.get('_file_type') or detect_file_type(
@@ -8030,7 +7687,7 @@ def handle_update_workflow(args, config):
                 # would otherwise silently block newly-added mapping entries from ever
                 # being applied. Fall back to the stored viewName only when the fresh
                 # one doesn't match anything (or there's no staging match at all).
-                stored_view_name = merged.get('viewName')
+                stored_view_name = merged.get('viewName') if workflow_name == 'all_als' else None
                 if isinstance(stored_view_name, list):
                     stored_view_name = stored_view_name[0] if stored_view_name else None
                 staging_view_name = view_map.get(matched_staging_id) if matched_staging_id else None
@@ -8042,8 +7699,11 @@ def handle_update_workflow(args, config):
                         break
                 view_name = view_name or staging_view_name or stored_view_name
 
-                if view_name:
+                if workflow_name == 'all_als' and view_name:
                     merged = apply_view_annotations(merged, view_name, mapping)
+                elif workflow_name == 'general':
+                    from synapse_dataset_manager.updates.dictionaries import apply_group_annotations
+                    merged = apply_group_annotations(merged, staging_view_name, mapping)
 
             # Auto-update participant/individual and record counts from the file
             # contents (independent of mapping — needs only the local data file).
@@ -8072,7 +7732,7 @@ def handle_update_workflow(args, config):
             'disease', 'includedInDataCatalog', 'publisher', 'license',
         ]
         common_values = {}
-        if annotations_output:
+        if annotations_output and workflow_name == 'all_als':
             # Sample from the first existing file that has these fields populated
             for _fd in annotations_output.values():
                 sample_annot = list(_fd.values())[0]
@@ -8091,6 +7751,12 @@ def handle_update_workflow(args, config):
             clean_name = name_map.get(staging_syn_id, list(file_data.keys())[0])
             file_type = detect_file_type(clean_name, all_schemas=all_schemas, dataset_config=dataset_config)
             template = create_annotation_template(all_schemas, file_type)
+            if workflow_name == 'general':
+                template = merge_file_annotations_priority(
+                    {}, next(iter(file_data.values())), template,
+                    field_types=get_field_type_map(all_schemas, file_type),
+                )
+                template, _ = migrate_deprecated_fields(template, field_migrations)
             template['_staging_id'] = staging_syn_id
 
             # Seed common dataset-level fields from existing files
@@ -8113,7 +7779,11 @@ def handle_update_workflow(args, config):
                 # Apply view-level annotations from _views using raw staging filename as view name
                 view_name = view_map.get(staging_syn_id)
                 if view_name and mapping:
-                    template = apply_view_annotations(template, view_name, mapping)
+                    if workflow_name == 'all_als':
+                        template = apply_view_annotations(template, view_name, mapping)
+                    else:
+                        from synapse_dataset_manager.updates.dictionaries import apply_group_annotations
+                        template = apply_group_annotations(template, view_name, mapping)
 
             # Auto-update participant/individual and record counts for new files.
             count_path = local_path_map.get(staging_syn_id)
@@ -8147,12 +7817,18 @@ def handle_update_workflow(args, config):
         target = (f"--use-config {use_config}" if use_config
                   else f"--dataset-id {args.dataset_id}")
         base = (f"  {cli_invocation()}{config_flag} update \\\n"
-                f"    {target} \\\n"
+                f"    {target} --workflow {workflow_name} \\\n"
                 f"    --annotations-file \"{output_file}\"")
+        import shlex
+        for option in ('release_folder', 'local_files_dir', 'version_label', 'version_comment'):
+            value = getattr(args, option, None)
+            if value:
+                base += f" --{option.replace('_', '-')} {shlex.quote(str(value))}"
         print("\n  # 1) Dry run first — preview new/updated/moved counts (applies nothing):")
         print(base)
         print("\n  # 2) Then apply for real:")
-        print(f"{base} \\\n    --execute")
+        plan_path = str(Path(output_file).with_suffix('.plan.json'))
+        print(f"{base} \\\n    --plan-file \"{plan_path}\" --execute")
         return
 
     # ── PHASE 2: APPLY UPDATES ────────────────────────────────────────────────
@@ -8177,6 +7853,9 @@ def handle_update_workflow(args, config):
     with open(annotations_file) as f:
         file_annotations = json.load(f)
     print(f"✓ Loaded {len(file_annotations)} file entries from {annotations_file}")
+
+    from synapse_dataset_manager.updates.plans import validate_annotations
+    validate_annotations(file_annotations)
 
     # Step 2: Validate annotations
     if not skip_validation:
@@ -8205,131 +7884,30 @@ def handle_update_workflow(args, config):
     else:
         print("\n⚠️  Skipping annotation validation (--skip-validation)")
 
-    # Retrieve existing annotations to detect "new" vs "existing" files
-    existing_annotations = enumerate_dataset_files(syn, args.dataset_id, config.VERBOSE)
-    existing_ids = set(existing_annotations.keys())
+    from synapse_dataset_manager.updates.engine import run_update
+    from synapse_dataset_manager.updates.operations import SynapseOperations
 
-    # Identify new files (in annotations but not in existing dataset)
-    new_file_ids_annotations = {
-        syn_id: data for syn_id, data in file_annotations.items()
-        if syn_id not in existing_ids
+    plan_file = getattr(args, 'plan_file', None)
+    write_plan_file = getattr(args, 'write_plan', None)
+    if config.DRY_RUN and not plan_file and not write_plan_file:
+        write_plan_file = str(Path(annotations_file).with_suffix('.plan.json'))
+    options = {
+        'local_files_dir': local_files_dir,
+        'release_folder': release_folder,
+        'version_label': version_label,
+        'version_comment': version_comment,
+        'skip_validation': skip_validation,
     }
-    existing_file_ids_annotations = {
-        syn_id: data for syn_id, data in file_annotations.items()
-        if syn_id in existing_ids
-    }
-
-    if new_file_ids_annotations:
-        print(f"\n  New files (not yet in dataset): {len(new_file_ids_annotations)}")
-    print(f"  Existing files to update      : {len(existing_file_ids_annotations)}")
-
-    # Step 3a: Upload new versions from staging (files with _staging_id)
-    staging_to_upload = {
-        sid: data for sid, data in existing_file_ids_annotations.items()
-        if list(data.values())[0].get('_staging_id')
-    }
-    if staging_to_upload:
-        print("\n" + "=" * 60)
-        print("STEP 3a: UPLOADING NEW VERSIONS FROM STAGING")
-        print("=" * 60)
-        uploaded, upload_errors, skipped = upload_new_versions_from_staging(
-            syn, staging_to_upload,
-            version_label=version_label,
-            version_comment=version_comment,
-            dry_run=config.DRY_RUN,
-            verbose=config.VERBOSE
-        )
-        print(f"  Uploaded: {uploaded}, Errors: {upload_errors}, Skipped: {skipped}")
-
-    # Step 3: Upload new file versions from local dir (if provided)
-    if local_files_dir:
-        print("\n" + "=" * 60)
-        print("STEP 3: UPLOADING NEW FILE VERSIONS")
-        print("=" * 60)
-        print(f"Local files dir: {local_files_dir}")
-        if version_label:
-            print(f"Version label  : {version_label}")
-
-        uploaded, upload_errors, skipped = upload_file_new_versions(
-            syn, existing_file_ids_annotations, local_files_dir,
-            version_label=version_label,
-            version_comment=version_comment,
-            dry_run=config.DRY_RUN,
-            verbose=config.VERBOSE
-        )
-        print(f"\n  Uploaded: {uploaded}, Errors: {upload_errors}, Skipped (no local file): {skipped}")
-    else:
-        print("\n" + "=" * 60)
-        print("STEP 3: SKIPPING UPLOAD (no --local-files-dir)")
-        print("=" * 60)
-
-        # Apply annotations (and optionally force-version) for files not handled by staging upload
-        no_staging_files = {
-            sid: data for sid, data in existing_file_ids_annotations.items()
-            if not list(data.values())[0].get('_staging_id')
-        }
-        if no_staging_files:
-            label_str = f" (forcing version '{version_label}')" if version_label else ""
-            print(f"Applying annotations to {len(no_staging_files)} files without staging upload{label_str}...")
-            success_count, error_count, skipped_count = apply_annotations_to_files(
-                syn, no_staging_files,
-                dry_run=config.DRY_RUN, verbose=config.VERBOSE,
-                version_label=version_label,
-                version_comment=version_comment,
-            )
-            print(f"\n  Applied: {success_count}, Skipped: {skipped_count}, Errors: {error_count}")
-
-    # Step 4: Move new-only staging files to release folder
-    if new_file_ids_annotations and release_folder:
-        print("\n" + "=" * 60)
-        print("STEP 4: MOVING NEW FILES TO RELEASE FOLDER")
-        print("=" * 60)
-        print(f"New files : {len(new_file_ids_annotations)}")
-        print(f"Release folder: {release_folder}")
-
-        moved, move_errors = move_and_add_new_files(
-            syn, new_file_ids_annotations,
-            release_folder_id=release_folder,
-            dataset_id=args.dataset_id,
-            dry_run=config.DRY_RUN,
-            verbose=config.VERBOSE,
-            version_label=version_label,
-            version_comment=version_comment,
-        )
-        print(f"\n  Moved & added: {moved}, Errors: {move_errors}")
-    elif new_file_ids_annotations and not release_folder:
-        print("\n" + "=" * 60)
-        print("STEP 4: SKIPPING MOVE (no --release-folder)")
-        print("=" * 60)
-        print(f"⚠️  {len(new_file_ids_annotations)} new files found but --release-folder not set.")
-        print("    Provide --release-folder to move them to the release folder and add to dataset.")
-    else:
-        print("\n" + "=" * 60)
-        print("STEP 4: NO NEW FILES TO MOVE")
-        print("=" * 60)
-
-    # Step 5: Verify results
-    print("\n" + "=" * 60)
-    print("STEP 5: VERIFYING RESULTS")
-    print("=" * 60)
-
+    result = run_update(
+        SynapseOperations(syn, clean_annotations_for_synapse),
+        args.dataset_id, workflow_name, file_annotations, options,
+        dry_run=config.DRY_RUN, plan_file=plan_file, write_plan_file=write_plan_file,
+    )
     if config.DRY_RUN:
-        print("⚠️  DRY RUN — skipping live verification")
-    else:
-        all_ids = list(file_annotations.keys())
-        verify_update_results(
-            syn, args.dataset_id, all_ids,
-            expected_version_label=version_label,
-            release_folder_id=release_folder,
-            verbose=config.VERBOSE
-        )
-
-    print("\n" + "=" * 60)
-    if config.DRY_RUN:
-        print("✅ PHASE 2 DRY RUN COMPLETE — re-run with --execute to apply changes")
-    else:
-        print("✅ PHASE 2 COMPLETE — Update applied")
-    print("=" * 60)
+        reviewed_path = plan_file or write_plan_file
+        print(f'After reviewing the plan, repeat this command with --plan-file "{reviewed_path}" --execute')
+        print('Remove --write-plan/--dry-run when executing; retain the same input and version options.')
+    return result
 
 
 def get_or_create_synapse_folder(syn, name, parent_id, dry_run=False):
@@ -10755,8 +10333,9 @@ Examples:
     --dataset-id syn67890 \\
     --staging-folder syn12345
 
-  # UPDATE workflow - Phase 2: apply updates (via config, after editing annotations JSON)
-  python synapse_dataset_manager.py update --use-config ALL_ALS_ASSESS --execute
+  # UPDATE workflow - Phase 2: review a plan, then execute with unchanged inputs/options
+  python synapse_dataset_manager.py update --use-config ALL_ALS_ASSESS --workflow all_als --annotations-file annotations/assess.json --write-plan annotations/assess.plan.json
+  python synapse_dataset_manager.py update --use-config ALL_ALS_ASSESS --workflow all_als --annotations-file annotations/assess.json --plan-file annotations/assess.plan.json --execute
 
   # UPDATE workflow - Phase 2: upload new file versions from local dir
   python synapse_dataset_manager.py update \\
@@ -10765,7 +10344,7 @@ Examples:
     --local-files-dir staging/assess/ \\
     --version-label "v4-JAN" \\
     --version-comment "January 2026 release" \\
-    --execute
+    --write-plan annotations/local-release.plan.json
 
   # UPDATE workflow - Phase 2: move new staging files to release + apply annotations
   python synapse_dataset_manager.py update \\
@@ -10774,7 +10353,10 @@ Examples:
     --release-folder syn68885185 \\
     --annotations-file annotations/DatasetName_update_annotations.json \\
     --version-label "v4-JAN" \\
-    --execute
+    --write-plan annotations/staging-release.plan.json
+
+  # After review, repeat the same command replacing --write-plan with --plan-file,
+  # and append --execute. Stale or edited plans cannot be applied.
 
   # Use custom config file
   python synapse_dataset_manager.py --config my-config.yaml create --use-config my_dataset
@@ -10926,6 +10508,22 @@ Examples:
 
     # UPDATE command
     update_parser = subparsers.add_parser('update', help='Update existing dataset')
+    update_parser.add_argument('--plan-file',
+                               help='Reviewed update plan to validate/replay; required with --execute')
+    update_parser.add_argument('--write-plan',
+                               help='Dry-run plan output (default: annotations path with .plan.json suffix); refuses overwrite')
+    update_parser.add_argument('--workflow', choices=['general', 'all_als'],
+                               help='Update policy (default: dataset update.workflow, then general)')
+    update_parser.add_argument('--identity-manifest',
+                               help='CSV mapping staging IDs/filenames to release filenames and target IDs')
+    update_parser.add_argument('--name-column',
+                               help='Read one unique nonempty release-name value from this column in each staged file')
+    update_parser.add_argument('--dictionary-group-column',
+                               help='Dictionary column identifying a file/table group (default: ungrouped)')
+    update_parser.add_argument('--dictionary-field-column',
+                               help='Dictionary variable-name column (default: Field)')
+    update_parser.add_argument('--dictionary-description-column',
+                               help='Dictionary description column (default: Description)')
     update_parser.add_argument('--use-config',
                               help='Load update settings from config.yaml datasets section (e.g., "ALL_ALS_ASSESS")')
     update_parser.add_argument('--dataset-id',
@@ -10936,7 +10534,7 @@ Examples:
                               help='Synapse ID(s) of staging folder(s) with new files. '
                                    'Pass multiple IDs if data is spread across folders (optional)')
     update_parser.add_argument('--annotations-file',
-                              help='Path to pre-edited annotations JSON (triggers Phase 2 apply)')
+                              help='Path to pre-edited annotations JSON (triggers Phase 2 plan/review/apply)')
     update_parser.add_argument('--local-files-dir',
                               help='Local directory containing prepared file versions to upload as new versions')
     update_parser.add_argument('--release-folder',

@@ -1,0 +1,50 @@
+# ALL ALS header-based PHI/PII gate. Values are never inspected by version 1.
+# Changes require data governance review because the ALL ALS update workflow fails
+# closed when a staged file contains a normalized name in this list.
+version: 1
+forbidden_columns:
+  - first_name
+  - last_name
+  - full_name
+  - date_of_birth
+  - dob
+  - address
+  - email
+  - phone
+  - medical_record_number
+  - mrn
+  - social_security_number
+  - ssn
+  # ALL ALS release-specific free-text, location, and reason fields.
+  - zipcode
+  - state
+  - othertxt_dvterm
+  - dvdesc
+  - dvcapa
+  - wbld_lbreasnd
+  - wbld_lbdesc
+  - seru_lbreasnd
+  - seru_lbdesc
+  - plas_lbreasnd
+  - plas_lbdesc
+  - prdesc
+  - rna_lbdesc
+  - emgndna_othsp
+  - emgncsna_othsp
+  - peov_othsp
+  - peov_noclin
+  - describe
+  - predisgc_locp
+  - predisgc_ppa
+  - predisgc_ntothsp
+  - predisgc_tothsp
+  - intrvwrgc_suppqs
+  - postgpri_comm
+  - postgpri_term
+  - gtr_return_in
+  - gtr_noreturn_opsc
+  - gtr_resultsotsp
+  - gtr_var_nocoval
+  - postdisgc_ppa
+  - reasnd_weight
+  - tele_occur_context
