@@ -138,9 +138,19 @@ python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 --datase
 
 # Port the exact columns + order from another dataset/view instead of a schema
 python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 --from-entity syn67890 --execute
+
+# Directly merge BiomarkerFile columns with MetadataSchema columns
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 \
+  --dataset-type biomarker --extra-schema-types MetadataSchema --execute
+
+# Replace an old Dataset column layout with exactly the merged schema columns.
+# Dry-run first (omit --execute), then execute after reviewing the removal list.
+python synapse_dataset_manager.py reorder-columns --dataset-id syn12345 \
+  --dataset-type biomarker --extra-schema-types MetadataSchema \
+  --replace-columns --execute
 ```
 
-This adds any missing columns, reorders them per the priority template, and verifies the final layout. If `--dataset-type` is omitted, it auto-detects from the dataset's annotations. A Synapse Dataset's table shows one row per included **file**, so columns (name, Synapse type, facet, size constraints) are derived from the matching **File**-type schema's `json-schemas/` properties (e.g. `--dataset-type speech` → `SpeechFile`, not `SpeechDataset`) — not a hand-maintained list — so every modeled field is available and correctly typed automatically. Add `--columns field1 field2 ...` to cherry-pick/order specific fields instead of adding every property on the schema; a name not found in the schema still gets added as a generic faceted STRING column rather than being dropped. `--from-entity <syn_id>` ports the exact columns and current order from any existing entity that has columns (Dataset, EntityView, or Table) instead of deriving from a schema at all — combine with `--columns` to port only specific names (source order preserved).
+This adds any missing columns, reorders them per the priority template, and verifies the final layout. `--extra-schema-types` merges one or more additional exact schema names; for example, `--dataset-type biomarker --extra-schema-types MetadataSchema` merges `BiomarkerFile` with `MetadataSchema` directly on the Dataset, without an intermediary entity view. `--replace-columns` is destructive: it removes all existing non-system Dataset columns and recreates only the resolved/merged schema columns, while preserving the Dataset, its member files, their annotations, and Synapse system columns. It is still a dry-run unless `--execute` is supplied. If `--dataset-type` is omitted, it auto-detects from the dataset's annotations. A Synapse Dataset's table shows one row per included **file**, so columns (name, Synapse type, facet, size constraints) are derived from the matching **File**-type schema's `json-schemas/` properties (e.g. `--dataset-type speech` → `SpeechFile`, not `SpeechDataset`) — not a hand-maintained list — so every modeled field is available and correctly typed automatically. Add `--columns field1 field2 ...` to cherry-pick/order specific fields instead of adding every property on the schema; a name not found in the schema still gets added as a generic faceted STRING column rather than being dropped. `--from-entity <syn_id>` ports the exact columns and current order from any existing entity that has columns (Dataset, EntityView, or Table) instead of deriving from a schema at all — combine with `--columns` to port only specific names (source order preserved).
 
 ## 5. Create Entity View (standalone folder)
 
@@ -466,6 +476,7 @@ python synapse_dataset_manager.py generate-file-templates --help
 python synapse_dataset_manager.py create --help  # includes mapping flags
 python synapse_dataset_manager.py add-link-file --help
 python synapse_dataset_manager.py create-entity-view --help
+python synapse_dataset_manager.py reorder-columns --help
 python synapse_dataset_manager.py rename-annotation --help
 python synapse_dataset_manager.py move --help
 python synapse_dataset_manager.py delete-entities --help

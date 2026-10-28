@@ -3753,6 +3753,30 @@ def add_files_to_dataset(syn, dataset_id, file_syn_ids, dry_run=True):
         return False
 
 
+def get_dataset_column_specs(syn, dataset_id, all_schemas, dataset_type=None,
+                             extra_schema_names=None, field_names=None):
+    """Build Dataset table columns from its File schema plus optional schemas."""
+    if not dataset_type:
+        dataset = Dataset(dataset_id).get()
+        annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
+        dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+        if hasattr(dataset, 'annotations'):
+            print(f"  📊 Auto-detected dataset type: {dataset_type}")
+
+    file_type_for_columns = (dataset_type or 'File').replace('Dataset', 'File')
+    schema_names = [file_type_for_columns] + [
+        name.replace('Dataset', 'File') for name in (extra_schema_names or [])
+    ]
+    missing = [name for name in schema_names if name not in (all_schemas or {})]
+    if missing:
+        raise ValueError(f"Schema(s) not found: {', '.join(missing)}")
+
+    merged_properties = {}
+    for name in schema_names:
+        merged_properties.update(all_schemas[name].get('properties', {}) or {})
+    return build_columns_from_schema({'properties': merged_properties}, field_names), file_type_for_columns
+
+
 def add_dataset_columns(syn, dataset_id, all_schemas, dataset_type=None,
                        extra_schema_names=None, field_names=None, source_columns=None,
                        dry_run=True):
@@ -3798,26 +3822,10 @@ def add_dataset_columns(syn, dataset_id, all_schemas, dataset_type=None,
             columns_to_add = source_columns
             type_label = 'ported columns'
         else:
-            # Auto-detect dataset type from annotations if not provided
-            if not dataset_type:
-                dataset = Dataset(dataset_id).get()
-                annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
-                dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
-                if hasattr(dataset, 'annotations'):
-                    print(f"  📊 Auto-detected dataset type: {dataset_type}")
-
-            # Dataset columns render file rows, so pull from the matching File-type schema
-            # — plus any extra schemas named exactly (e.g. 'MetadataSchema' has no 'Dataset'
-            # substring, so the replace() is a no-op and it's used as-is).
-            file_type_for_columns = (dataset_type or 'File').replace('Dataset', 'File')
-            schema_names = [file_type_for_columns] + [n.replace('Dataset', 'File') for n in (extra_schema_names or [])]
-            merged_properties = {}
-            for name in schema_names:
-                merged_properties.update((all_schemas or {}).get(name, {}).get('properties', {}) or {})
-            merged_schema = {'properties': merged_properties}
-
-            columns_to_add = build_columns_from_schema(merged_schema, field_names)
-            type_label = file_type_for_columns
+            columns_to_add, type_label = get_dataset_column_specs(
+                syn, dataset_id, all_schemas, dataset_type=dataset_type,
+                extra_schema_names=extra_schema_names, field_names=field_names
+            )
 
         if dry_run:
             print(f"  [DRY_RUN] Would add {len(columns_to_add)} columns to dataset ({type_label})")
@@ -3869,6 +3877,37 @@ def add_dataset_columns(syn, dataset_id, all_schemas, dataset_type=None,
 
     except Exception as e:
         print(f"  ✗ Error adding columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def replace_dataset_columns(syn, dataset_id, columns_to_add, dry_run=True):
+    """Replace a Dataset's user-managed columns, preserving Synapse system columns."""
+    protected = {'id', 'name', *SYNAPSE_SYSTEM_COLUMNS_TAIL}
+    try:
+        dataset = Dataset(id=dataset_id).get(include_columns=True)
+        current_columns = getattr(dataset, 'columns', {}) or {}
+        removable = [name for name in current_columns if name not in protected]
+        desired = [column for column in columns_to_add if column['name'] not in protected]
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would remove {len(removable)} existing user-managed column(s)")
+            print(f"  [DRY_RUN] Would recreate {len(desired)} schema column(s)")
+            print(f"  [DRY_RUN] New columns: {', '.join(column['name'] for column in desired)}")
+            return True
+
+        for column_name in removable:
+            dataset.delete_column(name=column_name)
+        if removable:
+            dataset.store()
+            print(f"  ✓ Removed {len(removable)} existing user-managed column(s)")
+
+        return add_dataset_columns(
+            syn, dataset_id, {}, source_columns=desired, dry_run=False
+        )
+    except Exception as e:
+        print(f"  ✗ Error replacing dataset columns: {e}")
         import traceback
         traceback.print_exc()
         return False
@@ -4047,16 +4086,47 @@ def handle_reorder_columns(args, config):
             return
 
     ported_columns = resolve_ported_columns(syn, getattr(args, 'from_entity', None), getattr(args, 'columns', None))
+    extra_schema_names = []
+    if ported_columns is None:
+        for requested_type in getattr(args, 'extra_schema_types', None) or []:
+            try:
+                extra_schema_names.append(resolve_schema_type(
+                    requested_type, all_schemas, kind='file', interactive=False
+                ))
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {e}")
+                return
+    elif getattr(args, 'extra_schema_types', None):
+        print("  ℹ️  --from-entity supplied; ignoring --extra-schema-types")
 
-    # Step 1: Add missing columns
-    print("\n--- Adding missing columns ---")
-    add_dataset_columns(
-        syn, dataset_id, all_schemas,
-        dataset_type=dataset_type,
-        field_names=None if ported_columns is not None else getattr(args, 'columns', None),
-        source_columns=ported_columns,
-        dry_run=config.DRY_RUN
-    )
+    if ported_columns is not None:
+        desired_columns = ported_columns
+    else:
+        try:
+            desired_columns, _ = get_dataset_column_specs(
+                syn, dataset_id, all_schemas, dataset_type=dataset_type,
+                extra_schema_names=extra_schema_names,
+                field_names=getattr(args, 'columns', None)
+            )
+        except ValueError as e:
+            print(f"❌ {e}")
+            return
+
+    # Step 1: Add missing columns, or explicitly replace the existing managed schema.
+    if getattr(args, 'replace_columns', False):
+        print("\n--- Replacing managed dataset columns ---")
+        columns_updated = replace_dataset_columns(
+            syn, dataset_id, desired_columns, dry_run=config.DRY_RUN
+        )
+    else:
+        print("\n--- Adding missing columns ---")
+        columns_updated = add_dataset_columns(
+            syn, dataset_id, all_schemas, source_columns=desired_columns,
+            dry_run=config.DRY_RUN
+        )
+    if not columns_updated:
+        print("❌ Column update failed; skipping reorder and verification")
+        return
 
     # Step 2: Reorder columns
     print("\n--- Reordering columns ---")
@@ -11286,6 +11356,12 @@ Examples:
         help='Synapse ID of an existing Dataset/EntityView/Table to port columns '
              '(and their order) from, instead of deriving them from a schema. '
              'Combine with --columns to port only specific names.')
+    reorder_cols_parser.add_argument('--extra-schema-types', nargs='+', default=None,
+        help='Additional schema types to merge with the resolved File schema, '
+             'e.g. MetadataSchema. Ignored with --from-entity.')
+    reorder_cols_parser.add_argument('--replace-columns', action='store_true',
+        help='Remove all existing non-system Dataset columns before recreating the '
+             'resolved/merged schema columns. Requires --execute to make changes.')
     reorder_cols_parser.add_argument('--execute', action='store_true',
         help='Execute (override DRY_RUN)')
     reorder_cols_parser.add_argument('--dry-run', action='store_true',
