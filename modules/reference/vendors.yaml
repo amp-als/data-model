@@ -8,6 +8,8 @@ enums:
     title: Vendor
     description: Vendor, laboratory, or device that generated the data.
     permissible_values:
+      Abbvie Inc.:
+        description: AbbVie laboratory that generated Olink HT data.
       Aural Analytics:
         description: Aural Analytics digital speech data platform.
       Broad:

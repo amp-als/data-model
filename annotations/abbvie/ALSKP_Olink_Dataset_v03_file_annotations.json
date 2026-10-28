@@ -1,9 +1,7 @@
 {
   "syn77160042": {
     "Bridged_metadata.csv": {
-      "attributes": [
-        ""
-      ],
+      "attributes": [],
       "citationRecommendation": "",
       "conformsTo": [
         ""
@@ -11,26 +9,29 @@
       "contactEmail": "",
       "contactName": "",
       "contributor": [
-        ""
+        "Abbvie Inc.",
+        "Answer ALS",
+        "NEALS",
+        "Target ALS"
       ],
       "creator": [
-        ""
+        "Abbvie Inc."
       ],
       "curationLevel": [
         ""
       ],
       "dataType": [
-        ""
+        "Aggregate Metadata"
       ],
       "dataUseModifiers": [
-        ""
+        "controlled"
       ],
       "dateCreated": "",
       "dateModified": "",
       "datePublished": "",
-      "description": "",
+      "description": "Sample-level metadata for the bridged Olink HT dataset.",
       "fileFormat": [
-        ""
+        "csv"
       ],
       "fundingReferences": [
         ""
@@ -38,15 +39,15 @@
       "identifier": "",
       "identifierType": "",
       "keywords": [
-        ""
+        "metadata",
+        "sample level metadata"
       ],
       "landingPage": "",
       "license": "",
       "licenseURL": "",
       "program": [
-        ""
+        "ALS Knowledge Portal"
       ],
-      "publicationYear": null,
       "publisher": "",
       "relatedDatasets": [
         ""
@@ -55,12 +56,14 @@
         ""
       ],
       "repository": [
-        ""
+        "Synapse",
+        "Target ALS",
+        "Answer ALS"
       ],
       "resourceType": "",
       "schemaName": "",
       "schemaType": "",
-      "title": "",
+      "title": "Bridged Metadata",
       "version": "",
       "_file_type": "MetadataSchema",
       "_schema_source": "json-schema",
@@ -76,13 +79,14 @@
         ""
       ],
       "analysisTypes": [
-        ""
+        "Normalized Protein Expression (NPX)",
+        "proteomics_analysis"
       ],
       "annotations": [
-        ""
+        "UniProt"
       ],
       "assay": [
-        ""
+        "Olink Proximity Extension Assay"
       ],
       "assayTarget": [
         ""
@@ -94,7 +98,8 @@
         ""
       ],
       "biospecimenType": [
-        ""
+        "plasma",
+        "csf"
       ],
       "cellType": [
         ""
@@ -109,89 +114,103 @@
         ""
       ],
       "contributor": [
-        ""
+        "Abbvie Inc.",
+        "Answer ALS",
+        "NEALS",
+        "Target ALS"
       ],
       "creator": [
-        ""
+        "Abbvie Inc."
       ],
       "curationLevel": [
         ""
       ],
       "dataType": [
-        ""
+        "protein_abundance",
+        "proteomics",
+        "biomarker",
+        "NormalizedIntensities",
+        "Normalized Protein Expression (NPX)"
       ],
-      "description": "",
+      "description": "Bridged Olink HT normalized protein-expression data from cross-sectional ALS and healthy-control plasma and cerebrospinal-fluid samples.",
       "disease": [
-        ""
+        "ALS"
       ],
       "diseaseSubtype": [
         ""
       ],
       "fileFormat": [
-        ""
+        "csv"
       ],
       "hasLongitudinalData": false,
       "keyMeasures": [
-        ""
+        "NPX",
+        "Olink Counts"
       ],
       "keywords": [
-        ""
+        "Olink NPX/count data",
+        "protein_abundance"
       ],
       "normalization": [
-        ""
+        "Intensity"
       ],
       "panel": [
-        ""
+        "Explore_HT"
       ],
-      "participant_count": null,
+      "participant_count": 463,
       "platform": [
         ""
       ],
       "processingLevel": [
-        ""
+        "Processed"
       ],
       "program": [
-        ""
+        "ALS Knowledge Portal",
+        "Answer ALS",
+        "Target ALS"
       ],
       "recordCount": [
-        ""
+        2810904
       ],
       "repository": [
-        ""
+        "Synapse",
+        "Target ALS",
+        "Answer ALS"
       ],
       "sameAs": "",
       "sampleType": [
-        ""
+        "Sample"
       ],
       "software": [
-        ""
+        "NPX Map",
+        "ngs2counts"
       ],
       "species": [
-        ""
+        "Homo sapiens"
       ],
       "standardizationLevel": [
-        ""
+        "standardized"
       ],
       "studyPhase": [
         ""
       ],
       "studyType": [
-        ""
+        "Cross-Sectional Study"
       ],
       "subject": [
         ""
       ],
       "subjectIdColumn": [
-        ""
+        "SampleID"
       ],
       "title": [
-        ""
+        "Bridged Olink Counts Data"
       ],
       "url": [
         ""
       ],
       "vendor": [
-        ""
+        "Abbvie Inc."
       ],
       "viewName": [
         ""
@@ -203,9 +222,7 @@
   },
   "syn77169109": {
     "README.md": {
-      "attributes": [
-        ""
-      ],
+      "attributes": [],
       "citationRecommendation": "",
       "conformsTo": [
         ""
@@ -213,26 +230,27 @@
       "contactEmail": "",
       "contactName": "",
       "contributor": [
-        ""
+        "Abbvie Inc."
       ],
       "creator": [
-        ""
+        "Abbvie Inc."
       ],
       "curationLevel": [
         ""
       ],
       "dataType": [
-        ""
+        "Protocol",
+        "README"
       ],
       "dataUseModifiers": [
-        ""
+        "controlled"
       ],
       "dateCreated": "",
       "dateModified": "",
       "datePublished": "",
       "description": "",
       "fileFormat": [
-        ""
+        "md"
       ],
       "fundingReferences": [
         ""
@@ -240,15 +258,15 @@
       "identifier": "",
       "identifierType": "",
       "keywords": [
-        ""
+        "README",
+        "Protocols"
       ],
       "landingPage": "",
       "license": "",
       "licenseURL": "",
       "program": [
-        ""
+        "ALS Knowledge Portal"
       ],
-      "publicationYear": null,
       "publisher": "",
       "relatedDatasets": [
         ""
@@ -257,12 +275,12 @@
         ""
       ],
       "repository": [
-        ""
+        "Synapse"
       ],
       "resourceType": "",
       "schemaName": "",
       "schemaType": "",
-      "title": "",
+      "title": "Protocols README",
       "version": "",
       "_file_type": "MetadataSchema",
       "_schema_source": "json-schema",

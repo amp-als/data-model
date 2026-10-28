@@ -1,0 +1,156 @@
+{
+  "$schema": "../../json-schemas/BiomarkerDataset.json",
+  "acknowledgementStatement": [
+    "syn64892175/wiki/640823"
+  ],
+  "adatVersion": [
+    ""
+  ],
+  "alternateName": [
+    ""
+  ],
+  "assay": [
+    "Olink Proximity Extension Assay"
+  ],
+  "assayTarget": [
+    ""
+  ],
+  "assayVersion": [
+    ""
+  ],
+  "assessmentType": [
+    ""
+  ],
+  "biospecimenType": [
+    "plasma",
+    "csf"
+  ],
+  "cellType": [
+    ""
+  ],
+  "citation": [
+    ""
+  ],
+  "clinicalDomain": [
+    ""
+  ],
+  "cohort": [
+    "ALS",
+    "Healthy Control"
+  ],
+  "cohortType": [
+    "Case-Control"
+  ],
+  "cohort_count": 2,
+  "contributor": [
+    "Abbvie Inc.",
+    "Answer ALS",
+    "NEALS",
+    "Target ALS"
+  ],
+  "creator": [
+    "Abbvie Inc."
+  ],
+  "curationLevel": [
+    "Standardized"
+  ],
+  "dataCategory": [
+    "Biomarker",
+    "Proteomics"
+  ],
+  "dataType": [
+    "biomarker",
+    "proteomics",
+    "NormalizedIntensities",
+    "Normalized Protein Expression (NPX)"
+  ],
+  "dataUseModifiers": [
+    "controlled"
+  ],
+  "dataset_code": "abbvie",
+  "datePublished": "",
+  "description": "Targeted high-throughput proteomics analysis of cross-sectional ALS and healthy-control plasma and cerebrospinal-fluid samples using the Olink HT platform. The bridged dataset combines two independent cohorts assayed at AbbVie and Psomagen.",
+  "disease": [
+    "ALS"
+  ],
+  "diseaseSubtype": [
+    ""
+  ],
+  "funder": [
+    ""
+  ],
+  "hasLongitudinalData": false,
+  "hosting": "mixed",
+  "keyMeasures": [
+    "Normalized Protein Expression (NPX)"
+  ],
+  "keywords": [
+    "Amyotrophic Lateral Sclerosis",
+    "ALS",
+    "Proteomics",
+    "Olink",
+    "Biomarkers",
+    "Plasma",
+    "CSF"
+  ],
+  "normalization": [
+    "Intensity"
+  ],
+  "panel": [
+    "Explore_HT"
+  ],
+  "participant_count": 463,
+  "platform": [
+    ""
+  ],
+  "portalRelease": [
+    "2026.3"
+  ],
+  "processingLevel": [
+    "Processed"
+  ],
+  "program": [
+    "ALS Knowledge Portal",
+    "Answer ALS",
+    "Target ALS"
+  ],
+  "repository": [
+    "Synapse",
+    "Target ALS",
+    "Answer ALS"
+  ],
+  "sameAs": "",
+  "sampleType": [
+    "Sample"
+  ],
+  "software": [
+    "NPX Map",
+    "ngs2counts"
+  ],
+  "species": [
+    "Homo sapiens"
+  ],
+  "standardizationLevel": [
+    "standardized"
+  ],
+  "studyPhase": [
+    ""
+  ],
+  "studyType": [
+    "Cross-Sectional Study"
+  ],
+  "study_count": 7,
+  "subject": [
+    ""
+  ],
+  "title": "Accelerating Medicines Partnership® in Amyotrophic Lateral Sclerosis (AMP® ALS) Cross-sectional Olink HT Study",
+  "url": [
+    ""
+  ],
+  "vendor": [
+    "Abbvie Inc."
+  ],
+  "_dataset_type": "BiomarkerDataset",
+  "_schema_source": "json-schema",
+  "_created_timestamp": "2026-10-26T20:42:23.317819"
+}

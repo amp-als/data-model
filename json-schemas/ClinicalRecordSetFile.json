@@ -965,6 +965,7 @@
               "ALS Compute",
               "Critical Path Institute",
               "Target ALS",
+              "Answer ALS",
               "Sequencing Read Archive",
               "ALL ALS",
               "Linus Health"
@@ -1051,6 +1052,8 @@
         "anyOf": [
           {
             "enum": [
+              "Phase 1",
+              "Phase 2",
               "screening",
               "baseline",
               "treatment_phase",

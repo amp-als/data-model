@@ -88,6 +88,10 @@ enums:
       Workflow Metadata:
         description: Process data from computational workflows. This is highly related to Statistical Metadata.
         comments: Coined category for use esp. with nextflow metadata files.
+      Protocol:
+        description: Documentation of study, assay, sample-processing, or analysis procedures.
+      README:
+        description: Human-readable documentation that explains a dataset, its files, or their use.
       Mapping File:
         description: >
           A file that maps source data columns and/or values to target data-model
