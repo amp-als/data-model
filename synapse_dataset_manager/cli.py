@@ -1,0 +1,11709 @@
+#!/usr/bin/env python3
+"""
+Synapse Dataset Manager - Unified SOP Script
+
+This script provides a generalized workflow for managing Synapse datasets:
+- MODE 1: CREATE - Create new datasets from scratch (like Trehalose workflow)
+- MODE 2: UPDATE - Update existing datasets with new versions (like ALL-ALS SOP)
+
+Author: Converted from Jupyter notebooks
+"""
+
+import os
+import sys
+import csv
+import json
+import shutil
+import re
+import string
+import fnmatch
+import argparse
+import subprocess
+import tempfile
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Any, Optional, Tuple, Set, Union
+from collections import defaultdict, Counter
+
+# Third-party imports
+import yaml
+import synapseclient
+from synapseclient.models import (
+    File, Folder, Project, Table, EntityView, Dataset,
+    DatasetCollection, Column, ColumnType, FacetType, EntityRef, ViewTypeMask
+)
+from synapseclient import Wiki
+from jsonschema import validate, ValidationError, Draft7Validator
+
+
+def cli_invocation():
+    """Return a runnable command for follow-up instructions."""
+    if Path(sys.argv[0]).name == '__main__.py':
+        return 'python -m synapse_dataset_manager'
+    return f'python {sys.argv[0]}'
+
+
+# ==================== CONFIGURATION ====================
+
+def load_config_file(config_path="config.yaml"):
+    """Load configuration from YAML file"""
+    if not os.path.exists(config_path):
+        return {}
+
+    try:
+        with open(config_path, 'r') as f:
+            config = yaml.safe_load(f) or {}
+        print(f"✓ Loaded config from {config_path}")
+        return config
+    except Exception as e:
+        print(f"⚠️  Warning: Could not load {config_path}: {e}")
+        return {}
+
+
+class Config:
+    """Configuration for dataset management workflows"""
+
+    def __init__(self, config_file=None):
+        # Load from config file first
+        file_config = {}
+        if config_file:
+            file_config = load_config_file(config_file)
+        elif os.path.exists("config.yaml"):
+            file_config = load_config_file("config.yaml")
+
+        # Synapse Authentication (env var > config file)
+        synapse_config = file_config.get('synapse', {})
+        self.SYNAPSE_AUTH_TOKEN = os.getenv("SYNAPSE_AUTH_TOKEN") or synapse_config.get('auth_token', "")
+        self.SYNAPSE_PROJECT_ID = os.getenv("SYNAPSE_PROJECT_ID") or synapse_config.get('project_id', "syn68702804")
+        self.DATASETS_COLLECTION_ID = os.getenv("DATASETS_COLLECTION_ID") or synapse_config.get('datasets_collection_id', "syn66496326")
+
+        # Directories (env var > config file > defaults)
+        dir_config = file_config.get('directories', {})
+        self.BASE_DIR = os.getenv("BASE_DIR") or dir_config.get('base_dir', os.getcwd())
+        self.SCHEMA_BASE_PATH = os.path.join(
+            self.BASE_DIR,
+            dir_config.get('schema_path', 'json-schemas').lstrip('./')
+        )
+        self.ANNOTATIONS_DIR = os.path.join(
+            self.BASE_DIR,
+            dir_config.get('annotations_dir', 'annotations').lstrip('./')
+        )
+        os.makedirs(self.ANNOTATIONS_DIR, exist_ok=True)
+        self.FIELD_MIGRATIONS_PATH = os.getenv("FIELD_MIGRATIONS") or os.path.join(
+            self.BASE_DIR,
+            dir_config.get('field_migrations', 'configs/field_migrations.yaml').lstrip('./')
+        )
+
+        # Workflow control (env var > config file > defaults)
+        workflow_config = file_config.get('workflow', {})
+        self.DRY_RUN = self._parse_bool(
+            os.getenv("DRY_RUN") or workflow_config.get('dry_run', True)
+        )
+        self.VERBOSE = self._parse_bool(
+            os.getenv("VERBOSE") or workflow_config.get('verbose', True)
+        )
+        # AI is opt-in while automated annotations are under review. Set USE_AI=true
+        # or ai.enabled: true in config.yaml to explicitly re-enable it.
+        self.USE_AI = self._parse_bool(
+            os.getenv("USE_AI") or workflow_config.get('use_ai', False)
+        )
+
+        # AI Settings
+        ai_config = file_config.get('ai', {})
+        self.AI_ENABLED = self._parse_bool(
+            os.getenv("USE_AI") or ai_config.get('enabled', self.USE_AI)
+        )
+        self.AI_TIMEOUT = int(ai_config.get('timeout', 60))
+        self.AI_MODEL = ai_config.get('model', 'gemini-1.5-flash')
+        self.AI_MAX_LINES = int(ai_config.get('max_file_lines', 100))
+
+        # Store full config for dataset-specific access
+        self.full_config = file_config
+
+    def _parse_bool(self, value):
+        """Parse boolean from various formats"""
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, str):
+            return value.lower() in ("true", "1", "yes", "y")
+        return bool(value)
+
+    def get_dataset_config(self, dataset_name, dataset_id=None):
+        """Get dataset-specific configuration by name or dataset_id."""
+        datasets = self.full_config.get('datasets', {})
+        # Try exact name match first
+        if dataset_name in datasets:
+            return datasets[dataset_name]
+        # Fall back to matching by dataset_id
+        if dataset_id:
+            for _key, cfg in datasets.items():
+                if cfg.get('dataset_id') == dataset_id:
+                    return cfg
+        # Fall back to matching by dataset_id across all entries using dataset_name as key
+        for _key, cfg in datasets.items():
+            if cfg.get('dataset_id') == dataset_name:
+                return cfg
+        # config.yaml has dataset entries configured, but none matched this one — flag it,
+        # since this lookup is silent otherwise and callers like the `update` workflow rely
+        # on it for data_dict/mapping/etc. without any other indication of a miss.
+        if datasets:
+            id_str = f" (id={dataset_id})" if dataset_id else ""
+            print(f"⚠️  WARNING: No config.yaml 'datasets' entry matched '{dataset_name}'{id_str} — "
+                  f"checked {len(datasets)} configured dataset(s). Any settings meant to come from "
+                  f"config.yaml (data_dict, mapping, dataset_type, etc.) will NOT be applied.")
+        return {}
+
+    def validate(self):
+        """Validate configuration"""
+        print("Configuration Validation:")
+        print("-" * 50)
+
+        if not self.SYNAPSE_AUTH_TOKEN:
+            print("⚠️  WARNING: SYNAPSE_AUTH_TOKEN not set")
+            print("   Set in config.yaml or use environment variable")
+        if not self.SYNAPSE_PROJECT_ID:
+            print("⚠️  WARNING: SYNAPSE_PROJECT_ID not set")
+
+        print(f"✓ Base directory: {self.BASE_DIR}")
+        print(f"✓ Schema path: {self.SCHEMA_BASE_PATH}")
+        print(f"✓ Annotations directory: {self.ANNOTATIONS_DIR}")
+        print(f"✓ DRY_RUN mode: {self.DRY_RUN}")
+        print(f"✓ AI enabled: {self.AI_ENABLED}")
+        print("-" * 50)
+
+
+# ==================== SYNAPSE CONNECTION ====================
+
+def connect_to_synapse(config):
+    """
+    Connect to Synapse using configured credentials or default discovery.
+
+    Priority:
+    1. SYNAPSE_AUTH_TOKEN environment variable
+    2. auth_token in config.yaml
+    3. Synapse default credential discovery (~/.synapseConfig)
+    """
+    try:
+        syn = synapseclient.Synapse()
+
+        # If token is explicitly provided (env var or config), use it
+        if config.SYNAPSE_AUTH_TOKEN:
+            syn.login(authToken=config.SYNAPSE_AUTH_TOKEN)
+            print("✓ Connected to Synapse (using explicit token)")
+        else:
+            # Use Synapse's default credential discovery
+            # This checks ~/.synapseConfig automatically
+            syn.login()
+            print("✓ Connected to Synapse (using default credentials)")
+
+        return syn
+    except Exception as e:
+        print(f"✗ Failed to connect to Synapse: {e}")
+        print("\nAuthentication options:")
+        print("  1. Set SYNAPSE_AUTH_TOKEN environment variable")
+        print("  2. Add auth_token to config.yaml")
+        print("  3. Run 'synapse login' to configure ~/.synapseConfig")
+        raise
+
+
+# ==================== SCHEMA LOADING ====================
+
+def get_json_schema_path(base_path, schema_name):
+    """Get the path to a JSON schema file"""
+    json_schema_file = os.path.join(base_path, f"{schema_name}.json")
+    if os.path.exists(json_schema_file):
+        return json_schema_file
+    return None
+
+
+def load_json_schema(schema_path):
+    """Load a JSON schema from file"""
+    try:
+        with open(schema_path, 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"⚠️  Could not load schema {schema_path}: {e}")
+        return None
+
+
+# ==================== DATASET COLUMN SCHEMA FUNCTIONS ====================
+#
+# Column definitions are derived directly from the generated json-schemas/ (the
+# LinkML model is the single source of truth for field names/types/enums — see
+# docs/DATA_MODELING_RULES.md §1). This replaces a hand-maintained allowlist that
+# had drifted out of sync with newer types (GEO, SRA, Speech).
+
+# Small explicit priority list — anything not listed here keeps whatever order it
+# already has and is appended after. Kept intentionally short; type-specific fields
+# no longer need a dedicated bucket since they ride along with the rest.
+COLUMN_ORDER_PRIORITY = ['id', 'name', 'dataType', 'fileFormat', 'studyType', 'species', 'disease', 'dataFormat']
+
+# Standard Synapse-provided metadata columns (always last, if present).
+SYNAPSE_SYSTEM_COLUMNS_TAIL = [
+    'description', 'createdOn', 'createdBy', 'etag', 'modifiedOn', 'modifiedBy',
+    'path', 'type', 'currentVersion', 'parentId', 'benefactorId', 'projectId',
+    'dataFileHandleId', 'dataFileName', 'dataFileSizeBytes', 'dataFileMD5Hex',
+    'dataFileConcreteType', 'dataFileBucket', 'dataFileKey'
+]
+
+
+def _property_has_enum(prop):
+    """True if a dereferenced JSON-schema property (or its `anyOf` branches) carries an enum."""
+    if not isinstance(prop, dict):
+        return False
+    if 'enum' in prop:
+        return True
+    return any('enum' in sub for sub in prop.get('anyOf', []) if isinstance(sub, dict))
+
+
+def _column_spec_from_property(name, prop):
+    """
+    Infer a Synapse Column spec from a dereferenced json-schemas/ property definition.
+
+    Returns a dict with keys: name, type, facet, and (depending on type) max_size /
+    max_list_len — the same shape add_dataset_columns()/create_dataset_entity_view()
+    already consume.
+    """
+    is_enum = _property_has_enum(prop)
+    ptype = prop.get('type')
+
+    if ptype == 'array':
+        items = prop.get('items', {}) or {}
+        item_type = items.get('type', 'string')
+        is_enum = is_enum or _property_has_enum(items)
+        if item_type == 'integer':
+            col_type = ColumnType.INTEGER_LIST
+        elif item_type == 'boolean':
+            col_type = ColumnType.BOOLEAN_LIST
+        else:
+            col_type = ColumnType.STRING_LIST
+        spec = {"name": name, "type": col_type, "facet": FacetType.ENUMERATION if is_enum else None}
+        if col_type == ColumnType.STRING_LIST:
+            spec["max_list_len"] = 20
+        return spec
+
+    if ptype == 'integer':
+        col_type = ColumnType.INTEGER
+    elif ptype == 'number':
+        col_type = ColumnType.DOUBLE
+    elif ptype == 'boolean':
+        col_type = ColumnType.BOOLEAN
+    else:
+        col_type = ColumnType.STRING
+
+    spec = {"name": name, "type": col_type, "facet": FacetType.ENUMERATION if is_enum else None}
+    if col_type == ColumnType.STRING:
+        # Faceted/enum strings are bounded; free text gets more room. Both stay well
+        # under Synapse's 64KB row limit for any realistic column count.
+        spec["max_size"] = 100 if is_enum else 250
+    return spec
+
+
+def build_columns_from_schema(schema, field_names=None):
+    """
+    Derive Synapse table/entity-view column specs directly from a loaded json-schemas/
+    schema dict's `properties`.
+
+    Args:
+        schema: A schema dict as returned by get_all_schemas()[schema_name] (has a
+            top-level "properties" key).
+        field_names: Optional list of property names to include, in that order (lets
+            callers cherry-pick/order specific columns). A name not found in the
+            schema still gets a column (generic faceted STRING) rather than being
+            silently dropped, so config-driven "extra" columns outside the model still
+            work. Omit to include every property in the schema.
+
+    Returns:
+        List of dicts with keys: name, type, facet, and max_size/max_list_len.
+    """
+    properties = (schema or {}).get('properties', {}) or {}
+    names = field_names if field_names else list(properties.keys())
+
+    columns = []
+    for name in names:
+        prop = properties.get(name)
+        if prop is None:
+            columns.append({"name": name, "type": ColumnType.STRING, "facet": FacetType.ENUMERATION, "max_size": 250})
+        else:
+            columns.append(_column_spec_from_property(name, prop))
+    return columns
+
+
+def build_column_order():
+    """Small explicit priority list used to order dataset/entity-view columns; see
+    COLUMN_ORDER_PRIORITY. Columns not listed here keep their existing relative order
+    and are simply appended after by the caller."""
+    return COLUMN_ORDER_PRIORITY + SYNAPSE_SYSTEM_COLUMNS_TAIL
+
+
+def get_all_schemas(schema_base_path, verbose=False):
+    """
+    Load all JSON schema files from json-schemas directory.
+    Returns: {schema_name: schema_dict}
+    """
+    # Look for json-schemas directory
+    json_schema_dir = os.path.join(os.path.dirname(schema_base_path), "json-schemas")
+
+    if not os.path.exists(json_schema_dir):
+        # Fallback to modules directory if json-schemas doesn't exist
+        json_schema_dir = schema_base_path
+        print(f"⚠️  json-schemas directory not found, using {schema_base_path}")
+
+    schemas = {}
+
+    # Load all .json files
+    for json_file in Path(json_schema_dir).glob("*.json"):
+        schema_name = json_file.stem  # Filename without .json
+        try:
+            with open(json_file, 'r') as f:
+                schema_data = json.load(f)
+                schemas[schema_name] = schema_data
+                if verbose:
+                    print(f"  Loaded {schema_name}.json")
+        except Exception as e:
+            if verbose:
+                print(f"  ⚠️  Could not load {json_file}: {e}")
+
+    print(f"✓ Loaded {len(schemas)} JSON schemas")
+    return schemas
+
+
+def get_schema_for_type(file_type, all_schemas):
+    """
+    Get the JSON schema for a given file/dataset type.
+
+    Args:
+        file_type: Type name (e.g., 'ClinicalFile', 'OmicFile', 'ClinicalDataset')
+        all_schemas: Dictionary of loaded schemas
+
+    Returns:
+        JSON schema dict or None
+    """
+    # Try exact match first
+    if file_type in all_schemas:
+        return all_schemas[file_type]
+
+    # Try common variations
+    variations = [
+        file_type,
+        file_type.replace('File', ''),
+        file_type.replace('Dataset', ''),
+        f"{file_type}File",
+        f"{file_type}Dataset"
+    ]
+
+    for variation in variations:
+        if variation in all_schemas:
+            return all_schemas[variation]
+
+    return None
+
+
+class SchemaTypeResolutionError(ValueError):
+    """Raised when a user-supplied --type cannot be resolved to a schema file."""
+
+
+def _schema_candidates(all_schemas, kind):
+    """Selectable schema class stems for a given kind, sourced from json-schemas/.
+
+    Excludes the `*Nested.json` wrappers and the unrelated `MetadataSchema.json`.
+    kind: 'dataset' -> stems ending in 'Dataset'; 'file' -> stems ending in 'File'
+    (which also excludes '*FileNested'); anything else -> all non-wrapper stems.
+    """
+    stems = [s for s in all_schemas
+             if not s.endswith('Nested') and s != 'MetadataSchema']
+    if kind == 'dataset':
+        return sorted(s for s in stems if s.endswith('Dataset'))
+    if kind == 'file':
+        return sorted(s for s in stems if s.endswith('File'))
+    return sorted(stems)
+
+
+def _prompt_pick_schema(hits, user_input, kind):
+    """Numbered menu asking the user to pick among ambiguous schema matches.
+
+    Modeled on the interactive selection prompts used elsewhere (e.g.
+    display_version_selection_prompt). Returns the chosen stem, or raises
+    SchemaTypeResolutionError if the user aborts.
+    """
+    print(f"\n  '{user_input}' matches multiple {kind} schemas:")
+    for i, stem in enumerate(hits, 1):
+        print(f"    {i}. {stem}")
+    try:
+        choice = input(f"  Choose [1-{len(hits)}] (or blank to cancel): ").strip()
+    except EOFError:
+        choice = ''
+    if not choice:
+        raise SchemaTypeResolutionError(
+            f"Ambiguous type '{user_input}' for {kind} schema; no selection made. "
+            f"Matches: {', '.join(hits)}"
+        )
+    if choice.isdigit() and 1 <= int(choice) <= len(hits):
+        return hits[int(choice) - 1]
+    # Allow typing one of the listed names directly
+    for stem in hits:
+        if choice.lower() == stem.lower():
+            return stem
+    raise SchemaTypeResolutionError(
+        f"Invalid selection '{choice}' for type '{user_input}'. Matches: {', '.join(hits)}"
+    )
+
+
+def resolve_schema_type(user_input, all_schemas, kind, interactive=True):
+    """Resolve a user-supplied type string to a canonical schema class stem.
+
+    Matches against the filename stems present in the json-schemas/ folder
+    (as loaded into all_schemas), so newly added schemas work without code
+    changes. Resolution order:
+      1. Exact stem match (case-insensitive) across ALL stems — lets a user
+         type the exact schema name (e.g. 'OmicFile', 'Dataset').
+      2. Substring 'contains' match within the kind-filtered candidates
+         (e.g. 'omic' -> 'OmicFile'). One hit wins; multiple hits prompt the
+         user (when interactive on a TTY) or raise.
+      3. No hit — offer difflib 'did you mean' suggestions, then raise a
+         SchemaTypeResolutionError listing the available types.
+
+    kind: 'dataset' or 'file'. Returns the resolved stem (str).
+    """
+    import difflib
+
+    if user_input is None:
+        raise SchemaTypeResolutionError("No type provided to resolve.")
+
+    ui = str(user_input).strip().lower()
+    candidates = _schema_candidates(all_schemas, kind)
+    can_prompt = interactive and sys.stdin.isatty()
+
+    # 1. Exact stem match (case-insensitive), across every loaded schema.
+    for stem in all_schemas:
+        if stem.lower() == ui:
+            return stem
+
+    # 2. Substring 'contains' within the kind-filtered candidates.
+    hits = [s for s in candidates if ui in s.lower()]
+    if len(hits) == 1:
+        return hits[0]
+    if len(hits) > 1:
+        if can_prompt:
+            return _prompt_pick_schema(hits, user_input, kind)
+        raise SchemaTypeResolutionError(
+            f"Ambiguous type '{user_input}' for {kind} schema — matches "
+            f"{', '.join(hits)}. Provide an exact schema name."
+        )
+
+    # 3. No substring hit — suggest close matches, then give up.
+    close = difflib.get_close_matches(ui, [c.lower() for c in candidates], n=3, cutoff=0.5)
+    suggestions = [c for c in candidates if c.lower() in close]
+    if suggestions and can_prompt:
+        top = suggestions[0]
+        try:
+            ans = input(f"  No {kind} schema matches '{user_input}'. "
+                        f"Did you mean '{top}'? [y/N] ").strip().lower()
+        except EOFError:
+            ans = ''
+        if ans in ('y', 'yes'):
+            return top
+    hint = f" Did you mean: {', '.join(suggestions)}?" if suggestions else ""
+    raise SchemaTypeResolutionError(
+        f"Could not resolve {kind} type '{user_input}' against json-schemas/.{hint} "
+        f"Available: {', '.join(candidates)}"
+    )
+
+
+def nested_schema_filename(class_stem, all_schemas):
+    """Filename for the file-template `$schema` wrapper for a resolved class.
+
+    Prefers the `{class_stem}Nested.json` wrapper; falls back to the plain
+    `{class_stem}.json` (e.g. SpeechFile, which has no Nested wrapper), then to
+    the generic `FileNested.json`.
+    """
+    if f"{class_stem}Nested" in all_schemas:
+        return f"{class_stem}Nested.json"
+    if class_stem in all_schemas:
+        return f"{class_stem}.json"
+    return "FileNested.json"
+
+
+def get_required_fields(schema):
+    """Extract required fields from JSON schema"""
+    if not schema:
+        return []
+    return schema.get('required', [])
+
+
+def _schema_enum(field_def):
+    """Extract enum values whether LinkML emitted them directly or inside anyOf."""
+    if field_def.get('enum'):
+        return field_def['enum']
+    values = []
+    for option in field_def.get('anyOf', []):
+        values.extend(option.get('enum', []))
+    # Preserve schema order while eliminating duplicates from composed ranges.
+    return list(dict.fromkeys(values))
+
+
+def get_field_info(schema):
+    """
+    Extract field information from JSON schema for template generation.
+    Returns: {field_name: {'type': ..., 'enum': ..., 'description': ...}}
+    """
+    if not schema or 'properties' not in schema:
+        return {}
+
+    field_info = {}
+    properties = schema.get('properties', {})
+
+    for field_name, field_def in properties.items():
+        info = {
+            'type': field_def.get('type', 'string'),
+            'description': field_def.get('description', ''),
+            'enum': _schema_enum(field_def)
+        }
+
+        # Check if it's an array type
+        if info['type'] == 'array':
+            items = field_def.get('items', {})
+            info['item_type'] = items.get('type', 'string')
+            info['item_enum'] = _schema_enum(items)
+
+        field_info[field_name] = info
+
+    return field_info
+
+
+# ==================== FILE TYPE DETECTION ====================
+
+def detect_file_type(filename, file_path=None, all_schemas=None, dataset_config=None):
+    """
+    Detect file type based on dataset config or filename patterns.
+
+    Priority:
+    1. dataset_config['dataset_type'] if defined — resolved against json-schemas/
+       (e.g. 'Omic' -> 'OmicFile') so any schema type works without code changes
+    2. Pattern matching on filename
+    3. Default to base 'File' schema
+
+    Returns: Schema class name (e.g., 'ClinicalFile', 'OmicFile', 'File')
+    """
+    # Check if dataset type is explicitly defined in config
+    if dataset_config and 'dataset_type' in dataset_config:
+        dataset_type = dataset_config['dataset_type']
+        if all_schemas:
+            # Config-driven, so resolve non-interactively (short config tokens
+            # like 'Omic'/'GEO' each map to exactly one file schema).
+            try:
+                return resolve_schema_type(dataset_type, all_schemas, kind='file',
+                                           interactive=False)
+            except SchemaTypeResolutionError:
+                pass
+        # Lightweight fallback when schemas aren't loaded at the call site.
+        return dataset_type if dataset_type.endswith('File') else f"{dataset_type}File"
+
+    # Fall back to pattern matching
+    filename_lower = filename.lower()
+
+    # Clinical data patterns
+    clinical_patterns = [
+        'clinical', 'demog', 'demographics', 'patient', 'subject',
+        'medical', 'history', 'assessment', 'visit'
+    ]
+
+    # Omic data patterns
+    omic_patterns = [
+        'rna', 'dna', 'protein', 'metabol', 'proteom', 'genom',
+        'transcriptom', 'seq', 'soma', 'olink', 'assay'
+    ]
+
+    # Check for omic patterns
+    if any(pattern in filename_lower for pattern in omic_patterns):
+        return 'OmicFile'
+
+    # Check for clinical patterns
+    if any(pattern in filename_lower for pattern in clinical_patterns):
+        return 'ClinicalFile'
+
+    # Default to base File schema if pattern matching fails
+    return 'File'
+
+
+def detect_dataset_type(dataset_name, staging_folder_name=None, dataset_config=None,
+                        all_schemas=None):
+    """
+    Detect dataset type based on config or name patterns.
+
+    Priority:
+    1. dataset_config['dataset_type'] if defined — resolved against json-schemas/
+       (e.g. 'Omic' -> 'OmicDataset') so any schema type works without code changes
+    2. Pattern matching on dataset name
+    3. Default to base 'Dataset' schema
+
+    Returns: Schema class name (e.g., 'ClinicalDataset', 'OmicDataset', 'Dataset')
+    """
+    # Check if dataset type is explicitly defined in config
+    if dataset_config and 'dataset_type' in dataset_config:
+        dataset_type = dataset_config['dataset_type']
+        if all_schemas:
+            try:
+                return resolve_schema_type(dataset_type, all_schemas, kind='dataset',
+                                           interactive=False)
+            except SchemaTypeResolutionError:
+                pass
+        # Lightweight fallback when schemas aren't loaded at the call site.
+        return dataset_type if dataset_type.endswith('Dataset') else f"{dataset_type}Dataset"
+
+    # Fall back to pattern matching
+    name_lower = dataset_name.lower()
+
+    omic_patterns = ['omic', 'rna', 'dna', 'protein', 'metabol', 'proteom']
+
+    if any(pattern in name_lower for pattern in omic_patterns):
+        return 'OmicDataset'
+
+    clinical_patterns = ['clinical', 'demog', 'patient', 'subject', 'medical', 'assessment']
+
+    if any(pattern in name_lower for pattern in clinical_patterns):
+        return 'ClinicalDataset'
+
+    speech_patterns = ['speech', 'voice', 'audio']
+
+    if any(pattern in name_lower for pattern in speech_patterns):
+        return 'SpeechDataset'
+
+    geo_patterns = ['geo', 'gse']
+
+    if any(pattern in name_lower for pattern in geo_patterns):
+        return 'GEODataset'
+
+    sra_patterns = ['sra', 'srp', 'srx']
+
+    if any(pattern in name_lower for pattern in sra_patterns):
+        return 'SRADataset'
+
+    # Default to base Dataset schema if pattern matching fails
+    return 'Dataset'
+
+
+# ==================== ANNOTATION HANDLING ====================
+
+_NULL_LIKE_VALUES = frozenset({
+    'n/a', 'na', 'n/d', 'pen', 'unknown', 'none', 'null', 'nan',
+})
+
+
+def _is_null_like(value) -> bool:
+    """Return True if value is a sentinel string that should be treated as empty."""
+    if not isinstance(value, str):
+        return False
+    return value.strip().lower() in _NULL_LIKE_VALUES
+
+
+def format_size(size_bytes):
+    """Format byte count as human-readable string."""
+    if size_bytes is None:
+        return "unknown"
+    size_bytes = float(size_bytes)
+    for unit in ['B', 'KB', 'MB', 'GB']:
+        if size_bytes < 1024:
+            return f"{size_bytes:.1f} {unit}"
+        size_bytes /= 1024
+    return f"{size_bytes:.1f} TB"
+
+
+def clean_annotations_for_synapse(annotation):
+    """Remove metadata fields and empty values before applying to Synapse"""
+    cleaned = {}
+
+    for key, value in annotation.items():
+        if key.startswith('_'):
+            continue
+
+        if hasattr(value, '__class__') and value.__class__.__name__ == 'File':
+            value = value.id if hasattr(value, 'id') else str(value)
+        elif isinstance(value, list):
+            cleaned_list = []
+            for item in value:
+                if hasattr(item, '__class__') and item.__class__.__name__ == 'File':
+                    cleaned_list.append(item.id if hasattr(item, 'id') else str(item))
+                else:
+                    cleaned_list.append(item)
+            value = cleaned_list
+
+        if value is None:
+            continue
+        if isinstance(value, str) and (value == "" or _is_null_like(value)):
+            continue
+        if isinstance(value, list):
+            value = [v for v in value if not (isinstance(v, str) and _is_null_like(v))]
+            if len(value) == 0 or (len(value) == 1 and value[0] == ""):
+                continue
+
+        cleaned[key] = value
+
+    return cleaned
+
+
+def validate_annotation_against_schema(annotation, file_type, all_schemas):
+    """
+    Validate a single annotation against its JSON schema.
+
+    Args:
+        annotation: Dict of annotations to validate
+        file_type: Type name (e.g., 'ClinicalFile', 'OmicDataset')
+        all_schemas: Dict of loaded JSON schemas
+
+    Returns:
+        (is_valid, errors, warnings)
+    """
+    errors = []
+    warnings = []
+
+    # Get the schema for this type
+    schema = get_schema_for_type(file_type, all_schemas)
+
+    if not schema:
+        errors.append(f"Schema not found for file type: {file_type}")
+        return False, errors, warnings
+
+    # Clean annotation (remove metadata fields for validation)
+    clean_annot = {k: v for k, v in annotation.items() if not k.startswith('_')}
+
+    # Strip blank fields before schema validation — blank means "not filled in", not wrong
+    validation_annot = {k: v for k, v in clean_annot.items()
+                        if v not in ("", [""], [], None)}
+
+    # Use jsonschema library for proper validation
+    try:
+        # Create validator
+        validator = Draft7Validator(schema)
+
+        # Collect all validation errors
+        validation_errors = list(validator.iter_errors(validation_annot))
+
+        for error in validation_errors:
+            # Format error message
+            field_path = '.'.join(str(p) for p in error.path) if error.path else 'root'
+            error_msg = f"{field_path}: {error.message}"
+            errors.append(error_msg)
+
+    except Exception as e:
+        errors.append(f"Validation error: {e}")
+
+    # Additional checks and warnings
+    required_fields = get_required_fields(schema)
+
+    for field in required_fields:
+        if field not in clean_annot:
+            errors.append(f"Required field missing: {field}")
+        elif clean_annot[field] in ["", [""], [], None]:
+            warnings.append(f"Required field not filled: {field}")
+
+    # Check if any fields are filled
+    filled_fields = sum(1 for k, v in clean_annot.items()
+                       if v not in ["", [""], [], None])
+
+    if filled_fields == 0:
+        warnings.append("No annotation fields are filled")
+
+    # Check for unknown fields (not in schema)
+    schema_properties = schema.get('properties', {})
+    for field_name in clean_annot.keys():
+        if field_name not in schema_properties:
+            warnings.append(f"Field '{field_name}' not in schema (will be ignored)")
+
+    is_valid = len(errors) == 0
+    return is_valid, errors, warnings
+
+
+def _valid_target(t) -> bool:
+    if isinstance(t, str):
+        return bool(t.strip())
+    if isinstance(t, list):
+        return bool(t) and all(isinstance(s, str) and s.strip() for s in t)
+    return False
+
+
+def load_mapping_dict(path) -> dict:
+    """Read a JSON-with-comments mapping dict file, return only non-empty-value entries."""
+    try:
+        with open(path, 'r') as f:
+            raw = f.read()
+    except FileNotFoundError:
+        print(f"❌ Mapping file not found: {path}")
+        return {}
+
+    # Strip line-level and inline # comments, but preserve strings
+    lines = []
+    for line in raw.splitlines():
+        # Full-line comments: skip lines whose first non-whitespace char is #
+        if line.lstrip().startswith('#'):
+            lines.append('')
+            continue
+        # Remove inline comments (not inside strings) — simple heuristic
+        stripped = re.sub(r'\s*#[^"]*$', '', line)
+        lines.append(stripped)
+    cleaned = '\n'.join(lines)
+
+    # Remove trailing commas before } or ] (common in hand-written dicts)
+    cleaned = re.sub(r',\s*([}\]])', r'\1', cleaned)
+
+    try:
+        raw_dict = json.loads(cleaned, strict=False)
+    except json.JSONDecodeError as e:
+        print(f"⚠ Warning: Could not parse mapping dict {path}: {e}")
+        return {}
+
+    # Strip whitespace from keys and keep only non-empty values
+    result = {}
+    for k, v in raw_dict.items():
+        k = k.strip()
+        if k == "_views" and isinstance(v, dict):
+            result[k] = v  # always carry through view-level annotations
+        elif isinstance(v, str) and v.strip():
+            result[k] = v
+        elif isinstance(v, dict) and _valid_target(v.get('target')):
+            result[k] = v
+    return result
+
+
+def _adat_field_name(section: str, name: Any, position: int) -> str:
+    """Return a stable, namespaced mapping-field name for ADAT metadata."""
+    name = str(name).strip() if name is not None else ''
+    return f"{section}__{name or f'field_{position + 1}'}"
+
+
+def load_adat_metadata_file(path: str) -> list:
+    """Extract ADAT header, sample, and analyte metadata using :mod:`somadata`.
+
+    Fields are namespaced as ``header__``, ``sample__``, and ``protein__`` so
+    identically named fields from ADAT's metadata sections cannot collide in a
+    generated mapping. Sample annotations come from the row index and protein
+    annotations from the column index. The RFU expression matrix is intentionally
+    excluded: it contains raw measurements, not annotation metadata.
+    """
+    try:
+        import somadata
+    except ImportError as e:
+        raise ImportError(
+            "somadata is required for .adat support: pip install somadata"
+        ) from e
+
+    adat = somadata.read_adat(path)
+    header_metadata = getattr(adat, 'header_metadata', {}) or {}
+    if not isinstance(header_metadata, dict):
+        try:
+            header_metadata = dict(header_metadata)
+        except (TypeError, ValueError):
+            header_metadata = {}
+    header = {
+        _adat_field_name('header', key, i): str(value).strip()
+        for i, (key, value) in enumerate(header_metadata.items())
+        if value is not None and str(value).strip()
+    }
+
+    # somadata returns a DataFrame in supported releases; accept common object
+    # wrappers too so this remains compatible across somadata versions.
+    dataframe = getattr(adat, 'data', None)
+    if dataframe is None:
+        dataframe = getattr(adat, 'df', None)
+    if dataframe is None:
+        dataframe = adat
+    if not hasattr(dataframe, 'index') or not hasattr(dataframe, 'columns'):
+        raise ValueError("somadata.read_adat() did not return a tabular ADAT object")
+
+    rows = []
+    row_index = dataframe.index
+    if hasattr(row_index, 'to_frame'):
+        row_metadata = row_index.to_frame(index=False)
+        for values in row_metadata.itertuples(index=False, name=None):
+            row = header.copy()
+            for i, value in enumerate(values):
+                if value is not None and str(value).strip():
+                    row[_adat_field_name('sample', row_metadata.columns[i], i)] = str(value).strip()
+            rows.append(row)
+    elif len(row_index):
+        name = _adat_field_name('sample', getattr(row_index, 'name', None), 0)
+        rows = [{**header, name: str(value).strip()} for value in row_index]
+
+    # Include the ^COL_DATA annotations in the mapping scaffold as well.  They
+    # describe analytes rather than samples, so they are separate records and
+    # should normally be mapped to dataset/file-level fields, not subject fields.
+    column_index = dataframe.columns
+    if hasattr(column_index, 'to_frame'):
+        column_metadata = column_index.to_frame(index=False)
+        for values in column_metadata.itertuples(index=False, name=None):
+            row = header.copy()
+            for i, value in enumerate(values):
+                if value is not None and str(value).strip():
+                    row[_adat_field_name('protein', column_metadata.columns[i], i)] = str(value).strip()
+            rows.append(row)
+
+    return rows or [header]
+
+
+def load_metadata_file(path) -> list:
+    """Load CSV, Excel, or ADAT metadata as whitespace-stripped dictionaries."""
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Metadata file not found: {path}")
+
+    ext = os.path.splitext(path)[1].lower()
+    rows = []
+
+    if ext == '.csv':
+        with open(path, newline='', encoding='utf-8-sig') as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                rows.append({k.strip(): (v.strip() if v else '') for k, v in row.items()})
+
+    elif ext in ('.xlsx', '.xls'):
+        try:
+            import openpyxl
+        except ImportError:
+            raise ImportError("openpyxl is required for XLSX support: pip install openpyxl")
+        wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+        ws = wb.active
+        rows_iter = ws.iter_rows(values_only=True)
+        headers = [str(h).strip() if h is not None else '' for h in next(rows_iter)]
+        for row in rows_iter:
+            rows.append({headers[i]: (str(v).strip() if v is not None else '') for i, v in enumerate(row)})
+        wb.close()
+
+    elif ext == '.adat':
+        rows = load_adat_metadata_file(path)
+
+    else:
+        raise ValueError(f"Unsupported metadata file extension '{ext}'. Use .csv, .xlsx, or .adat")
+
+    return rows
+
+
+def extract_form_name_from_csv(path: str) -> str | None:
+    """
+    Read a CSV file and return the Form Name value from the first data row.
+    Fuzzy-matches the column header: case-insensitive, treats spaces/underscores/hyphens
+    as equivalent (so "Form Name", "form_name", "FORM-NAME" all match).
+
+    Falls back to checking for "form_name" as a cell value in the first column
+    (transposed/metadata-style layout where the first column contains field labels
+    and the second column contains values).
+
+    Returns None if column not found or file is empty.
+    """
+    import re as _re
+    try:
+        rows = load_metadata_file(path)
+    except Exception:
+        return None
+    if not rows:
+        return None
+    # Fuzzy column lookup
+    def _norm(s): return _re.sub(r'[\s_\-]+', '', s).lower()
+    target = _norm('form name')
+    col = next((k for k in rows[0] if _norm(k) == target), None)
+    if col is not None:
+        return rows[0].get(col, '').strip() or None
+
+    # Fallback: check if "form_name" appears as a cell value in the first column
+    # (transposed layout where col1 = field labels, col2 = values)
+    headers = list(rows[0].keys())
+    if len(headers) >= 2:
+        label_col, value_col = headers[0], headers[1]
+        for row in rows:
+            cell = row.get(label_col, '')
+            if _norm(cell) == target:
+                return row.get(value_col, '').strip() or None
+
+    return None
+
+
+def sanitize_synapse_filename(name: str, ext: str = '.csv') -> str:
+    """
+    Clean a form name into a valid Synapse filename.
+    Synapse allows: letters, digits, spaces, _ - . + ' ( )
+    Appends ext if no extension is present.
+    """
+    import re as _re
+    name = name.strip()
+    name = _re.sub(r"[^\w\s\-\.+'\(\)]", '', name)
+    name = name.strip()
+    if not os.path.splitext(name)[1]:
+        name += ext
+    return name
+
+
+def build_staging_form_map(syn, staging_annotations: dict, download_dir: str,
+                           extract_form_names: bool = False) -> tuple[dict, dict, dict, dict]:
+    """
+    Optionally download each staging file and extract its Form Name column value.
+    When form-name extraction is disabled, use the staging filename directly.
+
+    Form Name is an ALL ALS convention. Avoid downloading and parsing arbitrary
+    release files (which may be very large matrices) for datasets that do not
+    use it.
+
+    Returns:
+        form_map       — {lower_clean_name: [(staging_syn_id, clean_name), ...]}
+        name_map       — {staging_syn_id: clean_name}  (human-readable form name)
+        local_path_map — {staging_syn_id: local_file_path}  (None if download failed)
+        view_map       — {staging_syn_id: view_name}  (raw staging filename w/o extension = view name)
+    """
+    os.makedirs(download_dir, exist_ok=True)
+    form_map = {}
+    name_map = {}
+    local_path_map = {}
+    view_map = {}
+
+    for staging_syn_id, file_data in staging_annotations.items():
+        staging_filename = list(file_data.keys())[0]
+
+        local_path = None
+        form_name = None
+        if extract_form_names:
+            local_path = download_file_for_analysis(syn, staging_syn_id, download_dir)
+            if local_path and local_path.endswith(('.csv', '.xlsx', '.xls')):
+                form_name = extract_form_name_from_csv(local_path)
+        local_path_map[staging_syn_id] = local_path
+
+        if form_name:
+            clean = sanitize_synapse_filename(form_name)
+        else:
+            clean = staging_filename  # fall back to original name
+
+        norm_key = _norm_filename_for_match(clean)
+        form_map.setdefault(norm_key, []).append((staging_syn_id, clean))
+        name_map[staging_syn_id] = clean
+        # Raw staging filename (without extension) IS the view name (e.g. v_ALLALS_AS_ASSEECASCGI)
+        view_map[staging_syn_id] = os.path.splitext(staging_filename)[0]
+
+    return form_map, name_map, local_path_map, view_map
+
+
+def _get_data_dict_views(path: str, view_name: str = None) -> list:
+    """Return all unique View Name values in a data dictionary file.
+
+    If view_name is given, only views matching that filter (via
+    _view_name_matches) are included. Unlike deriving the view list from
+    parse_data_dictionary's field-keyed output, this never drops a view whose
+    fields all happen to share names with fields under other (later) views —
+    see build_mapping_from_data_dict's all_views parameter.
+    """
+    rows = load_metadata_file(path)
+    seen = []
+    for row in rows:
+        v = row.get("View Name", "").strip()
+        if v and v not in seen and (not view_name or _view_name_matches(v, view_name)):
+            seen.append(v)
+    return seen
+
+
+def _norm_filename_for_match(name: str) -> str:
+    """Normalize a filename for fuzzy matching.
+
+    Strips punctuation differences that commonly appear between staging and
+    existing filenames (hyphens, extra whitespace, en-dashes, underscores)
+    and collapses runs of whitespace so that e.g.
+      "ECAS (...) - Caregiver Interview.csv"  matches
+      "ECAS (...) Caregiver Interview.csv"
+    """
+    # Strip extension first so ".csv" vs ".CSV" don't interfere
+    stem, ext = os.path.splitext(name)
+    stem = stem.lower()
+    # Remove hyphens, en-dashes, em-dashes, underscores
+    stem = re.sub(r'[-\u2013\u2014_]+', ' ', stem)
+    # Collapse runs of whitespace to single space and strip
+    stem = re.sub(r'\s+', ' ', stem).strip()
+    return stem + ext.lower()
+
+
+def _fuzzy_match_filename(name: str, form_map: dict, threshold: float = 0.82,
+                          exclude_ids: set | None = None) -> tuple | None:
+    """Find the best fuzzy match for *name* in form_map.
+
+    Uses SequenceMatcher ratio on the normalized stems.  Returns the
+    first unclaimed (staging_syn_id, clean_name) tuple from the best-
+    scoring key whose score exceeds *threshold*, or None.
+
+    *form_map* values are lists: ``{norm_key: [(syn_id, clean_name), ...]}``.
+    *exclude_ids* — staging syn IDs already claimed by a prior match.
+    """
+    from difflib import SequenceMatcher
+    norm_name = _norm_filename_for_match(name)
+    best_score = 0.0
+    best_value = None
+    for key, candidates in form_map.items():
+        score = SequenceMatcher(None, norm_name, key).ratio()
+        if score > best_score:
+            # Pick first unclaimed candidate at this key
+            pick = next(
+                (c for c in candidates if not (exclude_ids and c[0] in exclude_ids)),
+                None,
+            )
+            if pick:
+                best_score = score
+                best_value = pick
+    if best_score >= threshold and best_value:
+        print(f"    ↳ Fuzzy matched ({best_score:.0%}): {name!r} → {best_value[1]!r}")
+        return best_value
+    return None
+
+
+# Maps friendly view-filter names to the segment code used in view names
+# View names follow the pattern v_ALLALS_{segment}_... (e.g. v_ALLALS_AS_ASSEDEMOG)
+_VIEW_SEGMENT_MAP = {
+    'assess': 'as',
+    'prevent': 'pr',
+}
+
+
+def _view_name_matches(current_view: str, view_name: str) -> bool:
+    """Return True if current_view matches the view_name filter.
+
+    Checks segment code first (e.g. 'ASSESS' → 'AS' at index 2 of '_'-split),
+    then falls back to exact case-insensitive match.
+    """
+    vn = view_name.lower()
+    cv = current_view.lower()
+    code = _VIEW_SEGMENT_MAP.get(vn)
+    if code:
+        parts = cv.split('_')
+        return len(parts) > 2 and parts[2] == code
+    return cv == vn
+
+
+def _is_synapse_id(value) -> bool:
+    """True if value looks like a Synapse entity ID (e.g. 'syn12345678')."""
+    return bool(isinstance(value, str) and re.match(r'^syn\d+$', value.strip(), re.IGNORECASE))
+
+
+def resolve_data_dict_path(syn, data_dict_path, download_dir=None) -> str:
+    """Resolve --data-dict to a local file path.
+
+    Accepts either a local file path (returned unchanged) or a Synapse file ID,
+    which is downloaded to a temp directory so callers can keep treating the
+    result as a plain local path.
+    """
+    if not data_dict_path or not _is_synapse_id(data_dict_path):
+        return data_dict_path
+
+    import tempfile
+    download_dir = download_dir or tempfile.mkdtemp(prefix='sdm_data_dict_')
+    local_path = download_file_for_analysis(syn, data_dict_path, download_dir)
+    if local_path:
+        print(f"  ✓ Downloaded data dictionary {data_dict_path} → {local_path}")
+    else:
+        print(f"  ✗ Could not download data dictionary {data_dict_path}")
+    return local_path or data_dict_path
+
+
+def parse_data_dictionary(path: str, view_name: str = None) -> dict:
+    """
+    Parse a nested data dictionary CSV/XLSX into a field-info dict.
+
+    Expected columns: View Name, Field, Description, Values
+    View Name is sparse — only the first row of each group has a value;
+    subsequent rows inherit the last seen View Name (forward-fill).
+
+    Args:
+        path: Path to data dictionary CSV or XLSX
+        view_name: If provided, only return fields belonging to this View Name
+
+    Returns:
+        {field_name: {"description": str, "values": [str, ...]}}
+    """
+    rows = load_metadata_file(path)
+
+    current_view = ""
+    current_field = ""
+    result = {}
+
+    for row in rows:
+        raw_view = row.get("View Name", "").strip()
+        if raw_view:
+            current_view = raw_view
+
+        if view_name and not _view_name_matches(current_view, view_name):
+            continue
+
+        raw_field = row.get("Field", "").strip()
+        description = row.get("Description", "").strip()
+        raw_value = row.get("Values", "").strip()
+
+        if raw_field:
+            # Field header row — capture field-level description, reset current field
+            current_field = raw_field
+            if current_field not in result:
+                result[current_field] = {"description": description, "view": current_view, "values": {}}
+        elif current_field and raw_value:
+            # Value row — extract human-readable label from description
+            # Description is often "code = label"; strip the leading "code = " prefix
+            label = re.sub(r'^\s*\S+\s*=\s*', '', description).strip() if description else raw_value
+            result[current_field]["values"][raw_value] = label
+
+    if view_name and not result:
+        print(f"  Warning: No fields found for View Name '{view_name}' in {path}")
+        available = _get_data_dict_views(path)
+        if available:
+            print(f"  Available views: {', '.join(available)}")
+
+    return result
+
+
+def collect_unique_values(paths: list, ignore_cols: set, max_values: int) -> dict:
+    """
+    Load metadata files and return {col: sorted_unique_values} for columns
+    with <= max_values unique values, else {col: None} (no value dict).
+    subject_id and anything in ignore_cols is always skipped.
+    """
+    agg: dict = {}
+    for path in paths:
+        try:
+            rows = load_metadata_file(str(path))
+            if not rows:
+                continue
+            # ADAT row and column metadata are represented as separate records,
+            # so a field need not be present in the first record.
+            for row in rows:
+                for col, value in row.items():
+                    if col in ignore_cols or value is None or not str(value).strip():
+                        continue
+                    agg.setdefault(col, set()).add(str(value).strip())
+            print(f"  loaded {Path(path).name}  ({len(rows)} rows)")
+        except Exception as e:
+            print(f"  WARNING: skipped {Path(path).name}: {e}")
+
+    result = {}
+    for col, vals in agg.items():
+        result[col] = sorted(vals) if len(vals) <= max_values else None
+    return result
+
+
+def build_mapping_dict(unique_vals: dict) -> dict:
+    """
+    Convert {col: sorted_vals | None} into the mapping-dict entry format:
+      - list of values  -> {"target": "", "values": {v: "" ...}}
+      - None (too many) -> ""
+    """
+    mapping = {}
+    for col, vals in unique_vals.items():
+        if vals is None:
+            mapping[col] = ""
+        else:
+            mapping[col] = {"target": "", "values": {v: "" for v in vals}}
+    return mapping
+
+
+def build_mapping_from_data_dict(parsed_dict: dict, all_views: list = None) -> dict:
+    """
+    Convert parsed data dictionary into a mapping-dict scaffold.
+
+    Each entry includes:
+      - "description": field description from the data dictionary (read-only context
+        to help identify which data model attribute this field maps to)
+      - "view": the View Name (CRF form) this field belongs to
+      - "target": data model field name to map to (empty — user must fill in)
+      - "values": {raw_code: human_label} for coded fields, {} for free-text
+
+    Also prepends a "_views" key mapping each unique view name to an empty
+    file-level annotation scaffold (assessmentType, clinicalDomain, dataType,
+    studyPhase) — fill these in to drive view-level annotation.
+
+    Args:
+        parsed_dict: Output of parse_data_dictionary().
+        all_views: Complete view list from _get_data_dict_views(), used to seed
+            _views scaffolds even for a view whose every field happens to share
+            a name with a field under another (later) view — parse_data_dictionary's
+            field-name-keyed dict silently drops such views entirely, since the
+            later view's occurrence of the shared field name overwrites the
+            earlier one's "view" attribution.
+
+    Returns:
+        {"_views": {view_name: {file-level annotations}},
+         field_name: {"description": str, "view": str, "target": "", "values": {code: label}}}
+    """
+    views_seen = []
+    fields = {}
+    for field, info in parsed_dict.items():
+        view = info.get("view", "")
+        fields[field] = {
+            "description": info.get("description", ""),
+            "view": view,
+            "target": "",
+            "values": info.get("values", {}),
+        }
+        if view and view not in views_seen:
+            views_seen.append(view)
+
+    for v in (all_views or []):
+        if v not in views_seen:
+            views_seen.append(v)
+
+    _views = {
+        v: {"assessmentType": [], "clinicalDomain": [], "dataType": [], "studyPhase": ""}
+        for v in views_seen
+    }
+
+    # _views first so it's visible at the top of the file
+    result = {"_views": _views}
+    result.update(fields)
+    return result
+
+
+def merge_into_existing_mapping(existing_path: str, new_mapping: dict) -> dict:
+    """
+    Read existing mapping file (raw, preserving empty-value entries), then:
+    - Add columns from new_mapping that are absent in existing
+    - For existing dict-style entries, add any new values not already present
+    - Never overwrite existing mappings
+    Returns merged dict.
+    """
+    with open(existing_path) as f:
+        raw = f.read()
+    lines = []
+    for line in raw.splitlines():
+        # Drop pure comment lines (start with optional whitespace then #)
+        if re.match(r'^\s*#', line):
+            lines.append('')
+        else:
+            stripped = re.sub(r'\s*#[^"]*$', '', line)
+            lines.append(stripped)
+    cleaned = re.sub(r',\s*([}\]])', r'\1', '\n'.join(lines))
+    existing = json.loads(cleaned, strict=False)
+
+    merged = dict(existing)
+    new_columns = []
+    new_views = []
+    new_values = []
+    for col, entry in new_mapping.items():
+        if col == "_views":
+            # Merge view scaffolds: add new views, never overwrite existing
+            existing_views = merged.setdefault("_views", {})
+            for view_name, scaffold in entry.items():
+                if view_name not in existing_views:
+                    existing_views[view_name] = scaffold
+                    new_views.append(view_name)
+            continue
+        if col not in merged:
+            merged[col] = entry
+            new_columns.append(col)
+        elif isinstance(merged[col], dict) and isinstance(entry, dict):
+            existing_vals = merged[col].get("values", {})
+            new_vals = entry.get("values", {})
+            for v in new_vals:
+                if v not in existing_vals:
+                    existing_vals[v] = new_vals[v]  # carry over parsed label
+                    new_values.append((col, v))
+            merged[col]["values"] = existing_vals
+            # Carry over view field if missing from existing entry
+            if "view" not in merged[col] and "view" in entry:
+                merged[col]["view"] = entry["view"]
+
+    # Report new additions that need user attention
+    if new_columns or new_views or new_values:
+        print(f"\n  ── New mapping additions ──")
+        if new_views:
+            print(f"  New views added ({len(new_views)}) — fill in assessmentType, clinicalDomain, etc.:")
+            for v in new_views:
+                print(f"    + {v}")
+        if new_columns:
+            print(f"  New columns added ({len(new_columns)}) — fill in 'target' field:")
+            for c in new_columns:
+                print(f"    + {c}")
+        if new_values:
+            print(f"  New values added ({len(new_values)}) — verify mapped labels:")
+            for col, val in new_values[:20]:
+                print(f"    + {col}: {val}")
+            if len(new_values) > 20:
+                print(f"    ... and {len(new_values) - 20} more")
+    return merged
+
+
+def generate_mapping_from_paths(paths, output_path: str, ignore_cols=None,
+                                max_values: int = 50) -> dict:
+    """Create or safely extend a mapping scaffold from supported local files."""
+    paths = [Path(path) for path in paths]
+    if not paths:
+        print("⚠ No supported files available for mapping generation")
+        return {}
+
+    ignore_cols = {"subject_id"} | set(ignore_cols or [])
+    unique_vals = collect_unique_values(paths, ignore_cols, max_values)
+    print(f"\n  {len(unique_vals)} columns found "
+          f"({sum(1 for v in unique_vals.values() if v is not None)} with value mappings, "
+          f"{sum(1 for v in unique_vals.values() if v is None)} without)")
+    new_mapping = build_mapping_dict(unique_vals)
+    if os.path.exists(output_path):
+        print(f"\nUpdating existing mapping file: {output_path}")
+        mapping = merge_into_existing_mapping(output_path, new_mapping)
+    else:
+        mapping = new_mapping
+    write_mapping_file(output_path, mapping)
+    return mapping
+
+
+def expand_metadata_paths(paths) -> list:
+    """Expand metadata directories to supported tabular/ADAT files."""
+    expanded = []
+    for path in paths or []:
+        if os.path.isdir(path):
+            found = sorted(str(f) for f in Path(path).iterdir()
+                           if f.suffix.lower() in ('.csv', '.xlsx', '.xls', '.adat'))
+            if not found:
+                print(f"  Warning: No CSV/XLSX/ADAT files found in directory {path}")
+            expanded.extend(found)
+        else:
+            expanded.append(path)
+    return expanded
+
+
+def write_mapping_file(path: str, mapping: dict) -> None:
+    header = (
+        "# Mapping dict: source_column -> target_data_model_field\n"
+        "# Fill in \"target\" with the data model field name for each column.\n"
+        "# For value-mapped columns, fill in the data model value for each source value.\n"
+        "# Entries with empty string values are ignored during annotation.\n"
+    )
+    body = json.dumps(mapping, indent=2, ensure_ascii=False)
+    parent = os.path.dirname(path)
+    if parent:
+        os.makedirs(parent, exist_ok=True)
+    with open(path, "w") as f:
+        f.write(header + body + "\n")
+    print(f"Wrote mapping file: {path}  ({len(mapping)} columns)")
+
+
+def load_all_metadata_files(paths, join_col='subject_id') -> dict:
+    """Load and merge one or more metadata files into a subject_id-keyed index.
+
+    Later files win for overlapping columns. Returns {subject_id: merged_row_dict}.
+    """
+    index = {}
+    for path in paths:
+        rows = load_metadata_file(path)
+        for row in rows:
+            sid = row.get(join_col, '').strip()
+            if not sid:
+                continue
+            if sid in index:
+                index[sid].update(row)
+            else:
+                index[sid] = dict(row)
+    return index
+
+
+def extract_file_extension(file_identifier: str) -> str:
+    """
+    Extract file extension from filename, URL, or path.
+
+    Args:
+        file_identifier: Filename, gs:// URI, or file path
+
+    Returns:
+        Lowercase file extension without dot (e.g., 'bam', 'vcf', 'cram')
+        Returns empty string if no extension found
+
+    Examples:
+        'sample.bam' -> 'bam'
+        'gs://bucket/path/file.cram' -> 'cram'
+        'data.vcf.gz' -> 'vcf'
+        'alignment.bam.bai' -> 'bai'
+    """
+    if not file_identifier:
+        return ''
+
+    # Extract filename from URI/path
+    filename = file_identifier.split('/')[-1]
+
+    # Handle no extension
+    if '.' not in filename:
+        return ''
+
+    # Get all extensions
+    parts = filename.split('.')
+
+    # If last extension is compression, use second-to-last
+    if len(parts) > 2 and parts[-1].lower() in ['gz', 'bz2', 'zip']:
+        return parts[-2].lower()
+
+    # Otherwise use last extension
+    return parts[-1].lower()
+
+
+def map_extension_to_datatype(extension: str) -> str:
+    """
+    Map file extension to OmicDataTypeEnum value.
+
+    Based on modules/omics/data-types.yaml definitions.
+
+    Args:
+        extension: File extension (without dot, lowercase)
+
+    Returns:
+        OmicDataTypeEnum value string, or empty string if unmapped
+
+    Note: Index files (bai, crai, tbi, etc.) return empty string as they
+          are not omic data types themselves but rather technical indices.
+    """
+    # Mapping table: extension -> dataType
+    extension_map = {
+        # Raw sequencing data
+        'fastq': 'raw_sequencing',
+        'fq': 'raw_sequencing',
+        'fasta': 'raw_sequencing',
+        'fa': 'raw_sequencing',
+        'fna': 'raw_sequencing',
+
+        # Aligned reads
+        'bam': 'aligned_reads',
+        'sam': 'aligned_reads',
+        'cram': 'aligned_reads',
+
+        # Variant calls
+        'vcf': 'genomicVariants',
+        'bcf': 'genomicVariants',
+
+        # Genome annotation
+        'gtf': 'genome_annotation',
+        'gff': 'genome_annotation',
+        'gff3': 'genome_annotation',
+        'bed': 'genome_annotation',
+
+        # Expression data
+        'gct': 'gene_expression',
+
+        # Index files - return empty as they are not omic data per se
+        # They are technical files for accessing omic data
+        'bai': '',
+        'crai': '',
+        'csi': '',
+        'tbi': '',
+        'jsi': '',
+
+        # Compressed files - return empty, should use inner extension
+        'gz': '',
+
+        # Checksums - not omic data
+        'md5': '',
+        'md5sum': '',
+
+        # Documentation
+        'pdf': '',
+        'txt': '',
+    }
+
+    return extension_map.get(extension, '')
+
+
+def apply_file_specific_datatype_overrides(filename: str, default_datatype: str) -> str:
+    """
+    Apply file-specific dataType overrides for known files.
+
+    This ensures regeneration doesn't lose manually curated dataType values for
+    special cases like DHT-specific categorizations.
+
+    Args:
+        filename: The base filename (e.g., "nhs_linus_aural_analytics_speech_vitals_data.xlsx")
+        default_datatype: The dataType that would be assigned by normal logic
+
+    Returns:
+        The overridden dataType if a match is found, otherwise the default_datatype
+    """
+    # Target ALS NHS file overrides for DHT-specific dataTypes and metadata
+    overrides = {
+        'nhs_linus_aural_analytics_speech_vitals_data.xlsx': 'dht_speech_vitals',
+        'nhs_zephyrx_spirometry_data.xlsx': 'dht_respiratory_assessment',
+        'nhs_clinical_data.xlsx': 'metadata',
+        'nhs_wgs_metadata.xlsx': 'metadata',
+        'nhs_sequencing_data_files.xlsx': 'metadata',
+    }
+
+    return overrides.get(filename, default_datatype)
+
+
+def map_extension_to_fileformat(extension: str) -> str:
+    """
+    Map file extension to fileFormat value.
+
+    Args:
+        extension: File extension (without dot, lowercase)
+
+    Returns:
+        File format string (uppercase), or empty string if unmapped
+    """
+    # For most formats, uppercase extension is the format
+    # Special cases handled explicitly
+
+    format_map = {
+        # Sequencing formats
+        'fastq': 'FASTQ',
+        'fq': 'FASTQ',
+        'fasta': 'FASTA',
+        'fa': 'FASTA',
+        'bam': 'BAM',
+        'sam': 'SAM',
+        'cram': 'CRAM',
+
+        # Variant formats
+        'vcf': 'VCF',
+        'bcf': 'BCF',
+
+        # Annotation formats
+        'gtf': 'GTF',
+        'gff': 'GFF',
+        'gff3': 'GFF3',
+        'bed': 'BED',
+
+        # Expression formats
+        'gct': 'GCT',
+        'tsv': 'TSV',
+        'csv': 'CSV',
+
+        # Index formats
+        'bai': 'BAI',
+        'crai': 'CRAI',
+        'csi': 'CSI',
+        'tbi': 'TBI',
+        'jsi': 'JSI',
+
+        # Compressed
+        'gz': 'GZIP',
+
+        # Checksums
+        'md5': 'MD5',
+        'md5sum': 'MD5SUM',
+
+        # Documents
+        'pdf': 'PDF',
+        'txt': 'TXT',
+    }
+
+    return format_map.get(extension, extension.upper() if extension else '')
+
+
+def extract_file_category(file_identifier: str) -> Optional[str]:
+    """
+    Detect file category from filename using regex pattern matching.
+
+    Returns category string or None if no match.
+    """
+    if not file_identifier:
+        return None
+
+    filename = file_identifier.split('/')[-1].lower()
+    patterns = get_file_category_patterns()
+
+    for category, pattern in patterns.items():
+        if re.search(pattern, filename):
+            return category
+
+    return None
+
+
+def get_file_category_patterns() -> Dict[str, str]:
+    """Define regex patterns for each file category."""
+    return {
+        # PDF QC Plots
+        'gc_bias_plot': r'gc[_-]?bias',
+        'base_distribution_plot': r'base[_-]?distribution[_-]?by[_-]?cycle',
+        'insert_size_histogram': r'insert[_-]?size',
+        'quality_by_cycle_plot': r'quality[_-]?by[_-]?cycle',
+        'quality_distribution_plot': r'quality[_-]?distribution',
+
+        # TXT Files - specific patterns first
+        'haplotype_calls': r'haplotype[_-]?calls?',
+        'summary_table': r'summary|repeat[_-]?id|repeat[_-]?unit|target[_-]?region|genotype',
+    }
+
+
+def generate_title_from_category(category: str, filename: str = '') -> str:
+    """Generate descriptive title based on category and filename."""
+    templates = {
+        'gc_bias_plot': 'GC Bias QC Plot',
+        'base_distribution_plot': 'Base Distribution by Cycle QC Plot',
+        'insert_size_histogram': 'Insert Size Histogram',
+        'quality_by_cycle_plot': 'Quality by Cycle QC Plot',
+        'quality_distribution_plot': 'Quality Distribution QC Plot',
+        'haplotype_calls': 'Haplotype Calls',
+        'summary_table': 'Repeat Expansion Summary Table',
+    }
+
+    base_title = templates.get(category, 'File')
+
+    # Extract subject ID to make title specific
+    # First try: subject_XXX or subject-XXX pattern (case insensitive)
+    subject_match = re.search(r'(subject[_-]?\d+)', filename, re.IGNORECASE)
+    if subject_match:
+        return f"{base_title} - {subject_match.group(1)}"
+
+    # Second try: alphanumeric IDs like ABCD1234 (must be 6+ chars with both letters and numbers)
+    # Match IDs that start at word boundary or beginning of string
+    subject_match = re.search(r'(?:^|/)([A-Za-z]+\d+[A-Za-z\d]*|[A-Za-z\d]*\d+[A-Za-z]+)(?:[_\-/\.]|$)', filename)
+    if subject_match:
+        match_text = subject_match.group(1)
+        # Filter out common false positives and ensure minimum length
+        if len(match_text) >= 6 and match_text.lower() not in ['bucket', 'subject']:
+            return f"{base_title} - {match_text}"
+
+    return base_title
+
+
+def generate_description_from_category(category: str) -> str:
+    """Generate description text (max 500 chars)."""
+    descriptions = {
+        'gc_bias_plot': 'Quality control plot showing GC content bias across the sequence, '
+                       'used to assess systematic biases in sequencing coverage related to GC content.',
+        'base_distribution_plot': 'Quality control plot displaying the distribution of nucleotide bases '
+                                 '(A, T, G, C) across sequencing cycles, useful for detecting sequence composition bias.',
+        'insert_size_histogram': 'Distribution plot of DNA fragment insert sizes in the sequencing library, '
+                                'important for validating library preparation and identifying size selection issues.',
+        'quality_by_cycle_plot': 'Quality control plot showing sequencing quality scores across base positions, '
+                                'used to identify quality degradation patterns during sequencing runs.',
+        'quality_distribution_plot': 'Distribution of sequencing quality scores across all reads, '
+                                    'provides an overview of overall sequencing quality.',
+        'haplotype_calls': 'Variant haplotype calls from whole genome sequencing, '
+                          'containing phased genomic variant information. May include companion index files (.tbi).',
+        'summary_table': 'Summary table containing repeat expansion analysis results including repeat ID, '
+                        'repeat unit sequences, target genomic regions, and genotype information.',
+    }
+    return descriptions.get(category, '')
+
+
+def generate_keywords_from_category(category: str) -> List[str]:
+    """Generate keyword list based on category."""
+    keyword_map = {
+        'gc_bias_plot': ['qc', 'quality_control', 'gc_bias', 'sequencing_qc', 'plot'],
+        'base_distribution_plot': ['qc', 'quality_control', 'base_distribution', 'sequencing_qc', 'plot'],
+        'insert_size_histogram': ['qc', 'quality_control', 'insert_size', 'library_qc', 'histogram'],
+        'quality_by_cycle_plot': ['qc', 'quality_control', 'quality_score', 'sequencing_qc', 'plot'],
+        'quality_distribution_plot': ['qc', 'quality_control', 'quality_score', 'sequencing_qc', 'plot'],
+        'haplotype_calls': ['variant_calls', 'haplotype', 'genomics', 'vcf', 'phased_variants'],
+        'summary_table': ['repeat_expansion', 'summary', 'genotype', 'genomics', 'c9orf72', 'atxn2'],
+    }
+    return keyword_map.get(category, [])
+
+
+def get_datatype_from_category(category: str) -> Optional[str]:
+    """Map category to OmicDataTypeEnum value."""
+    datatype_map = {
+        'haplotype_calls': 'variant_calls',
+        'summary_table': 'genomicVariants',
+        # QC plots don't have specific dataType (they're QC files, not primary data)
+    }
+    return datatype_map.get(category)
+
+
+def extract_variant_type_from_path(folder_path: str) -> Optional[str]:
+    """
+    Detect variant type from folder path structure.
+
+    Args:
+        folder_path: Folder path (e.g., "wgs/vcf/structural/SUBJECT001")
+
+    Returns:
+        Internal variant type identifier or None
+
+    Examples:
+        >>> extract_variant_type_from_path("wgs/vcf/structural/SUBJECT001")
+        'structural'
+        >>> extract_variant_type_from_path("wgs/vcf/small/SUBJECT001")
+        'small'
+        >>> extract_variant_type_from_path("wgs/vcf/genomic/SUBJECT001")
+        'genomic'
+        >>> extract_variant_type_from_path("wgs/vcf/repeat-expansion/SUBJECT001")
+        'repeat_expansion'
+    """
+    if not folder_path:
+        return None
+
+    path_lower = folder_path.lower()
+    path_parts = [p.strip() for p in path_lower.split('/') if p.strip()]
+
+    # Priority order: more specific patterns first
+    if 'repeat-expansion' in path_parts or 'repeat_expansion' in path_parts:
+        return 'repeat_expansion'
+    elif 'structural' in path_parts:
+        return 'structural'
+    elif 'small' in path_parts:
+        return 'small'
+    elif 'genomic' in path_parts:
+        return 'genomic'
+
+    return None
+
+
+def map_variant_type_to_enum(variant_type: str) -> Optional[str]:
+    """
+    Map internal variant type to VariantTypeEnum value.
+
+    Args:
+        variant_type: Internal variant type identifier
+
+    Returns:
+        VariantTypeEnum value or None
+
+    Examples:
+        >>> map_variant_type_to_enum('structural')
+        'Structural_Variant'
+        >>> map_variant_type_to_enum('small')
+        'Small_Variant'
+    """
+    if not variant_type:
+        return None
+
+    variant_type_map = {
+        'structural': 'Structural_Variant',
+        'repeat_expansion': 'Repeat_Expansion',
+        'small': 'Small_Variant',
+        'genomic': 'Genomic',
+    }
+
+    return variant_type_map.get(variant_type)
+
+
+def map_variant_type_to_datatype(variant_type: str) -> Optional[str]:
+    """
+    Map variant type to specific OmicDataTypeEnum value.
+
+    Args:
+        variant_type: Internal variant type identifier
+
+    Returns:
+        OmicDataTypeEnum value or None
+
+    Examples:
+        >>> map_variant_type_to_datatype('structural')
+        'StructuralVariants'
+        >>> map_variant_type_to_datatype('small')
+        'GermlineVariants'
+    """
+    if not variant_type:
+        return None
+
+    datatype_map = {
+        'structural': 'StructuralVariants',
+        'repeat_expansion': 'genomicVariants',
+        'small': 'GermlineVariants',
+        'genomic': 'genomicVariants',
+    }
+
+    return datatype_map.get(variant_type)
+
+
+def generate_variant_type_keywords(variant_type: str) -> List[str]:
+    """
+    Generate keywords based on variant type.
+
+    Args:
+        variant_type: Internal variant type identifier
+
+    Returns:
+        List of keywords for search and filtering
+
+    Examples:
+        >>> generate_variant_type_keywords('structural')
+        ['structural_variants', 'cnv', 'copy_number', 'deletions', 'duplications', 'genomics', 'vcf']
+        >>> generate_variant_type_keywords('small')
+        ['small_variants', 'snv', 'indel', 'germline', 'genomics', 'vcf']
+    """
+    if not variant_type:
+        return []
+
+    keyword_map = {
+        'structural': ['structural_variants', 'cnv', 'copy_number', 'deletions', 'duplications', 'genomics', 'vcf'],
+        'repeat_expansion': ['repeat_expansion', 'c9orf72', 'atxn2', 'repeat_analysis', 'genomics', 'vcf'],
+        'small': ['small_variants', 'snv', 'indel', 'germline', 'genomics', 'vcf'],
+        'genomic': ['genomic_variants', 'haplotype', 'variant_calls', 'genomics', 'vcf'],
+    }
+
+    return keyword_map.get(variant_type, [])
+
+
+# ==================== VCF VARIANT TYPE INFERENCE ====================
+
+def classify_vcf_allele(ref: str, alt: str) -> str:
+    """Classify a single REF/ALT pair into a variant class (ported from scripts/infer_variant_types.py)."""
+    alt = alt.strip()
+    ref = ref.strip()
+    if alt == "" or alt == ".":
+        return "MISSING_ALT"
+    if alt == "*":
+        return "STAR"
+    if alt.startswith("<") and alt.endswith(">"):
+        return alt[1:-1]
+    if "[" in alt or "]" in alt:
+        return "BND"
+    if len(ref) == 1 and len(alt) == 1:
+        return "SNP"
+    if len(ref) == len(alt):
+        return "MNV"
+    if len(ref) < len(alt):
+        return "INS"
+    if len(ref) > len(alt):
+        return "DEL"
+    return "OTHER"
+
+
+def get_variant_type_schema_values(all_schemas: Optional[Dict] = None) -> Set[str]:
+    """
+    Extract the valid variantType enum values from the OmicFile JSON schema.
+
+    Falls back to a hardcoded default set if the schema cannot be loaded, so inference
+    still works when all_schemas is unavailable.
+
+    Args:
+        all_schemas: Dict of loaded JSON schemas from get_all_schemas()
+
+    Returns:
+        Set of valid variantType enum strings from the schema
+    """
+    _FALLBACK = {
+        'SNV', 'SNVs/SNPs', 'Indel', 'INDELs', 'SVs', 'MNVs',
+        'Germline', 'Somatic', 'Deletions', 'CNV', 'CNVs',
+        'Inversions', 'Translocations', 'Repeat_Expansion',
+        'Genomic', 'Small_Variant', 'Structural_Variant', 'Other',
+    }
+    if not all_schemas:
+        return _FALLBACK
+    schema = all_schemas.get('OmicFile') or all_schemas.get('Omic')
+    if not schema:
+        return _FALLBACK
+    props = schema.get('properties', {})
+    vt_field = props.get('variantType', {})
+    items = vt_field.get('items', {})
+    enum_values = items.get('enum', [])
+    return set(enum_values) if enum_values else _FALLBACK
+
+
+def map_vcf_classes_to_schema_enum(
+    classes: List[str],
+    all_schemas: Optional[Dict] = None,
+) -> List[str]:
+    """
+    Map infer_variant_types output classes to OmicFile variantType schema enum values.
+
+    Valid enum values are read from the OmicFile JSON schema so they stay in sync
+    with the schema definition. A hardcoded fallback is used only when schemas are
+    unavailable.
+
+    Args:
+        classes: List of variant class strings from run_vcf_variant_inference()
+        all_schemas: Dict of loaded JSON schemas (from get_all_schemas); used to read
+                     valid variantType enum values dynamically from OmicFile.json
+
+    Returns:
+        Sorted list of unique schema-valid variantType enum values
+    """
+    _SKIP_CLASSES = {'MISSING_ALT', 'STAR'}
+    # Map from bcftools/inferred class → schema enum value
+    _CLASS_MAP = {
+        'SNP':   'SNVs/SNPs',
+        'MNV':   'MNVs',
+        'INS':   'INDELs',
+        'DEL':   'Deletions',
+        'BND':   'SVs',
+        'DUP':   'SVs',
+        'INV':   'Inversions',
+        'CNV':   'CNVs',
+        'TRA':   'Translocations',
+        'OTHER': 'Other',
+    }
+    valid_schema_values = get_variant_type_schema_values(all_schemas)
+    result: Set[str] = set()
+    for cls in classes:
+        if cls.upper() in _SKIP_CLASSES:
+            continue
+        mapped = _CLASS_MAP.get(cls.upper()) or _CLASS_MAP.get(cls)
+        if mapped and mapped in valid_schema_values:
+            result.add(mapped)
+        elif mapped:
+            # Mapped value not in schema — use Other as safe fallback
+            result.add('Other')
+        elif cls in valid_schema_values:
+            result.add(cls)
+        else:
+            result.add('Other')
+    return sorted(result)
+
+
+def run_vcf_variant_inference(vcf_path: str, limit: int = 0) -> Optional[Dict]:
+    """
+    Run bcftools-based variant type inference on a local VCF/VCF.GZ file.
+
+    Requires bcftools in PATH. Logic is equivalent to scripts/infer_variant_types.py.
+
+    Args:
+        vcf_path: Path to local VCF/VCF.GZ/BCF file
+        limit: Max records to scan (0 = all records)
+
+    Returns:
+        Dict with keys n_records, allele_classes, allele_counts, site_counts; or None on error.
+    """
+    cmd = ['bcftools', 'query', '-f', '%REF\t%ALT\n', vcf_path]
+    try:
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                text=True, bufsize=1)
+    except FileNotFoundError:
+        print('  ⚠️  bcftools not found in PATH — cannot infer VCF variant types')
+        return None
+
+    allele_counts: Counter = Counter()
+    site_counts: Counter = Counter()
+    n_records = 0
+
+    assert proc.stdout is not None
+    for line in proc.stdout:
+        if limit and n_records >= limit:
+            proc.terminate()
+            break
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        try:
+            ref, alt_field = line.split('\t', 1)
+        except ValueError:
+            continue
+        alts = [a.strip() for a in alt_field.split(',') if a.strip()]
+        if not alts:
+            continue
+        classes_this_site: set = set()
+        for alt in alts:
+            klass = classify_vcf_allele(ref, alt)
+            allele_counts[klass] += 1
+            classes_this_site.add(klass)
+        if len(classes_this_site) == 1:
+            site_counts[next(iter(classes_this_site))] += 1
+        else:
+            site_counts['MIXED'] += 1
+        n_records += 1
+
+    stderr_text = proc.stderr.read() if proc.stderr is not None else ''
+    return_code = proc.wait()
+    if return_code not in (0, -15):
+        print(f'  ⚠️  bcftools returned exit code {return_code}: {stderr_text[:300]}')
+        return None
+
+    return {
+        'n_records': n_records,
+        'allele_classes': sorted(allele_counts.keys()),
+        'allele_counts': dict(allele_counts),
+        'site_counts': dict(site_counts),
+    }
+
+
+def infer_vcf_variant_types_from_synapse(
+    syn,
+    syn_id: str,
+    filename: str,
+    annotations: dict,
+    download_dir: str,
+    force_infer: bool = False,
+    size_threshold_gb: float = 100.0,
+    all_schemas: Optional[Dict] = None,
+) -> Optional[List[str]]:
+    """
+    Download a VCF file from Synapse, infer variant types via bcftools, then delete the local copy.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse ID of the VCF file
+        filename: File name (used for display)
+        annotations: Current annotation dict for the file
+        download_dir: Local directory for temporary downloads (file is deleted after inference)
+        force_infer: Re-infer even if variantType is already populated
+        size_threshold_gb: Files larger than this prompt the user before downloading
+        all_schemas: Loaded JSON schemas for reading valid variantType enum values from OmicFile.json
+
+    Returns:
+        Sorted list of schema-valid variantType enum values, or None if skipped/failed.
+        NOTE: The local file is always deleted after inference — Synapse is never modified.
+    """
+    # Skip if already annotated (unless force_infer)
+    existing_types = annotations.get('variantType')
+    if existing_types and not force_infer:
+        if isinstance(existing_types, list):
+            existing_types = [v for v in existing_types if v]
+        if existing_types:
+            print(f'  [SKIP] variantType already set for {filename} — use --force-infer-variant-types to override')
+            return None
+
+    # Get file size without downloading
+    size_bytes = 0
+    try:
+        entity_meta = syn.get(syn_id, downloadFile=False)
+        size_bytes = int(entity_meta.properties.get('contentSize', 0))
+    except Exception as e:
+        print(f'  ⚠️  Could not fetch size metadata for {syn_id}: {e}')
+
+    size_gb = size_bytes / (1024 ** 3)
+    size_label = (f'{size_gb:.1f} GB' if size_gb >= 1
+                  else f'{size_bytes / (1024 ** 2):.1f} MB' if size_bytes > 0
+                  else 'unknown size')
+
+    if size_gb > size_threshold_gb:
+        print(f'  ⚠️  {filename} is {size_label} — exceeds {size_threshold_gb:.0f} GB auto-download threshold')
+        try:
+            answer = input(f'  Download {filename} for variant type inference? [y/N] ').strip().lower()
+        except (EOFError, OSError):
+            # Non-interactive context (CI/CD, piped input) — skip to avoid hanging
+            print(f'  [SKIP] Non-interactive — skipping large file {filename}')
+            return None
+        if answer != 'y':
+            print(f'  [SKIP] {filename} skipped by user')
+            return None
+
+    print(f'  Downloading {filename} ({size_label}) for variant type inference...')
+    os.makedirs(download_dir, exist_ok=True)
+    local_path = None
+    try:
+        entity = syn.get(syn_id, downloadLocation=download_dir, ifcollision='overwrite.local')
+        local_path = entity.path
+        if not local_path or not os.path.exists(local_path):
+            print(f'  ⚠️  Download returned no local path for {syn_id}')
+            return None
+
+        print(f'  Running bcftools variant inference on {filename}...')
+        result = run_vcf_variant_inference(local_path)
+        if result is None:
+            return None
+
+        classes = result['allele_classes']
+        print(f'  Scanned {result["n_records"]:,} records — classes: {", ".join(classes) or "(none)"}')
+
+        mapped = map_vcf_classes_to_schema_enum(classes, all_schemas=all_schemas)
+        if mapped:
+            print(f'  → variantType: {", ".join(mapped)}')
+        return mapped if mapped else None
+
+    except Exception as e:
+        print(f'  ⚠️  VCF inference failed for {filename}: {e}')
+        return None
+    finally:
+        # Always delete the local copy — NEVER touches Synapse
+        if local_path and os.path.exists(local_path):
+            try:
+                os.remove(local_path)
+                if os.path.isdir(download_dir) and not os.listdir(download_dir):
+                    os.rmdir(download_dir)
+            except OSError:
+                pass
+
+
+def aggregate_variant_types_from_file_annotations(annotations_output: dict) -> List[str]:
+    """
+    Collect all unique variantType values across all file annotations.
+
+    Args:
+        annotations_output: Dict of {syn_id: {filename: annotations_dict}}
+
+    Returns:
+        Sorted list of unique variantType schema enum values found across all files
+    """
+    seen: Set[str] = set()
+    for file_data in annotations_output.values():
+        for annots in file_data.values():
+            vt = annots.get('variantType')
+            if not vt:
+                continue
+            if isinstance(vt, list):
+                seen.update(v for v in vt if v)
+            elif isinstance(vt, str) and vt:
+                seen.add(vt)
+    return sorted(seen)
+
+
+def enrich_metadata_with_file_info(metadata_row: dict, file_name: str = None, folder_path: str = None) -> dict:
+    """
+    Enrich metadata row with computed fields derived from file name/URI.
+
+    Adds computed columns:
+    - _file_extension: Extracted file extension
+    - _computed_dataType: Data type derived from extension
+    - _computed_fileFormat: File format derived from extension
+    - _file_category: Category detected from filename pattern (NEW)
+    - _computed_title: Generated title based on category (NEW)
+    - _computed_description: Generated description based on category (NEW)
+    - _computed_keywords: Generated keywords based on category (NEW)
+    - _computed_variantType: Variant type for VCF files (NEW)
+    - _variant_type_detected: Internal variant type identifier (NEW, debug)
+
+    Args:
+        metadata_row: Original metadata dictionary
+        file_name: Optional file name to use for enrichment.
+                   IMPORTANT: If provided, this takes PRIORITY over any
+                   file paths in metadata_row to avoid using stale/polluted
+                   values from metadata merging.
+        folder_path: Optional folder path for variant type detection.
+                     Used to extract variant type from folder structure
+                     (e.g., "wgs/vcf/structural/SUBJECT001").
+                     IMPORTANT: If provided, takes PRIORITY over any
+                     folder paths in metadata_row.
+
+    Returns:
+        Enriched metadata dictionary with computed fields
+    """
+    enriched = metadata_row.copy()
+
+    # Determine file identifier source (priority order)
+    # CRITICAL: Prioritize explicit file_name parameter over metadata columns
+    # to avoid using stale/polluted gs_uri values from metadata merging
+    file_identifier = None
+
+    # First: Use explicit file_name parameter if provided
+    if file_name:
+        file_identifier = file_name
+    # Second: Fall back to metadata columns
+    else:
+        for col in ['gs_uri', 'url', 'file_name', 'filename', 'name']:
+            if col in enriched and enriched[col]:
+                file_identifier = enriched[col]
+                break
+
+    if not file_identifier:
+        return enriched
+
+    # Extract extension
+    extension = extract_file_extension(file_identifier)
+    enriched['_file_extension'] = extension
+
+    # Map to dataType
+    data_type = map_extension_to_datatype(extension)
+    if data_type:
+        # Apply file-specific overrides for DHT-specific dataTypes
+        data_type = apply_file_specific_datatype_overrides(file_identifier, data_type)
+        enriched['_computed_dataType'] = data_type
+
+    # Map to fileFormat
+    file_format = map_extension_to_fileformat(extension)
+    if file_format:
+        enriched['_computed_fileFormat'] = file_format
+
+    # NEW: Category-based enrichment for PDF and TXT files
+    if extension in ['pdf', 'txt']:
+        category = extract_file_category(file_identifier)
+
+        if category:
+            enriched['_file_category'] = category
+
+            # Generate title
+            title = generate_title_from_category(category, file_identifier)
+            if title:
+                enriched['_computed_title'] = title
+
+            # Generate description
+            description = generate_description_from_category(category)
+            if description:
+                enriched['_computed_description'] = description
+
+            # Generate keywords
+            keywords = generate_keywords_from_category(category)
+            if keywords:
+                enriched['_computed_keywords'] = keywords
+
+            # Override dataType for specific TXT categories
+            category_datatype = get_datatype_from_category(category)
+            if category_datatype:
+                enriched['_computed_dataType'] = category_datatype
+
+    # VCF Variant Type Detection from folder structure
+    if extension == 'vcf' and folder_path:
+        variant_type = extract_variant_type_from_path(folder_path)
+
+        if variant_type:
+            # Store internal identifier for debugging
+            enriched['_variant_type_detected'] = variant_type
+
+            # Map to VariantTypeEnum value
+            variant_enum = map_variant_type_to_enum(variant_type)
+            if variant_enum:
+                enriched['_computed_variantType'] = variant_enum
+
+            # Override dataType with specific value
+            specific_datatype = map_variant_type_to_datatype(variant_type)
+            if specific_datatype:
+                enriched['_computed_dataType'] = specific_datatype
+
+            # Generate variant-type keywords
+            variant_keywords = generate_variant_type_keywords(variant_type)
+            if variant_keywords:
+                enriched['_computed_keywords'] = variant_keywords
+
+    return enriched
+
+
+def _coerce_numeric(value):
+    """Coerce a string value to int or float if possible, else return as-is."""
+    if not isinstance(value, str):
+        return value
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        pass
+    try:
+        return float(value)
+    except (ValueError, TypeError):
+        pass
+    return value
+
+
+def fill_template_from_metadata(template, metadata_row, mapping) -> dict:
+    """Fill empty template slots from a metadata row using the field mapping.
+
+    Only writes to fields that are currently empty; does not overwrite existing values.
+    """
+    result = dict(template)
+
+    # Pass 1: fill fields from metadata or constants (skip value_template entries)
+    for source_col, mapping_entry in mapping.items():
+        # `_views` holds view-level annotations, not a source-column mapping.
+        # Also tolerate incomplete scaffold entries while a mapping is edited.
+        if source_col == '_views' or not isinstance(mapping_entry, (str, dict)):
+            continue
+        if isinstance(mapping_entry, dict) and 'value_template' in mapping_entry:
+            continue  # defer to pass 2
+
+        if isinstance(mapping_entry, dict):
+            raw_target = mapping_entry.get('target', '')
+            if not raw_target:
+                continue
+            value_map  = mapping_entry.get('values', {})
+            constant   = mapping_entry.get('value')
+        else:
+            raw_target = mapping_entry
+            value_map  = {}
+            constant   = None
+
+        target_fields = raw_target if isinstance(raw_target, list) else [raw_target]
+
+        # Hard-coded constant bypasses metadata lookup entirely
+        if constant is not None:
+            value = constant
+        else:
+            value = metadata_row.get(source_col, '')
+            if not value:
+                continue
+            if _is_null_like(value):
+                continue
+            if value_map:
+                value = value_map.get(value, value) or value
+                if _is_null_like(value):
+                    continue
+
+        for target_field in target_fields:
+            # Coerce string → int/float for numeric schema fields
+            if target_field in result and result[target_field] is None:
+                value = _coerce_numeric(value)
+
+            current = result.get(target_field)
+            additions = value if isinstance(value, list) else [value]
+
+            if isinstance(current, list):
+                # Append any new values not already present (covers keywords too)
+                existing = [x for x in current if x not in ('', None)]
+                new_items = [v for v in additions if v and v not in existing]
+                if new_items:
+                    result[target_field] = existing + new_items
+            elif current in ('', None):
+                # Scalar field that is empty — fill it
+                result[target_field] = value
+            else:
+                # Non-list field already has a value — leave it
+                pass
+
+    # Pass 2: fill value_template entries using already-populated fields
+    for source_col, mapping_entry in mapping.items():
+        if source_col == '_views' or not (isinstance(mapping_entry, dict) and 'value_template' in mapping_entry):
+            continue
+
+        raw_target     = mapping_entry.get('target', '')
+        if not raw_target:
+            continue
+        target_fields  = raw_target if isinstance(raw_target, list) else [raw_target]
+        value_template = mapping_entry['value_template']
+
+        # Flatten single-element lists to scalars for interpolation
+        flat = {
+            k: (v[0] if isinstance(v, list) and len(v) == 1 else v)
+            for k, v in result.items()
+        }
+
+        # Extract referenced field names from template
+        referenced_fields = [fn for _, fn, _, _ in string.Formatter().parse(value_template) if fn]
+
+        # Skip if any referenced field is missing or empty
+        if any(not flat.get(f) for f in referenced_fields):
+            continue
+
+        try:
+            rendered_value = value_template.format_map(flat)
+        except KeyError:
+            continue
+
+        for target_field in target_fields:
+            if result.get(target_field) in ('', None, ['']):
+                result[target_field] = rendered_value
+
+    return result
+
+
+def fill_template_from_file_contents(template: dict, file_path: str, mapping: dict) -> dict:
+    """Fill annotation template fields by reading a multi-subject data file and
+    collecting unique values per mapped column across all rows.
+
+    For each source_col in mapping that exists as a column in the file:
+      - Collect all unique non-null values in that column
+      - Translate each via the mapping dict's values map
+      - Merge translated values into the target annotation field as a list
+
+    Only fills empty or partially-empty template slots; does not overwrite
+    already-populated values unless they are blank/null.
+
+    Args:
+        template:  Annotation template dict to fill
+        file_path: Path to the data CSV/XLSX file
+        mapping:   Mapping dict loaded via load_mapping_dict()
+
+    Returns:
+        Updated template dict
+    """
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception as e:
+        print(f"  ⚠️  Could not load {file_path} for annotation filling: {e}")
+        return template
+
+    if not rows:
+        return template
+
+    result = dict(template)
+    # ADAT sample and protein metadata are emitted as separate records, so the
+    # first record alone is not representative of all available fields.
+    available_cols = set().union(*(row.keys() for row in rows))
+
+    for source_col, mapping_entry in mapping.items():
+        if isinstance(mapping_entry, dict):
+            raw_target = mapping_entry.get('target', '')
+            value_map  = mapping_entry.get('values', {})
+            constant   = mapping_entry.get('value')
+        else:
+            raw_target = mapping_entry
+            value_map  = {}
+            constant   = None
+
+        if not raw_target:
+            continue
+
+        target_fields = raw_target if isinstance(raw_target, list) else [raw_target]
+
+        # Hard-coded constant bypasses the column/file lookup entirely
+        if constant is not None:
+            translated = constant if isinstance(constant, list) else [constant]
+        else:
+            if source_col not in available_cols:
+                continue
+
+            # Collect unique non-null raw values across all rows
+            raw_values_seen = []
+            for row in rows:
+                v = str(row.get(source_col, '') or '').strip()
+                if v and not _is_null_like(v) and v not in raw_values_seen:
+                    raw_values_seen.append(v)
+
+            if not raw_values_seen:
+                continue
+
+            # Translate via value map; keep untranslated values as-is if no map entry
+            translated = []
+            for v in raw_values_seen:
+                mapped_v = value_map.get(v, v) if value_map else v
+                if mapped_v and not _is_null_like(mapped_v) and mapped_v not in translated:
+                    translated.append(mapped_v)
+
+            if not translated:
+                continue
+
+        for target_field in target_fields:
+            current = result.get(target_field)
+
+            if isinstance(current, list):
+                # Merge into existing list, skip blanks
+                existing = [x for x in current if x not in ('', None)]
+                merged = existing[:]
+                for v in translated:
+                    if v not in merged:
+                        merged.append(v)
+                if merged:
+                    result[target_field] = merged
+            elif current in ('', None):
+                # Scalar field — store as list if multiple values, scalar if one
+                result[target_field] = translated if len(translated) > 1 else translated[0]
+
+    return result
+
+
+def fill_counts_from_file_contents(template: dict, file_path: str,
+                                   subject_id_col: str = None) -> dict:
+    """Auto-populate participant/individual and record counts from a data file.
+
+    Reads a tabular data file and computes:
+      - the number of unique subject identifiers  -> participant_count / individualCount
+      - the total number of data rows              -> recordCount
+
+    For ADAT files, only sample metadata rows are counted; protein metadata rows
+    are excluded.
+
+    The counts are written into whichever of those keys already exist in the
+    template/annotation ("either or both"), and are OVERWRITTEN each run so they
+    always reflect the current file contents. Non-tabular or unreadable files
+    (fastq/bam/etc.) are skipped and the template is returned unchanged.
+
+    Field types are matched to how each field is stored elsewhere:
+      - participant_count / recordCount are integers (list-wrapped if the slot is
+        already a list, since recordCount is multivalued in the model)
+      - individualCount is a STRING_LIST enum, so its count is stored as a string
+
+    Args:
+        template:       Annotation template/annotation dict to update
+        file_path:      Path to the data CSV/XLSX file
+        subject_id_col: Column holding subject IDs; falls back to common names
+
+    Returns:
+        Updated template dict
+    """
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception:
+        return template
+    if not rows:
+        return template
+
+    # ADAT metadata loading emits separate sample and protein records. Counts for
+    # an ADAT file must use only its sample records; including protein metadata
+    # would inflate recordCount and prevent a sample identifier from resolving.
+    is_adat = os.path.splitext(file_path)[1].lower() == '.adat'
+    sample_columns = {
+        col for row in rows for col in row if col.startswith('sample__')
+    } if is_adat else set()
+    count_rows = [
+        row for row in rows
+        if not is_adat or not sample_columns or any(row.get(col) for col in sample_columns)
+    ]
+    available = set().union(*(row.keys() for row in count_rows))
+    record_count = len(count_rows)
+
+    # Resolve the subject-ID column: explicit first, then common fallbacks.
+    candidates = []
+    if subject_id_col:
+        candidates.append(subject_id_col)
+    candidates.extend(c for c in COMMON_SUBJECT_COLS if c not in candidates)
+    # ADAT mapping-field names are namespaced to distinguish sample metadata
+    # from header/protein metadata. subjectIdColumn retains the source column
+    # name used in the file, so also consider its generated sample__ counterpart.
+    if is_adat:
+        candidates.extend(
+            f'sample__{col}' for col in candidates
+            if not col.startswith('sample__')
+        )
+
+    subject_count = None
+    for col in candidates:
+        if col in available:
+            unique_ids = {str(r.get(col, '') or '').strip() for r in count_rows}
+            unique_ids.discard('')
+            subject_count = len(unique_ids)
+            break
+
+    result = dict(template)
+
+    def _assign(key, value, as_str=False):
+        # Only touch keys that already exist in the template/annotation.
+        if key not in result:
+            return
+        v = str(value) if as_str else value
+        # Preserve list vs scalar shape of the existing slot.
+        result[key] = [v] if isinstance(result.get(key), list) else v
+
+    if subject_count is not None:
+        _assign('participant_count', subject_count)
+        _assign('individualCount', subject_count, as_str=True)
+    _assign('recordCount', record_count)
+
+    return result
+
+
+def infer_view_from_columns(file_path: str, mapping: dict) -> str | None:
+    """Infer the _views key for a file by checking which view appears most in its columns.
+
+    Each mapping entry carries a "view" field (the source database view name).
+    By tallying how many of the file's columns belong to each view, we identify
+    the dominant view and return it so apply_view_annotations can match it.
+
+    Returns None if the file cannot be read or no mapping entries have a view field.
+    """
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception:
+        return None
+    if not rows:
+        return None
+    columns = set(rows[0].keys())
+    view_counts: dict[str, int] = {}
+    for col in columns:
+        entry = mapping.get(col)
+        if isinstance(entry, dict) and entry.get('view'):
+            v = entry['view']
+            view_counts[v] = view_counts.get(v, 0) + 1
+    if not view_counts:
+        return None
+    return max(view_counts, key=view_counts.get)
+
+
+def _norm_view_name(s: str) -> str:
+    return re.sub(r'[\s_\-]+', '', s).lower()
+
+
+def match_view_name(form_name: str, mapping: dict) -> str:
+    """Resolve form_name to a key in mapping['_views'], or None if no match.
+
+    Matching is case-insensitive with hyphens/underscores/spaces normalised.
+    """
+    views = mapping.get("_views", {})
+    if not views or not form_name:
+        return None
+    form_norm = _norm_view_name(form_name)
+    return next((v for v in views if _norm_view_name(v) == form_norm), None)
+
+
+def apply_view_annotations(template: dict, form_name: str, mapping: dict) -> dict:
+    """Apply view-level file annotations from the _views section of a mapping dict.
+
+    The mapping dict's "_views" key maps each CRF form/view name to a dict of
+    file-level annotation fields (assessmentType, clinicalDomain, dataType,
+    studyPhase, etc.) that should apply to any file extracted from that view.
+
+    Matching is case-insensitive with hyphens/underscores/spaces normalised.
+
+    Args:
+        template:  Annotation template dict to fill
+        form_name: The form/view name of the staging file (from extract_form_name_from_csv)
+        mapping:   Mapping dict loaded via load_mapping_dict() — must contain "_views"
+
+    Returns:
+        Updated template dict (only empty slots are filled)
+    """
+    matched_view = match_view_name(form_name, mapping)
+    if not matched_view:
+        return template
+
+    result = dict(template)
+    for field, value in mapping["_views"][matched_view].items():
+        if not value:
+            continue
+        current = result.get(field)
+        if isinstance(current, list):
+            existing = [x for x in current if x not in ('', None)]
+            additions = value if isinstance(value, list) else [value]
+            for v in additions:
+                if v and v not in existing:
+                    existing.append(v)
+            if existing:
+                result[field] = existing
+        elif current in ('', None):
+            result[field] = value
+
+    return result
+
+
+# Column names commonly used to hold subject/participant identifiers. Shared by
+# subject-type detection and count auto-population so both stay in sync.
+COMMON_SUBJECT_COLS = ['SubjectUID', 'subject_id', 'subjectId', 'SubjectId',
+                       'GUID', 'ParticipantID', 'participant_id']
+
+
+def detect_subject_file_type(file_path: str, subject_id_col: str = None) -> str:
+    """Detect whether a data file contains a single subject or multiple subjects.
+
+    Detection order:
+    1. Extension heuristic — genomics/sequencing formats are always single-subject;
+       tabular formats proceed to content inspection.
+    2. Content inspection — count unique values in the subject identifier column.
+
+    Args:
+        file_path:       Path to (or name of) the file being evaluated
+        subject_id_col:  Column name that holds subject IDs (e.g. "SubjectUID").
+                         Falls back to common names if None or not found.
+
+    Returns:
+        'single' or 'multi'
+    """
+    # File extensions that are unambiguously single-subject (genomics / sequencing)
+    _SINGLE_SUBJECT_EXTS = {
+        '.fastq', '.fq', '.bam', '.cram', '.sam',
+        '.vcf', '.bcf', '.gvcf',
+        '.tbi', '.bai', '.crai', '.csi',
+        '.bed', '.bedgraph', '.bigwig', '.bw', '.wig', '.bigbed',
+        '.fasta', '.fa', '.fastq.gz', '.fq.gz', '.vcf.gz', '.bcf.gz', '.gvcf.gz',
+    }
+
+    # File extensions that are tabular and likely multi-subject
+    _TABULAR_EXTS = {
+        '.csv', '.tsv', '.txt', '.xlsx', '.xls', '.parquet', '.feather',
+    }
+
+    _COMMON_SUBJECT_COLS = COMMON_SUBJECT_COLS
+
+    # Normalise: strip query strings, lowercased suffix
+    name = os.path.basename(file_path).lower()
+
+    # Handle compound extensions (.fastq.gz, .vcf.gz, etc.)
+    for ext in _SINGLE_SUBJECT_EXTS:
+        if name.endswith(ext):
+            return 'single'
+
+    # For non-tabular, non-genomics formats (images, PDFs, etc.) default to single
+    is_tabular = any(name.endswith(ext) for ext in _TABULAR_EXTS)
+    if not is_tabular:
+        return 'single'
+
+    # Tabular file — inspect contents
+    try:
+        rows = load_metadata_file(file_path)
+    except Exception:
+        return 'multi'  # safe default if we can't read it
+
+    if not rows:
+        return 'single'
+
+    available = set(rows[0].keys())
+
+    # Build candidate list: explicit col first, then common fallbacks
+    candidates = []
+    if subject_id_col:
+        candidates.append(subject_id_col)
+    candidates.extend(c for c in _COMMON_SUBJECT_COLS if c not in candidates)
+
+    for col in candidates:
+        if col not in available:
+            continue
+        unique_ids = {str(row.get(col, '') or '').strip() for row in rows}
+        unique_ids.discard('')
+        return 'single' if len(unique_ids) <= 1 else 'multi'
+
+    # No subject column found — treat as multi if more than one row
+    return 'single' if len(rows) <= 1 else 'multi'
+
+
+def get_field_type_map(all_schemas, file_type):
+    """Map field_name -> JSON-schema type ('array'/'boolean'/'integer'/'number'/'string')
+    for the given file/dataset type, for coercing merged annotation values back to
+    their schema-declared shape (see merge_file_annotations_priority)."""
+    schema = get_schema_for_type(file_type, all_schemas)
+    return {name: info['type'] for name, info in get_field_info(schema).items()}
+
+
+def create_annotation_template(all_schemas, file_type='ClinicalFile'):
+    """
+    Generate empty annotation template from JSON schema.
+
+    Args:
+        all_schemas: Dict of loaded JSON schemas
+        file_type: Type name (e.g., 'ClinicalFile', 'OmicDataset')
+
+    Returns:
+        Template dict with empty values
+    """
+    schema = get_schema_for_type(file_type, all_schemas)
+
+    # Dataset types are tracked under '_dataset_type' (consistent with the
+    # dataset apply/create/update code path); file types use '_file_type'.
+    type_key = '_dataset_type' if file_type.endswith('Dataset') else '_file_type'
+
+    if not schema:
+        print(f"⚠️  Schema not found for {file_type}, using empty template")
+        return {
+            type_key: file_type,
+            '_schema_source': 'data-model',
+            '_created_timestamp': datetime.now().isoformat()
+        }
+
+    template = {}
+    field_info = get_field_info(schema)
+
+    for field_name, info in field_info.items():
+        # Create empty value based on type
+        if info['type'] == 'array':
+            template[field_name] = ['']
+        elif info['type'] == 'boolean':
+            template[field_name] = False
+        elif info['type'] == 'integer' or info['type'] == 'number':
+            template[field_name] = None
+        else:
+            template[field_name] = ''
+
+    # Add metadata fields
+    template[type_key] = file_type
+    template['_schema_source'] = 'json-schema'
+    template['_created_timestamp'] = datetime.now().isoformat()
+
+    return template
+
+
+def output_format(args, default='json'):
+    """Resolve an explicit --format or infer it from the output extension."""
+    explicit = getattr(args, 'format', None)
+    if explicit:
+        return explicit
+    suffix = Path(getattr(args, 'output', '') or '').suffix.lower()
+    return {'.csv': 'csv', '.xlsx': 'xlsx'}.get(suffix, default)
+
+
+def _excel_value(value):
+    if isinstance(value, list):
+        return ', '.join(str(v) for v in value if v not in (None, ''))
+    return value if value is not None else ''
+
+
+def _add_xlsx_validation(ws, lookup_ws, column, field_info, row_start, row_end):
+    """Add a lookup-sheet-backed enum dropdown to a worksheet column."""
+    enum = field_info.get('item_enum', []) if field_info.get('type') == 'array' else field_info.get('enum', [])
+    if not enum:
+        return
+    from openpyxl.worksheet.datavalidation import DataValidation
+    lookup_col = lookup_ws.max_column + 1
+    for row, value in enumerate(enum, 1):
+        lookup_ws.cell(row=row, column=lookup_col, value=value)
+    letter = lookup_ws.cell(row=1, column=lookup_col).column_letter
+    validation = DataValidation(
+        type='list', formula1=f"'_lookups'!${letter}$1:${letter}${len(enum)}",
+        allow_blank=True,
+    )
+    # Multi-value fields accept comma-separated choices; scalar fields are strict.
+    validation.showErrorMessage = field_info.get('type') != 'array'
+    ws.add_data_validation(validation)
+    validation.add(f'{column}{row_start}:{column}{row_end}')
+
+
+def write_dataset_tabular_template(template, schema, output_path, fmt):
+    """Write a one-row dataset template as CSV or an XLSX workbook."""
+    fields = get_field_info(schema)
+    names = list(fields)
+    if fmt == 'csv':
+        with open(output_path, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=names)
+            writer.writeheader()
+            writer.writerow({name: _excel_value(template.get(name, '')) for name in names})
+        return
+    try:
+        from openpyxl import Workbook
+        from openpyxl.comments import Comment
+    except ImportError as e:
+        raise ImportError('openpyxl is required for XLSX templates: pip install openpyxl') from e
+    wb = Workbook()
+    ws = wb.active
+    ws.title = 'Annotations'
+    lookup_ws = wb.create_sheet('_lookups')
+    lookup_ws.sheet_state = 'hidden'
+    for col, name in enumerate(names, 1):
+        cell = ws.cell(row=1, column=col, value=name)
+        if fields[name].get('description'):
+            cell.comment = Comment(fields[name]['description'], 'Synapse Dataset Manager')
+        ws.cell(row=2, column=col, value=_excel_value(template.get(name, '')))
+        ws.column_dimensions[cell.column_letter].width = min(max(len(name) + 2, 16), 40)
+        _add_xlsx_validation(ws, lookup_ws, cell.column_letter, fields[name], 2, 501)
+    ws.freeze_panes = 'A2'
+    wb.save(output_path)
+
+
+def _file_schema_for_tier(file_type, tier, all_schemas):
+    """Return the concrete RecordSet/FileSet schema for an abstract file family."""
+    if file_type.endswith(('RecordSetFile', 'FileSetFile')):
+        return file_type
+    stem = file_type[:-4] if file_type.endswith('File') else file_type
+    candidate = f"{stem}{'RecordSetFile' if tier == 'recordset' else 'FileSetFile'}"
+    return candidate if candidate in all_schemas else None
+
+
+def load_file_tier_map(path):
+    """Load a JSON object mapping Synapse entity IDs (or filenames) to a file tier."""
+    if not path:
+        return {}
+    with open(path) as f:
+        mapping = json.load(f)
+    if not isinstance(mapping, dict):
+        raise ValueError('--file-tier-map must contain a JSON object')
+    invalid = {str(v).lower() for v in mapping.values()} - {'recordset', 'fileset'}
+    if invalid:
+        raise ValueError('--file-tier-map values must be recordset or fileset')
+    return {str(k): str(v).lower() for k, v in mapping.items()}
+
+
+def load_file_type_map(value):
+    """Load a JSON file-type map from a file path or an inline JSON object."""
+    if not value:
+        return {}
+    try:
+        if str(value).lstrip().startswith('{'):
+            mapping = json.loads(value)
+        else:
+            with open(value) as f:
+                mapping = json.load(f)
+    except (OSError, json.JSONDecodeError) as e:
+        raise ValueError(f'Could not read --file-type-map: {e}') from e
+    if not isinstance(mapping, dict):
+        raise ValueError('--file-type-map must contain a JSON object')
+    if not all(isinstance(key, str) and isinstance(schema, str) and schema.strip()
+               for key, schema in mapping.items()):
+        raise ValueError('--file-type-map keys and values must be non-empty strings')
+    return mapping
+
+
+def write_file_tabular_templates(annotations_output, all_schemas, output_path, fmt,
+                                  requested_type=None, tier='both', tier_map=None):
+    """Export file annotations into per-concrete-schema CSVs or XLSX worksheets."""
+    tier_map = tier_map or {}
+    groups = defaultdict(list)
+    unassigned = []
+    # Always create both concrete sheets for a RecordSet/FileSet family, even
+    # when one tier has no routed rows yet. This makes mixed-tier workbooks
+    # usable as templates rather than hiding the other valid schema.
+    for file_data in annotations_output.values():
+        _, annotations = next(iter(file_data.items()))
+        source_type = annotations.get('_file_type', 'File')
+        if requested_type and requested_type.endswith(('RecordSetFile', 'FileSetFile')):
+            groups[requested_type]
+        elif tier == 'both':
+            for candidate_tier in ('recordset', 'fileset'):
+                concrete = _file_schema_for_tier(source_type, candidate_tier, all_schemas)
+                if concrete:
+                    groups[concrete]
+        else:
+            concrete = _file_schema_for_tier(source_type, tier, all_schemas)
+            if concrete:
+                groups[concrete]
+    for entity_id, file_data in annotations_output.items():
+        filename, annotations = next(iter(file_data.items()))
+        source_type = annotations.get('_file_type', 'File')
+        mapped_tier = tier_map.get(entity_id) or tier_map.get(filename)
+        chosen_tier = mapped_tier or (tier if tier != 'both' else None)
+        concrete = _file_schema_for_tier(source_type, chosen_tier, all_schemas) if chosen_tier else None
+        # An exact concrete --type always wins over auto-detection.
+        if requested_type and requested_type.endswith(('RecordSetFile', 'FileSetFile')):
+            concrete = requested_type
+        if concrete:
+            row = dict(annotations)
+            row['_file_type'] = concrete
+            groups[concrete].append((entity_id, filename, row))
+        else:
+            unassigned.append((entity_id, filename, source_type))
+
+    if fmt == 'csv':
+        base = Path(output_path)
+        for schema_type, rows in groups.items():
+            fields = list(get_field_info(get_schema_for_type(schema_type, all_schemas)))
+            path = base.with_name(f'{base.stem}_{schema_type}.csv')
+            with open(path, 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=['entityId', 'filename', '_file_type'] + fields)
+                writer.writeheader()
+                for entity_id, filename, row in rows:
+                    writer.writerow({'entityId': entity_id, 'filename': filename,
+                                     '_file_type': schema_type,
+                                     **{key: _excel_value(row.get(key, '')) for key in fields}})
+        if unassigned:
+            path = base.with_name(f'{base.stem}_Unassigned.csv')
+            with open(path, 'w', newline='') as f:
+                writer = csv.writer(f); writer.writerow(['entityId', 'filename', 'detected_type'])
+                writer.writerows(unassigned)
+        return
+
+    try:
+        from openpyxl import Workbook
+        from openpyxl.comments import Comment
+    except ImportError as e:
+        raise ImportError('openpyxl is required for XLSX templates: pip install openpyxl') from e
+    wb = Workbook(); wb.remove(wb.active)
+    lookup_ws = wb.create_sheet('_lookups'); lookup_ws.sheet_state = 'hidden'
+    for schema_type, rows in groups.items():
+        fields = get_field_info(get_schema_for_type(schema_type, all_schemas))
+        ws = wb.create_sheet(schema_type[:31])
+        headers = ['entityId', 'filename', '_file_type'] + list(fields)
+        for col, name in enumerate(headers, 1):
+            cell = ws.cell(1, col, name)
+            if name in fields and fields[name].get('description'):
+                cell.comment = Comment(fields[name]['description'], 'Synapse Dataset Manager')
+            ws.column_dimensions[cell.column_letter].width = min(max(len(name) + 2, 16), 40)
+        for row_num, (entity_id, filename, values) in enumerate(rows, 2):
+            ws.cell(row_num, 1, entity_id); ws.cell(row_num, 2, filename); ws.cell(row_num, 3, schema_type)
+            for col, name in enumerate(fields, 4): ws.cell(row_num, col, _excel_value(values.get(name, '')))
+        for col, name in enumerate(fields, 4):
+            _add_xlsx_validation(ws, lookup_ws, ws.cell(1, col).column_letter, fields[name], 2, max(501, len(rows) + 1))
+        ws.column_dimensions['C'].hidden = True; ws.freeze_panes = 'A2'
+    if unassigned:
+        ws = wb.create_sheet('Unassigned')
+        ws.append(['entityId', 'filename', 'detected_type', 'note'])
+        for row in unassigned: ws.append([*row, 'Add this ID or filename to --file-tier-map and regenerate.'])
+    wb.save(output_path)
+
+
+def merge_annotations_smartly(existing, template):
+    """
+    Smart merge: Keep existing values, add new fields from template.
+    Used for CREATE workflow.
+    """
+    merged = template.copy()
+
+    for key, value in existing.items():
+        if value not in ["", [""], [], None]:
+            merged[key] = value
+
+    return merged
+
+
+def merge_file_annotations_priority(old_annot, new_annot, template, field_types=None):
+    """
+    Priority merge: old (release) > new (staging) > template.
+    Used for UPDATE workflow.
+
+    Synapse always returns existing entity annotations as lists regardless of
+    their declared type, so ``old_annot`` values for scalar fields (e.g. a
+    string ``description``) arrive list-wrapped. When ``field_types`` (from
+    get_field_type_map) is provided, every merged value is coerced back to its
+    schema-declared shape so scalar fields don't leak out as one-element lists.
+    """
+    merged = {}
+    merged.update(template)
+
+    for key, value in new_annot.items():
+        if value not in ["", [""], [], None]:
+            merged[key] = value
+
+    for key, value in old_annot.items():
+        if value not in ["", [""], [], None]:
+            merged[key] = value
+
+    if field_types:
+        for key, value in merged.items():
+            field_type = field_types.get(key)
+            if field_type:
+                merged[key] = _coerce_annotation_type(value, field_type)
+
+    return merged
+
+
+def load_field_migrations(path) -> dict:
+    """Load the deprecated → canonical field migration map (YAML).
+
+    See configs/field_migrations.yaml for the format and rationale. Returns an
+    empty dict when the file is missing, empty, or malformed (migration is then a
+    no-op — never fatal to the update workflow).
+    """
+    if not path or not os.path.exists(path):
+        return {}
+    try:
+        with open(path, 'r') as f:
+            data = yaml.safe_load(f) or {}
+    except Exception as e:
+        print(f"⚠️  Warning: could not load field migrations {path}: {e}")
+        return {}
+    if not isinstance(data, dict):
+        print(f"⚠️  Warning: field migrations {path} is not a mapping; ignoring")
+        return {}
+    return data
+
+
+def _coerce_annotation_type(value, type_name):
+    """Coerce a value to a target type/shape for field migration.
+
+    Scalar targets (boolean/integer/number/string) unwrap a single-element list
+    first, so ``[False]`` becomes ``False``. ``array`` wraps a scalar into a
+    one-element list. Unknown types or un-coercible values are returned unchanged.
+    """
+    t = str(type_name).lower()
+
+    if t in ('array', 'list', 'multivalued'):
+        return value if isinstance(value, list) else [value]
+
+    scalar_types = ('boolean', 'bool', 'integer', 'int', 'number', 'float', 'string', 'str')
+    if t not in scalar_types:
+        return value
+
+    # Unwrap single-element list for scalar targets (e.g. [False] -> False).
+    if isinstance(value, list):
+        non_empty = [v for v in value if v not in ('', None)]
+        if not non_empty:
+            return value
+        value = non_empty[0]
+
+    try:
+        if t in ('boolean', 'bool'):
+            if isinstance(value, bool):
+                return value
+            s = str(value).strip().lower()
+            if s in ('true', '1', 'yes', 'y', 't'):
+                return True
+            if s in ('false', '0', 'no', 'n', 'f'):
+                return False
+            return value
+        if t in ('integer', 'int'):
+            return int(float(value))
+        if t in ('number', 'float'):
+            return float(value)
+        if t in ('string', 'str'):
+            return str(value)
+    except (ValueError, TypeError):
+        return value
+    return value
+
+
+def migrate_deprecated_fields(annotations: dict, migrations: dict) -> tuple:
+    """Rewrite deprecated annotation fields to their canonical equivalents.
+
+    Driven by the explicit migration map from load_field_migrations. For each
+    field present in ``annotations``:
+      - ``drop: true``       -> remove the field, no replacement.
+      - ``target`` only      -> move the value into the canonical field, then drop
+                                the old one (replace-if-empty; canonical wins).
+      - ``target`` + values  -> translate each value through the map first; on a
+                                rename, values with no translation are dropped so
+                                nothing invalid leaks into an enum field.
+      - ``merge: true``      -> append (deduped) into the target list instead of
+                                replace-if-empty. Lets several old fields feed one
+                                multivalued target (e.g. collection+source→program).
+      - ``type``             -> coerce the value's type/shape (e.g. boolean unwraps
+                                ``[False]`` to ``False``; ``array`` wraps a scalar).
+                                Works with or without ``target``.
+      - ``routes``           -> value-dependent split: a list of routes, each with
+                                ``when_values`` (omit for catch-all), ``target``, and
+                                optional ``values``/``type``. Each value in the field
+                                is merged into the first matching route's target;
+                                values matching no route are dropped. Used for
+                                ``source`` (consortium values → program, repository
+                                values → repository).
+
+    Without ``target`` (and without ``routes``) the entry is an in-place fix: value
+    normalization keeps unmapped values, type coercion adjusts shape. Internal keys
+    (leading underscore, e.g. ``_staging_id``) are never touched.
+
+    Returns ``(new_annotations, changes)`` where ``changes`` is a list of
+    human-readable strings describing what happened, for logging.
+    """
+    if not migrations:
+        return annotations, []
+
+    def _empty(v):
+        return v in ("", [], [""], None)
+
+    def _as_list(v):
+        return list(v) if isinstance(v, list) else [v]
+
+    def _merge_into(target, new_values):
+        existing = result.get(target)
+        existing = [] if _empty(existing) else _as_list(existing)
+        added = [v for v in new_values if v not in existing]
+        if added:
+            result[target] = existing + added
+        return added
+
+    result = dict(annotations)
+    changes = []
+
+    for old_field, spec in migrations.items():
+        if old_field.startswith('_') or old_field not in result:
+            continue
+        if not isinstance(spec, dict):
+            continue
+
+        old_value = result[old_field]
+
+        if spec.get('drop'):
+            del result[old_field]
+            if not _empty(old_value):
+                changes.append(f"dropped deprecated '{old_field}' (={old_value})")
+            continue
+
+        # Value-dependent routing: split the field's values across targets.
+        routes = spec.get('routes')
+        if routes:
+            dropped = []
+            for v in ([] if _empty(old_value) else _as_list(old_value)):
+                placed = False
+                for route in routes:
+                    wv = route.get('when_values')
+                    if wv is None or str(v) in [str(x) for x in wv]:
+                        tv = (route.get('values') or {}).get(str(v), v)
+                        if route.get('type') is not None:
+                            tv = _coerce_annotation_type(tv, route['type'])
+                        added = _merge_into(route['target'], _as_list(tv))
+                        if added:
+                            changes.append(f"routed '{old_field}'={v!r} → '{route['target']}' {added}")
+                        placed = True
+                        break
+                if not placed:
+                    dropped.append(v)
+            del result[old_field]
+            if dropped:
+                changes.append(f"dropped '{old_field}' values with no route: {dropped}")
+            continue
+
+        value_map = spec.get('values') or {}
+        type_name = spec.get('type')
+        merge = bool(spec.get('merge'))
+        # Default target to the field itself: an in-place type/value fix, no rename.
+        target = spec.get('target') or old_field
+        in_place = (target == old_field)
+
+        # On a replace-style rename, the canonical field wins if already populated.
+        if not in_place and not merge and not _empty(result.get(target)):
+            del result[old_field]
+            changes.append(f"dropped '{old_field}' ('{target}' already set)")
+            continue
+
+        # Translate the deprecated value(s) into the canonical vocabulary.
+        # In-place normalization keeps unmapped values; renames drop them (enum safety).
+        if _empty(old_value):
+            migrated = None
+        elif isinstance(old_value, list):
+            if value_map:
+                migrated = [value_map.get(str(v), v) if in_place else value_map[str(v)]
+                            for v in old_value if in_place or str(v) in value_map]
+            else:
+                migrated = list(old_value)
+        else:
+            if value_map:
+                migrated = value_map.get(str(old_value), old_value if in_place else None)
+            else:
+                migrated = old_value
+
+        # Coerce type/shape (unwrap single-element arrays for scalar ranges, etc.).
+        if type_name is not None and migrated is not None and not _empty(migrated):
+            migrated = _coerce_annotation_type(migrated, type_name)
+
+        if migrated is None or _empty(migrated):
+            if not in_place:
+                del result[old_field]
+                changes.append(f"migrated '{old_field}'→'{target}' but value dropped (no translation)")
+            continue
+
+        if merge and not in_place:
+            added = _merge_into(target, _as_list(migrated))
+            del result[old_field]
+            if added:
+                changes.append(f"merged '{old_field}' → '{target}' += {added}")
+            continue
+
+        if not in_place:
+            del result[old_field]
+
+        if in_place and migrated == old_value:
+            continue  # no-op, don't log
+
+        result[target] = migrated
+        if in_place:
+            changes.append(f"normalized '{old_field}' → {migrated!r}")
+        else:
+            changes.append(f"migrated '{old_field}'→'{target}' (={migrated})")
+
+    return result, changes
+
+
+def normalize_annotations_from_mapping(annotations: dict, mapping: dict) -> dict:
+    """
+    Normalize existing annotation values in-place using a mapping dict.
+
+    Unlike fill_template_from_metadata (which pulls values from a separate metadata row),
+    this function looks up values that already exist in the annotations and translates
+    them through the mapping's value map.
+
+    Only modifies fields that:
+      - exist in the mapping (via their target field name)
+      - already have a non-empty value in the annotations
+      - have an explicit translation in the values dict
+
+    Does NOT add new fields or overwrite values not present in the value map.
+
+    Args:
+        annotations: Current annotation dict (data-model field names → values)
+        mapping: Mapping dict {source_col: {"target": field, "values": {src: tgt}} | str}
+
+    Returns:
+        New dict with normalized values.
+    """
+    result = dict(annotations)
+
+    for _source_col, entry in mapping.items():
+        if isinstance(entry, dict):
+            raw_target = entry.get('target', '')
+            value_map = entry.get('values', {})
+        elif isinstance(entry, str) and entry.strip():
+            raw_target = entry
+            value_map = {}
+        else:
+            continue
+
+        if not raw_target or not value_map:
+            continue
+
+        targets = raw_target if isinstance(raw_target, list) else [raw_target]
+        for t in targets:
+            current = result.get(t)
+            if current is None or current == '' or current == [] or current == ['']:
+                continue
+            if isinstance(current, list):
+                result[t] = [value_map.get(str(v), v) for v in current]
+            else:
+                result[t] = value_map.get(str(current), current)
+
+    return result
+
+
+# ==================== CREATE WORKFLOW FUNCTIONS ====================
+
+def enumerate_files_with_folders(syn, folder_id, recursive=True, verbose=False):
+    """
+    Enumerate files in a Synapse folder recursively.
+    Returns: {syn_id: {'name': filename, 'path': folder_path, 'annotations': {}}}
+    """
+    print(f"Enumerating files from folder {folder_id}...")
+
+    files_dict = {}
+    total_items = 0
+
+    def _process_folder(folder_syn_id, path_prefix=""):
+        """Recursively process folder"""
+        nonlocal total_items
+        try:
+            children = list(syn.getChildren(folder_syn_id))
+            total_items += len(children)
+
+            if verbose:
+                print(f"  Checking folder {folder_syn_id}: {len(children)} items")
+
+            for child in children:
+                child_id = child['id']
+                child_name = child['name']
+                child_type = child.get('type', '')
+
+                if verbose:
+                    print(f"    Item: {child_name} (type: {child_type})")
+
+                # Check for file types - handle both old and new API
+                # Types: 'file', 'org.sagebionetworks.repo.model.FileEntity'
+                if child_type.lower() == 'file' or 'fileentity' in child_type.lower():
+                    try:
+                        entity = syn.get(child_id, downloadFile=False)
+                        annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+
+                        files_dict[child_id] = {
+                            'name': child_name,
+                            'path': path_prefix,
+                            'annotations': annotations
+                        }
+
+                        if verbose:
+                            print(f"      ✓ Added file: {path_prefix}/{child_name}")
+                    except Exception as e:
+                        print(f"      ⚠️  Error processing file {child_name}: {e}")
+
+                # Check for folder types - handle both old and new API
+                # Types: 'folder', 'org.sagebionetworks.repo.model.Folder'
+                elif (child_type.lower() == 'folder' or 'folder' in child_type.lower()) and recursive:
+                    new_path = f"{path_prefix}/{child_name}" if path_prefix else child_name
+                    if verbose:
+                        print(f"      → Entering subfolder: {child_name}")
+                    _process_folder(child_id, new_path)
+                else:
+                    if verbose:
+                        print(f"      ⊘ Skipped (type: {child_type})")
+
+        except Exception as e:
+            print(f"  ✗ Error processing folder {folder_syn_id}: {e}")
+            import traceback
+            traceback.print_exc()
+
+    _process_folder(folder_id)
+    print(f"✓ Found {len(files_dict)} files (from {total_items} total items)")
+
+    if len(files_dict) == 0 and total_items > 0:
+        print("⚠️  WARNING: Items found but no files detected.")
+        print("   This might mean:")
+        print("   - Files are in subfolders (use recursive=True)")
+        print("   - Files are a different entity type")
+        print("   - Permission issues")
+        print(f"   Run with --verbose to see item types")
+
+    return files_dict
+
+
+def annotations_differ(current_annotations, new_annotations):
+    """
+    Compare current Synapse annotations with new annotations to detect changes.
+
+    Args:
+        current_annotations: Dict of current annotations from Synapse entity
+        new_annotations: Dict of new annotations to apply
+
+    Returns:
+        bool: True if annotations differ, False if they're the same
+    """
+    # Get all keys from both annotation sets
+    all_keys = set(current_annotations.keys()) | set(new_annotations.keys())
+
+    for key in all_keys:
+        current_val = current_annotations.get(key)
+        new_val = new_annotations.get(key)
+
+        # Normalize empty values (None, '', [], ['']) to None for comparison
+        def normalize_empty(val):
+            if val in (None, '', [], ['']):
+                return None
+            if isinstance(val, list) and len(val) == 1 and val[0] == '':
+                return None
+            return val
+
+        current_val = normalize_empty(current_val)
+        new_val = normalize_empty(new_val)
+
+        # Both empty - no difference
+        if current_val is None and new_val is None:
+            continue
+
+        # One empty, one not - difference
+        if (current_val is None) != (new_val is None):
+            return True
+
+        # Compare list values (order-independent for most annotation fields)
+        if isinstance(current_val, list) and isinstance(new_val, list):
+            if sorted(current_val) != sorted(new_val):
+                return True
+        # Compare scalar values
+        elif current_val != new_val:
+            return True
+
+    # No differences found
+    return False
+
+
+def apply_annotations_to_files(syn, file_annotations_dict, dry_run=True, verbose=False,
+                                version_label=None, version_comment=None, skip_unchanged=True):
+    """
+    Apply annotations to file entities in Synapse.
+    Used in CREATE workflow and UPDATE workflow (annotation-only path).
+
+    Args:
+        syn: Synapse client
+        file_annotations_dict: Dict of {syn_id: {filename: annotations}}
+        dry_run: If True, only preview changes
+        verbose: If True, print detailed output
+        version_label: Version label to apply (forces new version)
+        version_comment: Version comment for the update
+        skip_unchanged: If True, skip files with unchanged annotations (default: True)
+
+    Returns:
+        (success_count, error_count, skipped_count)
+    """
+    success_count = 0
+    error_count = 0
+    skipped_count = 0
+
+    for syn_id, file_data in file_annotations_dict.items():
+        filename = list(file_data.keys())[0]
+        annotations = file_data[filename]
+
+        try:
+            cleaned = clean_annotations_for_synapse(annotations)
+
+            # Fetch current annotations to compare
+            entity = syn.get(syn_id, downloadFile=False)
+            current_annotations = dict(entity.annotations)
+
+            # Check if annotations differ
+            has_changes = annotations_differ(current_annotations, cleaned)
+
+            if not has_changes and skip_unchanged:
+                if verbose or dry_run:
+                    print(f"  [SKIP] No changes for {filename} ({syn_id})")
+                skipped_count += 1
+                continue
+
+            if dry_run:
+                label_str = f" with label '{version_label}'" if version_label else ""
+                change_str = "changes" if has_changes else "no changes"
+                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations ({change_str}) to {filename}{label_str}")
+                success_count += 1
+            else:
+                if version_label:
+                    # Use syn.store() only when versioning is requested
+                    entity.annotations = cleaned
+                    if version_comment:
+                        entity['versionComment'] = version_comment
+                    syn.store(entity, forceVersion=True,
+                              versionLabel=version_label)
+                else:
+                    # Use set_annotations to avoid creating a new version. Synapse's
+                    # set_annotations is itself destructive (full replace), so clear
+                    # the fetched annotations (keeping id/etag) before repopulating —
+                    # otherwise fields removed locally would never disappear on Synapse.
+                    annos = syn.get_annotations(syn_id)
+                    annos.clear()
+                    annos.update(cleaned)
+                    syn.set_annotations(annos)
+
+                if verbose:
+                    print(f"  ✓ Applied annotations to {filename}")
+                success_count += 1
+
+        except Exception as e:
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+                skipped_count += 1
+            else:
+                print(f"  ✗ Error applying annotations to {filename}: {e}")
+                error_count += 1
+
+    return success_count, error_count, skipped_count
+
+
+def apply_dataset_annotations(syn, dataset_syn_id, annotations, all_schemas, dry_run=True):
+    """
+    Apply annotations to an existing dataset entity in Synapse.
+
+    Args:
+        syn: Synapse client
+        dataset_syn_id: Synapse ID of the existing dataset entity
+        annotations: Dict of annotations to apply
+        all_schemas: Dict of loaded JSON schemas (for validation)
+        dry_run: If True, only show what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    # Template generator stamps the type under '_file_type'; fall back to legacy
+    # '_dataset_type' for older annotation files.
+    dataset_type = (annotations.get('_file_type')
+                    or annotations.get('_dataset_type')
+                    or 'ClinicalDataset')
+
+    is_valid, errors, warnings = validate_annotation_against_schema(
+        annotations, dataset_type, all_schemas
+    )
+
+    if warnings:
+        print(f"  Warnings ({len(warnings)}):")
+        for w in warnings:
+            print(f"    ⚠️  {w}")
+
+    if not is_valid:
+        print(f"  Errors ({len(errors)}):")
+        for e in errors:
+            print(f"    ✗ {e}")
+        print("  ❌ Validation failed — annotations not applied")
+        return False
+
+    cleaned = clean_annotations_for_synapse(annotations)
+
+    # description is a dedicated entity property in Synapse, not a regular annotation
+    entity_description = cleaned.pop('description', None)
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {dataset_syn_id}")
+        print(f"  [DRY_RUN] Fields: {', '.join(list(cleaned.keys())[:10])}{'...' if len(cleaned) > 10 else ''}")
+        if entity_description:
+            print(f"  [DRY_RUN] Description: {entity_description[:80]}{'...' if len(entity_description) > 80 else ''}")
+        return True
+
+    try:
+        # Use set_annotations to avoid creating a new version
+        annos = syn.get_annotations(dataset_syn_id)
+        annos.update(cleaned)
+        syn.set_annotations(annos)
+        print(f"  ✓ Applied {len(cleaned)} annotations to {dataset_syn_id}")
+
+        # Description is an entity property, must use store — but only if needed
+        if entity_description:
+            entity = syn.get(dataset_syn_id, downloadFile=False)
+            entity.description = entity_description
+            syn.store(entity, forceVersion=False)
+            print(f"  ✓ Set description")
+        return True
+    except Exception as e:
+        print(f"  ✗ Error applying annotations: {e}")
+        return False
+
+
+def validate_link_dataset_annotations(dataset_annotations):
+    """
+    Validate that link dataset has required url field.
+
+    Args:
+        dataset_annotations: Dataset annotation dict
+
+    Returns:
+        Tuple of (is_valid, error_message)
+    """
+    if not dataset_annotations.get('url'):
+        return False, "Missing required 'url' field - link datasets must reference an external URL"
+
+    url_value = dataset_annotations.get('url', '').strip()
+    if url_value == '':
+        return False, "Empty 'url' field - link datasets must have a valid external URL"
+
+    return True, None
+
+
+def create_dataset_entity(syn, dataset_name, dataset_annotations, project_id,
+                         all_schemas, dry_run=True, description=None):
+    """
+    Create a new Dataset entity in Synapse.
+    Returns: dataset_syn_id or None
+    """
+    try:
+        # Remove file-level fields that shouldn't be in dataset annotations
+        file_level_fields = {
+            'assay', 'platform', 'specimenType', 'cellType', 'libraryLayout',
+            'FACSPopulation', 'GEOSuperSeries', 'biospecimenType', 'originalSampleName',
+            'fileFormat', 'sex', 'age', 'diagnosis', 'tissueType', 'tissueOrigin'
+        }
+
+        # Clean dataset annotations
+        cleaned_dataset_annotations = {}
+        for key, value in dataset_annotations.items():
+            if key not in file_level_fields:
+                # Remove empty string arrays
+                if isinstance(value, list) and value == ['']:
+                    cleaned_dataset_annotations[key] = []
+                else:
+                    cleaned_dataset_annotations[key] = value
+
+        # Validate dataset annotations (warnings only - main validation already done in STEP 1)
+        dataset_type = cleaned_dataset_annotations.get('_dataset_type', 'ClinicalDataset')
+        is_valid, errors, warnings = validate_annotation_against_schema(
+            cleaned_dataset_annotations, dataset_type, all_schemas
+        )
+
+        if not is_valid:
+            print(f"  ⚠️  Dataset has validation warnings (proceeding as approved in STEP 1):")
+            for error in errors[:3]:  # Show first 3 errors only
+                print(f"    - {error}")
+            if len(errors) > 3:
+                print(f"    ... and {len(errors) - 3} more")
+
+        cleaned = clean_annotations_for_synapse(cleaned_dataset_annotations)
+
+        # description is a dedicated entity property in Synapse, not a regular annotation
+        description = description or cleaned.pop('description', None)
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would create dataset '{dataset_name}' with {len(cleaned)} annotations")
+            if cleaned:
+                print(f"  [DRY_RUN] Annotations: {', '.join(list(cleaned.keys())[:10])}")
+            if description:
+                print(f"  [DRY_RUN] Description: {description[:80]}{'...' if len(description) > 80 else ''}")
+            return "syn_DRYRUN_DATASET"
+
+        # Create dataset (without annotations first)
+        dataset = Dataset(
+            name=dataset_name,
+            parent_id=project_id
+        )
+        dataset = dataset.store()
+        print(f"  ✓ Created dataset: {dataset.id}")
+
+        # Apply annotations and description using the old API (get, set, store)
+        # The new Dataset models API doesn't properly persist annotations
+        entity = syn.get(dataset.id, downloadFile=False)
+        if cleaned:
+            try:
+                entity.annotations = cleaned
+                if description:
+                    entity.description = description
+                syn.store(entity)
+                print(f"  ✓ Applied {len(cleaned)} annotations: {', '.join(list(cleaned.keys())[:10])}")
+                if description:
+                    print(f"  ✓ Set description")
+            except Exception as e:
+                print(f"  ⚠️  Warning: Failed to apply annotations: {e}")
+                import traceback
+                traceback.print_exc()
+        elif description:
+            try:
+                entity.description = description
+                syn.store(entity)
+                print(f"  ✓ Set description")
+            except Exception as e:
+                print(f"  ⚠️  Warning: Failed to set description: {e}")
+        else:
+            print(f"  ⚠️  Warning: No annotations to apply")
+
+        return dataset.id
+
+    except Exception as e:
+        print(f"  ✗ Error creating dataset: {e}")
+        return None
+
+
+def add_files_to_dataset(syn, dataset_id, file_syn_ids, dry_run=True):
+    """Add files to a dataset"""
+    try:
+        if dry_run:
+            print(f"  [DRY_RUN] Would add {len(file_syn_ids)} files to dataset {dataset_id}")
+            return True
+
+        dataset = Dataset(dataset_id).get()
+
+        for file_id in file_syn_ids:
+            file_ref = File(id=file_id)
+            dataset.add_item(file_ref)
+
+        dataset.store()
+        print(f"  ✓ Added {len(file_syn_ids)} files to dataset")
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error adding files to dataset: {e}")
+        return False
+
+
+def get_dataset_column_specs(syn, dataset_id, all_schemas, dataset_type=None,
+                             extra_schema_names=None, field_names=None):
+    """Build Dataset table columns from its File schema plus optional schemas."""
+    if not dataset_type:
+        dataset = Dataset(dataset_id).get()
+        annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
+        dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+        if hasattr(dataset, 'annotations'):
+            print(f"  📊 Auto-detected dataset type: {dataset_type}")
+
+    file_type_for_columns = (dataset_type or 'File').replace('Dataset', 'File')
+    schema_names = [file_type_for_columns] + [
+        name.replace('Dataset', 'File') for name in (extra_schema_names or [])
+    ]
+    missing = [name for name in schema_names if name not in (all_schemas or {})]
+    if missing:
+        raise ValueError(f"Schema(s) not found: {', '.join(missing)}")
+
+    merged_properties = {}
+    for name in schema_names:
+        merged_properties.update(all_schemas[name].get('properties', {}) or {})
+    return build_columns_from_schema({'properties': merged_properties}, field_names), file_type_for_columns
+
+
+def add_dataset_columns(syn, dataset_id, all_schemas, dataset_type=None,
+                       extra_schema_names=None, field_names=None, source_columns=None,
+                       dry_run=True):
+    """
+    Add annotation columns to dataset for faceted search with size constraints.
+
+    A Synapse Dataset entity's table shows one row per included file, so its columns
+    must reflect FILE-level annotation fields, not the dataset's own descriptive
+    metadata — the same reasoning create_dataset_entity_view() already applies to
+    entity views. dataset_type is converted to its File-schema counterpart (e.g.
+    'SpeechDataset' -> 'SpeechFile') before pulling columns from json-schemas/
+    (build_columns_from_schema) rather than a hand-maintained list, so every modeled
+    field is available and correctly typed. Pass source_columns to instead port an
+    exact column set/order from an existing entity (see get_columns_from_entity),
+    skipping schema derivation entirely.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        all_schemas: Dict of all loaded schemas, keyed by schema name
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, will auto-detect from dataset annotations
+        extra_schema_names: Optional list of additional exact schema names (any
+                     schema loaded by get_all_schemas, e.g. 'MetadataSchema') whose
+                     properties are merged in alongside the resolved File-type schema
+                     — lets the dataset table follow more than one schema. Later
+                     schemas win on name clashes. Ignored when source_columns is given.
+        field_names: Optional list of property names to cherry-pick/order (default:
+                     every property across the resolved schema(s)). A name not found
+                     in any of them still gets added as a generic faceted STRING
+                     column rather than being dropped. Ignored when source_columns is
+                     given.
+        source_columns: Optional list of col_info dicts (from get_columns_from_entity)
+                     to use verbatim instead of deriving columns from a schema — ports
+                     an existing entity's exact columns and order onto this dataset.
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        if source_columns is not None:
+            columns_to_add = source_columns
+            type_label = 'ported columns'
+        else:
+            columns_to_add, type_label = get_dataset_column_specs(
+                syn, dataset_id, all_schemas, dataset_type=dataset_type,
+                extra_schema_names=extra_schema_names, field_names=field_names
+            )
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would add {len(columns_to_add)} columns to dataset ({type_label})")
+            print(f"  [DRY_RUN] Columns: {', '.join([c['name'] for c in columns_to_add])}")
+            return True
+
+        # Get dataset with existing columns
+        dataset = Dataset(dataset_id).get()
+
+        # Get existing columns to avoid duplicates
+        existing_columns = []
+        if hasattr(dataset, 'columns_to_store') and dataset.columns_to_store:
+            existing_columns = [col.name for col in dataset.columns_to_store]
+
+        # Add columns with size constraints
+        added_count = 0
+        for col_info in columns_to_add:
+            if col_info['name'] not in existing_columns:
+                try:
+                    # Build column kwargs
+                    col_kwargs = {
+                        'name': col_info['name'],
+                        'column_type': col_info['type'],
+                        'facet_type': col_info.get('facet')
+                    }
+
+                    # Add size constraints to prevent 64KB row limit violations
+                    if col_info['type'] == ColumnType.STRING and 'max_size' in col_info:
+                        col_kwargs['maximum_size'] = col_info['max_size']
+                    elif col_info['type'] == ColumnType.STRING_LIST and 'max_list_len' in col_info:
+                        col_kwargs['maximum_list_length'] = col_info['max_list_len']
+
+                    col = Column(**col_kwargs)
+                    dataset.add_column(column=col)
+                    added_count += 1
+                except Exception as e:
+                    print(f"    ⚠️  Could not add column {col_info['name']}: {e}")
+            else:
+                print(f"    ℹ️  Column {col_info['name']} already exists, skipping")
+
+        # Store changes
+        if added_count > 0:
+            dataset.store()
+            print(f"  ✓ Added {added_count} columns to dataset ({type_label})")
+        else:
+            print(f"  ℹ️  No new columns to add (all {len(columns_to_add)} already exist)")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error adding columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def replace_dataset_columns(syn, dataset_id, columns_to_add, dry_run=True):
+    """Replace a Dataset's user-managed columns, preserving Synapse system columns."""
+    protected = {'id', 'name', *SYNAPSE_SYSTEM_COLUMNS_TAIL}
+    try:
+        dataset = Dataset(id=dataset_id).get(include_columns=True)
+        current_columns = getattr(dataset, 'columns', {}) or {}
+        removable = [name for name in current_columns if name not in protected]
+        desired = [column for column in columns_to_add if column['name'] not in protected]
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would remove {len(removable)} existing user-managed column(s)")
+            print(f"  [DRY_RUN] Would recreate {len(desired)} schema column(s)")
+            print(f"  [DRY_RUN] New columns: {', '.join(column['name'] for column in desired)}")
+            return True
+
+        for column_name in removable:
+            dataset.delete_column(name=column_name)
+        if removable:
+            dataset.store()
+            print(f"  ✓ Removed {len(removable)} existing user-managed column(s)")
+
+        return add_dataset_columns(
+            syn, dataset_id, {}, source_columns=desired, dry_run=False
+        )
+    except Exception as e:
+        print(f"  ✗ Error replacing dataset columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def reorder_dataset_columns(syn, dataset_id, dataset_type=None, column_order=None, dry_run=True):
+    """
+    Reorder dataset columns based on priority template.
+
+    Puts important columns first for better UX in Synapse UI:
+    1. System columns (id, name)
+    2. High-priority annotation columns (dataType, fileFormat, etc.)
+    3. Type-specific columns (clinical or omic)
+    4. Standard Synapse metadata columns
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, will auto-detect from dataset annotations
+        column_order: Optional explicit column name order to use instead of the small
+                     priority template — e.g. an order ported from another entity via
+                     get_columns_from_entity. Columns not in this list are appended
+                     after, in their existing order (same fallback as the template).
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Auto-detect dataset type if not provided
+        if not dataset_type:
+            dataset = Dataset(dataset_id).get()
+            annotations = dataset.annotations if hasattr(dataset, 'annotations') else {}
+            dataset_type = annotations.get('_dataset_type', 'ClinicalDataset')
+
+        # Get dataset with columns (matching notebook pattern)
+        dataset = Dataset(id=dataset_id).get(include_columns=True)
+
+        # Get current column order (using dataset.columns.keys() like the notebook)
+        if not hasattr(dataset, 'columns') or not dataset.columns:
+            print(f"  ℹ️  No columns to reorder")
+            return True
+
+        current_columns = list(dataset.columns.keys())
+
+        # Use an explicit ported order if given, else the small priority template
+        template_order = column_order if column_order is not None else build_column_order()
+
+        # Filter template to only include columns that exist in dataset
+        final_order = []
+        for col in template_order:
+            if col in current_columns:
+                final_order.append(col)
+
+        # Append any remaining columns not in template (to handle custom columns)
+        remaining_cols = [col for col in current_columns if col not in final_order]
+        final_order.extend(remaining_cols)
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would reorder {len(final_order)} columns")
+            print(f"  [DRY_RUN] Current order: {', '.join(current_columns[:10])}{'...' if len(current_columns) > 10 else ''}")
+            print(f"  [DRY_RUN] New order: {', '.join(final_order[:10])}{'...' if len(final_order) > 10 else ''}")
+            return True
+
+        # Apply reordering (matching notebook pattern)
+        for target_index, col_name in enumerate(final_order):
+            dataset.reorder_column(name=col_name, index=target_index)
+
+        # Store changes
+        dataset.store()
+        print(f"  ✓ Reordered {len(final_order)} columns ({dataset_type})")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error reordering columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def verify_dataset_columns(syn, dataset_id, verbose=True):
+    """
+    Retrieve and display dataset columns for verification.
+
+    Shows column names, types, facet types, and size constraints.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        verbose: If True, show detailed column information
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        dataset = Dataset(id=dataset_id).get(include_columns=True)
+
+        # Use dataset.columns (consistent with reorder function)
+        if not hasattr(dataset, 'columns') or not dataset.columns:
+            print(f"  ℹ️  Dataset has no columns")
+            return True
+
+        # dataset.columns is a dict, get the Column objects
+        columns = list(dataset.columns.values())
+        print(f"  📊 Total columns: {len(columns)}")
+
+        # Group by facet type
+        faceted = [c for c in columns if c.facet_type]
+        non_faceted = [c for c in columns if not c.facet_type]
+
+        print(f"  🔍 Faceted (searchable): {len(faceted)}")
+        print(f"  📝 Non-faceted: {len(non_faceted)}")
+
+        if verbose and faceted:
+            print("\n  Faceted columns:")
+            for col in faceted:
+                size_info = ''
+                if col.maximum_size:
+                    size_info = f" (max: {col.maximum_size})"
+                elif col.maximum_list_length:
+                    size_info = f" (max list: {col.maximum_list_length})"
+                facet_display = col.facet_type.value if col.facet_type else 'None'
+                print(f"   • {col.name}: {col.column_type.value}{size_info} [{facet_display}]")
+
+            if len(faceted) > 10:
+                print(f"   ... and {len(faceted) - 10} more faceted columns")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error verifying columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def resolve_ported_columns(syn, from_entity, columns=None):
+    """
+    Shared --from-entity resolution for create-entity-view, reorder-columns, and
+    create: fetch columns from an existing entity (get_columns_from_entity) to port
+    onto a new/target entity, optionally filtered down to --columns names (source
+    order preserved). Returns None when from_entity isn't given, so callers can pass
+    the result straight through as source_columns (schema-derivation path runs as
+    normal when None).
+    """
+    if not from_entity:
+        return None
+    ported = get_columns_from_entity(syn, from_entity, field_names=columns)
+    filter_note = f" (filtered to {len(columns)} requested)" if columns else ""
+    print(f"  📋 Porting {len(ported)} columns from {from_entity}{filter_note}")
+    return ported
+
+
+def handle_reorder_columns(args, config):
+    """Handle REORDER-COLUMNS workflow — add missing columns and reorder on an existing dataset."""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: REORDER DATASET COLUMNS")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    dataset_id = args.dataset_id
+    # Fuzzy-resolve the supplied type against json-schemas/; None => auto-detect downstream.
+    dataset_type = None
+    if args.dataset_type:
+        try:
+            dataset_type = resolve_schema_type(args.dataset_type, all_schemas, kind='dataset')
+        except SchemaTypeResolutionError as e:
+            print(f"❌ {e}")
+            return
+
+    ported_columns = resolve_ported_columns(syn, getattr(args, 'from_entity', None), getattr(args, 'columns', None))
+    extra_schema_names = []
+    if ported_columns is None:
+        for requested_type in getattr(args, 'extra_schema_types', None) or []:
+            try:
+                extra_schema_names.append(resolve_schema_type(
+                    requested_type, all_schemas, kind='file', interactive=False
+                ))
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {e}")
+                return
+    elif getattr(args, 'extra_schema_types', None):
+        print("  ℹ️  --from-entity supplied; ignoring --extra-schema-types")
+
+    if ported_columns is not None:
+        desired_columns = ported_columns
+    else:
+        try:
+            desired_columns, _ = get_dataset_column_specs(
+                syn, dataset_id, all_schemas, dataset_type=dataset_type,
+                extra_schema_names=extra_schema_names,
+                field_names=getattr(args, 'columns', None)
+            )
+        except ValueError as e:
+            print(f"❌ {e}")
+            return
+
+    # Step 1: Add missing columns, or explicitly replace the existing managed schema.
+    if getattr(args, 'replace_columns', False):
+        print("\n--- Replacing managed dataset columns ---")
+        columns_updated = replace_dataset_columns(
+            syn, dataset_id, desired_columns, dry_run=config.DRY_RUN
+        )
+    else:
+        print("\n--- Adding missing columns ---")
+        columns_updated = add_dataset_columns(
+            syn, dataset_id, all_schemas, source_columns=desired_columns,
+            dry_run=config.DRY_RUN
+        )
+    if not columns_updated:
+        print("❌ Column update failed; skipping reorder and verification")
+        return
+
+    # Step 2: Reorder columns
+    print("\n--- Reordering columns ---")
+    column_order = [c['name'] for c in ported_columns] if ported_columns is not None else None
+    reorder_dataset_columns(syn, dataset_id, dataset_type=dataset_type, column_order=column_order, dry_run=config.DRY_RUN)
+
+    # Step 3: Verify
+    print("\n--- Verifying columns ---")
+    verify_dataset_columns(syn, dataset_id, config.VERBOSE)
+
+    if config.DRY_RUN:
+        print("\n✅ DRY RUN COMPLETE — re-run with --execute to apply changes")
+    else:
+        print("\n✅ COLUMN REORDER COMPLETE")
+    print("=" * 60)
+
+
+def add_staging_folder_to_dataset(syn, dataset_id, staging_folder_id, dry_run=True):
+    """
+    Recursively add entire staging folder contents to dataset.
+
+    This is a cleaner alternative to adding files one-by-one.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        staging_folder_id: Staging folder Synapse ID
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        if dry_run:
+            print(f"  [DRY_RUN] Would add staging folder {staging_folder_id} to dataset")
+            return True
+
+        dataset = Dataset(id=dataset_id).get()
+        dataset.add_item(Folder(id=staging_folder_id))
+        dataset.store()
+        print(f"  ✓ Added staging folder to dataset")
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error adding staging folder to dataset: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+# ==================== ADVANCED FEATURES ====================
+
+def move_files_to_release(syn, staging_folder_id, file_ids, release_folder_id,
+                         move_mode='folder', dry_run=True, verbose=False):
+    """
+    Move files from staging to release folder.
+
+    Args:
+        syn: Synapse client
+        staging_folder_id: Staging folder Synapse ID (for folder mode)
+        file_ids: List of file Synapse IDs (for individual mode)
+        release_folder_id: Target release folder Synapse ID
+        move_mode: 'folder' to move entire folder, 'individual' to move files one by one
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+
+    Returns:
+        Tuple of (success_count, error_count)
+    """
+    success_count = 0
+    error_count = 0
+
+    if move_mode == 'folder' and staging_folder_id:
+        # Move all files within staging folder to release folder (not the folder itself)
+        print(f"Moving files from staging folder {staging_folder_id} to release folder {release_folder_id}")
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would move {len(file_ids)} files from {staging_folder_id} to {release_folder_id}")
+            return len(file_ids), 0
+        else:
+            try:
+                # Use Folder.sync_from_synapse to get all files recursively
+                folder = Folder(id=staging_folder_id)
+                folder = folder.sync_from_synapse(download_file=False, recursive=True)
+                results = folder.files
+
+                print(f"  Found {len(results)} files to move")
+
+                for item in results:
+                    try:
+                        file = File(id=item.id, download_file=False).get()
+                        file.parent_id = release_folder_id
+                        file = file.store()
+                        if verbose:
+                            print(f"  ✓ Moved {file.name} to {release_folder_id}")
+                        success_count += 1
+                    except Exception as e:
+                        print(f"  ✗ Error moving {item.id}: {e}")
+                        error_count += 1
+
+                print(f"  ✓ Moved {success_count} files to release folder")
+                return success_count, error_count
+            except Exception as e:
+                print(f"  ✗ Error accessing staging folder: {e}")
+                return 0, len(file_ids)
+
+    else:
+        # Move individual files
+        print(f"Moving {len(file_ids)} files to release folder {release_folder_id}")
+
+        for file_id in file_ids:
+            try:
+                file_entity = File(id=file_id, download_file=False).get()
+                filename = file_entity.name
+
+                if dry_run:
+                    print(f"  [DRY_RUN] Would move {filename} ({file_id}) to {release_folder_id}")
+                    success_count += 1
+                else:
+                    file_entity.parent_id = release_folder_id
+                    file_entity = file_entity.store()
+                    if verbose:
+                        print(f"  ✓ Moved {filename} ({file_id})")
+                    success_count += 1
+
+            except Exception as e:
+                print(f"  ✗ Error moving {file_id}: {e}")
+                error_count += 1
+
+        return success_count, error_count
+
+
+def _get_concrete_type(entity):
+    """Return the concreteType string for a classic Synapse entity."""
+    return getattr(entity, 'concreteType', '') or str(entity.properties.get('concreteType', ''))
+
+
+def collect_files_to_move(syn, source_ids, recursive=False, verbose=False, pattern=None):
+    """
+    Expand a list of source Synapse IDs into a flat list of file IDs to move.
+
+    Each source ID may be a File (added directly) or a Folder (contained
+    files are added; subfolders are descended into when recursive=True).
+
+    Args:
+        syn: Synapse client
+        source_ids: List of File and/or Folder Synapse IDs
+        recursive: If True, descend into subfolders of folder sources
+        verbose: Show detailed output
+        pattern: Optional glob pattern (fnmatch syntax, e.g. "*.csv"). Only files
+            discovered by expanding a Folder/Project source are filtered against
+            it; files passed explicitly in source_ids are always included.
+
+    Returns:
+        List of (file_id, file_name) tuples, de-duplicated, preserving order
+    """
+    seen = set()
+    files = []
+
+    def add_file(fid, fname):
+        if fid not in seen:
+            seen.add(fid)
+            files.append((fid, fname))
+
+    def matches_pattern(fname):
+        return pattern is None or fnmatch.fnmatch(fname, pattern)
+
+    def walk_folder(folder_id):
+        for child in syn.getChildren(folder_id, includeTypes=["file", "folder"]):
+            ctype = child.get('type', '')
+            if 'FileEntity' in ctype:
+                cname = child.get('name', child['id'])
+                if matches_pattern(cname):
+                    add_file(child['id'], cname)
+                elif verbose:
+                    print(f"    - skipping {cname} (does not match pattern '{pattern}')")
+            elif 'Folder' in ctype and recursive:
+                if verbose:
+                    print(f"    ↳ descending into folder {child['id']} ({child.get('name', '')})")
+                walk_folder(child['id'])
+
+    for sid in source_ids:
+        try:
+            entity = syn.get(sid, downloadFile=False)
+        except Exception as e:
+            print(f"  ✗ Could not retrieve source {sid}: {e}")
+            continue
+
+        concrete = _get_concrete_type(entity)
+        if 'FileEntity' in concrete:
+            add_file(sid, getattr(entity, 'name', sid))
+        elif 'Folder' in concrete or 'Project' in concrete:
+            if verbose:
+                print(f"  Expanding folder {sid} ({getattr(entity, 'name', '')})")
+            walk_folder(sid)
+        else:
+            print(f"  ⚠️  Skipping {sid}: unsupported entity type ({concrete or 'unknown'})")
+
+    return files
+
+
+def handle_move_files(args, config):
+    """Handle MOVE workflow — move individual files, several files, or all files
+    (optionally filtered by --pattern) within source folder(s) to a single target folder."""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: MOVE FILES")
+    print("=" * 60)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    target_id = args.target
+
+    # Validate target is a container (Folder or Project)
+    try:
+        target = syn.get(target_id, downloadFile=False)
+    except Exception as e:
+        print(f"✗ Could not retrieve target {target_id}: {e}")
+        return
+    target_concrete = _get_concrete_type(target)
+    if 'Folder' not in target_concrete and 'Project' not in target_concrete:
+        print(f"✗ Target {target_id} is not a Folder or Project (type: {target_concrete or 'unknown'})")
+        return
+
+    verbose = args.verbose
+    pattern = args.pattern
+    print(f"\nTarget folder : {target_id} ({getattr(target, 'name', '')})")
+    print(f"Sources       : {', '.join(args.source)}")
+    print(f"Recursive     : {args.recursive}")
+    if pattern:
+        print(f"Pattern       : {pattern}")
+
+    print("\nCollecting files to move...")
+    files = collect_files_to_move(syn, args.source, recursive=args.recursive, verbose=verbose,
+                                   pattern=pattern)
+
+    if not files:
+        print("\n⚠️  No files found to move.")
+        return
+
+    # Skip files already in the target folder
+    pending = []
+    for fid, fname in files:
+        try:
+            entity = syn.get(fid, downloadFile=False)
+        except Exception as e:
+            print(f"  ✗ Could not retrieve {fid}: {e}")
+            continue
+        current_parent = entity.properties.get('parentId', getattr(entity, 'parentId', None))
+        if current_parent == target_id:
+            if verbose:
+                print(f"  - {fname} ({fid}) already in target, skipping")
+            continue
+        pending.append((fid, fname, entity))
+
+    print(f"\n{len(files)} file(s) collected, {len(pending)} to move "
+          f"({len(files) - len(pending)} already in target).")
+
+    if not pending:
+        print("\n✓ Nothing to move — all files already in target folder.")
+        return
+
+    success_count = 0
+    error_count = 0
+    for fid, fname, entity in pending:
+        if config.DRY_RUN:
+            print(f"  [DRY_RUN] Would move {fname} ({fid}) → {target_id}")
+            success_count += 1
+            continue
+        try:
+            entity.parentId = target_id
+            syn.store(entity, forceVersion=False)
+            print(f"  ✓ Moved {fname} ({fid}) → {target_id}")
+            success_count += 1
+        except Exception as e:
+            print(f"  ✗ Error moving {fname} ({fid}): {e}")
+            error_count += 1
+
+    print("\n" + "=" * 60)
+    if config.DRY_RUN:
+        print(f"DRY RUN complete: {success_count} file(s) would be moved.")
+        print("Re-run with --execute to perform the move.")
+    else:
+        print(f"MOVE complete: {success_count} moved, {error_count} errors.")
+    print("=" * 60)
+
+
+def set_file_versions(syn, file_ids, version_label, version_comment=None, dry_run=True, verbose=False):
+    """
+    Set version labels on files.
+
+    Args:
+        syn: Synapse client
+        file_ids: List of file Synapse IDs
+        version_label: Version label to apply (e.g., "v1.0")
+        version_comment: Optional version comment
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+
+    Returns:
+        Tuple of (success_count, error_count)
+    """
+    if not version_label:
+        return 0, 0
+
+    print(f"Setting version label '{version_label}' on {len(file_ids)} files")
+
+    success_count = 0
+    error_count = 0
+
+    for file_id in file_ids:
+        try:
+            if dry_run:
+                file_entity = syn.get(file_id, downloadFile=False)
+                print(f"  [DRY_RUN] Would set version '{version_label}' on {file_entity.name}")
+                success_count += 1
+            else:
+                file_entity = syn.get(file_id, downloadFile=False)
+                file_entity.versionLabel = version_label
+                if version_comment:
+                    file_entity.versionComment = version_comment
+                syn.store(file_entity, forceVersion=True)
+
+                if verbose:
+                    print(f"  ✓ Set version '{version_label}' on {file_entity.name}")
+                success_count += 1
+
+        except Exception as e:
+            print(f"  ✗ Error setting version on {file_id}: {e}")
+            error_count += 1
+
+    return success_count, error_count
+
+
+def upload_file_new_versions(syn, file_annotations, local_files_dir,
+                              version_label=None, version_comment=None,
+                              dry_run=True, verbose=False):
+    """
+    Upload local files as new versions of existing Synapse file entities.
+
+    For each entry in file_annotations, find a matching file in local_files_dir
+    by filename, then upload it to the same syn_id (creating a new version).
+    Annotations are applied during upload.
+
+    Args:
+        syn: Synapse client
+        file_annotations: {syn_id: {filename: annotations_dict}}
+        local_files_dir: Local directory containing prepared file versions
+        version_label: Version label (e.g., "v4-JAN")
+        version_comment: Version comment
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+
+    Returns:
+        Tuple of (success_count, error_count, skipped_count)
+    """
+    success_count = 0
+    error_count = 0
+    skipped_count = 0
+
+    local_files = {}
+    if os.path.isdir(local_files_dir):
+        for fname in os.listdir(local_files_dir):
+            local_files[fname.lower()] = os.path.join(local_files_dir, fname)
+
+    for syn_id, file_data in file_annotations.items():
+        filename = list(file_data.keys())[0]
+        annotations = list(file_data.values())[0]
+
+        # Try to find matching local file (case-insensitive)
+        local_path = local_files.get(filename.lower())
+        if local_path is None:
+            if verbose:
+                print(f"  [SKIP] No local file found matching '{filename}' ({syn_id})")
+            skipped_count += 1
+            continue
+
+        try:
+            cleaned = clean_annotations_for_synapse(annotations)
+
+            if dry_run:
+                label_str = f" with version label '{version_label}'" if version_label else ""
+                print(f"  [DRY_RUN] Would upload {os.path.basename(local_path)} -> {syn_id}{label_str}")
+                success_count += 1
+            else:
+                file_entity = File(
+                    path=local_path,
+                    id=syn_id,
+                    name=filename,
+                    version_label=version_label,
+                    version_comment=version_comment,
+                    annotations=cleaned,
+                )
+                file_entity.store()
+                if verbose:
+                    print(f"  ✓ Uploaded new version of {filename} ({syn_id})")
+                success_count += 1
+
+        except Exception as e:
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+                skipped_count += 1
+            else:
+                print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
+                error_count += 1
+
+    return success_count, error_count, skipped_count
+
+
+def upload_new_versions_from_staging(syn, file_annotations: dict,
+                                      version_label=None, version_comment=None,
+                                      dry_run=True, verbose=False) -> tuple[int, int, int]:
+    """
+    For each file in file_annotations that has _staging_id, download the staging
+    file and upload it as a new version of the existing entity (the outer syn_id key).
+
+    Returns: (success_count, error_count, skipped_count)
+    """
+    import tempfile
+    success_count = error_count = skipped_count = 0
+    download_dir = tempfile.mkdtemp(prefix='sdm_upload_')
+
+    for syn_id, file_data in file_annotations.items():
+        filename = list(file_data.keys())[0]
+        annotations = list(file_data.values())[0]
+        staging_id = annotations.get('_staging_id')
+
+        if not staging_id:
+            skipped_count += 1
+            continue
+
+        local_path = download_file_for_analysis(syn, staging_id, download_dir)
+        if not local_path:
+            print(f"  ✗ Could not download staging file {staging_id} for {filename}")
+            error_count += 1
+            continue
+
+        try:
+            cleaned = clean_annotations_for_synapse(annotations)
+            if dry_run:
+                label_str = f" with label '{version_label}'" if version_label else ""
+                print(f"  [DRY_RUN] Would upload {staging_id} → {syn_id} ({filename}){label_str}")
+                success_count += 1
+            else:
+                file_entity = File(
+                    path=local_path,
+                    id=syn_id,
+                    name=filename,
+                    version_label=version_label,
+                    version_comment=version_comment,
+                    annotations=cleaned,
+                )
+                file_entity.store()
+                if verbose:
+                    print(f"  ✓ Uploaded new version: {filename} ({syn_id})")
+                success_count += 1
+        except Exception as e:
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+                skipped_count += 1
+            else:
+                print(f"  ✗ Error uploading {filename} ({syn_id}): {e}")
+                error_count += 1
+
+    return success_count, error_count, skipped_count
+
+
+def upload_single_version_from_staging(syn, syn_id, staging_id,
+                                        version_label=None, version_comment=None,
+                                        dry_run=True, verbose=False) -> bool:
+    """
+    Download a single staging file and upload it as a new version of an existing
+    Synapse file entity, preserving that entity's current annotations.
+
+    Unlike upload_new_versions_from_staging (which drives the batch UPDATE
+    workflow off a pre-built annotations dict), this looks up syn_id's existing
+    annotations directly — no annotations JSON required for a one-off version bump.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse ID of the existing file entity to create a new version of
+        staging_id: Synapse ID of the staging file with the new content
+        version_label: Version label (e.g., "v4-JAN")
+        version_comment: Version comment
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+
+    Returns:
+        True on success (or dry-run), False on error/skip.
+    """
+    import tempfile
+
+    try:
+        entity = syn.get(syn_id, downloadFile=False)
+    except Exception as e:
+        print(f"  ✗ Could not retrieve existing entity {syn_id}: {e}")
+        return False
+    filename = entity.name
+    annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+
+    download_dir = tempfile.mkdtemp(prefix='sdm_upload_')
+    local_path = download_file_for_analysis(syn, staging_id, download_dir)
+    if not local_path:
+        print(f"  ✗ Could not download staging file {staging_id} for {filename}")
+        return False
+
+    try:
+        cleaned = clean_annotations_for_synapse(annotations)
+        if dry_run:
+            label_str = f" with label '{version_label}'" if version_label else ""
+            print(f"  [DRY_RUN] Would upload {staging_id} → {syn_id} ({filename}){label_str}")
+            return True
+
+        file_entity = File(
+            path=local_path,
+            id=syn_id,
+            name=filename,
+            version_label=version_label,
+            version_comment=version_comment,
+            annotations=cleaned,
+        )
+        file_entity.store()
+        print(f"  ✓ Uploaded new version of {filename} ({syn_id})")
+        return True
+    except Exception as e:
+        err_str = str(e)
+        if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+            print(f"  [SKIP] Version '{version_label}' already exists for {filename} ({syn_id}) — skipping")
+        else:
+            print(f"  ✗ Error uploading new version of {filename} ({syn_id}): {e}")
+        return False
+
+
+def move_and_add_new_files(syn, new_file_ids_annotations, release_folder_id,
+                            dataset_id, dry_run=True, verbose=False,
+                            version_label=None, version_comment=None):
+    """
+    Move new-only staging files to release folder, add to dataset, apply annotations.
+
+    Used when staging has files that don't exist in the release dataset yet.
+
+    Args:
+        syn: Synapse client
+        new_file_ids_annotations: {syn_id: {filename: annotations_dict}}
+                                   (files from staging not yet in release)
+        release_folder_id: Synapse ID of release folder
+        dataset_id: Synapse ID of dataset to add files to
+        dry_run: If True, only show what would be done
+        verbose: Show detailed output
+        version_label: Optional version label to apply (creates a new version)
+        version_comment: Optional version comment
+
+    Returns:
+        Tuple of (success_count, error_count)
+    """
+    success_count = 0
+    error_count = 0
+
+    for syn_id, file_data in new_file_ids_annotations.items():
+        filename = list(file_data.keys())[0]
+        annotations = list(file_data.values())[0]
+
+        try:
+            cleaned = clean_annotations_for_synapse(annotations)
+
+            if dry_run:
+                print(f"  [DRY_RUN] Would move {filename} ({syn_id}) -> {release_folder_id}")
+                print(f"  [DRY_RUN] Would add {syn_id} to dataset {dataset_id}")
+                print(f"  [DRY_RUN] Would apply {len(cleaned)} annotations to {syn_id}")
+                success_count += 1
+                continue
+
+            # 1. Move to release folder (rename staging entity to form name if needed)
+            file_entity = syn.get(syn_id, downloadFile=False)
+            if file_entity.name != filename:
+                file_entity.name = filename
+            file_entity.parentId = release_folder_id
+            syn.store(file_entity, forceVersion=False)
+            if verbose:
+                print(f"  ✓ Moved {filename} ({syn_id}) to {release_folder_id}")
+
+            # 2. Add to dataset
+            dataset = Dataset(id=dataset_id).get()
+            dataset.add_item(File(id=syn_id))
+            dataset.store()
+            if verbose:
+                print(f"  ✓ Added {syn_id} to dataset {dataset_id}")
+
+            # 3. Apply annotations (and version label if provided)
+            if version_label:
+                entity = syn.get(syn_id, downloadFile=False)
+                entity.annotations = cleaned
+                if version_comment:
+                    entity['versionComment'] = version_comment
+                syn.store(entity, forceVersion=True,
+                          versionLabel=version_label)
+            else:
+                # Use set_annotations to avoid creating a new version
+                annos = syn.get_annotations(syn_id)
+                annos.update(cleaned)
+                syn.set_annotations(annos)
+            if verbose:
+                label_str = f" with label '{version_label}'" if version_label else ""
+                print(f"  ✓ Applied {len(cleaned)} annotations to {filename}{label_str}")
+
+            success_count += 1
+
+        except Exception as e:
+            print(f"  ✗ Error processing new file {filename} ({syn_id}): {e}")
+            error_count += 1
+
+    return success_count, error_count
+
+
+def verify_update_results(syn, dataset_id, expected_syn_ids,
+                           expected_version_label=None,
+                           release_folder_id=None,
+                           verbose=True):
+    """
+    Verify update results: version labels, parent folders, dataset membership.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Synapse ID of the dataset
+        expected_syn_ids: List of syn IDs to verify
+        expected_version_label: Expected version label on file entities (optional)
+        release_folder_id: Expected parent folder ID (optional)
+        verbose: Print per-file results
+
+    Returns:
+        dict with keys: verified_versions, verified_folders, verified_membership, failures
+    """
+    results = {
+        'verified_versions': 0,
+        'verified_folders': 0,
+        'verified_membership': 0,
+        'failures': []
+    }
+
+    try:
+        dataset = Dataset(id=dataset_id).get()
+        dataset_item_ids = {item.id for item in dataset.items}
+    except Exception as e:
+        print(f"  ✗ Could not retrieve dataset items for {dataset_id}: {e}")
+        dataset_item_ids = set()
+
+    for syn_id in expected_syn_ids:
+        file_failures = []
+        try:
+            entity = syn.get(syn_id, downloadFile=False)
+
+            # Check version label
+            if expected_version_label:
+                actual_label = getattr(entity, 'versionLabel', None)
+                if actual_label == expected_version_label:
+                    results['verified_versions'] += 1
+                else:
+                    file_failures.append(
+                        f"version label: expected '{expected_version_label}', got '{actual_label}'"
+                    )
+
+            # Check parent folder
+            if release_folder_id:
+                actual_parent = getattr(entity, 'parentId', None)
+                if actual_parent == release_folder_id:
+                    results['verified_folders'] += 1
+                else:
+                    file_failures.append(
+                        f"parent folder: expected '{release_folder_id}', got '{actual_parent}'"
+                    )
+
+            # Check dataset membership
+            if syn_id in dataset_item_ids:
+                results['verified_membership'] += 1
+            else:
+                file_failures.append(f"not found in dataset {dataset_id}")
+
+            if verbose:
+                status = "✓" if not file_failures else "✗"
+                print(f"  {status} {entity.name} ({syn_id})")
+                for failure in file_failures:
+                    print(f"      ✗ {failure}")
+
+        except Exception as e:
+            file_failures.append(f"could not retrieve entity: {e}")
+            if verbose:
+                print(f"  ✗ {syn_id}: {e}")
+
+        if file_failures:
+            results['failures'].append({'syn_id': syn_id, 'issues': file_failures})
+
+    total = len(expected_syn_ids)
+    print(f"\n  Verification summary ({total} files):")
+    if expected_version_label:
+        print(f"    Version labels correct : {results['verified_versions']}/{total}")
+    if release_folder_id:
+        print(f"    Folders correct        : {results['verified_folders']}/{total}")
+    print(f"    Dataset membership     : {results['verified_membership']}/{total}")
+    print(f"    Failures               : {len(results['failures'])}")
+
+    return results
+
+
+def generate_wiki_with_ai(dataset_name, dataset_annotations, file_list, dataset_config, timeout=60):
+    """
+    Use Gemini AI to generate wiki content based on dataset information.
+
+    Args:
+        dataset_name: Dataset name
+        dataset_annotations: Dataset annotation dict
+        file_list: List of file names in dataset
+        dataset_config: Dataset config dict (may contain contact, contributors, etc.)
+        timeout: Timeout in seconds
+
+    Returns:
+        Wiki markdown content, or None if AI fails
+    """
+    # Create prompt for Gemini
+    prompt = f"""Generate a dataset documentation wiki in markdown format for a research dataset.
+
+Dataset Name: {dataset_name}
+
+Dataset Metadata:
+{json.dumps(dataset_annotations, indent=2)}
+
+Files in Dataset ({len(file_list)} files):
+{', '.join(file_list[:10])}{'...' if len(file_list) > 10 else ''}
+
+Additional Information from Config:
+{json.dumps(dataset_config, indent=2)}
+
+Please generate documentation using this EXACT template structure:
+
+**Summary:** [Write a comprehensive 2-3 sentence summary describing the study, its purpose, key findings, and data availability]
+
+**Overall Design:**
+- [Study design point 1]
+- [Study design point 2]
+- [Study design point 3]
+- [Additional design details as bullet points]
+
+<details>
+
+<summary>Show More</summary>
+
+<b>Contact:</b>
+
+- [Principal Investigator name, credentials, email]
+- [Institution/Department]
+
+<b>Contributors:</b> [List all contributors as comma-separated names]
+
+<b>Publication:</b>
+
+- [Citation with authors, title, journal, year, DOI]
+- [**DOI:** DOI_NUMBER](DOI_URL)
+
+</details>
+
+IMPORTANT INSTRUCTIONS:
+1. Return ONLY the markdown content, no additional text
+2. Use the EXACT template structure above
+3. Fill in details based on the dataset metadata provided
+4. If information is missing, use placeholder text like "[To be added]"
+5. For Contact section, extract from dataset annotations if available
+6. For Contributors, use dataset metadata if available
+7. For Publication, check for DOI or publication info in metadata
+8. Keep the <details> section exactly as shown
+9. Make the Summary concise but informative (2-3 sentences)
+10. Overall Design should have 4-6 bullet points describing methodology
+
+Generate the wiki content now:"""
+
+    # Check if gemini is available
+    if not check_gemini_available():
+        print("  ⚠️  Gemini CLI not found - skipping AI wiki generation")
+        return None
+
+    try:
+        # Run gemini with the prompt
+        result = subprocess.run(
+            ['gemini', '--yolo'],
+            input=prompt,
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+
+        if result.returncode == 0 and result.stdout.strip():
+            wiki_content = result.stdout.strip()
+            # Remove any markdown code blocks if present
+            if wiki_content.startswith('```'):
+                lines = wiki_content.split('\n')
+                wiki_content = '\n'.join(lines[1:-1] if lines[-1].strip() == '```' else lines[1:])
+            return wiki_content
+        else:
+            print(f"  ⚠️  Gemini returned no content or error")
+            return None
+
+    except subprocess.TimeoutExpired:
+        print(f"  ⚠️  Gemini timed out after {timeout} seconds")
+        return None
+    except Exception as e:
+        print(f"  ⚠️  Error running Gemini: {e}")
+        return None
+
+
+def create_basic_wiki_template(dataset_name, dataset_annotations, file_count, dataset_config):
+    """
+    Create basic wiki content using the template structure.
+
+    Args:
+        dataset_name: Dataset name
+        dataset_annotations: Dataset annotation dict
+        file_count: Number of files in dataset
+        dataset_config: Dataset config dict
+
+    Returns:
+        Wiki markdown content
+    """
+    # Extract information
+    summary = dataset_annotations.get('description', '[Dataset description to be added]')
+    study_type = dataset_annotations.get('studyType', ['[Study type]'])
+    study_design = dataset_annotations.get('studyDesign', '[Study design]')
+    data_types = dataset_annotations.get('dataType', ['[Data type]'])
+
+    # Format as list if needed
+    if isinstance(study_type, list):
+        study_type = ', '.join(study_type)
+    if isinstance(data_types, list):
+        data_types = ', '.join(data_types)
+
+    # Get contact, contributors, publications from config
+    contact = dataset_config.get('contact', '[Principal Investigator, email@institution.edu]')
+    institution = dataset_config.get('institution', '[Institution/Department]')
+    contributors = dataset_config.get('contributors', '[List of contributors]')
+    publication = dataset_config.get('publication', '[Citation information]')
+    doi = dataset_config.get('doi', '')
+    doi_url = f"https://doi.org/{doi}" if doi else "#"
+
+    # Build wiki content using template
+    wiki_content = f"""**Summary:** {summary}
+
+**Overall Design:**
+- Study Type: {study_type}
+- Study Design: {study_design}
+- Data Types: {data_types}
+- Total Files: {file_count}
+
+<details>
+
+<summary>Show More</summary>
+
+<b>Contact:</b>
+
+- {contact}
+- {institution}
+
+<b>Contributors:</b> {contributors}
+
+<b>Publication:</b>
+
+- {publication}
+{f'- [**DOI:** {doi}]({doi_url})' if doi else ''}
+
+</details>
+"""
+
+    return wiki_content
+
+
+def generate_dataset_wiki(syn, dataset_id, dataset_name, dataset_annotations, file_count,
+                          file_list=None, dataset_config=None, custom_content=None,
+                          use_ai=True, ai_timeout=60, dry_run=True):
+    """
+    Generate and attach a wiki to the dataset.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        dataset_name: Dataset name
+        dataset_annotations: Dataset annotation dict
+        file_count: Number of files in dataset
+        file_list: List of file names (optional, for AI context)
+        dataset_config: Dataset config dict (optional, for contact info, etc.)
+        custom_content: Optional custom markdown content (overrides everything)
+        use_ai: Use AI to generate wiki content
+        ai_timeout: Timeout for AI generation
+        dry_run: If True, only show what would be created
+
+    Returns:
+        Wiki ID if created, None otherwise
+    """
+    dataset_config = dataset_config or {}
+
+    # Priority: custom_content > AI-generated > basic template
+    if custom_content:
+        wiki_content = custom_content
+    elif use_ai:
+        print("  🤖 Generating wiki content with AI...")
+        wiki_content = generate_wiki_with_ai(
+            dataset_name, dataset_annotations, file_list or [],
+            dataset_config, ai_timeout
+        )
+        if not wiki_content:
+            print("  ⚠️  AI generation failed, using basic template")
+            wiki_content = create_basic_wiki_template(
+                dataset_name, dataset_annotations, file_count, dataset_config
+            )
+    else:
+        wiki_content = create_basic_wiki_template(
+            dataset_name, dataset_annotations, file_count, dataset_config
+        )
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would create wiki for dataset {dataset_id}")
+        print(f"  Wiki content preview (first 300 chars):")
+        print(f"  {wiki_content[:300]}...")
+        return None
+    else:
+        try:
+            wiki = syn.store(Wiki(
+                title="Dataset Documentation",
+                markdown=wiki_content,
+                owner=dataset_id
+            ))
+            print(f"  ✓ Wiki created successfully with ID: {wiki.id}")
+            return wiki.id
+        except Exception as e:
+            print(f"  ✗ Error creating wiki: {e}")
+            return None
+
+
+def create_dataset_snapshot(syn, dataset_id, version_label, version_comment=None, dry_run=True):
+    """
+    Create a snapshot/version of the dataset.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        version_label: Version label (e.g., "v1.0", "2026.1")
+        version_comment: Optional comment describing the version
+        dry_run: If True, only show what would be created
+
+    Returns:
+        Snapshot ID if created, None otherwise
+    """
+    if not version_label:
+        return None
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would create snapshot '{version_label}' for dataset {dataset_id}")
+        if version_comment:
+            print(f"    Comment: {version_comment}")
+        return None
+    else:
+        try:
+            # Use Dataset.snapshot() API
+            dataset = Dataset(id=dataset_id).get(include_columns=True)
+            snapshot = dataset.snapshot(
+                comment=version_comment or f"Dataset snapshot {version_label}",
+                label=version_label
+            )
+            print(f"  ✅ Created snapshot successfully!")
+            print(f"     🏷️  Label: {version_label}")
+            print(f"     💬 Comment: {version_comment or f'Dataset snapshot {version_label}'}")
+            print(f"     🔗 URL: https://www.synapse.org/#!Synapse:{dataset_id}")
+            return dataset_id
+        except Exception as e:
+            print(f"  ✗ Error creating snapshot: {e}")
+            return None
+
+
+def delete_file_versions_by_label(syn, syn_id, version_labels, dry_run=True, verbose=False):
+    """
+    Delete all versions of a Synapse file entity whose versionLabel matches any of the given labels.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse entity ID
+        version_labels: List of version label strings to delete (e.g. ["v5-FEB_test", "v5-FEB_test_v2"])
+        dry_run: If True, only show what would be deleted
+        verbose: Show detailed output
+
+    Returns:
+        (deleted_count, skipped_count, error_count)
+    """
+    label_set = set(version_labels)
+    deleted = skipped = errors = 0
+
+    try:
+        # Paginate through all versions
+        versions = []
+        offset = 0
+        limit = 100
+        while True:
+            page = syn.restGET(f"/entity/{syn_id}/version?offset={offset}&limit={limit}")
+            batch = page.get('results', [])
+            versions.extend(batch)
+            if len(batch) < limit:
+                break
+            offset += limit
+
+        matches = [(v['versionNumber'], v.get('versionLabel', '')) for v in versions
+                   if v.get('versionLabel') in label_set]
+
+        if not matches:
+            if verbose:
+                print(f"  [SKIP] No matching versions found on {syn_id}")
+            skipped += 1
+            return deleted, skipped, errors
+
+        for version_number, label in matches:
+            if dry_run:
+                print(f"  [DRY_RUN] Would delete {syn_id} version {version_number} (label='{label}')")
+                deleted += 1
+            else:
+                try:
+                    syn.delete(syn_id, version=version_number)
+                    if verbose:
+                        print(f"  ✓ Deleted {syn_id} version {version_number} (label='{label}')")
+                    deleted += 1
+                except Exception as e:
+                    print(f"  ✗ Error deleting {syn_id} v{version_number}: {e}")
+                    errors += 1
+
+    except Exception as e:
+        print(f"  ✗ Error listing versions for {syn_id}: {e}")
+        errors += 1
+
+    return deleted, skipped, errors
+
+
+def _walk_entity_tree(syn, entity_id, verbose=False):
+    """
+    Recursively enumerate all descendants of a Folder/Project entity.
+
+    Returns:
+        List of dicts {'id', 'name', 'type'} ('File' or 'Folder') for every
+        entity found beneath entity_id, not including entity_id itself.
+    """
+    descendants = []
+
+    def walk(folder_id):
+        for child in syn.getChildren(folder_id, includeTypes=["file", "folder"]):
+            ctype = child.get('type', '')
+            if 'FileEntity' in ctype:
+                descendants.append({'id': child['id'], 'name': child.get('name', child['id']), 'type': 'File'})
+            elif 'Folder' in ctype:
+                descendants.append({'id': child['id'], 'name': child.get('name', child['id']), 'type': 'Folder'})
+                if verbose:
+                    print(f"    ↳ descending into folder {child['id']} ({child.get('name', '')})")
+                walk(child['id'])
+
+    walk(entity_id)
+    return descendants
+
+
+def fetch_all_versions_with_metadata(syn, syn_id):
+    """
+    Fetch all versions of a Synapse file entity with their metadata and annotations.
+
+    Args:
+        syn: Synapse client
+        syn_id: Synapse entity ID
+
+    Returns:
+        list of dicts sorted by versionNumber ascending, each with keys:
+            versionNumber, versionLabel, versionComment,
+            modifiedOn, modifiedBy, contentSize, contentMd5,
+            annotations (dict)
+    """
+    # Paginate through version history
+    versions = []
+    offset = 0
+    limit = 100
+    while True:
+        page = syn.restGET(f"/entity/{syn_id}/version?offset={offset}&limit={limit}")
+        batch = page.get('results', [])
+        versions.extend(batch)
+        if len(batch) < limit:
+            break
+        offset += limit
+
+    # Fetch annotations for each version
+    enriched = []
+    for v in versions:
+        ver_num = v['versionNumber']
+        try:
+            entity = syn.get(syn_id, version=ver_num, downloadFile=False)
+            annotations = dict(entity.annotations) if hasattr(entity, 'annotations') and entity.annotations else {}
+        except Exception:
+            annotations = {}
+
+        enriched.append({
+            'versionNumber': ver_num,
+            'versionLabel': v.get('versionLabel', str(ver_num)),
+            'versionComment': v.get('versionComment', ''),
+            'modifiedOn': v.get('modifiedOn', ''),
+            'modifiedBy': v.get('modifiedBy', ''),
+            'contentSize': v.get('contentSize'),
+            'contentMd5': v.get('contentMd5', ''),
+            'annotations': annotations,
+        })
+
+    # Sort ascending by version number
+    enriched.sort(key=lambda x: x['versionNumber'])
+    return enriched
+
+
+def display_version_selection_prompt(file_1_synid, file_1_name, file_1_versions,
+                                     file_2_synid, file_2_name, file_2_versions):
+    """
+    Display an interactive prompt showing versions from both files and
+    collect user selection and ordering.
+
+    Args:
+        file_1_synid: Synapse ID of file 1
+        file_1_name: Name of file 1
+        file_1_versions: list of version dicts from fetch_all_versions_with_metadata
+        file_2_synid: Synapse ID of file 2
+        file_2_name: Name of file 2
+        file_2_versions: list of version dicts from fetch_all_versions_with_metadata
+
+    Returns:
+        list of tuples: [(source_syn_id, version_dict), ...]
+        ordered by user selection, where version_dict contains all version metadata
+    """
+    # Build tag lookup
+    tag_map = {}
+    for v in file_1_versions:
+        tag = f"File_1-v{v['versionNumber']}"
+        tag_map[tag] = (file_1_synid, v)
+    for v in file_2_versions:
+        tag = f"File_2-v{v['versionNumber']}"
+        tag_map[tag] = (file_2_synid, v)
+
+    # Display table
+    print("\n" + "=" * 80)
+    print("AVAILABLE VERSIONS")
+    print("=" * 80)
+
+    header = f"  {'Tag':<18}| {'Ver#':>4} | {'Label':<20}| {'Comment':<25}| {'Modified':<20}| {'Size':<10}"
+    separator = "  " + "-" * 76
+
+    print(f"\nFile 1: {file_1_synid} ({file_1_name})")
+    print(header)
+    print(separator)
+    for v in file_1_versions:
+        tag = f"File_1-v{v['versionNumber']}"
+        modified = v['modifiedOn'][:10] if v['modifiedOn'] else ''
+        size = format_size(v['contentSize'])
+        label = v['versionLabel'] or ''
+        comment = (v['versionComment'] or '')[:23]
+        print(f"  {tag:<18}| {v['versionNumber']:>4} | {label:<20}| {comment:<25}| {modified:<20}| {size:<10}")
+
+    print(f"\nFile 2: {file_2_synid} ({file_2_name})")
+    print(header)
+    print(separator)
+    for v in file_2_versions:
+        tag = f"File_2-v{v['versionNumber']}"
+        modified = v['modifiedOn'][:10] if v['modifiedOn'] else ''
+        size = format_size(v['contentSize'])
+        label = v['versionLabel'] or ''
+        comment = (v['versionComment'] or '')[:23]
+        print(f"  {tag:<18}| {v['versionNumber']:>4} | {label:<20}| {comment:<25}| {modified:<20}| {size:<10}")
+
+    # Build a suggested order: all versions sorted by modifiedOn ascending
+    all_tags_sorted = sorted(tag_map.keys(),
+                             key=lambda t: tag_map[t][1].get('modifiedOn', '') or '')
+    suggested = ','.join(all_tags_sorted)
+
+    print("\n" + "=" * 80)
+    print("\nSUGGESTED ORDER (sorted by original modified date, earliest first):")
+    print("=" * 80)
+
+    sug_header = (f"  {'Version':>7}  {'Tag':<18}  {'Label':<20}  "
+                  f"{'Modified':<12}  {'Comment':<25}  {'Size':<10}")
+    sug_separator = "  " + "-" * 100
+    print(sug_header)
+    print(sug_separator)
+
+    sug_rows = []
+    for new_ver, tag in enumerate(all_tags_sorted, start=1):
+        _, v = tag_map[tag]
+        modified = v['modifiedOn'][:10] if v.get('modifiedOn') else ''
+        comment = (v['versionComment'] or '')[:23]
+        size = format_size(v['contentSize'])
+        label = v['versionLabel'] or ''
+        sug_rows.append((new_ver, tag, label, modified, comment, size))
+
+    # Display descending (latest first) like Synapse UI
+    for new_ver, tag, label, modified, comment, size in reversed(sug_rows):
+        current = " (current)" if new_ver == len(sug_rows) else ""
+        print(f"  {new_ver:>7}  {tag:<18}  {label:<20}  "
+              f"{modified:<12}  {comment:<25}  {size:<10}{current}")
+
+    print()
+    print("Edit the suggested order below (remove tags you don't want, reorder as needed):")
+    print()
+
+    # Use readline to pre-fill input with the suggested order so the user
+    # can edit it in-place using arrow keys, backspace, etc.
+    import readline
+
+    def _prefill_hook():
+        readline.insert_text(suggested)
+        readline.redisplay()
+
+    while True:
+        readline.set_pre_input_hook(_prefill_hook)
+        try:
+            selection = input("Selection: ").strip()
+        finally:
+            readline.set_pre_input_hook()
+
+        if not selection:
+            print("  No selection provided. Please enter at least one tag.")
+            # On retry, don't pre-fill again — let the user type fresh
+            _prefill_hook = lambda: None
+            continue
+
+        tags = [t.strip() for t in selection.split(',') if t.strip()]
+
+        # Validate
+        invalid = [t for t in tags if t not in tag_map]
+        if invalid:
+            print(f"  Invalid tag(s): {', '.join(invalid)}")
+            print(f"  Valid tags: {', '.join(sorted(tag_map.keys()))}")
+            _prefill_hook = lambda: None
+            continue
+
+        duplicates = [t for t in tags if tags.count(t) > 1]
+        if duplicates:
+            print(f"  Duplicate tag(s): {', '.join(set(duplicates))}")
+            _prefill_hook = lambda: None
+            continue
+
+        if len(tags) == 0:
+            print("  At least one version must be selected.")
+            _prefill_hook = lambda: None
+            continue
+
+        return [(tag_map[t][0], tag_map[t][1]) for t in tags]
+
+
+def resolve_duplicate_version_labels(selected_versions):
+    """
+    Check for duplicate version labels in the selected versions and interactively
+    resolve them by having the user pick one or rename.
+
+    Args:
+        selected_versions: list of (source_syn_id, version_dict) tuples
+
+    Returns:
+        Updated list of (source_syn_id, version_dict) tuples with labels resolved
+    """
+    # Find duplicate labels
+    label_positions = {}
+    for i, (syn_id, v) in enumerate(selected_versions):
+        label = v['versionLabel']
+        if label not in label_positions:
+            label_positions[label] = []
+        label_positions[label].append(i)
+
+    duplicates = {label: positions for label, positions in label_positions.items()
+                  if len(positions) > 1}
+
+    if not duplicates:
+        return selected_versions
+
+    print("\n" + "=" * 80)
+    print("DUPLICATE VERSION LABELS DETECTED")
+    print("=" * 80)
+
+    for label, positions in duplicates.items():
+        print(f"\n  Label '{label}' appears in {len(positions)} selected versions:")
+        for pos in positions:
+            syn_id, v = selected_versions[pos]
+            print(f"    Position {pos + 1}: {syn_id} version {v['versionNumber']} "
+                  f"(comment: '{v['versionComment'] or 'none'}')")
+
+        print(f"\n  Options for label '{label}':")
+        print(f"    drop <position>   - Remove that version from the merge")
+        print(f"    rename <position> <new_label> - Rename that version's label")
+        print()
+
+        while True:
+            action = input(f"  Resolve '{label}': ").strip()
+            if not action:
+                print("    Please enter a resolution.")
+                continue
+
+            parts = action.split(None, 2)
+            command = parts[0].lower()
+
+            if command == 'drop' and len(parts) == 2:
+                try:
+                    drop_pos = int(parts[1]) - 1  # Convert to 0-based
+                    if drop_pos not in positions:
+                        print(f"    Position {parts[1]} is not one of the conflicting versions.")
+                        continue
+                    selected_versions[drop_pos] = None  # Mark for removal
+                    print(f"    Dropped version at position {parts[1]}.")
+                    break
+                except ValueError:
+                    print("    Invalid position number.")
+                    continue
+
+            elif command == 'rename' and len(parts) == 3:
+                try:
+                    rename_pos = int(parts[1]) - 1  # Convert to 0-based
+                    new_label = parts[2]
+                    if rename_pos not in positions:
+                        print(f"    Position {parts[1]} is not one of the conflicting versions.")
+                        continue
+                    # Check new label doesn't also conflict
+                    existing_labels = {item[1]['versionLabel'] for item in selected_versions
+                                       if item is not None}
+                    existing_labels.discard(label)  # The current label will be changed
+                    if new_label in existing_labels:
+                        print(f"    Label '{new_label}' already exists. Choose a different name.")
+                        continue
+                    selected_versions[rename_pos][1]['versionLabel'] = new_label
+                    print(f"    Renamed position {parts[1]} label to '{new_label}'.")
+                    break
+                except ValueError:
+                    print("    Invalid position number.")
+                    continue
+            else:
+                print("    Usage: 'drop <position>' or 'rename <position> <new_label>'")
+                continue
+
+    # Remove dropped versions
+    selected_versions = [item for item in selected_versions if item is not None]
+
+    # Re-check for any remaining duplicates (recursive)
+    remaining_labels = {}
+    for i, (_, v) in enumerate(selected_versions):
+        label = v['versionLabel']
+        if label in remaining_labels:
+            print("\n  Still have duplicate labels — resolving again...")
+            return resolve_duplicate_version_labels(selected_versions)
+        remaining_labels[label] = i
+
+    return selected_versions
+
+
+def add_dataset_to_collection(syn, dataset_id, collection_id, dry_run=True):
+    """
+    Add a dataset to a dataset collection.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID
+        collection_id: DatasetCollection Synapse ID
+        dry_run: If True, only show what would be done
+
+    Returns:
+        True if successful, False otherwise
+    """
+    if not collection_id:
+        return False
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would add dataset {dataset_id} to collection {collection_id}")
+        return True
+    else:
+        try:
+            dataset_collection = DatasetCollection(id=collection_id).get()
+            dataset = Dataset(id=dataset_id).get(include_columns=True)
+            dataset_collection.add_item(dataset)
+            dataset_collection.store()
+            print(f"  ✅ Added dataset {dataset_id} to collection {collection_id}")
+            return True
+        except Exception as e:
+            print(f"  ✗ Error adding dataset to collection: {e}")
+            import traceback
+            traceback.print_exc()
+            return False
+
+
+def get_columns_from_entity(syn, entity_id, field_names=None):
+    """
+    Fetch existing columns (name, Synapse type, facet, size constraints, and current
+    order) from any existing Synapse entity that has columns — a Dataset, EntityView,
+    or Table — for porting onto another entity's columns instead of re-deriving them
+    from a json-schemas/ schema.
+
+    Args:
+        syn: Synapse client
+        entity_id: Synapse ID of the source entity to read columns from
+        field_names: Optional list of names to filter the result to (source order is
+                     preserved, not the order of field_names). Omit to port everything.
+
+    Returns:
+        List of col_info dicts (same shape as build_columns_from_schema): name, type,
+        facet, and max_size/max_list_len — in the source entity's current column order.
+    """
+    from synapseclient.models import Table
+    entity = Table(id=entity_id).get(include_columns=True)
+
+    if not hasattr(entity, 'columns') or not entity.columns:
+        return []
+
+    columns = []
+    for col in entity.columns.values():
+        if field_names and col.name not in field_names:
+            continue
+        col_info = {"name": col.name, "type": col.column_type, "facet": col.facet_type}
+        if col.column_type == ColumnType.STRING and col.maximum_size:
+            col_info["max_size"] = col.maximum_size
+        elif col.column_type == ColumnType.STRING_LIST and col.maximum_list_length:
+            col_info["max_list_len"] = col.maximum_list_length
+        columns.append(col_info)
+    return columns
+
+
+def create_dataset_entity_view(syn, dataset_id, dataset_name, project_id,
+                               file_type='ClinicalFile', all_schemas=None,
+                               dataset_type=None, extra_schema_names=None,
+                               field_names=None, source_columns=None, dry_run=True):
+    """
+    Create an entity view for dataset files with type-aware columns and size constraints.
+
+    Entity views scope Files/Folders, so columns are derived from the matching
+    File-type schema's json-schemas/ properties (build_columns_from_schema) rather
+    than a hand-maintained list — pass field_names to cherry-pick/order specific ones.
+    Pass source_columns to instead port an exact column set/order from an existing
+    entity (see get_columns_from_entity), skipping schema derivation entirely.
+
+    Args:
+        syn: Synapse client
+        dataset_id: Dataset Synapse ID (or staging folder ID)
+        dataset_name: Dataset name
+        project_id: Project ID to create view in
+        file_type: File type used when dataset_type isn't given (e.g. 'ClinicalFile')
+        all_schemas: Dict of all loaded schemas, keyed by schema name
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, will derive from file_type
+        extra_schema_names: Optional list of additional exact schema names (any schema
+                     loaded by get_all_schemas, e.g. 'MetadataSchema', not just File
+                     types) whose properties are merged in alongside the primary
+                     File-type schema — lets a view follow more than one schema.
+                     Ignored when source_columns is given.
+        field_names: Optional list of property names to cherry-pick/order (default:
+                     every property across the resolved schema(s)). Ignored when
+                     source_columns is given.
+        source_columns: Optional list of col_info dicts (from get_columns_from_entity)
+                     to use verbatim instead of deriving columns from a schema — ports
+                     an existing entity's exact columns and order onto this view.
+        dry_run: If True, only show what would be created
+
+    Returns:
+        Entity view ID if created, None otherwise
+    """
+    view_name = f"{dataset_name}_EntityView"
+
+    if source_columns is not None:
+        columns_to_add = source_columns
+    else:
+        # Auto-detect dataset type if not provided
+        if not dataset_type and file_type:
+            # Convert file_type to dataset_type (e.g., 'ClinicalFile' -> 'ClinicalDataset')
+            dataset_type = file_type.replace('File', 'Dataset')
+            if dataset_type == 'Dataset':
+                dataset_type = 'ClinicalDataset'  # Default
+
+        # Views scope files, so pull columns from the matching File-type schema — plus any
+        # extra schemas named exactly (e.g. 'MetadataSchema' has no 'Dataset' substring, so
+        # the replace() is a no-op and it's used as-is). Later schemas win on name clashes.
+        file_type_for_columns = (dataset_type or file_type or 'File').replace('Dataset', 'File')
+        schema_names = [file_type_for_columns] + [n.replace('Dataset', 'File') for n in (extra_schema_names or [])]
+
+        merged_properties = {}
+        for name in schema_names:
+            merged_properties.update((all_schemas or {}).get(name, {}).get('properties', {}) or {})
+        columns_to_add = build_columns_from_schema({'properties': merged_properties}, field_names)
+
+    # Build columns with size constraints
+    all_columns = []
+
+    for col_info in columns_to_add:
+        try:
+            # Build column kwargs
+            col_kwargs = {
+                'name': col_info['name'],
+                'column_type': col_info['type'],
+                'facet_type': col_info.get('facet')
+            }
+
+            # Add size constraints to prevent 64KB row limit violations
+            if col_info['type'] == ColumnType.STRING and 'max_size' in col_info:
+                col_kwargs['maximum_size'] = col_info['max_size']
+            elif col_info['type'] == ColumnType.STRING_LIST and 'max_list_len' in col_info:
+                col_kwargs['maximum_list_length'] = col_info['max_list_len']
+
+            col = Column(**col_kwargs)
+            all_columns.append(col)
+        except Exception as e:
+            print(f"    ⚠️  Could not add column {col_info['name']}: {e}")
+
+    type_label = 'ported columns' if source_columns is not None else dataset_type
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would create entity view '{view_name}' ({type_label})")
+        print(f"    Scope: {dataset_id}")
+        print(f"    Columns: {len(all_columns)} columns")
+        print(f"    Columns: {', '.join([c.name for c in all_columns[:10]])}{'...' if len(all_columns) > 10 else ''}")
+        return None
+    else:
+        try:
+            # Create entity view
+            entity_view = EntityView(
+                name=view_name,
+                parent_id=project_id,
+                scope_ids=[dataset_id],
+                view_type_mask=ViewTypeMask.FILE | ViewTypeMask.FOLDER,
+                columns=all_columns
+            )
+            # Store the entity view
+            created_view = entity_view.store()
+            print(f"  ✓ Entity view created: {created_view.id} ({type_label})")
+            print(f"  ✓ Total columns: {len(all_columns)} with size constraints")
+            print(f"  🔗 URL: https://www.synapse.org/#!Synapse:{created_view.id}")
+            return created_view.id
+        except Exception as e:
+            print(f"  ✗ Error creating entity view: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+
+
+def reorder_entity_view_columns(syn, view_id, dataset_type=None, column_order=None, dry_run=True):
+    """
+    Reorder entity view columns based on priority template.
+
+    Puts important columns first for better UX in Synapse UI.
+
+    Args:
+        syn: Synapse client
+        view_id: Entity view Synapse ID
+        dataset_type: Dataset type ('ClinicalDataset', 'OmicDataset', etc.)
+                     If not provided, defaults to 'ClinicalDataset'
+        column_order: Optional explicit column name order to use instead of the small
+                     priority template — e.g. an order ported from another entity via
+                     get_columns_from_entity. Columns not in this list are appended
+                     after, in their existing order (same fallback as the template).
+        dry_run: If True, only print what would be done
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Use default if not provided
+        if not dataset_type:
+            dataset_type = 'ClinicalDataset'
+
+        # Get entity view with columns using the models API (same as datasets)
+        # This ensures columns are properly loaded
+        from synapseclient.models import Table
+        entity_view = Table(id=view_id).get(include_columns=True)
+
+        # Get current column order (using entity_view.columns like datasets)
+        if not hasattr(entity_view, 'columns') or not entity_view.columns:
+            print(f"  ℹ️  No columns to reorder")
+            return True
+
+        current_columns = list(entity_view.columns.keys())
+
+        # Use an explicit ported order if given, else the small priority template
+        template_order = column_order if column_order is not None else build_column_order()
+
+        # Filter template to only include columns that exist in view
+        final_order = []
+        for col in template_order:
+            if col in current_columns:
+                final_order.append(col)
+
+        # Append any remaining columns not in template (to handle custom columns)
+        remaining_cols = [col for col in current_columns if col not in final_order]
+        final_order.extend(remaining_cols)
+
+        if dry_run:
+            print(f"  [DRY_RUN] Would reorder {len(final_order)} columns in entity view")
+            print(f"  [DRY_RUN] Current order: {', '.join(current_columns[:10])}{'...' if len(current_columns) > 10 else ''}")
+            print(f"  [DRY_RUN] New order: {', '.join(final_order[:10])}{'...' if len(final_order) > 10 else ''}")
+            return True
+
+        # Apply reordering (same pattern as datasets)
+        for target_index, col_name in enumerate(final_order):
+            entity_view.reorder_column(name=col_name, index=target_index)
+
+        # Store changes
+        entity_view.store()
+        print(f"  ✓ Reordered {len(final_order)} columns in entity view ({dataset_type})")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error reordering entity view columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def verify_entity_view_columns(syn, view_id, verbose=True):
+    """
+    Retrieve and display entity view columns for verification.
+
+    Shows column names, types, facet types, and size constraints.
+
+    Args:
+        syn: Synapse client
+        view_id: Entity view Synapse ID
+        verbose: If True, show detailed column information
+
+    Returns:
+        bool: True if successful, False otherwise
+    """
+    try:
+        # Use models API to get entity view with columns (same as datasets)
+        from synapseclient.models import Table
+        entity_view = Table(id=view_id).get(include_columns=True)
+
+        # Use entity_view.columns (consistent with datasets)
+        if not hasattr(entity_view, 'columns') or not entity_view.columns:
+            print(f"  ℹ️  Entity view has no columns")
+            return True
+
+        # entity_view.columns is a dict, get the Column objects
+        columns = list(entity_view.columns.values())
+        print(f"  📊 Total columns: {len(columns)}")
+
+        # Group by facet type
+        faceted = [c for c in columns if c.facet_type]
+        non_faceted = [c for c in columns if not c.facet_type]
+
+        print(f"  🔍 Faceted (searchable): {len(faceted)}")
+        print(f"  📝 Non-faceted: {len(non_faceted)}")
+
+        if verbose and faceted:
+            print("\n  Faceted columns:")
+            for col in faceted:
+                size_info = ''
+                if col.maximum_size:
+                    size_info = f" (max: {col.maximum_size})"
+                elif col.maximum_list_length:
+                    size_info = f" (max list: {col.maximum_list_length})"
+                facet_display = col.facet_type.value if col.facet_type else 'None'
+                print(f"   • {col.name}: {col.column_type.value}{size_info} [{facet_display}]")
+
+            if len(faceted) > 10:
+                print(f"   ... and {len(faceted) - 10} more faceted columns")
+
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error verifying entity view columns: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def handle_create_entity_view(args, config):
+    """Handle CREATE-ENTITY-VIEW workflow — create a standalone entity view over any folder."""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: CREATE ENTITY VIEW")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    project_id = args.project_id or config.SYNAPSE_PROJECT_ID
+    if not project_id:
+        print("❌ Error: --project-id is required (or set project_id in config.yaml)")
+        sys.exit(1)
+
+    # Fuzzy-resolve each supplied --type against json-schemas/; defaults to a generic view.
+    # Exact names (e.g. "MetadataSchema") resolve regardless of kind, so any schema —
+    # not just File/Dataset pairs — can be combined here.
+    resolved_types = ['Dataset']
+    if args.type:
+        resolved_types = []
+        for t in args.type:
+            try:
+                resolved_types.append(resolve_schema_type(t, all_schemas, kind='dataset'))
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {e}")
+                return
+
+    dataset_type, extra_schema_names = resolved_types[0], resolved_types[1:]
+    view_name = args.name or args.folder
+
+    print(f"  Folder    : {args.folder}")
+    print(f"  Project   : {project_id}")
+    print(f"  View name : {view_name}_EntityView")
+    print(f"  Type(s)   : {', '.join(resolved_types)}")
+
+    ported_columns = resolve_ported_columns(syn, args.from_entity, args.columns)
+
+    view_id = create_dataset_entity_view(
+        syn, args.folder, view_name, project_id,
+        all_schemas=all_schemas,
+        dataset_type=dataset_type,
+        extra_schema_names=extra_schema_names,
+        field_names=None if ported_columns is not None else args.columns,
+        source_columns=ported_columns,
+        dry_run=config.DRY_RUN
+    )
+
+    if view_id and not config.DRY_RUN:
+        if not args.skip_reorder:
+            print("\n--- Reordering columns ---")
+            column_order = [c['name'] for c in ported_columns] if ported_columns is not None else None
+            reorder_entity_view_columns(syn, view_id, dataset_type=dataset_type,
+                                         column_order=column_order, dry_run=config.DRY_RUN)
+
+        print("\n--- Verifying columns ---")
+        verify_entity_view_columns(syn, view_id, config.VERBOSE)
+
+    if config.DRY_RUN:
+        print("\n✅ DRY RUN COMPLETE — re-run with --execute to create the entity view")
+    elif view_id:
+        print(f"\n✅ ENTITY VIEW CREATED: {view_id}")
+    else:
+        print("\n⚠ ENTITY VIEW CREATION FAILED")
+    print("=" * 60)
+
+
+# ==================== UPDATE WORKFLOW FUNCTIONS ====================
+
+def enumerate_dataset_files(syn, dataset_syn_id, verbose=False):
+    """Query all files in a dataset and extract their annotations"""
+    print(f"Retrieving files from dataset {dataset_syn_id}...")
+
+    try:
+        dataset = Dataset(dataset_syn_id).get()
+        results = dataset.items
+        annotations_dict = {}
+        file_count = 0
+
+        for row in results:
+            syn_id = row.id
+            try:
+                entity = syn.get(syn_id, downloadFile=False)
+                filename = entity.name
+                annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+                if annotations:
+                    annotations_dict[syn_id] = {filename: annotations}
+                    file_count += 1
+            except Exception as e:
+                if verbose:
+                    print(f"  ⚠️  Could not get annotations for {syn_id}: {e}")
+
+        print(f"✓ Retrieved annotations for {file_count} files")
+        return annotations_dict
+    except Exception as e:
+        print(f"✗ Error retrieving dataset files: {e}")
+        return {}
+
+
+def enumerate_folder_files(syn, folder_syn_id, verbose=False):
+    """Query all files in a Synapse folder and extract their annotations"""
+    print(f"Retrieving files from folder {folder_syn_id}...")
+
+    try:
+        query_results = list(syn.getChildren(folder_syn_id, includeTypes=["file"]))
+        annotations_dict = {}
+        file_count = 0
+
+        for item in query_results:
+            syn_id = item['id']
+            filename = item['name']
+
+            try:
+                entity = syn.get(syn_id, downloadFile=False)
+                annotations = dict(entity.annotations) if hasattr(entity, 'annotations') else {}
+                annotations_dict[syn_id] = {filename: annotations}
+                file_count += 1
+            except Exception as e:
+                if verbose:
+                    print(f"  ⚠️  Could not get annotations for {filename}: {e}")
+
+        print(f"✓ Retrieved {file_count} files from folder")
+        return annotations_dict
+    except Exception as e:
+        print(f"✗ Error retrieving folder files: {e}")
+        return {}
+
+
+# ==================== FILE I/O ====================
+
+def load_annotation_file(file_path):
+    """Load annotation JSON file"""
+    if not os.path.exists(file_path):
+        return {}
+
+    with open(file_path, 'r') as f:
+        return json.load(f)
+
+
+def sanitize_filename(name):
+    """Replace characters that are invalid in file paths with safe alternatives."""
+    return name.replace('/', '_').replace(':', '_').replace('\\', '_').replace(' ', '_').replace(',', '_')
+
+
+def sanitize_synapse_name(name):
+    """Replace characters not allowed in Synapse entity names.
+
+    Synapse allows: letters, numbers, spaces, underscores, hyphens, periods,
+    plus signs, apostrophes, and parentheses. Replaces everything else with a space.
+    """
+    import re
+    return re.sub(r"[^\w\s\-.()+']", ' ', name).strip()
+
+
+def save_annotation_file(annotations_dict, file_path):
+    """Save annotations to JSON file"""
+    with open(file_path, 'w') as f:
+        json.dump(annotations_dict, f, indent=2)
+    print(f"✓ Saved annotations to {file_path}")
+
+
+# ==================== AI-ASSISTED ANNOTATION ====================
+
+def check_gemini_available():
+    """Check if gemini CLI is available"""
+    try:
+        result = subprocess.run(['gemini', '--version'],
+                              capture_output=True, text=True, timeout=5)
+        return result.returncode == 0 or 'gemini' in result.stderr.lower()
+    except:
+        return False
+
+
+def download_file_for_analysis(syn, syn_id, download_dir):
+    """Download a Synapse file for AI analysis"""
+    try:
+        entity = syn.get(syn_id, downloadLocation=download_dir)
+        return entity.path
+    except Exception as e:
+        print(f"  ⚠️  Could not download {syn_id}: {e}")
+        return None
+
+
+def download_supported_staging_files(syn, files_dict: dict, download_dir: str) -> dict:
+    """Download CSV, Excel, and ADAT staging files for mapping/content annotation."""
+    supported = {'.csv', '.xlsx', '.xls', '.adat'}
+    local_paths = {}
+    os.makedirs(download_dir, exist_ok=True)
+    for syn_id, file_info in files_dict.items():
+        filename = file_info.get('name', '')
+        if Path(filename).suffix.lower() not in supported:
+            continue
+        path = download_file_for_analysis(syn, syn_id, download_dir)
+        if path:
+            local_paths[syn_id] = path
+    skipped = len(files_dict) - len(local_paths)
+    print(f"  Downloaded {len(local_paths)} supported file(s) for mapping"
+          f" ({skipped} unsupported or unavailable)")
+    return local_paths
+
+
+def create_annotation_prompt(filename, file_type, all_schemas):
+    """Create a prompt for Gemini to extract file annotations"""
+
+    # Get schema and field info
+    schema = get_schema_for_type(file_type, all_schemas)
+    if not schema:
+        return f"Analyze the file {filename} and extract metadata as JSON."
+
+    field_info_dict = get_field_info(schema)
+    required_field_names = get_required_fields(schema)
+
+    # Get list of required and optional fields
+    required_fields = []
+    optional_fields = []
+
+    for field_name, info in field_info_dict.items():
+        field_desc = f"- {field_name}"
+
+        if info.get('description'):
+            field_desc += f": {info['description']}"
+
+        # Add enum values if present
+        if info.get('enum'):
+            enum_values = info['enum'][:5]  # First 5 values
+            field_desc += f" (allowed values: {', '.join(str(v) for v in enum_values)})"
+        elif info.get('item_enum'):
+            enum_values = info['item_enum'][:5]
+            field_desc += f" (allowed values: {', '.join(str(v) for v in enum_values)})"
+
+        # Indicate if it's an array
+        if info['type'] == 'array':
+            field_desc += " [can be multiple values as array]"
+
+        # Categorize as required or optional
+        if field_name in required_field_names:
+            required_fields.append(field_desc)
+        else:
+            optional_fields.append(field_desc)
+
+    prompt = f"""You are analyzing a data file to extract metadata annotations based on a schema.
+
+File: {filename}
+File Type: {file_type}
+
+Task: Analyze this file and extract as many of the following annotations as possible by examining:
+- File content (first few rows, column names, data patterns)
+- File name and structure
+- Data types and formats
+
+REQUIRED FIELDS (must provide):
+{chr(10).join(required_fields[:10])}
+
+OPTIONAL FIELDS (provide if determinable):
+{chr(10).join(optional_fields[:15])}
+
+IMPORTANT INSTRUCTIONS:
+1. Return ONLY valid JSON (no markdown, no explanations)
+2. Use field names exactly as shown above
+3. For multivalued fields, return as array: ["value1", "value2"]
+4. For enum fields, use ONLY the allowed values listed
+5. If you cannot determine a value, use empty string "" or empty array []
+6. Be conservative - only provide values you're confident about
+7. For clinical/demographic data, look for common patterns (demographics, assessments, visits)
+8. For omic data, look for assay types, platforms, measurement types
+
+Example output format:
+{{
+  "dataType": "clinical",
+  "fileFormat": "csv",
+  "specimenType": [""],
+  "assay": "",
+  "description": "Clinical demographic data with patient information"
+}}
+
+Now analyze the file and return ONLY the JSON object with extracted annotations:"""
+
+    return prompt
+
+
+def run_gemini_on_file(file_path, prompt, timeout=60):
+    """
+    Run gemini CLI on a file with a prompt.
+    Returns: parsed JSON dict or None
+    """
+    try:
+        # Build command - pass file content via stdin and prompt as argument
+        with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
+            # Read first 100 lines to avoid overwhelming the model
+            lines = []
+            for i, line in enumerate(f):
+                if i >= 100:
+                    break
+                lines.append(line)
+            file_content = ''.join(lines)
+
+        # Create full prompt with file content
+        full_prompt = f"{prompt}\n\nFILE CONTENT (first 100 lines):\n{file_content}"
+
+        # Run gemini
+        result = subprocess.run(
+            ['gemini', '--yolo', full_prompt],
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+
+        if result.returncode != 0:
+            print(f"    ⚠️  Gemini returned non-zero exit code")
+            return None
+
+        # Parse output - look for JSON
+        output = result.stdout.strip()
+
+        # Try to extract JSON from markdown code blocks if present
+        if '```json' in output:
+            json_match = re.search(r'```json\s*(\{.*?\})\s*```', output, re.DOTALL)
+            if json_match:
+                output = json_match.group(1)
+        elif '```' in output:
+            json_match = re.search(r'```\s*(\{.*?\})\s*```', output, re.DOTALL)
+            if json_match:
+                output = json_match.group(1)
+
+        # Try to parse JSON
+        try:
+            annotations = json.loads(output)
+            return annotations
+        except json.JSONDecodeError:
+            # Try to find JSON object in output
+            json_match = re.search(r'\{.*\}', output, re.DOTALL)
+            if json_match:
+                try:
+                    annotations = json.loads(json_match.group(0))
+                    return annotations
+                except:
+                    pass
+
+            print(f"    ⚠️  Could not parse Gemini output as JSON")
+            return None
+
+    except subprocess.TimeoutExpired:
+        print(f"    ⚠️  Gemini timed out after {timeout}s")
+        return None
+    except Exception as e:
+        print(f"    ⚠️  Error running Gemini: {e}")
+        return None
+
+
+def enhance_annotations_with_ai(syn, files_dict, annotations_dict, all_schemas,
+                                download_dir, config):
+    """
+    Download files and use Gemini to enhance annotations.
+
+    Args:
+        syn: Synapse client
+        files_dict: {syn_id: {'name': filename, 'path': folder_path, 'annotations': {}}}
+        annotations_dict: {syn_id: {filename: {annotations}}}
+        all_schemas: Schema definitions
+        download_dir: Where to download files
+        config: Config object with AI settings
+
+    Returns:
+        Enhanced annotations_dict
+    """
+    print("\n" + "=" * 60)
+    print("AI-ASSISTED ANNOTATION (Gemini)")
+    print("=" * 60)
+
+    # Check if gemini is available
+    if not check_gemini_available():
+        print("⚠️  Gemini CLI not found - skipping AI enhancement")
+        print("   Install from: https://github.com/google-gemini/gemini-cli")
+        return annotations_dict
+
+    print(f"✓ Gemini CLI detected (model: {config.AI_MODEL})")
+
+    # Create download directory
+    os.makedirs(download_dir, exist_ok=True)
+
+    enhanced_count = 0
+    failed_count = 0
+    skipped_count = 0
+
+    for syn_id, file_info in files_dict.items():
+        filename = file_info['name']
+
+        # Skip non-data files
+        if not filename.lower().endswith(('.csv', '.tsv', '.txt', '.json')):
+            if config.VERBOSE:
+                print(f"  ⊘ Skipping {filename} (not a data file)")
+            skipped_count += 1
+            continue
+
+        print(f"\n  Analyzing: {filename}")
+
+        # Download file
+        print(f"    ↓ Downloading...")
+        local_path = download_file_for_analysis(syn, syn_id, download_dir)
+
+        if not local_path:
+            failed_count += 1
+            continue
+
+        # Get file type and schema
+        file_data = annotations_dict.get(syn_id, {})
+        current_annotations = file_data.get(filename, {})
+        file_type = current_annotations.get('_file_type', 'ClinicalFile')
+
+        # Create prompt (now uses all_schemas directly)
+        prompt = create_annotation_prompt(filename, file_type, all_schemas)
+
+        # Run Gemini
+        print(f"    🤖 Running Gemini AI...")
+        ai_annotations = run_gemini_on_file(local_path, prompt, timeout=config.AI_TIMEOUT)
+
+        if ai_annotations:
+            # Merge AI annotations with existing template
+            # Priority: existing manual values > AI values > template defaults
+            enhanced = current_annotations.copy()
+
+            for key, value in ai_annotations.items():
+                # Only add if not already filled and not empty
+                if key in enhanced and enhanced[key] in ["", [""], [], None]:
+                    if value not in ["", [""], [], None]:
+                        enhanced[key] = value
+                        if config.VERBOSE:
+                            print(f"      + {key}: {value}")
+
+            annotations_dict[syn_id][filename] = enhanced
+            enhanced_count += 1
+            print(f"    ✓ Enhanced with AI annotations")
+        else:
+            failed_count += 1
+            print(f"    ✗ AI annotation failed")
+
+    print("\n" + "=" * 60)
+    print("AI ENHANCEMENT SUMMARY")
+    print("=" * 60)
+    print(f"  ✓ Enhanced: {enhanced_count} files")
+    print(f"  ✗ Failed: {failed_count} files")
+    print(f"  ⊘ Skipped: {skipped_count} files")
+    print("=" * 60)
+
+    return annotations_dict
+
+
+def enhance_dataset_annotations_with_ai(dataset_name, file_annotations, all_schemas, dataset_type, config):
+    """
+    Use Gemini AI to generate dataset-level annotations based on file annotations.
+
+    Args:
+        dataset_name: Name of the dataset
+        file_annotations: Dict of file annotations {syn_id: {filename: annotations}}
+        all_schemas: Dict of schemas
+        dataset_type: Dataset type (e.g., 'ClinicalDataset')
+        config: Config object
+
+    Returns:
+        Enhanced dataset annotation dict
+    """
+    if not check_gemini_available():
+        print("  ⚠️  Gemini CLI not found - using template only")
+        return create_annotation_template(all_schemas, dataset_type)
+
+    print("  🤖 Generating dataset annotations with AI...")
+
+    # Collect file summaries
+    file_summaries = []
+    for syn_id, file_data in list(file_annotations.items())[:10]:  # Sample first 10 files
+        filename = list(file_data.keys())[0]
+        annotations = file_data[filename]
+        file_summaries.append({
+            'filename': filename,
+            'dataType': annotations.get('dataType', ''),
+            'fileFormat': annotations.get('fileFormat', ''),
+            'assay': annotations.get('assay', []),
+            'platform': annotations.get('platform', '')
+        })
+
+    # Get schema info
+    schema = get_schema_for_type(dataset_type, all_schemas)
+    field_info = get_field_info(schema) if schema else {}
+    required_fields = get_required_fields(schema) if schema else []
+
+    # Build field descriptions with enum values - ONLY dataset-level fields
+    # Exclude file-level fields that shouldn't be in dataset annotations
+    file_level_fields = {
+        'assay', 'platform', 'specimenType', 'cellType', 'libraryLayout',
+        'FACSPopulation', 'GEOSuperSeries', 'biospecimenType', 'originalSampleName',
+        'fileFormat', 'sex', 'age', 'diagnosis', 'tissueType'
+    }
+
+    field_descriptions = []
+    for field_name, info in list(field_info.items())[:25]:
+        # Skip file-level fields
+        if field_name in file_level_fields:
+            continue
+
+        desc = f"- {field_name} ({info['type']})"
+        if info.get('description'):
+            desc += f": {info['description']}"
+        if info.get('enum'):
+            enum_values = [str(v) for v in info['enum'][:15] if v and str(v).strip()]
+            if enum_values:
+                desc += f" [MUST use one of: {', '.join(enum_values)}]"
+        elif info.get('item_enum'):
+            enum_values = [str(v) for v in info['item_enum'][:15] if v and str(v).strip()]
+            if enum_values:
+                desc += f" [array - use values from: {', '.join(enum_values)}]"
+        field_descriptions.append(desc)
+
+    # Create prompt
+    prompt = f"""Generate DATASET-LEVEL annotations for a research dataset based on the files it contains.
+
+Dataset Name: {dataset_name}
+Dataset Type: {dataset_type}
+Total Files: {len(file_annotations)}
+
+Sample Files and Their Annotations:
+{json.dumps(file_summaries, indent=2)}
+
+Dataset Schema Fields (DATASET-LEVEL ONLY - with allowed values):
+{chr(10).join(field_descriptions)}
+
+Required Fields: {', '.join([f for f in required_fields[:10] if f not in file_level_fields])}
+
+CRITICAL INSTRUCTIONS:
+1. Generate ONLY dataset-level metadata (NOT file-level fields like assay, platform, etc.)
+2. studyType: MUST be a STRING, not an array. Pick ONE value from the enum list.
+3. dataType: MUST be an ARRAY of values from the enum list (e.g., ["clinical_assessment", "treatment"])
+4. clinicalDomain: MUST be an ARRAY of values from the enum list
+5. collection: MUST be an ARRAY of values from the enum list
+6. creator: MUST be an ARRAY of strings (e.g., ["Sage Bionetworks", "Author Name"])
+7. species: MUST be an ARRAY of values from the enum list
+8. For enum fields, use ONLY the exact values from the allowed list
+9. Do NOT include file-level fields (assay, platform, cellType, specimenType, etc.)
+10. Return ONLY valid JSON with no markdown
+11. Use empty arrays [] for unknown multi-value fields, not [""]
+12. Use null or empty string "" for unknown single-value fields
+13. datePublished should be an integer year (e.g., 2026) or null
+
+IMPORTANT:
+- studyType is a STRING (e.g., "Clinical Trial")
+- Do NOT include file-level fields
+- Use exact enum values only
+- Empty arrays should be [], not [""]
+
+Generate the dataset annotations JSON now:"""
+
+    try:
+        result = subprocess.run(
+            ['gemini', '--yolo'],
+            input=prompt,
+            capture_output=True,
+            text=True,
+            timeout=config.AI_TIMEOUT
+        )
+
+        if result.returncode == 0 and result.stdout.strip():
+            ai_output = result.stdout.strip()
+
+            # Remove markdown code blocks if present
+            if '```json' in ai_output:
+                ai_output = ai_output.split('```json')[1].split('```')[0].strip()
+            elif '```' in ai_output:
+                lines = ai_output.split('\n')
+                ai_output = '\n'.join(lines[1:-1] if lines[-1].strip() == '```' else lines[1:])
+
+            # Parse JSON
+            try:
+                ai_annotations = json.loads(ai_output)
+
+                # Merge with template
+                template = create_annotation_template(all_schemas, dataset_type)
+                for key, value in ai_annotations.items():
+                    if key in template and value not in ["", [""], [], None]:
+                        template[key] = value
+
+                print(f"  ✓ Dataset annotations enhanced with AI")
+                return template
+
+            except json.JSONDecodeError as e:
+                print(f"  ⚠️  Could not parse AI output as JSON: {e}")
+                return create_annotation_template(all_schemas, dataset_type)
+        else:
+            print(f"  ⚠️  Gemini returned no content")
+            return create_annotation_template(all_schemas, dataset_type)
+
+    except subprocess.TimeoutExpired:
+        print(f"  ⚠️  Gemini timed out")
+        return create_annotation_template(all_schemas, dataset_type)
+    except Exception as e:
+        print(f"  ⚠️  Error running Gemini: {e}")
+        return create_annotation_template(all_schemas, dataset_type)
+
+
+# ==================== COMMAND HANDLERS ====================
+
+def create_link_file_entity(syn, name, url, parent_id, annotations=None, dry_run=True):
+    """
+    Create a File entity with external URL reference (no file upload).
+
+    Args:
+        syn: Synapse client
+        name: Name for the link file entity
+        url: External URL to reference
+        parent_id: Parent project or folder ID
+        annotations: Optional annotations dict
+        dry_run: If True, only show what would be created
+
+    Returns:
+        File entity ID if created, None otherwise
+    """
+    try:
+        if dry_run:
+            print(f"  [DRY_RUN] Would create link file '{name}'")
+            print(f"    URL: {url}")
+            print(f"    Parent: {parent_id}")
+            if annotations:
+                print(f"    Annotations: {len(annotations)} fields")
+            return "syn_DRYRUN_LINK"
+
+        # Create a temporary placeholder file (required even though not uploaded)
+        temp_file = tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt')
+        temp_file.write(f"External link: {url}")
+        temp_file.close()
+
+        try:
+            # Create File entity with external URL (synapse_store=False prevents upload)
+            link_file = File(
+                parent_id=parent_id,
+                name=name,
+                path=temp_file.name,
+                external_url=url,
+                synapse_store=False
+            )
+
+            # Add annotations if provided
+            if annotations:
+                cleaned = clean_annotations_for_synapse(annotations)
+                link_file.annotations = cleaned
+
+            # Store the file entity
+            stored_file = link_file.store()
+
+            print(f"  ✓ Created link file: {stored_file.id}")
+            print(f"    Name: {name}")
+            print(f"    External URL: {url}")
+            return stored_file.id
+
+        finally:
+            # Clean up temporary file
+            os.unlink(temp_file.name)
+
+    except Exception as e:
+        print(f"  ✗ Error creating link file: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+
+def add_link_to_dataset(syn, link_id, dataset_id, dry_run=True):
+    """
+    Add a File entity (link) to a dataset.
+
+    Args:
+        syn: Synapse client
+        link_id: File entity Synapse ID
+        dataset_id: Dataset Synapse ID
+        dry_run: If True, only show what would be done
+
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        if dry_run:
+            print(f"  [DRY_RUN] Would add link file {link_id} to dataset {dataset_id}")
+            return True
+
+        dataset = Dataset(dataset_id).get()
+        file_ref = File(id=link_id)
+        dataset.add_item(file_ref)
+        dataset.store()
+
+        print(f"  ✓ Added link file {link_id} to dataset {dataset_id}")
+        return True
+
+    except Exception as e:
+        print(f"  ✗ Error adding link file to dataset: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
+def handle_add_link_file(args, config):
+    """Handle ADD-LINK-FILE command - create link file and optionally add to dataset"""
+    print("\n" + "=" * 60)
+    print("CREATE LINK FILE ENTITY")
+    print("=" * 60)
+
+    # Validate URL
+    if not args.url or not args.url.strip():
+        print("❌ Error: --url is required and cannot be empty")
+        sys.exit(1)
+
+    # Parse annotations if provided
+    annotations = {}
+    if args.annotations:
+        try:
+            annotations = json.loads(args.annotations)
+        except json.JSONDecodeError as e:
+            print(f"❌ Error: Invalid JSON for --annotations: {e}")
+            sys.exit(1)
+
+    # Determine parent ID (priority: parent-id > dataset-id > project)
+    if args.parent_id:
+        parent_id = args.parent_id
+        print(f"Using parent ID from --parent-id: {parent_id}")
+    elif args.dataset_id:
+        parent_id = args.dataset_id
+        print(f"Using parent ID from --dataset-id: {parent_id}")
+    else:
+        parent_id = config.SYNAPSE_PROJECT_ID
+        print(f"Using parent ID from config (project): {parent_id}")
+
+    # Connect to Synapse
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # Create link file
+    print("\n" + "=" * 60)
+    print("CREATING LINK FILE")
+    print("=" * 60)
+
+    link_id = create_link_file_entity(
+        syn, args.name, args.url, parent_id,
+        annotations, config.DRY_RUN
+    )
+
+    if not link_id:
+        print("❌ Failed to create link file")
+        sys.exit(1)
+
+    # Add to dataset if specified
+    if args.dataset_id:
+        print("\n" + "=" * 60)
+        print("ADDING LINK TO DATASET")
+        print("=" * 60)
+
+        success = add_link_to_dataset(syn, link_id, args.dataset_id, config.DRY_RUN)
+
+        if not success:
+            print("⚠️  Warning: Link created but failed to add to dataset")
+
+    # Summary
+    print("\n" + "=" * 60)
+    print("✅ LINK FILE CREATION COMPLETE")
+    print("=" * 60)
+    print(f"Link ID: {link_id}")
+    print(f"Name: {args.name}")
+    print(f"URL: {args.url}")
+    if args.dataset_id:
+        print(f"Dataset: {args.dataset_id}")
+    print(f"DRY_RUN: {config.DRY_RUN}")
+
+    if config.DRY_RUN:
+        print("\n⚠️  This was a DRY_RUN - no changes made")
+        print("Run with --execute to apply changes")
+
+
+def handle_generate_template(args, config):
+    """Handle GENERATE-TEMPLATE command - create empty dataset annotation template"""
+    print("\n" + "=" * 60)
+    print("GENERATING DATASET ANNOTATION TEMPLATE")
+    print("=" * 60)
+
+    # Load schemas
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    # Determine dataset type by fuzzy-matching --type against json-schemas/
+    try:
+        dataset_type = resolve_schema_type(args.type, all_schemas, kind='dataset')
+    except SchemaTypeResolutionError as e:
+        print(f"❌ {e}")
+        return
+    print(f"Dataset type: {dataset_type}")
+
+    # Generate template
+    template = create_annotation_template(all_schemas, dataset_type)
+
+    # Determine output path and serialization format.
+    fmt = output_format(args)
+    if args.output:
+        output_path = args.output
+    else:
+        output_filename = f"{args.type.lower()}_dataset_template.{fmt}"
+        output_path = os.path.join(config.ANNOTATIONS_DIR, output_filename)
+
+    # Ensure parent directory exists
+    os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
+
+    # Inject $schema pointing to the schema file (relative to output location)
+    schema_file = f"{dataset_type}.json"
+    schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
+    output_abs = os.path.abspath(output_path)
+    schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
+    template_with_schema = {"$schema": schema_rel}
+    template_with_schema.update(template)
+
+    # Save template. Tabular exports intentionally contain only editable schema fields.
+    if fmt == 'json':
+        with open(output_path, 'w') as f:
+            json.dump(template_with_schema, f, indent=2)
+    else:
+        write_dataset_tabular_template(template, get_schema_for_type(dataset_type, all_schemas), output_path, fmt)
+
+    print("\n" + "=" * 60)
+    print("✅ TEMPLATE GENERATED SUCCESSFULLY")
+    print("=" * 60)
+    print(f"Output file: {output_path}")
+    print(f"Dataset type: {dataset_type}")
+    print(f"Schema: {schema_rel}")
+    print(f"Fields: {len([k for k in template.keys() if not k.startswith('_')])}")
+    print("\n💡 Edit this file to add your dataset metadata")
+    if args.type == 'Dataset':
+        print("   Note: You can also use 'Clinical' or 'Omic' for more specific schemas")
+
+
+def resolve_metadata_key(file_info, filename, metadata_index):
+    """Resolve which metadata-index key a file joins to, supporting both of the
+    two folder layouts we see in practice:
+
+      1. one-subject-per-folder  -> join on the parent folder name
+      2. flat folder of files     -> join on the filename (or its stem, e.g.
+                                      an accession like ``SRR8571953``)
+
+    Candidates are tried in priority order and only returned if they actually
+    exist in ``metadata_index``, so trying extra candidates is always safe.
+    ``metadata_index`` is keyed by whatever column the mapping targets to
+    ``originalSubjectId`` (the join column).
+
+    Returns the matching key, or ``None`` if the file joins to no metadata row.
+    """
+    candidates = []
+    path = (file_info.get('path') or '').strip('/')
+    if path:
+        candidates.append(path.split('/')[-1])   # parent / subject folder name
+    if filename:
+        candidates.append(filename)               # exact filename match
+        stem = filename.split('.')[0]             # strip extensions (SRR8571953.fastq.gz -> SRR8571953)
+        if stem and stem != filename:
+            candidates.append(stem)
+    for key in candidates:
+        if key in metadata_index:
+            return key
+    return None
+
+
+def handle_generate_file_templates(args, config):
+    """Generate per-file annotation templates from a Synapse folder."""
+    print("\n" + "=" * 60)
+    print("GENERATE FILE TEMPLATES")
+    print("=" * 60)
+
+    # Load schemas
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    # Connect to Synapse
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # Step 1: Enumerate files
+    print("\n" + "=" * 60)
+    print("STEP 1: ENUMERATING FILES")
+    print("=" * 60)
+    cache_path = os.path.join(
+        getattr(config, 'BASE_DIR', tempfile.gettempdir()),
+        f".walkthrough_cache_{args.folder}.json"
+    )
+    if not getattr(args, 'refresh_walkthrough', False) and os.path.exists(cache_path):
+        if config.VERBOSE:
+            print(f"  Loading file walkthrough from cache: {cache_path}")
+        with open(cache_path, 'r') as f:
+            files_dict = json.load(f)
+    else:
+        files_dict = enumerate_files_with_folders(
+            syn, args.folder, recursive=True, verbose=config.VERBOSE
+        )
+        with open(cache_path, 'w') as f:
+            json.dump(files_dict, f, indent=2)
+        if config.VERBOSE:
+            print(f"  Walkthrough cached to: {cache_path}")
+
+    if not files_dict:
+        print("❌ No files found in folder")
+        sys.exit(1)
+
+    # Step 2: Generate annotation templates
+    print("\n" + "=" * 60)
+    print("STEP 2: GENERATING ANNOTATION TEMPLATES")
+    print("=" * 60)
+
+    # Expand any directory paths in --metadata to constituent CSV/XLSX/ADAT files
+    if getattr(args, 'metadata', None):
+        expanded = []
+        for p in args.metadata:
+            if os.path.isdir(p):
+                dir_files = sorted(
+                    str(f) for f in Path(p).iterdir()
+                    if f.suffix.lower() in ('.csv', '.xlsx', '.xls', '.adat')
+                )
+                if not dir_files:
+                    print(f"  Warning: No CSV/XLSX/ADAT files found in directory {p}")
+                expanded.extend(dir_files)
+            else:
+                expanded.append(p)
+        args.metadata = expanded
+
+    # Step 1: Load mapping + metadata (before per-file loop)
+    mapping = load_mapping_dict(args.mapping) if getattr(args, 'mapping', None) else None
+    metadata_index = {}
+    if getattr(args, 'metadata', None) and mapping:
+        def _targets_include(v, field):
+            t = v['target'] if isinstance(v, dict) else v
+            return field in (t if isinstance(t, list) else [t])
+
+        # Join column priority: an explicit ``"join": true`` entry wins (lets the
+        # join key be decoupled from any stored field), else fall back to whichever
+        # column targets ``originalSubjectId``, else the legacy ``subject_id`` default.
+        join_col = next(
+            (k for k, v in mapping.items() if isinstance(v, dict) and v.get('join') is True),
+            None
+        ) or next(
+            (k for k, v in mapping.items() if _targets_include(v, 'originalSubjectId')),
+            'subject_id'
+        )
+        metadata_index = load_all_metadata_files(args.metadata, join_col)
+        print(f"  Loaded {len(metadata_index)} subjects from {len(args.metadata)} metadata file(s)")
+
+    dataset_config = {'dataset_type': args.type} if args.type else {}
+    try:
+        file_type_map = load_file_type_map(getattr(args, 'file_type_map', None))
+    except ValueError as e:
+        print(f"❌ {e}")
+        return
+    if file_type_map and output_format(args) != 'json':
+        print('❌ --file-type-map currently supports JSON output only')
+        return
+    annotations_output = {}
+    metadata_fill_count = 0
+
+    # VCF variant type inference setup
+    infer_vcf = getattr(args, 'infer_variant_types', False)
+    force_infer_vcf = getattr(args, 'force_infer_variant_types', False)
+    vcf_download_dir = os.path.join(
+        getattr(config, 'BASE_DIR', tempfile.gettempdir()),
+        'vcf_inference_tmp'
+    )
+    if infer_vcf:
+        print('\n  VCF variant type inference enabled (requires bcftools in PATH)')
+
+    for syn_id, file_info in files_dict.items():
+        filename = file_info['name']
+        existing_annotations = file_info['annotations']
+
+        # An entity-ID assignment wins over a filename assignment. --type remains
+        # the fallback for files that are absent from the map.
+        requested_type = file_type_map.get(syn_id) or file_type_map.get(filename)
+        if requested_type:
+            try:
+                file_type = resolve_schema_type(
+                    requested_type, all_schemas, kind='file', interactive=False
+                )
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {syn_id} ({filename}): {e}")
+                return
+        else:
+            file_type = detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
+        template = create_annotation_template(all_schemas, file_type)
+        merged = merge_annotations_smartly(existing_annotations, template)
+
+        # Step 2: Fill from metadata if available
+        if metadata_index and mapping:
+            # Resolve the join key from either the folder name (one-subject-per-
+            # folder layout) or the filename/stem (flat folder layout).
+            subject_id = resolve_metadata_key(file_info, filename, metadata_index)
+            folder_path = file_info.get('path', '')
+            if subject_id:
+                # Enrich metadata with file-derived fields
+                metadata_row = enrich_metadata_with_file_info(metadata_index[subject_id], filename, folder_path)
+                merged = fill_template_from_metadata(merged, metadata_row, mapping)
+                metadata_fill_count += 1
+            else:
+                print(f"  Warning: No metadata match for '{filename}' (folder='{folder_path}')")
+                # Still enrich with file-derived info even without a metadata match
+                metadata_row = enrich_metadata_with_file_info({}, filename, folder_path)
+                merged = fill_template_from_metadata(merged, metadata_row, mapping)
+        elif mapping:
+            # No metadata file provided, but we have mapping - still enrich from filename
+            folder_path = file_info.get('path', '')
+            metadata_row = enrich_metadata_with_file_info({}, filename, folder_path)
+            merged = fill_template_from_metadata(merged, metadata_row, mapping)
+
+        # VCF variant type inference (file level)
+        if infer_vcf and extract_file_extension(filename) == 'vcf':
+            inferred_types = infer_vcf_variant_types_from_synapse(
+                syn, syn_id, filename, merged, vcf_download_dir,
+                force_infer=force_infer_vcf,
+                all_schemas=all_schemas,
+            )
+            if inferred_types:
+                merged['variantType'] = inferred_types
+
+        annotations_output[syn_id] = {filename: merged}
+
+    # Step 3: Summary counter
+    if metadata_index:
+        print(f"  Metadata-filled: {metadata_fill_count} / {len(files_dict)} files matched a metadata row")
+
+    # Summarize inferred variant types across all VCF files (dataset level)
+    if infer_vcf:
+        all_variant_types = aggregate_variant_types_from_file_annotations(annotations_output)
+        if all_variant_types:
+            print(f'\n  Dataset-level variantType (aggregated from files): {", ".join(all_variant_types)}')
+            print('  Tip: add these to your dataset annotation template under "variantType"')
+
+    # Optional AI enhancement
+    if config.AI_ENABLED and not (hasattr(args, 'skip_ai') and args.skip_ai):
+        name = args.name or args.folder
+        download_dir = os.path.join(config.BASE_DIR, "downloads", name.replace(" ", "_"))
+        annotations_output = enhance_annotations_with_ai(
+            syn, files_dict, annotations_output, all_schemas,
+            download_dir, config
+        )
+
+    # Determine output path and serialization format.
+    name = args.name or args.folder
+    fmt = output_format(args)
+    if args.output:
+        output_path = args.output
+    else:
+        output_path = os.path.join(config.ANNOTATIONS_DIR, f"{name}_file_templates.{fmt}")
+
+    os.makedirs(os.path.dirname(output_path) if os.path.dirname(output_path) else '.', exist_ok=True)
+
+    # Resolve --type for JSON's LSP wrapper and for an exact concrete tabular sheet.
+    if args.type:
+        # Clinical/Omic name an abstract family; tabular export resolves each row to
+        # its RecordSet/FileSet concrete schema instead of prompting for one variant.
+        if args.type.strip().lower() in ('clinical', 'omic'):
+            resolved_file_type = None
+        else:
+            try:
+                resolved_file_type = resolve_schema_type(args.type, all_schemas, kind='file')
+            except SchemaTypeResolutionError as e:
+                print(f"❌ {e}")
+                return
+    else:
+        resolved_file_type = None
+    if fmt == 'json':
+        # A mixed-schema file has no single JSON Schema suitable for its $schema
+        # wrapper. Per-entity _file_type values drive validation on application.
+        if file_type_map:
+            schema_rel = 'mixed schemas (per-entry _file_type)'
+            output_with_schema = annotations_output
+        else:
+            schema_file = nested_schema_filename(resolved_file_type, all_schemas) if resolved_file_type else 'FileNested.json'
+            schema_abs = os.path.join(config.SCHEMA_BASE_PATH, schema_file)
+            output_abs = os.path.abspath(output_path)
+            schema_rel = os.path.relpath(schema_abs, os.path.dirname(output_abs))
+            output_with_schema = {"$schema": schema_rel}
+            output_with_schema.update(annotations_output)
+        save_annotation_file(output_with_schema, output_path)
+    else:
+        try:
+            tier_map = load_file_tier_map(args.file_tier_map)
+            write_file_tabular_templates(
+                annotations_output, all_schemas, output_path, fmt, resolved_file_type,
+                args.file_tier, tier_map,
+            )
+        except (ValueError, ImportError) as e:
+            print(f"❌ {e}")
+            return
+        schema_rel = 'per-sheet concrete file schema'
+
+    print("\n" + "=" * 60)
+    print("✅ FILE TEMPLATES GENERATED SUCCESSFULLY")
+    print("=" * 60)
+    print(f"Output file: {output_path}")
+    print(f"Schema: {schema_rel}")
+    print(f"Total files: {len(annotations_output)}")
+    print("\n💡 Edit this file to fill in annotation values")
+
+
+def handle_apply_file_annotations(args, config):
+    """Apply edited per-file annotation JSON to Synapse file entities."""
+    print("\n" + "=" * 60)
+    print("APPLY FILE ANNOTATIONS")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    if not os.path.exists(args.annotations_file):
+        print(f"❌ Error: Annotations file not found: {args.annotations_file}")
+        sys.exit(1)
+
+    with open(args.annotations_file) as f:
+        file_annotations = json.load(f)
+    # Remove $schema key used for editor LSP validation
+    file_annotations.pop('$schema', None)
+    print(f"✓ Loaded annotations from {args.annotations_file} ({len(file_annotations)} file entries)")
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    if not args.skip_validation:
+        print("\n" + "=" * 60)
+        print("VALIDATING ANNOTATIONS")
+        print("=" * 60)
+        validation_errors = False
+        for syn_id, file_data in file_annotations.items():
+            filename = list(file_data.keys())[0]
+            annots = file_data[filename]
+            file_type = annots.get('_file_type', 'File')
+            is_valid, errors, warnings = validate_annotation_against_schema(annots, file_type, all_schemas)
+            for w in warnings:
+                print(f"  ⚠ {filename}: {w}")
+            if errors:
+                for e in errors:
+                    print(f"  ✗ {filename}: {e}")
+                validation_errors = True
+        if validation_errors:
+            print("\n❌ Validation errors found. Fix them or re-run with --skip-validation.")
+            sys.exit(1)
+        else:
+            print("✓ All annotations valid")
+
+    print("\n" + "=" * 60)
+    print("APPLYING FILE ANNOTATIONS")
+    print("=" * 60)
+
+    success_count, error_count, skipped_count = apply_annotations_to_files(
+        syn, file_annotations, dry_run=config.DRY_RUN, verbose=config.VERBOSE,
+        version_label=args.version_label, version_comment=args.version_comment,
+        skip_unchanged=not args.force_update_all
+    )
+
+    print("\n" + "=" * 60)
+    print(f"  Files updated   : {success_count}")
+    print(f"  Files skipped   : {skipped_count}")
+    print(f"  Files failed    : {error_count}")
+    if config.DRY_RUN:
+        print("\n✅ DRY RUN COMPLETE — re-run with --execute to apply changes")
+    elif error_count == 0:
+        print("\n✅ FILE ANNOTATIONS APPLIED SUCCESSFULLY")
+    else:
+        print("\n⚠ FILE ANNOTATIONS APPLIED WITH ERRORS")
+    print("=" * 60)
+
+
+def handle_create_workflow(args, config):
+    """Handle CREATE workflow - create new dataset from scratch"""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: CREATE NEW DATASET")
+    print("=" * 60)
+
+    # Detect link dataset mode (CLI flag or config)
+    is_link_dataset = args.link_dataset if hasattr(args, 'link_dataset') else False
+    dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
+    if not is_link_dataset and dataset_config:
+        is_link_dataset = dataset_config.get('link_dataset', False)
+
+    if is_link_dataset:
+        print("🔗 LINK DATASET MODE: Creating dataset without files")
+
+    if not is_link_dataset and not args.staging_folder:
+        print("❌ Error: --staging-folder required for CREATE workflow")
+        sys.exit(1)
+
+    if not args.dataset_name:
+        print("❌ Error: --dataset-name required for CREATE workflow")
+        sys.exit(1)
+
+    # Load schemas
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    # Get dataset-specific configuration (for type detection)
+    if not dataset_config:
+        dataset_config = config.get_dataset_config(args.dataset_name)
+    if getattr(args, 'dataset_type', None):
+        dataset_config['dataset_type'] = args.dataset_type
+        print(f"Using --dataset-type override: {args.dataset_type}")
+    elif dataset_config.get('dataset_type'):
+        print(f"Using configured dataset type: {dataset_config['dataset_type']}")
+
+    # Connect to Synapse
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # Step 1: Enumerate files (SKIP FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 1: ENUMERATING FILES")
+        print("=" * 60)
+        files_dict = enumerate_files_with_folders(
+            syn, args.staging_folder, recursive=True, verbose=config.VERBOSE
+        )
+
+        if not files_dict:
+            print("❌ No files found in staging folder")
+            sys.exit(1)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 1: SKIPPING FILE ENUMERATION (Link Dataset)")
+        print("=" * 60)
+        print("🔗 Link datasets reference external URLs only")
+        files_dict = {}
+
+    # Optional mapping setup. A generated mapping is a reviewable scaffold; only
+    # entries that already have targets are applied to annotations in this run.
+    mapping = {}
+    metadata_index = {}
+    local_staging_paths = {}
+    if not is_link_dataset and (getattr(args, 'mapping', None) or
+                                getattr(args, 'generate_mapping', None)):
+        print("\n" + "=" * 60)
+        print("MAPPING SETUP")
+        print("=" * 60)
+        metadata_paths = expand_metadata_paths(getattr(args, 'metadata', None))
+        mapping_source = getattr(args, 'mapping_source', 'auto')
+        if mapping_source == 'metadata' and not metadata_paths:
+            print("❌ --mapping-source metadata requires --metadata")
+            sys.exit(1)
+        use_metadata = bool(metadata_paths) and mapping_source != 'files'
+
+        if not use_metadata:
+            mapping_download_dir = os.path.join(
+                config.BASE_DIR, 'mapping_source', sanitize_filename(args.dataset_name)
+            )
+            local_staging_paths = download_supported_staging_files(
+                syn, files_dict, mapping_download_dir
+            )
+
+        if getattr(args, 'generate_mapping', None) and not getattr(args, 'skip_mapping_generation', False):
+            source_paths = metadata_paths if use_metadata else list(local_staging_paths.values())
+            generate_mapping_from_paths(
+                source_paths, args.generate_mapping,
+                max_values=getattr(args, 'mapping_max_values', 50)
+            )
+        elif getattr(args, 'generate_mapping', None):
+            print(f"  Skipping mapping scaffold generation; using existing {args.generate_mapping}")
+
+        mapping_path = getattr(args, 'generate_mapping', None) or getattr(args, 'mapping', None)
+        mapping = load_mapping_dict(mapping_path) if mapping_path else {}
+        if not mapping:
+            print("⚠ Mapping has no completed targets yet; generated templates will remain unmapped.")
+
+        if use_metadata and mapping:
+            def _targets_include(entry, field):
+                target = entry['target'] if isinstance(entry, dict) else entry
+                return field in (target if isinstance(target, list) else [target])
+
+            join_col = next(
+                (key for key, entry in mapping.items()
+                 if isinstance(entry, dict) and entry.get('join') is True),
+                None
+            ) or next(
+                (key for key, entry in mapping.items()
+                 if _targets_include(entry, 'originalSubjectId')),
+                'subject_id'
+            )
+            metadata_index = load_all_metadata_files(metadata_paths, join_col)
+            print(f"  Loaded {len(metadata_index)} subjects from {len(metadata_paths)} metadata file(s)")
+
+    # Step 2: Generate annotation templates (SKIP FILE ANNOTATIONS FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 2: GENERATING ANNOTATION TEMPLATES")
+        print("=" * 60)
+
+        # VCF variant type inference setup
+        infer_vcf = getattr(args, 'infer_variant_types', False)
+        force_infer_vcf = getattr(args, 'force_infer_variant_types', False)
+        vcf_download_dir = os.path.join(config.BASE_DIR, 'vcf_inference_tmp')
+        if infer_vcf:
+            print('\n  VCF variant type inference enabled (requires bcftools in PATH)')
+
+        annotations_output = {}
+        for syn_id, file_info in files_dict.items():
+            filename = file_info['name']
+            existing_annotations = file_info['annotations']
+
+            # Detect file type (checks config first, then pattern matching, then defaults to File)
+            file_type = detect_file_type(filename, all_schemas=all_schemas, dataset_config=dataset_config)
+
+            # Create template
+            template = create_annotation_template(all_schemas, file_type)
+
+            # Smart merge with existing
+            merged = merge_annotations_smartly(existing_annotations, template)
+
+            # Populate from a shared metadata file when supplied, otherwise from
+            # this file's tabular/ADAT metadata. Raw ADAT expression matrices are
+            # deliberately ignored by load_metadata_file().
+            if mapping and metadata_index:
+                subject_id = resolve_metadata_key(file_info, filename, metadata_index)
+                folder_path = file_info.get('path', '')
+                metadata_row = enrich_metadata_with_file_info(
+                    metadata_index[subject_id] if subject_id else {}, filename, folder_path
+                )
+                if not subject_id:
+                    print(f"  Warning: No metadata match for '{filename}' (folder='{folder_path}')")
+                merged = fill_template_from_metadata(merged, metadata_row, mapping)
+            elif mapping:
+                local_path = local_staging_paths.get(syn_id)
+                if local_path:
+                    merged = fill_template_from_file_contents(merged, local_path, mapping)
+                folder_path = file_info.get('path', '')
+                merged = fill_template_from_metadata(
+                    merged, enrich_metadata_with_file_info({}, filename, folder_path), mapping
+                )
+
+            # `_views` is intentionally not treated as a normal column mapping.
+            # Apply its file-level annotations after column mappings, resolving a
+            # view from the file's mapped columns when possible and otherwise its
+            # filename stem (the conventional staging-view name).
+            if mapping.get('_views'):
+                local_path = local_staging_paths.get(syn_id)
+                view_name = infer_view_from_columns(local_path, mapping) if local_path else None
+                view_name = view_name or os.path.splitext(filename)[0]
+                merged = apply_view_annotations(merged, view_name, mapping)
+
+            # VCF variant type inference (file level)
+            if infer_vcf and extract_file_extension(filename) == 'vcf':
+                inferred_types = infer_vcf_variant_types_from_synapse(
+                    syn, syn_id, filename, merged, vcf_download_dir,
+                    force_infer=force_infer_vcf,
+                    all_schemas=all_schemas,
+                )
+                if inferred_types:
+                    merged['variantType'] = inferred_types
+
+            annotations_output[syn_id] = {filename: merged}
+
+        # Step 3: AI-Assisted Annotation Enhancement
+        if config.AI_ENABLED and not getattr(args, 'skip_ai', False):
+            download_dir = os.path.join(config.BASE_DIR, "downloads", args.dataset_name.replace(" ", "_"))
+            annotations_output = enhance_annotations_with_ai(
+                syn, files_dict, annotations_output, all_schemas,
+                download_dir, config
+            )
+
+        # Save annotations
+        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_annotations.json")
+        save_annotation_file(annotations_output, output_file)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 2: SKIPPING FILE ANNOTATIONS (Link Dataset)")
+        print("=" * 60)
+        print("🔗 No files to annotate")
+        annotations_output = {}
+        infer_vcf = getattr(args, 'infer_variant_types', False)
+
+    # Generate dataset annotation template (checks config first, then pattern matching, then defaults to Dataset)
+    print("\n" + "=" * 60)
+    print("GENERATING DATASET ANNOTATIONS")
+    print("=" * 60)
+    dataset_type = detect_dataset_type(args.dataset_name, args.staging_folder if not is_link_dataset else None, dataset_config=dataset_config, all_schemas=all_schemas)
+
+    # Use AI to generate dataset annotations if enabled
+    if config.AI_ENABLED and not getattr(args, 'skip_ai', False) and not is_link_dataset:
+        dataset_template = enhance_dataset_annotations_with_ai(
+            args.dataset_name, annotations_output, all_schemas, dataset_type, config
+        )
+    else:
+        dataset_template = create_annotation_template(all_schemas, dataset_type)
+
+    # Propagate inferred VCF variant types to dataset template
+    if not is_link_dataset and infer_vcf and annotations_output:
+        dataset_variant_types = aggregate_variant_types_from_file_annotations(annotations_output)
+        if dataset_variant_types:
+            dataset_template['variantType'] = dataset_variant_types
+            print(f'  Propagated variantType to dataset template: {", ".join(dataset_variant_types)}')
+
+    dataset_output_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_dataset_annotations.json")
+    save_annotation_file(dataset_template, dataset_output_file)
+
+    print("\n" + "=" * 60)
+    print("✅ TEMPLATE GENERATION COMPLETE")
+    print("=" * 60)
+    if not is_link_dataset:
+        print(f"File annotations: {output_file}")
+    print(f"Dataset annotations: {dataset_output_file}")
+    print(f"Total files: {len(annotations_output)}")
+    print("\n⚠️  MANUAL STEP: Edit the annotation files")
+    if is_link_dataset:
+        print("   🔗 IMPORTANT: Add a 'url' field pointing to the external dataset location")
+    print(f"\nAfter editing, continue with:")
+    if is_link_dataset:
+        print(f"  {cli_invocation()} create --from-annotations --link-dataset \\")
+    else:
+        print(f"  {cli_invocation()} create --from-annotations \\")
+        print(f"    --staging-folder {args.staging_folder} \\")
+    print(f"    --dataset-name {args.dataset_name}")
+
+
+def handle_create_from_annotations(args, config):
+    """Handle CREATE workflow from pre-edited annotations"""
+    print("\n" + "=" * 60)
+    print("WORKFLOW: CREATE DATASET FROM ANNOTATIONS")
+    print("=" * 60)
+
+    # Detect link dataset mode
+    is_link_dataset = args.link_dataset if hasattr(args, 'link_dataset') else False
+    dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
+    if not is_link_dataset and dataset_config:
+        is_link_dataset = dataset_config.get('link_dataset', False)
+
+    if is_link_dataset:
+        print("🔗 LINK DATASET MODE: Creating dataset without files")
+
+    # Load annotations
+    dataset_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_dataset_annotations.json")
+    dataset_annotations = load_annotation_file(dataset_annotations_file)
+
+    # Load file annotations only if not link dataset
+    if not is_link_dataset:
+        file_annotations_file = os.path.join(config.ANNOTATIONS_DIR, f"{sanitize_filename(args.dataset_name)}_annotations.json")
+        file_annotations = load_annotation_file(file_annotations_file)
+
+        if not file_annotations:
+            print(f"❌ No file annotations found at {file_annotations_file}")
+            sys.exit(1)
+    else:
+        file_annotations = {}
+        print("🔗 Skipping file annotations (link dataset mode)")
+
+    # Load schemas
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    # --dataset-type overrides whatever _dataset_type Phase 1 already saved
+    if getattr(args, 'dataset_type', None):
+        try:
+            resolved_dataset_type = resolve_schema_type(args.dataset_type, all_schemas, kind='dataset')
+        except SchemaTypeResolutionError as e:
+            print(f"❌ {e}")
+            sys.exit(1)
+        print(f"Using --dataset-type override: {resolved_dataset_type}")
+        dataset_annotations['_dataset_type'] = resolved_dataset_type
+
+    # Connect to Synapse
+    syn = connect_to_synapse(config)
+
+    # Validate annotations
+    print("\n" + "=" * 60)
+    print("STEP 1: VALIDATING ANNOTATIONS")
+    print("=" * 60)
+
+    # For link datasets, validate URL requirement
+    if is_link_dataset:
+        is_valid, error_msg = validate_link_dataset_annotations(dataset_annotations)
+        if not is_valid:
+            print(f"❌ Link dataset validation failed: {error_msg}")
+            print("\n💡 Link datasets must have a 'url' annotation pointing to the external dataset location")
+            sys.exit(1)
+        print(f"✓ Link dataset validation passed")
+        print(f"  External URL: {dataset_annotations.get('url')}")
+
+    # Validate file annotations
+    if not is_link_dataset:
+        print("\nValidating file annotations...")
+    file_annotations_valid = True
+    for syn_id, file_data in file_annotations.items():
+        filename = list(file_data.keys())[0]
+        annotations = file_data[filename]
+        file_type = annotations.get('_file_type', 'ClinicalFile')
+
+        is_valid, errors, warnings = validate_annotation_against_schema(
+            annotations, file_type, all_schemas
+        )
+
+        if not is_valid:
+            print(f"  ✗ {filename}: {len(errors)} errors")
+            for error in errors:
+                print(f"      - {error}")
+            file_annotations_valid = False
+
+    if file_annotations_valid:
+        print("  ✓ All file annotations valid")
+
+    # Validate dataset annotations
+    print("\nValidating dataset annotations...")
+    dataset_annotations_valid = True
+    if dataset_annotations:
+        # Get dataset config to determine correct type
+        dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
+
+        # Detect dataset type (checks config first, then pattern matching, then defaults to Dataset)
+        dataset_type = dataset_annotations.get('_dataset_type')
+        if not dataset_type:
+            dataset_type = detect_dataset_type(
+                args.dataset_name,
+                args.staging_folder if hasattr(args, 'staging_folder') else None,
+                dataset_config=dataset_config,
+                all_schemas=all_schemas
+            )
+            # Add the detected type to annotations
+            dataset_annotations['_dataset_type'] = dataset_type
+
+        print(f"  Using schema: {dataset_type}")
+        is_valid, errors, warnings = validate_annotation_against_schema(
+            dataset_annotations, dataset_type, all_schemas
+        )
+
+        if not is_valid:
+            print(f"  ✗ Dataset annotations: {len(errors)} errors")
+            for error in errors:
+                print(f"      - {error}")
+            dataset_annotations_valid = False
+        else:
+            print("  ✓ Dataset annotations valid")
+
+    # Check overall validity
+    all_valid = file_annotations_valid and dataset_annotations_valid
+
+    if not all_valid:
+        print("\n" + "=" * 60)
+        print("❌ VALIDATION FAILED")
+        print("=" * 60)
+        if not file_annotations_valid:
+            print("  ✗ File annotations have errors")
+        if not dataset_annotations_valid:
+            print("  ✗ Dataset annotations have errors")
+
+        print("\nYou have the following options:")
+        print("  1. Fix the errors and run again")
+        print("  2. Proceed anyway (not recommended - may cause issues)")
+        print("  3. Exit and fix manually")
+
+        # Prompt user
+        while True:
+            try:
+                response = input("\nProceed with invalid annotations? (yes/no): ").strip().lower()
+                if response in ['yes', 'y']:
+                    print("\n⚠️  WARNING: Proceeding with invalid annotations!")
+                    print("   This may cause issues with dataset creation.")
+                    break
+                elif response in ['no', 'n']:
+                    print("\n✓ Exiting. Please fix validation errors and try again.")
+                    sys.exit(1)
+                else:
+                    print("Please answer 'yes' or 'no'")
+            except (EOFError, KeyboardInterrupt):
+                print("\n\n✓ Exiting.")
+                sys.exit(1)
+    else:
+        print("\n✓ All annotations valid (files and dataset)")
+
+    # Get dataset config for advanced features
+    if not dataset_config:
+        dataset_config = config.get_dataset_config(args.use_config) if hasattr(args, 'use_config') and args.use_config else {}
+
+    # Entity view / column resolution shared by STEP 3 (validation view) and STEP 7
+    # (dataset table columns) below. CLI flags win over config.yaml; config wins over
+    # defaults. Entity view creation defaults to ON — disable with --skip-entity-view
+    # or `create_entity_view: false` in config.yaml.
+    create_view_enabled = True
+    if dataset_config and dataset_config.get('create_entity_view') is False:
+        create_view_enabled = False
+    if getattr(args, 'skip_entity_view', False):
+        create_view_enabled = False
+
+    columns_override = getattr(args, 'columns', None) or (dataset_config.get('columns') if dataset_config else None)
+    extra_schema_types = getattr(args, 'extra_schema_types', None) or (dataset_config.get('extra_schema_types') if dataset_config else None)
+
+    # --from-entity ports an existing entity's exact columns/order instead of deriving
+    # from a schema; applies to both STEP 3 and STEP 7. Overrides --extra-schema-types.
+    from_entity = getattr(args, 'from_entity', None) or (dataset_config.get('from_entity') if dataset_config else None)
+    ported_columns = resolve_ported_columns(syn, from_entity, columns_override)
+    ported_column_order = [c['name'] for c in ported_columns] if ported_columns is not None else None
+
+    # Debug: Show what config was retrieved
+    if config.VERBOSE:
+        print(f"\n[DEBUG] Retrieved dataset_config keys: {list(dataset_config.keys())}")
+        print(f"[DEBUG] generate_wiki: {dataset_config.get('generate_wiki', False)}")
+        print(f"[DEBUG] create_snapshot: {dataset_config.get('create_snapshot', False)}")
+        print(f"[DEBUG] create_entity_view: {create_view_enabled}")
+        print(f"[DEBUG] columns: {columns_override}")
+        print(f"[DEBUG] extra_schema_types: {extra_schema_types}")
+
+    # ========== PHASE 2: FILE ANNOTATION & VALIDATION ==========
+    # SKIP ENTIRELY FOR LINK DATASETS
+
+    if not is_link_dataset:
+        # STEP 2: Apply annotations to files in staging folder
+        print("\n" + "=" * 60)
+        print("PHASE 2: FILE ANNOTATION & VALIDATION")
+        print("=" * 60)
+        print("\n" + "=" * 60)
+        print("STEP 2: APPLYING ANNOTATIONS TO FILES")
+        print("=" * 60)
+
+        file_ids = list(file_annotations.keys())
+        success, errors, skipped = apply_annotations_to_files(
+            syn, file_annotations, config.DRY_RUN, config.VERBOSE
+        )
+        print(f"✓ Applied: {success}, Skipped: {skipped}, Errors: {errors}")
+
+        # Detect dataset type for type-aware columns (used by STEP 3 and STEP 7)
+        dataset_type_for_view = dataset_annotations.get('_dataset_type', 'ClinicalDataset')
+        file_type = dataset_type_for_view.replace('Dataset', 'File')
+
+        view_id = None
+        if create_view_enabled:
+            # STEP 3: Create entity view (SCOPED TO STAGING FOLDER, NOT DATASET)
+            print("\n" + "=" * 60)
+            print("STEP 3: CREATING ENTITY VIEW FOR STAGING FOLDER")
+            print("=" * 60)
+            print("⚠️  Entity view is scoped to STAGING FOLDER for validation")
+
+            view_id = create_dataset_entity_view(
+                syn, args.staging_folder, args.dataset_name, config.SYNAPSE_PROJECT_ID,
+                file_type, all_schemas,
+                dataset_type=dataset_type_for_view,
+                extra_schema_names=extra_schema_types,
+                field_names=None if ported_columns is not None else columns_override,
+                source_columns=ported_columns,
+                dry_run=config.DRY_RUN
+            )
+
+            # STEP 3b: Reorder entity view columns (if view was created)
+            if view_id and not config.DRY_RUN:
+                print("\n" + "=" * 60)
+                print("STEP 3b: REORDERING ENTITY VIEW COLUMNS")
+                print("=" * 60)
+
+                reorder_entity_view_columns(syn, view_id, dataset_type=dataset_type_for_view,
+                                             column_order=ported_column_order, dry_run=config.DRY_RUN)
+
+            # STEP 3c: Verify entity view columns (if verbose and view was created)
+            if view_id and not config.DRY_RUN and config.VERBOSE:
+                print("\n" + "=" * 60)
+                print("STEP 3c: VERIFYING ENTITY VIEW COLUMNS")
+                print("=" * 60)
+
+                verify_entity_view_columns(syn, view_id, config.VERBOSE)
+
+            if view_id:
+                print(f"\n✅ Entity view created for validation!")
+                print(f"   🔗 View in Synapse: https://www.synapse.org/#!Synapse:{view_id}")
+                print(f"   📊 Review all file annotations in the entity view")
+
+            # PAUSE: Prompt user to verify annotations in entity view
+            print("\n" + "=" * 60)
+            print("⏸️  VERIFICATION CHECKPOINT")
+            print("=" * 60)
+            print("\n⚠️  IMPORTANT: Please verify your file annotations!")
+            print(f"\n1. Open the entity view in Synapse:")
+            print(f"   🔗 https://www.synapse.org/#!Synapse:{view_id}")
+            print(f"\n2. Review all file annotations to ensure they are correct")
+            print(f"\n3. Once verified, return here to continue")
+
+            # Prompt user to continue
+            while True:
+                try:
+                    response = input("\nHave you verified the annotations? Ready to continue? (yes/no): ").strip().lower()
+                    if response in ['yes', 'y']:
+                        print("\n✓ Continuing with workflow...")
+                        break
+                    elif response in ['no', 'n']:
+                        print("\n✓ Exiting. Please verify annotations and run again.")
+                        print(f"\nTo resume, run:")
+                        print(f"  {cli_invocation()} create --use-config {args.use_config if hasattr(args, 'use_config') else args.dataset_name} --from-annotations --execute")
+                        sys.exit(0)
+                    else:
+                        print("Please answer 'yes' or 'no'")
+                except (EOFError, KeyboardInterrupt):
+                    print("\n\n✓ Exiting.")
+                    sys.exit(0)
+        else:
+            print("\n" + "=" * 60)
+            print("STEP 3: SKIPPING ENTITY VIEW (--skip-entity-view or create_entity_view: false)")
+            print("=" * 60)
+
+        # STEP 4: Set version labels on files (BEFORE dataset creation)
+        apply_version = dataset_config.get('apply_version', True) if dataset_config else True
+        version_label = (dataset_config.get('version_label') if dataset_config else (args.version_label if hasattr(args, 'version_label') and args.version_label else None)) if apply_version else None
+        version_comment = dataset_config.get('version_comment') if dataset_config else (args.version_comment if hasattr(args, 'version_comment') and args.version_comment else None)
+        if config.VERBOSE:
+            print(f"[DEBUG] version_label: {version_label}, version_comment: {version_comment}")
+        if version_label:
+            print("\n" + "=" * 60)
+            print("STEP 4: SETTING FILE VERSION LABELS")
+            print("=" * 60)
+            success, errors = set_file_versions(syn, file_ids, version_label, version_comment, config.DRY_RUN, config.VERBOSE)
+            print(f"✓ Versioned: {success}, Errors: {errors}")
+    else:
+        print("\n" + "=" * 60)
+        print("PHASE 2: SKIPPING FILE OPERATIONS (Link Dataset)")
+        print("=" * 60)
+        print("🔗 Link datasets do not contain files")
+        file_ids = []
+        file_type = dataset_annotations.get('_dataset_type', 'ClinicalDataset').replace('Dataset', 'File')
+
+    # ========== PHASE 3: DATASET CREATION & FINALIZATION ==========
+
+    print("\n" + "=" * 60)
+    print("PHASE 3: DATASET CREATION & FINALIZATION")
+    print("=" * 60)
+
+    # STEP 5: Create dataset entity
+    print("\n" + "=" * 60)
+    print("STEP 5: CREATING DATASET ENTITY")
+    print("=" * 60)
+
+    entity_description = (dataset_config.get('description') if dataset_config else None) \
+                         or dataset_annotations.get('description') or None
+    dataset_id = create_dataset_entity(
+        syn, sanitize_synapse_name(args.dataset_name), dataset_annotations,
+        config.SYNAPSE_PROJECT_ID, all_schemas, config.DRY_RUN,
+        description=entity_description
+    )
+
+    if not dataset_id:
+        print("❌ Failed to create dataset")
+        sys.exit(1)
+
+    # STEP 6: Add files to dataset (SKIP FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 6: ADDING FILES TO DATASET")
+        print("=" * 60)
+        add_files_to_dataset(syn, dataset_id, file_ids, config.DRY_RUN)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 6: SKIPPING FILE ADDITION (Link Dataset)")
+        print("=" * 60)
+        print("🔗 No files to add")
+
+    # STEP 7: Add columns for faceted search (SKIP FOR LINK DATASETS)
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 7: ADDING DATASET COLUMNS")
+        print("=" * 60)
+
+        # Detect dataset type from annotations
+        dataset_type_for_columns = dataset_annotations.get('_dataset_type')
+        if not dataset_type_for_columns:
+            dataset_type_for_columns = detect_dataset_type(
+                args.dataset_name,
+                args.staging_folder if not is_link_dataset else None,
+                dataset_config,
+                all_schemas=all_schemas
+            )
+
+        # Add columns with type awareness and size constraints
+        add_dataset_columns(
+            syn, dataset_id, all_schemas,
+            dataset_type=dataset_type_for_columns,
+            extra_schema_names=extra_schema_types,
+            field_names=None if ported_columns is not None else columns_override,
+            source_columns=ported_columns,
+            dry_run=config.DRY_RUN
+        )
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 7: SKIPPING DATASET COLUMNS (Link Dataset)")
+        print("=" * 60)
+        print("🔗 No files for faceted search")
+
+    # STEP 7b: Reorder dataset columns (SKIP FOR LINK DATASETS)
+    # This happens automatically for better UX
+    if not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 7b: REORDERING DATASET COLUMNS")
+        print("=" * 60)
+
+        # Use same dataset type as column addition
+        dataset_type_for_columns = dataset_annotations.get('_dataset_type')
+        if not dataset_type_for_columns:
+            dataset_type_for_columns = detect_dataset_type(
+                args.dataset_name,
+                args.staging_folder if not is_link_dataset else None,
+                dataset_config,
+                all_schemas=all_schemas
+            )
+
+        reorder_dataset_columns(syn, dataset_id, dataset_type=dataset_type_for_columns,
+                                 column_order=ported_column_order, dry_run=config.DRY_RUN)
+
+    # STEP 7c: Verify dataset columns (SKIP FOR LINK DATASETS)
+    if config.VERBOSE and not is_link_dataset:
+        print("\n" + "=" * 60)
+        print("STEP 7c: VERIFYING DATASET COLUMNS")
+        print("=" * 60)
+
+        verify_dataset_columns(syn, dataset_id, config.VERBOSE)
+
+    # STEP 8: Generate wiki (if requested)
+    generate_wiki = dataset_config.get('generate_wiki', False) if dataset_config else (args.generate_wiki if hasattr(args, 'generate_wiki') else False)
+    if config.VERBOSE:
+        print(f"[DEBUG] generate_wiki condition: {generate_wiki} (from config: {dataset_config.get('generate_wiki', 'N/A') if dataset_config else 'N/A'})")
+    if generate_wiki:
+        print("\n" + "=" * 60)
+        print("STEP 8: GENERATING DATASET WIKI")
+        print("=" * 60)
+
+        # Load custom wiki content if provided
+        custom_content = None
+        if hasattr(args, 'wiki_content') and args.wiki_content:
+            try:
+                with open(args.wiki_content, 'r') as f:
+                    custom_content = f.read()
+            except Exception as e:
+                print(f"  ⚠️  Warning: Could not load wiki content from {args.wiki_content}: {e}")
+
+        # Check for wiki_content in dataset config
+        if not custom_content and 'wiki_content' in dataset_config:
+            custom_content = dataset_config['wiki_content']
+
+        # Get file list for AI context (empty for link datasets)
+        file_list = [list(file_data.keys())[0] for file_data in file_annotations.values()] if not is_link_dataset else []
+
+        wiki_id = generate_dataset_wiki(
+            syn, dataset_id, args.dataset_name, dataset_annotations,
+            len(file_ids),
+            file_list=file_list,
+            dataset_config=dataset_config,
+            custom_content=custom_content,
+            use_ai=config.AI_ENABLED,
+            ai_timeout=config.AI_TIMEOUT,
+            dry_run=config.DRY_RUN
+        )
+        if wiki_id:
+            print(f"✓ Wiki ID: {wiki_id}")
+
+    # STEP 9: Set acknowledgement statement (if provided)
+    acknowledgement_statement = dataset_config.get('acknowledgementStatement')
+    if acknowledgement_statement:
+        print("\n" + "=" * 60)
+        print("STEP 9: SETTING ACKNOWLEDGEMENT STATEMENT")
+        print("=" * 60)
+        if config.DRY_RUN:
+            print(f"  [DRY_RUN] Would set acknowledgementStatement: {acknowledgement_statement}")
+        else:
+            try:
+                annos = syn.get_annotations(dataset_id)
+                annos['acknowledgementStatement'] = acknowledgement_statement
+                syn.set_annotations(annos)
+                print(f"  ✓ Acknowledgement statement set")
+            except Exception as e:
+                print(f"  ✗ Error setting acknowledgement statement: {e}")
+
+    # STEP 10: Create dataset snapshot (if requested) - SKIP FOR LINK DATASETS (requires files)
+    create_snapshot = dataset_config.get('create_snapshot', False) if dataset_config else (args.create_snapshot if hasattr(args, 'create_snapshot') else False)
+    version_label = dataset_config.get('version_label') if dataset_config else (args.version_label if hasattr(args, 'version_label') and args.version_label else None)
+    version_comment = dataset_config.get('version_comment') if dataset_config else (args.version_comment if hasattr(args, 'version_comment') and args.version_comment else None)
+    if config.VERBOSE:
+        print(f"[DEBUG] create_snapshot condition: {create_snapshot}, version_label: {version_label}")
+    if not is_link_dataset and create_snapshot and version_label:
+        print("\n" + "=" * 60)
+        print("STEP 10: CREATING DATASET SNAPSHOT")
+        print("=" * 60)
+        snapshot_version = create_dataset_snapshot(syn, dataset_id, version_label, version_comment, config.DRY_RUN)
+        if snapshot_version:
+            print(f"✓ Snapshot version: {snapshot_version}")
+    elif is_link_dataset and create_snapshot:
+        print("\n" + "=" * 60)
+        print("STEP 10: SKIPPING DATASET SNAPSHOT (Link Dataset)")
+        print("=" * 60)
+        print("🔗 Dataset snapshots require files - not supported for link datasets")
+
+    # STEP 11: Add dataset to collection (if requested)
+    add_to_collection = dataset_config.get('add_to_collection', False) if dataset_config else False
+    collection_id = dataset_config.get('collection_id') if dataset_config else config.DATASETS_COLLECTION_ID
+
+    if config.VERBOSE:
+        print(f"[DEBUG] add_to_collection: {add_to_collection}, collection_id: {collection_id}")
+
+    if add_to_collection and collection_id:
+        print("\n" + "=" * 60)
+        print("STEP 11: ADDING DATASET TO COLLECTION")
+        print("=" * 60)
+        success = add_dataset_to_collection(syn, dataset_id, collection_id, config.DRY_RUN)
+        if success:
+            print(f"✓ Dataset added to collection {collection_id}")
+    elif add_to_collection and not collection_id:
+        print("\n" + "=" * 60)
+        print("⚠️  SKIPPING ADD TO COLLECTION")
+        print("=" * 60)
+        print("⚠️  add_to_collection is enabled but no collection_id provided")
+        print("\n💡 To enable, set in config.yaml:")
+        print(f"   datasets:")
+        print(f"     {args.use_config if hasattr(args, 'use_config') else args.dataset_name}:")
+        print(f"       add_to_collection: true")
+        print(f"       collection_id: \"synXXXXXX\"  # Or use global datasets_collection_id")
+
+    # STEP 12: Move files to release folder (SKIP FOR LINK DATASETS)
+    # This is the FINAL step and should only be done when user is confident
+    if not is_link_dataset:
+        release_folder = dataset_config.get('release_folder') if dataset_config else (args.release_folder if hasattr(args, 'release_folder') and args.release_folder else None)
+        auto_move_to_release = dataset_config.get('auto_move_to_release', False)  # Defaults to False for safety
+
+        if config.VERBOSE:
+            print(f"[DEBUG] release_folder: {release_folder}, auto_move_to_release: {auto_move_to_release}")
+
+        if release_folder and auto_move_to_release:
+            print("\n" + "=" * 60)
+            print("STEP 12: MOVING FILES TO RELEASE FOLDER")
+            print("=" * 60)
+            print("⚠️  This is a FINAL operation - files will be moved from staging to release")
+
+            # Use folder move mode by default (moves files within folder)
+            move_mode = dataset_config.get('move_mode', 'folder')
+            success, errors = move_files_to_release(
+                syn, args.staging_folder, file_ids, release_folder,
+                move_mode, config.DRY_RUN, config.VERBOSE
+            )
+            print(f"✓ Moved: {success}, Errors: {errors}")
+        elif release_folder and not auto_move_to_release:
+            print("\n" + "=" * 60)
+            print("⏭️  SKIPPING FILE MOVE TO RELEASE")
+            print("=" * 60)
+            print(f"⚠️  Release folder configured: {release_folder}")
+            print(f"⚠️  But auto_move_to_release is set to: {auto_move_to_release}")
+            print(f"\n💡 To enable automatic move to release, set in config.yaml:")
+            print(f"   datasets:")
+            print(f"     {args.use_config if hasattr(args, 'use_config') else args.dataset_name}:")
+            print(f"       auto_move_to_release: true")
+            print(f"\n⚠️  Files remain in staging folder: {args.staging_folder}")
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 12: SKIPPING FILE MOVE (Link Dataset)")
+        print("=" * 60)
+        print("🔗 No files to move")
+
+    # Summary
+    print("\n" + "=" * 60)
+    print("✅ CREATE WORKFLOW COMPLETE")
+    print("=" * 60)
+    print(f"Dataset: {args.dataset_name} ({dataset_id})")
+    if is_link_dataset:
+        print(f"Type: Link Dataset (no files)")
+        print(f"External URL: {dataset_annotations.get('url', 'NOT SET')}")
+    else:
+        print(f"Files: {len(file_ids)}")
+        print(f"Staging Folder: {args.staging_folder}")
+        release_folder = dataset_config.get('release_folder') if dataset_config else (args.release_folder if hasattr(args, 'release_folder') and args.release_folder else None)
+        auto_move_to_release = dataset_config.get('auto_move_to_release', False)
+        if release_folder and auto_move_to_release:
+            print(f"Release Folder: {release_folder} (files moved)")
+        elif release_folder:
+            print(f"Release Folder: {release_folder} (files NOT moved - set auto_move_to_release: true to enable)")
+        if version_label:
+            print(f"Version: {version_label}")
+        if 'view_id' in locals():
+            print(f"Entity View: {view_id}")
+    print(f"DRY_RUN: {config.DRY_RUN}")
+
+    if config.DRY_RUN:
+        print("\n⚠️  This was a DRY_RUN - no changes made")
+        print("Run with --execute to apply changes")
+
+
+def handle_update_workflow(args, config):
+    """Handle UPDATE workflow - update existing dataset with new file versions.
+
+    Phase 1 (no --annotations-file): Generate merged annotation templates.
+    Phase 2 (with --annotations-file): Validate, upload, move, apply, verify.
+    """
+    annotations_file = getattr(args, 'annotations_file', None)
+    phase = 2 if annotations_file else 1
+
+    print("\n" + "=" * 60)
+    print("WORKFLOW: UPDATE EXISTING DATASET")
+    print(f"Phase: {'2 — Apply Updates' if phase == 2 else '1 — Template Generation'}")
+    print("=" * 60)
+
+    # Load schemas
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    # Connect to Synapse
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # Get dataset name for config lookup
+    dataset_entity = syn.get(args.dataset_id, downloadFile=False)
+    dataset_name = dataset_entity.name
+    dataset_config = config.get_dataset_config(dataset_name, dataset_id=args.dataset_id)
+    if dataset_config.get('dataset_type'):
+        print(f"Using configured dataset type: {dataset_config['dataset_type']}")
+
+    # ── PHASE 1: TEMPLATE GENERATION ─────────────────────────────────────────
+    if phase == 1:
+        # Step 1: Retrieve existing annotations
+        print("\n" + "=" * 60)
+        print("STEP 1: RETRIEVING EXISTING ANNOTATIONS")
+        print("=" * 60)
+
+        existing_annotations = enumerate_dataset_files(syn, args.dataset_id, config.VERBOSE)
+        print(f"Found {len(existing_annotations)} files in dataset")
+
+        # Step 2: Get staging files (if provided)
+        staging_annotations = {}
+        if args.staging_folder:
+            print("\n" + "=" * 60)
+            print("STEP 2: RETRIEVING STAGING FILES")
+            print("=" * 60)
+
+            folder_ids = args.staging_folder if isinstance(args.staging_folder, list) else [args.staging_folder]
+            for folder_id in folder_ids:
+                folder_annots = enumerate_folder_files(syn, folder_id, config.VERBOSE)
+                staging_annotations.update(folder_annots)
+                print(f"  Found {len(folder_annots)} files in staging folder {folder_id}")
+            if len(folder_ids) > 1:
+                print(f"Found {len(staging_annotations)} files in staging (total across {len(folder_ids)} folders)")
+            else:
+                print(f"Found {len(staging_annotations)} files in staging")
+
+        # Step 2c: Extract Form Names from staging files (if staging folder provided)
+        form_map = {}        # {lower_clean_name: [(staging_syn_id, clean_name), ...]}
+        name_map = {}        # {staging_syn_id: clean_name}
+        local_path_map = {}  # {staging_syn_id: local_file_path}
+        view_map = {}        # {staging_syn_id: view_name (raw staging filename w/o ext)}
+        if staging_annotations:
+            print("\n" + "=" * 60)
+            print("STEP 2c: EXTRACTING FORM NAMES FROM STAGING FILES")
+            print("=" * 60)
+            import tempfile
+            _tmp = tempfile.mkdtemp(prefix='sdm_staging_')
+            # Form Name is used by ALL ALS data dictionaries to match a staged
+            # export to its released counterpart. Other datasets use filenames;
+            # do not download potentially multi-GB files just to inspect them.
+            extract_form_names = bool(dataset_config.get('data_dict_view'))
+            form_map, name_map, local_path_map, view_map = build_staging_form_map(
+                syn, staging_annotations, _tmp,
+                extract_form_names=extract_form_names,
+            )
+            print(f"  {'Extracted form names for' if extract_form_names else 'Used staging filenames for'} {len(form_map)} staging files")
+            for sid, cname in name_map.items():
+                print(f"    {list(staging_annotations[sid].keys())[0]} → {cname}")
+
+        # Resolve subject file type (single / multi / auto)
+        subject_file_type = (
+            getattr(args, 'subject_file_type', None)
+            or dataset_config.get('subject_file_type')
+            or 'auto'
+        )
+
+        # Load deprecated→canonical field migration map (reconciles renamed/removed
+        # fields still present on Synapse, e.g. source→repository).
+        migrations_path = getattr(args, 'field_migrations', None) or config.FIELD_MIGRATIONS_PATH
+        field_migrations = load_field_migrations(migrations_path)
+        if field_migrations:
+            print(f"  Loaded field migrations: {migrations_path}  ({len(field_migrations)} entries)")
+
+        # Step 2b: Build / load mapping dict from data dictionary (if provided)
+        mapping = None
+        data_dict_path = getattr(args, 'data_dict', None) or dataset_config.get('data_dict')
+        data_dict_path = resolve_data_dict_path(syn, data_dict_path)
+        data_dict_view = getattr(args, 'data_dict_view', None) or dataset_config.get('data_dict_view')
+        mapping_path = getattr(args, 'mapping', None) or dataset_config.get('mapping')
+        mapping_out = None
+
+        if mapping_path and os.path.exists(mapping_path):
+            mapping = load_mapping_dict(mapping_path)
+            print(f"  Loaded mapping dict: {mapping_path}  ({len(mapping)} entries)")
+
+            # Also merge new data dict columns into existing mapping if data_dict provided
+            if data_dict_path and os.path.exists(data_dict_path):
+                parsed = parse_data_dictionary(data_dict_path, view_name=data_dict_view)
+                all_views = _get_data_dict_views(data_dict_path, view_name=data_dict_view)
+                new_mapping = build_mapping_from_data_dict(parsed, all_views=all_views)
+                mapping = merge_into_existing_mapping(mapping_path, new_mapping)
+                write_mapping_file(mapping_path, mapping)
+
+        elif data_dict_path:
+            print("\n" + "=" * 60)
+            print("STEP 2b: BUILDING MAPPING FROM DATA DICTIONARY")
+            print("=" * 60)
+
+            if not os.path.exists(data_dict_path):
+                print(f"  Warning: Data dictionary not found: {data_dict_path} — skipping")
+            else:
+                parsed = parse_data_dictionary(data_dict_path, view_name=data_dict_view)
+                print(f"  Parsed {len(parsed)} fields from data dictionary"
+                      + (f" (view: {data_dict_view})" if data_dict_view else ""))
+
+                all_views = _get_data_dict_views(data_dict_path, view_name=data_dict_view)
+                new_mapping = build_mapping_from_data_dict(parsed, all_views=all_views)
+
+                safe_name = re.sub(r'[^\w]', '_', dataset_name)
+                mapping_out = os.path.join("mapping", f"{safe_name}.dict")
+                os.makedirs("mapping", exist_ok=True)
+
+                if os.path.exists(mapping_out):
+                    mapping = merge_into_existing_mapping(mapping_out, new_mapping)
+                    print(f"  Merged into existing mapping: {mapping_out}")
+                else:
+                    mapping = new_mapping
+                    print(f"  Generated new mapping: {mapping_out}")
+
+                write_mapping_file(mapping_out, mapping)
+                mapping = new_mapping
+
+        # Step 3: Generate merged templates
+        print("\n" + "=" * 60)
+        print("STEP 3: GENERATING ANNOTATION TEMPLATES")
+        print("=" * 60)
+
+        annotations_output = {}
+        matched_staging_ids = set()
+
+        # Build reverse view_map: {view_name: staging_syn_id} for viewName-based matching
+        reverse_view_map = {}  # {view_name_lower: staging_syn_id}
+        for staging_syn_id, vname in view_map.items():
+            if vname:
+                reverse_view_map[vname.lower()] = staging_syn_id
+
+        # For each existing file, create merged template
+        field_type_cache = {}  # {file_type: {field_name: json_schema_type}}
+        for syn_id, file_data in existing_annotations.items():
+            filename = list(file_data.keys())[0]
+            old_annot = file_data[filename]
+
+            # Match staging file to existing file using multiple strategies:
+            # 1) Exact normalized form-name match (use viewName to break ties)
+            # 2) Fuzzy form-name match
+            # 3) viewName-only match (for files whose form name changed entirely)
+            # 4) Direct syn_id fallback
+            new_annot = {}
+            matched_staging_id = None
+
+            # Resolve the existing file's viewName for tie-breaking
+            existing_view = old_annot.get('viewName')
+            if isinstance(existing_view, list):
+                existing_view = existing_view[0] if existing_view else None
+
+            # Strategy 1: Exact normalized form-name match
+            if form_map:
+                norm_key = _norm_filename_for_match(filename)
+                candidates = form_map.get(norm_key, [])
+                unclaimed = [c for c in candidates if c[0] not in matched_staging_ids]
+                if len(unclaimed) == 1:
+                    match = unclaimed[0]
+                elif len(unclaimed) > 1 and existing_view:
+                    # Multiple staging files share this form name — use viewName
+                    # to pick the right one (staging raw filename == viewName)
+                    match = next(
+                        (c for c in unclaimed
+                         if view_map.get(c[0], '').lower() == existing_view.lower()),
+                        unclaimed[0],  # fall back to first unclaimed if no viewName hit
+                    )
+                elif unclaimed:
+                    match = unclaimed[0]
+                else:
+                    match = None
+
+                if match:
+                    matched_staging_id, _ = match
+                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
+
+            # Strategy 2: Fuzzy form-name match
+            if not matched_staging_id and form_map:
+                match = _fuzzy_match_filename(filename, form_map,
+                                              exclude_ids=matched_staging_ids)
+                if match:
+                    matched_staging_id, _ = match
+                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
+
+            # Strategy 3: viewName-only match (form name changed entirely)
+            if not matched_staging_id and existing_view:
+                candidate_id = reverse_view_map.get(existing_view.lower())
+                if candidate_id and candidate_id not in matched_staging_ids:
+                    matched_staging_id = candidate_id
+                    new_annot = list(staging_annotations[matched_staging_id].values())[0]
+
+            # Strategy 4: Direct syn_id fallback
+            if not matched_staging_id and syn_id in staging_annotations:
+                matched_staging_id = syn_id
+                new_annot = list(staging_annotations[syn_id].values())[0]
+
+            # Get file type and create template
+            file_type = old_annot.get('_file_type') or detect_file_type(
+                filename, all_schemas=all_schemas, dataset_config=dataset_config
+            )
+            template = create_annotation_template(all_schemas, file_type)
+            if file_type not in field_type_cache:
+                field_type_cache[file_type] = get_field_type_map(all_schemas, file_type)
+
+            # Priority merge: old > new > template
+            merged = merge_file_annotations_priority(
+                old_annot, new_annot, template, field_types=field_type_cache[file_type]
+            )
+
+            # Reconcile deprecated fields carried over from Synapse (renames/removals)
+            merged, _migrations = migrate_deprecated_fields(merged, field_migrations)
+            for _chg in _migrations:
+                print(f"    ↻ {filename}: {_chg}")
+
+            # Normalize existing annotation values through mapping (if available)
+            if mapping:
+                merged = normalize_annotations_from_mapping(merged, mapping)
+
+            # Fill empty annotation slots from the actual file contents (unique values per column)
+            if mapping and matched_staging_id:
+                local_path = local_path_map.get(matched_staging_id)
+                if local_path and os.path.exists(local_path):
+                    effective_type = subject_file_type
+                    if effective_type == 'auto':
+                        subj_col = merged.get('subjectIdColumn')
+                        if isinstance(subj_col, list):
+                            subj_col = subj_col[0] if subj_col else None
+                        effective_type = detect_subject_file_type(local_path, subj_col)
+                    if effective_type == 'multi':
+                        merged = fill_template_from_file_contents(merged, local_path, mapping)
+                # Apply view-level annotations from _views. Prefer the view name freshly
+                # derived from this run's staging match when it resolves to a _views
+                # entry — a stored viewName that's stale (renamed/removed from _views)
+                # would otherwise silently block newly-added mapping entries from ever
+                # being applied. Fall back to the stored viewName only when the fresh
+                # one doesn't match anything (or there's no staging match at all).
+                stored_view_name = merged.get('viewName')
+                if isinstance(stored_view_name, list):
+                    stored_view_name = stored_view_name[0] if stored_view_name else None
+                staging_view_name = view_map.get(matched_staging_id) if matched_staging_id else None
+
+                view_name = None
+                for candidate in (staging_view_name, stored_view_name):
+                    if candidate and match_view_name(candidate, mapping):
+                        view_name = candidate
+                        break
+                view_name = view_name or staging_view_name or stored_view_name
+
+                if view_name:
+                    merged = apply_view_annotations(merged, view_name, mapping)
+
+            # Auto-update participant/individual and record counts from the file
+            # contents (independent of mapping — needs only the local data file).
+            if matched_staging_id:
+                count_path = local_path_map.get(matched_staging_id)
+                if count_path and os.path.exists(count_path):
+                    subj_col = merged.get('subjectIdColumn')
+                    if isinstance(subj_col, list):
+                        subj_col = subj_col[0] if subj_col else None
+                    merged = fill_counts_from_file_contents(merged, count_path, subj_col)
+
+            if matched_staging_id and matched_staging_id != syn_id:
+                merged['_staging_id'] = matched_staging_id
+            if matched_staging_id:
+                matched_staging_ids.add(matched_staging_id)
+
+            annotations_output[syn_id] = {filename: merged}
+
+        # Extract common dataset-level fields from existing files to seed new files.
+        # Fields like dataSourcePrefix, repository, species, studyType are
+        # constant across all files in a dataset but aren't in _views or file contents.
+        # Use canonical field names — matched files have already been run through
+        # migrate_deprecated_fields above, so the deprecated names are gone.
+        _COMMON_FIELDS = [
+            'dataSourcePrefix', 'repository', 'program', 'species', 'studyType',
+            'disease', 'includedInDataCatalog', 'publisher', 'license',
+        ]
+        common_values = {}
+        if annotations_output:
+            # Sample from the first existing file that has these fields populated
+            for _fd in annotations_output.values():
+                sample_annot = list(_fd.values())[0]
+                for field in _COMMON_FIELDS:
+                    if field not in common_values:
+                        val = sample_annot.get(field)
+                        if val and val not in ('', [], [''], None):
+                            common_values[field] = val
+                if len(common_values) == len(_COMMON_FIELDS):
+                    break
+
+        # Add unmatched staging files as new entries (form name as filename, empty template)
+        for staging_syn_id, file_data in staging_annotations.items():
+            if staging_syn_id in matched_staging_ids:
+                continue
+            clean_name = name_map.get(staging_syn_id, list(file_data.keys())[0])
+            file_type = detect_file_type(clean_name, all_schemas=all_schemas, dataset_config=dataset_config)
+            template = create_annotation_template(all_schemas, file_type)
+            template['_staging_id'] = staging_syn_id
+
+            # Seed common dataset-level fields from existing files
+            for field, val in common_values.items():
+                if field in template and template[field] in ('', [], [''], None):
+                    template[field] = val
+
+            # Fill from file contents for new files too
+            if mapping:
+                local_path = local_path_map.get(staging_syn_id)
+                if local_path and os.path.exists(local_path):
+                    effective_type = subject_file_type
+                    if effective_type == 'auto':
+                        subj_col = template.get('subjectIdColumn')
+                        if isinstance(subj_col, list):
+                            subj_col = subj_col[0] if subj_col else None
+                        effective_type = detect_subject_file_type(local_path, subj_col)
+                    if effective_type == 'multi':
+                        template = fill_template_from_file_contents(template, local_path, mapping)
+                # Apply view-level annotations from _views using raw staging filename as view name
+                view_name = view_map.get(staging_syn_id)
+                if view_name and mapping:
+                    template = apply_view_annotations(template, view_name, mapping)
+
+            # Auto-update participant/individual and record counts for new files.
+            count_path = local_path_map.get(staging_syn_id)
+            if count_path and os.path.exists(count_path):
+                subj_col = template.get('subjectIdColumn')
+                if isinstance(subj_col, list):
+                    subj_col = subj_col[0] if subj_col else None
+                template = fill_counts_from_file_contents(template, count_path, subj_col)
+
+            annotations_output[staging_syn_id] = {clean_name: template}
+            print(f"  + New file (no existing match): {clean_name} ({staging_syn_id})")
+
+        # Save annotations
+        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{dataset_name}_update_annotations.json")
+        save_annotation_file(annotations_output, output_file)
+
+        print("\n" + "=" * 60)
+        print("✅ PHASE 1 COMPLETE — Template generated")
+        print("=" * 60)
+        print(f"Annotations saved to: {output_file}")
+        print(f"Total files        : {len(annotations_output)}")
+        if mapping_out:
+            print(f"Mapping file       : {mapping_out}")
+        print("\n⚠️  MANUAL STEP: Edit the annotation file, then re-run Phase 2.")
+        # Phase 2 is triggered ONLY by --annotations-file (see phase detection
+        # above), so it must always be passed. Keep --use-config too (if used) so
+        # release_folder / version_label flow into the move + versioning steps.
+        # The annotations path is quoted because dataset names may contain spaces.
+        use_config = getattr(args, 'use_config', None)
+        config_flag = f" -c {args.config}" if getattr(args, 'config', None) else ""
+        target = (f"--use-config {use_config}" if use_config
+                  else f"--dataset-id {args.dataset_id}")
+        base = (f"  {cli_invocation()}{config_flag} update \\\n"
+                f"    {target} \\\n"
+                f"    --annotations-file \"{output_file}\"")
+        print("\n  # 1) Dry run first — preview new/updated/moved counts (applies nothing):")
+        print(base)
+        print("\n  # 2) Then apply for real:")
+        print(f"{base} \\\n    --execute")
+        return
+
+    # ── PHASE 2: APPLY UPDATES ────────────────────────────────────────────────
+
+    # Resolve optional Phase 2 args (may come from CLI or config)
+    local_files_dir = getattr(args, 'local_files_dir', None)
+    release_folder = getattr(args, 'release_folder', None) or dataset_config.get('release_folder')
+    apply_version = dataset_config.get('apply_version', True) if dataset_config else True
+    version_label = (getattr(args, 'version_label', None) or dataset_config.get('version_label')) if apply_version else None
+    version_comment = getattr(args, 'version_comment', None) or dataset_config.get('version_comment')
+    skip_validation = getattr(args, 'skip_validation', False)
+
+    # Step 1: Load annotations
+    print("\n" + "=" * 60)
+    print("STEP 1: LOADING ANNOTATIONS FILE")
+    print("=" * 60)
+
+    if not os.path.exists(annotations_file):
+        print(f"❌ Error: Annotations file not found: {annotations_file}")
+        sys.exit(1)
+
+    with open(annotations_file) as f:
+        file_annotations = json.load(f)
+    print(f"✓ Loaded {len(file_annotations)} file entries from {annotations_file}")
+
+    # Step 2: Validate annotations
+    if not skip_validation:
+        print("\n" + "=" * 60)
+        print("STEP 2: VALIDATING ANNOTATIONS")
+        print("=" * 60)
+
+        validation_errors = False
+        for syn_id, file_data in file_annotations.items():
+            filename = list(file_data.keys())[0]
+            annots = file_data[filename]
+            file_type = annots.get('_file_type', 'File')
+            is_valid, errors, warnings = validate_annotation_against_schema(annots, file_type, all_schemas)
+            for w in warnings:
+                print(f"  ⚠ {filename}: {w}")
+            if errors:
+                for e in errors:
+                    print(f"  ✗ {filename}: {e}")
+                validation_errors = True
+
+        if validation_errors:
+            print("\n❌ Validation errors found. Fix them or re-run with --skip-validation.")
+            sys.exit(1)
+        else:
+            print("✓ All annotations valid")
+    else:
+        print("\n⚠️  Skipping annotation validation (--skip-validation)")
+
+    # Retrieve existing annotations to detect "new" vs "existing" files
+    existing_annotations = enumerate_dataset_files(syn, args.dataset_id, config.VERBOSE)
+    existing_ids = set(existing_annotations.keys())
+
+    # Identify new files (in annotations but not in existing dataset)
+    new_file_ids_annotations = {
+        syn_id: data for syn_id, data in file_annotations.items()
+        if syn_id not in existing_ids
+    }
+    existing_file_ids_annotations = {
+        syn_id: data for syn_id, data in file_annotations.items()
+        if syn_id in existing_ids
+    }
+
+    if new_file_ids_annotations:
+        print(f"\n  New files (not yet in dataset): {len(new_file_ids_annotations)}")
+    print(f"  Existing files to update      : {len(existing_file_ids_annotations)}")
+
+    # Step 3a: Upload new versions from staging (files with _staging_id)
+    staging_to_upload = {
+        sid: data for sid, data in existing_file_ids_annotations.items()
+        if list(data.values())[0].get('_staging_id')
+    }
+    if staging_to_upload:
+        print("\n" + "=" * 60)
+        print("STEP 3a: UPLOADING NEW VERSIONS FROM STAGING")
+        print("=" * 60)
+        uploaded, upload_errors, skipped = upload_new_versions_from_staging(
+            syn, staging_to_upload,
+            version_label=version_label,
+            version_comment=version_comment,
+            dry_run=config.DRY_RUN,
+            verbose=config.VERBOSE
+        )
+        print(f"  Uploaded: {uploaded}, Errors: {upload_errors}, Skipped: {skipped}")
+
+    # Step 3: Upload new file versions from local dir (if provided)
+    if local_files_dir:
+        print("\n" + "=" * 60)
+        print("STEP 3: UPLOADING NEW FILE VERSIONS")
+        print("=" * 60)
+        print(f"Local files dir: {local_files_dir}")
+        if version_label:
+            print(f"Version label  : {version_label}")
+
+        uploaded, upload_errors, skipped = upload_file_new_versions(
+            syn, existing_file_ids_annotations, local_files_dir,
+            version_label=version_label,
+            version_comment=version_comment,
+            dry_run=config.DRY_RUN,
+            verbose=config.VERBOSE
+        )
+        print(f"\n  Uploaded: {uploaded}, Errors: {upload_errors}, Skipped (no local file): {skipped}")
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 3: SKIPPING UPLOAD (no --local-files-dir)")
+        print("=" * 60)
+
+        # Apply annotations (and optionally force-version) for files not handled by staging upload
+        no_staging_files = {
+            sid: data for sid, data in existing_file_ids_annotations.items()
+            if not list(data.values())[0].get('_staging_id')
+        }
+        if no_staging_files:
+            label_str = f" (forcing version '{version_label}')" if version_label else ""
+            print(f"Applying annotations to {len(no_staging_files)} files without staging upload{label_str}...")
+            success_count, error_count, skipped_count = apply_annotations_to_files(
+                syn, no_staging_files,
+                dry_run=config.DRY_RUN, verbose=config.VERBOSE,
+                version_label=version_label,
+                version_comment=version_comment,
+            )
+            print(f"\n  Applied: {success_count}, Skipped: {skipped_count}, Errors: {error_count}")
+
+    # Step 4: Move new-only staging files to release folder
+    if new_file_ids_annotations and release_folder:
+        print("\n" + "=" * 60)
+        print("STEP 4: MOVING NEW FILES TO RELEASE FOLDER")
+        print("=" * 60)
+        print(f"New files : {len(new_file_ids_annotations)}")
+        print(f"Release folder: {release_folder}")
+
+        moved, move_errors = move_and_add_new_files(
+            syn, new_file_ids_annotations,
+            release_folder_id=release_folder,
+            dataset_id=args.dataset_id,
+            dry_run=config.DRY_RUN,
+            verbose=config.VERBOSE,
+            version_label=version_label,
+            version_comment=version_comment,
+        )
+        print(f"\n  Moved & added: {moved}, Errors: {move_errors}")
+    elif new_file_ids_annotations and not release_folder:
+        print("\n" + "=" * 60)
+        print("STEP 4: SKIPPING MOVE (no --release-folder)")
+        print("=" * 60)
+        print(f"⚠️  {len(new_file_ids_annotations)} new files found but --release-folder not set.")
+        print("    Provide --release-folder to move them to the release folder and add to dataset.")
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 4: NO NEW FILES TO MOVE")
+        print("=" * 60)
+
+    # Step 5: Verify results
+    print("\n" + "=" * 60)
+    print("STEP 5: VERIFYING RESULTS")
+    print("=" * 60)
+
+    if config.DRY_RUN:
+        print("⚠️  DRY RUN — skipping live verification")
+    else:
+        all_ids = list(file_annotations.keys())
+        verify_update_results(
+            syn, args.dataset_id, all_ids,
+            expected_version_label=version_label,
+            release_folder_id=release_folder,
+            verbose=config.VERBOSE
+        )
+
+    print("\n" + "=" * 60)
+    if config.DRY_RUN:
+        print("✅ PHASE 2 DRY RUN COMPLETE — re-run with --execute to apply changes")
+    else:
+        print("✅ PHASE 2 COMPLETE — Update applied")
+    print("=" * 60)
+
+
+def get_or_create_synapse_folder(syn, name, parent_id, dry_run=False):
+    """Return the Synapse ID of a folder named *name* under *parent_id*, creating it if absent."""
+    if dry_run:
+        print(f"  [DRY_RUN] Would create/get folder '{name}' under {parent_id}")
+        return f"syn_DRY_{name}"
+
+    children = list(syn.getChildren(parent_id, includeTypes=['folder']))
+    for child in children:
+        if child['name'] == name:
+            print(f"  ✓ Found existing folder '{name}' ({child['id']})")
+            return child['id']
+
+    folder = Folder(name=name, parent_id=parent_id)
+    folder = folder.store()
+    print(f"  ✓ Created folder '{name}' → {folder.id}")
+    return folder.id
+
+
+def upload_local_dir_to_synapse(syn, local_dir, parent_syn_id, dry_run=True, verbose=False):
+    """
+    Recursively walk *local_dir* and upload every file to Synapse under *parent_syn_id*,
+    mirroring subdirectory structure as Synapse Folder entities.
+
+    Returns:
+        uploaded  — {syn_id: {filename: {}}} empty annotation registry
+        total     — count of files uploaded (or previewed in dry-run)
+    """
+    uploaded = {}
+    total = 0
+
+    for root, dirs, files in os.walk(local_dir):
+        dirs.sort()
+        if not files:
+            continue
+
+        rel_path = os.path.relpath(root, local_dir)
+
+        if rel_path == '.':
+            current_parent = parent_syn_id
+        else:
+            current_parent = parent_syn_id
+            for part in rel_path.split(os.sep):
+                current_parent = get_or_create_synapse_folder(syn, part, current_parent, dry_run)
+
+        for filename in sorted(files):
+            local_path = os.path.join(root, filename)
+            total += 1
+
+            if dry_run:
+                folder_label = rel_path if rel_path != '.' else '<root>'
+                print(f"  [DRY_RUN] Would upload {folder_label}/{filename}")
+                uploaded[f"syn_DRY_{total:04d}"] = {filename: {}}
+            else:
+                try:
+                    file_entity = File(path=local_path, name=filename, parent_id=current_parent)
+                    file_entity = file_entity.store()
+                    uploaded[file_entity.id] = {filename: {}}
+                    if verbose:
+                        print(f"  ✓ {filename} → {file_entity.id}")
+                except Exception as e:
+                    print(f"  ✗ Failed to upload {filename}: {e}")
+
+    return uploaded, total
+
+
+def handle_upload_local_workflow(args, config):
+    """Handle UPLOAD-LOCAL workflow — upload local files to Synapse and annotate them.
+
+    Phase 1 (no --annotations-file):
+      Walk --local-dir, mirror directory structure under --parent-folder on Synapse,
+      upload all files, generate annotation template JSON, exit for manual editing.
+
+    Phase 2 (with --annotations-file):
+      Validate annotations, apply to uploaded files, add to dataset(s).
+    """
+    annotations_file = getattr(args, 'annotations_file', None)
+    phase = 2 if annotations_file else 1
+
+    print("\n" + "=" * 60)
+    print("WORKFLOW: UPLOAD LOCAL FILES")
+    print(f"Phase: {'2 — Apply Annotations' if phase == 2 else '1 — Upload & Template Generation'}")
+    print("=" * 60)
+
+    print("\nLoading schemas...")
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    # ── PHASE 1: UPLOAD + TEMPLATE ────────────────────────────────────────────
+    if phase == 1:
+        local_dir = getattr(args, 'local_dir', None)
+        parent_folder = getattr(args, 'parent_folder', None)
+
+        if not local_dir:
+            print("❌ Error: --local-dir is required for Phase 1")
+            sys.exit(1)
+        if not parent_folder:
+            print("❌ Error: --parent-folder is required for Phase 1")
+            sys.exit(1)
+        if not os.path.isdir(local_dir):
+            print(f"❌ Error: --local-dir '{local_dir}' is not a valid directory")
+            sys.exit(1)
+
+        folder_name = args.folder_name or os.path.basename(os.path.abspath(local_dir))
+
+        # Step 1: Resolve target folder
+        print("\n" + "=" * 60)
+        print("STEP 1: RESOLVING TARGET FOLDER ON SYNAPSE")
+        print("=" * 60)
+        print(f"  Parent   : {parent_folder}")
+        print(f"  Subfolder: {folder_name}")
+        target_folder_id = get_or_create_synapse_folder(syn, folder_name, parent_folder, config.DRY_RUN)
+        print(f"  Target   : {target_folder_id}")
+
+        # Step 2: Upload local files
+        print("\n" + "=" * 60)
+        print("STEP 2: UPLOADING LOCAL FILES")
+        print("=" * 60)
+        print(f"  Source: {local_dir}")
+
+        uploaded, total = upload_local_dir_to_synapse(
+            syn, local_dir, target_folder_id,
+            dry_run=config.DRY_RUN, verbose=config.VERBOSE
+        )
+        print(f"\n  {'Previewed' if config.DRY_RUN else 'Uploaded'}: {total} files → {len(uploaded)} entities")
+
+        if config.DRY_RUN:
+            print("\n⚠️  DRY RUN — no files were uploaded.")
+            print("   Re-run with --execute to upload and generate the annotations template.")
+            return
+
+        # Step 3: Generate annotation templates
+        print("\n" + "=" * 60)
+        print("STEP 3: GENERATING ANNOTATION TEMPLATES")
+        print("=" * 60)
+
+        file_type_default = getattr(args, 'file_type', None) or 'ClinicalFile'
+        print(f"  Default file type: {file_type_default}")
+
+        annotations_output = {}
+        for syn_id, file_data in uploaded.items():
+            filename = list(file_data.keys())[0]
+            inferred_type = detect_file_type(filename, all_schemas=all_schemas) or file_type_default
+            template = create_annotation_template(all_schemas, inferred_type)
+            annotations_output[syn_id] = {filename: template}
+
+        safe_name = re.sub(r'[^\w]', '_', folder_name)
+        output_file = os.path.join(config.ANNOTATIONS_DIR, f"{safe_name}_upload_annotations.json")
+        save_annotation_file(annotations_output, output_file)
+
+        dataset_ids = getattr(args, 'dataset_id', None) or []
+        print("\n" + "=" * 60)
+        print("✅ PHASE 1 COMPLETE")
+        print("=" * 60)
+        print(f"  Uploaded     : {total} files")
+        print(f"  Target folder: {target_folder_id}")
+        print(f"  Template file: {output_file}")
+        print(f"\n⚠️  MANUAL STEP: Edit the annotation file, then re-run with:")
+        print(f"  python synapse_dataset_manager.py upload-local \\")
+        print(f"    --annotations-file {output_file} \\")
+        for did in dataset_ids:
+            print(f"    --dataset-id {did} \\")
+        print(f"    --execute")
+        return
+
+    # ── PHASE 2: APPLY ANNOTATIONS ───────────────────────────────────────────
+
+    skip_validation = getattr(args, 'skip_validation', False)
+    version_label = getattr(args, 'version_label', None)
+    version_comment = getattr(args, 'version_comment', None)
+    dataset_ids = getattr(args, 'dataset_id', None) or []
+
+    # Step 1: Load annotations
+    print("\n" + "=" * 60)
+    print("STEP 1: LOADING ANNOTATIONS FILE")
+    print("=" * 60)
+
+    if not os.path.exists(annotations_file):
+        print(f"❌ Error: Annotations file not found: {annotations_file}")
+        sys.exit(1)
+
+    with open(annotations_file) as f:
+        file_annotations = json.load(f)
+    print(f"✓ Loaded {len(file_annotations)} file entries from {annotations_file}")
+
+    # Step 2: Validate
+    if not skip_validation:
+        print("\n" + "=" * 60)
+        print("STEP 2: VALIDATING ANNOTATIONS")
+        print("=" * 60)
+
+        validation_errors = False
+        for syn_id, file_data in file_annotations.items():
+            filename = list(file_data.keys())[0]
+            annots = file_data[filename]
+            ftype = annots.get('_file_type', 'ClinicalFile')
+            is_valid, errors, warnings = validate_annotation_against_schema(annots, ftype, all_schemas)
+            for w in warnings:
+                print(f"  ⚠ {filename}: {w}")
+            if errors:
+                for e in errors:
+                    print(f"  ✗ {filename}: {e}")
+                validation_errors = True
+
+        if validation_errors:
+            print("\n❌ Validation errors found. Fix them or re-run with --skip-validation.")
+            sys.exit(1)
+        else:
+            print("✓ All annotations valid")
+    else:
+        print("\n⚠️  Skipping annotation validation (--skip-validation)")
+
+    # Step 3: Apply annotations to uploaded files
+    print("\n" + "=" * 60)
+    print("STEP 3: APPLYING ANNOTATIONS")
+    print("=" * 60)
+
+    success, errors, skipped = apply_annotations_to_files(
+        syn, file_annotations,
+        dry_run=config.DRY_RUN,
+        verbose=config.VERBOSE,
+        version_label=version_label,
+        version_comment=version_comment,
+    )
+    print(f"  Applied: {success}, Skipped: {skipped}, Errors: {errors}")
+
+    # Step 4: Add files to dataset(s)
+    if dataset_ids:
+        print("\n" + "=" * 60)
+        print("STEP 4: ADDING FILES TO DATASET(S)")
+        print("=" * 60)
+
+        file_ids = list(file_annotations.keys())
+        for dataset_id in dataset_ids:
+            print(f"\n  Dataset: {dataset_id}")
+            add_files_to_dataset(syn, dataset_id, file_ids, config.DRY_RUN)
+    else:
+        print("\n" + "=" * 60)
+        print("STEP 4: SKIPPING DATASET ADD (no --dataset-id provided)")
+        print("=" * 60)
+
+    print("\n" + "=" * 60)
+    if config.DRY_RUN:
+        print("✅ PHASE 2 DRY RUN COMPLETE — re-run with --execute to apply changes")
+    else:
+        print("✅ PHASE 2 COMPLETE — Upload annotations applied")
+    print("=" * 60)
+
+
+def handle_annotate_dataset(args, config):
+    """Handle ANNOTATE-DATASET workflow — push annotations and/or description to an existing dataset entity"""
+    description = getattr(args, 'description', None)
+    annotations_file = getattr(args, 'annotations_file', None)
+
+    if not annotations_file and not description:
+        print("❌ Error: At least one of --annotations-file or --description is required")
+        sys.exit(1)
+
+    print("\n" + "=" * 60)
+    print("WORKFLOW: ANNOTATE EXISTING DATASET")
+    print("=" * 60)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    try:
+        entity = syn.get(args.dataset_id, downloadFile=False)
+        print(f"✓ Found dataset: {entity.name} ({args.dataset_id})")
+    except Exception as e:
+        print(f"❌ Error: Could not retrieve dataset {args.dataset_id}: {e}")
+        sys.exit(1)
+
+    overall_success = True
+
+    # --- Set description ---
+    if description:
+        print("\n" + "=" * 60)
+        print("SETTING DATASET DESCRIPTION")
+        print("=" * 60)
+        if config.DRY_RUN:
+            print(f"  [DRY_RUN] Would set description on {args.dataset_id}:")
+            print(f"  [DRY_RUN] {description[:120]}{'...' if len(description) > 120 else ''}")
+        else:
+            try:
+                entity.description = description
+                syn.store(entity, forceVersion=False)
+                print(f"  ✓ Description set on {args.dataset_id}")
+            except Exception as e:
+                print(f"  ❌ Error setting description: {e}")
+                overall_success = False
+
+    # --- Apply annotations ---
+    if annotations_file:
+        print("\nLoading schemas...")
+        all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, config.VERBOSE)
+
+        if not os.path.exists(annotations_file):
+            print(f"❌ Error: Annotations file not found: {annotations_file}")
+            sys.exit(1)
+
+        with open(annotations_file) as f:
+            annotations = json.load(f)
+        # Remove $schema key used for editor LSP validation
+        annotations.pop('$schema', None)
+        print(f"✓ Loaded annotations from {annotations_file}")
+
+        print("\n" + "=" * 60)
+        print("APPLYING DATASET ANNOTATIONS")
+        print("=" * 60)
+
+        success = apply_dataset_annotations(
+            syn, args.dataset_id, annotations, all_schemas, dry_run=config.DRY_RUN
+        )
+        if not success:
+            overall_success = False
+
+    print("\n" + "=" * 60)
+    if overall_success:
+        if config.DRY_RUN:
+            print("✅ DRY RUN COMPLETE — re-run with --execute to apply")
+        else:
+            print("✅ DATASET ANNOTATE COMPLETE")
+    else:
+        print("❌ ONE OR MORE STEPS FAILED")
+        sys.exit(1)
+    print("=" * 60)
+
+
+def handle_generate_mapping(args, config):
+    ignore_cols = {"subject_id"} | set(getattr(args, "ignore", None) or [])
+    max_values = getattr(args, "max_values", 50)
+
+    input_path = Path(args.input)
+    if input_path.is_dir():
+        supported = {".csv", ".xlsx", ".xls", ".adat"}
+        paths = sorted(p for p in input_path.iterdir()
+                       if p.suffix.lower() in supported)
+        print(f"Found {len(paths)} metadata file(s) in {input_path}")
+    elif input_path.is_file():
+        paths = [input_path]
+    else:
+        print(f"ERROR: --input path not found: {args.input}")
+        sys.exit(1)
+
+    if not paths:
+        print("ERROR: No supported metadata files found (.csv, .xlsx, .xls, .adat)")
+        sys.exit(1)
+
+    generate_mapping_from_paths(paths, args.output, ignore_cols, max_values)
+
+
+def handle_set_version(args, config):
+    """Apply version labels to all files in a dataset and optionally create a snapshot."""
+    syn = connect_to_synapse(config)
+
+    version_label = args.version_label
+    version_comment = getattr(args, 'version_comment', None)
+    create_snapshot = getattr(args, 'create_snapshot', False)
+    description = getattr(args, 'description', None)
+
+    # Step 1: Get file IDs from dataset
+    print("\n" + "=" * 60)
+    print("STEP 1: RETRIEVING DATASET FILES")
+    print("=" * 60)
+    file_annotations = enumerate_dataset_files(syn, args.dataset_id, config.VERBOSE)
+    file_ids = list(file_annotations.keys())
+    print(f"✓ Found {len(file_ids)} files")
+
+    # Step 2: Set version labels on files
+    print("\n" + "=" * 60)
+    print("STEP 2: SETTING FILE VERSION LABELS")
+    print("=" * 60)
+    success, errors = set_file_versions(
+        syn, file_ids, version_label, version_comment,
+        dry_run=config.DRY_RUN, verbose=config.VERBOSE
+    )
+    print(f"✓ Versioned: {success}, Errors: {errors}")
+
+    # Step 3: Set dataset entity description (optional)
+    if description:
+        print("\n" + "=" * 60)
+        print("STEP 3: SETTING DATASET DESCRIPTION")
+        print("=" * 60)
+        if config.DRY_RUN:
+            print(f"  [DRY_RUN] Would set description on {args.dataset_id}:")
+            print(f"  [DRY_RUN] {description[:120]}{'...' if len(description) > 120 else ''}")
+        else:
+            try:
+                entity = syn.get(args.dataset_id, downloadFile=False)
+                entity.description = description
+                syn.store(entity, forceVersion=False)
+                print(f"  ✓ Description set on {args.dataset_id}")
+            except Exception as e:
+                print(f"  ✗ Error setting description: {e}")
+
+    # Step 4: Create dataset snapshot (optional)
+    if create_snapshot:
+        print("\n" + "=" * 60)
+        print("STEP 4: CREATING DATASET SNAPSHOT")
+        print("=" * 60)
+        snapshot_version = create_dataset_snapshot(
+            syn, args.dataset_id, version_label, version_comment, config.DRY_RUN
+        )
+        if snapshot_version:
+            print(f"✓ Snapshot version: {snapshot_version}")
+    else:
+        print("\n💡 Tip: Re-run with --create-snapshot (or set create_snapshot: true in config) to also snapshot the dataset.")
+
+
+def handle_upload_staged_version(args, config):
+    """Upload a single staging file as a new version of one existing Synapse file entity."""
+    syn = connect_to_synapse(config)
+
+    print("\n" + "=" * 60)
+    print("UPLOADING NEW VERSION FROM STAGING")
+    print("=" * 60)
+    print(f"  Target entity : {args.syn_id}")
+    print(f"  Staging file  : {args.staging_id}")
+    if args.version_label:
+        print(f"  Version label : {args.version_label}")
+
+    success = upload_single_version_from_staging(
+        syn, args.syn_id, args.staging_id,
+        version_label=args.version_label,
+        version_comment=args.version_comment,
+        dry_run=config.DRY_RUN,
+        verbose=config.VERBOSE,
+    )
+
+    if not success and not config.DRY_RUN:
+        sys.exit(1)
+
+
+def handle_delete_versions_workflow(args, config):
+    """
+    Delete file versions by label across a single entity or all files in a dataset.
+
+    Supports:
+      --syn-id          single entity to target
+      --dataset-id      delete matching versions from every file in this dataset
+      --use-config      load dataset_id (and optionally version-label list) from config
+      --version-label   one or more labels to delete
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    version_labels = getattr(args, 'version_label', None) or []
+    if not version_labels:
+        print("❌ No --version-label provided. Nothing to do.")
+        return
+
+    dataset_config = {}
+    if hasattr(args, 'use_config') and args.use_config:
+        dataset_config = config.get_dataset_config(args.use_config) or {}
+        if not dataset_config:
+            print(f"❌ Config '{args.use_config}' not found.")
+            return
+
+    # Resolve dataset_id or syn_id
+    dataset_id = getattr(args, 'dataset_id', None) or dataset_config.get('dataset_id')
+    single_syn_id = getattr(args, 'syn_id', None)
+
+    if not dataset_id and not single_syn_id:
+        print("❌ Provide --dataset-id, --syn-id, or --use-config with a dataset_id.")
+        return
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"DELETE FILE VERSIONS {mode}")
+    print(f"{'='*60}")
+    print(f"Labels to delete : {version_labels}")
+
+    total_deleted = total_skipped = total_errors = 0
+
+    def _process_file_list(file_ids_names):
+        nonlocal total_deleted, total_skipped, total_errors
+        for fid, fname in file_ids_names:
+            print(f"  [{fid}] {fname}")
+            d, s, e = delete_file_versions_by_label(syn, fid, version_labels,
+                                                     dry_run=dry_run,
+                                                     verbose=config.VERBOSE)
+            total_deleted += d; total_skipped += s; total_errors += e
+
+    if single_syn_id:
+        # Auto-detect entity type
+        entity = syn.get(single_syn_id, downloadFile=False)
+        concrete_type = entity.get('concreteType', '')
+
+        if 'FileEntity' in concrete_type:
+            # Single file
+            print(f"Target (file)    : {single_syn_id} ({entity.name})")
+            d, s, e = delete_file_versions_by_label(syn, single_syn_id, version_labels,
+                                                     dry_run=dry_run, verbose=True)
+            total_deleted += d; total_skipped += s; total_errors += e
+
+        elif 'Folder' in concrete_type or 'Project' in concrete_type:
+            # Enumerate all files in the folder (non-recursive, direct children)
+            print(f"Target (folder)  : {single_syn_id} ({entity.name})")
+            children = list(syn.getChildren(single_syn_id, includeTypes=['file']))
+            print(f"Files in folder  : {len(children)}\n")
+            _process_file_list([(c['id'], c['name']) for c in children])
+
+        elif 'Dataset' in concrete_type:
+            # Enumerate via table query
+            print(f"Target (dataset) : {single_syn_id} ({entity.name})")
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {single_syn_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+                print(f"Files in dataset : {len(file_rows)}\n")
+                _process_file_list(
+                    [(row.get('id') or row.iloc[0], row.get('name', '')) for _, row in file_rows.iterrows()]
+                )
+            except Exception as e:
+                print(f"❌ Could not query dataset {single_syn_id}: {e}")
+                return
+        else:
+            print(f"❌ Unsupported entity type '{concrete_type}' for {single_syn_id}")
+            return
+
+    elif dataset_id:
+        print(f"Dataset          : {dataset_id}")
+        try:
+            results = syn.tableQuery(
+                f"SELECT id, name FROM {dataset_id}", includeRowIdAndRowVersion=False
+            )
+            file_rows = results.asDataFrame()
+        except Exception as e:
+            print(f"❌ Could not query dataset {dataset_id}: {e}")
+            return
+
+        print(f"Files in dataset : {len(file_rows)}\n")
+        _process_file_list(
+            [(row.get('id') or row.iloc[0], row.get('name', '')) for _, row in file_rows.iterrows()]
+        )
+
+    print(f"\n{'='*60}")
+    print(f"Summary: deleted={total_deleted}, skipped={total_skipped}, errors={total_errors}")
+    if dry_run:
+        print("Re-run with --execute to apply deletions.")
+
+
+def handle_delete_entities_workflow(args, config):
+    """
+    Permanently delete Synapse entities (files, folders, projects) in bulk and/or recursively.
+
+    --syn-id accepts multiple targets for bulk deletion in one call. Deleting a
+    Folder/Project on Synapse cascades to all of its descendants server-side, so
+    --recursive here is a client-side safety gate: a container that has any
+    children is refused unless --recursive is passed. Execution requires typing
+    DELETE to confirm, since cascaded deletes are not easily undone.
+    """
+    print("\n" + "=" * 60)
+    print("WORKFLOW: DELETE ENTITIES")
+    print("=" * 60)
+
+    print("\nConnecting to Synapse...")
+    syn = connect_to_synapse(config)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{mode}")
+    print(f"Targets   : {', '.join(args.syn_id)}")
+    print(f"Recursive : {args.recursive}")
+
+    plan = []      # (id, name, type, descendant_count) to actually delete
+    blocked = []   # (id, name, type, descendant_count, n_files, n_folders) refused
+
+    for sid in args.syn_id:
+        try:
+            entity = syn.get(sid, downloadFile=False)
+        except Exception as e:
+            print(f"  ✗ Could not retrieve {sid}: {e}")
+            continue
+
+        concrete = _get_concrete_type(entity)
+        name = getattr(entity, 'name', sid)
+
+        if 'FileEntity' in concrete:
+            plan.append((sid, name, 'File', 0))
+            continue
+
+        if 'Folder' in concrete or 'Project' in concrete:
+            etype = 'Project' if 'Project' in concrete else 'Folder'
+            descendants = _walk_entity_tree(syn, sid, verbose=config.VERBOSE)
+            n_files = sum(1 for d in descendants if d['type'] == 'File')
+            n_folders = sum(1 for d in descendants if d['type'] == 'Folder')
+            if descendants and not args.recursive:
+                blocked.append((sid, name, etype, len(descendants), n_files, n_folders))
+            else:
+                plan.append((sid, name, etype, len(descendants)))
+                if config.VERBOSE:
+                    for d in descendants:
+                        print(f"    - [{d['type']}] {d['id']} {d['name']}")
+            continue
+
+        print(f"  ⚠️  Skipping {sid}: unsupported entity type ({concrete or 'unknown'})")
+
+    if blocked:
+        print("\nRefused (contains children — pass --recursive to delete anyway):")
+        for sid, name, etype, total, n_files, n_folders in blocked:
+            print(f"  ✗ [{etype}] {sid} ({name}) — {total} descendants ({n_files} files, {n_folders} folders)")
+
+    if not plan:
+        print("\nNothing to delete.")
+        return
+
+    print(f"\nWill delete {len(plan)} top-level entities:")
+    total_descendants = 0
+    for sid, name, etype, n_descendants in plan:
+        total_descendants += n_descendants
+        suffix = f" (+ {n_descendants} descendants)" if n_descendants else ""
+        print(f"  [{etype}] {sid} ({name}){suffix}")
+
+    print(f"\nTotal entities affected (including cascaded descendants): {len(plan) + total_descendants}")
+
+    if dry_run:
+        print("\nDRY RUN — nothing deleted. Re-run with --execute to delete.")
+        return
+
+    print(f"\n⚠️  This will PERMANENTLY delete {len(plan)} entities and {total_descendants} descendants from Synapse.")
+    confirm = input("Type DELETE to confirm: ").strip()
+    if confirm != "DELETE":
+        print("Aborted — confirmation text did not match. Nothing deleted.")
+        return
+
+    deleted = errors = 0
+    for sid, name, etype, n_descendants in plan:
+        try:
+            syn.delete(sid)
+            print(f"  ✓ Deleted [{etype}] {sid} ({name})")
+            deleted += 1
+        except Exception as e:
+            print(f"  ✗ Error deleting {sid} ({name}): {e}")
+            errors += 1
+
+    print(f"\n{'='*60}")
+    print(f"Summary: deleted={deleted}, errors={errors}")
+
+
+def _normalize_annotation_value(val):
+    """Normalize annotation value for comparison: single-element lists become scalars."""
+    if isinstance(val, list) and len(val) == 1:
+        return val[0]
+    return val
+
+
+def _is_empty_annotation(val):
+    """Check if an annotation value is empty/null."""
+    if val is None:
+        return True
+    if isinstance(val, str) and val.strip() == "":
+        return True
+    if isinstance(val, list) and (len(val) == 0 or val == [""]):
+        return True
+    return False
+
+
+def rename_annotation_on_entity(syn, entity_id, entity_name, old_key, new_key,
+                                dry_run=True, verbose=False, remove_old=True,
+                                fallback_value=None):
+    """
+    Rename an annotation key on a single Synapse entity (dataset or file).
+
+    Cases:
+      1: Has old_key, no new_key → copy old to new (and remove old unless retained)
+      2a: Has both, values match → remove old unless retained
+      2b: Has both, values conflict → prompt user (execute) or flag (dry-run)
+      3: Has new_key only → skip
+      4: Has neither → add new_key with empty value
+      5: Old key empty/null → still migrate, warn user
+
+    Set ``remove_old=False`` to retain the deprecated key after copying its value.
+    When neither key has a populated value, ``fallback_value`` is copied to the
+    new key (used to inherit a dataset-level value on member files).
+
+    Returns:
+        str: 'renamed', 'merged', 'added', 'skipped', 'conflict', 'error'
+    """
+    try:
+        annos = syn.get_annotations(entity_id)
+        annotations = dict(annos)
+
+        has_old = old_key in annotations and not _is_empty_annotation(annotations[old_key])
+        has_new = new_key in annotations and not _is_empty_annotation(annotations[new_key])
+
+        # Case 4: Neither key has a populated value — inherit a provided fallback.
+        # A blank target such as [''] is treated as absent and overwritten.
+        if not has_old and not has_new:
+            if _is_empty_annotation(fallback_value):
+                if verbose:
+                    print(f"  [OK]   {entity_name} ({entity_id}): neither key has a value — skipped")
+                return 'skipped'
+            if dry_run:
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): neither key has a value — would inherit '{new_key}' = {fallback_value}")
+                return 'added'
+            annos[new_key] = fallback_value
+            syn.set_annotations(annos)
+            print(f"  + {entity_name} ({entity_id}): inherited '{new_key}' = {fallback_value}")
+            return 'added'
+
+        # Case 3: Only new key exists — nothing to do
+        if not has_old and has_new:
+            if verbose:
+                print(f"  [OK]   {entity_name} ({entity_id}): already has '{new_key}' (no '{old_key}')")
+            return 'skipped'
+
+        old_value = annotations[old_key]
+        old_is_empty = _is_empty_annotation(old_value)
+
+        # Case 5: Old key exists but is empty/null — still migrate, warn
+        if old_is_empty and not has_new:
+            if dry_run:
+                action = "copy and retain" if not remove_old else "rename"
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would {action} '{old_key}' → '{new_key}' (WARNING: empty value)")
+                return 'renamed'
+            else:
+                annos[new_key] = old_value
+                if remove_old:
+                    del annos[old_key]
+                syn.set_annotations(annos)
+                action = "renamed" if remove_old else "copied"
+                print(f"  ⚠️  {entity_name} ({entity_id}): {action} '{old_key}' → '{new_key}' (empty value)")
+                return 'renamed'
+
+        # Case 1: Only old key exists (non-empty) — rename
+        if has_old and not has_new:
+            if dry_run:
+                action = "copy and retain" if not remove_old else "rename"
+                print(f"  [DRY_RUN] {entity_name} ({entity_id}): would {action} '{old_key}' → '{new_key}' (value: {old_value})")
+                return 'renamed'
+            else:
+                annos[new_key] = old_value
+                if remove_old:
+                    del annos[old_key]
+                syn.set_annotations(annos)
+                action = "renamed" if remove_old else "copied"
+                print(f"  ✓ {entity_name} ({entity_id}): {action} '{old_key}' → '{new_key}' (value: {old_value})")
+                return 'renamed'
+
+        # Case 2: Both keys exist — compare values
+        if has_old and has_new:
+            new_value = annotations[new_key]
+            old_norm = _normalize_annotation_value(old_value)
+            new_norm = _normalize_annotation_value(new_value)
+
+            # Case 2a: Values match — remove old
+            if old_norm == new_norm:
+                if not remove_old:
+                    if verbose:
+                        print(f"  [OK]   {entity_name} ({entity_id}): values match — retaining '{old_key}' and '{new_key}'")
+                    return 'skipped'
+                if dry_run:
+                    print(f"  [DRY_RUN] {entity_name} ({entity_id}): values match — would remove '{old_key}' (value: {old_value})")
+                    return 'merged'
+                del annos[old_key]
+                syn.set_annotations(annos)
+                print(f"  ✓ {entity_name} ({entity_id}): values match — removed '{old_key}' (kept '{new_key}': {new_value})")
+                return 'merged'
+
+            # Case 2b: Values conflict
+            if dry_run:
+                print(f"  [CONFLICT] {entity_name} ({entity_id}): "
+                      f"'{old_key}'={old_value} vs '{new_key}'={new_value} — will prompt in execute mode")
+                return 'conflict'
+            else:
+                print(f"\n  ⚠️  CONFLICT on {entity_name} ({entity_id}):")
+                print(f"     '{old_key}' = {old_value}")
+                print(f"     '{new_key}' = {new_value}")
+                print(f"     [1] Keep old value ({old_value})")
+                print(f"     [2] Keep new value ({new_value})")
+                print(f"     [3] Skip this entity")
+
+                while True:
+                    choice = input("     Choose [1/2/3]: ").strip()
+                    if choice in ('1', '2', '3'):
+                        break
+                    print("     Invalid choice. Enter 1, 2, or 3.")
+
+                if choice == '3':
+                    print(f"  [SKIP] {entity_name} ({entity_id}): skipped by user")
+                    return 'skipped'
+
+                keep_value = old_value if choice == '1' else new_value
+                annos[new_key] = keep_value
+                if remove_old:
+                    del annos[old_key]
+                syn.set_annotations(annos)
+                suffix = f", removed '{old_key}'" if remove_old else f", retained '{old_key}'"
+                print(f"  ✓ {entity_name} ({entity_id}): set '{new_key}' = {keep_value}{suffix}")
+                return 'conflict'
+
+    except Exception as e:
+        print(f"  ✗ Error on {entity_name} ({entity_id}): {e}")
+        return 'error'
+
+
+def get_enum_values_for_field(field_name, all_schemas):
+    """
+    Search all loaded schemas for enum values defined for `field_name`.
+
+    Checks both top-level `enum` (string field) and `items.enum` (array field).
+    Returns a deduplicated list of enum values found across all schemas, or []
+    if the field is not present or has no enum defined anywhere.
+    """
+    seen = set()
+    values = []
+    for schema in all_schemas.values():
+        props = schema.get('properties', {})
+        if field_name not in props:
+            continue
+        field_def = props[field_name]
+        candidates = field_def.get('enum') or field_def.get('items', {}).get('enum') or []
+        for v in candidates:
+            if v not in seen:
+                seen.add(v)
+                values.append(v)
+    return values
+
+
+def migrate_annotation_values_on_entity(syn, entity_id, entity_name,
+                                        source_key, target_key, values_to_migrate,
+                                        remove_empty_source=True,
+                                        dry_run=True, verbose=False):
+    """
+    Move a specific set of values from one annotation key to another on a single entity.
+
+    Values listed in `values_to_migrate` that appear in `source_key` are appended to
+    `target_key` (deduped) and removed from `source_key`. If `source_key` becomes empty
+    after the move and `remove_empty_source` is True, the key is deleted entirely.
+
+    Cases handled:
+      - Source key absent: skip
+      - No matching values in source: skip
+      - Partial match: move matching values, leave remaining in source
+      - Full match: move all values, optionally delete source key
+
+    Returns:
+        str: 'migrated', 'skipped', 'no_match', 'error'
+    """
+    try:
+        annos = syn.get_annotations(entity_id)
+        annotations = dict(annos)
+
+        if source_key not in annotations:
+            if verbose:
+                print(f"  [OK]   {entity_name} ({entity_id}): source '{source_key}' absent — skip")
+            return 'skipped'
+
+        raw_source = annotations[source_key]
+        source_values = raw_source if isinstance(raw_source, list) else [raw_source]
+        source_values = [v for v in source_values if v is not None and v != ""]
+
+        migrate_set = set(values_to_migrate)
+        to_move = [v for v in source_values if v in migrate_set]
+        remaining = [v for v in source_values if v not in migrate_set]
+
+        if not to_move:
+            if verbose:
+                print(f"  [OK]   {entity_name} ({entity_id}): no matching values in '{source_key}' — skip")
+            return 'no_match'
+
+        # Build new target value (merge with existing, no duplicates, preserve order)
+        raw_target = annotations.get(target_key)
+        existing_target = raw_target if isinstance(raw_target, list) else ([raw_target] if raw_target else [])
+        existing_target = [v for v in existing_target if v is not None and v != ""]
+        seen = set(existing_target)
+        new_target = list(existing_target)
+        for v in to_move:
+            if v not in seen:
+                new_target.append(v)
+                seen.add(v)
+
+        if dry_run:
+            action = f"move {to_move} from '{source_key}' → '{target_key}'"
+            if remaining:
+                action += f"; keep {remaining} in '{source_key}'"
+            else:
+                action += f"; remove '{source_key}'" if remove_empty_source else f"; leave '{source_key}' empty"
+            print(f"  [DRY_RUN] {entity_name} ({entity_id}): would {action}")
+            return 'migrated'
+
+        # Apply changes using set_annotations to avoid creating new versions
+        annos[target_key] = new_target
+        if remaining:
+            annos[source_key] = remaining
+        elif remove_empty_source:
+            del annos[source_key]
+        else:
+            annos[source_key] = []
+
+        syn.set_annotations(annos)
+        kept_msg = f"; kept {remaining} in '{source_key}'" if remaining else f"; removed '{source_key}'"
+        print(f"  ✓ {entity_name} ({entity_id}): moved {to_move} → '{target_key}'{kept_msg}")
+        return 'migrated'
+
+    except Exception as e:
+        print(f"  ✗ Error on {entity_name} ({entity_id}): {e}")
+        return 'error'
+
+
+def handle_merge_file_versions(args, config):
+    """
+    Merge version histories of two Synapse file entities into one new file entity.
+
+    Workflow:
+    1. Validate both entities exist and share the same parent folder
+    2. Fetch all versions with metadata for both files
+    3. Interactive version selection and ordering
+    4. Resolve duplicate version labels interactively
+    5. Create temp folder, upload versions in order
+    6. Print summary with next steps
+    """
+    import shutil
+    import tempfile
+    from datetime import datetime
+
+    print("\n" + "=" * 60)
+    print("MERGE FILE VERSIONS")
+    print("=" * 60)
+
+    syn = connect_to_synapse(config)
+    dry_run = config.DRY_RUN
+
+    # ── Step 1: Validate both entities ──────────────────────────
+    print("\n── Step 1: Validating file entities ──")
+
+    try:
+        entity_1 = syn.get(args.file_1_synid, downloadFile=False)
+        entity_2 = syn.get(args.file_2_synid, downloadFile=False)
+    except Exception as e:
+        print(f"  ✗ Error retrieving entities: {e}")
+        return
+
+    # Check both are files
+    for eid, entity in [(args.file_1_synid, entity_1), (args.file_2_synid, entity_2)]:
+        concrete = getattr(entity, 'concreteType', '') or str(entity.properties.get('concreteType', ''))
+        if 'FileEntity' not in concrete:
+            print(f"  ✗ {eid} is not a file entity (type: {concrete})")
+            return
+
+    parent_1 = entity_1.properties.get('parentId', getattr(entity_1, 'parentId', None))
+    parent_2 = entity_2.properties.get('parentId', getattr(entity_2, 'parentId', None))
+
+    if parent_1 != parent_2:
+        print(f"  ✗ Files are in different parent folders:")
+        print(f"    File 1 ({args.file_1_synid}): parent = {parent_1}")
+        print(f"    File 2 ({args.file_2_synid}): parent = {parent_2}")
+        return
+
+    parent_id = parent_1
+    file_1_name = entity_1.name
+    file_2_name = entity_2.name
+    merged_name = getattr(args, 'merged_name', None) or file_1_name
+
+    print(f"  File 1: {args.file_1_synid} ({file_1_name})")
+    print(f"  File 2: {args.file_2_synid} ({file_2_name})")
+    print(f"  Parent folder: {parent_id}")
+    print(f"  Merged file name: {merged_name}")
+
+    # ── Step 2: Fetch version histories ─────────────────────────
+    print("\n── Step 2: Fetching version histories ──")
+
+    file_1_versions = fetch_all_versions_with_metadata(syn, args.file_1_synid)
+    file_2_versions = fetch_all_versions_with_metadata(syn, args.file_2_synid)
+
+    print(f"  File 1 ({args.file_1_synid}): {len(file_1_versions)} version(s)")
+    print(f"  File 2 ({args.file_2_synid}): {len(file_2_versions)} version(s)")
+
+    # ── Step 3: Interactive version selection ────────────────────
+    print("\n── Step 3: Select and order versions ──")
+
+    selected_versions = display_version_selection_prompt(
+        args.file_1_synid, file_1_name, file_1_versions,
+        args.file_2_synid, file_2_name, file_2_versions
+    )
+
+    if not selected_versions:
+        print("  No versions selected. Aborting.")
+        return
+
+    # ── Step 4: Resolve duplicate labels ────────────────────────
+    selected_versions = resolve_duplicate_version_labels(selected_versions)
+
+    if not selected_versions:
+        print("  No versions remaining after resolution. Aborting.")
+        return
+
+    # ── Step 5: Confirmation — preview resulting version history ─
+    total_size = sum(int(v['contentSize'] or 0) for _, v in selected_versions)
+
+    print("\n" + "=" * 80)
+    print(f"RESULTING VERSION HISTORY — {merged_name}")
+    print("=" * 80)
+    mode_str = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"  Mode: {mode_str}")
+    print(f"  Total versions: {len(selected_versions)}")
+    print(f"  Total download size: ~{format_size(total_size)}")
+    print()
+
+    # Show the table in descending order (latest first) like Synapse UI
+    header = (f"  {'Version':>7}  {'Label':<22}  {'Source':<28}  "
+              f"{'Comment':<30}  {'Size':<10}")
+    separator = "  " + "-" * 100
+    print(header)
+    print(separator)
+
+    rows = []
+    for new_ver, (syn_id, v) in enumerate(selected_versions, start=1):
+        source = f"{syn_id} v{v['versionNumber']}"
+        orig_date = v['modifiedOn'][:10] if v.get('modifiedOn') else ''
+        orig_comment = (v['versionComment'] or '')[:18]
+        comment_display = f"{orig_date}  {orig_comment}".strip() if orig_date else orig_comment
+        size = format_size(v['contentSize'])
+        label = v['versionLabel']
+        rows.append((new_ver, label, source, comment_display, size))
+
+    for new_ver, label, source, comment, size in reversed(rows):
+        current = " (current)" if new_ver == len(rows) else ""
+        print(f"  {new_ver:>7}  {label:<22}  {source:<28}  {comment:<30}  {size:<10}{current}")
+
+    print()
+    confirm = input("Does this look correct? Proceed? [y/N]: ").strip().lower()
+    if confirm not in ('y', 'yes'):
+        print("  Aborted by user.")
+        return
+
+    # ── Step 6: Create temp folder ──────────────────────────────
+    print("\n── Step 6: Creating temp folder ──")
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    temp_folder_name = f"_merge_temp_{timestamp}"
+
+    if dry_run:
+        print(f"  [DRY_RUN] Would create folder '{temp_folder_name}' in {parent_id}")
+        temp_folder_id = "syn_DRYRUN_FOLDER"
+    else:
+        import synapseclient as sc_module
+        folder_entity = sc_module.Folder(name=temp_folder_name, parent=parent_id)
+        folder_entity = syn.store(folder_entity)
+        temp_folder_id = folder_entity.id
+        print(f"  Created temp folder: {temp_folder_id} ({temp_folder_name})")
+
+    # ── Step 7: Download and upload versions ────────────────────
+    print("\n── Step 7: Uploading versions ──")
+
+    local_temp_dir = tempfile.mkdtemp(prefix='sdm_merge_')
+    new_file_id = None
+    success_count = 0
+    error_count = 0
+
+    for i, (source_syn_id, v) in enumerate(selected_versions, start=1):
+        ver_num = v['versionNumber']
+        ver_label = v['versionLabel']
+        # Prepend original modified date to comment since Synapse always
+        # sets modifiedOn to the upload time and there's no API to override it
+        original_date = v['modifiedOn'][:10] if v.get('modifiedOn') else ''
+        original_comment = v['versionComment'] or ''
+        if original_date and original_comment:
+            ver_comment = f"[Original date: {original_date}] {original_comment}"
+        elif original_date:
+            ver_comment = f"[Original date: {original_date}]"
+        else:
+            ver_comment = original_comment
+        annotations = v['annotations']
+
+        print(f"\n  Version {i}/{len(selected_versions)}: "
+              f"label='{ver_label}' from {source_syn_id} v{ver_num}")
+
+        if dry_run:
+            if i == 1:
+                print(f"    [DRY_RUN] Would download {source_syn_id} v{ver_num}")
+                print(f"    [DRY_RUN] Would create new file entity '{merged_name}' in {temp_folder_id}")
+                if annotations:
+                    cleaned = clean_annotations_for_synapse(annotations)
+                    print(f"    [DRY_RUN] Would apply {len(cleaned)} annotation(s)")
+                new_file_id = "syn_DRYRUN_FILE"
+            else:
+                print(f"    [DRY_RUN] Would download {source_syn_id} v{ver_num}")
+                print(f"    [DRY_RUN] Would upload as new version of {new_file_id}")
+                if annotations:
+                    cleaned = clean_annotations_for_synapse(annotations)
+                    print(f"    [DRY_RUN] Would apply {len(cleaned)} annotation(s)")
+            success_count += 1
+            continue
+
+        # Download specific version into a unique subdirectory
+        ver_download_dir = os.path.join(local_temp_dir, f"v{i}_{source_syn_id}_{ver_num}")
+        os.makedirs(ver_download_dir, exist_ok=True)
+
+        try:
+            # Clear stale Synapse client cache for this version before downloading.
+            # The cache can serve files from previous runs (e.g. /tmp/sdm_upload_*)
+            # instead of actually downloading the requested version.
+            try:
+                entity_meta = syn.get(source_syn_id, version=ver_num, downloadFile=False)
+                fh_id = entity_meta.properties.get('dataFileHandleId') or \
+                        getattr(entity_meta, 'dataFileHandleId', None)
+                if fh_id:
+                    syn.cache.remove(int(fh_id))
+            except Exception:
+                pass
+
+            downloaded = syn.get(source_syn_id, version=ver_num,
+                                 downloadLocation=ver_download_dir,
+                                 ifcollision='overwrite.local')
+            local_path = downloaded.path
+
+            actual_size = os.path.getsize(local_path)
+            expected_size = int(v['contentSize'] or 0)
+            print(f"    Downloaded: {os.path.basename(local_path)} "
+                  f"({format_size(actual_size)})")
+            if expected_size and abs(actual_size - expected_size) > 100:
+                print(f"    ⚠ Size mismatch: expected ~{format_size(expected_size)}, "
+                      f"got {format_size(actual_size)}")
+        except Exception as e:
+            print(f"    ✗ Error downloading {source_syn_id} v{ver_num}: {e}")
+            error_count += 1
+            continue
+
+        cleaned = clean_annotations_for_synapse(annotations) if annotations else {}
+
+        try:
+            if i == 1:
+                # Create new file entity (Synapse auto-assigns version label
+                # on creation, so we create first then update the label)
+                file_entity = File(
+                    path=local_path,
+                    parent_id=temp_folder_id,
+                    name=merged_name,
+                    version_comment=ver_comment,
+                    annotations=cleaned,
+                )
+                file_entity = file_entity.store()
+                new_file_id = file_entity.id
+
+                # Update the auto-assigned version 1 label to our desired label.
+                # Synapse defaults version 1 label to "1" which would collide
+                # if another selected version also has label "1".
+                entity = syn.get(new_file_id, downloadFile=False)
+                entity.versionLabel = ver_label
+                syn.store(entity, forceVersion=False)
+
+                print(f"    ✓ Created new entity: {new_file_id} (label='{ver_label}')")
+            else:
+                # Upload as new version of existing entity
+                file_entity = File(
+                    path=local_path,
+                    id=new_file_id,
+                    name=merged_name,
+                    version_label=ver_label,
+                    version_comment=ver_comment,
+                    annotations=cleaned,
+                )
+                file_entity.store()
+                print(f"    ✓ Uploaded version {i} (label='{ver_label}', "
+                      f"{format_size(actual_size)})")
+
+            success_count += 1
+
+        except Exception as e:
+            err_str = str(e)
+            if 'UNIQUE_REVISION_LABEL' in err_str or 'Duplicate entry' in err_str:
+                print(f"    ✗ Version label '{ver_label}' already exists on {new_file_id} — skipping")
+            else:
+                print(f"    ✗ Error uploading version {i}: {e}")
+            error_count += 1
+
+    # ── Step 8: Cleanup local temp ──────────────────────────────
+    shutil.rmtree(local_temp_dir, ignore_errors=True)
+
+    # ── Step 9: Summary ─────────────────────────────────────────
+    print("\n" + "=" * 60)
+    print("MERGE SUMMARY")
+    print("=" * 60)
+    print(f"  New file entity   : {new_file_id}")
+    print(f"  Temp folder       : {temp_folder_id} ({temp_folder_name})")
+    print(f"  Versions uploaded : {success_count}")
+    print(f"  Errors            : {error_count}")
+    print(f"  Original File 1   : {args.file_1_synid} (NOT deleted)")
+    print(f"  Original File 2   : {args.file_2_synid} (NOT deleted)")
+
+    if not dry_run and new_file_id and new_file_id != "syn_DRYRUN_FILE":
+        print(f"\n  NEXT STEPS:")
+        print(f"    1. Verify the merged file at https://www.synapse.org/Synapse:{new_file_id}")
+        print(f"    2. Move {new_file_id} from temp folder to parent folder {parent_id}")
+        print(f"    3. Delete original files {args.file_1_synid} and {args.file_2_synid}")
+        print(f"    4. Delete temp folder {temp_folder_id}")
+    print()
+
+
+def handle_migrate_annotation_values(args, config):
+    """
+    Move a specified set of annotation values from one key to another across
+    datasets in a collection (and optionally their file entities).
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    source_key = args.source_annotation
+    target_key = args.target_annotation
+
+    if source_key == target_key:
+        print("❌ --source-annotation and --target-annotation must be different.")
+        return
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    include_files = getattr(args, 'include_files', False)
+    remove_empty_source = not getattr(args, 'keep_empty_source', False)
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+
+    # Resolve values: explicit CLI list takes precedence; otherwise pull from schema
+    values_to_migrate = getattr(args, 'values', None) or []
+    if not values_to_migrate:
+        all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, verbose)
+        values_to_migrate = get_enum_values_for_field(target_key, all_schemas)
+        if not values_to_migrate:
+            print(f"❌ No --values provided and no enum found in schema for '{target_key}'. "
+                  f"Specify values explicitly with --values.")
+            return
+        print(f"Resolved {len(values_to_migrate)} enum value(s) for '{target_key}' from schema.")
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"MIGRATE ANNOTATION VALUES {mode}")
+    print(f"{'='*60}")
+    print(f"Source annotation : {source_key}")
+    print(f"Target annotation : {target_key}")
+    print(f"Values to migrate : {values_to_migrate}")
+    print(f"Remove empty src  : {'Yes' if remove_empty_source else 'No'}")
+    print(f"Include files     : {'Yes' if include_files else 'No (dataset-level only)'}")
+
+    # Collect dataset IDs to process
+    dataset_ids = []
+
+    collection_id = getattr(args, 'collection_id', None)
+    dataset_id = getattr(args, 'dataset_id', None)
+
+    if dataset_id:
+        try:
+            entity = syn.get(dataset_id, downloadFile=False)
+            dataset_ids.append((dataset_id, entity.name))
+            print(f"Target            : dataset {dataset_id} ({entity.name})")
+        except Exception as e:
+            print(f"❌ Could not fetch dataset {dataset_id}: {e}")
+            return
+    elif collection_id:
+        print(f"Collection        : {collection_id}")
+        try:
+            dataset_collection = DatasetCollection(id=collection_id).get()
+            items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+            if not items:
+                print("❌ No datasets found in collection.")
+                return
+            print(f"Datasets found    : {len(items)}")
+            for item in items:
+                item_id = item.entity_id if hasattr(item, 'entity_id') else (item.id if hasattr(item, 'id') else str(item))
+                try:
+                    ds_entity = syn.get(item_id, downloadFile=False)
+                    dataset_ids.append((item_id, ds_entity.name))
+                except Exception as e:
+                    print(f"  ⚠️  Could not fetch {item_id}: {e}")
+        except Exception as e:
+            print(f"❌ Could not fetch collection {collection_id}: {e}")
+            return
+    else:
+        print("❌ Provide --collection-id or --dataset-id.")
+        return
+
+    print(f"\n--- Processing {len(dataset_ids)} dataset(s) ---")
+
+    ds_counts = {'migrated': 0, 'skipped': 0, 'no_match': 0, 'error': 0}
+    file_counts = {'migrated': 0, 'skipped': 0, 'no_match': 0, 'error': 0}
+
+    for ds_id, ds_name in dataset_ids:
+        print(f"\n📦 Dataset: {ds_name} ({ds_id})")
+
+        result = migrate_annotation_values_on_entity(
+            syn, ds_id, ds_name, source_key, target_key, values_to_migrate,
+            remove_empty_source=remove_empty_source, dry_run=dry_run, verbose=verbose
+        )
+        ds_counts[result] = ds_counts.get(result, 0) + 1
+
+        if include_files:
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+                print(f"  Files in dataset: {len(file_rows)}")
+
+                for _, row in file_rows.iterrows():
+                    file_id = row.get('id') or row.iloc[0]
+                    file_name = row.get('name', file_id)
+
+                    result = migrate_annotation_values_on_entity(
+                        syn, file_id, f"  {file_name}", source_key, target_key,
+                        values_to_migrate, remove_empty_source=remove_empty_source,
+                        dry_run=dry_run, verbose=verbose
+                    )
+                    file_counts[result] = file_counts.get(result, 0) + 1
+
+            except Exception as e:
+                print(f"  ⚠️  Could not query files in dataset {ds_id}: {e}")
+
+    print(f"\n{'='*60}")
+    print(f"SUMMARY")
+    print(f"{'='*60}")
+    print(f"Datasets processed : {len(dataset_ids)}")
+    print(f"Dataset-level : migrated={ds_counts['migrated']}, no_match={ds_counts['no_match']}, "
+          f"skipped={ds_counts['skipped']}, errors={ds_counts['error']}")
+    if include_files:
+        total_files = sum(file_counts.values())
+        print(f"Files processed   : {total_files}")
+        print(f"File-level    : migrated={file_counts['migrated']}, no_match={file_counts['no_match']}, "
+              f"skipped={file_counts['skipped']}, errors={file_counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
+def _schema_sync_is_filled(value):
+    """Return True when an annotation value should be treated as populated."""
+    return value not in (None, "", [], [""])
+
+
+def _schema_sync_scalar(value):
+    """Unwrap single-value Synapse annotation lists for JSON Schema validation."""
+    if isinstance(value, list) and len(value) == 1:
+        return value[0]
+    return value
+
+
+def _schema_sync_normalize_for_schema(annotation, schema):
+    """
+    Convert Synapse annotation values into the shapes expected by JSON Schema.
+
+    Synapse annotations often store every value as a list, while the JSON Schema
+    may define some fields as scalar strings/integers/numbers. This normalization
+    is for validation/reporting only; it does not mutate Synapse.
+    """
+    properties = schema.get('properties', {}) if schema else {}
+    normalized = {}
+    for key, value in annotation.items():
+        if key.startswith('_') or not _schema_sync_is_filled(value):
+            continue
+        prop_type = properties.get(key, {}).get('type')
+        if prop_type != 'array':
+            value = _schema_sync_scalar(value)
+        if prop_type == 'integer' and isinstance(value, str) and value.strip().isdigit():
+            value = int(value.strip())
+        elif prop_type == 'number' and isinstance(value, str):
+            try:
+                value = float(value.strip())
+            except ValueError:
+                pass
+        normalized[key] = value
+    return normalized
+
+
+def _schema_sync_detect_file_type(file_name, annotations, all_schemas):
+    """Infer the file schema class from current annotations/name without downloading file content."""
+    explicit = annotations.get('_file_type') or annotations.get('fileType')
+    explicit = _schema_sync_scalar(explicit)
+    if explicit in all_schemas:
+        return explicit
+
+    keys = set(annotations.keys())
+    omic_keys = {
+        'assay', 'platform', 'libraryStrategy', 'processingLevel', 'sampleType',
+        'biospecimenType', 'cellType', 'tissue', 'libraryLayout', 'specimenID'
+    }
+    clinical_keys = {
+        'assessmentType', 'assessmentTypes', 'clinicalDomain', 'visit',
+        'visitName', 'formName', 'dataSubtype'
+    }
+    if keys & omic_keys:
+        return 'OmicFile'
+    if keys & clinical_keys:
+        return 'ClinicalFile'
+
+    lname = file_name.lower()
+    if any(tok in lname for tok in [
+        'fastq', 'bam', 'cram', 'vcf', 'rna', 'atac', 'chip', 'counts',
+        'expression', 'genotype', 'variant', 'proteom', 'metabolom'
+    ]):
+        return 'OmicFile'
+    return 'ClinicalFile' if 'ClinicalFile' in all_schemas else 'File'
+
+
+def _schema_sync_detect_dataset_type(dataset_name, annotations, all_schemas):
+    """Infer the dataset schema class from current annotations/name without reading files."""
+    explicit = annotations.get('_dataset_type') or annotations.get('datasetType')
+    explicit = _schema_sync_scalar(explicit)
+    if explicit in all_schemas:
+        return explicit
+
+    keys = set(annotations.keys())
+    raw_data_types = annotations.get('dataType', [])
+    if not isinstance(raw_data_types, (list, tuple, set)):
+        raw_data_types = [raw_data_types]
+    data_types = {_schema_sync_scalar(value) for value in raw_data_types if value}
+    speech_data_types = {
+        'raw_audio', 'dht_speech_vitals', 'sdtm_functional_tests',
+        'aggregate_measures', 'step_measures',
+    }
+    biomarker_data_types = {
+        'biomarker', 'biomarker_data', 'SomaScan', 'SomaScan v5.0',
+        'Normalized Protein Expression (NPX)',
+    }
+    if data_types & speech_data_types and 'SpeechDataset' in all_schemas:
+        return 'SpeechDataset'
+    if data_types & biomarker_data_types and 'BiomarkerDataset' in all_schemas:
+        return 'BiomarkerDataset'
+
+    omic_keys = {
+        'assay', 'platform', 'libraryStrategy', 'processingLevel', 'sampleType',
+        'biospecimenType', 'cellType', 'tissue', 'libraryLayout'
+    }
+    clinical_keys = {
+        'studyDesign', 'assessmentTypes', 'visitSchedule', 'primaryOutcome',
+        'clinicalDomain', 'studyPhase'
+    }
+    if keys & omic_keys:
+        return 'OmicDataset'
+    if keys & clinical_keys:
+        return 'ClinicalDataset'
+
+    lname = dataset_name.lower()
+    if any(tok in lname for tok in [
+        'rna', 'atac', 'chip', 'methyl', 'tdp', 'cortex', 'neuron', 'glia',
+        'genome', 'transcript', 'proteom', 'metabolom', 'epigenome'
+    ]):
+        return 'OmicDataset'
+    return 'ClinicalDataset' if 'ClinicalDataset' in all_schemas else 'Dataset'
+
+
+def _schema_sync_annotation_dict(annotations_obj):
+    """Convert syn.get_annotations output to a plain annotation dict."""
+    metadata_keys = {'id', 'etag', 'creationDate', 'createdBy', 'modifiedOn', 'modifiedBy'}
+    return {k: v for k, v in dict(annotations_obj).items() if k not in metadata_keys}
+
+
+def _schema_sync_get_dataset_ids(syn, collection_id=None, dataset_id=None):
+    """Return [(dataset_id, dataset_name)] for a collection or single dataset."""
+    if dataset_id:
+        entity = syn.get(dataset_id, downloadFile=False)
+        return [(dataset_id, entity.name)]
+
+    dataset_collection = DatasetCollection(id=collection_id).get()
+    items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+    dataset_ids = []
+    for item in items:
+        item_id = item.entity_id if hasattr(item, 'entity_id') else (item.id if hasattr(item, 'id') else str(item))
+        entity = syn.get(item_id, downloadFile=False)
+        dataset_ids.append((item_id, entity.name))
+    return dataset_ids
+
+
+def _schema_sync_load_update_file(path):
+    """Load an optional review/proposal JSON file keyed by Synapse ID."""
+    if not path:
+        return {}
+    with open(path, 'r') as f:
+        return json.load(f)
+
+
+def _schema_sync_extract_delta(update_file_data, dataset_id):
+    """Extract a flat annotation delta for dataset_id from supported review-file shapes."""
+    record = update_file_data.get(dataset_id, {}) if update_file_data else {}
+    if not record:
+        return {}
+    if all(not isinstance(v, dict) for v in record.values()):
+        return record
+    # Expected shape: {synId: {datasetName: {field: value}}}
+    first_value = next(iter(record.values()), {})
+    return first_value if isinstance(first_value, dict) else {}
+
+
+def _schema_sync_clean_delta(delta, require_approved=False):
+    """Remove review metadata and empty values from a proposed annotation delta."""
+    if require_approved and delta.get('_review_status') != 'approved':
+        return {}
+    return clean_annotations_for_synapse({k: v for k, v in delta.items() if not k.startswith('_')})
+
+
+def _schema_sync_validate_delta(delta, schema):
+    """Validate only proposed changed fields against a dataset schema."""
+    if not delta:
+        return []
+    properties = schema.get('properties', {}) if schema else {}
+    mini_schema = {
+        'type': 'object',
+        'additionalProperties': {},
+        'properties': {k: properties[k] for k in delta.keys() if k in properties},
+    }
+    unknown = [k for k in delta.keys() if k not in properties]
+    errors = [f"{k}: not in schema" for k in unknown]
+    normalized = _schema_sync_normalize_for_schema(delta, mini_schema)
+    validator = Draft7Validator(mini_schema)
+    for err in validator.iter_errors(normalized):
+        field = '.'.join(str(p) for p in err.path) if err.path else 'root'
+        errors.append(f"{field}: {err.message}")
+    return errors
+
+
+def handle_sync_dataset_schema_annotations(args, config):
+    """
+    Validate dataset-level annotations against current schemas and optionally
+    apply reviewed annotation deltas. Metadata-only: does not download dataset
+    contents or files.
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    collection_id = getattr(args, 'collection_id', None) or config.DATASETS_COLLECTION_ID
+    dataset_id = getattr(args, 'dataset_id', None)
+    output_dir = Path(getattr(args, 'output_dir', None) or os.path.join(config.ANNOTATIONS_DIR, 'dataset_schema_sync'))
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    all_schemas = get_all_schemas(config.SCHEMA_BASE_PATH, verbose=False)
+    update_file_data = _schema_sync_load_update_file(getattr(args, 'updates_file', None))
+    require_approved = getattr(args, 'require_approved', False)
+
+    dataset_ids = _schema_sync_get_dataset_ids(syn, collection_id=collection_id, dataset_id=dataset_id)
+    print(f"\n{'='*60}")
+    print(f"DATASET SCHEMA ANNOTATION SYNC {'[DRY RUN]' if dry_run else '[EXECUTE]'}")
+    print(f"{'='*60}")
+    print(f"Datasets: {len(dataset_ids)}")
+    print(f"Target  : {dataset_id or collection_id}")
+    print(f"Output  : {output_dir}")
+    if getattr(args, 'updates_file', None):
+        print(f"Updates : {args.updates_file} ({'approved only' if require_approved else 'all entries'})")
+    template_mode = getattr(args, 'template_mode', 'both')
+    print(f"Templates: {template_mode}")
+
+    report = []
+    templates = {}
+    missing_templates = {}
+    deltas = {}
+    applied = 0
+    skipped = 0
+    failed = 0
+
+    for ds_id, ds_name in dataset_ids:
+        current = _schema_sync_annotation_dict(syn.get_annotations(ds_id))
+        dataset_type = _schema_sync_detect_dataset_type(ds_name, current, all_schemas)
+        schema = get_schema_for_type(dataset_type, all_schemas)
+        template = create_annotation_template(all_schemas, dataset_type)
+        merged_template = merge_annotations_smartly(current, template)
+        missing_fields = [k for k in schema.get('properties', {}) if not _schema_sync_is_filled(current.get(k))]
+
+        normalized_current = _schema_sync_normalize_for_schema(current, schema)
+        validation_errors = []
+        if schema:
+            validator = Draft7Validator(schema)
+            for err in validator.iter_errors(normalized_current):
+                field = '.'.join(str(p) for p in err.path) if err.path else 'root'
+                validation_errors.append(f"{field}: {err.message}")
+
+        raw_delta = _schema_sync_extract_delta(update_file_data, ds_id)
+        delta = _schema_sync_clean_delta(raw_delta, require_approved=require_approved)
+        delta_errors = _schema_sync_validate_delta(delta, schema)
+        if delta:
+            deltas[ds_id] = {ds_name: delta}
+
+        status = 'valid' if not validation_errors else 'invalid'
+        delta_status = 'none' if not delta else ('valid' if not delta_errors else 'invalid')
+        print(f"{ds_id}  {status:7}  missing={len(missing_fields):2d}  delta={delta_status:7}  {ds_name}")
+
+        if delta and not delta_errors:
+            if dry_run:
+                print(f"  [DRY_RUN] Would update: {', '.join(delta.keys())}")
+            else:
+                try:
+                    annos = syn.get_annotations(ds_id)
+                    annos.update(delta)
+                    syn.set_annotations(annos)
+                    applied += 1
+                    print(f"  ✓ Updated: {', '.join(delta.keys())}")
+                except Exception as e:
+                    failed += 1
+                    print(f"  ✗ Failed update: {e}")
+        elif delta and delta_errors:
+            skipped += 1
+            print(f"  ⚠️  Skipping invalid delta: {'; '.join(delta_errors[:3])}")
+        elif raw_delta and require_approved:
+            skipped += 1
+
+        missing_template = {k: template[k] for k in missing_fields if k in template}
+        missing_template['_dataset_type'] = dataset_type
+        missing_template['_schema_source'] = template.get('_schema_source', 'json-schema')
+        missing_template['_created_timestamp'] = template.get('_created_timestamp')
+        if template_mode in ('merged', 'both'):
+            templates[ds_id] = {ds_name: merged_template}
+        if template_mode in ('missing', 'both'):
+            missing_templates[ds_id] = {ds_name: missing_template}
+        report.append({
+            'synId': ds_id,
+            'name': ds_name,
+            'dataset_type': dataset_type,
+            'schema_status': status,
+            'schema_error_count': len(validation_errors),
+            'schema_errors': validation_errors,
+            'missing_field_count': len(missing_fields),
+            'missing_fields': missing_fields,
+            'delta_status': delta_status,
+            'delta_fields': sorted(delta.keys()),
+            'delta_errors': delta_errors,
+        })
+
+    with open(output_dir / 'schema_validation_report.json', 'w') as f:
+        json.dump(report, f, indent=2, sort_keys=True)
+    if template_mode in ('merged', 'both'):
+        with open(output_dir / 'schema_merged_annotation_templates.json', 'w') as f:
+            json.dump(templates, f, indent=2, sort_keys=True)
+    if template_mode in ('missing', 'both'):
+        with open(output_dir / 'schema_missing_annotation_templates.json', 'w') as f:
+            json.dump(missing_templates, f, indent=2, sort_keys=True)
+    file_report = []
+    file_templates = {}
+    file_missing_templates = {}
+    if getattr(args, 'include_files', False):
+        print(f"\n{'='*60}")
+        print("FILE-LEVEL SCHEMA VALIDATION (metadata only; no downloads)")
+        print(f"{'='*60}")
+        for ds_id, ds_name in dataset_ids:
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+            except Exception as e:
+                print(f"{ds_id}  could not enumerate dataset items: {e}")
+                file_report.append({
+                    'datasetSynId': ds_id,
+                    'datasetName': ds_name,
+                    'synId': None,
+                    'name': None,
+                    'file_type': None,
+                    'schema_status': 'enumeration_error',
+                    'schema_error_count': 1,
+                    'schema_errors': [str(e)],
+                    'missing_field_count': None,
+                    'missing_fields': [],
+                })
+                continue
+
+            print(f"{ds_id}  files={len(file_rows)}  {ds_name}")
+            for _, row in file_rows.iterrows():
+                file_id = row.get('id') or row.iloc[0]
+                file_name = row.get('name', file_id)
+                try:
+                    current = _schema_sync_annotation_dict(syn.get_annotations(file_id))
+                    file_type = _schema_sync_detect_file_type(str(file_name), current, all_schemas)
+                    schema = get_schema_for_type(file_type, all_schemas)
+                    template = create_annotation_template(all_schemas, file_type)
+                    merged_template = merge_annotations_smartly(current, template)
+                    missing_fields = [k for k in schema.get('properties', {}) if not _schema_sync_is_filled(current.get(k))]
+                    missing_template = {k: template[k] for k in missing_fields if k in template}
+                    missing_template['_file_type'] = file_type
+                    missing_template['_schema_source'] = template.get('_schema_source', 'json-schema')
+                    missing_template['_created_timestamp'] = template.get('_created_timestamp')
+                    if template_mode in ('merged', 'both'):
+                        file_templates[file_id] = {file_name: merged_template}
+                    if template_mode in ('missing', 'both'):
+                        file_missing_templates[file_id] = {file_name: missing_template}
+                    normalized_current = _schema_sync_normalize_for_schema(current, schema)
+                    validation_errors = []
+                    if schema:
+                        validator = Draft7Validator(schema)
+                        for err in validator.iter_errors(normalized_current):
+                            field = '.'.join(str(p) for p in err.path) if err.path else 'root'
+                            validation_errors.append(f"{field}: {err.message}")
+                    status = 'valid' if not validation_errors else 'invalid'
+                    file_report.append({
+                        'datasetSynId': ds_id,
+                        'datasetName': ds_name,
+                        'synId': file_id,
+                        'name': file_name,
+                        'file_type': file_type,
+                        'schema_status': status,
+                        'schema_error_count': len(validation_errors),
+                        'schema_errors': validation_errors,
+                        'missing_field_count': len(missing_fields),
+                        'missing_fields': missing_fields,
+                    })
+                except Exception as e:
+                    file_report.append({
+                        'datasetSynId': ds_id,
+                        'datasetName': ds_name,
+                        'synId': file_id,
+                        'name': file_name,
+                        'file_type': None,
+                        'schema_status': 'error',
+                        'schema_error_count': 1,
+                        'schema_errors': [str(e)],
+                        'missing_field_count': None,
+                        'missing_fields': [],
+                    })
+
+        with open(output_dir / 'file_schema_validation_report.json', 'w') as f:
+            json.dump(file_report, f, indent=2, sort_keys=True)
+        if template_mode in ('merged', 'both'):
+            with open(output_dir / 'file_schema_merged_annotation_templates.json', 'w') as f:
+                json.dump(file_templates, f, indent=2, sort_keys=True)
+        if template_mode in ('missing', 'both'):
+            with open(output_dir / 'file_schema_missing_annotation_templates.json', 'w') as f:
+                json.dump(file_missing_templates, f, indent=2, sort_keys=True)
+        file_csv_path = output_dir / 'file_schema_validation_report.csv'
+        with open(file_csv_path, 'w', newline='') as f:
+            fieldnames = ['datasetSynId', 'datasetName', 'synId', 'name', 'file_type',
+                          'schema_status', 'schema_error_count', 'missing_field_count', 'missing_fields']
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in file_report:
+                writer.writerow({
+                    **{k: row.get(k) for k in fieldnames if k != 'missing_fields'},
+                    'missing_fields': ';'.join(row.get('missing_fields') or []),
+                })
+
+    with open(output_dir / 'schema_update_deltas_to_apply.json', 'w') as f:
+        json.dump(deltas, f, indent=2, sort_keys=True)
+
+    csv_path = output_dir / 'schema_validation_report.csv'
+    with open(csv_path, 'w', newline='') as f:
+        fieldnames = ['synId', 'name', 'dataset_type', 'schema_status', 'schema_error_count',
+                      'missing_field_count', 'missing_fields', 'delta_status', 'delta_fields']
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in report:
+            writer.writerow({
+                **{k: row[k] for k in fieldnames if k in row and k not in {'missing_fields', 'delta_fields'}},
+                'missing_fields': ';'.join(row['missing_fields']),
+                'delta_fields': ';'.join(row['delta_fields']),
+            })
+
+    print(f"\nWrote validation report: {output_dir / 'schema_validation_report.json'}")
+    print(f"Wrote CSV report       : {csv_path}")
+    if template_mode in ('merged', 'both'):
+        print(f"Wrote merged templates : {output_dir / 'schema_merged_annotation_templates.json'}")
+    if template_mode in ('missing', 'both'):
+        print(f"Wrote missing templates: {output_dir / 'schema_missing_annotation_templates.json'}")
+    print(f"Wrote deltas to apply  : {output_dir / 'schema_update_deltas_to_apply.json'}")
+    if getattr(args, 'include_files', False):
+        print(f"Wrote file report      : {output_dir / 'file_schema_validation_report.json'}")
+        if template_mode in ('merged', 'both'):
+            print(f"Wrote file merged tmpl : {output_dir / 'file_schema_merged_annotation_templates.json'}")
+        if template_mode in ('missing', 'both'):
+            print(f"Wrote file missing tmpl: {output_dir / 'file_schema_missing_annotation_templates.json'}")
+    if not dry_run:
+        print(f"Applied={applied}, skipped={skipped}, failed={failed}")
+
+
+def handle_rename_annotation(args, config):
+    """
+    Rename/migrate an annotation key across all datasets in a collection,
+    and optionally across all files within each dataset.
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    old_key = args.old_annotation
+    new_key = args.new_annotation
+
+    if old_key == new_key:
+        print("❌ --old-annotation and --new-annotation must be different.")
+        return
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    include_files = getattr(args, 'include_files', False)
+    inherit_dataset_annotation = getattr(args, 'inherit_dataset_annotation', False)
+    remove_old = not getattr(args, 'keep_old_annotation', False)
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"RENAME ANNOTATION {mode}")
+    print(f"{'='*60}")
+    print(f"Old annotation : {old_key}")
+    print(f"New annotation : {new_key}")
+    print(f"Include files  : {'Yes' if include_files else 'No (dataset-level only)'}")
+    print(f"Inherit dataset: {'Yes' if inherit_dataset_annotation else 'No'}")
+    print(f"Remove old key : {'Yes' if remove_old else 'No (retain old key)'}")
+
+    # Collect dataset IDs to process
+    dataset_ids = []  # list of (dataset_id, dataset_name)
+
+    collection_id = getattr(args, 'collection_id', None)
+    dataset_id = getattr(args, 'dataset_id', None)
+
+    if dataset_id:
+        # Single dataset mode
+        try:
+            entity = syn.get(dataset_id, downloadFile=False)
+            dataset_ids.append((dataset_id, entity.name))
+            print(f"Target         : dataset {dataset_id} ({entity.name})")
+        except Exception as e:
+            print(f"❌ Could not fetch dataset {dataset_id}: {e}")
+            return
+
+    elif collection_id:
+        # Collection mode — enumerate all datasets in the collection
+        print(f"Collection     : {collection_id}")
+        try:
+            dataset_collection = DatasetCollection(id=collection_id).get()
+            items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+            if not items:
+                print("❌ No datasets found in collection.")
+                return
+            print(f"Datasets found : {len(items)}")
+            for item in items:
+                item_id = item.entity_id if hasattr(item, 'entity_id') else (item.id if hasattr(item, 'id') else str(item))
+                try:
+                    ds_entity = syn.get(item_id, downloadFile=False)
+                    dataset_ids.append((item_id, ds_entity.name))
+                except Exception as e:
+                    print(f"  ⚠️  Could not fetch {item_id}: {e}")
+        except Exception as e:
+            print(f"❌ Could not fetch collection {collection_id}: {e}")
+            return
+    else:
+        print("❌ Provide --collection-id or --dataset-id.")
+        return
+
+    print(f"\n--- Processing {len(dataset_ids)} dataset(s) ---")
+
+    # Counters
+    ds_counts = {'renamed': 0, 'merged': 0, 'added': 0, 'skipped': 0, 'conflict': 0, 'error': 0}
+    file_counts = {'renamed': 0, 'merged': 0, 'added': 0, 'skipped': 0, 'conflict': 0, 'error': 0}
+
+    for ds_id, ds_name in dataset_ids:
+        print(f"\n📦 Dataset: {ds_name} ({ds_id})")
+
+        # Rename on dataset entity itself
+        result = rename_annotation_on_entity(syn, ds_id, ds_name, old_key, new_key,
+                                              dry_run=dry_run, verbose=verbose,
+                                              remove_old=remove_old)
+        ds_counts[result] = ds_counts.get(result, 0) + 1
+
+        # Optionally inherit the dataset's canonical value onto member files that
+        # have neither populated key. Re-read after execution so a conflict
+        # resolution is used.
+        dataset_fallback = None
+        if inherit_dataset_annotation:
+            try:
+                dataset_annotations = dict(syn.get_annotations(ds_id))
+                dataset_fallback = dataset_annotations.get(new_key)
+                if _is_empty_annotation(dataset_fallback):
+                    dataset_fallback = dataset_annotations.get(old_key)
+            except Exception as e:
+                print(f"  ⚠️  Could not read dataset annotations for file inheritance: {e}")
+
+        # Optionally process file entities within the dataset
+        if include_files:
+            try:
+                results = syn.tableQuery(
+                    f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False
+                )
+                file_rows = results.asDataFrame()
+                print(f"  Files in dataset: {len(file_rows)}")
+
+                for _, row in file_rows.iterrows():
+                    file_id = row.get('id') or row.iloc[0]
+                    file_name = row.get('name', file_id)
+
+                    result = rename_annotation_on_entity(syn, file_id, f"  {file_name}",
+                                                         old_key, new_key,
+                                                         dry_run=dry_run, verbose=verbose,
+                                                         remove_old=remove_old,
+                                                         fallback_value=dataset_fallback)
+                    file_counts[result] = file_counts.get(result, 0) + 1
+
+            except Exception as e:
+                print(f"  ⚠️  Could not query files in dataset {ds_id}: {e}")
+
+    # Summary
+    print(f"\n{'='*60}")
+    print(f"SUMMARY")
+    print(f"{'='*60}")
+    print(f"Datasets processed: {len(dataset_ids)}")
+    print(f"Dataset-level : renamed={ds_counts['renamed']}, merged={ds_counts['merged']}, "
+          f"added={ds_counts['added']}, skipped={ds_counts['skipped']}, "
+          f"conflicts={ds_counts['conflict']}, errors={ds_counts['error']}")
+    if include_files:
+        total_files = sum(file_counts.values())
+        print(f"Files processed: {total_files}")
+        print(f"File-level    : renamed={file_counts['renamed']}, merged={file_counts['merged']}, "
+              f"added={file_counts['added']}, skipped={file_counts['skipped']}, "
+              f"conflicts={file_counts['conflict']}, errors={file_counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
+def rename_folders(syn, collection_id, folder_pattern="Released Data",
+                             rename_pattern="{folder_name}_{project_name}",
+                             exclude_project_ids=None, dry_run=True, verbose=False):
+    """
+    For every project associated with datasets in a DatasetCollection, find
+    direct-child folders whose names match `folder_pattern` (a glob pattern)
+    and rename each one using `rename_pattern`.
+
+    `folder_pattern` supports standard glob wildcards (fnmatch):
+        *   matches any sequence of characters
+        ?   matches any single character
+        [seq]  matches any character in seq
+
+    `rename_pattern` supports two placeholders (spaces → underscores):
+        {folder_name}  — the actual matched folder name (e.g. "Released_Data")
+        {project_name} — the parent project name       (e.g. "ALL_ALS")
+
+    Examples:
+        folder_pattern="Released Data",  Project.name="ALL ALS"
+        rename_pattern="{folder_name}_{project_name}"
+        → "Released_Data_ALL_ALS"
+
+        folder_pattern="Released*", rename_pattern="Released_{project_name}"
+        → matches any folder starting with "Released", renames to e.g. "Released_ALL_ALS"
+
+    Args:
+        syn: Synapse client
+        collection_id: DatasetCollection Synapse ID
+        folder_pattern: Glob pattern to match folder names (default: "Released Data")
+        rename_pattern: Output name template using {folder_name} and/or
+                        {project_name} placeholders
+                        (default: "{folder_name}_{project_name}")
+        exclude_project_ids: Set/list of project Synapse IDs to skip
+        dry_run: If True, only preview changes without writing to Synapse
+        verbose: Print extra detail for each item processed
+
+    Returns:
+        dict with counts: renamed, already_renamed, skipped, error
+    """
+    exclude_project_ids = set(exclude_project_ids or [])
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"RENAME RELEASED FOLDERS {mode}")
+    print(f"{'='*60}")
+    print(f"Collection     : {collection_id}")
+    print(f"Folder pattern : {folder_pattern}")
+    print(f"Rename pattern : {rename_pattern}")
+    if exclude_project_ids:
+        print(f"Excluded projects: {', '.join(exclude_project_ids)}")
+
+    # --- Step 1: Enumerate datasets in the collection ---
+    try:
+        dataset_collection = DatasetCollection(id=collection_id).get()
+        items = dataset_collection.items if hasattr(dataset_collection, 'items') else []
+    except Exception as e:
+        print(f"❌ Could not fetch collection {collection_id}: {e}")
+        return {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 1}
+
+    if not items:
+        print("❌ No datasets found in collection.")
+        return {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 0}
+
+    print(f"Datasets found : {len(items)}")
+
+    # --- Step 2: Resolve each dataset to its parent project (deduplicated) ---
+    seen_projects = {}  # {project_id: project_name}
+
+    for item in items:
+        item_id = (item.entity_id if hasattr(item, 'entity_id')
+                   else item.id if hasattr(item, 'id') else str(item))
+        try:
+            entity = syn.get(item_id, downloadFile=False)
+
+            # projectId is set by the server on all non-Project entities
+            project_id = entity.get('projectId', None)
+            if not project_id:
+                # Fallback: walk parentId chain until we reach a Project
+                current = entity
+                while type(current).__name__ != 'Project':
+                    parent_id = current.get('parentId', None)
+                    if not parent_id:
+                        current = None
+                        break
+                    current = syn.get(parent_id, downloadFile=False)
+                if current is not None:
+                    project_id = current.id
+
+            if not project_id:
+                if verbose:
+                    print(f"  ⚠️  Could not determine project for dataset {item_id}")
+                continue
+
+            if project_id in exclude_project_ids:
+                if verbose:
+                    print(f"  ⊘ Dataset {item_id} belongs to excluded project {project_id} — skipped")
+                continue
+
+            if project_id not in seen_projects:
+                project_entity = syn.get(project_id, downloadFile=False)
+                seen_projects[project_id] = project_entity.name
+
+        except Exception as e:
+            print(f"  ⚠️  Could not resolve project for dataset {item_id}: {e}")
+
+    print(f"Unique projects: {len(seen_projects)}")
+
+    if not seen_projects:
+        print("❌ No eligible projects found for collection datasets.")
+        return {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 1}
+
+    # --- Step 3: For each project, find and rename the target folder ---
+    counts = {'renamed': 0, 'already_renamed': 0, 'skipped': 0, 'error': 0}
+
+    for project_id, project_name in seen_projects.items():
+        print(f"\n📁 Project : {project_name} ({project_id})")
+
+        try:
+            children = list(syn.getChildren(project_id))
+        except Exception as e:
+            print(f"  ✗ Could not list project children: {e}")
+            counts['error'] += 1
+            continue
+
+        folder_found = False
+        for child in children:
+            child_type = child.get('type', '')
+            if not ('folder' in child_type.lower()):
+                continue
+
+            child_name = child['name']
+            child_id = child['id']
+
+            if not fnmatch.fnmatch(child_name, folder_pattern):
+                if verbose:
+                    print(f"  ⊘ Skipping folder '{child_name}'")
+                continue
+
+            # Compute target name using the actual matched folder name
+            new_name = rename_pattern.format(
+                folder_name=child_name.replace(' ', '_'),
+                project_name=project_name.replace(' ', '_'),
+            )
+
+            if child_name == new_name:
+                print(f"  ✓ Already named '{new_name}' ({child_id}) — no change needed")
+                counts['already_renamed'] += 1
+                folder_found = True
+                continue
+
+            folder_found = True
+            if dry_run:
+                print(f"  [DRY_RUN] Would rename '{child_name}' ({child_id}) → '{new_name}'")
+                counts['renamed'] += 1
+            else:
+                try:
+                    folder_entity = syn.get(child_id, downloadFile=False)
+                    folder_entity.name = new_name
+                    syn.store(folder_entity)
+                    print(f"  ✓ Renamed '{child_name}' ({child_id}) → '{new_name}'")
+                    counts['renamed'] += 1
+                except Exception as e:
+                    print(f"  ✗ Error renaming '{child_name}' ({child_id}): {e}")
+                    counts['error'] += 1
+
+        if not folder_found:
+            print(f"  ⚠️  No folder matching '{folder_pattern}' found in project")
+            counts['skipped'] += 1
+
+    return counts
+
+
+def handle_rename_folders(args, config):
+    """CLI handler for the rename-folders command."""
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+
+    collection_id = getattr(args, 'collection_id', None) or config.DATASETS_COLLECTION_ID
+    if not collection_id:
+        print("❌ --collection-id is required (or set DATASETS_COLLECTION_ID in config)")
+        return
+
+    folder_pattern = getattr(args, 'folder_pattern', None) or 'Released Data'
+    rename_pattern = getattr(args, 'rename_pattern', None) or '{folder_name}_{project_name}'
+    exclude_ids = set(getattr(args, 'exclude_project', None) or [])
+
+    counts = rename_folders(
+        syn,
+        collection_id=collection_id,
+        folder_pattern=folder_pattern,
+        rename_pattern=rename_pattern,
+        exclude_project_ids=exclude_ids,
+        dry_run=dry_run,
+        verbose=verbose,
+    )
+
+    print(f"\n{'='*60}")
+    print(f"SUMMARY")
+    print(f"{'='*60}")
+    print(f"Renamed        : {counts['renamed']}")
+    print(f"Already correct: {counts['already_renamed']}")
+    print(f"No match found : {counts['skipped']}")
+    print(f"Errors         : {counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
+def rename_file_entity(syn, file_id, new_name, name_only=False,
+                       force_version=False, dry_run=True, verbose=False):
+    """Rename a single Synapse File entity WITHOUT re-uploading its data.
+
+    Changes the entity display name and, unless ``name_only`` is set, the
+    download filename too. Uses ``synapseutils.changeFileMetaData``, which
+    copies the existing file handle server-side (no byte transfer) when the
+    download filename changes — so no re-upload occurs.
+
+    Returns one of: 'renamed', 'skipped', 'error'.
+    """
+    import synapseutils
+
+    try:
+        entity = syn.get(file_id, downloadFile=False)
+    except Exception as e:
+        print(f"    ✗ Could not fetch {file_id}: {e}")
+        return 'error'
+
+    concrete = getattr(entity, 'concreteType', '') or str(entity.properties.get('concreteType', ''))
+    if 'FileEntity' not in concrete:
+        print(f"    ✗ {file_id} is not a file entity (type: {concrete}) — skipping")
+        return 'error'
+
+    old_name = entity.name
+    file_handle = getattr(entity, '_file_handle', None) or {}
+    old_download = file_handle.get('fileName') if isinstance(file_handle, dict) else None
+
+    change_download = not name_only
+
+    # Nothing to do if names already match
+    if old_name == new_name and (not change_download or old_download == new_name):
+        if verbose:
+            print(f"    = {file_id}: already named '{new_name}' — skipping")
+        return 'skipped'
+
+    change_desc = f"name '{old_name}' → '{new_name}'"
+    if change_download:
+        change_desc += f"; downloadAs '{old_download}' → '{new_name}'"
+
+    if dry_run:
+        print(f"    [DRY_RUN] Would rename {file_id}: {change_desc}")
+        return 'renamed'
+
+    try:
+        synapseutils.changeFileMetaData(
+            syn, entity,
+            downloadAs=new_name if change_download else None,
+            name=new_name,
+            forceVersion=force_version,
+        )
+        print(f"    ✓ Renamed {file_id}: {change_desc}")
+        return 'renamed'
+    except Exception as e:
+        print(f"    ✗ Error renaming {file_id}: {e}")
+        return 'error'
+
+
+def _load_rename_mapping(path):
+    """Load a synId → new-name mapping for batch renaming.
+
+    Accepts:
+      * JSON: {"syn123": "new_name.ext", ...}
+      * CSV/XLSX: columns (synId|synapseId|id) and (new_name|newName|name)
+
+    Returns a list of (file_id, new_name) tuples.
+    """
+    ext = os.path.splitext(path)[1].lower()
+    pairs = []
+
+    if ext == '.json':
+        mapping = load_mapping_dict(path)  # keeps only non-empty string values
+        for k, v in mapping.items():
+            if k == '_views':
+                continue
+            if isinstance(v, str) and v.strip():
+                pairs.append((k.strip(), v.strip()))
+    elif ext in ('.csv', '.xlsx', '.xls'):
+        rows = load_metadata_file(path)
+        for row in rows:
+            fid = (row.get('synId') or row.get('synapseId') or row.get('id') or '').strip()
+            new_name = (row.get('new_name') or row.get('newName') or row.get('name') or '').strip()
+            if fid and new_name:
+                pairs.append((fid, new_name))
+    else:
+        print(f"❌ Unsupported mapping file type '{ext}'. Use .json, .csv, or .xlsx")
+
+    return pairs
+
+
+def _collect_pattern_renames(syn, dataset_id, collection_id, find, replace,
+                             use_regex, verbose):
+    """Enumerate files in a dataset/collection and compute new names via a
+    find/replace on each file's current entity name.
+
+    Returns a de-duplicated list of (file_id, new_name) tuples, restricted to
+    files whose name actually changes.
+    """
+    dataset_ids = []
+    if dataset_id:
+        dataset_ids = [dataset_id]
+    elif collection_id:
+        try:
+            dc = DatasetCollection(id=collection_id).get()
+            items = dc.items if hasattr(dc, 'items') else []
+            for item in items:
+                item_id = item.entity_id if hasattr(item, 'entity_id') else (
+                    item.id if hasattr(item, 'id') else str(item))
+                dataset_ids.append(item_id)
+        except Exception as e:
+            print(f"❌ Could not fetch collection {collection_id}: {e}")
+            return []
+
+    pairs = []
+    for ds_id in dataset_ids:
+        try:
+            results = syn.tableQuery(
+                f"SELECT id, name FROM {ds_id}", includeRowIdAndRowVersion=False)
+            df = results.asDataFrame()
+        except Exception as e:
+            print(f"  ⚠️  Could not query files in dataset {ds_id}: {e}")
+            continue
+
+        for _, row in df.iterrows():
+            fid = row.get('id') or row.iloc[0]
+            name = row.get('name')
+            if not name:
+                continue
+            if use_regex:
+                try:
+                    new_name = re.sub(find, replace, name)
+                except re.error as e:
+                    print(f"  ✗ Invalid regex '{find}': {e}")
+                    return []
+            else:
+                if find not in name:
+                    continue
+                new_name = name.replace(find, replace)
+            if new_name != name:
+                pairs.append((fid, new_name))
+                if verbose:
+                    print(f"    · {fid}: '{name}' → '{new_name}'")
+
+    # De-dup by file id (a collection can list the same file across datasets)
+    seen = set()
+    deduped = []
+    for fid, nn in pairs:
+        if fid in seen:
+            continue
+        seen.add(fid)
+        deduped.append((fid, nn))
+    return deduped
+
+
+def handle_rename_files(args, config):
+    """CLI handler for the rename-files command.
+
+    Renames Synapse File entities (display name and, by default, the download
+    filename) WITHOUT re-uploading data. Three targeting modes:
+      1. Single file:   --file-id + --new-name
+      2. Batch mapping: --mapping-file (JSON synId->newName, or CSV/XLSX)
+      3. Pattern:       --dataset-id/--collection-id + --find/--replace
+    """
+    syn = connect_to_synapse(config)
+
+    dry_run = config.DRY_RUN
+    if getattr(args, 'execute', False):
+        dry_run = False
+    if getattr(args, 'dry_run', False):
+        dry_run = True
+
+    verbose = getattr(args, 'verbose', False) or config.VERBOSE
+    name_only = getattr(args, 'name_only', False)
+    force_version = getattr(args, 'new_version', False)
+
+    mode = "[DRY RUN]" if dry_run else "[EXECUTE]"
+    print(f"\n{'='*60}")
+    print(f"RENAME FILES {mode}")
+    print(f"{'='*60}")
+    print(f"Change download filename: {'No (entity name only)' if name_only else 'Yes'}")
+    print(f"Force new version       : {'Yes' if force_version else 'No'}")
+
+    # Build the work list: [(file_id, new_name), ...]
+    work = []
+
+    file_id = getattr(args, 'file_id', None)
+    mapping_file = getattr(args, 'mapping_file', None)
+    dataset_id = getattr(args, 'dataset_id', None)
+    collection_id = getattr(args, 'collection_id', None)
+
+    if file_id:
+        if not getattr(args, 'new_name', None):
+            print("❌ --new-name is required with --file-id")
+            return
+        work.append((file_id, args.new_name))
+
+    elif mapping_file:
+        work = _load_rename_mapping(mapping_file)
+        if not work:
+            print(f"❌ No rename entries loaded from {mapping_file}")
+            return
+
+    elif dataset_id or collection_id:
+        find = getattr(args, 'find', None)
+        replace = getattr(args, 'replace', None)
+        if find is None or replace is None:
+            print("❌ --find and --replace are required for dataset/collection pattern mode")
+            return
+        use_regex = getattr(args, 'regex', False)
+        work = _collect_pattern_renames(syn, dataset_id, collection_id,
+                                        find, replace, use_regex, verbose)
+        if not work:
+            print("No files matched the find pattern — nothing to do.")
+            return
+    else:
+        print("❌ Provide one of: --file-id, --mapping-file, or --dataset-id/--collection-id")
+        return
+
+    print(f"\n--- {len(work)} file(s) to rename ---")
+
+    counts = {'renamed': 0, 'skipped': 0, 'error': 0}
+    for fid, new_name in work:
+        result = rename_file_entity(syn, fid, new_name, name_only=name_only,
+                                    force_version=force_version,
+                                    dry_run=dry_run, verbose=verbose)
+        counts[result] = counts.get(result, 0) + 1
+
+    print(f"\n{'='*60}")
+    print("SUMMARY")
+    print(f"{'='*60}")
+    print(f"Renamed : {counts['renamed']}")
+    print(f"Skipped : {counts['skipped']}")
+    print(f"Errors  : {counts['error']}")
+    if dry_run:
+        print("\nRe-run with --execute to apply changes.")
+
+
+def main():
+    """Main entry point"""
+    parser = argparse.ArgumentParser(
+        description='Synapse Dataset Manager - Create or update datasets',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # GENERATE TEMPLATE - Create empty dataset annotation template
+  python synapse_dataset_manager.py generate-template --type Clinical
+  python synapse_dataset_manager.py generate-template --type Omic --output my_template.json
+
+  # ADD LINK FILE - Create link file entity (external URL reference)
+  python synapse_dataset_manager.py add-link-file \\
+    --name "GEO Dataset" \\
+    --url "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE12345" \\
+    --dataset-id syn67890 \\
+    --annotations '{"dataType": "transcriptomics"}' \\
+    --execute
+
+  # CREATE workflow - using config.yaml settings
+  python synapse_dataset_manager.py create --use-config GEN_PIPELINE_TEST
+
+  # CREATE workflow - with manual arguments
+  python synapse_dataset_manager.py create \\
+    --project-id syn11111111 \\
+    --staging-folder syn12345 \\
+    --dataset-name "My New Dataset"
+
+  # CREATE workflow - link dataset (no files)
+  python synapse_dataset_manager.py create --link-dataset \\
+    --dataset-name "External GEO Dataset"
+
+  # CREATE workflow - apply annotations (using config)
+  python synapse_dataset_manager.py create --use-config GEN_PIPELINE_TEST \\
+    --from-annotations --execute
+
+  # CREATE workflow - apply annotations (manual)
+  python synapse_dataset_manager.py create --from-annotations \\
+    --staging-folder syn12345 \\
+    --dataset-name "My New Dataset" \\
+    --execute
+
+  # UPDATE workflow - Phase 1: generate templates (via config)
+  python synapse_dataset_manager.py update --use-config ALL_ALS_ASSESS
+
+  # UPDATE workflow - Phase 1: generate templates (explicit args)
+  python synapse_dataset_manager.py update \\
+    --dataset-id syn67890 \\
+    --staging-folder syn12345
+
+  # UPDATE workflow - Phase 2: apply updates (via config, after editing annotations JSON)
+  python synapse_dataset_manager.py update --use-config ALL_ALS_ASSESS --execute
+
+  # UPDATE workflow - Phase 2: upload new file versions from local dir
+  python synapse_dataset_manager.py update \\
+    --dataset-id syn67890 \\
+    --annotations-file annotations/DatasetName_update_annotations.json \\
+    --local-files-dir staging/assess/ \\
+    --version-label "v4-JAN" \\
+    --version-comment "January 2026 release" \\
+    --execute
+
+  # UPDATE workflow - Phase 2: move new staging files to release + apply annotations
+  python synapse_dataset_manager.py update \\
+    --dataset-id syn67890 \\
+    --staging-folder syn12345 \\
+    --release-folder syn68885185 \\
+    --annotations-file annotations/DatasetName_update_annotations.json \\
+    --version-label "v4-JAN" \\
+    --execute
+
+  # Use custom config file
+  python synapse_dataset_manager.py --config my-config.yaml create --use-config my_dataset
+
+  # RENAME-RELEASED-FOLDERS - preview renames (exact folder name match)
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --folder-pattern "Released Data" \\
+    --dry-run
+
+  # RENAME-RELEASED-FOLDERS - execute, exclude a specific project
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --exclude-project syn64892175 \\
+    --execute
+
+  # RENAME-RELEASED-FOLDERS - glob pattern matching any folder starting with "Released"
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --folder-pattern "Released*" \\
+    --rename-pattern "Released_{project_name}" \\
+    --dry-run
+
+  # RENAME-RELEASED-FOLDERS - rename Staging folders, keep source name in output
+  python synapse_dataset_manager.py rename-folders \\
+    --collection-id syn66496326 \\
+    --folder-pattern "Staging*" \\
+    --rename-pattern "{folder_name}_{project_name}" \\
+    --execute
+
+  # RENAME-ANNOTATION - rename annotation key across all datasets in a collection
+  python synapse_dataset_manager.py rename-annotation \\
+    --collection-id syn66496326 \\
+    --old-annotation "individualCount" --new-annotation "participant_count" \\
+    --dry-run
+
+  # RENAME-ANNOTATION - single dataset, including file-level annotations
+  python synapse_dataset_manager.py rename-annotation \\
+    --dataset-id syn12345 \\
+    --old-annotation "individualCount" --new-annotation "participant_count" \\
+    --include-files --execute
+
+  # MIGRATE-ANNOTATION-VALUES - move specific values from one annotation key to another
+  python synapse_dataset_manager.py migrate-annotation-values \\
+    --collection-id syn66496326 \\
+    --source-annotation "diseaseSubtype" --target-annotation "siteOfOnset" \\
+    --values "Limb" "Bulbar" "Spinal" \\
+    --include-files --dry-run
+
+  python synapse_dataset_manager.py migrate-annotation-values \\
+    --dataset-id syn12345 \\
+    --source-annotation "diseaseSubtype" --target-annotation "siteOfOnset" \\
+    --values "Limb" "Bulbar" "Spinal" \\
+    --include-files --execute
+
+  # ANNOTATE-DATASET - push annotations from file to existing dataset entity
+  python synapse_dataset_manager.py annotate-dataset \\
+    --dataset-id syn12345 \\
+    --annotations-file annotations/all_als/assess_dataset_annotations.json \\
+    --execute
+        """
+    )
+
+    # Global options
+    parser.add_argument('--config', '-c',
+                       help='Path to config file (default: config.yaml)',
+                       default=None)
+
+    subparsers = parser.add_subparsers(dest='command', help='Workflow mode')
+
+    # CREATE command
+    create_parser = subparsers.add_parser('create', help='Create new dataset from scratch')
+    create_parser.add_argument('--use-config',
+                              help='Use dataset settings from config.yaml (e.g., "GEN_PIPELINE_TEST")')
+    create_parser.add_argument('--project-id',
+                              help='Synapse project ID where dataset will be created (overrides config)')
+    create_parser.add_argument('--staging-folder',
+                              help='Synapse ID of staging folder containing files')
+    create_parser.add_argument('--dataset-name',
+                              help='Name for the new dataset')
+    create_parser.add_argument('--dataset-type',
+                              help='Dataset type; fuzzy-matched against json-schemas/ '
+                                   '(e.g. "speech" -> SpeechDataset). Exact schema names '
+                                   'also work. Overrides config/name-pattern detection. '
+                                   'With --from-annotations, also overrides the '
+                                   '_dataset_type already saved in the annotations file.')
+    create_parser.add_argument('--from-annotations', action='store_true',
+                              help='Skip template generation, use existing annotations')
+    create_parser.add_argument('--link-dataset', action='store_true',
+                              help='Create link dataset (no files, external URL reference only)')
+    create_parser.add_argument('--skip-ai', action='store_true',
+                              help='Skip AI-assisted annotation (use Gemini by default)')
+    create_parser.add_argument('--mapping',
+                              help='Existing mapping dict to apply while generating file annotations')
+    create_parser.add_argument('--metadata', nargs='+',
+                              help='Source metadata CSV/XLSX/ADAT files or directories for --mapping')
+    create_parser.add_argument('--generate-mapping',
+                              help='Create or merge a mapping scaffold at this path during phase 1')
+    create_parser.add_argument('--mapping-source', choices=['auto', 'metadata', 'files'], default='auto',
+                              help='Source for --generate-mapping: metadata when supplied (auto), or staging files')
+    create_parser.add_argument('--skip-mapping-generation', action='store_true',
+                              help='With --generate-mapping, use its existing mapping file without regenerating/merging it')
+    create_parser.add_argument('--mapping-max-values', type=int, default=50,
+                              help='Maximum unique values retained per generated mapping field (default: 50)')
+    create_parser.add_argument('--execute', action='store_true',
+                              help='Execute (override DRY_RUN)')
+    create_parser.add_argument('--dry-run', action='store_true',
+                              help='Dry run mode')
+
+    # Advanced features
+    create_parser.add_argument('--release-folder',
+                              help='Move files to release folder after creation (Synapse ID)')
+    create_parser.add_argument('--generate-wiki', action='store_true',
+                              help='Generate and attach wiki to dataset')
+    create_parser.add_argument('--wiki-content',
+                              help='Path to custom wiki markdown file (optional)')
+    create_parser.add_argument('--create-snapshot', action='store_true',
+                              help='Create dataset snapshot/version')
+    create_parser.add_argument('--version-label',
+                              help='Version label for snapshot and files (e.g., "v1.0")')
+    create_parser.add_argument('--version-comment',
+                              help='Comment for version/snapshot')
+    create_parser.add_argument('--skip-entity-view', action='store_true',
+                              help='Skip creating the staging-folder validation entity view '
+                                   '(created by default; also settable via '
+                                   '`create_entity_view: false` in config.yaml)')
+    create_parser.add_argument('--columns', nargs='+', default=None,
+                              help='Cherry-pick/order specific column names for both the '
+                                   'validation entity view and the dataset table columns, '
+                                   'instead of every property on the resolved schema(s). '
+                                   'Also settable via `columns:` in config.yaml.')
+    create_parser.add_argument('--extra-schema-types', nargs='+', default=None,
+                              help='Additional exact schema names (e.g. MetadataSchema) whose '
+                                   'properties are merged in alongside the auto-detected type '
+                                   'for both the validation entity view and the dataset table '
+                                   'columns. Also settable via `extra_schema_types:` in '
+                                   'config.yaml. Ignored when --from-entity is given.')
+    create_parser.add_argument('--from-entity',
+                              help='Synapse ID of an existing Dataset/EntityView/Table to port '
+                                   'columns (and their order) from, for BOTH the validation '
+                                   'entity view and the dataset table columns, instead of '
+                                   'deriving them from a schema. Combine with --columns to port '
+                                   'only specific names. Also settable via `from_entity:` in '
+                                   'config.yaml.')
+    create_parser.add_argument('--infer-variant-types', action='store_true',
+                              help='Download VCF files and infer variantType using bcftools (requires bcftools in PATH)')
+    create_parser.add_argument('--force-infer-variant-types', action='store_true',
+                              help='Re-infer variantType even if already populated in annotations')
+
+    # UPDATE command
+    update_parser = subparsers.add_parser('update', help='Update existing dataset')
+    update_parser.add_argument('--use-config',
+                              help='Load update settings from config.yaml datasets section (e.g., "ALL_ALS_ASSESS")')
+    update_parser.add_argument('--dataset-id',
+                              help='Synapse ID of existing dataset (required unless --use-config provides it)')
+    update_parser.add_argument('--staging-folder',
+                              nargs='+',
+                              metavar='FOLDER_ID',
+                              help='Synapse ID(s) of staging folder(s) with new files. '
+                                   'Pass multiple IDs if data is spread across folders (optional)')
+    update_parser.add_argument('--annotations-file',
+                              help='Path to pre-edited annotations JSON (triggers Phase 2 apply)')
+    update_parser.add_argument('--local-files-dir',
+                              help='Local directory containing prepared file versions to upload as new versions')
+    update_parser.add_argument('--release-folder',
+                              help='Synapse ID of release folder (for moving new staging files)')
+    update_parser.add_argument('--version-label',
+                              help='Version label for new file versions (e.g., "v4-JAN")')
+    update_parser.add_argument('--version-comment',
+                              help='Version comment for new file versions')
+    update_parser.add_argument('--skip-validation', action='store_true',
+                              help='Skip annotation schema validation before applying')
+    update_parser.add_argument('--data-dict',
+                              help='Path to data dictionary CSV/XLSX (View Name, Field, Description, Values), '
+                                   'or a Synapse file ID (e.g. "syn12345678") to download it from')
+    update_parser.add_argument('--data-dict-view',
+                              help='View Name to filter from data dictionary (e.g. "ASSESS")')
+    update_parser.add_argument('--mapping',
+                              help='Path to existing mapping .dict file (overrides --data-dict)')
+    update_parser.add_argument('--field-migrations',
+                              default=None,
+                              help=('Path to deprecated→canonical field migration map (YAML). '
+                                    'Defaults to configs/field_migrations.yaml. Reconciles '
+                                    'renamed/removed fields still on Synapse (e.g. source→repository).'))
+    update_parser.add_argument('--subject-file-type',
+                              choices=['single', 'multi', 'auto'],
+                              default=None,
+                              help=(
+                                  'How to treat files when filling annotations from file contents. '
+                                  '"single": one subject per file (no file-content filling). '
+                                  '"multi": multiple subjects per file (collect unique values per column). '
+                                  '"auto" (default): detect per file using the subject ID column.'
+                              ))
+    update_parser.add_argument('--execute', action='store_true',
+                              help='Execute (override DRY_RUN)')
+    update_parser.add_argument('--dry-run', action='store_true',
+                              help='Dry run mode')
+
+    # ANNOTATE-DATASET command
+    annotate_parser = subparsers.add_parser(
+        'annotate-dataset',
+        help='Apply annotations and/or description to an existing dataset entity'
+    )
+    annotate_parser.add_argument('--dataset-id', required=True,
+                                 help='Synapse ID of existing dataset entity')
+    annotate_parser.add_argument('--annotations-file',
+                                 help='Path to JSON annotations file (optional if --description is set)')
+    annotate_parser.add_argument('--description',
+                                 help='Entity description to set on the dataset (visible in Synapse UI)')
+    annotate_parser.add_argument('--execute', action='store_true',
+                                 help='Execute (override DRY_RUN)')
+    annotate_parser.add_argument('--dry-run', action='store_true',
+                                 help='Dry run mode (default)')
+
+    # GENERATE-TEMPLATE command
+    template_parser = subparsers.add_parser('generate-template',
+                                           help='Generate empty dataset annotation template')
+    template_parser.add_argument('--type', '-t',
+                                default='Dataset',
+                                help='Dataset type; fuzzy-matched against json-schemas/ '
+                                     '(e.g. "omic" -> OmicDataset). Exact schema names also '
+                                     'work; ambiguous matches prompt. (default: Dataset)')
+    template_parser.add_argument('--output', '-o',
+                                help='Output file path (default: annotations/<type>_dataset_template.<format>)')
+    template_parser.add_argument('--format', '-f', choices=['json', 'csv', 'xlsx'], default=None,
+                                help='Output format (default: json; inferred from --output .csv/.xlsx)')
+
+    # GENERATE-FILE-TEMPLATES command
+    file_tmpl_parser = subparsers.add_parser(
+        'generate-file-templates',
+        help='Generate per-file annotation templates from a Synapse folder'
+    )
+    file_tmpl_parser.add_argument('--folder', required=True,
+        help='Synapse ID of folder containing files (e.g., syn12345)')
+    file_tmpl_parser.add_argument('--name', default=None,
+        help='Name prefix for output file (default: folder syn ID)')
+    file_tmpl_parser.add_argument('--type', default=None,
+        help='Override file type for all files instead of auto-detecting; fuzzy-matched '
+             'against json-schemas/ (e.g. "omic" -> OmicFile). Exact schema names also work.')
+    file_tmpl_parser.add_argument('--output', '-o', default=None,
+        help='Output path (default: annotations/<name>_file_templates.<format>)')
+    file_tmpl_parser.add_argument('--format', '-f', choices=['json', 'csv', 'xlsx'], default=None,
+        help='Output format (default: json; inferred from --output .csv/.xlsx)')
+    file_tmpl_parser.add_argument('--file-tier', choices=['recordset', 'fileset', 'both'], default='both',
+        help='Concrete file tier for tabular exports; both requires --file-tier-map to route rows')
+    file_tmpl_parser.add_argument('--file-tier-map', default=None,
+        help='JSON object mapping entity IDs or filenames to recordset/fileset for tabular exports')
+    file_tmpl_parser.add_argument('--file-type-map', default=None,
+        help='JSON file path or inline JSON object mapping entity IDs or filenames to exact schema types; ID wins over filename (JSON output only)')
+    file_tmpl_parser.add_argument('--skip-ai', action='store_true',
+        help='Skip AI-assisted annotation enhancement')
+    file_tmpl_parser.add_argument('--mapping', default=None,
+        help='Path to field mapping dict file (e.g., mapping/target_als.dict)')
+    file_tmpl_parser.add_argument('--metadata', nargs='+', default=None,
+        help='One or more source metadata CSV/XLSX/ADAT files (space-separated; ADAT requires somadata)')
+    file_tmpl_parser.add_argument('--refresh-walkthrough', action='store_true',
+        help='Re-enumerate Synapse folder even if walkthrough cache exists')
+    file_tmpl_parser.add_argument('--infer-variant-types', action='store_true',
+        help='Download VCF files and infer variantType using bcftools (requires bcftools in PATH)')
+    file_tmpl_parser.add_argument('--force-infer-variant-types', action='store_true',
+        help='Re-infer variantType even if already populated in annotations')
+
+    # APPLY-FILE-ANNOTATIONS command
+    apply_file_parser = subparsers.add_parser(
+        'apply-file-annotations',
+        help='Apply edited per-file annotation JSON to Synapse file entities'
+    )
+    apply_file_parser.add_argument('--annotations-file', required=True,
+        help='Path to per-file annotations JSON (e.g., annotations/my_dataset_file_templates.json)')
+    apply_file_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN — actually write to Synapse)')
+    apply_file_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default — prints what would be applied)')
+    apply_file_parser.add_argument('--skip-validation', action='store_true',
+        help='Skip schema validation before applying annotations')
+    apply_file_parser.add_argument('--version-label',
+        help='Version label to apply to updated files (e.g., "v1.1-dht-metadata-update")')
+    apply_file_parser.add_argument('--version-comment',
+        help='Version comment describing the changes (e.g., "Updated dataType annotations for DHT files")')
+    apply_file_parser.add_argument('--force-update-all', action='store_true',
+        help='Force update all files even if annotations are unchanged (default: skip unchanged files)')
+
+    # MOVE command
+    move_parser = subparsers.add_parser(
+        'move',
+        help='Move files (individual, several, or all in a folder) to a target folder'
+    )
+    move_parser.add_argument('--source', nargs='+', required=True, metavar='SYN_ID',
+        help='One or more source Synapse IDs (files and/or folders). Folders move all '
+             'contained files; use --recursive to include subfolders.')
+    move_parser.add_argument('--target', required=True, metavar='SYN_ID',
+        help='Target folder (or project) Synapse ID to move files into')
+    move_parser.add_argument('--recursive', action='store_true',
+        help='When a source is a folder, also move files in its subfolders')
+    move_parser.add_argument('--pattern', metavar='GLOB',
+        help='Only move files whose name matches this glob pattern (fnmatch syntax, '
+             'e.g. "*.csv"). Applies to files discovered by expanding a folder/project '
+             'source; files listed explicitly in --source are always moved.')
+    move_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN — actually move files)')
+    move_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default — prints what would be moved)')
+    move_parser.add_argument('--verbose', action='store_true',
+        help='Show detailed per-file output')
+
+    # ADD-LINK-FILE command
+    link_parser = subparsers.add_parser('add-link-file',
+                                       help='Create link file entity (external URL reference) and add to dataset')
+    link_parser.add_argument('--name', required=True,
+                            help='Name for the link file entity')
+    link_parser.add_argument('--url', required=True,
+                            help='External URL to reference')
+    link_parser.add_argument('--parent-id',
+                            help='Parent folder/project ID where link file will be stored (e.g., syn12345)')
+    link_parser.add_argument('--dataset-id',
+                            help='Dataset ID to add the link to (also sets parent if --parent-id not specified)')
+    link_parser.add_argument('--annotations',
+                            help='JSON string of annotations (e.g., \'{"dataType": "transcriptomics"}\')')
+    link_parser.add_argument('--execute', action='store_true',
+                            help='Execute (override DRY_RUN)')
+    link_parser.add_argument('--dry-run', action='store_true',
+                            help='Dry run mode')
+
+    # GENERATE-MAPPING command
+    mapping_parser = subparsers.add_parser(
+        'generate-mapping',
+        help='Generate a scaffold mapping .dict file from metadata column names and unique values'
+    )
+    mapping_parser.add_argument('--input', '-i', required=True,
+        help='Metadata file (.csv/.xlsx/.adat) or folder of metadata files (.adat requires somadata)')
+    mapping_parser.add_argument('--output', '-o', required=True,
+        help='Output mapping .dict file path (created or updated in-place)')
+    mapping_parser.add_argument('--ignore', nargs='+', default=None,
+        help='Additional columns to exclude beyond subject_id (space-separated)')
+    mapping_parser.add_argument('--max-values', type=int, default=50,
+        help='Max unique values for a column to get a value-map dict (default: 50)')
+
+    # SET-VERSION command
+    version_parser = subparsers.add_parser(
+        'set-version',
+        help='Apply version labels to all files in an existing dataset and optionally create a snapshot'
+    )
+    version_parser.add_argument('--use-config',
+                                help='Load settings from config.yaml datasets section (e.g., "Target_ALS_Dataset")')
+    version_parser.add_argument('--dataset-id',
+                                help='Synapse ID of existing dataset (required unless --use-config provides it)')
+    version_parser.add_argument('--version-label',
+                                help='Version label to apply (e.g., "v1.0", "2026.1"); required unless --use-config provides it')
+    version_parser.add_argument('--version-comment',
+                                help='Optional comment describing this version')
+    version_parser.add_argument('--description',
+                                help='Entity description to set on the dataset (visible in Synapse UI)')
+    version_parser.add_argument('--create-snapshot', action='store_true',
+                                help='Also create a dataset snapshot after labeling files')
+    version_parser.add_argument('--execute', action='store_true',
+                                help='Execute (override DRY_RUN)')
+    version_parser.add_argument('--dry-run', action='store_true',
+                                help='Dry run mode (default)')
+
+    # UPLOAD-STAGED-VERSION command
+    staged_version_parser = subparsers.add_parser(
+        'upload-staged-version',
+        help='Upload a single staging file as a new version of one existing file entity'
+    )
+    staged_version_parser.add_argument('--syn-id', required=True,
+                                       help='Synapse ID of the existing file entity to create a new version of')
+    staged_version_parser.add_argument('--staging-id', required=True,
+                                       help='Synapse ID of the staging file with the new content')
+    staged_version_parser.add_argument('--version-label',
+                                       help='Version label for the new version (e.g., "v4-JAN")')
+    staged_version_parser.add_argument('--version-comment',
+                                       help='Version comment for the new version')
+    staged_version_parser.add_argument('--execute', action='store_true',
+                                       help='Execute (override DRY_RUN)')
+    staged_version_parser.add_argument('--dry-run', action='store_true',
+                                       help='Dry run mode (default)')
+
+    # DELETE-VERSIONS command
+    delete_parser = subparsers.add_parser(
+        'delete-versions',
+        help='Delete file versions by version label (single entity or all files in a dataset)'
+    )
+    delete_parser.add_argument('--use-config',
+                               help='Load dataset_id from config.yaml datasets section (e.g., "ALL_ALS_ASSESS")')
+    delete_parser.add_argument('--dataset-id',
+                               help='Synapse ID of dataset — deletes matching versions from every file in it')
+    delete_parser.add_argument('--syn-id',
+                               help='Synapse ID to target: file (single entity), folder (enumerates direct children), or dataset (enumerates all files)')
+    delete_parser.add_argument('--version-label', nargs='+', metavar='LABEL',
+                               help='One or more version labels to delete (e.g. v5-FEB_test v5-FEB_test_v2)')
+    delete_parser.add_argument('--execute', action='store_true',
+                               help='Execute deletions (default is dry-run)')
+    delete_parser.add_argument('--dry-run', action='store_true',
+                               help='Dry run mode (default)')
+
+    # DELETE-ENTITIES command
+    delete_entities_parser = subparsers.add_parser(
+        'delete-entities',
+        help='Permanently delete Synapse entities (files, folders, projects) in bulk and/or recursively'
+    )
+    delete_entities_parser.add_argument('--syn-id', nargs='+', required=True, metavar='SYN_ID',
+        help='One or more Synapse IDs to delete (files, folders, and/or projects)')
+    delete_entities_parser.add_argument('--recursive', action='store_true',
+        help="Required to delete a folder/project that contains any children; without it, "
+             "non-empty containers are refused and skipped. Deleting a container always "
+             "cascades to all of its descendants on Synapse's side once permitted.")
+    delete_entities_parser.add_argument('--execute', action='store_true',
+        help='Execute deletions (default is dry-run). Prompts to type DELETE to confirm.')
+    delete_entities_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default) — preview what would be deleted without deleting anything')
+    delete_entities_parser.add_argument('--verbose', action='store_true',
+        help='Print every descendant discovered while walking folders/projects')
+
+    # SYNC-DATASET-SCHEMA-ANNOTATIONS command
+    sync_schema_parser = subparsers.add_parser(
+        'sync-dataset-schema-annotations',
+        help='Validate dataset annotations against current schemas and optionally apply reviewed metadata-only deltas'
+    )
+    sync_schema_parser.add_argument('--collection-id',
+        help='Synapse ID of a DatasetCollection to validate/update (defaults to DATASETS_COLLECTION_ID)')
+    sync_schema_parser.add_argument('--dataset-id',
+        help='Synapse ID of a single Dataset to validate/update instead of a collection')
+    sync_schema_parser.add_argument('--updates-file',
+        help='Reviewed dataset-level JSON deltas keyed by Synapse ID. Supports proposed_dataset_annotation_deltas.json shape.')
+    sync_schema_parser.add_argument('--include-files', action='store_true',
+        help='Also validate file-level annotations for files referenced by each Dataset. Metadata only; no file downloads.')
+    sync_schema_parser.add_argument('--require-approved', action='store_true',
+        help='Only apply/use delta records with _review_status set to "approved"')
+    sync_schema_parser.add_argument('--output-dir',
+        help='Directory for validation reports and templates (default: annotations/dataset_schema_sync)')
+    sync_schema_parser.add_argument('--template-mode', choices=['merged', 'missing', 'both'], default='both',
+        help='Template outputs to write: merged=current annotations plus schema blanks, missing=only missing schema fields, both=write both (default)')
+    sync_schema_parser.add_argument('--execute', action='store_true',
+        help='Apply valid reviewed deltas to Synapse (default is dry-run/report only)')
+    sync_schema_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default — writes reports but does not update Synapse)')
+
+    # RENAME-ANNOTATION command
+    rename_parser = subparsers.add_parser(
+        'rename-annotation',
+        help='Rename/migrate an annotation key across datasets (and optionally files) in a collection'
+    )
+    rename_parser.add_argument('--collection-id',
+        help='Synapse ID of a DatasetCollection to process all datasets within')
+    rename_parser.add_argument('--dataset-id',
+        help='Synapse ID of a single dataset to process (alternative to --collection-id)')
+    rename_parser.add_argument('--old-annotation', required=True,
+        help='Current annotation key name to rename from (e.g., "individualCount")')
+    rename_parser.add_argument('--new-annotation', required=True,
+        help='New annotation key name to rename to (e.g., "participant_count")')
+    rename_parser.add_argument('--include-files', action='store_true',
+        help='Also rename the annotation on all file entities within each dataset')
+    rename_parser.add_argument('--keep-old-annotation', action='store_true',
+        help='Copy the value to the new key but retain the old annotation key')
+    rename_parser.add_argument('--inherit-dataset-annotation', action='store_true',
+        help='For files missing both keys, copy the populated new-key value from their Dataset')
+    rename_parser.add_argument('--verbose', action='store_true',
+        help='Print detailed info for each entity processed')
+    rename_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    rename_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    # RENAME-RELEASED-FOLDERS command
+    rename_folders_parser = subparsers.add_parser(
+        'rename-folders',
+        help='Rename folders matching a pattern across all projects in a DatasetCollection'
+    )
+    rename_folders_parser.add_argument('--collection-id',
+        help='Synapse ID of the DatasetCollection (defaults to DATASETS_COLLECTION_ID in config)')
+    rename_folders_parser.add_argument('--folder-pattern', default='Released Data',
+        help=(
+            'Glob pattern to match folder names (default: "Released Data"). '
+            'Supports * (any chars), ? (one char), [seq]. '
+            'Examples: "Released Data", "Released*", "*Data*"'
+        ))
+    rename_folders_parser.add_argument('--rename-pattern', default='{folder_name}_{project_name}',
+        help=(
+            'Output name template. Available placeholders (spaces → underscores): '
+            '{folder_name}, {project_name}. '
+            'Default: "{folder_name}_{project_name}" '
+            '(e.g. "Released_Data_ALL_ALS")'
+        ))
+    rename_folders_parser.add_argument('--exclude-project', nargs='+', metavar='SYN_ID',
+        help='One or more project Synapse IDs to skip (e.g. --exclude-project syn64892175)')
+    rename_folders_parser.add_argument('--verbose', action='store_true',
+        help='Print detailed info for each folder checked')
+    rename_folders_parser.add_argument('--execute', action='store_true',
+        help='Execute renames (override DRY_RUN)')
+    rename_folders_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode — preview changes without writing (default)')
+
+    # MIGRATE-ANNOTATION-VALUES command
+    migrate_values_parser = subparsers.add_parser(
+        'migrate-annotation-values',
+        help='Move specific enum values from one annotation key to another across datasets/files'
+    )
+    migrate_values_parser.add_argument('--collection-id',
+        help='Synapse ID of a DatasetCollection to process all datasets within')
+    migrate_values_parser.add_argument('--dataset-id',
+        help='Synapse ID of a single dataset to process (alternative to --collection-id)')
+    migrate_values_parser.add_argument('--source-annotation', required=True,
+        help='Annotation key to migrate values FROM (e.g., "diseaseSubtype")')
+    migrate_values_parser.add_argument('--target-annotation', required=True,
+        help='Annotation key to migrate values TO (e.g., "siteOfOnset")')
+    migrate_values_parser.add_argument('--values', nargs='+', default=None, metavar='VALUE',
+        help='One or more specific values to move (e.g. --values "Limb" "Bulbar" "Spinal"). '
+             'If omitted, enum values are read from the JSON schema for --target-annotation.')
+    migrate_values_parser.add_argument('--keep-empty-source', action='store_true',
+        help='Leave source annotation as empty list instead of deleting it when all values are migrated')
+    migrate_values_parser.add_argument('--include-files', action='store_true',
+        help='Also migrate values on all file entities within each dataset')
+    migrate_values_parser.add_argument('--verbose', action='store_true',
+        help='Print info for entities where no migration was needed')
+    migrate_values_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    migrate_values_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    # MERGE-FILE-VERSIONS command
+    merge_parser = subparsers.add_parser(
+        'merge-file-versions',
+        help='Merge version histories of two file entities into one new file entity'
+    )
+    merge_parser.add_argument('--file-1-synid', required=True,
+        help='Synapse ID of the first file entity')
+    merge_parser.add_argument('--file-2-synid', required=True,
+        help='Synapse ID of the second file entity')
+    merge_parser.add_argument('--merged-name',
+        help='Name for the merged file entity (default: file 1 name)')
+    merge_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    merge_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    # UPLOAD-LOCAL command
+    upload_local_parser = subparsers.add_parser(
+        'upload-local',
+        help='Upload local files to a new Synapse folder, annotate them, and add to dataset(s)'
+    )
+    upload_local_parser.add_argument('--local-dir',
+                                     help='Local directory of files to upload (Phase 1 required)')
+    upload_local_parser.add_argument('--parent-folder',
+                                     help='Synapse ID of parent folder to create the target subfolder under (Phase 1 required)')
+    upload_local_parser.add_argument('--folder-name',
+                                     help='Name for the new Synapse subfolder (defaults to local dir name)')
+    upload_local_parser.add_argument('--file-type',
+                                     default='ClinicalFile',
+                                     help='Schema file type for annotation templates (default: ClinicalFile)')
+    upload_local_parser.add_argument('--annotations-file',
+                                     help='Path to edited annotations JSON (triggers Phase 2 apply)')
+    upload_local_parser.add_argument('--dataset-id',
+                                     nargs='+',
+                                     metavar='DATASET_ID',
+                                     help='Synapse dataset ID(s) to add uploaded files to (Phase 2)')
+    upload_local_parser.add_argument('--version-label',
+                                     help='Version label to set on uploaded files (e.g., "v1-APR")')
+    upload_local_parser.add_argument('--version-comment',
+                                     help='Version comment for uploaded files')
+    upload_local_parser.add_argument('--skip-validation', action='store_true',
+                                     help='Skip annotation schema validation before applying (Phase 2)')
+    upload_local_parser.add_argument('--execute', action='store_true',
+                                     help='Execute (override DRY_RUN)')
+    upload_local_parser.add_argument('--dry-run', action='store_true',
+                                     help='Dry run mode (default)')
+
+    # REORDER-COLUMNS command
+    reorder_cols_parser = subparsers.add_parser(
+        'reorder-columns',
+        help='Add missing columns and reorder columns on an existing dataset'
+    )
+    reorder_cols_parser.add_argument('--dataset-id', required=True,
+        help='Synapse ID of existing dataset entity')
+    reorder_cols_parser.add_argument('--dataset-type',
+        default=None,
+        help='Dataset type for column schema; fuzzy-matched against json-schemas/ '
+             '(e.g. "omic" -> OmicDataset). Exact schema names also work. '
+             'Auto-detected from annotations if omitted.')
+    reorder_cols_parser.add_argument('--columns', nargs='+', default=None,
+        help='Cherry-pick/order specific column names to add instead of every '
+             'property on the resolved dataset type schema. Each name is still '
+             'type/facet-derived from the schema when it matches a modeled field. '
+             'With --from-entity, filters the ported column set to just these names '
+             '(source order preserved) instead of filtering a schema.')
+    reorder_cols_parser.add_argument('--from-entity',
+        help='Synapse ID of an existing Dataset/EntityView/Table to port columns '
+             '(and their order) from, instead of deriving them from a schema. '
+             'Combine with --columns to port only specific names.')
+    reorder_cols_parser.add_argument('--extra-schema-types', nargs='+', default=None,
+        help='Additional schema types to merge with the resolved File schema, '
+             'e.g. MetadataSchema. Ignored with --from-entity.')
+    reorder_cols_parser.add_argument('--replace-columns', action='store_true',
+        help='Remove all existing non-system Dataset columns before recreating the '
+             'resolved/merged schema columns. Requires --execute to make changes.')
+    reorder_cols_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    reorder_cols_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    # CREATE-ENTITY-VIEW command
+    create_view_parser = subparsers.add_parser(
+        'create-entity-view',
+        help='Create a standalone entity view (table) scoped to any Synapse folder'
+    )
+    create_view_parser.add_argument('--folder', required=True,
+        help='Synapse ID of the folder (or dataset) to scope the entity view to')
+    create_view_parser.add_argument('--project-id',
+        help='Synapse ID of the project to create the view in (default: config.yaml project_id)')
+    create_view_parser.add_argument('--name',
+        help='Name for the view, "_EntityView" is appended (default: the folder Synapse ID)')
+    create_view_parser.add_argument('--type', nargs='+',
+        help='One or more schema types to pull columns from; fuzzy-matched against '
+             'json-schemas/ (e.g. "omic" -> OmicDataset -> OmicFile columns). Exact '
+             'schema names also work, including non-File/Dataset schemas (e.g. '
+             '"MetadataSchema") — pass several to merge their properties into one '
+             'view (e.g. --type speech MetadataSchema). Defaults to generic File '
+             'columns if omitted.')
+    create_view_parser.add_argument('--columns', nargs='+', default=None,
+        help='Cherry-pick/order specific column names instead of every property on '
+             'the resolved File-type schema. Each name is still type/facet-derived '
+             'from the schema when it matches a modeled field. With --from-entity, '
+             'filters the ported column set to just these names (source order '
+             'preserved) instead of filtering a schema.')
+    create_view_parser.add_argument('--from-entity',
+        help='Synapse ID of an existing Dataset/EntityView/Table to port columns '
+             '(and their order) from, instead of deriving them from a schema/--type. '
+             'Combine with --columns to port only specific names.')
+    create_view_parser.add_argument('--skip-reorder', action='store_true',
+        help='Skip reordering/verifying columns after creation')
+    create_view_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    create_view_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    # RENAME-FILES command
+    rename_files_parser = subparsers.add_parser(
+        'rename-files',
+        help='Rename file entities (display name + download filename) WITHOUT re-uploading data'
+    )
+    # Mode 1: single file
+    rename_files_parser.add_argument('--file-id',
+        help='Synapse ID of a single file to rename (use with --new-name)')
+    rename_files_parser.add_argument('--new-name',
+        help='New name for the file (single-file mode)')
+    # Mode 2: batch mapping
+    rename_files_parser.add_argument('--mapping-file',
+        help='Batch mode: JSON {"synId": "newName"} or CSV/XLSX with synId,new_name columns')
+    # Mode 3: pattern over a dataset/collection
+    rename_files_parser.add_argument('--dataset-id',
+        help='Pattern mode: rename files in this dataset (use with --find/--replace)')
+    rename_files_parser.add_argument('--collection-id',
+        help='Pattern mode: rename files across all datasets in this DatasetCollection')
+    rename_files_parser.add_argument('--find',
+        help='Pattern mode: substring (or regex with --regex) to find in current file names')
+    rename_files_parser.add_argument('--replace',
+        help='Pattern mode: replacement string')
+    rename_files_parser.add_argument('--regex', action='store_true',
+        help='Pattern mode: treat --find as a regular expression (re.sub)')
+    # Shared options
+    rename_files_parser.add_argument('--name-only', action='store_true',
+        help='Only change the entity display name; leave the download filename unchanged')
+    rename_files_parser.add_argument('--new-version', action='store_true',
+        help='Force a new file version (default: no version bump)')
+    rename_files_parser.add_argument('--verbose', action='store_true',
+        help='Print detailed info for each file processed')
+    rename_files_parser.add_argument('--execute', action='store_true',
+        help='Execute (override DRY_RUN)')
+    rename_files_parser.add_argument('--dry-run', action='store_true',
+        help='Dry run mode (default)')
+
+    args = parser.parse_args()
+
+    if not args.command:
+        parser.print_help()
+        sys.exit(1)
+
+    # Load config from file
+    config = Config(config_file=args.config)
+
+    # Override project ID from CLI if provided
+    if args.command == 'create' and hasattr(args, 'project_id') and args.project_id:
+        config.SYNAPSE_PROJECT_ID = args.project_id
+        print(f"Using project ID from --project-id: {args.project_id}")
+
+    # Handle --use-config: Load dataset settings from config
+    if args.command == 'create' and hasattr(args, 'use_config') and args.use_config:
+        dataset_config = config.get_dataset_config(args.use_config)
+        if not dataset_config:
+            print(f"❌ Error: Dataset config '{args.use_config}' not found in config file")
+            print(f"\nAvailable configs: {list(config.full_config.get('datasets', {}).keys())}")
+            sys.exit(1)
+
+        # Load link_dataset flag from config
+        if not hasattr(args, 'link_dataset') or not args.link_dataset:
+            if 'link_dataset' in dataset_config and dataset_config['link_dataset']:
+                args.link_dataset = True
+                print(f"Using link_dataset mode from config: {args.link_dataset}")
+
+        # For link datasets, staging_folder should NOT be loaded from config
+        if hasattr(args, 'link_dataset') and args.link_dataset:
+            if 'staging_folder' in dataset_config:
+                print("⚠️  WARNING: Ignoring staging_folder from config (link dataset mode)")
+        else:
+            # Load settings from config (only if not provided via CLI and not link dataset)
+            if not args.staging_folder and 'staging_folder' in dataset_config:
+                args.staging_folder = dataset_config['staging_folder']
+                print(f"Using staging_folder from config: {args.staging_folder}")
+
+        if not args.dataset_name and 'dataset_name' in dataset_config:
+            args.dataset_name = dataset_config['dataset_name']
+            print(f"Using dataset_name from config: {args.dataset_name}")
+
+    # Handle --use-config for update command
+    if args.command == 'update' and hasattr(args, 'use_config') and args.use_config:
+        dataset_config = config.get_dataset_config(args.use_config)
+        if not dataset_config:
+            print(f"❌ Error: Dataset config '{args.use_config}' not found in config file")
+            print(f"\nAvailable configs: {list(config.full_config.get('datasets', {}).keys())}")
+            sys.exit(1)
+
+        # Load update-specific fields from config (CLI args take precedence)
+        if not args.dataset_id and 'dataset_id' in dataset_config:
+            args.dataset_id = dataset_config['dataset_id']
+            print(f"Using dataset_id from config: {args.dataset_id}")
+
+        if not args.staging_folder and 'staging_folder' in dataset_config:
+            raw = dataset_config['staging_folder']
+            args.staging_folder = raw if isinstance(raw, list) else [raw]
+            print(f"Using staging_folder from config: {args.staging_folder}")
+
+        if not args.release_folder and 'release_folder' in dataset_config:
+            args.release_folder = dataset_config['release_folder']
+            print(f"Using release_folder from config: {args.release_folder}")
+
+        if not args.version_label and 'version_label' in dataset_config:
+            args.version_label = dataset_config['version_label']
+            print(f"Using version_label from config: {args.version_label}")
+
+        if not args.version_comment and 'version_comment' in dataset_config:
+            args.version_comment = dataset_config['version_comment']
+            print(f"Using version_comment from config: {args.version_comment}")
+
+        if not args.local_files_dir and 'local_files_dir' in dataset_config:
+            args.local_files_dir = dataset_config['local_files_dir']
+            print(f"Using local_files_dir from config: {args.local_files_dir}")
+
+        if not args.annotations_file and 'annotations_file' in dataset_config:
+            args.annotations_file = dataset_config['annotations_file']
+            print(f"Using annotations_file from config: {args.annotations_file}")
+
+        if not getattr(args, 'data_dict', None) and 'data_dict' in dataset_config:
+            args.data_dict = dataset_config['data_dict']
+            print(f"Using data_dict from config: {args.data_dict}")
+
+        if not getattr(args, 'data_dict_view', None) and 'data_dict_view' in dataset_config:
+            args.data_dict_view = dataset_config['data_dict_view']
+            print(f"Using data_dict_view from config: {args.data_dict_view}")
+
+        if not getattr(args, 'mapping', None) and 'mapping' in dataset_config:
+            args.mapping = dataset_config['mapping']
+            print(f"Using mapping from config: {args.mapping}")
+
+        if not getattr(args, 'subject_file_type', None) and 'subject_file_type' in dataset_config:
+            args.subject_file_type = dataset_config['subject_file_type']
+            print(f"Using subject_file_type from config: {args.subject_file_type}")
+
+    # Handle --use-config for set-version command
+    if args.command == 'set-version' and hasattr(args, 'use_config') and args.use_config:
+        dataset_config = config.get_dataset_config(args.use_config)
+        if not dataset_config:
+            print(f"❌ Error: Dataset config '{args.use_config}' not found in config file")
+            print(f"\nAvailable configs: {list(config.full_config.get('datasets', {}).keys())}")
+            sys.exit(1)
+
+        if not args.dataset_id and 'dataset_id' in dataset_config:
+            args.dataset_id = dataset_config['dataset_id']
+            print(f"Using dataset_id from config: {args.dataset_id}")
+
+        if not args.version_label and 'version_label' in dataset_config:
+            args.version_label = dataset_config['version_label']
+            print(f"Using version_label from config: {args.version_label}")
+
+        if not args.version_comment and 'version_comment' in dataset_config:
+            args.version_comment = dataset_config['version_comment']
+            print(f"Using version_comment from config: {args.version_comment}")
+
+        if not args.create_snapshot and dataset_config.get('create_snapshot', False):
+            args.create_snapshot = True
+            print(f"Using create_snapshot from config: {args.create_snapshot}")
+
+        if not args.description and 'description' in dataset_config:
+            args.description = dataset_config['description']
+            print(f"Using description from config")
+
+    # Validate required arguments for set-version command
+    if args.command == 'set-version':
+        if not args.dataset_id:
+            print("❌ Error: --dataset-id is required (or use --use-config with dataset_id in config)")
+            sys.exit(1)
+        if not args.version_label:
+            print("❌ Error: --version-label is required (or use --use-config with version_label in config)")
+            sys.exit(1)
+
+    # Validate/default arguments for rename-annotation command
+    if args.command == 'rename-annotation':
+        if not getattr(args, 'collection_id', None) and not getattr(args, 'dataset_id', None):
+            # Fall back to default collection from config
+            args.collection_id = config.DATASETS_COLLECTION_ID
+            print(f"Using default collection from config: {args.collection_id}")
+
+    # Validate required arguments for update command
+    if args.command == 'update':
+        if not args.dataset_id:
+            print("❌ Error: --dataset-id is required (or use --use-config with dataset_id in config)")
+            sys.exit(1)
+
+    # Validate required arguments for create command
+    if args.command == 'create':
+        # Validate link dataset requirements
+        if hasattr(args, 'link_dataset') and args.link_dataset:
+            if args.staging_folder:
+                print("❌ Error: --staging-folder cannot be used with --link-dataset")
+                print("   Link datasets reference external URLs and do not contain files")
+                sys.exit(1)
+        else:
+            # Only require staging folder for non-link datasets
+            if not args.staging_folder:
+                print("❌ Error: --staging-folder is required (or use --use-config)")
+                sys.exit(1)
+
+        if not args.dataset_name:
+            print("❌ Error: --dataset-name is required (or use --use-config)")
+            sys.exit(1)
+
+    # Override dry-run from command line
+    if hasattr(args, 'execute') and args.execute:
+        config.DRY_RUN = False
+    if hasattr(args, 'dry_run') and args.dry_run:
+        config.DRY_RUN = True
+
+    # Override AI from command line
+    if hasattr(args, 'skip_ai') and args.skip_ai:
+        config.AI_ENABLED = False
+
+    # Handle execute/dry-run for add-link-file command
+    if args.command == 'add-link-file':
+        if hasattr(args, 'execute') and args.execute:
+            config.DRY_RUN = False
+        if hasattr(args, 'dry_run') and args.dry_run:
+            config.DRY_RUN = True
+
+    # Validate/default arguments for collection-scoped annotation commands
+    if args.command in ['migrate-annotation-values', 'sync-dataset-schema-annotations']:
+        if not getattr(args, 'collection_id', None) and not getattr(args, 'dataset_id', None):
+            args.collection_id = config.DATASETS_COLLECTION_ID
+            print(f"Using default collection from config: {args.collection_id}")
+
+    # Only validate config for commands that need Synapse connection
+    if args.command in ['create', 'update', 'add-link-file', 'annotate-dataset',
+                        'generate-file-templates', 'apply-file-annotations', 'set-version',
+                        'upload-staged-version',
+                        'rename-annotation', 'rename-folders', 'migrate-annotation-values',
+                        'sync-dataset-schema-annotations', 'merge-file-versions', 'upload-local',
+                        'move', 'rename-files', 'create-entity-view']:
+        config.validate()
+
+    # Route to appropriate handler
+    if args.command == 'create':
+        if args.from_annotations:
+            handle_create_from_annotations(args, config)
+        else:
+            handle_create_workflow(args, config)
+    elif args.command == 'update':
+        handle_update_workflow(args, config)
+    elif args.command == 'annotate-dataset':
+        handle_annotate_dataset(args, config)
+    elif args.command == 'generate-template':
+        handle_generate_template(args, config)
+    elif args.command == 'generate-file-templates':
+        handle_generate_file_templates(args, config)
+    elif args.command == 'apply-file-annotations':
+        handle_apply_file_annotations(args, config)
+    elif args.command == 'add-link-file':
+        handle_add_link_file(args, config)
+    elif args.command == 'generate-mapping':
+        handle_generate_mapping(args, config)
+    elif args.command == 'set-version':
+        handle_set_version(args, config)
+    elif args.command == 'upload-staged-version':
+        handle_upload_staged_version(args, config)
+    elif args.command == 'delete-versions':
+        handle_delete_versions_workflow(args, config)
+    elif args.command == 'delete-entities':
+        handle_delete_entities_workflow(args, config)
+    elif args.command == 'rename-annotation':
+        handle_rename_annotation(args, config)
+    elif args.command == 'rename-folders':
+        handle_rename_folders(args, config)
+    elif args.command == 'migrate-annotation-values':
+        handle_migrate_annotation_values(args, config)
+    elif args.command == 'sync-dataset-schema-annotations':
+        handle_sync_dataset_schema_annotations(args, config)
+    elif args.command == 'merge-file-versions':
+        handle_merge_file_versions(args, config)
+    elif args.command == 'upload-local':
+        handle_upload_local_workflow(args, config)
+    elif args.command == 'reorder-columns':
+        handle_reorder_columns(args, config)
+    elif args.command == 'create-entity-view':
+        handle_create_entity_view(args, config)
+    elif args.command == 'move':
+        handle_move_files(args, config)
+    elif args.command == 'rename-files':
+        handle_rename_files(args, config)
+
+
+def entrypoint():
+    """Run the CLI with consistent error handling for all entry points."""
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\n\nInterrupted by user")
+        sys.exit(1)
+    except Exception as e:
+        print(f"\n\n❌ Error: {e}")
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
+
+if __name__ == "__main__":
+    entrypoint()

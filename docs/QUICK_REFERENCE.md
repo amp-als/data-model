@@ -463,11 +463,31 @@ mamba run -n amp-als python synapse_dataset_manager.py generate-file-templates \
 Use `--type BiomarkerFile` alongside the map only to provide a fallback for
 unmapped files. Without `--type`, unmapped files use normal filename detection.
 
+## 16. Package Entry Point
+
+From the data-model repository root, the package entry point supports the same
+commands and flags as the original script:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager --help
+mamba run -n amp-als python -m synapse_dataset_manager update --help
+```
+
+`python synapse_dataset_manager.py ...` remains supported as a compatibility
+wrapper. The implementation now lives in `synapse_dataset_manager/cli.py`.
+Working-directory-relative config, schema, mapping, and output paths are unchanged;
+use `-c configs/config.yaml` before the subcommand to select that config explicitly.
+This move does not yet change update behavior or add custom workflow selection.
+See [the packaging and update redesign plan](DATASET_MANAGER_REFACTOR_PLAN.md)
+for the staged implementation and future repository extraction.
+
 ## Help Commands
 
 ```bash
 # Main help
 python synapse_dataset_manager.py --help
+mamba run -n amp-als python -m synapse_dataset_manager --help
+mamba run -n amp-als python -m synapse_dataset_manager update --help
 
 # Command-specific help
 python synapse_dataset_manager.py generate-template --help
