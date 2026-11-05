@@ -621,6 +621,35 @@ the workflow before annotation output. Do not disable this gate with a CLI flag.
 See [the ALL ALS preflight plan](ALL_ALS_UPDATE_PREFLIGHT_PLAN.md) for details and
 future semantic screening/alias work.
 
+## 20. Clean PHI/PII Columns from Every File Version
+
+This is deliberately a two-step workflow. Step 1 recursively lists only folder/file metadata and writes an editable map: **it does not download or inspect file bytes**. Use Synapse IDs (the default) so duplicate filenames are unambiguous.
+
+```bash
+# Step 1: metadata-only recursive scaffold. Edit each [] with exact column headers.
+mamba run -n amp-als python scripts/clean_phi_files.py \
+  --folder syn77348789 \
+  --write-column-map annotations/files_to_clean_columns.json
+
+# Step 2: download every version only after the reviewed map is complete,
+# remove those columns, and keep cleaned copies locally.
+mamba run -n amp-als python scripts/clean_phi_files.py \
+  --folder syn77348789 \
+  --column-map annotations/files_to_clean_columns.json \
+  --output-dir cleaned_files
+
+# Optional: also upload all cleaned versions, in source-ID/version order, as the
+# version history of one new Synapse File entity in the target folder.
+mamba run -n amp-als python scripts/clean_phi_files.py \
+  --folder syn77348789 \
+  --column-map annotations/files_to_clean_columns.json \
+  --output-dir cleaned_files \
+  --upload-folder synTARGET_FOLDER --merged-name "Files_To_Remove_and_Clean_cleaned.csv" \
+  --execute
+```
+
+`scripts/clean_phi_files.py` is standalone: it does not import or invoke `synapse_dataset_manager`. The map format is `{ "synId": ["PHI column", "PII column"] }`; filenames can be used as keys only when unique. CSV, TSV, XLSX, and XLSM are supported. Cleaning stops if a designated header is absent in any selected version, preventing a silently incomplete PHI/PII removal. `--upload-folder` requires both `--merged-name` and `--execute`; local output never uploads anything. See [CLEAN_PHI_FILES.md](CLEAN_PHI_FILES.md) for setup, map review, local export, and upload-only workflows.
+
 ## Help Commands
 
 ```bash
@@ -641,4 +670,6 @@ python synapse_dataset_manager.py reorder-columns --help
 python synapse_dataset_manager.py rename-annotation --help
 python synapse_dataset_manager.py move --help
 python synapse_dataset_manager.py delete-entities --help
+python synapse_dataset_manager.py clean-phi-files --help
+python scripts/clean_phi_files.py --help
 ```

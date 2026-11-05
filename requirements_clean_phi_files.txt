@@ -1,0 +1,5 @@
+# Runtime dependencies for scripts/clean_phi_files.py
+# Python standard library covers CSV/TSV and JSON processing.
+synapseclient==4.11.0
+# Required for XLSX/XLSM cleaning (not needed for CSV/TSV-only use).
+openpyxl==3.1.5

@@ -34,6 +34,9 @@ from synapseclient.models import (
 )
 from synapseclient import Wiki
 from jsonschema import validate, ValidationError, Draft7Validator
+from synapse_dataset_manager.phi_cleaning import (
+    load_column_map, process_phi_files, walk_folder_metadata, write_column_map,
+)
 
 
 def cli_invocation():
@@ -8824,6 +8827,49 @@ def migrate_annotation_values_on_entity(syn, entity_id, entity_name,
         return 'error'
 
 
+def handle_clean_phi_files(args, config):
+    """Scaffold a PHI/PII removal map or clean every version selected by it."""
+    print("\n" + "=" * 60)
+    print("CLEAN PHI/PII FILE VERSIONS")
+    print("=" * 60)
+    syn = connect_to_synapse(config)
+
+    # This path deliberately performs only folder traversal metadata calls.  It
+    # must remain before loading a map or looking up versions so reviewers can
+    # create the map without downloading or inspecting any file content.
+    if args.write_column_map:
+        files = walk_folder_metadata(syn, args.folder)
+        if not files:
+            print("❌ No files found in folder")
+            return
+        try:
+            column_map = write_column_map(files, args.write_column_map, args.map_key)
+        except ValueError as error:
+            print(f"❌ {error}")
+            return
+        print(f"✓ Wrote {len(column_map)} editable file key(s) to {args.write_column_map}")
+        print("  Add the exact PHI/PII header names to each array, then re-run with --column-map.")
+        print("  No file bytes were downloaded or inspected.")
+        return
+
+    try:
+        column_map = load_column_map(args.column_map)
+        count, merged_id = process_phi_files(
+            syn, args.folder, column_map, args.output_dir,
+            upload_folder=args.upload_folder, merged_name=args.merged_name,
+            execute=args.execute,
+        )
+    except ValueError as error:
+        print(f"❌ {error}")
+        return
+    if args.output_dir:
+        print(f"✓ Cleaned {count} file version(s) into {args.output_dir}")
+    else:
+        print(f"✓ Cleaned and uploaded {count} file version(s) without retaining local copies")
+    if merged_id:
+        print(f"✓ Uploaded all cleaned versions into one Synapse file entity: {merged_id}")
+
+
 def handle_merge_file_versions(args, config):
     """
     Merge version histories of two Synapse file entities into one new file entity.
@@ -10892,6 +10938,29 @@ Examples:
     migrate_values_parser.add_argument('--dry-run', action='store_true',
         help='Dry run mode (default)')
 
+    # CLEAN-PHI-FILES command
+    clean_phi_parser = subparsers.add_parser(
+        'clean-phi-files',
+        help='Scaffold PHI/PII column map without downloads, then clean every selected file version'
+    )
+    clean_phi_parser.add_argument('--folder', required=True,
+        help='Synapse folder containing input files; always traversed recursively')
+    mode_group = clean_phi_parser.add_mutually_exclusive_group(required=True)
+    mode_group.add_argument('--write-column-map', metavar='PATH',
+        help='Step 1: write editable {synId: []} map without downloading file bytes')
+    mode_group.add_argument('--column-map', metavar='PATH',
+        help='Step 2: JSON {synId-or-unique-filename: [exact header names]} map')
+    clean_phi_parser.add_argument('--map-key', choices=['id', 'name'], default='id',
+        help='Key type for --write-column-map (default: id; filename requires unique names)')
+    clean_phi_parser.add_argument('--output-dir',
+        help='Local destination for cleaned files (required unless --upload-folder is used)')
+    clean_phi_parser.add_argument('--upload-folder',
+        help='Optional Synapse folder for one merged File entity containing all cleaned versions')
+    clean_phi_parser.add_argument('--merged-name',
+        help='Name for the merged Synapse File; required with --upload-folder')
+    clean_phi_parser.add_argument('--execute', action='store_true',
+        help='Allow upload to --upload-folder (local cleaning does not require this flag)')
+
     # MERGE-FILE-VERSIONS command
     merge_parser = subparsers.add_parser(
         'merge-file-versions',
@@ -11207,6 +11276,9 @@ Examples:
             print("❌ Error: --dataset-name is required (or use --use-config)")
             sys.exit(1)
 
+    if args.command == 'clean-phi-files' and args.column_map and not (args.output_dir or args.upload_folder):
+        parser.error('clean-phi-files --column-map requires --output-dir or --upload-folder')
+
     # Override dry-run from command line
     if hasattr(args, 'execute') and args.execute:
         config.DRY_RUN = False
@@ -11235,7 +11307,7 @@ Examples:
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
                         'upload-staged-version',
                         'rename-annotation', 'rename-folders', 'migrate-annotation-values',
-                        'sync-dataset-schema-annotations', 'merge-file-versions', 'upload-local',
+                        'sync-dataset-schema-annotations', 'merge-file-versions', 'clean-phi-files', 'upload-local',
                         'move', 'rename-files', 'create-entity-view']:
         config.validate()
 
@@ -11275,6 +11347,8 @@ Examples:
         handle_migrate_annotation_values(args, config)
     elif args.command == 'sync-dataset-schema-annotations':
         handle_sync_dataset_schema_annotations(args, config)
+    elif args.command == 'clean-phi-files':
+        handle_clean_phi_files(args, config)
     elif args.command == 'merge-file-versions':
         handle_merge_file_versions(args, config)
     elif args.command == 'upload-local':
