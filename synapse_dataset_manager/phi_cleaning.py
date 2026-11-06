@@ -144,9 +144,11 @@ def _clean_workbook(source, destination, columns):
 
 def clean_file(source, destination, columns):
     """Remove exact header names from a supported tabular file."""
-    suffix = source.suffix.lower()
+    # Synapse downloads may be extensionless even when the entity name has one.
+    # If neither path has an extension, treat the reviewed file as CSV.
+    suffix = source.suffix.lower() or destination.suffix.lower() or '.csv'
     if suffix not in SUPPORTED_SUFFIXES:
-        raise ValueError(f'Unsupported file type {suffix or "(none)"}; supported: CSV, TSV, XLSX, XLSM.')
+        raise ValueError(f'Unsupported file type {suffix}; supported: CSV, TSV, XLSX, XLSM.')
     if suffix in {'.csv', '.tsv'}:
         _clean_delimited(source, destination, set(columns))
     else:

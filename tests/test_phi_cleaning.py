@@ -52,6 +52,16 @@ def test_csv_cleaning_requires_every_designated_header(tmp_path):
         clean_file(source, destination, ['not_a_header'])
 
 
+def test_extensionless_file_is_treated_as_csv(tmp_path):
+    source = tmp_path / 'source'
+    destination = tmp_path / 'cleaned'
+    source.write_text('subject,patient_name\n1,Alice\n', encoding='utf-8')
+
+    clean_file(source, destination, ['patient_name'])
+
+    assert destination.read_text(encoding='utf-8') == 'subject\n1\n'
+
+
 def test_csv_cleaning_handles_retained_bare_quotes(tmp_path):
     source = tmp_path / 'source.csv'
     destination = tmp_path / 'clean.csv'

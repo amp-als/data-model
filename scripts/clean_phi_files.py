@@ -147,9 +147,11 @@ def clean_workbook(source, destination, columns):
 
 
 def clean_file(source, destination, columns):
-    suffix = source.suffix.lower()
+    # Synapse downloads may be extensionless even when the entity name has one.
+    # If neither path has an extension, treat the reviewed file as CSV.
+    suffix = source.suffix.lower() or destination.suffix.lower() or '.csv'
     if suffix not in SUPPORTED_SUFFIXES:
-        raise ValueError(f'Unsupported {suffix or "extensionless"} file; use CSV, TSV, XLSX, or XLSM.')
+        raise ValueError(f'Unsupported {suffix} file; use CSV, TSV, XLSX, or XLSM.')
     if suffix in {'.csv', '.tsv'}:
         clean_delimited(source, destination, set(columns))
     else:
