@@ -16,9 +16,10 @@ invoke `synapse_dataset_manager`.
 - XLSM
 - Extensionless files, which are treated as CSV
 
-Column names must exactly match the source header. The script stops with an error
-if a designated column is absent from any version it is asked to clean. Source
-Synapse files and their version histories are never changed.
+Column names must exactly match the source header. If a designated column is
+absent from a version, that version is still written and the script reports a
+warning; any designated columns that are present are removed. Source Synapse
+files and their version histories are never changed.
 
 ## Install and authenticate
 
@@ -128,6 +129,7 @@ python scripts/clean_phi_files.py \
 - The generated map contains every file found recursively. The step-2 map controls
   which files are processed; retain all generated keys to process the whole folder.
 - The script preserves tabular values other than removed columns. It does not
-  perform PHI/PII detection; reviewers supply the designated column names.
+  perform PHI/PII detection; reviewers supply the designated column names. It
+  reports, but does not fail on, designated columns absent from a version.
 - Extensionless files are treated as CSV. Do not use this workflow for other
   unsupported file formats; it fails rather than attempting to parse or alter them.

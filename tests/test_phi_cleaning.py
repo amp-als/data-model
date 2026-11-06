@@ -40,16 +40,15 @@ def test_column_map_scaffold_recurses_without_fetching_file_content(tmp_path):
     assert syn.get_called is False
 
 
-def test_csv_cleaning_requires_every_designated_header(tmp_path):
+def test_csv_cleaning_reports_missing_columns_without_failing(tmp_path):
     source = tmp_path / 'source.csv'
     destination = tmp_path / 'clean.csv'
     source.write_text('subject,patient_name,age\n1,Alice,35\n', encoding='utf-8')
 
-    clean_file(source, destination, ['patient_name'])
+    assert clean_file(source, destination, ['patient_name', 'not_a_header']) == [
+        'not_a_header'
+    ]
     assert destination.read_text(encoding='utf-8') == 'subject,age\n1,35\n'
-
-    with pytest.raises(ValueError, match='not found'):
-        clean_file(source, destination, ['not_a_header'])
 
 
 def test_extensionless_file_is_treated_as_csv(tmp_path):

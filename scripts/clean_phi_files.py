@@ -113,8 +113,6 @@ def clean_delimited(source, destination, columns):
         if not reader.fieldnames:
             raise ValueError(f'{source.name} has no header row.')
         missing = sorted(set(columns) - set(reader.fieldnames))
-        if missing:
-            raise ValueError(f'{source.name}: designated column(s) not found: {", ".join(missing)}')
         headers = [header for header in reader.fieldnames if header not in columns]
         with destination.open('w', newline='', encoding='utf-8') as output_file:
             writer_options = {'fieldnames': headers, 'dialect': dialect,
@@ -125,6 +123,7 @@ def clean_delimited(source, destination, columns):
             writer = csv.DictWriter(output_file, **writer_options)
             writer.writeheader()
             writer.writerows(reader)
+    return missing
 
 
 def clean_workbook(source, destination, columns):
@@ -141,9 +140,8 @@ def clean_workbook(source, destination, columns):
         for index in reversed(indexes):
             sheet.delete_cols(index)
     missing = sorted(set(columns) - found)
-    if missing:
-        raise ValueError(f'{source.name}: designated column(s) not found: {", ".join(missing)}')
     workbook.save(destination)
+    return missing
 
 
 def clean_file(source, destination, columns):
@@ -153,9 +151,8 @@ def clean_file(source, destination, columns):
     if suffix not in SUPPORTED_SUFFIXES:
         raise ValueError(f'Unsupported {suffix} file; use CSV, TSV, XLSX, or XLSM.')
     if suffix in {'.csv', '.tsv'}:
-        clean_delimited(source, destination, set(columns))
-    else:
-        clean_workbook(source, destination, set(columns))
+        return clean_delimited(source, destination, set(columns))
+    return clean_workbook(source, destination, set(columns))
 
 
 def clean_all_versions(syn, files, column_map, output_dir, upload_folder, merged_name):
@@ -174,7 +171,10 @@ def clean_all_versions(syn, files, column_map, output_dir, upload_folder, merged
                 destination_dir = output_root / syn_id
                 destination_dir.mkdir(parents=True, exist_ok=True)
                 destination = destination_dir / f'v{number}_{files[syn_id]["name"]}'
-                clean_file(Path(downloaded.path), destination, column_map[syn_id])
+                missing = clean_file(Path(downloaded.path), destination, column_map[syn_id])
+                if missing:
+                    print(f'  ! {syn_id} v{number}: column(s) absent; no removal for them: '
+                          f'{", ".join(missing)}')
                 print(f'  ✓ {syn_id} v{number} → {destination}')
                 cleaned += 1
                 if upload_folder:
