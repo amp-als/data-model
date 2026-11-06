@@ -117,8 +117,12 @@ def clean_delimited(source, destination, columns):
             raise ValueError(f'{source.name}: designated column(s) not found: {", ".join(missing)}')
         headers = [header for header in reader.fieldnames if header not in columns]
         with destination.open('w', newline='', encoding='utf-8') as output_file:
-            writer = csv.DictWriter(output_file, fieldnames=headers, dialect=dialect,
-                                    extrasaction='ignore')
+            writer_options = {'fieldnames': headers, 'dialect': dialect,
+                              'extrasaction': 'ignore'}
+            # Sniffer can infer doublequote=False for files containing bare quotes.
+            # Normalize output to standard doubled-quote escaping rather than fail.
+            writer_options['doublequote'] = True
+            writer = csv.DictWriter(output_file, **writer_options)
             writer.writeheader()
             writer.writerows(reader)
 

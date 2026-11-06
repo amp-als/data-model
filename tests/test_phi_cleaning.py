@@ -52,6 +52,20 @@ def test_csv_cleaning_requires_every_designated_header(tmp_path):
         clean_file(source, destination, ['not_a_header'])
 
 
+def test_csv_cleaning_handles_retained_bare_quotes(tmp_path):
+    source = tmp_path / 'source.csv'
+    destination = tmp_path / 'clean.csv'
+    source.write_text(
+        'subject,notes,patient_name\n1,He said "hello",Alice\n', encoding='utf-8'
+    )
+
+    clean_file(source, destination, ['patient_name'])
+
+    assert destination.read_text(encoding='utf-8') == (
+        'subject,notes\n1,"He said ""hello"""\n'
+    )
+
+
 def test_filename_column_map_keys_must_be_unambiguous():
     files = {
         'syn1': {'name': 'same.csv', 'path': 'one'},

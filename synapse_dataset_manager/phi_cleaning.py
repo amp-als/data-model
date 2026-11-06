@@ -113,8 +113,12 @@ def _clean_delimited(source, destination, columns):
             raise ValueError(f'{source.name}: designated column(s) not found: {", ".join(missing)}')
         retained = [name for name in reader.fieldnames if name not in columns]
         with destination.open('w', newline='', encoding='utf-8') as output_file:
-            writer = csv.DictWriter(output_file, fieldnames=retained, dialect=dialect,
-                                    extrasaction='ignore')
+            writer_options = {'fieldnames': retained, 'dialect': dialect,
+                              'extrasaction': 'ignore'}
+            # Sniffer can infer doublequote=False for files containing bare quotes.
+            # Normalize output to standard doubled-quote escaping rather than fail.
+            writer_options['doublequote'] = True
+            writer = csv.DictWriter(output_file, **writer_options)
             writer.writeheader()
             writer.writerows(reader)
 
