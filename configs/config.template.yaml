@@ -70,14 +70,18 @@ datasets:
   #   update:
   #     workflow: all_als
   #     all_als:
+  #       allow_leading_empty_index: true  # Ignore one unnamed first row-index column
   #       dictionary:
   #         view_column: "View Name"
   #         field_column: "Field"
+  #         description_column: "Description"
+  #         value_column: "Values"
+  #         definition_value_markers: ["", "NA"]
   #         ignored_file_columns: ["Form Name", "NeuroGUID"]
   #       required_columns:
   #         all_files: ["NeuroGUID", "NeuroSTAmP"]
   #         by_view:
-  #           v_ALLALS_AS_DEMOGRAPHICS: ["nihguid"]
+  #           v_ALLALS_AS_ASSEDEMOG: ["nihguid"]
   #       phi_pii_columns_file: configs/phi_pii_columns.yaml
   #   staging_folder: "syn12345"
   #   dataset_name: "My Custom Dataset"

@@ -73,7 +73,7 @@ class IdentityTests(unittest.TestCase):
         workflow = get_workflow('all_als')
         with patch('synapse_dataset_manager.updates.workflows.all_als.all_als_preflight.load_dictionary',
                    return_value={'view': {'display_name': 'view', 'fields': set()}}), \
-             patch('synapse_dataset_manager.updates.workflows.all_als.all_als_preflight.validate') as validate:
+             patch('synapse_dataset_manager.updates.workflows.all_als.all_als_preflight.validate', return_value=[]) as validate:
             self.assertEqual(workflow.prepare(None, files(a='raw.csv'), '/tmp', {
                 'data_dict_path': '/tmp/dictionary.csv',
                 'all_als': {'phi_pii_columns_file': '/tmp/policy.yaml'},

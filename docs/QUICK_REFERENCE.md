@@ -587,8 +587,14 @@ ALL ALS phase 1 requires `--workflow all_als` and a data dictionary. Before it
 writes annotations or a plan, every staged CSV/XLS/XLSX file is checked against
 the dictionary view named by its raw staging filename (without its extension).
 The dictionary supports sparse `View Name` cells and fully populated view rows.
-Substantive file headers and that view's dictionary fields must match exactly after
-case/space/hyphen/underscore normalization.
+A first `(View Name, Field)` row defines a column; later contiguous rows repeating
+that `Field` define permissible `Values` codes and their `Description` labels. A
+first-row `Values` value of empty or `NA` is the default definition marker; `NA`
+on a repeated row is retained as a permissible value code. Multiple `NA` rows with
+distinct descriptions are retained as ambiguous metadata and excluded from
+automatic value mapping; an identical repeated code/description is deduplicated
+and printed as a dictionary warning. Substantive file headers and that view's unique dictionary fields must match exactly
+after case/space/hyphen/underscore normalization.
 
 ```yaml
 # Dataset entry in config.yaml
@@ -597,14 +603,18 @@ ALL_ALS_ASSESS:
   update:
     workflow: all_als
     all_als:
+      allow_leading_empty_index: true  # One unnamed first row-index column is allowed
       dictionary:
         view_column: "View Name"
         field_column: "Field"
+        description_column: "Description"
+        value_column: "Values"
+        definition_value_markers: ["", "NA"]
         ignored_file_columns: ["Form Name", "NeuroGUID"]
       required_columns:
         all_files: ["NeuroGUID", "NeuroSTAmP"]
         by_view:
-          v_ALLALS_AS_DEMOGRAPHICS: ["nihguid"]
+          v_ALLALS_AS_ASSEDEMOG: ["nihguid"]
       phi_pii_columns_file: configs/phi_pii_columns.yaml
 ```
 
@@ -617,7 +627,8 @@ The required policy file is `configs/phi_pii_columns.yaml`; it checks headers on
 and fails if a normalized forbidden PHI/PII name occurs. It does not inspect or log
 cell values. Missing dictionaries/policies, unknown views, duplicate headers,
 missing required headers, extra/missing dictionary headers, or PHI/PII headers halt
-the workflow before annotation output. Do not disable this gate with a CLI flag.
+the workflow before annotation output. One unnamed first header is treated as a
+row-index column and reported as a warning; blank headers elsewhere still fail. Do not disable this gate with a CLI flag.
 See [the ALL ALS preflight plan](ALL_ALS_UPDATE_PREFLIGHT_PLAN.md) for details and
 future semantic screening/alias work.
 

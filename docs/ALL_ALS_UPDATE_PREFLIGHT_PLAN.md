@@ -14,10 +14,12 @@ PII is explicitly deferred to a separate version-two design.
 
 ## Implementation status
 
-Implemented: sparse/filled CSV/XLS/XLSX dictionary parsing, canonical header/view
-normalization, exact dictionary coverage, default ignored/required columns, external
-version-1 PHI/PII policy loading, grouped value-free failures, and phase-1 placement
-before mapping/annotation output. The default policy is
+Implemented: sparse/filled CSV/XLS/XLSX dictionary parsing; contiguous
+field-definition/permissible-value blocks (including repeated `Field` cells);
+canonical header/view normalization; exact dictionary coverage; default
+ignored/required columns; external version-1 PHI/PII policy loading; grouped
+value-free failures; and phase-1 placement before mapping/annotation output. The
+default policy is
 `configs/phi_pii_columns.yaml`. No live Synapse validation has been performed.
 
 Still deferred: friendly aliases, semantic value inspection, explicit non-tabular
@@ -42,7 +44,7 @@ The dictionary parser must accept both supported layouts:
 
 ```csv
 View Name,Field,Description
-v_ALLALS_AS_DEMOGRAPHICS,nihguid,NIH GUID
+v_ALLALS_AS_ASSEDEMOG,nihguid,NIH GUID
 ,,Sex at birth
 ```
 
@@ -50,16 +52,35 @@ and:
 
 ```csv
 View Name,Field,Description
-v_ALLALS_AS_DEMOGRAPHICS,nihguid,NIH GUID
-v_ALLALS_AS_DEMOGRAPHICS,Sex at birth,Sex at birth
+v_ALLALS_AS_ASSEDEMOG,nihguid,NIH GUID
+v_ALLALS_AS_ASSEDEMOG,Sex at birth,Sex at birth
 ```
 
 For sparse dictionaries, a row inherits the most recent nonempty view name. For
 fully populated dictionaries, every row provides it. Normalize into a mapping of
-one normalized view name to its original display name and normalized fields. Empty
-view/field values, a field before any view in sparse form, duplicate fields in one
-view, duplicate normalized view names, duplicate file headers, and unknown/missing
-configured columns are failures. Do not silently overwrite or choose one.
+one normalized view name to its original display name and normalized fields.
+
+The first row of a contiguous view/field block defines that file column. Its
+`Values` value must be a configured definition marker (by default empty or `NA`).
+Later contiguous rows that repeat the same `Field` (or legacy rows with an empty
+`Field`) define permissible values: their `Values` cell is the code and their
+`Description` cell is the human-readable label. Definition markers apply only to
+the first row: `NA` on a repeated row is retained as a real permissible value
+code. For example, a definition row for `aeyn` followed by repeated `aeyn` rows
+with `NA/Not applicable`, `1/Yes`, and `2/No` is one column with three allowed
+values, not four duplicate columns. The unique field name alone is used for
+file-header equality, while the code/label mapping is retained for mapping
+generation. If a field has multiple `NA` rows with distinct descriptions, those
+descriptions are retained as ambiguous dictionary metadata and `NA` is omitted
+from automated value mapping. An identical repeated code/description pair is
+deduplicated and reported as an ALL ALS dictionary warning; it does not halt
+preflight.
+
+Empty/invalid definitions, a field before any view in sparse form, a repeated row
+without a value code, a duplicate value code, a value without a description, a
+non-contiguous repeated field, conflicting normalized view names, duplicate file
+headers, and unknown/missing configured columns are failures. Do not silently
+overwrite or choose one.
 
 Use one documented normalization function for comparisons: trim whitespace, remove
 a UTF-8 BOM where applicable, case-fold, and normalize runs of spaces, hyphens, and
@@ -76,7 +97,7 @@ resolve to canonical raw ALL ALS view names. It must use an explicit one-to-one
 configuration map, reject duplicate/ambiguous aliases, appear in the reviewed plan,
 and never use fuzzy matching. Until then, every view-specific configuration key
 must be the exact raw staging view name (subject only to the deterministic
-normalization above), e.g. `v_ALLALS_AS_DEMOGRAPHICS`.
+normalization above), e.g. `v_ALLALS_AS_ASSEDEMOG`.
 
 ## Required and ignored columns
 
@@ -86,9 +107,13 @@ The initial dataset configuration contract is:
 update:
   workflow: all_als
   all_als:
+    allow_leading_empty_index: true
     dictionary:
       view_column: "View Name"
       field_column: "Field"
+      description_column: "Description"
+      value_column: "Values"
+      definition_value_markers: ["", "NA"]
       ignored_file_columns:
         - Form Name
         - form_name
@@ -98,7 +123,7 @@ update:
         - NeuroGUID
         - NeuroSTAmP
       by_view:
-        v_ALLALS_AS_DEMOGRAPHICS:
+        v_ALLALS_AS_ASSEDEMOG:
           - nihguid
     phi_pii_columns_file: configs/phi_pii_columns.yaml
 ```
@@ -110,6 +135,11 @@ and `form_name` normalize to one configured technical column; retain both exampl
 for clarity but reject duplicate normalized configuration entries at validation
 startup. Future dictionaries may include these fields; then configuration should
 be changed deliberately rather than implicitly changing validation behavior.
+
+ALL ALS also allows one unnamed **first** file header by default
+(`allow_leading_empty_index: true`), treating it as a row-index column. It is
+excluded from all header/dictionary/PHI checks and emits a warning. Empty headers
+in any other position, or multiple blank headers, remain failures.
 
 For each file:
 
@@ -163,7 +193,7 @@ Aggregate failures by file/view and category, for example:
 ```text
 ALL ALS preflight failed
 
-v_ALLALS_AS_DEMOGRAPHICS.csv → v_ALLALS_AS_DEMOGRAPHICS
+v_ALLALS_AS_ASSEDEMOG.csv → v_ALLALS_AS_ASSEDEMOG
   Required columns missing: neurostamp
   Dictionary columns absent from file: sex_at_birth
   File columns absent from dictionary: enrollment_identifier

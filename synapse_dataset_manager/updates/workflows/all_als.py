@@ -19,7 +19,7 @@ def prepare(syn, staging, directory, options, services):
         },
         'required_columns': {
             'all_files': ['NeuroGUID', 'NeuroSTAmP'],
-            'by_view': {'v_ALLALS_AS_DEMOGRAPHICS': ['nihguid']},
+            'by_view': {'v_ALLALS_AS_ASSEDEMOG': ['nihguid']},
         },
     }
     configured = dict(options.get('all_als') or {})
@@ -35,6 +35,9 @@ def prepare(syn, staging, directory, options, services):
         options['data_dict_path'],
         view_column=dictionary.get('view_column', 'View Name'),
         field_column=dictionary.get('field_column', 'Field'),
+        description_column=dictionary.get('description_column', 'Description'),
+        value_column=dictionary.get('value_column', 'Values'),
+        definition_value_markers=dictionary.get('definition_value_markers', ['', 'NA']),
     )
     policy = settings.get('phi_pii_columns_file') or options.get('phi_pii_columns_file')
     if not policy:
@@ -42,7 +45,11 @@ def prepare(syn, staging, directory, options, services):
     settings.update(dictionary)
     settings['phi_pii_columns_file'] = policy
     settings['dictionary_views'] = dictionary_views
-    all_als_preflight.validate(staging, paths, groups, settings)
+    preflight_warnings = all_als_preflight.validate(staging, paths, groups, settings)
+    warnings = [warning for view in dictionary_views.values() for warning in view.get('warnings', [])]
+    warnings.extend(preflight_warnings)
+    for warning in warnings:
+        print(f'⚠️  ALL ALS dictionary warning: {warning}')
     print(f'✓ ALL ALS preflight passed: {len(staging)} staged file(s), {len(dictionary_views)} dictionary view(s)')
     return names, paths, groups, {}
 

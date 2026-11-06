@@ -1231,15 +1231,34 @@ def parse_data_dictionary(path: str, view_name: str = None) -> dict:
         raw_value = row.get("Values", "").strip()
 
         if raw_field:
-            # Field header row — capture field-level description, reset current field
+            # The first occurrence defines the field. Repeated, contiguous Field
+            # cells define coded values in newer ALL ALS dictionary layouts.
+            repeated_field = raw_field == current_field
             current_field = raw_field
             if current_field not in result:
-                result[current_field] = {"description": description, "view": current_view, "values": {}}
-        elif current_field and raw_value:
-            # Value row — extract human-readable label from description
-            # Description is often "code = label"; strip the leading "code = " prefix
+                result[current_field] = {
+                    "description": description,
+                    "view": current_view,
+                    "values": {},
+                    "ambiguous_values": {},
+                }
+                continue
+            if not repeated_field or not raw_value.strip():
+                continue
+        if current_field and raw_value:
+            # Value rows may have an empty Field (legacy) or repeat the Field
+            # (current ALL ALS layout). "NA" is a valid code on repeated rows.
+            # Extract the human-readable label.
             label = re.sub(r'^\s*\S+\s*=\s*', '', description).strip() if description else raw_value
-            result[current_field]["values"][raw_value] = label
+            values = result[current_field]["values"]
+            ambiguous = result[current_field].setdefault("ambiguous_values", {})
+            if raw_value in ambiguous:
+                if label not in ambiguous[raw_value]:
+                    ambiguous[raw_value].append(label)
+            elif raw_value in values and raw_value == 'NA' and values[raw_value] != label:
+                ambiguous[raw_value] = [values.pop(raw_value), label]
+            elif raw_value not in values:
+                values[raw_value] = label
 
     if view_name and not result:
         print(f"  Warning: No fields found for View Name '{view_name}' in {path}")
