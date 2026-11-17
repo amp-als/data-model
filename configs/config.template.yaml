@@ -77,12 +77,18 @@ datasets:
   #         description_column: "Description"
   #         value_column: "Values"
   #         definition_value_markers: ["", "NA"]
-  #         ignored_file_columns: ["Form Name", "NeuroGUID"]
+  #         ignored_file_columns: ["Form Name", "NeuroGUID", "NeuroSTAmP"]
+  #       # Legacy dictionary-only fields: warn if present, never require in files.
+  #       dictionary_exceptions: ["localUID", "subjectUID"]
   #       required_columns:
   #         all_files: ["NeuroGUID", "NeuroSTAmP"]
   #         by_view:
   #           v_ALLALS_AS_ASSEDEMOG: ["nihguid"]
   #       phi_pii_columns_file: configs/phi_pii_columns.yaml
+  #       # Mandatory value-level date gate; override only with a reviewed policy.
+  #       date_screening_policy_file: configs/all_als_date_screening.yaml
+  #       preflight_report: annotations/all_als_preflight_report.md  # Optional Markdown report
+  #       include_violation_values: false  # DANGEROUS: report/terminal output contains PHI
   #   staging_folder: "syn12345"
   #   dataset_name: "My Custom Dataset"
   #   dataset_type: "Omic"  # Optional: 'Clinical' or 'Omic' to override auto-detection

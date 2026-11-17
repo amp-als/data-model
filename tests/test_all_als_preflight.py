@@ -16,6 +16,10 @@ class PreflightTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.policy = self.root / 'policy.yaml'
         self.policy.write_text('version: 1\nforbidden_columns: [date_of_birth, mrn]\n')
+        self.date_policy = self.root / 'date_policy.yaml'
+        self.date_policy.write_text(
+            'version: 1\nallowed_columns:\n  all_files: [collection_date, assessment_date]\n  by_view: {}\n'
+        )
         self.settings = {
             'ignored_file_columns': ['Form Name', 'NeuroGUID'],
             'required_columns': {
@@ -23,6 +27,7 @@ class PreflightTests(unittest.TestCase):
                 'by_view': {'v_ALLALS_AS_ASSEDEMOG': ['nihguid']},
             },
             'phi_pii_columns_file': str(self.policy),
+            'date_screening_policy_file': str(self.date_policy),
             'dictionary_views': {
                 'v_allals_as_assedemog': {
                     'display_name': 'v_ALLALS_AS_ASSEDEMOG',
@@ -58,6 +63,20 @@ class PreflightTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'required headers missing: nihguid'):
             self.validate(['Form Name', 'NeuroGUID', 'NeuroSTAmP', 'sex'])
 
+    def test_dictionary_exceptions_warn_without_requiring_legacy_headers(self):
+        settings = dict(self.settings)
+        settings['ignored_file_columns'] = ['Form Name', 'NeuroGUID', 'NeuroSTAmP']
+        settings['dictionary_exceptions'] = ['localUID', 'subjectUID']
+        settings['dictionary_views'] = {
+            'v_allals_as_assedemog': {
+                **self.settings['dictionary_views']['v_allals_as_assedemog'],
+                'fields': {'nihguid', 'sex', 'neurostamp', 'localuid', 'subjectuid'},
+            },
+        }
+        warnings = self.validate(['Form Name', 'NeuroGUID', 'NeuroSTAmP', 'nihguid', 'sex'], settings)
+        self.assertTrue(any('dictionary includes exception field(s): localuid, subjectuid' in warning
+                            for warning in warnings))
+
     def test_leading_empty_index_is_warned_but_other_blank_headers_fail(self):
         warnings = self.validate(['', 'Form Name', 'NeuroGUID', 'NeuroSTAmP', 'nihguid', 'sex'])
         self.assertEqual(warnings, ['v_ALLALS_AS_ASSEDEMOG.csv: ignored leading unnamed row-index column'])
@@ -75,6 +94,84 @@ class PreflightTests(unittest.TestCase):
             self.validate(['NeuroGUID', 'NeuroSTAmP', 'nihguid'])
         with self.assertRaisesRegex(ValueError, 'forbidden PHI/PII headers: date_of_birth'):
             self.validate(['NeuroGUID', 'NeuroSTAmP', 'nihguid', 'sex', 'Date of Birth'])
+        policy = Path('configs/phi_pii_columns.yaml')
+        self.assertIn('localuid', preflight.load_policy(policy))
+
+    def test_date_screening_blocks_dates_and_warns_on_bare_years(self):
+        settings = dict(self.settings)
+        settings['preflight_report'] = str(self.root / 'preflight.md')
+        settings['dictionary_views'] = {
+            'v_allals_as_assedemog': {
+                **self.settings['dictionary_views']['v_allals_as_assedemog'],
+                'fields': {'nihguid', 'sex', 'neurostamp', 'notes', 'assessment_date'},
+            },
+        }
+        path = self.root / 'v_ALLALS_AS_ASSEDEMOG.csv'
+        path.write_text(
+            'NeuroGUID,NeuroSTAmP,nihguid,sex,notes,assessment_date\n'
+            'a,s,g,F,"seen 03/04/2021",2021-03-04\n'
+            'b,s,h,M,"diagnosed in 2018",2020-01-01\n'
+        )
+        with self.assertRaisesRegex(ValueError, 'disallowed date values: notes: 1 cells') as error:
+            preflight.validate(
+                {'id': {'v_ALLALS_AS_ASSEDEMOG.csv': {}}}, {'id': str(path)},
+                {'id': 'v_ALLALS_AS_ASSEDEMOG'}, settings,
+            )
+        self.assertIn('standalone year warning in notes', str(error.exception))
+        report = Path(settings['preflight_report']).read_text()
+        self.assertIn('# ALL ALS Preflight Report', report)
+        self.assertIn('**Status:** Failed', report)
+        self.assertIn('standalone year warning in notes', report)
+        self.assertNotIn('diagnosed in 2018', report)
+        # A clean file with a standalone year emits a safe, non-blocking warning.
+        path.write_text(
+            'NeuroGUID,NeuroSTAmP,nihguid,sex,notes,assessment_date\n'
+            'b,s,h,M,"diagnosed in 2018",2020-01-01\n'
+        )
+        warnings = preflight.validate(
+            {'id': {'v_ALLALS_AS_ASSEDEMOG.csv': {}}}, {'id': str(path)},
+            {'id': 'v_ALLALS_AS_ASSEDEMOG'}, settings,
+        )
+        self.assertIn('standalone year warning in notes: 1 cells (rows 2)', warnings[0])
+
+    def test_raw_date_values_require_explicit_opt_in(self):
+        path = self.root / 'v_ALLALS_AS_ASSEDEMOG.csv'
+        path.write_text('NeuroGUID,NeuroSTAmP,nihguid,sex\na,s,g,2020-01-01\n')
+        settings = dict(self.settings)
+        settings['include_violation_values'] = True
+        settings['preflight_report'] = str(self.root / 'unsafe.md')
+        with self.assertRaisesRegex(ValueError, "row 2: '2020-01-01'"):
+            preflight.validate(
+                {'id': {'v_ALLALS_AS_ASSEDEMOG.csv': {}}}, {'id': str(path)},
+                {'id': 'v_ALLALS_AS_ASSEDEMOG'}, settings,
+            )
+        self.assertIn("row 2: '2020-01-01'", Path(settings['preflight_report']).read_text())
+
+    def test_raw_standalone_year_warnings_require_explicit_opt_in(self):
+        path = self.root / 'v_ALLALS_AS_ASSEDEMOG.csv'
+        path.write_text('NeuroGUID,NeuroSTAmP,nihguid,sex\na,s,g,"diagnosed in 2018"\n')
+        settings = dict(self.settings)
+        settings['include_violation_values'] = True
+        warnings = preflight.validate(
+            {'id': {'v_ALLALS_AS_ASSEDEMOG.csv': {}}}, {'id': str(path)},
+            {'id': 'v_ALLALS_AS_ASSEDEMOG'}, settings,
+        )
+        self.assertIn("row 2: 'diagnosed in 2018'", warnings[0])
+
+    def test_all_files_are_analysed_before_preflight_fails(self):
+        first = self.root / 'first.csv'
+        second = self.root / 'second.csv'
+        first.write_text('NeuroGUID,NeuroSTAmP,nihguid,sex,notes\na,s,g,F,2020-01-01\n')
+        second.write_text('NeuroGUID,NeuroSTAmP,nihguid\na,s,g\n')
+        with self.assertRaisesRegex(ValueError, 'first.csv') as error:
+            preflight.validate(
+                {'one': {'first.csv': {}}, 'two': {'second.csv': {}}},
+                {'one': str(first), 'two': str(second)},
+                {'one': 'v_ALLALS_AS_ASSEDEMOG', 'two': 'v_ALLALS_AS_ASSEDEMOG'}, self.settings,
+            )
+        self.assertIn('second.csv', str(error.exception))
+        self.assertIn('disallowed date values', str(error.exception))
+        self.assertIn('dictionary headers absent from file: sex', str(error.exception))
 
     def test_repository_phi_policy_is_valid_and_includes_all_als_fields(self):
         policy = preflight.load_policy(Path('configs/phi_pii_columns.yaml'))
@@ -196,6 +293,28 @@ class PreflightTests(unittest.TestCase):
                 'all_als': {'phi_pii_columns_file': str(self.policy)},
             }, services)
         self.assertTrue(any('dictionary warning' in str(call) for call in output.call_args_list))
+
+    def test_prevent_uses_its_configured_demographics_view_not_assess_default(self):
+        data_dict = self.root / 'prevent_dictionary.csv'
+        data_dict.write_text(
+            'View Name,Field,Description,Values\n'
+            'v_ALLALS_PR_PREVDEMOG,nihguid,GUID,NA\n'
+            ',sex,Sex,NA\n'
+            ',NeuroSTAmP,Stamp,NA\n'
+        )
+        staged_file = self.file('prevent_stage.csv', ['NeuroGUID', 'NeuroSTAmP', 'nihguid', 'sex'])
+        services = Mock()
+        services.build_staging_form_map.return_value = ({}, {'staging': 'form.csv'},
+                                                         {'staging': staged_file},
+                                                         {'staging': 'v_ALLALS_PR_PREVDEMOG'})
+        result = all_als.prepare(None, {'staging': {'v_ALLALS_PR_PREVDEMOG.csv': {}}}, str(self.root), {
+            'data_dict_path': str(data_dict),
+            'all_als': {
+                'phi_pii_columns_file': str(self.policy),
+                'required_columns': {'by_view': {'v_ALLALS_PR_PREVDEMOG': ['nihguid']}},
+            },
+        }, services)
+        self.assertEqual(result[2], {'staging': 'v_ALLALS_PR_PREVDEMOG'})
 
     def test_all_als_prepare_requires_dictionary_and_runs_preflight(self):
         staging = {'staging': {'v_ALLALS_AS_ASSEDEMOG.csv': {}}}

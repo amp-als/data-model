@@ -1,6 +1,11 @@
 """Explicit ALL ALS form/view identity policy and mandatory header preflight."""
 
+from pathlib import Path
+
 from synapse_dataset_manager.updates import all_als_preflight
+
+
+_DEFAULT_DATE_POLICY = Path(__file__).resolve().parents[3] / 'configs' / 'all_als_date_screening.yaml'
 
 
 def prepare(syn, staging, directory, options, services):
@@ -15,16 +20,28 @@ def prepare(syn, staging, directory, options, services):
         'dictionary': {
             'view_column': 'View Name',
             'field_column': 'Field',
-            'ignored_file_columns': ['Form Name', 'NeuroGUID'],
+            # Required technical identifiers are not dictionary fields.
+            'ignored_file_columns': ['Form Name', 'NeuroGUID', 'NeuroSTAmP'],
         },
+        # Legacy dictionary fields tolerated only in dictionaries, with warnings.
+        'dictionary_exceptions': ['localUID', 'subjectUID'],
         'required_columns': {
             'all_files': ['NeuroGUID', 'NeuroSTAmP'],
-            'by_view': {'v_ALLALS_AS_ASSEDEMOG': ['nihguid']},
+            # Dataset-specific demographic view requirements belong in config.
+            'by_view': {},
         },
     }
     configured = dict(options.get('all_als') or {})
     settings = {**defaults, **configured}
-    settings['dictionary'] = {**defaults['dictionary'], **dict(configured.get('dictionary') or {})}
+    configured_dictionary = dict(configured.get('dictionary') or {})
+    settings['dictionary'] = {**defaults['dictionary'], **configured_dictionary}
+    settings['dictionary']['ignored_file_columns'] = list(dict.fromkeys(
+        defaults['dictionary']['ignored_file_columns']
+        + list(configured_dictionary.get('ignored_file_columns') or [])
+    ))
+    settings['dictionary_exceptions'] = list(dict.fromkeys(
+        defaults['dictionary_exceptions'] + list(configured.get('dictionary_exceptions') or [])
+    ))
     configured_required = dict(configured.get('required_columns') or {})
     settings['required_columns'] = {
         'all_files': list(dict.fromkeys(defaults['required_columns']['all_files'] + list(configured_required.get('all_files') or []))),
@@ -44,6 +61,14 @@ def prepare(syn, staging, directory, options, services):
         raise ValueError('ALL ALS update requires phi_pii_columns_file configuration')
     settings.update(dictionary)
     settings['phi_pii_columns_file'] = policy
+    date_policy = settings.get('date_screening_policy_file')
+    if not date_policy:
+        date_policy = str(_DEFAULT_DATE_POLICY)
+    settings['date_screening_policy_file'] = date_policy
+    settings['preflight_report'] = options.get('preflight_report') or settings.get('preflight_report')
+    settings['include_violation_values'] = bool(
+        options.get('include_violation_values') or settings.get('include_violation_values')
+    )
     settings['dictionary_views'] = dictionary_views
     preflight_warnings = all_als_preflight.validate(staging, paths, groups, settings)
     warnings = [warning for view in dictionary_views.values() for warning in view.get('warnings', [])]

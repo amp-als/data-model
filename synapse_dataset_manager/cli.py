@@ -7521,7 +7521,8 @@ def handle_update_workflow(args, config):
     from synapse_dataset_manager.updates.workflows import get_workflow
     update_options = dict(dataset_config.get('update') or {})
     for option in ('identity_manifest', 'name_column', 'dictionary_group_column',
-                   'dictionary_field_column', 'dictionary_description_column'):
+                   'dictionary_field_column', 'dictionary_description_column', 'preflight_report',
+                   'include_violation_values'):
         value = getattr(args, option, None)
         if value is not None:
             update_options[option] = value
@@ -7545,6 +7546,12 @@ def handle_update_workflow(args, config):
             elif not os.path.isabs(policy_path):
                 policy_path = os.path.join(config.BASE_DIR, policy_path)
             all_als_options['phi_pii_columns_file'] = policy_path
+            date_policy_path = all_als_options.get('date_screening_policy_file')
+            if not date_policy_path:
+                date_policy_path = os.path.join(config.BASE_DIR, 'configs', 'all_als_date_screening.yaml')
+            elif not os.path.isabs(date_policy_path):
+                date_policy_path = os.path.join(config.BASE_DIR, date_policy_path)
+            all_als_options['date_screening_policy_file'] = date_policy_path
         # Step 1: Retrieve existing annotations
         print("\n" + "=" * 60)
         print("STEP 1: RETRIEVING EXISTING ANNOTATIONS")
@@ -10577,6 +10584,10 @@ Examples:
                                help='Reviewed update plan to validate/replay; required with --execute')
     update_parser.add_argument('--write-plan',
                                help='Dry-run plan output (default: annotations path with .plan.json suffix); refuses overwrite')
+    update_parser.add_argument('--preflight-report',
+                               help='Write an ALL ALS preflight Markdown report (Phase 1 only)')
+    update_parser.add_argument('--include-violation-values', action='store_true', default=None,
+                               help='DANGEROUS: include raw date violations in ALL ALS terminal/report output')
     update_parser.add_argument('--workflow', choices=['general', 'all_als'],
                                help='Update policy (default: dataset update.workflow, then general)')
     update_parser.add_argument('--identity-manifest',

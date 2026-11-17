@@ -8,6 +8,8 @@ forbidden_columns:
   - full_name
   - date_of_birth
   - dob
+  # Internal participant identifier; ALL ALS releases must use NeuroGUID instead.
+  - localuid
   - address
   - email
   - phone

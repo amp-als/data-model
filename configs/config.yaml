@@ -46,36 +46,65 @@ datasets:
   #
   # Example: Add your own dataset configs
 
-  ALSKP_OLINK:
-      dataset_id: syn74568482
-      dataset_type: Biomarker
-      release_folder: syn74378301
-  # ALL_ALS_ASSESS:
-  #   update:
-  #     workflow: all_als
-  #   dataset_id: "syn69694463"
-  #   dataset_type: "Clinical"
-  #   staging_folder: "syn76900557"
-  #   release_folder: "syn76955356"
-  #   version_label: "v11-AUG"
-  #   version_comment: "Aug Release"
-  #   data_dict: "syn76900694"
-  #   data_dict_view: "ASSESS"
-  #   mapping: "mapping/ASSESS_ALL_ALS_Dataset.dict"
-  #   subject_file_type: "multi"
-  # ALL_ALS_PREVENT:
-  #   update:
-  #     workflow: all_als
-  #   dataset_id: "syn69694674"
-  #   dataset_type: "Clinical"
-  #   staging_folder: "syn76900560"
-  #   release_folder: "syn76959294"
-  #   version_label: "v11-AUG"
-  #   version_comment: "Aug Release"
-  #   data_dict: "syn76900696"
-  #   data_dict_view: "PREVENT"
-  #   mapping: "mapping/PREVENT_ALL_ALS_Dataset.dict"
-  #   subject_file_type: "multi"
+  # ALSKP_OLINK:
+  #     dataset_id: syn74568482
+  #     dataset_type: Biomarker
+  #     release_folder: syn74378301
+  ALL_ALS_ASSESS_SEPT:
+    update:
+      workflow: all_als
+    dataset_id: "syn69694463"
+    dataset_type: "Clinical"
+    staging_folder: "syn78528660"
+    release_folder: "syn76955356"
+    version_label: "v11-SEPT"
+    version_comment: "Sept Release"
+    data_dict: "syn77568979"
+    data_dict_view: "ASSESS"
+    mapping: "mapping/ASSESS_ALL_ALS_Dataset.dict"
+    subject_file_type: "multi"
+  ALL_ALS_PREVENT_SEPT:
+    update:
+      workflow: all_als
+    dataset_id: "syn69694674"
+    dataset_type: "Clinical"
+    staging_folder: "syn78528661"
+    release_folder: "syn76959294"
+    version_label: "v11-SEPT"
+    version_comment: "Sept Release"
+    data_dict: "syn77568980"
+    data_dict_view: "PREVENT"
+    mapping: "mapping/PREVENT_ALL_ALS_Dataset.dict"
+    subject_file_type: "multi"
+  
+  ALL_ALS_ASSESS_OCT:
+    update:
+      workflow: all_als
+    dataset_id: "syn69694463"
+    dataset_type: "Clinical"
+    staging_folder: "syn78528522"
+    release_folder: "syn76955356"
+    version_label: "v12-OCT"
+    version_comment: "Oct Release"
+    data_dict: "syn78385766"
+    data_dict_view: "ASSESS"
+    mapping: "mapping/ASSESS_ALL_ALS_Dataset.dict"
+    subject_file_type: "multi"
+  ALL_ALS_PREVENT_OCT:
+    update:
+      workflow: all_als
+    dataset_id: "syn69694674"
+    dataset_type: "Clinical"
+    staging_folder: "syn78528524"
+    release_folder: "syn76959294"
+    version_label: "v12-OCT"
+    version_comment: "Oct Release"
+    data_dict: "syn78385767"
+    data_dict_view: "PREVENT"
+    mapping: "mapping/PREVENT_ALL_ALS_Dataset.dict"
+    subject_file_type: "multi"
+
+
   # ALS_Compute_Dataset:
   #   staging_folder: "syn68753414"
   #   release_folder: "syn73686161"

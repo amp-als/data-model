@@ -1,0 +1,17 @@
+# ALL ALS value-level date screening gate. Changes require data governance review.
+# Dates are blocked in every column unless that normalized column name is listed
+# below. Add raw ALL ALS view-specific exceptions under by_view when necessary.
+version: 1
+allowed_columns:
+  all_files:
+    - collection_date
+    - assessment_date
+    - Mhstdat
+    - Mhendat
+    - Prendat
+    - Cmstdat
+    - Cmmhno
+    - Cmdose
+    - Pralsgt_tdate
+    - Crplsdat
+  by_view: {}
