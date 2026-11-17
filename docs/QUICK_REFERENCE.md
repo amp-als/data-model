@@ -587,6 +587,34 @@ ALL ALS phase 1 requires `--workflow all_als` and a data dictionary. Before it
 writes annotations or a plan, every staged CSV/XLS/XLSX file is checked against
 the dictionary view named by its raw staging filename (without its extension).
 The dictionary supports sparse `View Name` cells and fully populated view rows.
+
+To run the gate and save a shareable, value-free Markdown report, use phase 1
+without `--execute`:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager -c configs/config.yaml update \
+  --use-config ALL_ALS_ASSESS --workflow all_als \
+  --preflight-report annotations/all_als_preflight_report.md
+```
+
+The report is written for both pass and fail outcomes. By default it contains only
+filenames, views, columns, finding counts, and row numbers; it never includes
+source cell values. `--preflight-report` is local-only and applies to ALL ALS
+phase 1.
+
+If the report is being handled as restricted PHI, `--include-violation-values`
+adds every detected raw date value to terminal failures and the Markdown report:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager -c configs/config.yaml update \
+  --use-config ALL_ALS_ASSESS --workflow all_als \
+  --preflight-report annotations/restricted_all_als_preflight.md \
+  --include-violation-values
+```
+
+Do **not** use that flag for reports that will be shared outside the approved PHI
+handling environment.
+
 A first `(View Name, Field)` row defines a column; later contiguous rows repeating
 that `Field` define permissible `Values` codes and their `Description` labels. A
 first-row `Values` value of empty or `NA` is the default definition marker; `NA`
@@ -610,27 +638,63 @@ ALL_ALS_ASSESS:
         description_column: "Description"
         value_column: "Values"
         definition_value_markers: ["", "NA"]
-        ignored_file_columns: ["Form Name", "NeuroGUID"]
+        ignored_file_columns: ["Form Name", "NeuroGUID", "NeuroSTAmP"]
+      # Legacy dictionary-only fields: warn if defined, but do not require in files.
+      dictionary_exceptions: ["localUID", "subjectUID"]
       required_columns:
         all_files: ["NeuroGUID", "NeuroSTAmP"]
         by_view:
           v_ALLALS_AS_ASSEDEMOG: ["nihguid"]
       phi_pii_columns_file: configs/phi_pii_columns.yaml
+      # Mandatory; only these normalized columns may contain complete dates.
+      date_screening_policy_file: configs/all_als_date_screening.yaml
+      # Or pass --preflight-report at runtime for a local Markdown report.
+      preflight_report: annotations/all_als_preflight_report.md
+      # DANGEROUS: makes terminal/report output contain raw date values.
+      include_violation_values: false
 ```
 
-`Form Name`/`form_name` and `NeuroGUID` are ignored only for dictionary equality;
-`NeuroGUID` remains required in every file. `NeuroSTAmP` is also required in every
-file. The demographics requirement uses the canonical raw ALL ALS view name, not
-a friendly alias. Alias mapping is intentionally deferred.
+`Form Name`/`form_name`, `NeuroGUID`, and `NeuroSTAmP` are ignored only for
+dictionary equality; `NeuroGUID` and `NeuroSTAmP` remain required in every file.
+`localUID` is forbidden by the PHI/PII header policy; `SubjectUID` is not a
+required ALL ALS header. `dictionary_exceptions` removes legacy `localUID` and
+`subjectUID` definitions from exact dictionary coverage and reports a warning for
+each dictionary view that still defines them. The demographics requirement uses
+the canonical raw ALL ALS view name, not a friendly alias. Alias mapping is
+intentionally deferred.
 
-The required policy file is `configs/phi_pii_columns.yaml`; it checks headers only
-and fails if a normalized forbidden PHI/PII name occurs. It does not inspect or log
-cell values. Missing dictionaries/policies, unknown views, duplicate headers,
-missing required headers, extra/missing dictionary headers, or PHI/PII headers halt
-the workflow before annotation output. One unnamed first header is treated as a
-row-index column and reported as a warning; blank headers elsewhere still fail. Do not disable this gate with a CLI flag.
-See [the ALL ALS preflight plan](ALL_ALS_UPDATE_PREFLIGHT_PLAN.md) for details and
-future semantic screening/alias work.
+The required header policy file is `configs/phi_pii_columns.yaml`; it fails if a
+normalized forbidden PHI/PII name occurs. The mandatory value policy is
+`configs/all_als_date_screening.yaml`: complete dates and date-times are rejected
+in every cell, including free text, unless the normalized column is explicitly
+allowlisted for collection/assessment dates. Native Excel dates and ISO, slash,
+hyphen, and month-name date strings are screened. Standalone four-digit years are
+reported as non-blocking warnings. Neither policy logs cell values by default;
+raw date values are emitted only with the dangerous explicit
+`--include-violation-values` option above. Missing or malformed policies, unknown
+views, duplicate headers, missing required headers,
+extra/missing dictionary headers, forbidden headers, or disallowed dates halt the
+workflow before annotation output. The checker completes all readable staged files
+and reports every violation together; a corrupt/unsupported file is recorded while
+other files continue to be checked. One unnamed first header is treated as a
+row-index column and reported as a warning; blank headers elsewhere still fail. Do
+not disable either gate with a CLI flag.
+
+The date policy is version-controlled and fail-closed:
+
+```yaml
+version: 1
+allowed_columns:
+  all_files: [collection_date, assessment_date]
+  by_view:
+    v_ALLALS_AS_ASSEDEMOG: [demographics_assessment_date]
+```
+
+Do not add broad free-text exceptions. Reports contain only filenames, views,
+columns, counts, and row numbers—not source cell values unless the dangerous
+explicit value-output option is used. See [the ALL ALS preflight
+plan](ALL_ALS_UPDATE_PREFLIGHT_PLAN.md) for details and future semantic
+screening/alias work.
 
 ## 20. Clean PHI/PII Columns from Every File Version
 

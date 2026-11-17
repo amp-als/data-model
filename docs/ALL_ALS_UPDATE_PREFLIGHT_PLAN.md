@@ -9,21 +9,27 @@ and have no configured PHI/PII headers. Any failure stops the update before an
 annotations file, reviewed update plan, upload, move, annotation mutation, or other
 Synapse write is made.
 
-This is a deterministic header-based gate. Semantic examination of values for PHI/
-PII is explicitly deferred to a separate version-two design.
+This is a deterministic header- and value-level gate. It screens every cell for
+complete dates/date-times, including free text, without logging source values by
+default. The explicit dangerous `--include-violation-values` option includes raw
+date values in terminal and Markdown-report output. Standalone four-digit years
+are non-blocking review warnings.
 
 ## Implementation status
 
 Implemented: sparse/filled CSV/XLS/XLSX dictionary parsing; contiguous
 field-definition/permissible-value blocks (including repeated `Field` cells);
 canonical header/view normalization; exact dictionary coverage; default
-ignored/required columns; external version-1 PHI/PII policy loading; grouped
-value-free failures; and phase-1 placement before mapping/annotation output. The
-default policy is
-`configs/phi_pii_columns.yaml`. No live Synapse validation has been performed.
+ignored/required columns; external version-1 PHI/PII header policy loading;
+version-1 date-screening policy loading; grouped value-free failures; full staged
+file analysis before reporting failures; and phase-1 placement before
+mapping/annotation output. Default policies are `configs/phi_pii_columns.yaml` and
+`configs/all_als_date_screening.yaml`. No live Synapse validation has been
+performed.
 
-Still deferred: friendly aliases, semantic value inspection, explicit non-tabular
-exemptions, and a structured machine-readable preflight report.
+Still deferred: friendly aliases, broader semantic PHI/PII value inspection,
+explicit non-tabular exemptions, and a structured machine-readable preflight
+report.
 
 ## Scope and workflow boundary
 
@@ -201,9 +207,11 @@ v_ALLALS_AS_ASSEDEMOG.csv → v_ALLALS_AS_ASSEDEMOG
 ```
 
 Error reports may include file names, raw header names, normalized names, view
-names, and policy terms. They must never include cell values. Preflight failure
-must leave no annotations JSON, mapping output, plan, result report, upload, or
-other remote mutation from that invocation.
+names, and policy terms. They must not include cell values by default. The
+explicit dangerous `--include-violation-values` option is the sole exception and
+must be used only in an approved PHI handling environment. Preflight failure must
+leave no annotations JSON, mapping output, plan, result report, upload, or other
+remote mutation from that invocation.
 
 ## Implementation and tests
 
