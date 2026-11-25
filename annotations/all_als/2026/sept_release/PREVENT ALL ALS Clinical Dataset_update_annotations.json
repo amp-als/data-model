@@ -1,0 +1,6982 @@
+{
+  "syn73806088": {
+    "Data_Dictionary_ALLALS_PREVENT.csv": {
+      "title": "ALL ALS PREVENT Data Dictionary",
+      "schemaName": "ALL ALS PREVENT Data Dictionary",
+      "schemaType": "clinical",
+      "dataType": [
+        "Data Dictionary",
+        "Structural Metadata"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "description": "Data dictionary defining ALL ALS PREVENT clinical assessment variables, their descriptions, and permissible coded values.",
+      "keywords": [
+        "ALL ALS",
+        "PREVENT",
+        "data dictionary",
+        "clinical metadata"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "program": [
+        "ALL ALS"
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "_file_type": "MetadataSchema",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.531294"
+    }
+  },
+  "syn68905797": {
+    "Lumbar Puncture Eligibility Confirmation.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVELCONLMP"
+      ],
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Confirmation that participants remain eligible for lumbar puncture procedures",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "copy",
+        "satisfy"
+      ],
+      "keywords": [
+        "lumbar_puncture",
+        "EligibilityConsent",
+        "subject_management",
+        "biospecimen_collection",
+        "clinical"
+      ],
+      "participant_count": 317,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        317
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Lumbar Puncture Eligibility Confirmation"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELCONLMP"
+      ],
+      "visitType": [
+        "Key Study Events"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.532563",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528741"
+    }
+  },
+  "syn68905830": {
+    "MIR (Study Partner).csv": {
+      "administrationMode": [
+        "partner_assessment"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVMIRSTYP"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "cognitive_assessment"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "functional_impact",
+        "activities_of_daily_living"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "cognitive_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Full MIR assessments completed by study partners",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "miroccur",
+        "mirreasnd",
+        "mirdat",
+        "mir_mem",
+        "mir_orient",
+        "mir_judge"
+      ],
+      "keywords": [
+        "MIR",
+        "study_partner",
+        "functional_impact",
+        "clinical",
+        "activities_of_daily_living"
+      ],
+      "participant_count": 533,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        594
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Caregivers"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "MIR (Study Partner)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVMIRSTYP"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.540098",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528762"
+    }
+  },
+  "syn68905798": {
+    "Enrollment Confirmation.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVELCONREG"
+      ],
+      "analysisTypes": [
+        "enrollment_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Enrollment confirmation and signatures for PREVENT screening",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "consent",
+        "copy",
+        "satisfy"
+      ],
+      "keywords": [
+        "Enrollment",
+        "EligibilityConsent",
+        "subject_management",
+        "clinical",
+        "screening"
+      ],
+      "participant_count": 631,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        631
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Enrollment Confirmation"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELCONREG"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.557032",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528740"
+    }
+  },
+  "syn68905820": {
+    "MIR (Participant).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVMIRPARTI"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "cognitive_assessment"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "functional_impact",
+        "activities_of_daily_living"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "cognitive_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Motor and independence rating (MIR) responses from participants",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "miroccur",
+        "mirreasnd",
+        "mirdat",
+        "mir_mem",
+        "mir_orient",
+        "mir_judge"
+      ],
+      "keywords": [
+        "MIR",
+        "motor_assessment",
+        "functional_impact",
+        "clinical",
+        "activities_of_daily_living"
+      ],
+      "participant_count": 527,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        589
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "MIR (Participant)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVMIRPARTI"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.577367",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528760"
+    }
+  },
+  "syn71824506": {
+    "Vital Signs (PREVENT).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVVITSIGN"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "VitalSigns"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "vital_signs",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        "low"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Vital signs collected during PREVENT visits",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "vsperf",
+        "vsreasnd",
+        "vsdat",
+        "vstimhh",
+        "vstimmm",
+        "temp_vsperf"
+      ],
+      "keywords": [
+        "VitalSigns",
+        "clinical",
+        "safety_monitoring",
+        "vital_signs"
+      ],
+      "participant_count": 8,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        9
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Vital Signs (PREVENT)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVVITSIGN"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.596087",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528717"
+    }
+  },
+  "syn68905799": {
+    "Concomitant Medication Log.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVCONMD"
+      ],
+      "analysisTypes": [
+        "longitudinal_analysis",
+        "medication_tracking"
+      ],
+      "annotations": [
+        "SNOMED",
+        "ICD"
+      ],
+      "assessmentType": [
+        "ConcomitantMedications"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "drug_exposure",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "medication_history",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Concomitant medication exposure, dose, and indication tracking",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "cmperf",
+        "cmreasnd",
+        "cmyn",
+        "cmspid",
+        "cmtrt",
+        "cmdose"
+      ],
+      "keywords": [
+        "clinical",
+        "drug_exposure",
+        "medication_history",
+        "dosage_metrics",
+        "ConcomitantMedications"
+      ],
+      "participant_count": 591,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        3105
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Concomitant Medication Log"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVCONMD"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.601118",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528721"
+    }
+  },
+  "syn68905810": {
+    "ALS Gene Carrier Research Participation Log.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVGENCRPL"
+      ],
+      "analysisTypes": [
+        "enrollment_tracking"
+      ],
+      "annotations": [
+        "SNOMED",
+        "HGNC"
+      ],
+      "assessmentType": [
+        "CohortParticipation"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Participation tracking for ALS gene carriers and research volunteers",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "crplyn",
+        "crplspid",
+        "crplsn",
+        "crplsnotsp",
+        "crplsdat"
+      ],
+      "keywords": [
+        "gene_carrier",
+        "CohortParticipation",
+        "subject_management",
+        "clinical",
+        "genetic_testing",
+        "ClinicalExamination"
+      ],
+      "participant_count": 529,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        602
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "ALS Gene Carrier Research Participation Log"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVGENCRPL"
+      ],
+      "visitType": [
+        "Key Study Events"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.695833",
+      "license": [
+        "UNKNOWN"
+      ],
+      "preventmentType": [
+        "ClinicalExamination"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528752"
+    }
+  },
+  "syn68905821": {
+    "MIR Screener (Participant).csv": {
+      "administrationMode": [
+        "In_Person",
+        "Telephone",
+        "Video_Call",
+        "Other",
+        "partner_assessment"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVMIRSCRPR"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "cognitive_assessment"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "functional_impact",
+        "activities_of_daily_living"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "cognitive_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Participant screener responses for the MIR instrument",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "miroccur",
+        "mirreasnd",
+        "mirdat",
+        "mir_part",
+        "mir_part1",
+        "mir_part2"
+      ],
+      "keywords": [
+        "MIR",
+        "screener",
+        "functional_impact",
+        "clinical",
+        "activities_of_daily_living"
+      ],
+      "participant_count": 539,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        1969
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "MIR Screener (Participant)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVMIRSCRPR"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.708409",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528768"
+    }
+  },
+  "syn68905832": {
+    "PREVENT Symptom Questionnaire.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVSYMPQUES"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "symptom_onset",
+        "disease_progression"
+      ],
+      "completenessLevel": [
+        "low"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "quality_of_life",
+        "surveyData",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "PREVENT symptom questionnaire responses and severity ratings",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "symp_dat",
+        "symp_musweak",
+        "symp_musweak_las",
+        "symp_musweak_lua_ci",
+        "symp_musweak_lua_sen",
+        "symp_musweak_lh"
+      ],
+      "keywords": [
+        "symptom_questionnaire",
+        "disease_progression",
+        "QualityOfLifeSurvey",
+        "clinical"
+      ],
+      "participant_count": 210,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        221
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "PREVENT Symptom Questionnaire"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVSYMPQUES"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.760167",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528716"
+    }
+  },
+  "syn68905811": {
+    "Eligibility Criteria (PREVENT).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVELIGCRITREG"
+      ],
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "diagnosis_criteria"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "diagnostic_criteria",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Screening inclusion and exclusion criteria responses for PREVENT",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "pinc01_ieperf",
+        "pinc01_ieorres",
+        "pinc02_ieperf",
+        "pinc02_ieorres",
+        "pinc03_ieperf",
+        "pinc03_ieorres"
+      ],
+      "keywords": [
+        "EligibilityCriteria",
+        "clinical",
+        "diagnosis_criteria",
+        "screening",
+        "subject_management"
+      ],
+      "participant_count": 250,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        250
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Eligibility Criteria (PREVENT)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELIGCRITREG"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.787292",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528746"
+    }
+  },
+  "syn68905822": {
+    "MIR Screener (Study Partner).csv": {
+      "administrationMode": [
+        "partner_assessment"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVMIRSCRSP"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "cognitive_assessment"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "functional_impact",
+        "activities_of_daily_living"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "cognitive_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Study partner screener responses for MIR assessments",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "miroccur",
+        "mirreasnd",
+        "mirdat",
+        "mir_log",
+        "mirspid",
+        "mir_qnum"
+      ],
+      "keywords": [
+        "MIR",
+        "study_partner",
+        "functional_impact",
+        "clinical",
+        "activities_of_daily_living"
+      ],
+      "participant_count": 530,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        1221
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Caregivers"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "MIR Screener (Study Partner)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVMIRSCRSP"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.796557",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528761"
+    }
+  },
+  "syn68905801": {
+    "Eligibility Criteria 2 (PREVENT)": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "study_eligibility"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "ALL ALS PREVENT EligibilityCriteria assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "inclusion_criteria",
+        "exclusion_criteria",
+        "enrollment_confirmation"
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 390,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        390
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Eligibility Criteria 2 (PREVENT)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELIGCRITA2"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.820861",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528742"
+    }
+  },
+  "syn68905823": {
+    "Informed Consent Log.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVICF"
+      ],
+      "analysisTypes": [
+        "consent_management"
+      ],
+      "annotations": [
+        "SNOMED",
+        "ICD"
+      ],
+      "assessmentType": [
+        "InformedConsentForm"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "informed_consent"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Informed consent approvals, versions, and future-use choices",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "dsyn",
+        "dsreasnd",
+        "dsicfdat",
+        "dsdiscloseyn",
+        "dscsfyn",
+        "dsemgncsyn"
+      ],
+      "keywords": [
+        "InformedConsentForm",
+        "consent_version",
+        "subject_management",
+        "clinical",
+        "future_use"
+      ],
+      "participant_count": 629,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        885
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Informed Consent Log"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVICF"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.834641",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528756"
+    }
+  },
+  "syn68905834": {
+    "Visit Type.csv": {
+      "administrationMode": [
+        "In_Person",
+        "Video_Call"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVVISTYPE"
+      ],
+      "analysisTypes": [
+        "visit_scheduling"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "VisitScheduling"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Visit classification and scheduling metadata for PREVENT",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "location"
+      ],
+      "keywords": [
+        "VisitScheduling",
+        "subject_management",
+        "visit_type",
+        "clinical"
+      ],
+      "participant_count": 643,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        2875
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Visit Type"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVVISTYPE"
+      ],
+      "visitType": [
+        "Visit Management"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.855577",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528718"
+    }
+  },
+  "syn72663798": {
+    "Anthropometrics and Laterality.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTAL"
+      ],
+      "analysisTypes": [
+        "device_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "ClinicalExamination"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "physical_mobility"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "functional_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Dominant hand, device side laterality, and arm measurements for DHT wearable placement in PREVENT participants.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "aal_dat",
+        "aal_dh",
+        "coval_1",
+        "aal_side",
+        "aal_agree",
+        "aal_devside"
+      ],
+      "keywords": [
+        "anthropometrics",
+        "laterality",
+        "dominant_hand",
+        "wearable_device",
+        "DHT"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        26
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Anthropometrics and Laterality"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTAL"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.892311",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528745"
+    }
+  },
+  "syn75104225": {
+    "Handheld Dynamometry (HHD).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVHHD"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "HandHeldDynamometry"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "physical_mobility"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "motor_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Handheld dynamometry force measurements across muscle groups",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "muscle_strength_measurements",
+        "grip_strength"
+      ],
+      "keywords": [
+        "HHD",
+        "motor_function",
+        "HandHeldDynamometry",
+        "clinical",
+        "strength"
+      ],
+      "participant_count": 602,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        857
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Handheld Dynamometry (HHD)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVHHD"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:51.895409",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528755"
+    }
+  },
+  "syn68905802": {
+    "Eligibility Criteria 2 (PREVENT Genetic Testing Sub-Study).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVELIGCRITGEN"
+      ],
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED",
+        "HGNC"
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "genetic_testing"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "diagnostic_criteria",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "pginc01_ieperf",
+        "pginc01_ieorres",
+        "pginc02_ieperf",
+        "pginc02_ieorres",
+        "pginc03_ieperf",
+        "pginc03_ieorres"
+      ],
+      "keywords": [
+        "genetic_testing",
+        "EligibilityCriteria",
+        "screening",
+        "subject_management",
+        "diagnosis_criteria",
+        "ClinicalExamination"
+      ],
+      "participant_count": 63,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        63
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Eligibility Criteria (PREVENT Genetic Testing Sub-Study)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELIGCRITGEN2"
+      ],
+      "visitType": [
+        "Genetic Testing Sub-Study"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.011603",
+      "license": [
+        "UNKNOWN"
+      ],
+      "preventmentType": [
+        "ClinicalExamination"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528743"
+    }
+  },
+  "syn68905824": {
+    "PREVENT Participant Final Disposition.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVPARTFINDIS"
+      ],
+      "analysisTypes": [
+        "study_disposition_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "StudyDisposition"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "study_completion"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "study_completion",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Participant completion, withdrawal, and early termination status",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "dsend",
+        "dsstdat",
+        "dsdecod",
+        "dsearlyterm",
+        "dsterm",
+        "dsreas"
+      ],
+      "keywords": [
+        "StudyDisposition",
+        "subject_management",
+        "study_completion",
+        "clinical"
+      ],
+      "participant_count": 111,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        111
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "endpoint"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "PREVENT Participant Final Disposition"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVPARTFINDIS"
+      ],
+      "visitType": [
+        "Key Study Events"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.015738",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528764"
+    }
+  },
+  "syn68905835": {
+    "Vital Capacity (VC).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVVC"
+      ],
+      "analysisTypes": [
+        "respiratory_monitoring",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "PulmonaryFunction"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "respiratory_function"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "respiratory_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Slow vital capacity (SVC) and respiratory function measurements",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "reattmpt",
+        "renattmpt",
+        "restat",
+        "rereasnd",
+        "redat",
+        "svctest"
+      ],
+      "keywords": [
+        "respiratory_function",
+        "PulmonaryFunction",
+        "clinical",
+        "vital_capacity"
+      ],
+      "participant_count": 606,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        859
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Vital Capacity (VC)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVVC"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.020537",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528713"
+    }
+  },
+  "syn72663799": {
+    "Brief Observed Exercises.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTBOE"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "Strength",
+        "ClinicalExamination"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "functional_assessment"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "motor_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Brief observed exercise sessions (elbow flexions and other movements) timed during clinic visits as part of the PREVENT DHT sub-study.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "boe_dat",
+        "boetimhh",
+        "boetimmm",
+        "boe_device",
+        "ref_timhh_start",
+        "ref_timmm_start"
+      ],
+      "keywords": [
+        "brief_observed_exercises",
+        "motor_assessment",
+        "DHT",
+        "exercise_timing",
+        "functional_assessment"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        53
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Brief Observed Exercises"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTBOE"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.052052",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528726"
+    }
+  },
+  "syn68905803": {
+    "Enrollment Confirmation (PREVENT Genetic Testing SubStudy).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVELCONGEN"
+      ],
+      "analysisTypes": [
+        "enrollment_tracking"
+      ],
+      "annotations": [
+        "SNOMED",
+        "HGNC"
+      ],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Enrollment confirmation for the PREVENT genetic testing sub-study",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "consent",
+        "copy",
+        "satisfy"
+      ],
+      "keywords": [
+        "genetic_testing",
+        "EligibilityConsent",
+        "subject_management",
+        "screening",
+        "clinical"
+      ],
+      "participant_count": 187,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        187
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Enrollment Confirmation (PREVENT Genetic Testing Sub-Study)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELCONGEN"
+      ],
+      "visitType": [
+        "Genetic Testing Sub-Study"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.058014",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528739"
+    }
+  },
+  "syn68905814": {
+    "Grip Strength Testing.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVGST"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "Strength"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "upper_motor_neuron",
+        "lower_motor_neuron"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "motor_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Grip strength assessment results collected with dynamometers",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "mkattmpt",
+        "mknattmpt",
+        "mkstat",
+        "mkreasnd",
+        "mkdat",
+        "left_mkstat"
+      ],
+      "keywords": [
+        "GripStrength",
+        "motor_function",
+        "clinical",
+        "strength_testing",
+        "upper_motor_neuron"
+      ],
+      "participant_count": 606,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        850
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Grip Strength Testing"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVGST"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.063542",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528753"
+    }
+  },
+  "syn68905825": {
+    "Neurological Examination.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVNUROEX"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "neurological_examination"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "neurology",
+        "motor_function"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "functional_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Neurological examination findings and scores",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "nvstat",
+        "nvreasnd",
+        "nvdat",
+        "loc_nvstat",
+        "loc_nvstresc",
+        "loc_nvorres"
+      ],
+      "keywords": [
+        "neurological_examination",
+        "clinical",
+        "neurology",
+        "motor_function"
+      ],
+      "participant_count": 619,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        872
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Neurological Examination"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVNUROEX"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.087536",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528765"
+    }
+  },
+  "syn68905836": {
+    "Vital Signs (ASSESS)": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "VitalSigns"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "vital_signs",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        "low"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "ALL ALS PREVENT VitalSigns assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "vital_signs_measurements",
+        "temperature",
+        "heart_rate",
+        "weight"
+      ],
+      "keywords": [
+        ""
+      ],
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        0
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Vital Signs (ASSESS)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVVITSIGN"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.279774",
+      "dataSourcePrefix": [
+        "all_als"
+      ]
+    }
+  },
+  "syn68905804": {
+    "ECAS (Edinburgh Cognitive and Behavioral ALS Screen).csv": {
+      "administrationMode": [
+        "In_Person",
+        "Video_Call"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVECAS"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "ECAS"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "cognitive_function"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "cognitive_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Edinburgh Cognitive and Behavioral ALS Screen scores for participants",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "ecasstat",
+        "ecasreasnd",
+        "ecasdat",
+        "ecasver",
+        "ecasoc",
+        "ecashand"
+      ],
+      "keywords": [
+        "ECAS",
+        "cognitive_function",
+        "clinical",
+        "cognitive_assessment",
+        "domain_subscores"
+      ],
+      "participant_count": 608,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        857
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "ECAS (Edinburgh Cognitive and Behavioral ALS Screen)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVECAS"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.280761",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528737"
+    }
+  },
+  "syn76307837": {
+    "DHT Participant Final Disposition.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "StudyDisposition"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "study_completion"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "study_completion",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT StudyDisposition assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        "DHT",
+        "participant_final_disposition",
+        "study_completion",
+        "device_compliance",
+        "discontinuation"
+      ],
+      "participant_count": 1,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        1
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        ""
+      ],
+      "studyPhase": [
+        "endpoint"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "DHT Participant Final Disposition"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTPFD"
+      ],
+      "visitType": [
+        "Key Study Events"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.315715",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528731"
+    }
+  },
+  "syn72663801": {
+    "Eligibility Criteria (DHT PREVENT).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTELCR"
+      ],
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "study_eligibility"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "diagnostic_criteria",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Inclusion criteria responses for the PREVENT DHT digital health technology sub-study eligibility review.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "inc01_ieperf",
+        "inc01_ieorres",
+        "inc02_ieperf",
+        "inc02_ieorres",
+        "inc03_ieperf",
+        "inc03_ieorres"
+      ],
+      "keywords": [
+        "DHT",
+        "eligibility_criteria",
+        "screening",
+        "digital_health_technology",
+        "inclusion_criteria"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        26
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Eligibility Criteria (DHT PREVENT)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTELCR"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.317911",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528727"
+    }
+  },
+  "syn68905805": {
+    "ECAS (Edinburgh Cognitive and Behavioral ALS Screen) Caregiver Interview.csv": {
+      "administrationMode": [
+        "partner_assessment"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVECASCGI"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "ECAS"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "cognitive_function",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "cognitive_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Caregiver interview companion to the ECAS instrument",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "ecasgistat",
+        "ecascirnd",
+        "ecascidc",
+        "sibrl",
+        "lomrl",
+        "ircrl"
+      ],
+      "keywords": [
+        "ECAS",
+        "caregiver",
+        "cognitive_function",
+        "clinical",
+        "partner_assessment"
+      ],
+      "participant_count": 605,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        848
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Caregivers"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "ECAS (Edinburgh Cognitive and Behavioral ALS Screen) - Caregiver Interview"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVECASCGI"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.320423",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528736"
+    }
+  },
+  "syn68905816": {
+    "Informed Consent Log Genetic Testing Sub-Study.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "InformedConsentForm"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "informed_consent"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "ALL ALS PREVENT InformedConsentForm assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "consent_status",
+        "consent_version",
+        "disclosure_consent"
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 184,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        187
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Informed Consent Log Genetic Testing Sub-Study"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVICFGEN"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.348890",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528758"
+    }
+  },
+  "syn72663802": {
+    "Enrollment Confirmation (DHT PREVENT).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTENCONF"
+      ],
+      "analysisTypes": [
+        "enrollment_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityConsent"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "informed_consent"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Enrollment confirmation for the PREVENT DHT sub-study, documenting participant consent, readiness, and eligibility.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "consent",
+        "copy",
+        "satisfy"
+      ],
+      "keywords": [
+        "DHT",
+        "enrollment_confirmation",
+        "screening",
+        "digital_health_technology",
+        "consent"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        26
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Enrollment Confirmation (DHT PREVENT)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTENCONF"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.354239",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528729"
+    }
+  },
+  "syn68905806": {
+    "Lumbar Puncture Eligibility Criteria.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVELIGCRITLMP"
+      ],
+      "analysisTypes": [
+        "eligibility_screening"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "eligibility_criteria"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "diagnostic_criteria",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Detailed inclusion and exclusion criteria for lumbar puncture procedures",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "lpexc01_ieperf",
+        "lpexc01_ieorres",
+        "lpexc02_ieperf",
+        "lpexc02_ieorres",
+        "lpexc03_ieperf",
+        "lpexc03_ieorres"
+      ],
+      "keywords": [
+        "lumbar_puncture",
+        "EligibilityCriteria",
+        "biospecimen_collection",
+        "subject_management",
+        "clinical"
+      ],
+      "participant_count": 330,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        330
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Lumbar Puncture Eligibility Criteria"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELIGCRITLMP"
+      ],
+      "visitType": [
+        "Key Study Events"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.356847",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528744"
+    }
+  },
+  "syn68905817": {
+    "Family History.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVFAMHIST"
+      ],
+      "analysisTypes": [
+        "subject_profile_review"
+      ],
+      "annotations": [
+        "HPO",
+        "MONDO"
+      ],
+      "assessmentType": [
+        "MedicalHistory"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "medical_history"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "family_history",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Family medical and neurodegenerative disease history",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "famhx1",
+        "famhobt",
+        "famhobtotsp",
+        "famhnbs",
+        "famhnbs_unk",
+        "famhnhs"
+      ],
+      "keywords": [
+        "family_history_als",
+        "MedicalHistory",
+        "genetic_testing",
+        "clinical",
+        "subject_management"
+      ],
+      "participant_count": 611,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        2555
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Family History"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVFAMHIST"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.366315",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528750"
+    }
+  },
+  "syn68905828": {
+    "Physical Examination.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVPHEXM"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "PhysicalExam"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "physical_examination",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "low"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "functional_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Physical examination across body systems during PREVENT visits",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "pestat",
+        "pereasnd",
+        "pedat",
+        "hdneck_peperf",
+        "hdneck_pereasnd",
+        "hdneck_pestresc"
+      ],
+      "keywords": [
+        "PhysicalExam",
+        "clinical",
+        "physical_examination",
+        "subject_management"
+      ],
+      "participant_count": 8,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        9
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Physical Examination"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVPHEXM"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.472997",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528711"
+    }
+  },
+  "syn74544847": {
+    "Usability Metric for User Experience (UMUX) Survey.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "compliance",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "surveyData",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT QualityOfLifeSurvey assessment data.",
+      "disease": [
+        ""
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 20,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        27
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        ""
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        ""
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Usability Metric for User Experience (UMUX) Survey"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTUMUXS"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.475645",
+      "_staging_id": "syn78528734"
+    }
+  },
+  "syn72663803": {
+    "Fall Questionnaire.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTFQ"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "ClinicalExamination"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "physical_mobility",
+        "safety_monitoring",
+        "activities_of_daily_living"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "functional_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Fall history questionnaire capturing frequency and circumstances of falls in the past 4 months for PREVENT DHT sub-study participants.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "fall_dat",
+        "fall_yn",
+        "fall_freq",
+        "fall_freq_num"
+      ],
+      "keywords": [
+        "fall_questionnaire",
+        "fall_history",
+        "DHT",
+        "physical_mobility",
+        "safety_monitoring"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        53
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Fall Questionnaire"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTFQ"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.478252",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528728"
+    }
+  },
+  "syn68905829": {
+    "Prior ALS Genetic Testing.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVPRALSGENTST"
+      ],
+      "analysisTypes": [
+        "genetic_risk_assessment"
+      ],
+      "annotations": [
+        "HGNC",
+        "MONDO"
+      ],
+      "assessmentType": [
+        "genetic_testing"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "medical_history"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "genetic_testing",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "History of prior ALS genetic testing and results",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "SOD1",
+        "ANG-ALS",
+        "ANXA11-ALS",
+        "ARHGEF28-ALS",
+        "ATXN2-ALS",
+        "CFAP410-ALS",
+        "CHCHD10-ALS",
+        "CHMP2B-ALS",
+        "DAO-ALS",
+        "DCTN1-ALS",
+        "ERBB4-ALS",
+        "FIG4-ALS",
+        "FUS",
+        "HNRNPA1-ALS",
+        "HNRNPA2B1-ALS",
+        "KIF5A-ALS",
+        "MATR3-ALS",
+        "MOBP-ALS",
+        "NEFH-ALS",
+        "NEK1-ALS",
+        "OPTN-ALS",
+        "PFN1-ALS",
+        "SETX-ALS",
+        "SQSTM1-ALS",
+        "TAF15-ALS",
+        "TARDBP",
+        "TBK1-ALS",
+        "TUBA4A-ALS",
+        "UBQLN2-ALS",
+        "UNC13A-ALS",
+        "VAPB-ALS",
+        "VCP-ALS",
+        "ALS2-ALS",
+        "ELP3-ALS",
+        "EPHA4-ALS",
+        "EWSR1-ALS",
+        "KIKAP3-ALS",
+        "PRPH-ALS",
+        "SPG4-ALS",
+        "SPG11-ALS",
+        "Other genetic ALS"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "pralsgt_rrev",
+        "pralsgt_tlab",
+        "pralsgt_tlabothsp",
+        "pralsgt_tname",
+        "pralsgt_tnameothsp",
+        "pralsgt_tdate"
+      ],
+      "keywords": [
+        "genetic_testing",
+        "medical_history",
+        "clinical",
+        "gene_panel",
+        "ALS"
+      ],
+      "participant_count": 616,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        653
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Prior ALS Genetic Testing"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVPRALSGENTST"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.481080",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528715"
+    }
+  },
+  "syn72663804": {
+    "Strength and Ambulation Survey (PREVENT).csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTSAS"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "SNOMED",
+        "HPO"
+      ],
+      "assessmentType": [
+        "Strength",
+        "ClinicalExamination"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "physical_mobility",
+        "functional_assessment",
+        "activities_of_daily_living"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "functional_assessment",
+        "motor_assessment",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Survey assessing in-home mobility, assistive device use, and ambulation status for PREVENT DHT sub-study participants.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "saas_dat",
+        "saas_q1",
+        "saas_q1_cane",
+        "saas_q1_walker",
+        "saas_q1_crutch",
+        "saas_q1_scooter"
+      ],
+      "keywords": [
+        "strength_survey",
+        "ambulation",
+        "DHT",
+        "mobility",
+        "assistive_devices",
+        "functional_assessment"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        53
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Strength and Ambulation Survey (PREVENT)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTSAS"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.504683",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528732"
+    }
+  },
+  "syn68905819": {
+    "Medical History.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVMEDHX"
+      ],
+      "analysisTypes": [
+        "subject_profile_review"
+      ],
+      "annotations": [
+        "SNOMED",
+        "HPO"
+      ],
+      "assessmentType": [
+        "MedicalHistory"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "medical_history",
+        "disease_progression"
+      ],
+      "completenessLevel": [
+        "high"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "medical_history",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Detailed medical history, comorbidities, and diagnoses",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "mhoccur",
+        "mhreasnd",
+        "mhdat",
+        "mhyn",
+        "mhspid",
+        "mhterm"
+      ],
+      "keywords": [
+        "MedicalHistory",
+        "clinical",
+        "subject_management",
+        "disease_progression",
+        "symptom_onset"
+      ],
+      "participant_count": 615,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        4072
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Medical History"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVMEDHX"
+      ],
+      "visitType": [
+        "Screening"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.510684",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528759"
+    }
+  },
+  "syn72663805": {
+    "Predicted Adherence Survey.csv": {
+      "administrationMode": [
+        "Self_Administered"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTPAS"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "compliance",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "surveyData",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Self-reported predicted adherence and attitudes toward wearing the DHT device throughout the PREVENT study.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "adherence_dat",
+        "adherence_q1",
+        "adherence_q2",
+        "adherence_q3"
+      ],
+      "keywords": [
+        "predicted_adherence",
+        "DHT",
+        "compliance",
+        "wearable_device",
+        "self_reported"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        26
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Predicted Adherence Survey"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTPAS"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.586904",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528730"
+    }
+  },
+  "syn72663806": {
+    "Technology Acceptance Model (TAM) Survey.csv": {
+      "administrationMode": [
+        "Self_Administered"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDHTTAMS"
+      ],
+      "analysisTypes": [
+        "clinical_score_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "QualityOfLifeSurvey"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "compliance",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "surveyData",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Technology Acceptance Model survey capturing ease-of-use and perceived usefulness ratings for DHT wearable devices in PREVENT.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "tam_dat",
+        "tam_q1",
+        "tam_q2",
+        "tam_q3",
+        "tam_q4",
+        "tam_q5"
+      ],
+      "keywords": [
+        "technology_acceptance",
+        "TAM",
+        "DHT",
+        "wearable_device",
+        "usability",
+        "self_reported"
+      ],
+      "participant_count": 26,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        53
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Technology Acceptance Model (TAM) Survey"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDHTTAMS"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.589836",
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528733"
+    }
+  },
+  "syn71824493": {
+    "Optional Genetic Counseling Visit History.csv": {
+      "administrationMode": [
+        "In_Person",
+        "Video_Call"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVOGCVH"
+      ],
+      "analysisTypes": [
+        "genetic_risk_assessment"
+      ],
+      "annotations": [
+        "SNOMED",
+        "HGNC"
+      ],
+      "assessmentType": [
+        "genetic_counseling"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        "low"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "genetic_testing",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Optional genetic counseling visit history and preferences",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        "opt_yn",
+        "opt_spid",
+        "opt_dat",
+        "opt_loc"
+      ],
+      "keywords": [
+        "genetic_counseling",
+        "visit_history",
+        "subject_management",
+        "clinical"
+      ],
+      "participant_count": 122,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        166
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Optional Genetic Counseling Visit History"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVOGCVH"
+      ],
+      "visitType": [
+        "Key Study Events"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.593325",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528763"
+    }
+  },
+  "syn73806563": {
+    "Eligibility Criteria (PREVENT Genetic Testing Sub-Study).csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVELIGCRITGEN"
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "EligibilityCriteria"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "eligibility_criteria",
+        "genetic_testing"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "diagnostic_criteria",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT EligibilityCriteria assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 123,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        123
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        ""
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Eligibility Criteria (PREVENT Genetic Testing Sub-Study)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVELIGCRITGEN"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.598828",
+      "_staging_id": "syn78528747"
+    }
+  },
+  "syn68905790": {
+    "Adverse Event (AE) Log.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVAELOG"
+      ],
+      "analysisTypes": [
+        "longitudinal_analysis",
+        "safety_event_review"
+      ],
+      "annotations": [
+        "SNOMED",
+        "ICD"
+      ],
+      "assessmentType": [
+        "AdverseEventLog"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "safety_monitoring",
+        "adverse_events"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "adverse_events",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Documentation of adverse events and their outcomes during PREVENT",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "aeyn",
+        "aespid",
+        "aeterm",
+        "aesev",
+        "aestdat",
+        "aesiteaw"
+      ],
+      "keywords": [
+        "adverse_event_occurrence",
+        "clinical",
+        "AdverseEventLog",
+        "safety_monitoring",
+        "severity_assessment"
+      ],
+      "participant_count": 320,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        350
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Adverse Event (AE) Log"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVAELOG"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.604589",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528720"
+    }
+  },
+  "syn68905791": {
+    "Digital Speech Assessment.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVDSA"
+      ],
+      "analysisTypes": [
+        "speech_monitoring",
+        "longitudinal_analysis"
+      ],
+      "annotations": [
+        "HPO"
+      ],
+      "assessmentType": [
+        "SpeechFunction"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "speech_function",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "bulbar_assessment",
+        "audio_transcript",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Digital speech assessment tasks and derived metrics collected longitudinally",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "ftstat",
+        "ftreasnd",
+        "dsadat"
+      ],
+      "keywords": [
+        "SpeechFunction",
+        "speech_function",
+        "digital_speech",
+        "safety_monitoring",
+        "clinical"
+      ],
+      "participant_count": 602,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        1466
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Digital Speech Assessment"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDSA"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.617849",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528735"
+    }
+  },
+  "syn68905795": {
+    "Cerebral Spinal Fluid (CSF) Collection.csv": {
+      "administrationMode": [
+        "In_Person"
+      ],
+      "alternateName": [
+        "v_ALLALS_PR_PREVCSFCO"
+      ],
+      "analysisTypes": [
+        "biospecimen_tracking"
+      ],
+      "annotations": [
+        "SNOMED"
+      ],
+      "assessmentType": [
+        "Laboratory"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "biomarkers"
+      ],
+      "completenessLevel": [
+        "medium"
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "biomarker_data",
+        "laboratory_results",
+        "clinical"
+      ],
+      "datasetReference": [
+        "prevent"
+      ],
+      "description": "Lumbar puncture CSF collection status and outcome tracking",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": true,
+      "keyMeasures": [
+        "beyn",
+        "benattmpt",
+        "bestat",
+        "bereasnd",
+        "bestdat",
+        "besttimhh"
+      ],
+      "keywords": [
+        "clinical",
+        "biospecimen_collection",
+        "Laboratory",
+        "csf_collection_status",
+        "lumbar_puncture_success"
+      ],
+      "participant_count": 298,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        440
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        "Amyotrophic lateral sclerosis--Patients"
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Cerebral Spinal Fluid (CSF) Collection"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVCSFCO"
+      ],
+      "visitType": [
+        "Follow-up"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.639244",
+      "license": [
+        "UNKNOWN"
+      ],
+      "dataSourcePrefix": [
+        "all_als"
+      ],
+      "_staging_id": "syn78528722"
+    }
+  },
+  "syn78528724": {
+    "Blood Collection (PREVENT In-Clinic).csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "BiomarkerSerumCollection"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "biomarker_data",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT BiomarkerSerumCollection assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 608,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        849
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Blood Collection (PREVENT In-Clinic)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVBLDCOLINC"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.649165",
+      "_staging_id": "syn78528724"
+    }
+  },
+  "syn78528738": {
+    "Blood Collection (PREVENT Remote).csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "BiomarkerSerumCollection"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "biospecimen_collection",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "biomarker_data",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT BiomarkerSerumCollection assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 374,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        783
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Blood Collection (PREVENT Remote)"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVBLDCOLREM"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.666302",
+      "_staging_id": "syn78528738"
+    }
+  },
+  "syn78528725": {
+    "Demographics.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "Demographics"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "demographics",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT Demographics assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 531,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        531
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Demographics"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVDEMOG"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.682281",
+      "_staging_id": "syn78528725"
+    }
+  },
+  "syn78528749": {
+    "EMG.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "EMG"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "neurology"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "electrophysiology",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT EMG assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 195,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        249
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "EMG"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVEMG"
+      ],
+      "visitType": [
+        "Phenoconversion Evaluation",
+        "Baseline",
+        "Follow-up",
+        "Other"
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.696244",
+      "_staging_id": "syn78528749"
+    }
+  },
+  "syn78528748": {
+    "PREVENT End of Visit Form.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "VisitScheduling"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "study_completion"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "study_completion",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT VisitScheduling assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 598,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        826
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "PREVENT End of Visit Form"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVENDVISFRM"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.708197",
+      "_staging_id": "syn78528748"
+    }
+  },
+  "syn78528751": {
+    "Follow-Up Telephone Visit.csv": {
+      "administrationMode": [
+        "Remote"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "PhoneCallVisit"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "remote_monitoring",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "followup_visit",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT PhoneCallVisit assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 96,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        96
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "follow_up"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Follow-Up Telephone Visit"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVFUTELEV"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.728863",
+      "_staging_id": "syn78528751"
+    }
+  },
+  "syn78528754": {
+    "PREVENT Genetic Testing Results.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "genetic_testing"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "biomarkers"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "genetic_testing",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT genetic_testing assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        "C9-ALS",
+        "DCTN1-ALS",
+        "VCP-ALS",
+        "SPG11-ALS",
+        "SETX-ALS",
+        "SOD1",
+        "ALS2-ALS",
+        "Other genetic ALS",
+        "OPTN-ALS",
+        "UNC13A-ALS",
+        "ATXN2-ALS",
+        "NEK1-ALS",
+        "ANXA11-ALS",
+        "TBK1-ALS",
+        "CHMP2B-ALS",
+        "MATR3-ALS",
+        "KIF5A-ALS",
+        "TARDBP"
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 124,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        142
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "PREVENT Genetic Testing Results"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVGENTSTRES"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.732420",
+      "_staging_id": "syn78528754"
+    }
+  },
+  "syn78528757": {
+    "Key Devices and Procedures Log.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "KeyDevicesProcedures"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "supportive_interventions",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT KeyDevicesProcedures assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 392,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        392
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Key Devices and Procedures Log"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVKEYDEV"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.738029",
+      "_staging_id": "syn78528757"
+    }
+  },
+  "syn78528766": {
+    "Protocol Deviation Log.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "ProtocolDeviation"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "compliance",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT ProtocolDeviation assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 387,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        660
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Protocol Deviation Log"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVPDEVAD"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.749433",
+      "_staging_id": "syn78528766"
+    }
+  },
+  "syn78528767": {
+    "Phenoconversion.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "neurological_examination"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "disease_progression",
+        "neurology"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "disease_progression",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT neurological_examination assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 235,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        249
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        "Limb"
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Phenoconversion"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVPHENOCONVER"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.768567",
+      "_staging_id": "syn78528767"
+    }
+  },
+  "syn78528714": {
+    "Pre-Test Genetic Counseling Appointment.csv": {
+      "administrationMode": [
+        "Remote",
+        "In_Person"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "genetic_counseling"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "genetic_testing",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT genetic_counseling assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 165,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        165
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "screening"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Pre-Test Genetic Counseling Appointment"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVPREGENCONAP"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.775146",
+      "_staging_id": "syn78528714"
+    }
+  },
+  "syn78528712": {
+    "Return of Genetic Results Counseling Appointment.csv": {
+      "administrationMode": [
+        "Remote",
+        "In_Person"
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "genetic_counseling"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "genetic_testing",
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "genetic_testing",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT genetic_counseling assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 146,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        147
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Return of Genetic Results Counseling Appointment"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVPSTGENCONAP"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.782827",
+      "_staging_id": "syn78528712"
+    }
+  },
+  "syn78528719": {
+    "Weight.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "VitalSigns"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "vital_signs",
+        "safety_monitoring"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "vital_signs",
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT VitalSigns assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 563,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        642
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        "longitudinal"
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "Weight"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_PREVWEIGHT"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.787887",
+      "_staging_id": "syn78528719"
+    }
+  },
+  "syn78528723": {
+    "v_ALLALS_PR_subjects.csv": {
+      "administrationMode": [
+        ""
+      ],
+      "alternateName": [
+        ""
+      ],
+      "analysisTypes": [
+        ""
+      ],
+      "annotations": [
+        ""
+      ],
+      "assessmentType": [
+        "CohortParticipation"
+      ],
+      "citation": [
+        ""
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "completenessLevel": [
+        ""
+      ],
+      "contributor": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "creator": [
+        "Access for All in ALS (ALL ALS)"
+      ],
+      "curationLevel": [
+        ""
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "datasetReference": [
+        ""
+      ],
+      "description": "ALL ALS PREVENT CohortParticipation assessment data.",
+      "disease": [
+        "ALS"
+      ],
+      "diseaseSubtype": [
+        ""
+      ],
+      "fileFormat": [
+        "csv"
+      ],
+      "hasLongitudinalData": false,
+      "keyMeasures": [
+        ""
+      ],
+      "keywords": [
+        ""
+      ],
+      "participant_count": 329,
+      "program": [
+        "ALL ALS"
+      ],
+      "recordCount": [
+        329
+      ],
+      "repository": [
+        "ALL ALS"
+      ],
+      "sameAs": "",
+      "site_of_onset": [
+        ""
+      ],
+      "species": [
+        "Homo sapiens"
+      ],
+      "studyPhase": [
+        ""
+      ],
+      "studyType": [
+        "Clinical Trial"
+      ],
+      "subject": [
+        ""
+      ],
+      "subjectIdColumn": [
+        "NeuroGUID"
+      ],
+      "title": [
+        "v_ALLALS_PR_subjects"
+      ],
+      "url": [
+        ""
+      ],
+      "viewName": [
+        "v_ALLALS_PR_subjects"
+      ],
+      "visitType": [
+        ""
+      ],
+      "_file_type": "ClinicalRecordSetFile",
+      "_schema_source": "json-schema",
+      "_created_timestamp": "2026-11-21T01:17:52.800142",
+      "_staging_id": "syn78528723"
+    }
+  }
+}

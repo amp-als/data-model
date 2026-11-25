@@ -1,0 +1,926 @@
+{
+  "plan_id": "c551b7f33a4d582feb772be88e92824692b09fb27acdb013c71cec8161db459a",
+  "status": "complete",
+  "actions": [
+    {
+      "destination": "syn76955356",
+      "filename": "Adverse Event (AE) Log.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528547",
+      "target_id": "syn68905755",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905755",
+        "etag": "954377c8-2a85-4e91-a682-d362a72d434c",
+        "name": "Adverse Event (AE) Log.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523932",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "8a7c85619dbdd54ba31d61008def5487363a21777dc5fd209675e33b97a96d6a"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Cerebral Spinal Fluid (CSF) Collection.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528560",
+      "target_id": "syn68905756",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905756",
+        "etag": "40856eb7-642b-4c7e-8fc6-97c12662c6f5",
+        "name": "Cerebral Spinal Fluid (CSF) Collection.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523934",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "c4cb44c150c98c71a58dabee1c75a7acae0523b0314b44b4d3ae634bd0cfee23"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "ALSFRSR and Speech Anchor Questions.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528546",
+      "target_id": "syn68905758",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905758",
+        "etag": "b5bc4166-c487-4ae7-87db-0b1eb3cfb210",
+        "name": "ALSFRSR and Speech Anchor Questions.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523936",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "b63164bd71558018677f3552125bf8a96fcac31649c37ee20c01008164384f98"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "ALS History.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528545",
+      "target_id": "syn68905759",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905759",
+        "etag": "d384af78-1ff2-4945-acd9-e44dcaa23333",
+        "name": "ALS History.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523937",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "b465214d512c239b652dfa2a84a1b7e4f241065e4c9d571218df0e14ed7a06f9"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "ALSFRSR.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528543",
+      "target_id": "syn68905760",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905760",
+        "etag": "81b43d04-917b-4014-8cdf-897aae78d537",
+        "name": "ALSFRSR.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523940",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "82a35fc48e49be411de68c6a2719fe160a1f9b2e151debc8661f29865f3b15fd"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Concomitant Medication Log.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528548",
+      "target_id": "syn68905761",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905761",
+        "etag": "b4809541-023f-4cab-871e-e2c4ace90ebd",
+        "name": "Concomitant Medication Log.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523942",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "6413a6c4303224f724afbb064aaa6a3f0c717db4a3bfeadcb2e9256d61fc19d9"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Digital Speech Assessment.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528568",
+      "target_id": "syn68905762",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905762",
+        "etag": "6793a262-90ab-4d7a-99d1-7efd80f7dbfd",
+        "name": "Digital Speech Assessment.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523944",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "9fea2906ac9febfc03192f5589af874580cd7b49a58d29dd70340e0952b21750"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Lumbar Puncture Eligibility Confirmation.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528563",
+      "target_id": "syn68905763",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905763",
+        "etag": "1b1210b1-d963-462e-a657-e6442cc1a724",
+        "name": "Lumbar Puncture Eligibility Confirmation.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523946",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "cd37396556861df123e179d992e2bf4e1027876a2926721b8c584cea965da8c6"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "ECAS (Edinburgh Cognitive and Behavioral ALS Screen) Caregiver Interview.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528572",
+      "target_id": "syn68905765",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905765",
+        "etag": "7b4a140e-b72e-481d-b2c5-9747398b9ae2",
+        "name": "ECAS (Edinburgh Cognitive and Behavioral ALS Screen) Caregiver Interview.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 18,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523948",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "c378e7b83c0742b8688e3565426a69f7d39506d3bac1ab46be8440e0ec8a48f4"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Enrollment Confirmation.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528579",
+      "target_id": "syn68905766",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905766",
+        "etag": "51ba9f9b-0199-4ca7-a333-cb9286e67709",
+        "name": "Enrollment Confirmation.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523950",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "762d9737e8aaafce88d6e10aabe58657d5a84034ab922ef1121fa8461f1041a7"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Eligibility Criteria 2 (ASSESS Control)",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528578",
+      "target_id": "syn68905768",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905768",
+        "etag": "58b569c9-41f7-44f6-8d1f-87db345f2cc5",
+        "name": "Eligibility Criteria 2 (ASSESS Control)",
+        "parentId": "syn76955356",
+        "versionNumber": 14,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523952",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "2ad77a1035f9615a85a8cb97ef3a08c372f1184f268450220b23ac276fe4f59c"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Eligibility Criteria 2 (ASSESS Symptomatic)",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528564",
+      "target_id": "syn68905769",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905769",
+        "etag": "801dc44f-16e8-476b-8132-85780e97babe",
+        "name": "Eligibility Criteria 2 (ASSESS Symptomatic)",
+        "parentId": "syn76955356",
+        "versionNumber": 14,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523955",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "e3ef850db2e9e029b13f305cd0ff7afc40647a1718a0b3b7eb11f74467ce572b"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Eligibility Criteria (ASSESS Control).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528566",
+      "target_id": "syn68905770",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905770",
+        "etag": "17b30cf1-0b71-42f8-bee5-8d825d3ded40",
+        "name": "Eligibility Criteria (ASSESS Control).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523438",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "e9ad070e6b16a817fdff614fe7dffaf53f13ac49550e3e0fea300174fe8bf053"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Eligibility Criteria (ASSESS Symptomatic).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528571",
+      "target_id": "syn68905771",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905771",
+        "etag": "0115ec4d-d0ee-46e5-94c1-2cf3e62dd985",
+        "name": "Eligibility Criteria (ASSESS Symptomatic).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523441",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "2b37f4cc17004478c9064ce5fff06c209caeae5ed69f13dabbbf8019ff36cbe2"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "ECAS (Edinburgh Cognitive and Behavioral ALS Screen).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528570",
+      "target_id": "syn68905772",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905772",
+        "etag": "7774ccae-6da3-46d6-a5c7-959b7d6d7b8f",
+        "name": "ECAS (Edinburgh Cognitive and Behavioral ALS Screen).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523959",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "b55ec3856bed3e3552787120867fec3a5f7a6e11d35c18de2757adcf1099c9b6"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Family History.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528573",
+      "target_id": "syn68905773",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905773",
+        "etag": "20c4df12-1b69-4adb-8f15-20e466b37f7b",
+        "name": "Family History.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523962",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "f1bcc71c3a3befbc2473e4259c083930f9122c7c147074077bc6e3918362f0dd"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Informed Consent Log.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528574",
+      "target_id": "syn68905774",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905774",
+        "etag": "16e3cb19-2b17-47d1-8253-e36f6cacf290",
+        "name": "Informed Consent Log.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523964",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "68317d3d10d714e67ee82f8e248df550acd2f054906ab66600130c1f6afc8c06"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Modified HandHeld Dynamometry (HHD).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78718394",
+      "target_id": "syn68905775",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905775",
+        "etag": "2fa511fb-6317-4ccb-a9cf-ce09fb07295a",
+        "name": "Modified HandHeld Dynamometry (HHD).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523967",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "bcbe44e619e123aed990f45860248e143cda1117e9033a11756d8db7786be264"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Informed Consent Log (CSF Collection).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528576",
+      "target_id": "syn68905776",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905776",
+        "etag": "5fcf87e4-3e4d-49ef-a807-89ff5221ab32",
+        "name": "Informed Consent Log (CSF Collection).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 17,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523969",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "b487c74ea977ad9cf097b8a795faa5492c264b5f099f6f180cff0061e6d999da"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Lumbar Puncture Eligibility Criteria.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528565",
+      "target_id": "syn68905777",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905777",
+        "etag": "cfd5b015-e015-4aa8-9a3e-312a0280db95",
+        "name": "Lumbar Puncture Eligibility Criteria.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523971",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "3181a500e4ef3260ae40ab24c31295efffae3196a9d22401d840d5095b9ba8e4"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "ASSESS Participant Final Disposition.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528537",
+      "target_id": "syn68905778",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905778",
+        "etag": "67236601-d7ed-4532-8195-029848268266",
+        "name": "ASSESS Participant Final Disposition.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523973",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "e116355dfb02c5d832ebf60902d46aa38325ed2612ecfef01e9da49bc17b8b67"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Prior ALS Genetic Testing.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528534",
+      "target_id": "syn68905780",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905780",
+        "etag": "22a4a2c6-f7ce-4a19-a4ae-41e1dc483834",
+        "name": "Prior ALS Genetic Testing.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523975",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "8c42379e3e4c89b9b519bcd155f27ff5164c650e2f6309861992f43253ea10e4"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Vital Capacity (VC).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528541",
+      "target_id": "syn68905781",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905781",
+        "etag": "2d86f787-8eac-4347-a118-b66f746c5f2f",
+        "name": "Vital Capacity (VC).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523976",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "b8996d5c95f7ed6194327c401fd70b990ede5c3ee06b1bfa0789f6e9fab6c496"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Medical History.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528535",
+      "target_id": "syn68905782",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905782",
+        "etag": "0d690c38-ddc7-4505-afdb-7e4188db360a",
+        "name": "Medical History.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523980",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "706d1e1127abefbd54a4456b88b17165c57bfa73f6f55efa72cfffe9b73963db"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Visit Type.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528542",
+      "target_id": "syn68905783",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905783",
+        "etag": "bce2ee16-68de-4c06-83a7-afd8a49213f6",
+        "name": "Visit Type.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523982",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "c376670fc7635caf1012f6ad8d3c98c4fda24d1616ebe0b2b46029a02e43343e"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Vital Signs (ASSESS).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528544",
+      "target_id": "syn68905784",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn68905784",
+        "etag": "c679ad40-9afc-49ad-a575-fc134cb037de",
+        "name": "Vital Signs (ASSESS).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 21,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523984",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "950845751dfe0e5638bc1f9c2275b335abca700eb1d2e83789c936f4546e5f52"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Eligibility Criteria (DHT ASSESS).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528554",
+      "target_id": "syn72663738",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663738",
+        "etag": "988354ee-6938-4e9e-a611-0be79ae330b1",
+        "name": "Eligibility Criteria (DHT ASSESS).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523986",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "9deeb8217bfb163eeadee86cf0e0b2fe49dc059b763f22fb59fe7e52fd96264b"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Brief Observed Exercises.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528552",
+      "target_id": "syn72663740",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663740",
+        "etag": "9c788184-194f-488b-b7fb-43435b3fa50f",
+        "name": "Brief Observed Exercises.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523988",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "278b364f5091a38ec3e43d18e1bb400309d6a89afc370bec96b3571bf30306a2"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Anthropometrics and Laterality.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528550",
+      "target_id": "syn72663741",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663741",
+        "etag": "fcbac825-ef3a-42a8-b695-244c645b6f41",
+        "name": "Anthropometrics and Laterality.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523990",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "39717506aedec859e2b1787676c3cf80477bfad2781ceac180c211ac4f6da193"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Enrollment Confirmation (DHT ASSESS).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528555",
+      "target_id": "syn72663742",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663742",
+        "etag": "a2aadf29-7e00-4072-95a8-79db512d7f17",
+        "name": "Enrollment Confirmation (DHT ASSESS).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523993",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "ed038084e78696858ec2f59e37cdc0510e866ffee95a18aac8fc1c4849cf01a5"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Fall Questionnaire.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528557",
+      "target_id": "syn72663744",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663744",
+        "etag": "23b54873-d43d-4cdb-93bf-70a8622edf1b",
+        "name": "Fall Questionnaire.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523995",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "ce80b2e64b8386a70a3d3169d51a113e30ae1cdae9f2b5c0f06646a082616b79"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Predicted Adherence Survey.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528556",
+      "target_id": "syn72663745",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663745",
+        "etag": "8fd35730-51dc-45f4-81af-b0f05a8fc01f",
+        "name": "Predicted Adherence Survey.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523997",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "950061a4111133f9477a50536358095b91fecb6ccb00cffb03531b085bf819d9"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "DHT Participant Final Disposition.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528567",
+      "target_id": "syn72663746",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663746",
+        "etag": "c2d0438e-0a60-46b7-8c57-0ff64019e3f6",
+        "name": "DHT Participant Final Disposition.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523999",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "184296efb9eb9c260d5ee57b39fddc3f923adb4f9262a2e075d8bc2920a24258"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Strength and Ambulation Survey (ASSESS).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528559",
+      "target_id": "syn72663747",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663747",
+        "etag": "71492d58-1d91-4027-90b2-21288cf036c1",
+        "name": "Strength and Ambulation Survey (ASSESS).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524001",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "0a25522579420c7ac807b7b965e98530f3c1403a080cad3624d942286a542353"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Usability Metric for User Experience (UMUX) Survey.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528562",
+      "target_id": "syn72663748",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663748",
+        "etag": "de0dd0e0-80ee-4b09-8f28-30da8fcee908",
+        "name": "Usability Metric for User Experience (UMUX) Survey.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524002",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "ef54d5ca51b945e070c96442f5a5ce6fe8d4b917c0d17ed48beda11e43f9c276"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Technology Acceptance Model (TAM) Survey.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528561",
+      "target_id": "syn72663750",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn72663750",
+        "etag": "178c5a72-1a78-4098-b93e-83a29ed09c30",
+        "name": "Technology Acceptance Model (TAM) Survey.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 12,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524004",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "94fcfadc8f51a3e498e8a3671768f442b181574f5624a9b90e7ecdad891e0e1b"
+      }
+    },
+    {
+      "destination": "syn73805797",
+      "filename": "Data_Dictionary_ALLALS_ASSESS.csv",
+      "kind": "annotate",
+      "refresh_membership": true,
+      "source_id": null,
+      "target_id": "syn73806089",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn73806089",
+        "etag": "53b17877-64bb-4c78-9fb4-45d220db2a68",
+        "name": "Data_Dictionary_ALLALS_ASSESS.csv",
+        "parentId": "syn73805797",
+        "versionNumber": 16,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "176507681",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "65ce106282387788748ef8e2e513305ffe46cd3c7943c529c75fbac7a6de37d2"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Device Feedback Survey.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528553",
+      "target_id": "syn74145004",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn74145004",
+        "etag": "39a3aa32-4dcc-4b88-821e-c3a3d582f22d",
+        "name": "Device Feedback Survey.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 10,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179523501",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "98fb1653f3960528bc9c25d45c635dfb49bca001993394daff65eb1d4f683313"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "v_ALLALS_AS_subjects.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528549",
+      "target_id": "syn78528665",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn78528665",
+        "etag": "b1e13340-386c-49cc-8db0-01d0cb42b031",
+        "name": "v_ALLALS_AS_subjects.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 3,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524007",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "7bacaa1c7319b5947584bf45e353408abfdfe5248e1c1862d13e42876621a234"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Protocol Deviation Log.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528533",
+      "target_id": "syn78528667",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn78528667",
+        "etag": "27499863-6996-46bd-ba60-6d78745aedaf",
+        "name": "Protocol Deviation Log.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 3,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524010",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "81733880d3fd99a18aad112814d77a443781357e5770623c430ab9f1031c3c59"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Demographics.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528551",
+      "target_id": "syn78528678",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn78528678",
+        "etag": "b3db8a30-c748-430f-bc16-aa30b8a85ff9",
+        "name": "Demographics.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 3,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524013",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "f58eebb7c8a8aee507ea71dc898890e6beb230ea9f11c571661f6feda72f6716"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Blood Collection (ASSESS).csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528558",
+      "target_id": "syn78528693",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn78528693",
+        "etag": "cec31c80-379d-4089-aa95-768e23774be9",
+        "name": "Blood Collection (ASSESS).csv",
+        "parentId": "syn76955356",
+        "versionNumber": 3,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524015",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "8b447efe02d46ab3d5e9c170b2170655cd2e7d636d9bbd389b06efd67927c56f"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Informed Consent Log Super Control.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528536",
+      "target_id": "syn78528703",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn78528703",
+        "etag": "d7a287c8-ac5b-4258-a2f7-102375353262",
+        "name": "Informed Consent Log Super Control.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 3,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524018",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "6b19937246579a7b19a18ed6452a8f2a392c9702f00f07ee2db468bfc7b1766b"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Key Devices and Procedures Log.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528540",
+      "target_id": "syn78528704",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn78528704",
+        "etag": "4c7d11d5-a32f-4ae1-9c8c-b34285eaf3ee",
+        "name": "Key Devices and Procedures Log.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 3,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524021",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "9f360a09e87b43172c08f95772d77d75cdceb7718a575b6fde40d447d957a32d"
+      }
+    },
+    {
+      "destination": "syn76955356",
+      "filename": "Neurological Examination.csv",
+      "kind": "version_staging",
+      "refresh_membership": true,
+      "source_id": "syn78528538",
+      "target_id": "syn78528706",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn78528706",
+        "etag": "3620833c-d497-4dc4-95b0-4c5e698e3f72",
+        "name": "Neurological Examination.csv",
+        "parentId": "syn76955356",
+        "versionNumber": 3,
+        "versionLabel": "v13-OCT",
+        "dataFileHandleId": "179524023",
+        "concreteType": "org.sagebionetworks.repo.model.FileEntity",
+        "annotations_sha256": "d487ca9738628cf0600fc612406de90c0d5d0f6c1b5390d0fa790bf9fff9ca9d"
+      }
+    },
+    {
+      "destination": null,
+      "filename": "ASSESS ALL ALS Clinical Dataset",
+      "kind": "annotate_dataset",
+      "refresh_membership": false,
+      "source_id": null,
+      "target_id": "syn69694463",
+      "status": "verified",
+      "observed_state": {
+        "id": "syn69694463",
+        "etag": "ea17dc12-ed09-418b-be11-5238c2733802",
+        "name": "ASSESS ALL ALS Clinical Dataset",
+        "parentId": "syn68702804",
+        "versionNumber": 20,
+        "versionLabel": "in progress",
+        "dataFileHandleId": null,
+        "concreteType": "org.sagebionetworks.repo.model.table.Dataset",
+        "annotations_sha256": "aabed54372bf109b6f37869900c2b9a75d972f5929d198bd10365d1b22ef89d0"
+      }
+    }
+  ]
+}

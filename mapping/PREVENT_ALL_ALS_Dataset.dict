@@ -846,15 +846,43 @@
       "studyPhase": "longitudinal"
     },
     "v_ALLALS_PR_PREVDHTPFD": {
-      "assessmentType": [],
-      "clinicalDomain": [],
-      "dataType": [],
-      "studyPhase": ""
+      "assessmentType": [
+        "StudyDisposition"
+      ],
+      "clinicalDomain": [
+        "subject_management",
+        "study_completion"
+      ],
+      "dataType": [
+        "study_completion",
+        "clinical"
+      ],
+      "studyPhase": "endpoint"
     },
     "ct_ALLALS_PR_Follow_up_SAE_Report": {
-      "assessmentType": [],
-      "clinicalDomain": [],
-      "dataType": [],
+      "assessmentType": [
+        "AdverseEventLog"
+      ],
+      "clinicalDomain": [
+        "safety_monitoring",
+        "adverse_events"
+      ],
+      "dataType": [
+        "adverse_events",
+        "clinical"
+      ],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_PR_subjects": {
+      "assessmentType": [
+        "CohortParticipation"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": ""
     }
   },
@@ -3412,7 +3440,8 @@
     "target": "",
     "values": {
       "1": "Testing Not Previous Offered",
-      "99": "Other (specify):"
+      "99": "Other (specify):",
+      "NA": "Testing Offered"
     }
   },
   "pralsgt_ntestothsp": {
@@ -7718,7 +7747,8 @@
     "target": "administrationMode",
     "values": {
       "1": "Remote",
-      "2": "In_Person"
+      "2": "In_Person",
+      "NA": "Remote (e.g."
     }
   },
   "predisgc_locp": {
@@ -8028,7 +8058,8 @@
     "target": "",
     "values": {
       "1": "Yes",
-      "3": "Family Variant Not Known"
+      "3": "Family Variant Not Known",
+      "NA": "No"
     }
   },
   "gtr_var_nocoval": {
@@ -8090,7 +8121,8 @@
     "target": "administrationMode",
     "values": {
       "1": "Remote",
-      "2": "In_Person"
+      "2": "In_Person",
+      "NA": "Remote (e.g."
     }
   },
   "postdisgc_locp": {
@@ -8415,7 +8447,8 @@
     "view": "v_ALLALS_PR_PREVMIRSCRPR",
     "target": "",
     "values": {
-      "2": "No"
+      "2": "No",
+      "NA": "Yes (Enter one row for each question marked \"Yes\""
     }
   },
   "mirspid": {
@@ -9652,7 +9685,8 @@
     "target": "administrationMode",
     "values": {
       "1": "Remote",
-      "2": "In_Person"
+      "2": "In_Person",
+      "NA": "Remote (e.g."
     }
   },
   "tele_occur_context": {
@@ -10017,7 +10051,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_ra_b": {
@@ -10030,7 +10065,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "groc_la": {
@@ -10053,7 +10089,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_la_b": {
@@ -10066,7 +10103,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "groc_rl": {
@@ -10089,7 +10127,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_rl_b": {
@@ -10102,7 +10141,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "groc_ll": {
@@ -10125,7 +10165,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_ll_b": {
@@ -10138,7 +10179,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "aal_stat": {
@@ -11145,5 +11187,46 @@
   "repository": {
     "target": "repository",
     "value": "ALL ALS"
+  },
+  "Initials": {
+    "description": "Subject Initials",
+    "view": "v_ALLALS_PR_subjects",
+    "target": "",
+    "values": {}
+  },
+  "State": {
+    "description": "Subject state",
+    "view": "v_ALLALS_PR_subjects",
+    "target": "",
+    "values": {
+      "-1": "Unknown",
+      "0": "Screening",
+      "1": "Screened",
+      "2": "Failed",
+      "3": "Failed 3",
+      "4": "Failed 4",
+      "5": "Failed other"
+    }
+  },
+  "Reason for failure": {
+    "description": "Reason for failure",
+    "view": "v_ALLALS_PR_subjects",
+    "target": "",
+    "values": {}
+  },
+  "subject_group_id": {
+    "description": "Subject Group ID",
+    "view": "v_ALLALS_PR_subjects",
+    "target": "",
+    "values": {
+      "1": "Group (A1)",
+      "2": "Group (A2)"
+    }
+  },
+  "NeuroSTAmP": {
+    "description": "Subject GUID",
+    "view": "v_ALLALS_PR_PREVAELOG",
+    "target": "",
+    "values": {}
   }
 }

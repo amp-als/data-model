@@ -1,0 +1,286 @@
+{
+  "PREVENT ALL ALS Clinical Dataset": {
+    "acknowledgementStatement": [
+      "syn64892175/wiki/633965"
+    ],
+    "alternateName": [
+      "PREVENT ALL ALS"
+    ],
+    "assessmentTypes": [
+      "ECAS",
+      "Strength",
+      "HandHeldDynamometry",
+      "ForcedVitalCapacity",
+      "VitalSigns",
+      "Laboratory",
+      "Neurological",
+      "PhysicalExam",
+      "VisitScheduling",
+      "EligibilityCriteria",
+      "MedicalHistory",
+      "neurological_examination",
+      "genetic_testing",
+      "Demographics",
+      "EligibilityConsent",
+      "PulmonaryFunction",
+      "BiomarkerSerumCollection",
+      "EMG",
+      "SpeechFunction",
+      "InformedConsentForm",
+      "ConcomitantMedications",
+      "AdverseEventLog",
+      "ProtocolDeviation",
+      "genetic_counseling",
+      "KeyDevicesProcedures",
+      "StudyDisposition",
+      "CohortParticipation",
+      "cognitive_assessment",
+      "QualityOfLifeSurvey",
+      "PhoneCallVisit",
+      "ClinicalExamination"
+    ],
+    "citation": [
+      "doi:10.1002/mus.28244"
+    ],
+    "clinicalDomain": [
+      "motor_function",
+      "respiratory_function",
+      "disease_progression",
+      "symptom_onset",
+      "genetic_testing",
+      "biomarkers",
+      "cognitive_assessment",
+      "subject_management",
+      "eligibility_criteria",
+      "diagnosis_criteria",
+      "medical_history",
+      "neurology",
+      "physical_mobility",
+      "cognitive_function",
+      "biospecimen_collection",
+      "safety_monitoring",
+      "speech_function",
+      "study_completion",
+      "informed_consent",
+      "drug_exposure",
+      "adverse_events",
+      "compliance",
+      "remote_monitoring",
+      "supportive_interventions",
+      "physical_examination",
+      "vital_signs",
+      "upper_motor_neuron",
+      "lower_motor_neuron",
+      "functional_impact",
+      "activities_of_daily_living",
+      "study_eligibility",
+      "functional_assessment"
+    ],
+    "clinicalTrialPhase": [
+      ""
+    ],
+    "cohort": [
+      "Asymptomatic Genetic ALS At-Risk"
+    ],
+    "cohortType": [
+      "At-Risk",
+      "Natural-History"
+    ],
+    "cohort_count": 1,
+    "contributor": [
+      "Access for All in ALS (ALL ALS)",
+      "Shafeeq Ladha, MD",
+      "Kerry Knievel, DO",
+      "Valerie Wojna Muñiz, MD, FAAN",
+      "Brenda Deliz Roldan, MD",
+      "Neil Shneider, MD, PhD",
+      "Mark Garret, MD",
+      "Xiaoyan Li, MD, PhD",
+      "Shakti Nayar, MD",
+      "Ximena Arcila-Londono, MD",
+      "Kevin Felice, DO",
+      "Cynthia Bodkin, MD",
+      "Nicholas Maragakis, MD",
+      "James Berry, MD",
+      "Bjorn Oskarsson, MD",
+      "Justin Kwan, MD",
+      "Senda Ajroud-Driss, MD",
+      "Eduardo Locatelli, MD",
+      "Stephen Kolb, MD, PhD",
+      "Zachary Simmons, MD",
+      "Nicholas Olney, MD",
+      "Jackie Whitesell, MD",
+      "Terry Heiman-Patterson, MD",
+      "Daragh Heitzman, MD, FAAN",
+      "Nan Jiang, MD",
+      "Namita Goyal, MD",
+      "Yigit Karasozen, MD",
+      "John Ravits, MD",
+      "Laura Rosow, MD",
+      "Laura Foster, MD",
+      "Eva Feldman, MD, PhD",
+      "David Walk, MD",
+      "Joseph Americo Fernandes, MD, FAAN",
+      "Colin Quinn, MD",
+      "Mark Bromberg, MD, PhD",
+      "Michael Weiss, MD",
+      "Amanda Peltier, MD",
+      "Qihua Fan, MD",
+      "Timothy Miller, MD, PhD",
+      "Anuj Dhir, MD"
+    ],
+    "creator": [
+      "Access for All in ALS (ALL ALS)"
+    ],
+    "curationLevel": [
+      "tier2"
+    ],
+    "dataCategory": [
+      "Laboratory",
+      "Functional Assessment",
+      "Safety",
+      "Treatment / Exposure",
+      "Survival / Disposition",
+      "Patient-reported Outcome",
+      "Clinical Outcome"
+    ],
+    "dataType": [
+      "clinical",
+      "clinical_assessment",
+      "medical_history",
+      "laboratory_results",
+      "vital_signs",
+      "neurological_assessment",
+      "electrophysiology",
+      "hand_held_dynamometry",
+      "genetic_profile",
+      "study_management",
+      "adverse_events",
+      "functional_assessment",
+      "motor_assessment",
+      "cognitive_assessment",
+      "respiratory_assessment",
+      "surveyData",
+      "quality_of_life",
+      "biomarker_data",
+      "medication_history",
+      "study_completion",
+      "diagnostic_criteria",
+      "family_history",
+      "genetic_testing",
+      "bulbar_assessment",
+      "audio_transcript",
+      "demographics",
+      "disease_progression",
+      "followup_visit"
+    ],
+    "dataUseModifiers": [
+      ""
+    ],
+    "dataset_code": "all_als_prevent",
+    "datePublished": "",
+    "description": "Longitudinal clinical assessment data from the ALL ALS PREVENT study, including consent, eligibility, demographics, genetic counseling and testing, neurological and functional assessments, safety events, biospecimen collection, and digital health technology assessments.",
+    "disease": [
+      "ALS"
+    ],
+    "diseaseSubtype": [
+      "C9-ALS",
+      "SOD1-ALS",
+      "ANG-ALS",
+      "ANXA11-ALS",
+      "ARHGEF28-ALS",
+      "ATXN2-ALS",
+      "CFAP410-ALS",
+      "CHCHD10-ALS",
+      "CHMP2B-ALS",
+      "DAO-ALS",
+      "DCTN1-ALS",
+      "ERBB4-ALS",
+      "FIG4-ALS",
+      "FUS-ALS",
+      "HNRNPA1-ALS",
+      "HNRNPA2B1-ALS",
+      "KIF5A-ALS",
+      "MATR3-ALS",
+      "MOBP-ALS",
+      "NEFH-ALS",
+      "NEK1-ALS",
+      "OPTN-ALS",
+      "PFN1-ALS",
+      "SETX-ALS",
+      "SQSTM1-ALS",
+      "TAF15-ALS",
+      "TARDBP-ALS",
+      "TBK1-ALS",
+      "TUBA4A-ALS",
+      "UBQLN2-ALS",
+      "UNC13A-ALS",
+      "VAPB-ALS",
+      "VCP-ALS",
+      "ALS2-ALS",
+      "ELP3-ALS",
+      "EPHA4-ALS",
+      "EWSR1-ALS",
+      "KIKAP3-ALS",
+      "PRPH-ALS",
+      "SPG4-ALS",
+      "SPG11-ALS",
+      "Other genetic ALS"
+    ],
+    "funder": [
+      "NIH"
+    ],
+    "hosting": "synapse",
+    "keywords": [
+      "ALS prevention study",
+      "neurological exam",
+      "motor/cognitive screening",
+      "muscle & grip strength",
+      "handheld dynamometry",
+      "vital capacity",
+      "EMG/NCS",
+      "ECAS",
+      "MIR",
+      "ALS gene variants (C9ORF72,SOD1,FUS,TARDBP)",
+      "blood/serum/plasma",
+      "CSF via LP",
+      "longitudinal cohort"
+    ],
+    "participant_count": 531,
+    "portalRelease": [
+      "2026.2"
+    ],
+    "primaryOutcome": "Phenoconversion to ALS and rate of neurological decline in at-risk gene carriers",
+    "program": [
+      "ALL ALS"
+    ],
+    "repository": [
+      "ALL ALS"
+    ],
+    "sameAs": "",
+    "species": [
+      "Homo sapiens"
+    ],
+    "studyDesign": "longitudinal",
+    "studyType": [
+      "Clinical Trial"
+    ],
+    "study_count": 1,
+    "subject": [
+      "Amyotrophic lateral sclerosis--Prevention",
+      "Neurodegenerative diseases--Genetic aspects",
+      "Motor neuron diseases--Research"
+    ],
+    "title": "PREVENT ALL ALS Dataset",
+    "url": [
+      ""
+    ],
+    "visitSchedule": "Screening; Visits 1, 1a, 2\u20137; LP eligibility visits; Genetic counseling appointments; Follow-up telephone visits; DHT sub-study visits; Early Termination",
+    "_dataset_type": "ClinicalDataset",
+    "_schema_source": "json-schema",
+    "_created_timestamp": "2026-11-21T01:17:52.804930",
+    "publisher": [
+      "Sage Bionetworks"
+    ]
+  }
+}

@@ -609,9 +609,57 @@
       "studyPhase": "longitudinal"
     },
     "ct_ALLALS_AS_Follow_up_SAE_Report_ASSESS": {
-      "assessmentType": [],
-      "clinicalDomain": [],
-      "dataType": [],
+      "assessmentType": [
+        "AdverseEventLog"
+      ],
+      "clinicalDomain": [
+        "adverse_events",
+        "safety_monitoring"
+      ],
+      "dataType": [
+        "adverse_events"
+      ],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_ASSEICFSC": {
+      "assessmentType": [
+        "InformedConsentForm"
+      ],
+      "clinicalDomain": [
+        "informed_consent"
+      ],
+      "dataType": [
+        "clinical"
+      ],
+      "studyPhase": "screening"
+    },
+    "v_ALLALS_AS_ASSENUROEX": {
+      "assessmentType": [
+        "ClinicalExamination",
+        "neurological_examination"
+      ],
+      "clinicalDomain": [
+        "motor_function",
+        "bulbar_function",
+        "limb_function",
+        "functional_assessment",
+        "neurology"
+      ],
+      "dataType": [
+        "neurological_assessment"
+      ],
+      "studyPhase": "longitudinal"
+    },
+    "v_ALLALS_AS_subjects": {
+      "assessmentType": [
+        "CohortParticipation"
+      ],
+      "clinicalDomain": [
+        "subject_management"
+      ],
+      "dataType": [
+        "clinical"
+      ],
       "studyPhase": ""
     }
   },
@@ -1404,7 +1452,8 @@
     "target": "",
     "values": {
       "1": "Testing Not Previous Offered",
-      "99": "Other (specify):"
+      "99": "Other (specify):",
+      "NA": "Testing Offered"
     }
   },
   "pralsgt_ntestothsp": {
@@ -2646,7 +2695,8 @@
       "4": "None",
       "2": "Needs extra pillow in order to sleep (more than two)",
       "1": "Can only sleep sitting up",
-      "0": "Unable to sleep"
+      "0": "Unable to sleep",
+      "NA": "Some difficulty sleeping at night due to shortness of breath"
     }
   },
   "respins_ftorres": {
@@ -4626,7 +4676,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_ra_b": {
@@ -4639,7 +4690,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "groc_la": {
@@ -4662,7 +4714,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_la_b": {
@@ -4675,7 +4728,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "groc_rl": {
@@ -4698,7 +4752,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_rl_b": {
@@ -4711,7 +4766,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "groc_ll": {
@@ -4734,7 +4790,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_ll_b": {
@@ -4747,7 +4804,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "groc_m": {
@@ -4770,7 +4828,8 @@
       "4": "Moderately worse",
       "5": "A good deal worse",
       "6": "A great deal worse",
-      "7": "A very great deal worse"
+      "7": "A very great deal worse",
+      "NA": "Almost the same"
     }
   },
   "groc_m_b": {
@@ -4783,7 +4842,8 @@
       "4": "Moderately better",
       "5": "A good deal better",
       "6": "A great deal better",
-      "7": "A very great deal better"
+      "7": "A very great deal better",
+      "NA": "Almost the same"
     }
   },
   "aal_stat": {
@@ -5790,5 +5850,1954 @@
   "repository": {
     "target": "repository",
     "value": "ALL ALS"
+  },
+  "icfvers_supdat": {
+    "description": "ICF Version Date",
+    "view": "v_ALLALS_AS_ASSEICFSC",
+    "target": "",
+    "values": {}
+  },
+  "nvstat": {
+    "description": "Performed?",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Yes",
+      "2": "No"
+    }
+  },
+  "nvdat": {
+    "description": "Date",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "loc_nvstat": {
+    "description": "LOC Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "loc_nvstresc": {
+    "description": "Level of Consciousness Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "loc_nvorres": {
+    "description": "Describe Abnormal Findings Level of Consciousness",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "loa_nvstat": {
+    "description": "Appearance Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "loa_nvstresc": {
+    "description": "Appearance Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "loa_nvorres": {
+    "description": "Describe Abnormal Findings Appearance",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mntlst_nvstat": {
+    "description": "Mental Status Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mntlst_nvstresc": {
+    "description": "Mental Status Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "mntlst_nvorres": {
+    "description": "Describe Abnormal Findings Mental Status",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lng_nvstat": {
+    "description": "Language Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lng_nvstresc": {
+    "description": "Language Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "lng_nvorres": {
+    "description": "Describe Abnormal Findings Language",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "pba_nvstat": {
+    "description": "PBA Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "pba_nvstresc": {
+    "description": "Pseudobulbar Affect Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "pba_nvorres": {
+    "description": "Describe Abnormal Findings Pseudobulbar Affect",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "eyemvrom_nvstat": {
+    "description": "EYEMVROM Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "eyemvrom_nvstresc": {
+    "description": "Eye Movements: Range of Motion Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "eyemvrom_nvorres": {
+    "description": "Describe Abnormal Findings Range of Motion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "eyemvnsps_nvstat": {
+    "description": "EYEMVNSPS Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "eyemvnsps_nvstresc": {
+    "description": "Eye Movements: Nystagmus Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "eyemvnsps_nvorres": {
+    "description": "Describe Abnormal Findings Nystagmus",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "jaw_nvstat": {
+    "description": "Jaw Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "jaw_nvstresc": {
+    "description": "Jaw Strength Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "jaw_nvorres": {
+    "description": "Describe Abnormal Findings Jaw Strength",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "facestr_nvstat": {
+    "description": "Facial Strength Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "facestr_nvstresc": {
+    "description": "Facial Strength Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "facestr_nvorres": {
+    "description": "Describe Abnormal Findings Facial Strength",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "faceexp_nvstat": {
+    "description": "Facial Expression Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "faceexp_nvstresc": {
+    "description": "Facial Expression (Hypomimia) Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "faceexp_nvorres": {
+    "description": "Describe Abnormal Findings Facial Expression",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "swal_nvstat": {
+    "description": "SWAL Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "swal_nvstresc": {
+    "description": "Swallowing/Pharynx /Larynx Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "swal_nvorres": {
+    "description": "Describe Abnormal Findings Swallowing",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "dysar_nvstat": {
+    "description": "Dysarthria Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "dysar_nvstresc": {
+    "description": "Dysarthria Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "dysar_nvorres": {
+    "description": "Describe Abnormal Findings Dysarthria",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongfas_nvstat": {
+    "description": "Tongue Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongfas_nvstresc": {
+    "description": "Tongue Fasciculations Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "tongfas_nvorres": {
+    "description": "Describe Abnormal Findings Tongue Fasciculations",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongbulk_nvstat": {
+    "description": "Bulk Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongblk_nvstresc": {
+    "description": "Tongue Bulk Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "tongblk_nvorres": {
+    "description": "Describe Abnormal Findings Tongue Bulk",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongstr_nvstat": {
+    "description": "Strength Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongstr_nvstresc": {
+    "description": "Tongue Strength Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "tongstr_nvorres": {
+    "description": "Describe Abnormal Findings Tongue Strength",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongrm_nvstat": {
+    "description": "RM Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "tongrm_nvstresc": {
+    "description": "Tongue Rapid Movements Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "tongrm_nvorres": {
+    "description": "Describe Abnormal Findings Tongue Rapid",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "scmtrapstr_nvstat": {
+    "description": "SCMTRAPSTR Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "scmtrapstr_nvstresc": {
+    "description": "SCM",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "scmtrapstr_nvorres": {
+    "description": "Describe Abnormal Findings SCM",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_nvstat": {
+    "description": "Left Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_nvstresc": {
+    "description": "Motor Strength Left Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "ms_lue_nvorres": {
+    "description": "Describe Abnormal Findings Motor Strength LUE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_sa": {
+    "description": "Shoulder Abduction",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_wf": {
+    "description": "Wrist Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_apb": {
+    "description": "Thumb Abduction (APB)",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_sf": {
+    "description": "Shoulder Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_we": {
+    "description": "Wrist Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_fdi": {
+    "description": "Index Finger Abduction (FDI)",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_se": {
+    "description": "Shoulder Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_ff": {
+    "description": "Finger Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_adm": {
+    "description": "5th Finger Abduction (ADM)",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_ef": {
+    "description": "Elbow Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_fe": {
+    "description": "Finger Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_othsp": {
+    "description": "Motor Strength Left Upper Extremity Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lue_ee": {
+    "description": "Elbow Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_nvstat": {
+    "description": "Right Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_nvstresc": {
+    "description": "Motor Strength Right Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "ms_rue_nvorres": {
+    "description": "Describe Abnormal Findings Motor Strength RUE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_sa": {
+    "description": "Shoulder Abduction",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_wf": {
+    "description": "Wrist Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_apb": {
+    "description": "Thumb Abduction (APB)",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_sf": {
+    "description": "Shoulder Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_we": {
+    "description": "Wrist Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_fdi": {
+    "description": "Index Finger Abduction (FDI)",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_se": {
+    "description": "Shoulder Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_ff": {
+    "description": "Finger Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_adm": {
+    "description": "5th Finger Abduction (ADM)",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_ef": {
+    "description": "Elbow Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_fe": {
+    "description": "Finger Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_othsp": {
+    "description": "Motor Strength Right Upper Extremity Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rue_ee": {
+    "description": "Elbow Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_nvstat": {
+    "description": "Left Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_nvstresc": {
+    "description": "Motor Strength Left Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "ms_lle_nvorres": {
+    "description": "Describe Abnormal Findings Motor Strength LLE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_hf": {
+    "description": "Hip Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_kf": {
+    "description": "Hip Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_ae": {
+    "description": "Ankle Eversion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_he": {
+    "description": "Hip Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_ad": {
+    "description": "Ankle Dorsiflexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_gte": {
+    "description": "Great Toe Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_hab": {
+    "description": "Hip Abduction",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_ap": {
+    "description": "Ankle Plantarflexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_gtf": {
+    "description": "Great Toe Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_had": {
+    "description": "Hip Adduction",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_ai": {
+    "description": "Ankle Inversion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_lle_othsp": {
+    "description": "Motor Strength Left Lower Extremity Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_nvstat": {
+    "description": "Right Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_nvstresc": {
+    "description": "Motor Strength Right Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "ms_rle_nvorres": {
+    "description": "Describe Abnormal Findings Motor Strength RLE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_hf": {
+    "description": "Hip Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_kf": {
+    "description": "Knee Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_ae": {
+    "description": "Ankle Eversion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_he": {
+    "description": "Hip Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_ad": {
+    "description": "Ankle Dorsiflexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_gte": {
+    "description": "Great Toe Extension",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_hab": {
+    "description": "Hip Abduction",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_ap": {
+    "description": "Ankle Plantarflexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_gtf": {
+    "description": "Great Toe Flexion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_had": {
+    "description": "Hip Adduction",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_ai": {
+    "description": "Ankle Inversion",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ms_rle_othsp": {
+    "description": "Motor Strength Right Lower Extremity Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mt_lue_nvstat": {
+    "description": "Left Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mt_lue_nvstresc": {
+    "description": "Muscle Tone Left Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal (Please Select 1 for Modified Ashworth)",
+      "2": "Abnormal"
+    }
+  },
+  "mt_lue_nvorres": {
+    "description": "Left Upper Findings",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Increased",
+      "2": "Decreased"
+    }
+  },
+  "mt_lue_modash": {
+    "description": "Muscle Tone LUE Modified Ashworth",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    }
+  },
+  "mt_rue_nvstat": {
+    "description": "Right Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mt_rue_nvstresc": {
+    "description": "Muscle Tone Right Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal (Please Select 1 for Modified Ashworth)",
+      "2": "Abnormal"
+    }
+  },
+  "mt_rue_nvorres": {
+    "description": "Right Upper Findings",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Increased",
+      "2": "Decreased"
+    }
+  },
+  "mt_rue_modash": {
+    "description": "Muscle Tone RUE Modified Ashworth",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    }
+  },
+  "mt_lle_nvstat": {
+    "description": "Left Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mt_lle_nvstresc": {
+    "description": "Muscle Tone Left Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal (Please Select 1 for Modified Ashworth)",
+      "2": "Abnormal"
+    }
+  },
+  "mt_lle_nvorres": {
+    "description": "Left Lower Findings",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Increased",
+      "2": "Decreased"
+    }
+  },
+  "mt_lle_modash": {
+    "description": "Muscle Tone LLE Modified Ashworth",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    }
+  },
+  "mt_rle_nvstat": {
+    "description": "Right Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mt_rle_nvstresc": {
+    "description": "Muscle Tone Right Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal (Please Select 1 for Modified Ashworth)",
+      "2": "Abnormal"
+    }
+  },
+  "mt_rle_nvorres": {
+    "description": "Right Lower Findings",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Increased",
+      "2": "Decreased"
+    }
+  },
+  "mt_rle_modash": {
+    "description": "Muscle Tone RLE Modified Ashworth",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5"
+    }
+  },
+  "mb_lue_nvstat": {
+    "description": "Left Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mb_lue_nvstresc": {
+    "description": "Muscle Bulk Left Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "mb_lue_nvorres": {
+    "description": "Describe Abnormal Findings Muscle Bulk LUE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mb_rue_nvstat": {
+    "description": "Right Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mb_rue_nvstresc": {
+    "description": "Muscle Bulk Right Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "mb_rue_nvorres": {
+    "description": "Describe Abnormal Findings Muscle Bulk RUE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mb_lle_nvstat": {
+    "description": "Left Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mb_lle_nvstresc": {
+    "description": "Muscle Bulk Left Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "mb_lle_nvorres": {
+    "description": "Describe Abnormal Findings Muscle Bulk LLE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mb_rle_nvstat": {
+    "description": "Right Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "mb_rle_nvstresc": {
+    "description": "Muscle Bulk Right Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "mb_rle_nvorres": {
+    "description": "Describe Abnormal Findings Muscle Bulk RLE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_fac_nvstat": {
+    "description": "Face Other Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_fac_nvstresc": {
+    "description": "Fasciculations Face (Other Than Tongue) Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "fas_fac_nvorres": {
+    "description": "Describe Abnormal Findings Fasciculations Face",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_thor_nvstat": {
+    "description": "Thoracic Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_thor_nvstresc": {
+    "description": "Fasciculations Thoracic Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "fas_thor_nvorres": {
+    "description": "Describe Abnormal Findings Fasciculations Thoracic",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_lue_nvstat": {
+    "description": "Left Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_lue_nvstresc": {
+    "description": "Fasciculations Left Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "fas_lue_nvorres": {
+    "description": "Describe Abnormal Findings Fasciculations LUE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_rue_nvstat": {
+    "description": "Right Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_rue_nvstresc": {
+    "description": "Fasciculations Right Upper Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "fas_rue_nvorres": {
+    "description": "Describe Abnormal Findings Fasciculations RUE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_lle_nvstat": {
+    "description": "Left Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_lle_nvstresc": {
+    "description": "Fasciculations Left Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "fas_lle_nvorres": {
+    "description": "Describe Abnormal Findings Fasciculations LLE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_rle_nvstat": {
+    "description": "Right Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "fas_rle_nvstresc": {
+    "description": "Fasciculations Right Lower Extremity Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "fas_rle_nvorres": {
+    "description": "Describe Abnormal Findings Fasciculations RLE",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_lft_nvstat": {
+    "description": "Left Finger Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_lft_nvstresc": {
+    "description": "Rapid Movements Left Finger Tapping Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "rm_lft_nvorres": {
+    "description": "Describe Abnormal Findings Left Finger Tapping",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_rft_nvstat": {
+    "description": "Right Finger Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_rft_nvstresc": {
+    "description": "Rapid Movements Right Finger Tapping Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "rm_rft_nvorres": {
+    "description": "Describe Abnormal Findings Right Finger Tapping",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_ltt_nvstat": {
+    "description": "Left Toe Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_ltt_nvstresc": {
+    "description": "Rapid Movements Left Toe Tapping Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "rm_llt_nvorres": {
+    "description": "Describe Abnormal Findings Left Toe Tapping",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_rtt_nvstat": {
+    "description": "Right Toe Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rm_rtt_nvstresc": {
+    "description": "Rapid Movements Right Toe Tapping Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "rm_rtt_nvorres": {
+    "description": "Describe Abnormal Findings Right Toe Tapping",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lul_nvstat": {
+    "description": "Left Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lul_nvstresc": {
+    "description": "Sensory Exam Left Upper Limb Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "se_lul_lt": {
+    "description": "Light Touch",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lul_p": {
+    "description": "Proprioception",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lul_pt": {
+    "description": "Pain/Temperature",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lul_v": {
+    "description": "Vibration",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lul_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lul_othsp": {
+    "description": "Sensory Exam Left Upper Limb Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rul_nvstat": {
+    "description": "Right Upper Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rul_nvstresc": {
+    "description": "Sensory Exam Right Upper Limb Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "se_rul_lt": {
+    "description": "Light Torch",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rul_p": {
+    "description": "Proprioception",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rul_pt": {
+    "description": "Pain/Temperature",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rul_v": {
+    "description": "Vibration",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rul_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rul_othsp": {
+    "description": "Sensory Exam Right Upper Limb Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lll_nvstat": {
+    "description": "Left Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lll_nvstresc": {
+    "description": "Sensory Exam Left Lower Limb Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "se_lll_lt": {
+    "description": "Light Torch",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lll_p": {
+    "description": "Proprioception",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lll_pt": {
+    "description": "Pain/Temperature",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lll_v": {
+    "description": "Vibration",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lll_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_lll_othsp": {
+    "description": "Sensory Exam Left Lower Limb Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rll_nvstat": {
+    "description": "Right Lower Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rll_nvstresc": {
+    "description": "Sensory Exam Right Lower Limb Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "se_rll_lt": {
+    "description": "Light Torch",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rll_p": {
+    "description": "Proprioception",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rll_pt": {
+    "description": "Pain/Temperature",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rll_v": {
+    "description": "Vibration",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rll_oth": {
+    "description": "Other (specify):",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "se_rll_othsp": {
+    "description": "Sensory Exam Right Lower Limb Result Other",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lpec_nvstat": {
+    "description": "Left Pectoralis Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lpec_nvstresc": {
+    "description": "Left Pectoralis Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "lbi_nvstat": {
+    "description": "Left Biceps Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lbi_nvstresc": {
+    "description": "Left Biceps Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "lbrac_nvstat": {
+    "description": "Left Brachioradialis Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lbrac_nvstresc": {
+    "description": "Left Brachioradialis Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "ltri_nvstat": {
+    "description": "Left Triceps Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ltri_nvstresc": {
+    "description": "Left Triceps Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "lk_nvstat": {
+    "description": "Left Knee Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lk_nvstresc": {
+    "description": "Left Knee Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "la_nvstat": {
+    "description": "Left Ankle Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "la_nvstresc": {
+    "description": "Left Ankle Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "lff_nvstat": {
+    "description": "Left Finger Flexor Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lff_nvstresc": {
+    "description": "Left Finger Flexor Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Absent",
+      "2": "Present"
+    }
+  },
+  "lhs_nvstat": {
+    "description": "Left Hoffman Sign Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lhs_nvstresc": {
+    "description": "Left Hoffman Sign Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Absent",
+      "2": "Present"
+    }
+  },
+  "lca_nvstat": {
+    "description": "Left Crossed Adductor Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lca_nvstresc": {
+    "description": "Left Crossed Adductor Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Absent",
+      "2": "Present"
+    }
+  },
+  "lplan_nvstat": {
+    "description": "Left Plantar Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "lplan_nvstresc": {
+    "description": "Left Plantar Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Extensor (Up)",
+      "2": "Flexor (Down)",
+      "3": "Mute"
+    }
+  },
+  "rpec_nvstat": {
+    "description": "Right Pectoralis Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rpec_nvstresc": {
+    "description": "Right Pectoralis Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "rbic_nvstat": {
+    "description": "Right Biceps Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rbi_nvstresc": {
+    "description": "Right Biceps Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "rbrac_nvstat": {
+    "description": "Right Brachioradialis Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rbrac_nvstresc": {
+    "description": "Right Brachioradialis Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "rtri_nvstat": {
+    "description": "Right Triceps Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rtri_nvstresc": {
+    "description": "Right Triceps Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "rk_nvstat": {
+    "description": "Right Knee Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rk_nvstresc": {
+    "description": "Right Knee Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "ra_nvstat": {
+    "description": "Right Ankle Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "ra_nvstresc": {
+    "description": "Right Ankle Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "0": "0",
+      "1": "1+",
+      "2": "2+",
+      "3": "3+",
+      "4": "4+"
+    }
+  },
+  "rff_nvstat": {
+    "description": "Right Finger Flexor Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rff_nvstresc": {
+    "description": "Right Finger Flexor Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Absent",
+      "2": "Present"
+    }
+  },
+  "rhs_nvstat": {
+    "description": "Right Hoffman Sign Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rhs_nvstresc": {
+    "description": "Right Hoffman Sign Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Absent",
+      "2": "Present"
+    }
+  },
+  "rca_nvstat": {
+    "description": "Right Crossed Adductor",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rca_nvstresc": {
+    "description": "Right Crossed Adductor Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Absent",
+      "2": "Present"
+    }
+  },
+  "rplan_nvstat": {
+    "description": "Right Plantar Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "rplan_nvstresc": {
+    "description": "Right Plantar Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Extensor (Up)",
+      "2": "Flexor (Down)",
+      "3": "Mute"
+    }
+  },
+  "cr_jj_nvstat": {
+    "description": "Jaw Jerk Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_jj_nvstresc": {
+    "description": "Craniobulbar Reflexes Jaw Jerk Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cr_jj_nvorres": {
+    "description": "Describe Abnormal Findings Jaw Jerk",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_ps_nvstat": {
+    "description": "Palmomental Sign Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_ps_nvstresc": {
+    "description": "Craniobulbar Reflexes Palmomental Sign Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cr_ps_nvorres": {
+    "description": "Describe Abnormal Findings Palmomental Sign",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_fr_nvstat": {
+    "description": "Facial Reflex Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_fr_nvstresc": {
+    "description": "Craniobulbar Reflexes Facial Reflex Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cr_fr_nvorres": {
+    "description": "Describe Abnormal Findings Facial Reflex",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cg_trem_nvstat": {
+    "description": "Tremor Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cg_trem_nvstresc": {
+    "description": "Coordination and Gait Tremor Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cg_trem_nvorres": {
+    "description": "Describe Abnormal Findings Tremor",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_b_nvstat": {
+    "description": "Bradykinesia Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_b_nvstresc": {
+    "description": "Coordination and Gait Bradykinesia Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cg_b_nvorres": {
+    "description": "Describe Abnormal Findings Bradykinesia",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_fn_nvstat": {
+    "description": "Finger-Nose Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_fn_nvstresc": {
+    "description": "Coordination and Gait Finger-Nose Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cg_fn_nvorres": {
+    "description": "Describe Abnormal Findings Finger-Nose",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_hs_nvstat": {
+    "description": "Heel-Shin Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_hs_nvstresc": {
+    "description": "Coordination and Gait Heel-Shin Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cg_hs_nvorres": {
+    "description": "Describe Abnormal Findings Heel-Shin",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_g_nvstat": {
+    "description": "Gait Not Done",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "cr_g_nvstresc": {
+    "description": "Coordination and Gait Gait Result",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {
+      "1": "Normal",
+      "2": "Abnormal"
+    }
+  },
+  "cg_g_nvorres": {
+    "description": "Describe Abnormal Findings Gait",
+    "view": "v_ALLALS_AS_ASSENUROEX",
+    "target": "",
+    "values": {}
+  },
+  "subject_group_id": {
+    "description": "Subject Group ID",
+    "view": "v_ALLALS_AS_subjects",
+    "target": "",
+    "values": {
+      "1": "Group (A1)",
+      "2": "Group (A2)"
+    }
+  },
+  "NeuroSTAmP": {
+    "description": "Subject GUID",
+    "view": "v_ALLALS_AS_ASSEAELOG",
+    "target": "",
+    "values": {}
   }
 }

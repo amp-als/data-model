@@ -14,4 +14,29 @@ allowed_columns:
     - Cmdose
     - Pralsgt_tdate
     - Crplsdat
+  # Applies to all ASSESS/PREVENT raw view names, respectively. These fields
+  # contain known non-PHI date-like values and are exempt from date detection.
+  by_view_prefix:
+    v_ALLALS_AS:
+      - mh_clin_dat
+      - mhevdtyp_diagnosis
+      - ecasoc
+      - prindc
+      - prstdat
+      - mhterm
+      - cdnaloc
+      - pralsgt_nr_approxdat
+      - dsreasos
+    v_ALLALS_PR:
+      - cdnaloc
+      - pralsgt_nr_approxdat
+      - prstdat
+      - ms_rue_nvorres
+      - ms_rue_othsp
   by_view: {}
+
+# These columns from v_ALLALS_AS_ASSEHHD.csv intentionally remain screened for
+# date-like PHI. They are not allowlisted above:
+# - radm_mkreasndos
+# - rapb_mkreasndos
+# - rfdi_mkreasndos

@@ -1589,15 +1589,15 @@ enums:
       drug_administration:
         description: Treatment and drug administration
       drug_exposure:
-        description: Exposure to investigational or concomitant medications
+        description: Drug exposure and pharmacokinetics
       biomarkers:
-        description: Biomarker measurements and analysis
+        description: Biomarker analysis and discovery
       neuroimaging:
         description: Brain and spinal cord imaging
       cognitive_assessment:
         description: Cognitive function evaluation
       quality_of_life:
-        description: Quality of life and functional impact
+        description: Quality of life measures
       functional_assessment:
         description: Overall functional capacity assessment
       safety_monitoring:
@@ -1611,7 +1611,7 @@ enums:
       functional_impact:
         description: Impact on daily activities and function
       biospecimen_collection:
-        description: Collection of biological specimens such as serum, plasma, CSF
+        description: Collection of biological specimens such as serum, plasma, or CSF
       chemistry_panels:
         description: Clinical chemistry laboratory panels
       hematology_panels:
@@ -1649,19 +1649,19 @@ enums:
       fine_motor_function:
         description: Small muscle group movements including hand and finger dexterity
       adverse_events:
-        description: Adverse events, side effects, and serious adverse events (SAEs) related to study participation
+        description: Adverse events, side effects, and serious adverse events related to study participation
       informed_consent:
         description: Informed consent process and documentation
       eligibility_criteria:
         description: Screening inclusion and exclusion criteria
       study_completion:
-        description: End of study disposition, early termination, or completion
+        description: End-of-study disposition, early termination, or completion
       vital_signs:
         description: Clinical vital signs such as temperature, blood pressure, heart rate, and respiratory rate
       supportive_interventions:
-        description: Medical devices or supportive procedures such as ventilation, feeding tubes, tracheostomy
+        description: Medical devices or supportive procedures such as ventilation, feeding tubes, or tracheostomy
       medical_history:
-        description: Subject’s past and current medical history
+        description: Subject's past and current medical history
       neurology:
         description: Neurological assessment and findings
       cognitive_function:
@@ -1685,11 +1685,11 @@ enums:
       mortality:
         description: Death and cause of death
       activities_of_daily_living (ADL):
-        description: tasks like bathing, dressing, eating, and mobility that become challenging with ALS, and can be classified into basic ADLs (physical self-care) and instrumental ADLs (complex life management)
+        description: Tasks such as bathing, dressing, eating, and mobility that become challenging with ALS.
       treatment_response:
-        description: Physiological response to study drug infusion as measured by changes in vital signs (blood pressure, heart rate, respiratory rate) taken pre-dose, during infusion, and post-infusion to assess tolerance and acute treatment effects.
+        description: Physiological response to study drug infusion measured through vital-sign changes.
       speech_function:
-        description: measuring the patient's ability to communicate across five levels, from normal speaking ability to a complete loss of useful speech
+        description: Patient ability to communicate across five levels, from normal speaking ability to complete loss of useful speech.
       study_eligibility:
         description: Eligibility defined by neurological diagnosis, disease stage, comorbidities, functional status, and treatment history.
       dementia_screening:
@@ -2285,6 +2285,10 @@ enums:
   StudyPhaseEnum:
     description: Phase or timepoint in a study when data were collected.
     permissible_values:
+      "Phase 1":
+        description: First study phase or cohort.
+      "Phase 2":
+        description: Second study phase or cohort.
       screening:
         description: Pre-treatment screening phase.
       baseline:
@@ -3065,6 +3069,8 @@ enums:
         description: Critical Path Institute data platform (c-path.org)
       Target ALS:
         description: Target ALS data portal (targetals.org)
+      Answer ALS:
+        description: Answer ALS Neuromine data repository
       Sequencing Read Archive:
         description: Sequence Read Archive
       ALL ALS:
@@ -4636,6 +4642,10 @@ enums:
       Workflow Metadata:
         description: Process data from computational workflows. This is highly related to Statistical Metadata.
         comments: Coined category for use esp. with nextflow metadata files.
+      Protocol:
+        description: Documentation of study, assay, sample-processing, or analysis procedures.
+      README:
+        description: Human-readable documentation that explains a dataset, its files, or their use.
       Mapping File:
         description: >
           A file that maps source data columns and/or values to target data-model fields and enum values, used to drive automated annotation.
@@ -5084,6 +5094,8 @@ enums:
     title: Vendor
     description: Vendor, laboratory, or device that generated the data.
     permissible_values:
+      Abbvie Inc.:
+        description: AbbVie laboratory that generated Olink HT data.
       Aural Analytics:
         description: Aural Analytics digital speech data platform.
       Broad:
@@ -8774,6 +8786,12 @@ classes:
         description: Container or repository where biospecimen is stored
         range: string
         required: false
+#######################################
+# Portal File Union Schema
+# Uses inheritance and mixins for clean code organization
+# Maintains backward compatibility while supporting both clinical and omic files
+#######################################
+
 slots:
   Component:
     description: Type of metadata template; provide the same one for all items/rows.

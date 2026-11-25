@@ -543,12 +543,149 @@ configuration. Workflow modules live in
 `synapse_dataset_manager/updates/workflows/` and are explicitly registered there;
 input files cannot select arbitrary Python paths.
 
-Phase 2 still uses `--annotations-file`, defaults to a dry run, and requires
+Phase 1 writes separate file and Dataset annotations JSON files. Pass both
+`--annotations-file` and `--dataset-annotations-file` in Phase 2 to include the
+Dataset entity update as an `annotate_dataset` action in the same reviewed plan as
+file updates. For ALL ALS, Phase 1 sets the Dataset-level `participant_count`
+from the one staged demographics (`*DEMOG`) file using its `NeuroGUID` column,
+falling back to common identifiers such as `SubjectID` when needed; it does not
+set a Dataset-level `recordCount` or sum counts across files. Multiple
+staged demographics files fail rather than choosing one; no staged demographics
+file leaves the existing Dataset participant count unchanged. Review the Dataset
+entry like any other action; it does not alter Dataset membership or apply a file
+version label. Phase 2 defaults to a dry run and requires
 `--execute` for writes. Staging and local uploads cannot be combined; additions
 require a release folder before execution begins. Operation/verification failures
 now produce a failure exit status, not a success banner. This is not transactional:
 inspect partial results before retrying. Execution now requires a reviewed plan;
 see section 18 and [Reviewed Update Plans](REVIEWED_UPDATE_PLANS.md).
+
+To apply only a reviewed Dataset annotation artifact—without file update actions—use
+the dedicated command. It accepts the Phase-1 Dataset wrapper directly:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager annotate-dataset \
+  --dataset-id syn123 \
+  --annotations-file "annotations/Example_dataset_update_annotations.json" \
+  --execute
+```
+
+## File rebuild manifest generation
+
+Generate a metadata-only draft from explicit staging folders and an exact source filename:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager generate-file-rebuild-manifest \
+  --source-file synOLD --source-filename raw.csv --output-folder synOUTPUT \
+  --staging-folder v1=synSTAGING1 v2=synSTAGING2 --output rebuild.json
+```
+
+The order of the labeled folders determines version order. Missing filenames prompt
+for an alternative; `--non-interactive` fails instead. Review the draft before
+running `rebuild-file-entity`. See [File and Dataset rebuild notes](REBUILD_FILE_AND_DATASET_ENTITIES.md).
+
+## Dataset rebuild manifest generation
+
+Create a metadata-only draft from completed File rebuild output:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager generate-dataset-rebuild-manifest \
+  --source-dataset synDATASET --file-rebuild-report file_rebuild_result.json \
+  --output-name 'Corrected Dataset' --output dataset_rebuild.json
+```
+
+To generate only reviewed source snapshots, repeat `--source-version` with positive
+Dataset version numbers. Omit the flag to include all snapshots. Missing requested
+versions fail before snapshot membership is read; selected releases are emitted in
+source-version order. For example:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager generate-dataset-rebuild-manifest \
+  --source-dataset syn123 --source-version 1 --source-version 3 \
+  --replace-member 1:syn111=syn222:2 --replace-member 3:syn111=syn222:3 \
+  --output-name 'Corrected Dataset' --output dataset_rebuild.json --non-interactive
+```
+
+Explicit replacements must refer to members in selected snapshots; unselected
+snapshots do not need mappings and are not included as releases. The draft records a
+baseline of **all** source snapshots (membership, labels, comments and annotations),
+including unselected ones. Generation fails if the source version list changes during
+baseline capture; retry and review the new draft. Execution rejects missing or changed
+baselines; regenerate and review if history changes. Reading all snapshot metadata is
+required even for a subset.
+
+Repeat `--replacement-folder synFOLDER` and/or `--replacement-file synFILE`
+to collect candidates from multiple sources, optionally together with `--file-rebuild-report`.
+Report and exact-name/label candidates are combined and deduplicated before review:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager generate-dataset-rebuild-manifest \
+  --source-dataset syn123 --replacement-folder syn456 --replacement-folder syn789 \
+  --replacement-file syn999 --output-name 'Corrected Dataset' --output draft.json
+```
+
+Matching uses exact File names and version labels. Every folder/File candidate requires
+interactive review, even a single match; dates and comments are shown as evidence, not
+assumed equal. Missing names (including renamed Files) and missing or ambiguous versions
+prompt for an explicit choice; `--non-interactive` fails instead. Report candidates also
+require review; use explicit `--replace-member` mappings for non-interactive selection. A missing name can only be explicitly kept or aborted; to map a renamed
+File, use a reviewed File rebuild report or explicit mapping. Explicit keeps are recorded in `kept_members`.
+Review all choices and retained IDs.
+
+For an unavailable (including trashed) original, supply a reviewed mapping per source
+snapshot, without fetching the old File. For example, explicit mappings can be used
+alone or alongside a report or folder; they take precedence for those members:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager generate-dataset-rebuild-manifest \
+  --source-dataset syn123 --replace-member 1:syn111=syn222:2 \
+  --replace-member 2:syn111=syn222:3 --output-name 'Corrected Dataset' \
+  --output dataset_rebuild.json --non-interactive
+```
+
+The syntax is `SOURCE_DATASET_VERSION:synOLD=synNEW:REPLACEMENT_VERSION`;
+both versions must be positive integers. Each old ID must occur in that snapshot;
+replacement IDs must not collide with retained or other replacement members. The
+replacement version is checked as a File using metadata only. Unmapped members retain
+their pinned references when no report or folder is supplied. Explicit removals and
+reviewed `member_additions` remain available; review and preview the draft.
+
+Preview a reviewed manifest:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager rebuild-dataset-entity \
+  --manifest dataset_rebuild.json --output dataset_rebuild_plan.json
+```
+
+To explicitly omit an obsolete File from snapshots, repeat `--exclude-member synOLD`
+when generating the manifest; this records `member_removals` for affected releases
+without fetching that File. Preview validates that each removed member was present.
+
+To add a pinned File absent from a source snapshot, put
+`"member_additions": [{"id": "synFILE", "version": 2}]` in that release entry.
+Duplicate and unpinned additions fail validation.
+
+The preview reads metadata only, validates all retained, replacement and added pinned
+File versions and version-specific annotations, and infers the output Project. After reviewing it, explicitly execute:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager rebuild-dataset-entity \
+  --manifest dataset_rebuild.json --output dataset_rebuild_result.json --execute
+```
+
+Execution copies the latest wiki hierarchy and markdown and reports Synapse IDs found
+in page text without rewriting links. Wiki attachments are not copied: execution warns
+and records their source IDs and names in the report for manual reattachment. Links to
+attachments in copied markdown may not work until repaired. Wiki markdown is downloaded
+only during execution. Each snapshot and copied wiki page is verified. The required
+output records partial progress and failure phase; rebuild manifest generation, File and
+Dataset previews, and execution refuse existing output files. Use separate new paths for
+drafts, plans and reports. File and Dataset execution reserve their report path exclusively
+before downloads or remote writes and flush progress updates; competing executions using
+the same path fail. Do not delete or replace a reserved report while execution is running.
+The latest source Dataset description is copied at creation. A timeout can leave an unknown
+server-side outcome: inspect Synapse and the report manually before retrying; never
+blindly rerun. This path has not yet been validated in an authenticated sandbox.
 
 ## 18. Review an Update Plan Before Execution
 
@@ -638,9 +775,10 @@ ALL_ALS_ASSESS:
         description_column: "Description"
         value_column: "Values"
         definition_value_markers: ["", "NA"]
-        ignored_file_columns: ["Form Name", "NeuroGUID", "NeuroSTAmP"]
+        ignored_file_columns: ["Form Name", "NeuroGUID", "NeuroSTAmP", "visit_name"]
       # Legacy dictionary-only fields: warn if defined, but do not require in files.
-      dictionary_exceptions: ["localUID", "subjectUID"]
+      dictionary_exceptions: ["localUID", "subjectUID", "siteUID", "initials",
+                              "reason_for_failure", "state", "visit"]
       required_columns:
         all_files: ["NeuroGUID", "NeuroSTAmP"]
         by_view:
@@ -654,11 +792,12 @@ ALL_ALS_ASSESS:
       include_violation_values: false
 ```
 
-`Form Name`/`form_name`, `NeuroGUID`, and `NeuroSTAmP` are ignored only for
-dictionary equality; `NeuroGUID` and `NeuroSTAmP` remain required in every file.
-`localUID` is forbidden by the PHI/PII header policy; `SubjectUID` is not a
-required ALL ALS header. `dictionary_exceptions` removes legacy `localUID` and
-`subjectUID` definitions from exact dictionary coverage and reports a warning for
+`Form Name`/`form_name`, `NeuroGUID`, `NeuroSTAmP`, and `visit_name` are ignored
+only for dictionary equality; `NeuroGUID` and `NeuroSTAmP` remain required in
+every file. `localUID` is forbidden by the PHI/PII header policy; `SubjectUID` is
+not a required ALL ALS header. `dictionary_exceptions` removes legacy
+`localUID`, `subjectUID`, `siteUID`, `initials`, `reason_for_failure`, `state`,
+and `visit` definitions from exact dictionary coverage and reports a warning for
 each dictionary view that still defines them. The demographics requirement uses
 the canonical raw ALL ALS view name, not a friendly alias. Alias mapping is
 intentionally deferred.
@@ -686,6 +825,10 @@ The date policy is version-controlled and fail-closed:
 version: 1
 allowed_columns:
   all_files: [collection_date, assessment_date]
+  # Applies to every canonical raw view whose normalized name starts with prefix.
+  by_view_prefix:
+    v_ALLALS_AS: [mh_clin_dat]
+    v_ALLALS_PR: [prstdat]
   by_view:
     v_ALLALS_AS_ASSEDEMOG: [demographics_assessment_date]
 ```
@@ -695,6 +838,22 @@ columns, counts, and row numbers—not source cell values unless the dangerous
 explicit value-output option is used. See [the ALL ALS preflight
 plan](ALL_ALS_UPDATE_PREFLIGHT_PLAN.md) for details and future semantic
 screening/alias work.
+
+### ALL ALS reviewed match manifest
+
+After ALL ALS preflight passes, the first Phase-1 `update` run writes
+`annotations/<Dataset Name>_match_manifest.json` and stops before mapping or
+annotation-template generation. Review exact target/source IDs, additions, and
+any ambiguity; resolve release-specific exceptions in the manifest, then set
+`"status": "approved"`. Rerun the same `update` command to validate the
+manifest snapshots and generate mappings plus file/Dataset annotation templates.
+A changed Dataset member or staging source makes the manifest stale. ALL ALS
+never uses fuzzy matching in this flow; files with `viewName` are constrained by
+canonical view, and Form Name only disambiguates files sharing that view. Dataset
+members that are data dictionaries are emitted with the `MetadataSchema` file type,
+not the clinical record-file schema. Configure an exact raw-to-canonical alias under
+`update.all_als.view_aliases` when a raw
+staging filename intentionally differs from the data-dictionary view.
 
 ## 20. Clean PHI/PII Columns from Every File Version
 
@@ -725,6 +884,154 @@ mamba run -n amp-als python scripts/clean_phi_files.py \
 
 `scripts/clean_phi_files.py` is standalone: it does not import or invoke `synapse_dataset_manager`. The map format is `{ "synId": ["PHI column", "PII column"] }`; filenames can be used as keys only when unique. CSV, TSV, XLSX, and XLSM are supported. Cleaning stops if a designated header is absent in any selected version, preventing a silently incomplete PHI/PII removal. `--upload-folder` requires both `--merged-name` and `--execute`; local output never uploads anything. See [CLEAN_PHI_FILES.md](CLEAN_PHI_FILES.md) for setup, map review, local export, and upload-only workflows.
 
+## 21. Audit Release Versions Against Staging Checksums
+
+Compare each release File version with the latest version of its corresponding raw staging file using only metadata (version label, `viewName`, MD5, and size). This command **never downloads file content**. Supply one `LABEL=SYNID` pair for every staging release folder being audited; the label must match the release version label.
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager audit-release-staging \
+  --release-folder syn76959294 \
+  --cohort PREVENT \
+  --staging-folder \
+    v2-OCT=syn70781123 \
+    v3-DEC=syn71824454 \
+    v4-JAN=syn72662626 \
+    v5-FEB=syn73806457 \
+    v6-MAR=syn74144528 \
+    v7-APR=syn74544389 \
+    v8-MAY=syn74956654 \
+    v9-JUNE=syn75362825 \
+    v10-JULY=syn76306929 \
+    v11-AUG=syn76900556 \
+    v12-SEPT=syn77568843 \
+  --output annotations/prevent_release_staging_audit.json \
+  --fail-on-mismatch
+```
+
+The command derives a staging filename as `{view_name}.csv` from each release version's `viewName` annotation. Use `--source-name-map aliases.json` for exceptions, where `aliases.json` is a JSON object such as:
+
+```json
+{
+  "v_ALLALS_PR_PREVELIGCRITGEN2": "v_ALLALS_PR_PREVELIGCRTGEN2.csv"
+}
+```
+
+Use `--view-annotation` to select a different identifying annotation and `--source-name-template` to change the default raw-file naming convention. The JSON report separates exact matches, checksum mismatches, and unresolved versions (for example, when a staging file was moved or a historical annotation is absent).
+
+## 22. Rebuild File Entity Version Histories from Staging Sources
+
+Rebuild one or more File entities from explicitly listed staging folders and exact source filenames. The command is generic: it does not infer sources from `viewName`, cohort names, dates, or project-specific conventions. Without `--execute`, it validates the manifest and produces a metadata-only plan—no file bytes are downloaded.
+
+Create a manifest such as `rebuild_manifest.json`:
+
+```json
+{
+  "output_folder": "synOUTPUT",
+  "targets": [
+    {
+      "key": "corrected_file",
+      "output_name": "Corrected release file.csv",
+      "source_filename": "raw_source.csv",
+      "original_entity_id": "synOLD_RELEASE_FILE",
+      "annotation_source_entity_id": "synOLD_RELEASE_FILE",
+      "sources": [
+        {
+          "folder_id": "synSTAGING_OCT",
+          "label": "v2-OCT",
+          "comment": "October release"
+        },
+        {
+          "folder_id": "synSTAGING_NOV",
+          "label": "v3-NOV",
+          "source_filename": "renamed_raw_source.csv",
+          "annotation_source": {"entity_id": "synOLD_RELEASE_FILE", "version": 7}
+        }
+      ]
+    }
+  ]
+}
+```
+
+Preview the resolved source versions:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager rebuild-file-entity \
+  --manifest rebuild_manifest.json \
+  --output annotations/rebuild_plan.json
+```
+
+After reviewing the plan, create the replacement entity history. The default interactive mode lets you choose the annotation source for each output version; use `--annotation-mode auto` to use the manifest/default annotation sources without prompts.
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager rebuild-file-entity \
+  --manifest rebuild_manifest.json \
+  --execute \
+  --output annotations/rebuild_result.json
+```
+
+Execution requires `--output` and uses create-only File creation: a name collision
+fails rather than updating an existing File. It never modifies a Dataset; legacy
+`dataset_id` manifest values are ignored with a warning. The report is written atomically
+throughout execution, including partial IDs and versions. On any failure, especially a
+store timeout, inspect Synapse and the report before retrying: the remote outcome can be
+unknown. Failed reports cannot be used to generate Dataset manifests. Validate the new
+history and update references separately before retiring an old entity.
+
+## Audit a reconstructed Dataset
+
+Compare the approved manifest and completed execution report with the current source
+baseline and every rebuilt snapshot without mutating Synapse or downloading Dataset Files:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager audit-dataset-rebuild \
+  --manifest dataset_rebuild.json --report dataset_rebuild_result.json \
+  --output dataset_audit.json
+```
+
+The audit checks the replacement Dataset ID, type, name and parent, its full version
+list, pinned membership, annotations, labels, comments, schema and wiki header
+titles/hierarchy. A renamed or moved Dataset fails the identity check, even if the
+change was intentional; the output includes actual and expected identity values for
+operator review. It fails on differences or source baseline drift. Wiki attachments
+are an explicit exception and require manual reattachment. Markdown is **not checked**
+by default; add `--wiki-markdown` to download and compare wiki markdown. A passing
+metadata-only audit does not establish markdown or attachment equivalence.
+
+## Mint a DOI for a Dataset (experimental)
+
+After a successful rebuild, separately consider minting a DOI; rebuilding never mints one.
+Preview checks Dataset metadata and the absence of an association, without writing:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager mint-dataset-doi \
+  --dataset-id syn123 --creator 'Example, Alice' --title 'Example Dataset' --year 2025
+```
+
+Default is an unversioned DOI pointing to the latest Dataset. Add `--version 4` to
+explicitly pin snapshot 4. Repeat `--creator` for multiple creators. To submit once:
+
+```bash
+mamba run -n amp-als python -m synapse_dataset_manager mint-dataset-doi \
+  --dataset-id syn123 --creator 'Example, Alice' --title 'Example Dataset' --year 2025 \
+  --execute --confirm syn123:latest --coordinate --acknowledge-production \
+  --output doi-syn123-recovery.json
+```
+
+For a pinned version confirm `syn123:4`. `--coordinate` affirms that the operator has
+coordinated with all other DOI writers; `--acknowledge-production` acknowledges the
+production, potentially irreversible operation. Synapse's endpoint creates **or updates**:
+another client can race between the preflight and POST, and no client-side check can
+prevent this without a server atomic create-only operation. Coordinate externally.
+The exclusive output path is reserved and durably saved before the single POST; its
+status is marked unknown before submission, then the returned token is saved before
+polling. A timeout, lost response, crash, or verification failure is not permission to
+resubmit. Investigate the report, token and Synapse association manually. Polling is
+bounded by `--poll-timeout` (default 120 seconds); client REST retries are disabled.
+Synapse itself may retry downstream DataCite work. A report marked completed means the
+returned association ID, target, version and DOI URI passed verification, not that an
+independent client race was impossible. Pinned submission is not sandbox-validated.
+See [rebuild notes](REBUILD_FILE_AND_DATASET_ENTITIES.md#doi-policy).
+
 ## Help Commands
 
 ```bash
@@ -746,5 +1053,12 @@ python synapse_dataset_manager.py rename-annotation --help
 python synapse_dataset_manager.py move --help
 python synapse_dataset_manager.py delete-entities --help
 python synapse_dataset_manager.py clean-phi-files --help
+python synapse_dataset_manager.py audit-release-staging --help
+python synapse_dataset_manager.py rebuild-file-entity --help
+python synapse_dataset_manager.py generate-file-rebuild-manifest --help
+python synapse_dataset_manager.py generate-dataset-rebuild-manifest --help
+python synapse_dataset_manager.py rebuild-dataset-entity --help
+python synapse_dataset_manager.py audit-dataset-rebuild --help
+python synapse_dataset_manager.py mint-dataset-doi --help
 python scripts/clean_phi_files.py --help
 ```

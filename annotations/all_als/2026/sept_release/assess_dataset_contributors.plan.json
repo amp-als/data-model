@@ -1,0 +1,226 @@
+{
+  "actions": [
+    {
+      "destination": null,
+      "filename": "ASSESS ALL ALS Clinical Dataset",
+      "kind": "annotate_dataset",
+      "refresh_membership": false,
+      "source_id": null,
+      "target_id": "syn69694463"
+    }
+  ],
+  "annotations_sha256": "7089ce1fb3f2003e7e4e2c68b95284db52c2f378223e3dd923580414aa67e79c",
+  "dataset_id": "syn69694463",
+  "format_version": 2,
+  "members": [
+    {
+      "id": "syn68905755",
+      "version": 20
+    },
+    {
+      "id": "syn68905756",
+      "version": 20
+    },
+    {
+      "id": "syn68905758",
+      "version": 20
+    },
+    {
+      "id": "syn68905759",
+      "version": 20
+    },
+    {
+      "id": "syn68905760",
+      "version": 20
+    },
+    {
+      "id": "syn68905761",
+      "version": 20
+    },
+    {
+      "id": "syn68905762",
+      "version": 20
+    },
+    {
+      "id": "syn68905763",
+      "version": 20
+    },
+    {
+      "id": "syn68905765",
+      "version": 17
+    },
+    {
+      "id": "syn68905766",
+      "version": 20
+    },
+    {
+      "id": "syn68905768",
+      "version": 13
+    },
+    {
+      "id": "syn68905769",
+      "version": 13
+    },
+    {
+      "id": "syn68905770",
+      "version": 20
+    },
+    {
+      "id": "syn68905771",
+      "version": 20
+    },
+    {
+      "id": "syn68905772",
+      "version": 20
+    },
+    {
+      "id": "syn68905773",
+      "version": 20
+    },
+    {
+      "id": "syn68905774",
+      "version": 20
+    },
+    {
+      "id": "syn68905775",
+      "version": 20
+    },
+    {
+      "id": "syn68905776",
+      "version": 16
+    },
+    {
+      "id": "syn68905777",
+      "version": 20
+    },
+    {
+      "id": "syn68905778",
+      "version": 20
+    },
+    {
+      "id": "syn68905780",
+      "version": 20
+    },
+    {
+      "id": "syn68905781",
+      "version": 20
+    },
+    {
+      "id": "syn68905782",
+      "version": 20
+    },
+    {
+      "id": "syn68905783",
+      "version": 20
+    },
+    {
+      "id": "syn68905784",
+      "version": 20
+    },
+    {
+      "id": "syn72663738",
+      "version": 11
+    },
+    {
+      "id": "syn72663740",
+      "version": 11
+    },
+    {
+      "id": "syn72663741",
+      "version": 11
+    },
+    {
+      "id": "syn72663742",
+      "version": 11
+    },
+    {
+      "id": "syn72663744",
+      "version": 11
+    },
+    {
+      "id": "syn72663745",
+      "version": 11
+    },
+    {
+      "id": "syn72663746",
+      "version": 11
+    },
+    {
+      "id": "syn72663747",
+      "version": 11
+    },
+    {
+      "id": "syn72663748",
+      "version": 11
+    },
+    {
+      "id": "syn72663750",
+      "version": 11
+    },
+    {
+      "id": "syn74145004",
+      "version": 9
+    },
+    {
+      "id": "syn78528665",
+      "version": 2
+    },
+    {
+      "id": "syn78528667",
+      "version": 2
+    },
+    {
+      "id": "syn78528678",
+      "version": 2
+    },
+    {
+      "id": "syn78528693",
+      "version": 2
+    },
+    {
+      "id": "syn78528703",
+      "version": 2
+    },
+    {
+      "id": "syn78528704",
+      "version": 2
+    },
+    {
+      "id": "syn78528706",
+      "version": 2
+    }
+  ],
+  "options": {
+    "local_files_dir": null,
+    "release_folder": "syn76955356",
+    "skip_validation": false,
+    "version_comment": "Sept Release",
+    "version_label": "v12-SEPT"
+  },
+  "plan_id": "288b014d502e15c89869606b4cca63d991c0d72ae52fbfbad5b0806f45967b14",
+  "snapshots": {
+    "syn69694463": {
+      "annotations_sha256": "2e2725419f1c0fba7092c3aa32a1fde54286089a6dab4b53efb7499c6838bf71",
+      "concreteType": "org.sagebionetworks.repo.model.table.Dataset",
+      "dataFileHandleId": null,
+      "etag": "39d1854c-9d45-46c0-a293-97cd87084278",
+      "id": "syn69694463",
+      "name": "ASSESS ALL ALS Clinical Dataset",
+      "parentId": "syn68702804",
+      "versionLabel": "in progress",
+      "versionNumber": 19
+    },
+    "syn76955356": {
+      "annotations_sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "concreteType": "org.sagebionetworks.repo.model.Folder",
+      "dataFileHandleId": null,
+      "etag": "c8ed1a7e-0f28-411c-aa19-fd9f19304003",
+      "id": "syn76955356",
+      "name": "ALL_ALS_ASSESS_CLINICAL_DATA",
+      "parentId": "syn68885185",
+      "versionLabel": null,
+      "versionNumber": null
+    }
+  },
+  "workflow": "all_als"
+}

@@ -5606,7 +5606,7 @@
   }, {
     "@id" : "bts:ClinicalDomainEnum",
     "@type" : "rdfs:Class",
-    "rdfs:comment" : "TBD",
+    "rdfs:comment" : "Primary clinical domains for ALS research and assessment",
     "rdfs:label" : "ClinicalDomainEnum",
     "rdfs:subClassOf" : [ ],
     "schema:isPartOf" : {
@@ -5954,6 +5954,10 @@
     "sms:required" : "sms:false",
     "sms:validationRules" : [ ],
     "schema:rangeIncludes" : [ {
+      "@id" : "bts:Phase1"
+    }, {
+      "@id" : "bts:Phase2"
+    }, {
       "@id" : "bts:screening"
     }, {
       "@id" : "bts:baseline"
@@ -5991,6 +5995,8 @@
     "sms:required" : "sms:false",
     "sms:validationRules" : [ ],
     "schema:rangeIncludes" : [ {
+      "@id" : "bts:AbbvieInc."
+    }, {
       "@id" : "bts:AuralAnalytics"
     }, {
       "@id" : "bts:Broad"
@@ -6357,6 +6363,8 @@
       "@id" : "bts:CriticalPathInstitute"
     }, {
       "@id" : "bts:TargetALS"
+    }, {
+      "@id" : "bts:AnswerALS"
     }, {
       "@id" : "bts:SequencingReadArchive"
     }, {
@@ -7654,6 +7662,10 @@
     }, {
       "@id" : "bts:WorkflowMetadata"
     }, {
+      "@id" : "bts:Protocol"
+    }, {
+      "@id" : "bts:README"
+    }, {
       "@id" : "bts:MappingFile"
     }, {
       "@id" : "bts:DataDictionary"
@@ -7720,6 +7732,16 @@
     }, {
       "@id" : "bts:drug_exposure"
     }, {
+      "@id" : "bts:biomarkers"
+    }, {
+      "@id" : "bts:neuroimaging"
+    }, {
+      "@id" : "bts:cognitive_assessment"
+    }, {
+      "@id" : "bts:quality_of_life"
+    }, {
+      "@id" : "bts:functional_assessment"
+    }, {
       "@id" : "bts:safety_monitoring"
     }, {
       "@id" : "bts:treatment_modification"
@@ -7728,11 +7750,7 @@
     }, {
       "@id" : "bts:data_quality"
     }, {
-      "@id" : "bts:quality_of_life"
-    }, {
       "@id" : "bts:functional_impact"
-    }, {
-      "@id" : "bts:biomarkers"
     }, {
       "@id" : "bts:biospecimen_collection"
     }, {
@@ -15736,6 +15754,17 @@
     "sms:displayName" : "Intrathecal",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Phase2",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Phase2",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Phase 2",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:TOOsonixSystemONE-M",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -18882,6 +18911,17 @@
     "sms:displayName" : "Sarek",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:README",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "README",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "README",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:neurological_exam",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -20543,6 +20583,17 @@
     "sms:displayName" : "TARDBP-ALS",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:Protocol",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Protocol",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Protocol",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Classical/TypicalALS,bvFTD",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -21247,6 +21298,17 @@
     "sms:displayName" : "Tn5-accessible gDNA",
     "sms:required" : "sms:false"
   }, {
+    "@id" : "bts:AbbvieInc.",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "AbbvieInc.",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Abbvie Inc.",
+    "sms:required" : "sms:false"
+  }, {
     "@id" : "bts:Female",
     "@type" : "rdfs:Class",
     "rdfs:comment" : "TBD",
@@ -21311,6 +21373,17 @@
       "@id" : "http://schema.biothings.io/"
     },
     "sms:displayName" : "Axial",
+    "sms:required" : "sms:false"
+  }, {
+    "@id" : "bts:Phase1",
+    "@type" : "rdfs:Class",
+    "rdfs:comment" : "TBD",
+    "rdfs:label" : "Phase1",
+    "rdfs:subClassOf" : [ ],
+    "schema:isPartOf" : {
+      "@id" : "http://schema.biothings.io/"
+    },
+    "sms:displayName" : "Phase 1",
     "sms:required" : "sms:false"
   }, {
     "@id" : "bts:MultiQC",

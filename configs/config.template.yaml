@@ -77,9 +77,10 @@ datasets:
   #         description_column: "Description"
   #         value_column: "Values"
   #         definition_value_markers: ["", "NA"]
-  #         ignored_file_columns: ["Form Name", "NeuroGUID", "NeuroSTAmP"]
+  #         ignored_file_columns: ["Form Name", "NeuroGUID", "NeuroSTAmP", "visit_name"]
   #       # Legacy dictionary-only fields: warn if present, never require in files.
-  #       dictionary_exceptions: ["localUID", "subjectUID"]
+  #       dictionary_exceptions: ["localUID", "subjectUID", "siteUID", "initials",
+  #                               "reason_for_failure", "state", "visit"]
   #       required_columns:
   #         all_files: ["NeuroGUID", "NeuroSTAmP"]
   #         by_view:
@@ -92,6 +93,8 @@ datasets:
   #   staging_folder: "syn12345"
   #   dataset_name: "My Custom Dataset"
   #   dataset_type: "Omic"  # Optional: 'Clinical' or 'Omic' to override auto-detection
+  #   # For Clinical updates, subject_file_type: multi selects ClinicalRecordSetFile
+  #   # (a concrete schema); single selects ClinicalFileSetFile.
   #
   #   # Advanced features (optional)
   #   release_folder: "syn67890"  # Target release folder
