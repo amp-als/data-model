@@ -4,7 +4,8 @@ import hashlib
 import json
 from pathlib import Path
 
-FORMAT_VERSION = 1
+FORMAT_VERSION = 2
+DATASET_ANNOTATIONS_KEY = '_dataset'
 
 
 def digest(value):
@@ -24,6 +25,13 @@ def validate_annotations(annotations):
     if not isinstance(annotations, dict) or not annotations:
         raise ValueError('Update annotations must be a nonempty object')
     for target, entry in annotations.items():
+        if target == DATASET_ANNOTATIONS_KEY:
+            if not isinstance(entry, dict) or len(entry) != 1:
+                raise ValueError('Dataset annotations must have exactly one dataset-name entry')
+            _, values = next(iter(entry.items()))
+            if not isinstance(values, dict):
+                raise ValueError('Invalid dataset annotation entry')
+            continue
         if not isinstance(target, str) or not isinstance(entry, dict) or len(entry) != 1:
             raise ValueError('Each target must have exactly one filename entry')
         name, values = next(iter(entry.items()))
@@ -53,6 +61,15 @@ def build_plan(backend, dataset_id, workflow, annotations, options):
                     raise ValueError(f'Ambiguous local filename: {path.name}')
                 local_files[key] = str(path.resolve())
     actions, snapshots, sources = [], {dataset_id: dataset_state}, set()
+    dataset_entry = annotations.get(DATASET_ANNOTATIONS_KEY)
+    dataset_action = None
+    if dataset_entry:
+        dataset_name, _ = next(iter(dataset_entry.items()))
+        # Apply after file membership refreshes so its verified Dataset snapshot
+        # is final rather than invalidated by later Dataset.add_item calls.
+        dataset_action = {'kind': 'annotate_dataset', 'target_id': dataset_id,
+                          'filename': dataset_name, 'source_id': None,
+                          'destination': None, 'refresh_membership': False}
     release = options.get('release_folder')
     if release:
         snapshots[release] = backend.snapshot(release)
@@ -61,6 +78,8 @@ def build_plan(backend, dataset_id, workflow, annotations, options):
         ):
             raise ValueError('Release destination must be a folder or project')
     for target, entry in sorted(annotations.items()):
+        if target == DATASET_ANNOTATIONS_KEY:
+            continue
         name, values = next(iter(entry.items()))
         source = values.get('_staging_id') or None
         state = backend.snapshot(target)
@@ -100,6 +119,8 @@ def build_plan(backend, dataset_id, workflow, annotations, options):
             action['local_path'] = path
             action['sha256'] = file_digest(path)
         actions.append(action)
+    if dataset_action:
+        actions.append(dataset_action)
     additions = [(a['destination'], a['filename']) for a in actions if a['kind'] == 'add']
     if len(additions) != len(set(additions)):
         raise ValueError('Duplicate addition filenames')

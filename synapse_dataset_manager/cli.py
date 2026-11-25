@@ -576,6 +576,17 @@ def get_field_info(schema):
 
 # ==================== FILE TYPE DETECTION ====================
 
+def is_metadata_schema_file(filename, annotations=None):
+    """Return whether a Dataset member is a data-dictionary/schema artifact."""
+    if 'data_dictionary' in str(filename).lower() or 'data dictionary' in str(filename).lower():
+        return True
+    values = (annotations or {}).get('dataType', [])
+    if not isinstance(values, list):
+        values = [values]
+    return any(str(value).strip().lower() in {'data dictionary', 'structural metadata'}
+               for value in values)
+
+
 def detect_file_type(filename, file_path=None, all_schemas=None, dataset_config=None):
     """
     Detect file type based on dataset config or filename patterns.
@@ -591,6 +602,15 @@ def detect_file_type(filename, file_path=None, all_schemas=None, dataset_config=
     # Check if dataset type is explicitly defined in config
     if dataset_config and 'dataset_type' in dataset_config:
         dataset_type = dataset_config['dataset_type']
+        # ClinicalFile is an abstract LinkML base and intentionally has no
+        # properties in its emitted JSON Schema. Multi-subject ALL ALS tables
+        # need the concrete RecordSet schema; single-subject exports need FileSet.
+        if str(dataset_type).lower() in ('clinical', 'clinicalfile'):
+            subject_file_type = str(dataset_config.get('subject_file_type', '')).lower()
+            concrete_type = ({'multi': 'ClinicalRecordSetFile',
+                              'single': 'ClinicalFileSetFile'}.get(subject_file_type))
+            if concrete_type and (not all_schemas or concrete_type in all_schemas):
+                return concrete_type
         if all_schemas:
             # Config-driven, so resolve non-interactively (short config tokens
             # like 'Omic'/'GEO' each map to exactly one file schema).
@@ -2735,8 +2755,8 @@ def apply_view_annotations(template: dict, form_name: str, mapping: dict) -> dic
 
 # Column names commonly used to hold subject/participant identifiers. Shared by
 # subject-type detection and count auto-population so both stay in sync.
-COMMON_SUBJECT_COLS = ['SubjectUID', 'subject_id', 'subjectId', 'SubjectId',
-                       'GUID', 'ParticipantID', 'participant_id']
+COMMON_SUBJECT_COLS = ['NeuroGUID', 'SubjectUID', 'SubjectID', 'subject_id',
+                       'subjectId', 'SubjectId', 'GUID', 'ParticipantID', 'participant_id']
 
 
 def detect_subject_file_type(file_path: str, subject_id_col: str = None) -> str:
@@ -7494,7 +7514,8 @@ def handle_update_workflow(args, config):
     Phase 2 (with --annotations-file): Validate, upload, move, apply, verify.
     """
     annotations_file = getattr(args, 'annotations_file', None)
-    phase = 2 if annotations_file else 1
+    dataset_annotations_file = getattr(args, 'dataset_annotations_file', None)
+    phase = 2 if annotations_file or dataset_annotations_file else 1
     if phase == 1 and (getattr(args, 'plan_file', None) or getattr(args, 'write_plan', None)):
         raise ValueError('Plan options require --annotations-file')
 
@@ -7583,10 +7604,23 @@ def handle_update_workflow(args, config):
         name_map, local_path_map, view_map, explicit_targets = workflow.prepare(
             syn, staging_annotations, staging_temp.name, update_options, services,
         )
-        staging_matches = workflow.match(
-            existing_annotations, staging_annotations, name_map, view_map,
-            explicit_targets, services,
-        )
+        if workflow_name == 'all_als':
+            from synapse_dataset_manager.updates import all_als_match_manifest
+            manifest_path = os.path.join(config.ANNOTATIONS_DIR, f"{dataset_name}_match_manifest.json")
+            try:
+                staging_matches = all_als_match_manifest.resolve_manifest(
+                    manifest_path, args.dataset_id, existing_annotations, staging_annotations,
+                    name_map, view_map, update_options.get('_all_als_view_aliases', {}), services, syn,
+                )
+            except all_als_match_manifest.MatchManifestReviewRequired as error:
+                print(f'✓ {error}')
+                print('No mappings or annotation templates were generated; rerun the same update command after approval.')
+                return
+        else:
+            staging_matches = workflow.match(
+                existing_annotations, staging_annotations, name_map, view_map,
+                explicit_targets, services,
+            )
 
         # Resolve subject file type (single / multi / auto)
         subject_file_type = (
@@ -7676,11 +7710,19 @@ def handle_update_workflow(args, config):
             new_annot = (next(iter(staging_annotations[matched_staging_id].values()))
                          if matched_staging_id else {})
 
-            # Get file type and create template
-            file_type = old_annot.get('_file_type') or detect_file_type(
-                filename, all_schemas=all_schemas, dataset_config=dataset_config
-            )
+            # Data dictionaries describe metadata columns rather than clinical
+            # records. Emit the dedicated MetadataSchema annotation shape instead
+            # of inheriting the Dataset's ClinicalRecordSetFile schema.
+            metadata_schema = is_metadata_schema_file(filename, old_annot)
+            file_type = ('MetadataSchema' if metadata_schema else
+                         old_annot.get('_file_type') or detect_file_type(
+                             filename, all_schemas=all_schemas, dataset_config=dataset_config
+                         ))
             template = create_annotation_template(all_schemas, file_type)
+            if metadata_schema:
+                # Do not carry clinical-record-only annotations into a metadata
+                # schema simply because the member previously used that type.
+                old_annot = {key: value for key, value in old_annot.items() if key in template}
             if file_type not in field_type_cache:
                 field_type_cache[file_type] = get_field_type_map(all_schemas, file_type)
 
@@ -7749,6 +7791,8 @@ def handle_update_workflow(args, config):
             if matched_staging_id:
                 matched_staging_ids.add(matched_staging_id)
 
+            if metadata_schema:
+                merged['_file_type'] = 'MetadataSchema'
             annotations_output[syn_id] = {filename: merged}
 
         # Extract common dataset-level fields from existing files to seed new files.
@@ -7825,14 +7869,63 @@ def handle_update_workflow(args, config):
             annotations_output[staging_syn_id] = {clean_name: template}
             print(f"  + New file (no existing match): {clean_name} ({staging_syn_id})")
 
-        # Save annotations
+        # Include the Dataset entity in the same reviewed artifact. It preserves
+        # existing Dataset annotations and adds the matching Dataset schema fields.
+        dataset_type = dataset_config.get('dataset_type', 'Dataset')
+        dataset_schema_type = (dataset_type if str(dataset_type).endswith('Dataset')
+                               else f'{dataset_type}Dataset')
+        dataset_template = create_annotation_template(all_schemas, dataset_schema_type)
+        raw_dataset_annotations = getattr(dataset_entity, 'annotations', {})
+        existing_dataset_annotations = (dict(raw_dataset_annotations)
+                                        if isinstance(raw_dataset_annotations, dict) else {})
+        dataset_annotations = merge_file_annotations_priority(
+            existing_dataset_annotations, {}, dataset_template,
+            field_types=get_field_type_map(all_schemas, dataset_schema_type),
+        )
+        dataset_annotations, _ = migrate_deprecated_fields(dataset_annotations, field_migrations)
+        if mapping:
+            dataset_annotations = normalize_annotations_from_mapping(dataset_annotations, mapping)
+        # Dataset-level participant_count comes only from the staged demographics
+        # file, never by summing per-file counts (which would double-count people).
+        if workflow_name == 'all_als':
+            demographic_sources = [
+                source_id for source_id, view_name in view_map.items()
+                if str(view_name or '').upper().endswith('DEMOG')
+            ]
+            if len(demographic_sources) > 1:
+                raise ValueError(
+                    'ALL ALS Dataset participant_count is ambiguous: multiple staged demographics files: '
+                    + ', '.join(demographic_sources)
+                )
+            if not demographic_sources:
+                print('⚠️  No staged demographics file; retaining existing Dataset participant_count')
+            else:
+                demographics_path = local_path_map.get(demographic_sources[0])
+                count_template = {'participant_count': None}
+                counted = (fill_counts_from_file_contents(count_template, demographics_path, 'NeuroGUID')
+                           if demographics_path and os.path.exists(demographics_path) else count_template)
+                participant_count = counted.get('participant_count')
+                if participant_count is None:
+                    print('⚠️  Could not calculate Dataset participant_count from staged demographics file')
+                else:
+                    dataset_annotations['participant_count'] = (
+                        [participant_count] if isinstance(dataset_annotations.get('participant_count'), list)
+                        else participant_count
+                    )
+                    print(f'  ✓ Dataset participant_count from staged demographics: {participant_count}')
+        # Save file and Dataset annotation artifacts separately for independent review.
         output_file = os.path.join(config.ANNOTATIONS_DIR, f"{dataset_name}_update_annotations.json")
+        dataset_output_file = os.path.join(
+            config.ANNOTATIONS_DIR, f"{dataset_name}_dataset_update_annotations.json"
+        )
         save_annotation_file(annotations_output, output_file)
+        save_annotation_file({dataset_name: dataset_annotations}, dataset_output_file)
 
         print("\n" + "=" * 60)
         print("✅ PHASE 1 COMPLETE — Template generated")
         print("=" * 60)
-        print(f"Annotations saved to: {output_file}")
+        print(f"File annotations saved to: {output_file}")
+        print(f"Dataset annotations saved to: {dataset_output_file}")
         print(f"Total files        : {len(annotations_output)}")
         if mapping_out:
             print(f"Mapping file       : {mapping_out}")
@@ -7847,7 +7940,8 @@ def handle_update_workflow(args, config):
                   else f"--dataset-id {args.dataset_id}")
         base = (f"  {cli_invocation()}{config_flag} update \\\n"
                 f"    {target} --workflow {workflow_name} \\\n"
-                f"    --annotations-file \"{output_file}\"")
+                f"    --annotations-file \"{output_file}\" \\\n"
+                f"    --dataset-annotations-file \"{dataset_output_file}\"")
         import shlex
         for option in ('release_folder', 'local_files_dir', 'version_label', 'version_comment'):
             value = getattr(args, option, None)
@@ -7875,13 +7969,25 @@ def handle_update_workflow(args, config):
     print("STEP 1: LOADING ANNOTATIONS FILE")
     print("=" * 60)
 
-    if not os.path.exists(annotations_file):
-        print(f"❌ Error: Annotations file not found: {annotations_file}")
-        sys.exit(1)
-
-    with open(annotations_file) as f:
-        file_annotations = json.load(f)
-    print(f"✓ Loaded {len(file_annotations)} file entries from {annotations_file}")
+    if annotations_file:
+        if not os.path.exists(annotations_file):
+            print(f"❌ Error: Annotations file not found: {annotations_file}")
+            sys.exit(1)
+        with open(annotations_file) as f:
+            file_annotations = json.load(f)
+        print(f"✓ Loaded {len(file_annotations)} file entries from {annotations_file}")
+    else:
+        file_annotations = {}
+    if dataset_annotations_file:
+        if not os.path.exists(dataset_annotations_file):
+            print(f"❌ Error: Dataset annotations file not found: {dataset_annotations_file}")
+            sys.exit(1)
+        with open(dataset_annotations_file) as f:
+            dataset_annotations = json.load(f)
+        if not isinstance(dataset_annotations, dict) or len(dataset_annotations) != 1:
+            raise ValueError('Dataset annotations file must contain exactly one dataset-name entry')
+        file_annotations['_dataset'] = dataset_annotations
+        print(f"✓ Loaded Dataset annotations from {dataset_annotations_file}")
 
     from synapse_dataset_manager.updates.plans import validate_annotations
     validate_annotations(file_annotations)
@@ -7896,7 +8002,8 @@ def handle_update_workflow(args, config):
         for syn_id, file_data in file_annotations.items():
             filename = list(file_data.keys())[0]
             annots = file_data[filename]
-            file_type = annots.get('_file_type', 'File')
+            file_type = (annots.get('_dataset_type', 'Dataset') if syn_id == '_dataset'
+                         else annots.get('_file_type', 'File'))
             is_valid, errors, warnings = validate_annotation_against_schema(annots, file_type, all_schemas)
             for w in warnings:
                 print(f"  ⚠ {filename}: {w}")
@@ -8242,9 +8349,15 @@ def handle_annotate_dataset(args, config):
 
         with open(annotations_file) as f:
             annotations = json.load(f)
-        # Remove $schema key used for editor LSP validation
+        # Remove $schema key used for editor LSP validation. Phase-1 Dataset
+        # artifacts wrap annotations under the Dataset name; accept them directly.
         annotations.pop('$schema', None)
-        print(f"✓ Loaded annotations from {annotations_file}")
+        if (len(annotations) == 1 and entity.name in annotations
+                and isinstance(annotations[entity.name], dict)):
+            annotations = annotations[entity.name]
+            print(f"✓ Loaded Dataset annotation artifact from {annotations_file}")
+        else:
+            print(f"✓ Loaded annotations from {annotations_file}")
 
         print("\n" + "=" * 60)
         print("APPLYING DATASET ANNOTATIONS")
@@ -10355,6 +10468,707 @@ def handle_rename_files(args, config):
         print("\nRe-run with --execute to apply changes.")
 
 
+def _load_rebuild_manifest(path):
+    with open(path, 'r') as handle:
+        manifest = json.load(handle)
+    if not isinstance(manifest, dict) or not isinstance(manifest.get('targets'), list):
+        raise ValueError('Manifest must be a JSON object with a targets array')
+    if not manifest.get('output_folder', '').startswith('syn'):
+        raise ValueError('Manifest output_folder must be a Synapse folder ID')
+    return manifest
+
+
+def _rebuild_children(syn, parent_id):
+    children = {}
+    for child in syn.getChildren(parent_id):
+        if child['name'] in children:
+            raise ValueError(f"Duplicate child name {child['name']!r} in {parent_id}")
+        children[child['name']] = child
+    return children
+
+
+def _rebuild_versions(syn, entity_id):
+    from synapse_dataset_manager.dataset_rebuild import rebuild_versions
+    return rebuild_versions(syn, entity_id)
+
+
+def _resolve_rebuild_plan(syn, manifest):
+    """Resolve explicitly named source files without project-specific inference."""
+    plans = []
+    for target in manifest['targets']:
+        for field in ('key', 'output_name', 'sources'):
+            if not target.get(field):
+                raise ValueError(f"Target is missing required field: {field}")
+        if not isinstance(target['sources'], list):
+            raise ValueError(f"Target {target['key']} sources must be an array")
+        default_source_name = target.get('source_filename')
+        if not default_source_name:
+            raise ValueError(f"Target {target['key']} requires source_filename")
+        labels = set()
+        target_plan = []
+        for source_spec in target['sources']:
+            for field in ('folder_id', 'label'):
+                if not source_spec.get(field):
+                    raise ValueError(f"Target {target['key']} source is missing {field}")
+            if source_spec['label'] in labels:
+                raise ValueError(f"Target {target['key']} repeats label {source_spec['label']}")
+            labels.add(source_spec['label'])
+            source_name = source_spec.get('source_filename', default_source_name)
+            source = _rebuild_children(syn, source_spec['folder_id']).get(source_name)
+            if not source or source['type'] != 'org.sagebionetworks.repo.model.FileEntity':
+                raise ValueError(
+                    f"Target {target['key']} source {source_name} not found in {source_spec['folder_id']}"
+                )
+            source_versions = _rebuild_versions(syn, source['id'])
+            requested_version = source_spec.get('source_version')
+            if requested_version is None:
+                resolved_version = max(source_versions, key=lambda item: item['versionNumber'])
+            else:
+                resolved_version = next(
+                    (item for item in source_versions if item['versionNumber'] == requested_version), None
+                )
+                if not resolved_version:
+                    raise ValueError(f"Source version {requested_version} not found on {source['id']}")
+            target_plan.append({
+                'label': source_spec['label'],
+                'comment': source_spec.get('comment', ''),
+                'source': source,
+                'version': resolved_version,
+                'annotation_source': source_spec.get('annotation_source'),
+                'annotation_overrides': source_spec.get('annotation_overrides', {}),
+            })
+        plans.append((target, target_plan))
+    return plans
+
+
+def _select_rebuild_annotation(syn, target, item, interactive):
+    """Return entity/version whose annotations should be copied to an output version."""
+    explicit = item.get('annotation_source')
+    default = explicit or {
+        'entity_id': item['source']['id'], 'version': item['version']['versionNumber']
+    }
+    if not interactive:
+        return default
+    entity_id = target.get('annotation_source_entity_id')
+    allowed = [item['source']['id']]
+    if entity_id:
+        allowed.append(entity_id)
+    prompt = (f"\n{target['key']} {item['label']}: annotation source "
+              f"[ENTER={default['entity_id']}:{default['version']}; source; or synID:version] > ")
+    response = input(prompt).strip()
+    if not response:
+        return default
+    if response.lower() == 'source':
+        return {'entity_id': item['source']['id'], 'version': item['version']['versionNumber']}
+    try:
+        selected_id, selected_version = response.split(':', 1)
+        selected_version = int(selected_version)
+    except ValueError as error:
+        raise ValueError('Annotation source must be ENTER, source, or synID:version') from error
+    if selected_id not in allowed:
+        raise ValueError(f"Annotation entity must be one of: {', '.join(allowed)}")
+    if selected_version not in {item['versionNumber'] for item in _rebuild_versions(syn, selected_id)}:
+        raise ValueError(f"Version {selected_version} not found on {selected_id}")
+    return {'entity_id': selected_id, 'version': selected_version}
+
+
+def handle_rebuild_file_entity(args, config):
+    """Preview or rebuild File version histories from exact named staging sources."""
+    if args.execute and not args.output:
+        raise ValueError('--output is required for File execution and partial-failure reporting')
+    manifest = _load_rebuild_manifest(args.manifest)
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+    plans = _resolve_rebuild_plan(syn, manifest)
+    report = {'outputFolder': manifest['output_folder'], 'targets': []}
+    print('\nREBUILD FILE ENTITY PLAN')
+    for target, plan in plans:
+        print(f"\n{target['key']}: {target['output_name']}")
+        target_report = {
+            'key': target['key'], 'outputName': target['output_name'],
+            'originalEntityId': target.get('original_entity_id'), 'sources': []
+        }
+        for item in plan:
+            print(f"  {item['label']:<16} {item['source']['id']} v{item['version']['versionNumber']} "
+                  f"{item['version'].get('contentMd5')}")
+            target_report['sources'].append({
+                'label': item['label'], 'sourceId': item['source']['id'],
+                'sourceVersion': item['version']['versionNumber'],
+                'contentMd5': item['version'].get('contentMd5'),
+                'contentSize': item['version'].get('contentSize'),
+                'sourceModifiedOn': item['version'].get('modifiedOn'),
+            })
+        report['targets'].append(target_report)
+    if not args.execute:
+        print('\nPreview only: no file bytes were downloaded and no Synapse entities changed.')
+        if args.output:
+            with open(args.output, 'x') as handle:
+                json.dump(report, handle, indent=2)
+        return report
+
+    from synapse_dataset_manager.rebuild_reporting import reserve_rebuild_report, save_rebuild_report
+    interactive = args.annotation_mode == 'interactive'
+    report.update(status='running', phase='starting', created=[])
+    reserve_rebuild_report(args.output, report)
+
+    def save_report():
+        save_rebuild_report(args.output, report)
+
+    if manifest.get('dataset_id'):
+        print('Warning: dataset_id is ignored; File rebuild never modifies a Dataset.')
+    temporary = None
+    try:
+        temporary = tempfile.mkdtemp(prefix='sdm_rebuild_')
+        for target_index, (target, plan) in enumerate(plans):
+            annotation_sources = [_select_rebuild_annotation(syn, target, item, interactive) for item in plan]
+            new_id = None
+            entry = {'key': target['key'], 'entityId': None,
+                     'originalEntityId': target.get('original_entity_id'), 'versions': []}
+            report['created'].append(entry)
+            for index, (item, annotation_source) in enumerate(zip(plan, annotation_sources), start=1):
+                report['phase'] = f"preparing {target['key']} {item['label']}"
+                save_report()
+                local_dir = os.path.join(temporary, str(target_index), str(index))
+                os.makedirs(local_dir, exist_ok=True)
+                downloaded = syn.get(item['source']['id'], version=item['version']['versionNumber'],
+                                     downloadLocation=local_dir, ifcollision='overwrite.local')
+                annotations = dict(syn.get_annotations(annotation_source['entity_id'],
+                                                        version=annotation_source['version']))
+                annotations = {key: value for key, value in annotations.items() if value is not None}
+                annotations.update(item.get('annotation_overrides', {}))
+                file_args = dict(path=downloaded.path, name=target['output_name'],
+                                 version_label=item['label'], version_comment=item['comment'],
+                                 annotations=annotations)
+                report['phase'] = f"storing {target['key']} {item['label']} (outcome may be unknown on failure)"
+                save_report()
+                if new_id is None:
+                    entity = File(parent_id=manifest['output_folder'], create_or_update=False,
+                                  **file_args).store(synapse_client=syn)
+                    new_id = entity.id
+                    entry['entityId'] = new_id
+                    # Record the ID even if subsequent version metadata is invalid.
+                    save_report()
+                    if not new_id or new_id == target.get('original_entity_id'):
+                        raise ValueError('Create returned a missing or original File ID')
+                else:
+                    entity = File(id=new_id, **file_args).store(synapse_client=syn)
+                if not isinstance(entity.version_number, int) or isinstance(entity.version_number, bool) or entity.version_number < 1:
+                    raise ValueError('File store did not return a valid version number')
+                entry['versions'].append({
+                    'label': item['label'], 'versionNumber': entity.version_number,
+                    'sourceModifiedOn': item['version'].get('modifiedOn'),
+                    'contentMd5': item['version'].get('contentMd5'),
+                    'contentSize': item['version'].get('contentSize'),
+                })
+                report['phase'] = f"stored {target['key']} {item['label']}"
+                save_report()
+        report.update(status='completed', phase='complete')
+        save_report()
+        print(f"\nCreated: {report['created']}")
+    except Exception as error:
+        report.update(status='failed', error=str(error))
+        save_report()
+        raise
+    finally:
+        if temporary is not None:
+            shutil.rmtree(temporary, ignore_errors=True)
+    print(f"Wrote report: {args.output}")
+    return report
+
+
+def generate_file_rebuild_manifest(syn, source_file, source_filename, staging_folders,
+                                   output_folder, interactive=True, input_fn=input):
+    """Build a reviewable file manifest without downloading content or mutating Synapse."""
+    original = syn.get(source_file, downloadFile=False)
+    sources = []
+    for label, folder_id in staging_folders.items():
+        name = source_filename
+        while True:
+            matches = [child for child in syn.getChildren(folder_id)
+                       if child.get('name') == name and
+                       child.get('type') == 'org.sagebionetworks.repo.model.FileEntity']
+            if len(matches) == 1:
+                break
+            if not interactive:
+                raise ValueError(f'{folder_id}: expected one exact match for {name!r}, found {len(matches)}')
+            if matches:
+                raise ValueError(f'{folder_id}: duplicate names cannot be represented by the file rebuild manifest')
+            name = input_fn(f'{label}: no file named {name!r} in {folder_id}; enter an exact filename (or blank to abort): ').strip()
+            if not name:
+                raise ValueError(f'No source selected for {label}')
+        versions = _rebuild_versions(syn, matches[0]['id'])
+        if not versions:
+            raise ValueError(f"No versions found for {matches[0]['id']}")
+        latest = max(versions, key=lambda item: item['versionNumber'])
+        sources.append({'folder_id': folder_id, 'label': label, 'source_filename': name,
+                        'source_version': latest['versionNumber']})
+    return {'output_folder': output_folder, 'targets': [{
+        'key': source_file, 'output_name': original.name,
+        'source_filename': source_filename, 'original_entity_id': source_file,
+        'annotation_source_entity_id': source_file,
+        'sources': sources}]}
+
+
+def handle_generate_file_rebuild_manifest(args, config):
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+    manifest = generate_file_rebuild_manifest(
+        syn, args.source_file, args.source_filename, _parse_labeled_synids(args.staging_folder),
+        args.output_folder, interactive=not args.non_interactive)
+    with open(args.output, 'x') as handle:
+        json.dump(manifest, handle, indent=2)
+        handle.write('\n')
+    print(f'Wrote draft manifest: {args.output}. Review before rebuilding.')
+
+
+def _dataset_snapshot_baseline(syn, source_id):
+    """Capture all source snapshots, including those not selected for rebuild."""
+    baseline = []
+    for metadata in sorted(_rebuild_versions(syn, source_id), key=lambda item: item['versionNumber']):
+        number = metadata['versionNumber']
+        snapshot = Dataset(id=source_id, version_number=number).get(synapse_client=syn)
+        members = [{'id': item.id, 'version': item.version} for item in snapshot.items]
+        if (len({item['id'] for item in members}) != len(members) or
+                any(not isinstance(item['version'], int) or isinstance(item['version'], bool)
+                    or item['version'] < 1 for item in members)):
+            raise ValueError(f'Dataset snapshot {number} contains duplicate or unpinned members')
+        baseline.append({'version': number, 'label': snapshot.version_label,
+                         'comment': snapshot.version_comment,
+                         'members': sorted(members, key=lambda item: item['id']),
+                         'annotations': dict(syn.get_annotations(source_id, version=number))})
+    return baseline
+
+
+def handle_generate_dataset_rebuild_manifest(args, config):
+    """Generate a draft from historical Dataset membership and a completed report."""
+    from synapse_dataset_manager.dataset_rebuild import build_dataset_rebuild_draft, build_folder_rebuild_draft
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+    explicit = {}
+    for mapping in getattr(args, 'replace_member', None) or []:
+        match = re.fullmatch(r'([1-9][0-9]*):(syn[0-9]+)=(syn[0-9]+):([1-9][0-9]*)', mapping)
+        if not match:
+            raise ValueError('Expected --replace-member SNAPSHOT_VERSION:synOLD=synNEW:VERSION with positive versions')
+        snapshot_version, old_id, new_id, new_version = match.groups()
+        key = (int(snapshot_version), old_id)
+        if key in explicit:
+            raise ValueError(f'Duplicate explicit replacement for {old_id} in snapshot {snapshot_version}')
+        explicit[key] = {'id': new_id, 'version': int(new_version)}
+    folders = getattr(args, 'replacement_folder', None) or []
+    if isinstance(folders, str):
+        folders = [folders]
+    replacement_files = getattr(args, 'replacement_file', None) or []
+    if not (args.file_rebuild_report or folders or replacement_files or explicit):
+        raise ValueError('Provide a File rebuild report, replacement folder, or explicit replacements')
+    excluded = set(args.exclude_member or [])
+    if any(old_id in excluded for _, old_id in explicit):
+        raise ValueError('A member cannot be both excluded and explicitly replaced')
+    file_report = None
+    if args.file_rebuild_report:
+        with open(args.file_rebuild_report) as handle:
+            file_report = json.load(handle)
+    snapshots = []
+    members_cache = {}
+    removed_by_version = {}
+    snapshot_ids = {}
+    seen_explicit = set()
+    requested_versions = getattr(args, 'source_version', None) or []
+    if any(not isinstance(version, int) or isinstance(version, bool) or version < 1
+           for version in requested_versions):
+        raise ValueError('--source-version must be a positive integer')
+    requested_versions = set(requested_versions)
+    source_versions = sorted(_rebuild_versions(syn, args.source_dataset),
+                             key=lambda item: item['versionNumber'])
+    missing_versions = requested_versions - {item['versionNumber'] for item in source_versions}
+    if missing_versions:
+        raise ValueError(f'Requested source Dataset versions do not exist: {sorted(missing_versions)}')
+    baseline = _dataset_snapshot_baseline(syn, args.source_dataset)
+    if [item['versionNumber'] for item in source_versions] != [item['version'] for item in baseline]:
+        raise ValueError('Source Dataset versions changed during manifest generation; retry and review')
+    for snapshot in baseline:
+        version = snapshot['version']
+        if requested_versions and version not in requested_versions:
+            continue
+        members = []
+        removed_by_version[version] = []
+        snapshot_ids[version] = []
+        for item in snapshot['members']:
+            member_id, member_version = item['id'], item['version']
+            snapshot_ids[version].append(member_id)
+            if member_id in excluded:
+                removed_by_version[version].append(member_id)
+                continue
+            explicit_key = (version, member_id)
+            if explicit_key in explicit:
+                seen_explicit.add(explicit_key)
+                continue
+            key = (member_id, member_version)
+            if key not in members_cache:
+                entity = syn.get(member_id, version=member_version, downloadFile=False)
+                members_cache[key] = {'id': member_id, 'version': member_version,
+                                      'versionLabel': entity.get('versionLabel'),
+                                      'name': entity.get('name'), 'modifiedOn': entity.get('modifiedOn'),
+                                      'versionComment': entity.get('versionComment')}
+            members.append(members_cache[key])
+        snapshots.append({'versionNumber': version, 'versionLabel': snapshot['label'],
+                          'versionComment': snapshot['comment'], 'members': members})
+    missing = set(explicit) - seen_explicit
+    if missing:
+        raise ValueError(f'Explicit replacements absent from source snapshots: {sorted(missing)}')
+    if folders or replacement_files:
+        candidates = {}
+        for folder in folders:
+            for child in syn.getChildren(folder):
+                if child.get('type') == 'org.sagebionetworks.repo.model.FileEntity':
+                    candidates[child['id']] = child['name']
+        for entity_id in replacement_files:
+            entity = syn.get(entity_id, downloadFile=False)
+            if entity.get('concreteType') != 'org.sagebionetworks.repo.model.FileEntity':
+                raise ValueError(f'Replacement {entity_id} is not a File')
+            candidates[entity_id] = entity['name']
+        files = [{'id': entity_id, 'name': name, 'versions': _rebuild_versions(syn, entity_id)}
+                 for entity_id, name in candidates.items()]
+        draft = build_folder_rebuild_draft(snapshots, files, not args.non_interactive,
+                                           file_rebuild_report=file_report)
+    elif file_report is not None:
+        draft = build_dataset_rebuild_draft(snapshots, file_report, not args.non_interactive)
+    else:
+        draft = {'releases': [{'source_dataset_version': snapshot['versionNumber'],
+                               'label': snapshot['versionLabel'],
+                               'comment': snapshot['versionComment'],
+                               'member_replacements': {}} for snapshot in snapshots]}
+    for release in draft['releases']:
+        version = release['source_dataset_version']
+        replacements = release['member_replacements']
+        replacements.update({old_id: replacement for (number, old_id), replacement in explicit.items()
+                             if number == version})
+        ids = snapshot_ids[version]
+        if len(ids) != len(set(ids)):
+            raise ValueError(f'Duplicate members in Dataset snapshot {version}')
+        retained = set(ids) - set(removed_by_version[version]) - set(replacements)
+        for replacement in replacements.values():
+            if replacement['id'] in retained:
+                raise ValueError(f"Duplicate replacement member {replacement['id']} in snapshot {version}")
+            retained.add(replacement['id'])
+        for (number, _), replacement in explicit.items():
+            if number == version:
+                entity = syn.get(replacement['id'], version=replacement['version'], downloadFile=False)
+                if entity.get('concreteType') != 'org.sagebionetworks.repo.model.FileEntity':
+                    raise ValueError(f"Replacement {replacement['id']} is not a File")
+        removed = removed_by_version[version]
+        if removed:
+            release['member_removals'] = removed
+    draft['source_baseline'] = baseline
+    draft['source_dataset_id'] = args.source_dataset
+    draft['output_name'] = args.output_name
+    with open(args.output, 'x') as handle:
+        json.dump(draft, handle, indent=2)
+        handle.write('\n')
+    print(f'Wrote draft manifest: {args.output}. Review before use.')
+
+
+def plan_dataset_rebuild(syn, manifest):
+    """Validate a Dataset rebuild using metadata only; never create an entity."""
+    from synapse_dataset_manager.dataset_rebuild import dataset_schema
+    source_id = manifest.get('source_dataset_id')
+    if not source_id or not manifest.get('output_name') or not manifest.get('releases'):
+        raise ValueError('Manifest requires source_dataset_id, output_name and releases')
+    source = Dataset(id=source_id).get(synapse_client=syn)
+    parent = syn.get(source.parent_id, downloadFile=False)
+    if parent.get('concreteType') != 'org.sagebionetworks.repo.model.Project':
+        raise ValueError(f'Dataset parent {source.parent_id} is not a Project')
+    labels, versions, planned = set(), set(), []
+    file_metadata = {}
+
+    def validate_file_version(entity_id, version, kind):
+        key = (entity_id, version)
+        if key not in file_metadata:
+            try:
+                file_metadata[key] = syn.get(entity_id, version=version, downloadFile=False)
+            except Exception as exc:
+                raise ValueError(f'{kind} {entity_id} version {version} could not be read') from exc
+        if file_metadata[key].get('concreteType') != 'org.sagebionetworks.repo.model.FileEntity':
+            raise ValueError(f'{kind} {entity_id} is not a File')
+
+    for release in manifest['releases']:
+        number, label = release['source_dataset_version'], release.get('label')
+        if number in versions or not label or label in labels:
+            raise ValueError('Source versions and nonempty snapshot labels must be unique')
+        versions.add(number)
+        labels.add(label)
+        snapshot = Dataset(id=source_id, version_number=number).get(synapse_client=syn)
+        members = {item.id: item.version for item in snapshot.items}
+        if len(members) != len(snapshot.items) or any(v is None for v in members.values()):
+            raise ValueError(f'Dataset snapshot {number} contains duplicate or unpinned members')
+        removals = release.get('member_removals', [])
+        if not isinstance(removals, list) or any(not isinstance(item, str) for item in removals):
+            raise ValueError('member_removals must be an array of IDs')
+        if len(set(removals)) != len(removals) or any(item not in members for item in removals):
+            raise ValueError('member_removals contains duplicates or members absent from the snapshot')
+        for member_id in removals:
+            del members[member_id]
+        substitutions = release.get('member_replacements', {})
+        if not isinstance(substitutions, dict):
+            raise ValueError('member_replacements must be an object')
+        for old_id in substitutions:
+            if old_id not in members:
+                raise ValueError(f'{old_id} is not in Dataset snapshot {number}')
+        retained = {member_id: version for member_id, version in members.items()
+                    if member_id not in substitutions}
+        for member_id, version in retained.items():
+            if not isinstance(version, int) or isinstance(version, bool) or version < 1:
+                raise ValueError(f'Retained member {member_id} requires a positive pinned version')
+            validate_file_version(member_id, version, 'Retained member')
+        for replacement in substitutions.values():
+            if (not isinstance(replacement, dict) or not replacement.get('id') or
+                    not isinstance(replacement.get('version'), int) or
+                    isinstance(replacement['version'], bool) or replacement['version'] < 1):
+                raise ValueError('Each replacement requires an id and a positive pinned version')
+            validate_file_version(replacement['id'], replacement['version'], 'Replacement')
+            if replacement['id'] in retained:
+                raise ValueError(f"Duplicate replacement member {replacement['id']}")
+            retained[replacement['id']] = replacement['version']
+        additions = release.get('member_additions', [])
+        if not isinstance(additions, list):
+            raise ValueError('member_additions must be an array')
+        for addition in additions:
+            if (not isinstance(addition, dict) or not addition.get('id') or
+                    not isinstance(addition.get('version'), int) or
+                    isinstance(addition['version'], bool) or addition['version'] < 1):
+                raise ValueError('Each addition requires an id and a positive pinned version')
+            if addition['id'] in retained:
+                raise ValueError(f"Duplicate added member {addition['id']}")
+            validate_file_version(addition['id'], addition['version'], 'Added member')
+            retained[addition['id']] = addition['version']
+        overrides = release.get('annotation_overrides', {})
+        if not isinstance(overrides, dict) or any(value is None for value in overrides.values()):
+            raise ValueError('annotation_overrides must be an object without null values')
+        annotations = dict(syn.get_annotations(source_id, version=number))
+        annotations.update(overrides)
+        planned.append({'source_dataset_version': number, 'label': label,
+                        'comment': release.get('comment', snapshot.version_comment),
+                        'members': retained, 'annotations': annotations})
+    source_metadata = syn.get(source_id, downloadFile=False)
+    return {'source_dataset_id': source_id, 'output_name': manifest['output_name'],
+            'description': source_metadata.get('description'),
+            'output_parent_id': source.parent_id, 'schema_column_count': len(source.columns or {}),
+            'schema': dataset_schema(source.columns),
+            'wiki_pages': [dict(header) for header in syn.getWikiHeaders(source_id)],
+            'releases': planned}
+
+
+def handle_rebuild_dataset_entity(args, config):
+    if args.execute and not args.output:
+        raise ValueError('--output is required for execution and partial-failure reporting')
+    with open(args.manifest) as handle:
+        manifest = json.load(handle)
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+    plan = plan_dataset_rebuild(syn, manifest)
+    if args.execute:
+        if 'source_baseline' not in manifest:
+            raise ValueError('Execution requires a generated source_baseline; regenerate and review the manifest')
+        if _dataset_snapshot_baseline(syn, manifest['source_dataset_id']) != manifest['source_baseline']:
+            raise ValueError('Source Dataset snapshot baseline changed; regenerate and review the manifest')
+        from synapse_dataset_manager.dataset_rebuild import execute_dataset_rebuild
+        result = execute_dataset_rebuild(syn, plan, args.output, Dataset, EntityRef, Wiki)
+        print("Next step: review whether to run mint-dataset-doi separately; no DOI was minted.")
+        return result
+    if args.output:
+        with open(args.output, 'x') as handle:
+            json.dump(plan, handle, indent=2, default=str)
+            handle.write('\n')
+    print(f"Validated {len(plan['releases'])} Dataset releases; output parent {plan['output_parent_id']}. Preview only.")
+    return plan
+
+
+def handle_audit_dataset_rebuild(args, config):
+    """Read-only post-execution comparison against the approved manifest."""
+    from synapse_dataset_manager.dataset_rebuild import audit_dataset_rebuild
+    with open(args.manifest) as handle:
+        manifest = json.load(handle)
+    with open(args.report) as handle:
+        report = json.load(handle)
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+    if 'source_baseline' not in manifest or _dataset_snapshot_baseline(syn, manifest['source_dataset_id']) != manifest['source_baseline']:
+        raise ValueError('Source baseline missing or changed; cannot audit against the approved manifest')
+    plan = plan_dataset_rebuild(syn, manifest)
+    result = audit_dataset_rebuild(syn, plan, report, Dataset, args.wiki_markdown)
+    if args.output:
+        with open(args.output, 'x') as handle:
+            json.dump(result, handle, indent=2)
+            handle.write('\n')
+    print(json.dumps(result, indent=2))
+    if not result['passed']:
+        raise ValueError('Dataset rebuild audit found differences')
+    return result
+
+
+def handle_mint_dataset_doi(args, config):
+    from synapse_dataset_manager.dataset_doi import dataset_doi_request, preview_dataset_doi, mint_dataset_doi
+    request = dataset_doi_request(args.dataset_id, args.version, args.creator, args.title, args.year)
+    target = f"{args.dataset_id}:{args.version if args.version is not None else 'latest'}"
+    if args.execute and (args.confirm != target or not args.coordinate or not args.acknowledge_production or not args.output):
+        raise ValueError(f'Execution requires --output, --confirm {target}, --coordinate and --acknowledge-production')
+    if args.execute:
+        print('WARNING: Production DOI creation may be irreversible. Synapse create-or-update can race with other clients; server-side atomic create-only protection is unavailable. Coordinate all writers.')
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+    if args.execute:
+        result = mint_dataset_doi(syn, request, args.output, args.poll_timeout)
+        print(json.dumps(result, indent=2))
+        return result
+    preview_dataset_doi(syn, request)
+    print(json.dumps(request, indent=2))
+    print('Preview only; no DOI was submitted. Cross-client races cannot be prevented by this command.')
+    return request
+
+
+def _parse_labeled_synids(values):
+    """Parse repeatable LABEL=SYNID CLI values into an ordered mapping."""
+    result = {}
+    for value in values:
+        if '=' not in value:
+            raise ValueError(f"Expected LABEL=SYNID, got: {value}")
+        label, syn_id = value.split('=', 1)
+        if not label or not syn_id.startswith('syn'):
+            raise ValueError(f"Expected LABEL=syn123, got: {value}")
+        if label in result:
+            raise ValueError(f"Duplicate release label: {label}")
+        result[label] = syn_id
+    return result
+
+
+def handle_audit_release_staging(args, config):
+    """Compare release File versions against the latest matching staging files.
+
+    This is a metadata-only audit: it reads entity/version metadata and
+    annotations, but never retrieves file content.
+    """
+    syn = synapseclient.Synapse()
+    syn.login(silent=True)
+    releases = _parse_labeled_synids(args.staging_folder)
+    source_name_map = {}
+    if args.source_name_map:
+        with open(args.source_name_map, 'r') as handle:
+            source_name_map = json.load(handle)
+        if not isinstance(source_name_map, dict) or not all(
+                isinstance(key, str) and isinstance(value, str)
+                for key, value in source_name_map.items()):
+            raise ValueError('--source-name-map must be a JSON object of view name to filename')
+
+    def child_map(parent_id):
+        return {child['name']: child for child in syn.getChildren(parent_id)}
+
+    # (release version label, expected staging filename) -> latest metadata.
+    staging = {}
+    missing_cohorts = []
+    for label, folder_id in releases.items():
+        cohort = child_map(folder_id).get(args.cohort)
+        if not cohort:
+            missing_cohorts.append({'label': label, 'folderId': folder_id})
+            continue
+        for entity in child_map(cohort['id']).values():
+            if entity['type'] != 'org.sagebionetworks.repo.model.FileEntity':
+                continue
+            version_data = syn.restGET(f"/entity/{entity['id']}/version?limit=100")
+            latest = max(version_data['results'], key=lambda version: version['versionNumber'])
+            staging[(label, entity['name'])] = {
+                'id': entity['id'],
+                'versionNumber': latest['versionNumber'],
+                'contentMd5': latest.get('contentMd5'),
+                'contentSize': str(latest.get('contentSize')),
+            }
+
+    report = {
+        'releaseFolder': args.release_folder,
+        'cohort': args.cohort,
+        'stagingFolders': releases,
+        'missingCohortFolders': missing_cohorts,
+        'summary': Counter(),
+        'matches': [],
+        'mismatches': [],
+        'unresolved': [],
+    }
+    for release_file in child_map(args.release_folder).values():
+        if release_file['type'] != 'org.sagebionetworks.repo.model.FileEntity':
+            continue
+        version_data = syn.restGET(f"/entity/{release_file['id']}/version?limit=100")
+        for version in version_data['results']:
+            label = version.get('versionLabel')
+            if label not in releases:
+                continue
+            report['summary']['releaseVersionsInScope'] += 1
+            annotations = syn.get_annotations(release_file['id'], version=version['versionNumber'])
+            view_names = annotations.get(args.view_annotation, [])
+            if len(view_names) != 1:
+                report['summary']['unresolved'] += 1
+                report['unresolved'].append({
+                    'releaseFileId': release_file['id'], 'releaseFileName': release_file['name'],
+                    'releaseVersionNumber': version['versionNumber'], 'releaseLabel': label,
+                    'reason': f"Expected one {args.view_annotation}; found {view_names}",
+                })
+                continue
+            view_name = str(view_names[0])
+            source_name = source_name_map.get(
+                view_name, args.source_name_template.format(view_name=view_name)
+            )
+            expected = staging.get((label, source_name))
+            if not expected:
+                report['summary']['unresolved'] += 1
+                report['unresolved'].append({
+                    'releaseFileId': release_file['id'], 'releaseFileName': release_file['name'],
+                    'releaseVersionNumber': version['versionNumber'], 'releaseLabel': label,
+                    'viewName': view_name, 'expectedStagingFilename': source_name,
+                    'reason': 'No matching staging file retained in the configured release folder',
+                })
+                continue
+            result = {
+                'releaseFileId': release_file['id'], 'releaseFileName': release_file['name'],
+                'releaseVersionNumber': version['versionNumber'], 'releaseLabel': label,
+                'viewName': view_name, 'stagingFileId': expected['id'],
+                'stagingVersionNumber': expected['versionNumber'],
+                'releaseMd5': version.get('contentMd5'), 'stagingMd5': expected['contentMd5'],
+                'releaseSize': str(version.get('contentSize')),
+                'stagingSize': expected['contentSize'],
+            }
+            report['summary']['compared'] += 1
+            if (not result['releaseMd5'] or not result['stagingMd5'] or
+                    result['releaseSize'] == 'None' or result['stagingSize'] == 'None'):
+                report['summary']['unresolved'] += 1
+                result['reason'] = 'Missing checksum or size; cannot establish a match'
+                report['unresolved'].append(result)
+            elif (result['releaseMd5'] == result['stagingMd5'] and
+                    result['releaseSize'] == result['stagingSize']):
+                report['summary']['matched'] += 1
+                report['matches'].append(result)
+            else:
+                report['summary']['mismatched'] += 1
+                report['mismatches'].append(result)
+
+    report['summary'] = dict(report['summary'])
+    print('\nRELEASE/STAGING METADATA AUDIT')
+    print(f"  Release folder: {args.release_folder}")
+    print(f"  Cohort: {args.cohort}")
+    for key in ('releaseVersionsInScope', 'compared', 'matched', 'mismatched', 'unresolved'):
+        print(f"  {key}: {report['summary'].get(key, 0)}")
+    if report['mismatches']:
+        print('\nMISMATCHES')
+        for item in report['mismatches']:
+            print(f"  {item['releaseFileId']} {item['releaseFileName']} {item['releaseLabel']}: "
+                  f"{item['releaseMd5']} != {item['stagingMd5']} ({item['stagingFileId']})")
+    if report['unresolved']:
+        print(f"\nUNRESOLVED: {len(report['unresolved'])} (see report for details)")
+    if args.output:
+        with open(args.output, 'w') as handle:
+            json.dump(report, handle, indent=2)
+        print(f"\nWrote report: {args.output}")
+    if args.fail_on_mismatch and report['summary'].get('mismatched', 0):
+        raise RuntimeError(f"Found {report['summary']['mismatched']} checksum mismatch(es)")
+    return report
+
+
 def main():
     """Main entry point"""
     parser = argparse.ArgumentParser(
@@ -10610,7 +11424,9 @@ Examples:
                               help='Synapse ID(s) of staging folder(s) with new files. '
                                    'Pass multiple IDs if data is spread across folders (optional)')
     update_parser.add_argument('--annotations-file',
-                              help='Path to pre-edited annotations JSON (triggers Phase 2 plan/review/apply)')
+                              help='Path to pre-edited file annotations JSON (triggers Phase 2 plan/review/apply)')
+    update_parser.add_argument('--dataset-annotations-file',
+                              help='Path to pre-edited Dataset entity annotations JSON for the same reviewed update')
     update_parser.add_argument('--local-files-dir',
                               help='Local directory containing prepared file versions to upload as new versions')
     update_parser.add_argument('--release-folder',
@@ -10991,6 +11807,99 @@ Examples:
     clean_phi_parser.add_argument('--execute', action='store_true',
         help='Allow upload to --upload-folder (local cleaning does not require this flag)')
 
+    # REBUILD-FILE-ENTITY command
+    rebuild_parser = subparsers.add_parser(
+        'rebuild-file-entity',
+        help='Rebuild one or more File version histories from exact named staging sources'
+    )
+    rebuild_parser.add_argument('--manifest', required=True,
+        help='JSON rebuild manifest; sources are resolved by exact filename in explicit folder IDs')
+    rebuild_parser.add_argument('--annotation-mode', choices=['interactive', 'auto'], default='interactive',
+        help='Select annotations per version interactively or use manifest/default sources (default: interactive)')
+    rebuild_parser.add_argument('--output',
+        help='Write the resolved plan and created entity IDs to this JSON report path')
+    rebuild_parser.add_argument('--execute', action='store_true',
+        help='Download source bytes and create replacement entities (default is metadata-only preview)')
+
+    generate_rebuild_parser = subparsers.add_parser(
+        'generate-file-rebuild-manifest', help='Generate a metadata-only File rebuild manifest')
+    generate_rebuild_parser.add_argument('--source-file', required=True)
+    generate_rebuild_parser.add_argument('--source-filename', required=True,
+        help='Exact staging filename; may be changed interactively per folder')
+    generate_rebuild_parser.add_argument('--staging-folder', required=True, nargs='+', metavar='LABEL=SYNID')
+    generate_rebuild_parser.add_argument('--output-folder', required=True)
+    generate_rebuild_parser.add_argument('--output', required=True)
+    generate_rebuild_parser.add_argument('--non-interactive', action='store_true')
+
+    dataset_manifest_parser = subparsers.add_parser(
+        'generate-dataset-rebuild-manifest', help='Generate Dataset snapshot replacements from a File rebuild report')
+    dataset_manifest_parser.add_argument('--source-dataset', required=True)
+    dataset_manifest_parser.add_argument('--source-version', action='append', type=int, default=[],
+        metavar='VERSION', help='Include only this positive Dataset snapshot version (repeatable; default: all)')
+    dataset_manifest_parser.add_argument('--file-rebuild-report')
+    dataset_manifest_parser.add_argument('--replacement-folder', action='append', help='Replacement folder (repeatable)')
+    dataset_manifest_parser.add_argument('--replacement-file', action='append', default=[],
+        help='Replacement File ID (repeatable; may be combined with folders)')
+    dataset_manifest_parser.add_argument('--output-name', required=True)
+    dataset_manifest_parser.add_argument('--output', required=True)
+    dataset_manifest_parser.add_argument('--non-interactive', action='store_true')
+    dataset_manifest_parser.add_argument('--replace-member', action='append', default=[],
+        metavar='SNAPSHOT_VERSION:synOLD=synNEW:VERSION',
+        help='Explicit pinned replacement for one snapshot (repeatable; supports trashed originals)')
+    dataset_manifest_parser.add_argument('--exclude-member', action='append', default=[], metavar='SYNID',
+        help='Explicitly remove this member from source snapshots (repeatable; supports trashed entities)')
+
+    dataset_rebuild_parser = subparsers.add_parser(
+        'rebuild-dataset-entity', help='Preview or explicitly execute a Dataset reconstruction')
+    dataset_rebuild_parser.add_argument('--manifest', required=True)
+    dataset_rebuild_parser.add_argument('--output')
+    dataset_rebuild_parser.add_argument('--execute', action='store_true',
+        help='Create a replacement Dataset; requires --output; wiki attachments are unsupported')
+
+    dataset_audit_parser = subparsers.add_parser('audit-dataset-rebuild',
+        help='Read-only audit of rebuilt Dataset snapshots against an approved manifest')
+    dataset_audit_parser.add_argument('--manifest', required=True)
+    dataset_audit_parser.add_argument('--report', required=True)
+    dataset_audit_parser.add_argument('--output')
+    dataset_audit_parser.add_argument('--wiki-markdown', action='store_true',
+        help='Download and compare wiki markdown (default: headers only)')
+
+    doi_parser = subparsers.add_parser('mint-dataset-doi',
+        help='Preview or explicitly mint a Dataset DOI')
+    doi_parser.add_argument('--dataset-id', required=True)
+    doi_parser.add_argument('--version', type=int, help='Pin a snapshot; default is latest (unversioned)')
+    doi_parser.add_argument('--creator', action='append', required=True, help='DOI creator name (repeatable)')
+    doi_parser.add_argument('--title', required=True)
+    doi_parser.add_argument('--year', required=True, type=int)
+    doi_parser.add_argument('--output', help='Exclusive recovery report path, required for execution')
+    doi_parser.add_argument('--confirm', help='Exact target: synID:latest or synID:version')
+    doi_parser.add_argument('--coordinate', action='store_true', help='Confirm coordination with all other DOI writers')
+    doi_parser.add_argument('--acknowledge-production', action='store_true', help='Acknowledge production and irreversible DOI creation')
+    doi_parser.add_argument('--poll-timeout', type=int, default=120, help='Maximum polling time in seconds (1-3600)')
+    doi_parser.add_argument('--execute', action='store_true', help='Submit one DOI request after safety checks')
+
+    # AUDIT-RELEASE-STAGING command
+    audit_release_parser = subparsers.add_parser(
+        'audit-release-staging',
+        help='Metadata-only MD5/size audit of release File versions against staging folders'
+    )
+    audit_release_parser.add_argument('--release-folder', required=True,
+        help='Synapse folder containing the release File entities to audit')
+    audit_release_parser.add_argument('--cohort', required=True,
+        help='Child folder name within each staging release folder (for example PREVENT or ASSESS)')
+    audit_release_parser.add_argument('--staging-folder', required=True, nargs='+', metavar='LABEL=SYNID',
+        help='Ordered release-version label and staging release folder pairs, e.g. v5-FEB=syn123')
+    audit_release_parser.add_argument('--view-annotation', default='viewName',
+        help='Annotation used to identify the raw staging source (default: viewName)')
+    audit_release_parser.add_argument('--source-name-template', default='{view_name}.csv',
+        help='Filename template derived from the view annotation (default: {view_name}.csv)')
+    audit_release_parser.add_argument('--source-name-map',
+        help='JSON object mapping view annotation values to exceptional staging filenames')
+    audit_release_parser.add_argument('--output',
+        help='Write the complete JSON audit report to this path')
+    audit_release_parser.add_argument('--fail-on-mismatch', action='store_true',
+        help='Exit with an error if any resolved release/staging checksum comparison differs')
+
     # MERGE-FILE-VERSIONS command
     merge_parser = subparsers.add_parser(
         'merge-file-versions',
@@ -11337,7 +12246,7 @@ Examples:
                         'generate-file-templates', 'apply-file-annotations', 'set-version',
                         'upload-staged-version',
                         'rename-annotation', 'rename-folders', 'migrate-annotation-values',
-                        'sync-dataset-schema-annotations', 'merge-file-versions', 'clean-phi-files', 'upload-local',
+                        'sync-dataset-schema-annotations', 'rebuild-file-entity', 'audit-release-staging', 'merge-file-versions', 'clean-phi-files', 'upload-local',
                         'move', 'rename-files', 'create-entity-view']:
         config.validate()
 
@@ -11379,6 +12288,20 @@ Examples:
         handle_sync_dataset_schema_annotations(args, config)
     elif args.command == 'clean-phi-files':
         handle_clean_phi_files(args, config)
+    elif args.command == 'rebuild-file-entity':
+        handle_rebuild_file_entity(args, config)
+    elif args.command == 'generate-file-rebuild-manifest':
+        handle_generate_file_rebuild_manifest(args, config)
+    elif args.command == 'generate-dataset-rebuild-manifest':
+        handle_generate_dataset_rebuild_manifest(args, config)
+    elif args.command == 'rebuild-dataset-entity':
+        handle_rebuild_dataset_entity(args, config)
+    elif args.command == 'audit-dataset-rebuild':
+        handle_audit_dataset_rebuild(args, config)
+    elif args.command == 'mint-dataset-doi':
+        handle_mint_dataset_doi(args, config)
+    elif args.command == 'audit-release-staging':
+        handle_audit_release_staging(args, config)
     elif args.command == 'merge-file-versions':
         handle_merge_file_versions(args, config)
     elif args.command == 'upload-local':

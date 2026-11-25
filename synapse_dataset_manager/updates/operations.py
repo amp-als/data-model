@@ -67,7 +67,10 @@ class SynapseOperations:
     def apply(self, plan, action, annotations, paths):
         target = action['target_id']
         name = action['filename']
-        cleaned = self.clean_annotations(annotations[target][name])
+        annotation_entry = (annotations['_dataset'][name]
+                            if action['kind'] == 'annotate_dataset'
+                            else annotations[target][name])
+        cleaned = self.clean_annotations(annotation_entry)
         options = plan['options']
         label = options.get('version_label')
         comment = options.get('version_comment')
@@ -82,10 +85,10 @@ class SynapseOperations:
             merged = dict(entity.annotations)
             merged.update(cleaned)
             entity.annotations = merged
-            if comment:
+            if comment and action['kind'] != 'annotate_dataset':
                 entity['versionComment'] = comment
-            kwargs = {'forceVersion': bool(label)}
-            if label:
+            kwargs = {} if action['kind'] == 'annotate_dataset' else {'forceVersion': bool(label)}
+            if label and action['kind'] != 'annotate_dataset':
                 kwargs['versionLabel'] = label
             self.syn.store(entity, **kwargs)
         if action['refresh_membership']:
@@ -112,6 +115,15 @@ class SynapseOperations:
         target = action['target_id']
         state = self.snapshot(target)
         failures = []
+        def values(value):
+            return sorted(str(item) for item in (value if isinstance(value, list) else [value]))
+        if action['kind'] == 'annotate_dataset':
+            actual = dict(self.syn.get_annotations(target))
+            expected = self.clean_annotations(annotations['_dataset'][action['filename']])
+            for field, value in expected.items():
+                if field not in actual or values(value) != values(actual[field]):
+                    failures.append(f'dataset annotation differs: {field}')
+            return failures
         if state['name'] != action['filename']:
             failures.append('filename differs')
         if state['parentId'] != action['destination']:
@@ -131,8 +143,6 @@ class SynapseOperations:
             failures.append('dataset membership/version differs')
         actual = dict(self.syn.get_annotations(target))
         expected = self.clean_annotations(annotations[target][action['filename']])
-        def values(value):
-            return sorted(str(item) for item in (value if isinstance(value, list) else [value]))
         for field, value in expected.items():
             if field not in actual or values(actual[field]) != values(value):
                 failures.append(f'annotation differs: {field}')

@@ -216,12 +216,22 @@ def load_date_policy(path):
     allowed = policy.get('allowed_columns')
     if policy.get('version') != 1 or not isinstance(allowed, dict):
         raise ValueError('ALL ALS date-screening policy must have version: 1 and allowed_columns mapping')
-    if set(allowed) - {'all_files', 'by_view'} or not isinstance(allowed.get('all_files', []), list) or not isinstance(allowed.get('by_view', {}), dict):
-        raise ValueError('ALL ALS date-screening policy allowed_columns must contain all_files list and/or by_view mapping')
+    if (set(allowed) - {'all_files', 'by_view', 'by_view_prefix'}
+            or not isinstance(allowed.get('all_files', []), list)
+            or not isinstance(allowed.get('by_view', {}), dict)
+            or not isinstance(allowed.get('by_view_prefix', {}), dict)):
+        raise ValueError(
+            'ALL ALS date-screening policy allowed_columns must contain all_files list and/or '
+            'by_view/by_view_prefix mappings'
+        )
     return {
         'all_files': set(_unique(allowed.get('all_files', []), 'date allowed all_files columns')),
         'by_view': {normalize(view): set(_unique(columns, f'date allowed columns for {view!r}'))
                     for view, columns in allowed.get('by_view', {}).items()},
+        'by_view_prefix': {
+            normalize(prefix): set(_unique(columns, f'date allowed columns for view prefix {prefix!r}'))
+            for prefix, columns in allowed.get('by_view_prefix', {}).items()
+        },
     }
 
 
@@ -325,7 +335,9 @@ def validate(staging, paths, views, settings):
     date_policy = load_date_policy(settings['date_screening_policy_file'])
     if not set(date_policy['by_view']) <= set(dictionary_views):
         raise ValueError(f'Date-policy configuration names unknown dictionary views: {sorted(set(date_policy["by_view"]) - set(dictionary_views))}')
-    configured_dates = date_policy['all_files'] | set().union(*date_policy['by_view'].values(), set())
+    configured_dates = (date_policy['all_files']
+                        | set().union(*date_policy['by_view'].values(), set())
+                        | set().union(*date_policy['by_view_prefix'].values(), set()))
     conflicts = (ignored | required_all | set().union(*required_by_view.values(), set()) | configured_dates) & forbidden
     if conflicts:
         raise ValueError(f'ALL ALS preflight configuration conflicts with PHI/PII policy: {sorted(conflicts)}')
@@ -370,7 +382,9 @@ def validate(staging, paths, views, settings):
                         issues.append('file headers absent from dictionary: ' + ', '.join(extras))
                     if missing:
                         issues.append('dictionary headers absent from file: ' + ', '.join(missing))
-                allowed_dates = date_policy['all_files'] | date_policy['by_view'].get(view, set())
+                allowed_dates = (date_policy['all_files'] | date_policy['by_view'].get(view, set())
+                                 | set().union(*(columns for prefix, columns in date_policy['by_view_prefix'].items()
+                                                  if view.startswith(prefix)), set()))
                 include_values = settings.get('include_violation_values', False)
                 dates, years = _scan_date_values(
                     path, allowed_columns=allowed_dates,

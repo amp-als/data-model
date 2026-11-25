@@ -121,6 +121,14 @@ class PlanTests(unittest.TestCase):
             self.assertEqual(result['status'], 'complete')
             self.assertEqual(self.backend.writes, ['a'])
 
+    def test_dataset_annotations_are_a_reviewed_plan_action(self):
+        self.annotations['_dataset'] = {'Dataset': {'studyType': ['observational']}}
+        plan = self.review()
+        action = plan['actions'][-1]
+        self.assertEqual(action['kind'], 'annotate_dataset')
+        self.assertEqual(action['target_id'], 'dataset')
+        self.assertFalse(action['refresh_membership'])
+
     def test_execute_requires_review(self):
         with self.assertRaisesRegex(ValueError, 'reviewed'):
             self.run_engine(dry_run=False)

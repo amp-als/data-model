@@ -94,6 +94,45 @@ class IdentityTests(unittest.TestCase):
             workflow.match(files(old='Form.csv'), staging, names,
                            {'s1': 'v1', 's2': 'v2'}, {}, cli)
 
+    def test_all_als_view_match_precedes_fuzzy_form_match(self):
+        workflow = get_workflow('all_als')
+        services = Mock()
+        services._norm_filename_for_match.side_effect = lambda value: value
+        services._fuzzy_match_filename.return_value = ('wrong', 'wrong.csv')
+        existing = {'old': {'Eligibility Criteria 2 (ASSESS Control)': {
+            'viewName': ['v_ALLALS_AS_ASSEELIGCRIREG2'],
+        }}}
+        result = workflow.match(
+            existing, files(right='v_ALLALS_AS_ASSEELIGCRIREG2.csv', wrong='other.csv'),
+            {'right': 'Eligibility Criteria 2 (ASSESS Control).csv',
+             'wrong': 'Eligibility Criteria (ASSESS Control).csv'},
+            {'right': 'v_ALLALS_AS_ASSEELIGCRIREG2', 'wrong': 'v_ALLALS_AS_ASSEELIGCRIREG'},
+            {}, services,
+        )
+        self.assertEqual(result, {'old': 'right'})
+        services._fuzzy_match_filename.assert_not_called()
+
+    def test_all_als_view_identified_form_never_falls_back_to_fuzzy(self):
+        workflow = get_workflow('all_als')
+        services = Mock()
+        services._norm_filename_for_match.side_effect = lambda value: value
+        existing = {'old': {'Eligibility Criteria 2 (PREVENT Genetic Testing Sub-Study).csv': {
+            'viewName': ['v_ALLALS_PR_PREVELIGCRITGEN'],
+        }}}
+        result = workflow.match(
+            existing, files(other='other.csv'),
+            {'other': 'Eligibility Criteria (PREVENT Genetic Testing Sub-Study).csv'},
+            {'other': 'v_ALLALS_PR_PREVELIGCRITGEN'}, {}, services,
+        )
+        self.assertEqual(result, {'old': 'other'})
+        # When its canonical view is absent, it remains unmatched rather than
+        # letting title similarity select a separate form.
+        result = workflow.match(existing, files(other='other.csv'),
+                                {'other': 'Eligibility Criteria (PREVENT Genetic Testing Sub-Study).csv'},
+                                {'other': 'different_view'}, {}, services)
+        self.assertEqual(result, {})
+        services._fuzzy_match_filename.assert_not_called()
+
     def test_manifest_duplicate_sources_and_unsafe_names(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'identity.csv'
@@ -110,6 +149,37 @@ class IdentityTests(unittest.TestCase):
         self.assertIs(get_workflow('general'), general)
         with self.assertRaises(ValueError):
             get_workflow('/tmp/custom.py')
+
+
+class FileTypeTests(unittest.TestCase):
+    def test_multi_subject_clinical_config_uses_record_set_schema(self):
+        self.assertEqual(
+            cli.detect_file_type('v_ALLALS_AS_subjects.csv',
+                                 all_schemas={'ClinicalFile': {}, 'ClinicalRecordSetFile': {}},
+                                 dataset_config={'dataset_type': 'Clinical', 'subject_file_type': 'multi'}),
+            'ClinicalRecordSetFile',
+        )
+
+
+class CountTests(unittest.TestCase):
+    def test_participant_count_is_unique_across_longitudinal_rows(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'demographics.csv'
+            path.write_text('NeuroGUID,visit\nA,baseline\nA,month_3\nB,baseline\n')
+            result = cli.fill_counts_from_file_contents(
+                {'participant_count': None, 'recordCount': None}, str(path), 'NeuroGUID'
+            )
+        self.assertEqual(result['participant_count'], 2)
+        self.assertEqual(result['recordCount'], 3)
+
+    def test_participant_count_falls_back_to_subject_id(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / 'demographics.csv'
+            path.write_text('SubjectID,visit\nA,baseline\nA,month_3\nB,baseline\n')
+            result = cli.fill_counts_from_file_contents(
+                {'participant_count': None}, str(path), 'NeuroGUID'
+            )
+        self.assertEqual(result['participant_count'], 2)
 
 
 class DictionaryTests(unittest.TestCase):

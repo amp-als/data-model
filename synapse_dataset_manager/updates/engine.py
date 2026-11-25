@@ -58,6 +58,12 @@ def run_update(backend, dataset_id, workflow, annotations, options, *, dry_run,
                 # Detect per-file changes since the full preflight. This is not a
                 # distributed transaction; the server may still race a subsequent write.
                 for entity_id in (action['target_id'], action.get('source_id')):
+                    # Earlier file actions intentionally refresh Dataset membership,
+                    # so the final Dataset-annotation action cannot be compared to
+                    # the original pre-plan Dataset snapshot.
+                    if (action['kind'] == 'annotate_dataset'
+                            and entity_id == reviewed['dataset_id']):
+                        continue
                     if entity_id and backend.snapshot(entity_id) != reviewed['snapshots'][entity_id]:
                         raise ValueError(f'Stale entity immediately before action: {entity_id}')
                 result['status'] = 'applying'

@@ -3,6 +3,7 @@
 from pathlib import Path
 
 from synapse_dataset_manager.updates import all_als_preflight
+from synapse_dataset_manager.updates import all_als_match_manifest
 
 
 _DEFAULT_DATE_POLICY = Path(__file__).resolve().parents[3] / 'configs' / 'all_als_date_screening.yaml'
@@ -21,10 +22,13 @@ def prepare(syn, staging, directory, options, services):
             'view_column': 'View Name',
             'field_column': 'Field',
             # Required technical identifiers are not dictionary fields.
-            'ignored_file_columns': ['Form Name', 'NeuroGUID', 'NeuroSTAmP'],
+            'ignored_file_columns': ['Form Name', 'NeuroGUID', 'NeuroSTAmP', 'visit_name'],
         },
         # Legacy dictionary fields tolerated only in dictionaries, with warnings.
-        'dictionary_exceptions': ['localUID', 'subjectUID'],
+        'dictionary_exceptions': [
+            'localUID', 'subjectUID', 'siteUID', 'initials',
+            'reason_for_failure', 'state', 'visit',
+        ],
         'required_columns': {
             'all_files': ['NeuroGUID', 'NeuroSTAmP'],
             # Dataset-specific demographic view requirements belong in config.
@@ -56,6 +60,12 @@ def prepare(syn, staging, directory, options, services):
         value_column=dictionary.get('value_column', 'Values'),
         definition_value_markers=dictionary.get('definition_value_markers', ['', 'NA']),
     )
+    aliases = all_als_match_manifest.resolve_aliases(settings.get('view_aliases'), dictionary_views)
+    preflight_groups = {
+        source_id: aliases.get(all_als_preflight.normalize(view_name), view_name)
+        for source_id, view_name in groups.items()
+    }
+    options['_all_als_view_aliases'] = aliases
     policy = settings.get('phi_pii_columns_file') or options.get('phi_pii_columns_file')
     if not policy:
         raise ValueError('ALL ALS update requires phi_pii_columns_file configuration')
@@ -70,7 +80,7 @@ def prepare(syn, staging, directory, options, services):
         options.get('include_violation_values') or settings.get('include_violation_values')
     )
     settings['dictionary_views'] = dictionary_views
-    preflight_warnings = all_als_preflight.validate(staging, paths, groups, settings)
+    preflight_warnings = all_als_preflight.validate(staging, paths, preflight_groups, settings)
     warnings = [warning for view in dictionary_views.values() for warning in view.get('warnings', [])]
     warnings.extend(preflight_warnings)
     for warning in warnings:
@@ -96,14 +106,19 @@ def match(existing, staging, names, groups, targets, services):
             if len(candidates) != 1:
                 raise ValueError(f'Ambiguous ALL ALS form match for {filename}')
         source = candidates[0] if candidates else None
-        if not source:
-            fuzzy = services._fuzzy_match_filename(filename, forms, exclude_ids=claimed)
-            source = fuzzy[0] if fuzzy else None
+        # A canonical ALL ALS view is a deterministic identity and must win over
+        # similarity matching; forms such as "Eligibility Criteria 2" are distinct.
         if not source and view:
             candidates = [sid for sid, group in groups.items() if group.lower() == view.lower() and sid not in claimed]
             if len(candidates) > 1:
                 raise ValueError(f'Ambiguous ALL ALS view match for {view}')
             source = candidates[0] if candidates else None
+        # Never use fuzzy matching to override or guess a view-identified ALL ALS
+        # form. Similar titles (for example, "Eligibility Criteria" vs "... 2")
+        # are separate forms; leave an unresolved view for review instead.
+        if not source and not view:
+            fuzzy = services._fuzzy_match_filename(filename, forms, exclude_ids=claimed)
+            source = fuzzy[0] if fuzzy else None
         if not source and target in staging and target not in claimed:
             source = target
         if source:

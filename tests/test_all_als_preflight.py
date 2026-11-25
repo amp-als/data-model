@@ -65,16 +65,25 @@ class PreflightTests(unittest.TestCase):
 
     def test_dictionary_exceptions_warn_without_requiring_legacy_headers(self):
         settings = dict(self.settings)
-        settings['ignored_file_columns'] = ['Form Name', 'NeuroGUID', 'NeuroSTAmP']
-        settings['dictionary_exceptions'] = ['localUID', 'subjectUID']
+        settings['ignored_file_columns'] = ['Form Name', 'NeuroGUID', 'NeuroSTAmP', 'visit_name']
+        settings['dictionary_exceptions'] = [
+            'localUID', 'subjectUID', 'siteUID', 'initials',
+            'reason_for_failure', 'state', 'visit',
+        ]
         settings['dictionary_views'] = {
             'v_allals_as_assedemog': {
                 **self.settings['dictionary_views']['v_allals_as_assedemog'],
-                'fields': {'nihguid', 'sex', 'neurostamp', 'localuid', 'subjectuid'},
+                'fields': {
+                    'nihguid', 'sex', 'neurostamp', 'localuid', 'subjectuid', 'siteuid',
+                    'initials', 'reason_for_failure', 'state', 'visit',
+                },
             },
         }
-        warnings = self.validate(['Form Name', 'NeuroGUID', 'NeuroSTAmP', 'nihguid', 'sex'], settings)
-        self.assertTrue(any('dictionary includes exception field(s): localuid, subjectuid' in warning
+        warnings = self.validate(
+            ['Form Name', 'NeuroGUID', 'NeuroSTAmP', 'visit_name', 'nihguid', 'sex'], settings
+        )
+        self.assertTrue(any('dictionary includes exception field(s): initials, localuid, '
+                            'reason_for_failure, siteuid, state, subjectuid, visit' in warning
                             for warning in warnings))
 
     def test_leading_empty_index_is_warned_but_other_blank_headers_fail(self):
@@ -96,6 +105,14 @@ class PreflightTests(unittest.TestCase):
             self.validate(['NeuroGUID', 'NeuroSTAmP', 'nihguid', 'sex', 'Date of Birth'])
         policy = Path('configs/phi_pii_columns.yaml')
         self.assertIn('localuid', preflight.load_policy(policy))
+
+    def test_repository_date_policy_has_assess_and_prevent_exemptions(self):
+        policy = preflight.load_date_policy(Path('configs/all_als_date_screening.yaml'))
+        self.assertTrue({'mh_clin_dat', 'mhevdtyp_diagnosis', 'ecasoc', 'prindc', 'prstdat',
+                         'mhterm', 'cdnaloc', 'pralsgt_nr_approxdat', 'dsreasos'}
+                        <= policy['by_view_prefix']['v_allals_as'])
+        self.assertTrue({'cdnaloc', 'pralsgt_nr_approxdat', 'prstdat', 'ms_rue_nvorres',
+                         'ms_rue_othsp'} <= policy['by_view_prefix']['v_allals_pr'])
 
     def test_date_screening_blocks_dates_and_warns_on_bare_years(self):
         settings = dict(self.settings)
